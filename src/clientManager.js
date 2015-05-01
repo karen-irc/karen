@@ -7,20 +7,30 @@ var moment = require("moment");
 
 module.exports = ClientManager;
 
+/**
+ *  @constructor
+ */
 function ClientManager() {
 	this.clients = [];
 }
 
-ClientManager.prototype.findClient = function(name) {
+/**
+ *  @param  {string} name
+ *  @return {Client}
+ */
+ClientManager.prototype._findClient = function(name) {
 	for (var i in this.clients) {
 		var client = this.clients[i];
 		if (client.name == name) {
 			return client;
 		}
 	}
-	return false;
+	return null;
 };
 
+/**
+ * @return {void}
+ */
 ClientManager.prototype.loadUsers = function() {
 	var users = this.getUsers();
 	for (var i in users) {
@@ -28,6 +38,10 @@ ClientManager.prototype.loadUsers = function() {
 	}
 };
 
+/**
+ * @param {string} name
+ * @return {void}
+ */
 ClientManager.prototype.loadUser = function(name) {
 	try {
 		var json = fs.readFileSync(
@@ -39,7 +53,7 @@ ClientManager.prototype.loadUser = function(name) {
 		console.log(e);
 		return;
 	}
-	if (!this.findClient(name)) {
+	if (this._findClient(name) === null) {
 		this.clients.push(new Client(
 			this.sockets,
 			name,
@@ -51,6 +65,9 @@ ClientManager.prototype.loadUser = function(name) {
 	}
 };
 
+/**
+ * @return {Array}
+ */
 ClientManager.prototype.getUsers = function() {
 	var users = [];
 	var path = Helper.HOME + "/users";
@@ -64,11 +81,18 @@ ClientManager.prototype.getUsers = function() {
 		});
 	} catch(e) {
 		console.log(e);
-		return;
+		return null;
 	}
 	return users;
 };
 
+/**
+ * @param  {string} name
+ * @param  {string} password
+ * @return {boolean}
+ *
+ * @throws {Error}
+ */
 ClientManager.prototype.addUser = function(name, password) {
 	var users = this.getUsers();
 	if (users.indexOf(name) !== -1) {
@@ -94,6 +118,12 @@ ClientManager.prototype.addUser = function(name, password) {
 	return true;
 };
 
+/**
+ * @param  {string} name
+ * @return {boolean}
+ *
+ * @throws {Error}
+ */
 ClientManager.prototype.removeUser = function(name) {
 	var users = this.getUsers();
 	if (users.indexOf(name) === -1) {
@@ -108,7 +138,10 @@ ClientManager.prototype.removeUser = function(name) {
 	return true;
 };
 
-ClientManager.prototype.autoload = function(sockets) {
+/**
+ * @return {void}
+ */
+ClientManager.prototype.autoload = function() {
 	var self = this;
 	var loaded = [];
 	setInterval(function() {
