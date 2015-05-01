@@ -1,3 +1,5 @@
+"use strict";
+
 var _ = require("lodash");
 var fs = require("fs");
 var Client = require("./client");
@@ -21,7 +23,7 @@ function ClientManager() {
 ClientManager.prototype._findClient = function(name) {
 	for (var i in this.clients) {
 		var client = this.clients[i];
-		if (client.name == name) {
+		if (client.name === name) {
 			return client;
 		}
 	}
@@ -43,26 +45,37 @@ ClientManager.prototype.loadUsers = function() {
  * @return {void}
  */
 ClientManager.prototype.loadUser = function(name) {
+	var raw = null;
 	try {
-		var json = fs.readFileSync(
+		raw = fs.readFileSync(
 			Helper.HOME + "/users/" + name + ".json",
 			"utf-8"
 		);
-		json = JSON.parse(json);
+	}
+	catch(e) {
+		console.log(e);
+	}
+
+	var json = null;
+	try {
+		json = JSON.parse(raw);
 	} catch(e) {
 		console.log(e);
+	}
+
+	if (json === null) {
 		return;
 	}
-	if (this._findClient(name) === null) {
-		this.clients.push(new Client(
-			this.sockets,
-			name,
-			json
-		));
-		console.log(
-			"User '" + name + "' loaded."
-		);
+
+	if (this._findClient(name) !== null) {
+		return;
 	}
+
+	var user = new Client(this.sockets, name, json);
+	this.clients.push(user);
+
+	var message = "User '" + name + "' loaded.";
+	console.log(message);
 };
 
 /**
