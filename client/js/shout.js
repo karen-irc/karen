@@ -314,6 +314,11 @@ $(function() {
 		}
 	});
 
+	socket.on("topic", function(data) {
+		// .text() escapes HTML (but not quotes)
+		$("#chan-" + data.chan).find(".header .topic").text(data.topic);
+	});
+
 	socket.on("users", function(data) {
 		var users = chat.find("#chan-" + data.chan).find(".users").html(render("user", data));
 		var nicks = [];
