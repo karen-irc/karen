@@ -1,7 +1,10 @@
+sudo: false
+
 language: node_js
 
 before_script:
   - ./index.js init
 
 node_js:
-  - "0.10"
+  - "0.12"
+  - "iojs"
