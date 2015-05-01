@@ -1,3 +1,5 @@
+"use strict";
+
 var _ = require("lodash");
 var fs = require("fs");
 var Client = require("./client");
@@ -21,7 +23,7 @@ function ClientManager() {
 ClientManager.prototype._findClient = function(name) {
 	for (var i in this.clients) {
 		var client = this.clients[i];
-		if (client.name == name) {
+		if (client.name === name) {
 			return client;
 		}
 	}
@@ -43,8 +45,9 @@ ClientManager.prototype.loadUsers = function() {
  * @return {void}
  */
 ClientManager.prototype.loadUser = function(name) {
+	var json = null;
 	try {
-		var json = fs.readFileSync(
+		json = fs.readFileSync(
 			Helper.HOME + "/users/" + name + ".json",
 			"utf-8"
 		);
@@ -53,6 +56,7 @@ ClientManager.prototype.loadUser = function(name) {
 		console.log(e);
 		return;
 	}
+
 	if (this._findClient(name) === null) {
 		this.clients.push(new Client(
 			this.sockets,
