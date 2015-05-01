@@ -1,3 +1,4 @@
+sudo: false
 language: node_js
 
 before_script:
@@ -5,3 +6,8 @@ before_script:
 
 node_js:
   - "0.10"
+  - "0.12"
+  - "iojs"
+before_script:
+  - mkdir $HOME/.shout
+  - touch $HOME/.shout/config
