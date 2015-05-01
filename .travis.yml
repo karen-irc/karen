@@ -1,3 +1,7 @@
 language: node_js
+
+before_script:
+  - ./index.js init
+
 node_js:
   - "0.10"
