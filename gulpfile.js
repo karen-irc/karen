@@ -109,7 +109,7 @@ gulp.task('build2', ['jslint'], function () {
     let babel = babelify.configure({
         optional: [
             'optimisation.react.constantElements',
-            'optimisation.react.inlineElements',
+            // 'optimisation.react.inlineElements', // FIXME: #17
             'utility.deadCodeElimination',
             'utility.inlineEnvironmentVariables',
             'utility.inlineExpressions',
