@@ -13,14 +13,9 @@ Handlebars.registerHelper(
 );
 
 function wraplong(text) {
-	var wrap = false;
-	var split = text.split(" ");
-	for (var i in split) {
-		if (split[i].length > 40) {
-			wrap = true;
-		}
-	}
-	return wrap;
+	return text.split(" ").some(function (line) {
+		return line.length > 40;
+	});
 }
 
 function escape(text) {
