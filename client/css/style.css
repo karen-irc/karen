@@ -408,6 +408,8 @@ button {
 	font: 14px Lato;
 }
 #windows .header .topic {
+    /* Hidden back */
+    display: none;
 	color: #777;
 	margin-left: 8px;
 	text-transform: capitalize;
