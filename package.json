@@ -1,15 +1,14 @@
 {
-  "name": "shout",
+  "name": "karen",
   "description": "The self-hosted Web IRC client",
   "version": "0.51.1",
-  "author": "Mattias Erming",
   "preferGlobal": true,
   "bin": {
-    "shout": "index.js"
+    "karen": "index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/erming/shout.git"
+    "url": "https://github.com/karen-irc/karen.git"
   },
   "scripts": {
     "prestart": "gulp default",
@@ -23,6 +22,18 @@
     "client",
     "irc",
     "server"
+  ],
+  "maintainers": [
+    {
+      "name": "Yusuke Suzuki",
+      "email": "utatane.tea@gmail.com",
+      "web": "https://github.com/Constellation"
+    },
+    {
+      "name": "Tetsuharu OHZEKI",
+      "email": "saneyuki.s.snyk@gmail.com",
+      "web": "https://github.com/saneyuki"
+    }
   ],
   "license": "MIT",
   "dependencies": {
