@@ -4,7 +4,7 @@
  * v2.2.0
  */
 (function($) {
-	$.fn.sticky = function() {
+	$.fn.sticky = function(options) {
 		if (this.size() > 1) {
 			return this.each(function() {
 				$(this).sticky(options);
