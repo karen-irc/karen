@@ -1,52 +1,56 @@
-var _ = require("lodash");
-var Chan = require("../../models/Channel");
+'use strict';
+
+var _ = require('lodash');
+var Chan = require('../../models/Channel');
 var ChannelType = require('../../models/ChannelType');
-var Msg = require("../../models/Message");
+var Msg = require('../../models/Message');
 var MessageType = require('../../models/MessageType');
 
 module.exports = function(irc, network) {
     var client = this;
-    irc.on("message", function(data) {
-        if (data.message.indexOf("\u0001") === 0 && data.message.substring(0, 7) != "\u0001ACTION") {
+    irc.on('message', function(data) {
+        if (data.message.indexOf('\u0001') === 0 && data.message.substring(0, 7) !== '\u0001ACTION') {
             // Hide ctcp messages.
             return;
         }
 
         var target = data.to;
-        if (target.toLowerCase() == irc.me.toLowerCase()) {
+        if (target.toLowerCase() === irc.me.toLowerCase()) {
             target = data.from;
         }
 
         var chan = _.findWhere(network.channels, {name: target});
-        if (typeof chan === "undefined") {
+        if (typeof chan === 'undefined') {
             chan = new Chan({
                 type: ChannelType.QUERY,
                 name: data.from
             });
             network.channels.push(chan);
-            client.emit("join", {
+            client.emit('join', {
                 network: network.id,
                 chan: chan
             });
         }
 
-        var type = "";
+        var type = '';
         var text = data.message;
-        if (text.split(" ")[0] === "\u0001ACTION") {
+        if (text.split(' ')[0] === '\u0001ACTION') {
             type = MessageType.ACTION;
-            text = text.replace(/^\u0001ACTION|\u0001$/g, "");
+            text = text.replace(/^\u0001ACTION|\u0001$/g, '');
         }
 
-        text.split(" ").forEach(function(w) {
-            if (w.replace(/^@/, "").toLowerCase().indexOf(irc.me.toLowerCase()) === 0) type += " highlight";
+        text.split(' ').forEach(function(w) {
+            if (w.replace(/^@/, '').toLowerCase().indexOf(irc.me.toLowerCase()) === 0) {
+                type += ' highlight';
+            }
         });
 
         var self = false;
-        if (data.from.toLowerCase() == irc.me.toLowerCase()) {
+        if (data.from.toLowerCase() === irc.me.toLowerCase()) {
             self = true;
         }
 
-        if (chan.id != client.activeChannel) {
+        if (chan.id !== client.activeChannel) {
             chan.unread++;
         }
 
@@ -59,7 +63,7 @@ module.exports = function(irc, network) {
             self: self
         });
         chan.messages.push(msg);
-        client.emit("msg", {
+        client.emit('msg', {
             chan: chan.id,
             msg: msg
         });
