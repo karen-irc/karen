@@ -94,7 +94,7 @@ gulp.task('__handlebars', ['clean:client'], function () {
         String(handlebars),
         'client/views/',
         '-e', 'tpl',
-        '-f', path.resolve(DIST_CLIENT, './js/karen.templates.js'),
+        '-f', path.resolve(DIST_CLIENT_JS, './karen.templates.js'),
     ];
 
     let option = {
@@ -161,15 +161,11 @@ gulp.task('__babel:server', ['clean:server'], function () {
 });
 
 gulp.task('clean:client', function (callback) {
-    return del([
-        DIST_CLIENT,
-    ], callback);
+    return del(path.join(DIST_CLIENT, '**', '*.*'), callback);
 });
 
 gulp.task('clean:server', function (callback) {
-    return del([
-        DIST_SERVER,
-    ], callback);
+    return del(path.join(DIST_SERVER, '**', '*.*'), callback);
 });
 
 gulp.task('build:server', ['jslint', '__babel:server']);
