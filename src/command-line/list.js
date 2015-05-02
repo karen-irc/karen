@@ -1,4 +1,7 @@
-var ClientManager = new require('../clientManager');
+/*eslint quotes: [2, "single"]*/
+'use strict';
+
+var ClientManager = require('../clientManager');
 var program = require('commander');
 
 program
