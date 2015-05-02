@@ -8,15 +8,56 @@ import es from 'event-stream';
 
 process.setMaxListeners(0);
 
-function fetch(url, cb) {
-    var req = null;
+const parse = function parse(msg, url, res, client) {
+    const toggle = msg.toggle = {
+        id: msg.id,
+        type: '',
+        head: '',
+        body: '',
+        thumb: '',
+        link: url
+    };
+
+    switch (res.type) {
+    case 'text/html': {
+        const $ = cheerio.load(res.text);
+        toggle.type = 'link';
+        toggle.head = $('title').text();
+        toggle.body =
+            $('meta[name=description]').attr('content') ||
+            $('meta[property=\'og:description\']').attr('content') ||
+            'No description found.';
+        toggle.thumb =
+            $('meta[property=\'og:image\']').attr('content') ||
+            $('meta[name=\'twitter:image:src\']').attr('content') ||
+            '';
+        break;
+    }
+
+    case 'image/png':
+    case 'image/gif':
+    case 'image/jpg':
+    case 'image/jpeg':
+        toggle.type = 'image';
+        break;
+
+    default:
+        return;
+    }
+
+    client.emit('toggle', toggle);
+};
+
+const fetch = function fetch(url, cb) {
+    let req = null;
     try {
         req = request.get(url);
     } catch(e) {
         return;
     }
-    var length = 0;
-    var limit = 1024 * 10;
+
+    let length = 0;
+    const limit = 1024 * 10;
     req
         .on('response', function(res) {
             if (!(/(text\/html|application\/json)/.test(res.headers['content-type']))) {
@@ -35,81 +76,43 @@ function fetch(url, cb) {
             if (err) {
                 return;
             }
-            var body;
-            var type;
+            let body;
+            let type;
             try {
                 body = JSON.parse(data);
             } catch(e) {
                 body = {};
             }
+
             try {
                 type = req.response.headers['content-type'].split(/ *; */).shift();
             } catch(e) {
                 type = {};
             }
-            var param = {
+            const param = {
                 text: data,
                 body: body,
                 type: type
             };
             cb(param);
         }));
-}
-
-function parse(msg, url, res, client) {
-    var toggle = msg.toggle = {
-        id: msg.id,
-        type: '',
-        head: '',
-        body: '',
-        thumb: '',
-        link: url
-    };
-
-    switch (res.type) {
-    case 'text/html':
-        var $ = cheerio.load(res.text);
-        toggle.type = 'link';
-        toggle.head = $('title').text();
-        toggle.body =
-            $('meta[name=description]').attr('content') ||
-            $('meta[property=\'og:description\']').attr('content') ||
-            'No description found.';
-        toggle.thumb =
-            $('meta[property=\'og:image\']').attr('content') ||
-            $('meta[name=\'twitter:image:src\']').attr('content') ||
-            '';
-        break;
-
-    case 'image/png':
-    case 'image/gif':
-    case 'image/jpg':
-    case 'image/jpeg':
-        toggle.type = 'image';
-        break;
-
-    default:
-        return;
-    }
-
-    client.emit('toggle', toggle);
-}
+};
 
 export default function(irc, network) {
-    var client = this;
+    const client = this;
     irc.on('message', function(data) {
-        var config = Helper.getConfig();
+        const config = Helper.getConfig();
         if (!config.prefetch) {
             return;
         }
 
-        var links = [];
-        var split = data.message.split(' ');
+        const links = [];
+        const split = data.message.split(' ');
         _.each(split, function(w) {
             if (w.match(/^(http|https):\/\/localhost/g)) {
                 return;
             }
-            var match = w.indexOf('http://') === 0 || w.indexOf('https://') === 0;
+            const match = w.indexOf('http://') === 0 || w.indexOf('https://') === 0;
             if (match) {
                 links.push(w);
             }
@@ -119,13 +122,16 @@ export default function(irc, network) {
             return;
         }
 
-        var self = data.to.toLowerCase() === irc.me.toLowerCase();
-        var chan = _.findWhere(network.channels, {name: self ? data.from : data.to});
+        const self = data.to.toLowerCase() === irc.me.toLowerCase();
+        const chan = _.findWhere(network.channels, {
+            name: self ? data.from : data.to,
+        });
+
         if (typeof chan === 'undefined') {
             return;
         }
 
-        var msg = new Msg({
+        const msg = new Msg({
             type: MessageType.TOGGLE,
             time: ''
         });
@@ -135,7 +141,7 @@ export default function(irc, network) {
             msg: msg
         });
 
-        var link = links[0];
+        const link = links[0];
         fetch(link, function(res) {
             parse(msg, link, res, client);
         });

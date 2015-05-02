@@ -3,11 +3,11 @@ import Msg from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
-    var client = this;
+    const client = this;
     irc.on('kick', function(data) {
-        var from = data.nick;
-        var chan = _.findWhere(network.channels, {name: data.channel});
-        var mode = chan.getMode(from);
+        const from = data.nick;
+        const chan = _.findWhere(network.channels, {name: data.channel});
+        const mode = chan.getMode(from);
 
         if (typeof chan === 'undefined') {
             return;
@@ -24,12 +24,12 @@ export default function(irc, network) {
             users: chan.users
         });
 
-        var self = false;
+        let self = false;
         if (data.nick.toLowerCase() === irc.me.toLowerCase()) {
             self = true;
         }
 
-        var msg = new Msg({
+        const msg = new Msg({
             type: MessageType.KICK,
             mode: mode,
             from: from,

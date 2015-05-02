@@ -2,9 +2,9 @@ import _ from 'lodash';
 import User from '../../models/User';
 
 export default function(irc, network) {
-    var client = this;
+    const client = this;
     irc.on('names', function(data) {
-        var chan = _.findWhere(network.channels, {name: data.channel});
+        const chan = _.findWhere(network.channels, {name: data.channel});
         if (typeof chan === 'undefined') {
             return;
         }

@@ -6,19 +6,19 @@ import Msg from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
-    var client = this;
+    const client = this;
     irc.on('message', function(data) {
         if (data.message.indexOf('\u0001') === 0 && data.message.substring(0, 7) !== '\u0001ACTION') {
             // Hide ctcp messages.
             return;
         }
 
-        var target = data.to;
+        let target = data.to;
         if (target.toLowerCase() === irc.me.toLowerCase()) {
             target = data.from;
         }
 
-        var chan = _.findWhere(network.channels, {name: target});
+        let chan = _.findWhere(network.channels, {name: target});
         if (typeof chan === 'undefined') {
             chan = new Chan({
                 type: ChannelType.QUERY,
@@ -31,8 +31,8 @@ export default function(irc, network) {
             });
         }
 
-        var type = '';
-        var text = data.message;
+        let type = '';
+        let text = data.message;
         if (text.split(' ')[0] === '\u0001ACTION') {
             type = MessageType.ACTION;
             text = text.replace(/^\u0001ACTION|\u0001$/g, '');
@@ -44,7 +44,7 @@ export default function(irc, network) {
             }
         });
 
-        var self = false;
+        let self = false;
         if (data.from.toLowerCase() === irc.me.toLowerCase()) {
             self = true;
         }
@@ -53,8 +53,8 @@ export default function(irc, network) {
             chan.unread++;
         }
 
-        var name = data.from;
-        var msg = new Msg({
+        const name = data.from;
+        const msg = new Msg({
             type: type || MessageType.MESSAGE,
             mode: chan.getMode(name),
             from: name,

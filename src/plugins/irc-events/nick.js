@@ -3,13 +3,13 @@ import Msg from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
-    var client = this;
+    const client = this;
     irc.on('nick', function(data) {
-        var self = false;
-        var nick = data.new;
+        let self = false;
+        const nick = data.new;
         if (nick === irc.me) {
-            var lobby = network.channels[0];
-            var msg = new Msg({
+            const lobby = network.channels[0];
+            const msg = new Msg({
                 text: 'You\'re now known as ' + nick,
             });
             lobby.messages.push(msg);
@@ -24,8 +24,9 @@ export default function(irc, network) {
                 nick: nick
             });
         }
+
         network.channels.forEach(function(chan) {
-            var user = _.findWhere(chan.users, {name: data.nick});
+            const user = _.findWhere(chan.users, {name: data.nick});
             if (typeof user === 'undefined') {
                 return;
             }
@@ -35,7 +36,7 @@ export default function(irc, network) {
                 chan: chan.id,
                 users: chan.users
             });
-            var msg = new Msg({
+            const msg = new Msg({
                 type: MessageType.NICK,
                 from: data.nick,
                 text: nick,
