@@ -32,7 +32,7 @@ let eslint = require('gulp-eslint');
 let gulp = require('gulp');
 let path = require('path');
 let source = require('vinyl-source-stream');
-let uglify = require('gulp-uglifyjs');
+let uglify = require('gulp-uglify');
 
 const isRelease = process.env.NODE_ENV === 'production';
 
