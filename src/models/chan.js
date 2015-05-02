@@ -1,4 +1,5 @@
 var _ = require("lodash");
+var assign = require("object-assign");
 
 module.exports = Chan;
 
@@ -11,7 +12,7 @@ Chan.Type = {
 var id = 0;
 
 function Chan(attr) {
-	_.merge(this, _.extend({
+	_.merge(this, assign({
 		id: id++,
 		messages: [],
 		name: "",

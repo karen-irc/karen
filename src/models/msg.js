@@ -1,4 +1,5 @@
 var _ = require("lodash");
+var assign = require("object-assign");
 var moment = require("moment");
 
 Msg.Type = {
@@ -23,7 +24,7 @@ module.exports = Msg;
 var id = 0;
 
 function Msg(attr) {
-	_.merge(this, _.extend({
+	_.merge(this, assign({
 		from: "",
 		id: id++,
 		text: "",
