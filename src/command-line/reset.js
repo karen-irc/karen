@@ -3,30 +3,34 @@ import ClientManager from '../clientManager';
 import fs from 'fs';
 import program from 'commander';
 import Helper from '../helper';
+import read from 'read';
 
 program
     .command('reset <name>')
     .description('Reset user password')
     .action(function(name) {
-        var users = new ClientManager().getUsers();
+        const users = new ClientManager().getUsers();
         if (users.indexOf(name) === -1) {
             console.log('');
             console.log('User \'' + name + '\' doesn\'t exist.');
             console.log('');
             return;
         }
-        var file = Helper.HOME + '/users/' + name + '.json';
-        var user = require(file);
-        require('read')({
+        const file = Helper.HOME + '/users/' + name + '.json';
+        const user = require(file);
+
+        const param = {
             prompt: 'Password: ',
-            silent: true
-        }, function(err, password) {
+            silent: true,
+        };
+        read(param, function(err, password) {
             console.log('');
             if (err) {
                 return;
             }
-            var salt = bcrypt.genSaltSync(8);
-            var hash = bcrypt.hashSync(password, salt);
+
+            const salt = bcrypt.genSaltSync(8);
+            const hash = bcrypt.hashSync(password, salt);
             user.password = hash;
             fs.writeFileSync(
                 file,
