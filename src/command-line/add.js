@@ -1,4 +1,7 @@
-var ClientManager = new require('../clientManager');
+/*eslint quotes: [2, "single"]*/
+'use strict';
+
+var ClientManager = require('../clientManager');
 var bcrypt = require('bcrypt-nodejs');
 var fs = require('fs');
 var program = require('commander');
@@ -42,7 +45,9 @@ program
             prompt: 'Password: ',
             silent: true
         }, function(err, password) {
-            if (!err) add(manager, name, password);
+            if (!err) {
+                add(manager, name, password);
+            }
         });
     });
 
