@@ -30,7 +30,7 @@ if (!fs.existsSync(config)) {
     mkdirp.sync(Helper.HOME);
     fs.writeFileSync(
         config,
-        fs.readFileSync(path.resolve(__dirname, '/../../defaults/config.js'))
+        fs.readFileSync(path.resolve(__dirname, '../../defaults/config.js'))
     );
     console.log('Config created:');
     console.log(config);
