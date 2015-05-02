@@ -13,9 +13,9 @@ program
     .command('start')
     .description('Start the server')
     .action(function() {
-        var users = new ClientManager().getUsers();
-        var config = Helper.getConfig();
-        var mode = config.public;
+        const users = new ClientManager().getUsers();
+        const config = Helper.getConfig();
+        let mode = config.public;
         if (program.public) {
             mode = true;
         } else if (program.private) {

@@ -4,11 +4,12 @@ import fs from 'fs';
 import program from 'commander';
 import mkdirp from 'mkdirp';
 import Helper from '../helper';
+import read from 'read';
 
-function add(manager, name, password) {
+const add = function add(manager, name, password) {
     console.log('');
-    var salt = bcrypt.genSaltSync(8);
-    var hash = bcrypt.hashSync(password, salt);
+    const salt = bcrypt.genSaltSync(8);
+    const hash = bcrypt.hashSync(password, salt);
     manager.addUser(
         name,
         hash
@@ -16,13 +17,13 @@ function add(manager, name, password) {
     console.log('User \'' + name + '\' created:');
     console.log(Helper.HOME + '/users/' + name + '.json');
     console.log('');
-}
+};
 
 program
     .command('add <name>')
     .description('Add a new user')
     .action(function(name, password) {
-        var path = Helper.HOME + '/users';
+        const path = Helper.HOME + '/users';
         try {
             mkdirp.sync(path);
         } catch (e) {
@@ -33,7 +34,7 @@ program
             return;
         }
         try {
-            var test = path + '/.test';
+            const test = path + '/.test';
             fs.mkdirSync(test);
             fs.rmdirSync(test);
         } catch (e) {
@@ -43,18 +44,20 @@ program
             console.log('');
             return;
         }
-        var manager = new ClientManager();
-        var users = manager.getUsers();
+        const manager = new ClientManager();
+        const users = manager.getUsers();
         if (users.indexOf(name) !== -1) {
             console.log('');
             console.log('User \'' + name + '\' already exists.');
             console.log('');
             return;
         }
-        require('read')({
+
+        const param = {
             prompt: 'Password: ',
             silent: true
-        }, function(err, password) {
+        };
+        read(param, function(err, password) {
             if (!err) {
                 add(manager, name, password);
             }

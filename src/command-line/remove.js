@@ -7,8 +7,8 @@ program
     .command('remove <name>')
     .description('Remove an existing user')
     .action(function(name) {
-        var path = Helper.HOME + '/users';
-        var test = path + '/.test';
+        const path = Helper.HOME + '/users';
+        const test = path + '/.test';
         try {
             fs.mkdirSync(test);
             fs.rmdirSync(test);
@@ -19,7 +19,7 @@ program
             console.log('');
             return;
         }
-        var manager = new ClientManager();
+        const manager = new ClientManager();
         if (manager.removeUser(name)) {
             console.log('');
             console.log('Removed \'' + name + '\'.');
