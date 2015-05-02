@@ -1,7 +1,7 @@
 var _ = require("lodash");
 var Chan = require("../../models/chan");
 var Msg = require("../../models/msg");
-var User = require("../../models/user");
+var User = require("../../models/User");
 
 module.exports = function(irc, network) {
 	var client = this;
