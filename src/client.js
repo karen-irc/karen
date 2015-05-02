@@ -1,3 +1,5 @@
+'use strict';
+
 var _ = require("lodash");
 var Chan = require("./models/Channel");
 var ChannelType = require('./models/ChannelType');
@@ -63,6 +65,10 @@ function Client(sockets, name, config) {
     });
     var client = this;
     crypto.randomBytes(48, function(err, buf) {
+        if (err) {
+            throw err;
+        }
+
         client.token = buf.toString("hex");
     });
     if (config) {
@@ -82,11 +88,11 @@ Client.prototype.emit = function(event, data) {
     }
     var config = this.config || {};
     if (config.log === true) {
-        if (event == "msg") {
+        if (event === "msg") {
             var target = this.find(data.chan);
             if (target) {
                 var chan = target.chan.name;
-                if (target.chan.type == ChannelType.LOBBY) {
+                if (target.chan.type === ChannelType.LOBBY) {
                     chan = target.network.host;
                 }
                 log.write(
@@ -232,8 +238,9 @@ Client.prototype.input = function(data) {
     var args = text.split(" ");
     var cmd = args.shift().replace("/", "").toLowerCase();
     _.each(inputs, function(plugin) {
+        var path = '';
         try {
-            var path = "./plugins/inputs/" + plugin;
+            path = "./plugins/inputs/" + plugin;
             var fn = require(path);
             fn.apply(client, [
                 target.network,
@@ -275,10 +282,11 @@ Client.prototype.sort = function(data) {
 
     var type = data.type;
     var order = data.order || [];
+    var sorted = null;
 
     switch (type) {
     case "networks":
-        var sorted = [];
+        sorted = [];
         _.each(order, function(i) {
             var find = _.find(self.networks, {id: i});
             if (find) {
@@ -294,7 +302,7 @@ Client.prototype.sort = function(data) {
         if (!network) {
             return;
         }
-        var sorted = [];
+        sorted = [];
         _.each(order, function(i) {
             var find = _.find(network.channels, {id: i});
             if (find) {

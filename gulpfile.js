@@ -92,6 +92,7 @@ gulp.task('jslint', function () {
     return gulp.src([
             './gulpfile.js',
             './client/script/**/*.js',
+            './src/client.js',
             './src/clientManager.js',
             './src/models/**/*.js',
         ])
