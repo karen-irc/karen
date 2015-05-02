@@ -1,5 +1,8 @@
-var _ = require("lodash");
-var net = require("net");
+/*eslint quotes: [2, "single"]*/
+'use strict';
+
+var _ = require('lodash');
+var net = require('net');
 
 var users = {};
 
@@ -8,40 +11,40 @@ module.exports.start = function(port) {
 };
 
 module.exports.hook = function(stream, user) {
-    var id = "";
+    var id = '';
     var socket = stream.socket || stream;
-    socket.on("connect", function() {
-        var ports = _.pick(socket, "localPort", "remotePort");
-        id = _.values(ports).join(", ");
+    socket.on('connect', function() {
+        var ports = _.pick(socket, 'localPort', 'remotePort');
+        id = _.values(ports).join(', ');
         users[id] = user;
     });
-    socket.on("close", function() {
+    socket.on('close', function() {
         delete users[id];
     });
 };
 
 function init(socket) {
-    socket.on("data", function(data) {
+    socket.on('data', function(data) {
         respond(socket, data);
     });
 }
 
 function respond(socket, data) {
     var id = parse(data);
-    var response = id + " : ";
+    var response = id + ' : ';
     if (users[id]) {
-        response += "USERID : UNIX : " + users[id];
+        response += 'USERID : UNIX : ' + users[id];
     } else {
-        response += "ERROR : NO-USER";
+        response += 'ERROR : NO-USER';
     }
-    response += "\r\n";
+    response += '\r\n';
     socket.write(response);
     socket.end();
 }
 
 function parse(data) {
-    data = data.toString();
-    data = data.split(",");
-    return parseInt(data[0]) + ", " + parseInt(data[1]);
+    var str = data.toString();
+    str = str.split(',');
+    return parseInt(str[0], 10) + ', ' + parseInt(str[1], 10);
 }
 

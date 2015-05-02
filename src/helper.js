@@ -1,10 +1,13 @@
-var path = require("path");
+/*eslint quotes: [2, "single"]*/
+'use strict';
+
+var path = require('path');
 
 module.exports = {
-    HOME: (process.env.HOME || process.env.USERPROFILE) + "/.shout",
-    getConfig: getConfig
+    HOME: (process.env.HOME || process.env.USERPROFILE) + '/.shout',
+    getConfig: getConfig,
 };
 
 function getConfig() {
-    return require(path.resolve(this.HOME) + "/config");
-};
+    return require(path.resolve(this.HOME) + '/config');
+}

@@ -1,12 +1,16 @@
-var _ = require("lodash");
-var assign = require("object-assign");
-var bcrypt = require("bcrypt-nodejs");
-var Client = require("./client");
-var ClientManager = require("./clientManager");
-var express = require("express");
-var fs = require("fs");
-var io = require("socket.io");
-var Helper = require("./helper");
+/*eslint quotes: [2, "single"]*/
+'use strict';
+
+var _ = require('lodash');
+var assign = require('object-assign');
+var bcrypt = require('bcrypt-nodejs');
+var Client = require('./client');
+var ClientManager = require('./clientManager');
+var express = require('express');
+var fs = require('fs');
+var server = require('http');
+var io = require('socket.io');
+var Helper = require('./helper');
 var config = {};
 
 var sockets = null;
@@ -18,37 +22,35 @@ module.exports = function(options) {
 
     var app = express()
         .use(index)
-        .use(express.static("client"));
+        .use(express.static('client'));
 
-    app.enable("trust proxy");
+    app.enable('trust proxy');
 
-    var server = null;
     var https = config.https || {};
-    var protocol = https.enable ? "https" : "http";
+    var protocol = https.enable ? 'https' : 'http';
     var port = config.port;
     var host = config.host;
     var transports = config.transports || ['websocket', 'polling'];
 
+    var server = null;
     if (!https.enable){
-        server = require("http");
         server = server.createServer(app).listen(port, host);
     } else {
-        server = require("https");
         server = server.createServer({
             key: fs.readFileSync(https.key),
             cert: fs.readFileSync(https.certificate)
-        }, app).listen(port, host)
+        }, app).listen(port, host);
     }
 
     if ((config.identd || {}).enable) {
-        require("./identd").start(config.identd.port);
+        require('./identd').start(config.identd.port);
     }
 
     sockets = io(server, {
         transports: transports
     });
 
-    sockets.on("connect", function(socket) {
+    sockets.on('connect', function(socket) {
         if (config.public) {
             auth.call(socket);
         } else {
@@ -58,10 +60,10 @@ module.exports = function(options) {
 
     manager.sockets = sockets;
 
-    console.log("");
-    console.log("Shout is now running on " + protocol + "://" + config.host + ":" + config.port + "/");
-    console.log("Press ctrl-c to stop");
-    console.log("");
+    console.log('');
+    console.log('Shout is now running on ' + protocol + '://' + config.host + ':' + config.port + '/');
+    console.log('Press ctrl-c to stop');
+    console.log('');
 
     if (!config.public) {
         manager.loadUsers();
@@ -72,13 +74,19 @@ module.exports = function(options) {
 };
 
 function index(req, res, next) {
-    if (req.url.split("?")[0] != "/") return next();
-    return fs.readFile("client/index.html", "utf-8", function(err, file) {
+    if (req.url.split('?')[0] !== '/') {
+        return next();
+    }
+    return fs.readFile('client/index.html', 'utf-8', function(err, file) {
+        if (!!err) {
+            throw err;
+        }
+
         var data = _.merge(
-            require("../package.json"),
+            require('../package.json'),
             config
         );
-        res.setHeader("Content-Type", "text/html");
+        res.setHeader('Content-Type', 'text/html');
         res.writeHead(200);
         res.end(_.template(
             file,
@@ -89,44 +97,44 @@ function index(req, res, next) {
 
 function init(socket, client, token) {
     if (!client) {
-        socket.emit("auth");
-        socket.on("auth", auth);
+        socket.emit('auth');
+        socket.on('auth', auth);
     } else {
         socket.on(
-            "input",
+            'input',
             function(data) {
                 client.input(data);
             }
         );
         socket.on(
-            "more",
+            'more',
             function(data) {
                 client.more(data);
             }
         );
         socket.on(
-            "conn",
+            'conn',
             function(data) {
                 client.connect(data);
             }
         );
         socket.on(
-            "open",
+            'open',
             function(data) {
                 client.open(data);
             }
         );
         socket.on(
-            "sort",
+            'sort',
             function(data) {
                 client.sort(data);
             }
         );
         socket.join(client.id);
-        socket.emit("init", {
+        socket.emit('init', {
             active: client.activeChannel,
             networks: client.networks,
-            token: token || ""
+            token: token || ''
         });
     }
 }
@@ -136,7 +144,7 @@ function auth(data) {
     if (config.public) {
         var client = new Client(sockets);
         manager.clients.push(client);
-        socket.on("disconnect", function() {
+        socket.on('disconnect', function() {
             manager.clients = _.without(manager.clients, client);
             client.quit();
         });
@@ -145,11 +153,11 @@ function auth(data) {
         var success = false;
         _.each(manager.clients, function(client) {
             if (data.token) {
-                if (data.token == client.token) {
+                if (data.token === client.token) {
                     success = true;
                 }
-            } else if (client.config.user == data.user) {
-                if (bcrypt.compareSync(data.password || "", client.config.password)) {
+            } else if (client.config.user === data.user) {
+                if (bcrypt.compareSync(data.password || '', client.config.password)) {
                     success = true;
                 }
             }
@@ -163,7 +171,7 @@ function auth(data) {
             }
         });
         if (!success) {
-            socket.emit("auth");
+            socket.emit('auth');
         }
     }
 }
