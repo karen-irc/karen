@@ -1,32 +1,34 @@
-var _ = require("lodash");
-var Msg = require("../../models/Message");
+'use strict';
+
+var _ = require('lodash');
+var Msg = require('../../models/Message');
 var MessageType = require('../../models/MessageType');
 
 module.exports = function(irc, network) {
     var client = this;
-    irc.on("mode", function(data) {
+    irc.on('mode', function(data) {
         var chan = _.findWhere(network.channels, {name: data.target});
-        if (typeof chan !== "undefined") {
+        if (typeof chan !== 'undefined') {
             setTimeout(function() {
-                irc.write("NAMES " + data.target);
+                irc.write('NAMES ' + data.target);
             }, 200);
             var from = data.nick;
-            if (from.indexOf(".") !== -1) {
+            if (from.indexOf('.') !== -1) {
                 from = data.target;
             }
             var self = false;
-            if (from.toLowerCase() == irc.me.toLowerCase()) {
+            if (from.toLowerCase() === irc.me.toLowerCase()) {
                 self = true;
             }
             var msg = new Msg({
                 type: MessageType.MODE,
                 mode: chan.getMode(from),
                 from: from,
-                text: data.mode + " " + data.client,
+                text: data.mode + ' ' + data.client,
                 self: self
             });
             chan.messages.push(msg);
-            client.emit("msg", {
+            client.emit('msg', {
                 chan: chan.id,
                 msg: msg,
             });
