@@ -38,8 +38,6 @@ function User(attr) {
 
     /** @type {string} */
     this.name = data.name;
-
-    Object.seal(this);
 }
 
 module.exports = User;
