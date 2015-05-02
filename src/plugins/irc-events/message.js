@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Chan = require('../../models/Channel');
+var Hostmask = require('../../models/Hostmask');
 var ChannelType = require('../../models/ChannelType');
 var Msg = require('../../models/Message');
 var MessageType = require('../../models/MessageType');
@@ -60,6 +61,7 @@ module.exports = function(irc, network) {
             mode: chan.getMode(name),
             from: name,
             text: text,
+            hostmask: new Hostmask(data.hostmask),
             self: self
         });
         chan.messages.push(msg);
