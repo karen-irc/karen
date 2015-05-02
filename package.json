@@ -3,6 +3,9 @@
   "description": "The self-hosted Web IRC client",
   "version": "0.51.1",
   "preferGlobal": true,
+  "engines": {
+    "iojs": "1.8.x"
+  },
   "bin": {
     "karen": "index.js"
   },
