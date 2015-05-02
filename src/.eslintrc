@@ -4,6 +4,6 @@
 
     "rules": {
         // Stylistic Issues
-        "quotes": [2, "double", "avoid-escape"]
+        "quotes": 0
     }
 }
