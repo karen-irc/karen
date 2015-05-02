@@ -51,6 +51,7 @@ const SRC = [
     'client/js/libs/uri.js',
 ];
 
+const DIST_SERVER = './dist/';
 const DIST_CLIENT = './client/dist/';
 const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
 
@@ -149,7 +150,13 @@ gulp.task('clean:client', function (callback) {
     ], callback);
 });
 
+gulp.task('clean:server', function (callback) {
+    return del([
+        DIST_SERVER,
+    ], callback);
+});
+
 gulp.task('build:client', ['__handlebars', '__uglify', '__copy']);
 gulp.task('build', ['jslint', 'build:client']);
-gulp.task('clean', ['clean:client']);
+gulp.task('clean', ['clean:client', 'clean:server']);
 gulp.task('default', ['build']);
