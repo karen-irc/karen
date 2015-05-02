@@ -93,11 +93,7 @@ gulp.task('jslint', function () {
             './gulpfile.js',
             './client/script/**/*.js',
             './src/clientManager.js',
-            './src/models/Channel.js',
-            './src/models/ChannelType.js',
-            './src/models/Message.js',
-            './src/models/MessageType.js',
-            './src/models/User.js',
+            './src/models/**/*.js',
         ])
         .pipe(eslint(option))
         .pipe(eslint.format())
