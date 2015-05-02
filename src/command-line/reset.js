@@ -1,27 +1,27 @@
-var bcrypt = require("bcrypt-nodejs");
-var ClientManager = new require("../clientManager");
-var fs = require("fs");
-var program = require("commander");
-var Helper = require("../helper");
+var bcrypt = require('bcrypt-nodejs');
+var ClientManager = new require('../clientManager');
+var fs = require('fs');
+var program = require('commander');
+var Helper = require('../helper');
 
 program
-    .command("reset <name>")
-    .description("Reset user password")
+    .command('reset <name>')
+    .description('Reset user password')
     .action(function(name) {
         var users = new ClientManager().getUsers();
         if (users.indexOf(name) === -1) {
-            console.log("");
-            console.log("User '" + name + "' doesn't exist.");
-            console.log("");
+            console.log('');
+            console.log('User \'' + name + '\' doesn\'t exist.');
+            console.log('');
             return;
         }
-        var file = Helper.HOME + "/users/" + name + ".json";
+        var file = Helper.HOME + '/users/' + name + '.json';
         var user = require(file);
-        require("read")({
-            prompt: "Password: ",
+        require('read')({
+            prompt: 'Password: ',
             silent: true
         }, function(err, password) {
-            console.log("");
+            console.log('');
             if (err) {
                 return;
             }
@@ -30,10 +30,10 @@ program
             user.password = hash;
             fs.writeFileSync(
                 file,
-                JSON.stringify(user, null, "  "),
-                {mode: "0777"}
+                JSON.stringify(user, null, '  '),
+                {mode: '0777'}
             );
-            console.log("Successfully reset password for '" + name + "'.");
-            console.log("");
+            console.log('Successfully reset password for \'' + name + '\'.');
+            console.log('');
         });
     });
