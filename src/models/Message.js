@@ -1,4 +1,3 @@
-/*eslint quotes: [2, "single"], indent: [2, 4]*/
 /**
  * @license MIT License
  *

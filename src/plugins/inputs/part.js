@@ -1,4 +1,3 @@
-/*eslint quotes: [2, "single"]*/
 'use strict';
 
 var _ = require('lodash');
