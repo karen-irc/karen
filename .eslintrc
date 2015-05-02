@@ -3,11 +3,12 @@
     // http://eslint.org/docs/configuring/#comments-in-configuration-files
 
     "ecmaFeatures": {
-        "blockBindings": true
+        // "modules": true // FIXME: #69
     },
 
     "env": {
-        "node": true
+        "node": true,
+        "es6": true,
     },
 
     "plugins": [
