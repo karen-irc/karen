@@ -1,5 +1,7 @@
 # karen
 
+[![Build Status](https://travis-ci.org/karen-irc/karen.svg?branch=master)](https://travis-ci.org/karen-irc/karen)
+
 karen is a [shout](https://github.com/erming/shout)-fork just for highly personal use.
 
 So maybe, no releases are planned.
