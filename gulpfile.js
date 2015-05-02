@@ -24,6 +24,7 @@
 
 'use strict';
 
+let babel = require('gulp-babel');
 let babelify = require('babelify');
 let browserify = require('browserify');
 let childProcess = require('child_process');
@@ -51,6 +52,7 @@ const SRC = [
     'client/js/libs/uri.js',
 ];
 
+const DIST_SERVER = './dist/';
 const DIST_CLIENT = './client/dist/';
 const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
 
@@ -143,13 +145,35 @@ gulp.task('build:client2', ['jslint'], function () {
         .pipe(gulp.dest('client/dist/'));
 });
 
+gulp.task('__babel:server', ['clean:server'], function () {
+    return gulp.src('./src/**/*.js')
+        .pipe(babel({
+            // For io.js, we need not some transforms:
+            blacklist: [
+                'es6.blockScoping',
+                'es6.constants',
+                'es6.forOf',
+                'es6.templateLiterals',
+            ],
+            sourceMaps: false,
+        }))
+        .pipe(gulp.dest(DIST_SERVER));
+});
+
 gulp.task('clean:client', function (callback) {
     return del([
         DIST_CLIENT,
     ], callback);
 });
 
+gulp.task('clean:server', function (callback) {
+    return del([
+        DIST_SERVER,
+    ], callback);
+});
+
+gulp.task('build:server', ['jslint', '__babel:server']);
 gulp.task('build:client', ['__handlebars', '__uglify', '__copy']);
-gulp.task('build', ['jslint', 'build:client']);
-gulp.task('clean', ['clean:client']);
+gulp.task('build', ['jslint', 'build:client', 'build:server']);
+gulp.task('clean', ['clean:client', 'clean:server']);
 gulp.task('default', ['build']);
