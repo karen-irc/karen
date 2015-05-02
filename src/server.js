@@ -31,7 +31,6 @@ module.exports = function(options) {
     var host = config.host;
     var transports = config.transports || ['websocket', 'polling'];
 
-    var server = null;
     if (!https.enable){
         server = server.createServer(app).listen(port, host);
     } else {
