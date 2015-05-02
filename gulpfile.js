@@ -54,7 +54,7 @@ const SRC = [
 const DIST_CLIENT = './client/dist/';
 const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
 
-gulp.task('uglify', function () {
+gulp.task('__uglify', ['clean:client'], function () {
     return gulp.src(SRC)
         .pipe(uglify('libs.min.js', {
             compress: false,
@@ -62,7 +62,7 @@ gulp.task('uglify', function () {
         .pipe(gulp.dest(DIST_CLIENT_JS));
 });
 
-gulp.task('copy', function () {
+gulp.task('__copy', ['clean:client'], function () {
     var src = [
         './node_modules/rx/dist/rx.js',
     ];
@@ -70,7 +70,7 @@ gulp.task('copy', function () {
         .pipe(gulp.dest(DIST_CLIENT_JS));
 });
 
-gulp.task('build', ['copy'], function () {
+gulp.task('__handlebars', ['clean:client'], function () {
     let handlebars = path.relative(__dirname, './node_modules/handlebars/bin/handlebars');
     let args = [
         String(handlebars),
@@ -102,7 +102,7 @@ gulp.task('jslint', function () {
         .pipe(eslint.failAfterError());
 });
 
-gulp.task('build2', ['jslint'], function () {
+gulp.task('build:client2', ['jslint'], function () {
     const SRC_JS = ['./client/script/karen.js'];
 
     let option = {
@@ -133,9 +133,10 @@ gulp.task('clean:client', function (callback) {
     ], callback);
 });
 
+gulp.task('build:client', ['__handlebars', '__uglify', '__copy']);
 gulp.task('clean', ['clean:client']);
-gulp.task('default', ['uglify', 'build']);
+gulp.task('default', ['jslint', 'build:client']);
 
-gulp.task('watch', ['uglify'], function () {
-    gulp.watch(SRC, ['uglify']);
+gulp.task('watch', ['build:client'], function () {
+    gulp.watch(SRC, ['build:client']);
 });
