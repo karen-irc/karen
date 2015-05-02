@@ -99,6 +99,7 @@ gulp.task('jslint', function () {
             './src/identd.js',
             './src/log.js',
             './src/models/**/*.js',
+            './src/server.js',
         ])
         .pipe(eslint(option))
         .pipe(eslint.format())
