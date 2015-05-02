@@ -28,105 +28,106 @@ import assign from 'object-assign';
 import Channel from './Channel';
 import ChannelType from './ChannelType';
 
-/** @type   {number}    */
-let id = 0;
-
 /**
  *  @param  {string}    str
  *  @return {string}
  *  @throws {Error}
  */
-function capitalize(str) {
+const capitalize = function capitalize(str) {
     if (typeof str !== 'string') {
         throw new Error();
     }
 
     return str.charAt(0).toUpperCase() + str.slice(1);
-}
+};
 
 /**
  *  @param  {string}    host
  *  @return {string}
  */
-function prettify(host) {
+const prettify = function prettify(host) {
     let name = capitalize(host.split('.')[1]);
     if (!name) {
         name = host;
     }
     return name;
-}
+};
 
-/**
- *  @constructor
- *  @param  {Object} attr
- */
-export default function Network(attr) {
-    let data = assign({
-        name: '',
-        host: '',
-        port: 6667,
-        tls: false,
-        password: '',
-        commands: [],
-        username: '',
-        realname: '',
-        channels: [],
-        connected: false,
-        id: id++,
-        irc: null,
-    }, attr);
+/** @type   {number}    */
+let id = 0;
 
-    /** @type   {number}    */
-    this.id = data.id;
+export default class Network {
 
-    /** @type   {string}    */
-    this.name = (data.name !== '') ? data.name : prettify(data.host);
+    /**
+     *  @constructor
+     *  @param  {?} attr
+     */
+    constructor(attr) {
+        let data = assign({
+            name: '',
+            host: '',
+            port: 6667,
+            tls: false,
+            password: '',
+            commands: [],
+            username: '',
+            realname: '',
+            channels: [],
+            connected: false,
+            id: id++,
+            irc: null,
+        }, attr);
 
-    /** @type   {string}    */
-    this.host = data.host;
+        /** @type   {number}    */
+        this.id = data.id;
 
-    /** @type   {number}    */
-    this.port = data.port;
+        /** @type   {string}    */
+        this.name = (data.name !== '') ? data.name : prettify(data.host);
 
-    /** @type   {boolean}   */
-    this.tls = data.tls;
+        /** @type   {string}    */
+        this.host = data.host;
 
-    /** @type   {string}    */
-    this.password = data.password;
+        /** @type   {number}    */
+        this.port = data.port;
 
-    /** @type   {Array} */
-    this.commands = data.commands;
+        /** @type   {boolean}   */
+        this.tls = data.tls;
 
-    // FIXME: create the object which represents user account information.
+        /** @type   {string}    */
+        this.password = data.password;
 
-    /** @type   {string}  */
-    this.username = data.username;
+        /** @type   {Array} */
+        this.commands = data.commands;
 
-    /** @type   {string}    */
-    this.realname = data.realname;
+        // FIXME: create the object which represents user account information.
 
-    /** @type   {Array<Channel>} */
-    this.channels = data.channels;
+        /** @type   {string}  */
+        this.username = data.username;
 
-    /** @type   {boolean}   */
-    this.connected = data.connected;
+        /** @type   {string}    */
+        this.realname = data.realname;
 
-    /** @type   {?} */
-    this.irc = data.irc;
+        /** @type   {Array<Channel>} */
+        this.channels = data.channels;
 
-    this.channels.unshift(
-        new Channel({
-            name: this.name,
-            type: ChannelType.LOBBY
-        })
-    );
-}
-Network.prototype = {
+        /** @type   {boolean}   */
+        this.connected = data.connected;
+
+        /** @type   {?} */
+        this.irc = data.irc;
+
+        this.channels.unshift(
+            new Channel({
+                name: this.name,
+                type: ChannelType.LOBBY
+            })
+        );
+    }
 
     /**
      *  @return {?}
      */
-    export: function() {
+    export() {
         let network = _.pick(this, [
             'name',
             'host',
@@ -143,13 +144,13 @@ Network.prototype = {
             'name'
         ).join(',');
         return network;
-    },
+    }
 
     /**
      *  @return {Object}
      */
-    toJSON: function() {
+    toJSON() {
         let json = assign(this, {nick: (this.irc || {}).me || ''});
         return _.omit(json, 'irc', 'password');
-    },
-};
+    }
+}

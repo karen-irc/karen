@@ -24,8 +24,10 @@
  */
 
 /** @enum {string} */
-export default Object.freeze({
+const ChannelType = Object.freeze({
     CHANNEL: 'channel',
     LOBBY: 'lobby',
     QUERY: 'query',
 });
+
+export default ChannelType;

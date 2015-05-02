@@ -25,23 +25,30 @@
 
 import assign from 'object-assign';
 
-export default function Hostmask(attr) {
-    let data = assign({
-        nick: '',
-        username: '',
-        hostname: '',
-        string: '',
-    }, attr);
+export default class Hostmask {
 
-    /** @type   {string}    */
-    this.nick = data.nick;
+    /**
+     *  @constructor
+     *  @param  {?} attr
+     */
+    constructor(attr) {
+        let data = assign({
+            nick: '',
+            username: '',
+            hostname: '',
+            string: '',
+        }, attr);
 
-    /** @type   {string}    */
-    this.username = data.username;
+        /** @type   {string}    */
+        this.nick = data.nick;
 
-    /** @type   {string}    */
-    this.hostname = data.hostname;
+        /** @type   {string}    */
+        this.username = data.username;
 
-    /** @type   {number}    */
-    this.string = data.string;
+        /** @type   {string}    */
+        this.hostname = data.hostname;
+
+        /** @type   {number}    */
+        this.string = data.string;
+    }
 }

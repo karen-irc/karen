@@ -25,15 +25,22 @@
 
 import assign from 'object-assign';
 
-export default function User(attr) {
-    let data = assign({
-        mode: '',
-        name: '',
-    }, attr);
+export default class User {
 
-    /** @type {string} */
-    this.mode = data.mode;
+    /**
+     *  @constructor
+     *  @param  {?} attr
+     */
+    constructor(attr) {
+        let data = assign({
+            mode: '',
+            name: '',
+        }, attr);
 
-    /** @type {string} */
-    this.name = data.name;
+        /** @type {string} */
+        this.mode = data.mode;
+
+        /** @type {string} */
+        this.name = data.name;
+    }
 }

@@ -24,7 +24,7 @@
  */
 
 /** @enum {string} */
-export default Object.freeze({
+const MessageType = Object.freeze({
     ACTION: 'action',
     ERROR: 'error',
     JOIN: 'join',
@@ -40,3 +40,5 @@ export default Object.freeze({
     TOPIC: 'topic',
     WHOIS: 'whois'
 });
+
+export default MessageType;
