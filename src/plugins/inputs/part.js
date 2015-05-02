@@ -1,8 +1,6 @@
-'use strict';
+import _ from 'lodash';
 
-var _ = require('lodash');
-
-module.exports = function(network, chan, cmd, args) {
+export default function(network, chan, cmd, args) {
     if (cmd !== 'part' && cmd !== 'leave' && cmd !== 'close') {
         return;
     }
@@ -19,4 +17,4 @@ module.exports = function(network, chan, cmd, args) {
         }
         irc.part(args);
     }
-};
+}

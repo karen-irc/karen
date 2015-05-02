@@ -1,13 +1,11 @@
-'use strict';
+import _ from 'lodash';
+import Chan from '../../models/Channel';
+import Hostmask from '../../models/Hostmask';
+import ChannelType from '../../models/ChannelType';
+import Msg from '../../models/Message';
+import MessageType from '../../models/MessageType';
 
-var _ = require('lodash');
-var Chan = require('../../models/Channel');
-var Hostmask = require('../../models/Hostmask');
-var ChannelType = require('../../models/ChannelType');
-var Msg = require('../../models/Message');
-var MessageType = require('../../models/MessageType');
-
-module.exports = function(irc, network) {
+export default function(irc, network) {
     var client = this;
     irc.on('message', function(data) {
         if (data.message.indexOf('\u0001') === 0 && data.message.substring(0, 7) !== '\u0001ACTION') {
@@ -70,4 +68,4 @@ module.exports = function(irc, network) {
             msg: msg
         });
     });
-};
+}

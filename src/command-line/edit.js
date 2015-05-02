@@ -1,9 +1,7 @@
-'use strict';
-
-var ClientManager = require('../clientManager');
-var program = require('commander');
-var child = require('child_process');
-var Helper = require('../helper');
+import ClientManager from '../clientManager';
+import program from 'commander';
+import child from 'child_process';
+import Helper from '../helper';
 
 program
     .command('edit <name>')

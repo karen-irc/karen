@@ -1,10 +1,8 @@
-'use strict';
-
-var _ = require('lodash');
-var ClientManager = require('../clientManager');
-var program = require('commander');
-var karen = require('../server');
-var Helper = require('../helper');
+import _ from 'lodash';
+import ClientManager from '../clientManager';
+import program from 'commander';
+import karen from '../server';
+import Helper from '../helper';
 
 program
     .option('-H, --host <ip>', 'host')

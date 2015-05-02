@@ -1,9 +1,7 @@
-'use strict';
+import Msg from '../../models/Message';
+import MessageType from '../../models/MessageType';
 
-var Msg = require('../../models/Message');
-var MessageType = require('../../models/MessageType');
-
-module.exports = function(irc, network) {
+export default function(irc, network) {
     var client = this;
     irc.on('welcome', function(data) {
         network.connected = true;
@@ -24,4 +22,4 @@ module.exports = function(irc, network) {
             nick: nick
         });
     });
-};
+}

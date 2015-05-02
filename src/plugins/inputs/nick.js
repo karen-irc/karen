@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = function(network, chan, cmd, args) {
+export default function(network, chan, cmd, args) {
     if (cmd !== 'nick') {
         return;
     }
@@ -8,4 +6,4 @@ module.exports = function(network, chan, cmd, args) {
         var irc = network.irc;
         irc.nick(args[0]);
     }
-};
+}

@@ -22,11 +22,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-'use strict';
-
-const _ = require('lodash');
-const assign = require('object-assign');
-const ChannelType = require('./ChannelType');
+import _ from 'lodash';
+import assign from 'object-assign';
+import ChannelType from './ChannelType';
 
 const MODES = [
     '~',
@@ -38,7 +36,7 @@ const MODES = [
 
 let id = 0;
 
-function Channal(attr) {
+export default function Channal(attr) {
     let data = assign({
         id: id++,
         messages: [],
@@ -110,5 +108,3 @@ Channal.prototype = {
         return clone;
     },
 };
-
-module.exports = Channal;

@@ -1,12 +1,10 @@
-'use strict';
+import _ from 'lodash';
+import Chan from '../../models/Channel';
+import Msg from '../../models/Message';
+import MessageType from '../../models/MessageType';
+import User from '../../models/User';
 
-var _ = require('lodash');
-var Chan = require('../../models/Channel');
-var Msg = require('../../models/Message');
-var MessageType = require('../../models/MessageType');
-var User = require('../../models/User');
-
-module.exports = function(irc, network) {
+export default function(irc, network) {
     var client = this;
     irc.on('join', function(data) {
         var chan = _.find(network.channels, {name: data.channel});
@@ -43,4 +41,4 @@ module.exports = function(irc, network) {
             msg: msg
         });
     });
-};
+}

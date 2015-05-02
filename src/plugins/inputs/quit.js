@@ -1,8 +1,6 @@
-'use strict';
+import _ from 'lodash';
 
-var _ = require('lodash');
-
-module.exports = function(network, chan, cmd, args) {
+export default function(network, chan, cmd, args) {
     if (cmd !== 'quit' && cmd !== 'disconnect') {
         return;
     }
@@ -18,4 +16,4 @@ module.exports = function(network, chan, cmd, args) {
     });
 
     irc.quit(quitMessage);
-};
+}

@@ -1,9 +1,7 @@
-'use strict';
+import Msg from '../../models/Message';
+import MessageType from '../../models/MessageType';
 
-var Msg = require('../../models/Message');
-var MessageType = require('../../models/MessageType');
-
-module.exports = function(network, chan, cmd, args) {
+export default function(network, chan, cmd, args) {
     if (cmd !== 'slap' && cmd !== 'me') {
         return;
     }
@@ -41,4 +39,4 @@ module.exports = function(network, chan, cmd, args) {
             });
             break;
     }
-};
+}

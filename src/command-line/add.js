@@ -1,11 +1,22 @@
-'use strict';
+import ClientManager from '../clientManager';
+import bcrypt from 'bcrypt-nodejs';
+import fs from 'fs';
+import program from 'commander';
+import mkdirp from 'mkdirp';
+import Helper from '../helper';
 
-var ClientManager = require('../clientManager');
-var bcrypt = require('bcrypt-nodejs');
-var fs = require('fs');
-var program = require('commander');
-var mkdirp = require('mkdirp');
-var Helper = require('../helper');
+function add(manager, name, password) {
+    console.log('');
+    var salt = bcrypt.genSaltSync(8);
+    var hash = bcrypt.hashSync(password, salt);
+    manager.addUser(
+        name,
+        hash
+    );
+    console.log('User \'' + name + '\' created:');
+    console.log(Helper.HOME + '/users/' + name + '.json');
+    console.log('');
+}
 
 program
     .command('add <name>')
@@ -49,16 +60,3 @@ program
             }
         });
     });
-
-function add(manager, name, password) {
-    console.log('');
-    var salt = bcrypt.genSaltSync(8);
-    var hash = bcrypt.hashSync(password, salt);
-    manager.addUser(
-        name,
-        hash
-    );
-    console.log('User \'' + name + '\' created:');
-    console.log(Helper.HOME + '/users/' + name + '.json');
-    console.log('');
-}

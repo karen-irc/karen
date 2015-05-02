@@ -22,15 +22,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-'use strict';
 
-const assign = require('object-assign');
-const moment = require('moment');
-const MessageType = require('./MessageType');
+import assign from 'object-assign';
+import moment from 'moment';
+import MessageType from './MessageType';
 
 let id = 0;
 
-function Message(attr) {
+export default function Message(attr) {
     let data = assign({
         type: MessageType.MESSAGE,
         id: id++,
@@ -62,5 +61,3 @@ function Message(attr) {
     /** @type   {boolean}   */
     this.self = data.self;
 }
-
-module.exports = Message;

@@ -1,9 +1,7 @@
-'use strict';
+import Msg from '../../models/Message';
+import MessageType from '../../models/MessageType';
 
-var Msg = require('../../models/Message');
-var MessageType = require('../../models/MessageType');
-
-module.exports = function(irc, network) {
+export default function(irc, network) {
     var client = this;
     irc.on('errors', function(data) {
         var lobby = network.channels[0];
@@ -22,4 +20,4 @@ module.exports = function(irc, network) {
             }
         }
     });
-};
+}

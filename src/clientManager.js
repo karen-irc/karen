@@ -1,18 +1,14 @@
-'use strict';
-
-var _ = require('lodash');
-var fs = require('fs');
-var Client = require('./client');
-var mkdirp = require('mkdirp');
-var Helper = require('./helper');
-var moment = require('moment');
-
-module.exports = ClientManager;
+import _ from 'lodash';
+import fs from 'fs';
+import Client from './client';
+import mkdirp from 'mkdirp';
+import Helper from './helper';
+import moment from 'moment';
 
 /**
  *  @constructor
  */
-function ClientManager() {
+export default function ClientManager() {
     this.clients = [];
 }
 

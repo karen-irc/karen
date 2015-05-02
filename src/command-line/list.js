@@ -1,7 +1,5 @@
-'use strict';
-
-var ClientManager = require('../clientManager');
-var program = require('commander');
+import ClientManager from '../clientManager';
+import program from 'commander';
 
 program
     .command('list')

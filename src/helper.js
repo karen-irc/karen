@@ -1,12 +1,12 @@
-'use strict';
+import path from 'path';
 
-var path = require('path');
-
-module.exports = {
-    HOME: (process.env.HOME || process.env.USERPROFILE) + '/.karen',
-    getConfig: getConfig,
-};
+const HOME = (process.env.HOME || process.env.USERPROFILE) + '/.karen';
 
 function getConfig() {
     return require(path.resolve(this.HOME) + '/config');
 }
+
+export default {
+    HOME,
+    getConfig
+};

@@ -1,8 +1,6 @@
-'use strict';
+import _ from 'lodash';
 
-var _ = require('lodash');
-
-module.exports = function(network, chan, cmd, args) {
+export default function(network, chan, cmd, args) {
     if (cmd !== 'say' && cmd !== 'msg') {
         return;
     }
@@ -30,4 +28,4 @@ module.exports = function(network, chan, cmd, args) {
             message: msg
         });
     }
-};
+}

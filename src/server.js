@@ -1,21 +1,20 @@
-'use strict';
-
-var _ = require('lodash');
-var assign = require('object-assign');
-var bcrypt = require('bcrypt-nodejs');
-var Client = require('./client');
-var ClientManager = require('./clientManager');
-var express = require('express');
-var fs = require('fs');
-var server = require('http');
-var io = require('socket.io');
-var Helper = require('./helper');
+/*eslint-disable block-scoped-var */
+import _ from 'lodash';
+import assign from 'object-assign';
+import bcrypt from 'bcrypt-nodejs';
+import Client from './client';
+import ClientManager from './clientManager';
+import express from 'express';
+import fs from 'fs';
+import server from 'http';
+import io from 'socket.io';
+import Helper from './helper';
 var config = {};
 
 var sockets = null;
 var manager = new ClientManager();
 
-module.exports = function(options) {
+export default function(options) {
     config = Helper.getConfig();
     config = assign(config, options);
 
@@ -69,7 +68,7 @@ module.exports = function(options) {
             manager.autoload();
         }
     }
-};
+}
 
 function index(req, res, next) {
     if (req.url.split('?')[0] !== '/') {

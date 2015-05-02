@@ -1,10 +1,8 @@
-'use strict';
+import _ from 'lodash';
+import Msg from '../../models/Message';
+import MessageType from '../../models/MessageType';
 
-var _ = require('lodash');
-var Msg = require('../../models/Message');
-var MessageType = require('../../models/MessageType');
-
-module.exports = function(irc, network) {
+export default function(irc, network) {
     var client = this;
     irc.on('notice', function(data) {
         var target = data.to;
@@ -32,4 +30,4 @@ module.exports = function(irc, network) {
             msg: msg
         });
     });
-};
+}

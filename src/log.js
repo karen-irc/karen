@@ -1,11 +1,9 @@
-'use strict';
+import fs from 'fs';
+import mkdirp from 'mkdirp';
+import moment from 'moment';
+import Helper from './helper';
 
-var fs = require('fs');
-var mkdirp = require('mkdirp');
-var moment = require('moment');
-var Helper = require('./helper');
-
-module.exports.write = function(user, network, chan, msg) {
+function write(user, network, chan, msg) {
     var path = Helper.HOME + '/logs/' + user + '/' + network;
     try {
         mkdirp.sync(path);
@@ -44,4 +42,8 @@ module.exports.write = function(user, network, chan, msg) {
             }
         }
     );
+}
+
+export default {
+    write
 };
