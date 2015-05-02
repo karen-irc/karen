@@ -1,6 +1,7 @@
 var _ = require("lodash");
 var Chan = require("../../models/chan");
-var Msg = require("../../models/msg");
+var Msg = require("../../models/Message");
+var MessageType = require('../../models/MessageType');
 var User = require("../../models/User");
 
 module.exports = function(irc, network) {
@@ -31,7 +32,7 @@ module.exports = function(irc, network) {
 		}
 		var msg = new Msg({
 			from: data.nick,
-			type: Msg.Type.JOIN,
+			type: MessageType.JOIN,
 			self: self
 		});
 		chan.messages.push(msg);

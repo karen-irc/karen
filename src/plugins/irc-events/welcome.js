@@ -1,4 +1,5 @@
-var Msg = require("../../models/msg");
+var Msg = require("../../models/Message");
+var MessageType = require('../../models/MessageType');
 
 module.exports = function(irc, network) {
 	var client = this;

@@ -1,6 +1,7 @@
 var _ = require("lodash");
 var Chan = require("../../models/chan");
-var Msg = require("../../models/msg");
+var Msg = require("../../models/Message");
+var MessageType = require('../../models/MessageType');
 
 module.exports = function(irc, network) {
 	var client = this;
@@ -31,7 +32,7 @@ module.exports = function(irc, network) {
 		var type = "";
 		var text = data.message;
 		if (text.split(" ")[0] === "\u0001ACTION") {
-			type = Msg.Type.ACTION;
+			type = MessageType.ACTION;
 			text = text.replace(/^\u0001ACTION|\u0001$/g, "");
 		}
 
@@ -50,7 +51,7 @@ module.exports = function(irc, network) {
 
 		var name = data.from;
 		var msg = new Msg({
-			type: type || Msg.Type.MESSAGE,
+			type: type || MessageType.MESSAGE,
 			mode: chan.getMode(name),
 			from: name,
 			text: text,

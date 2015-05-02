@@ -1,4 +1,5 @@
-var Msg = require("../../models/msg");
+var Msg = require("../../models/Message");
+var MessageType = require('../../models/MessageType');
 
 module.exports = function(network, chan, cmd, args) {
 	if (cmd != "slap" && cmd != "me") {
@@ -24,7 +25,7 @@ module.exports = function(network, chan, cmd, args) {
 		);
 		
 		var msg = new Msg({
-			type: Msg.Type.ACTION,
+			type: MessageType.ACTION,
 			from: irc.me,
 			text: text
 		});
