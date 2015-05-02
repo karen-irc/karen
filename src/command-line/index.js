@@ -1,3 +1,7 @@
+/*eslint quotes: [2, "single"]*/
+'use strict';
+
+var path = require('path');
 var program = require('commander');
 var pkg = require('../../package.json');
 var fs = require('fs');
@@ -6,7 +10,7 @@ var Helper = require('../helper');
 
 program.version(pkg.version, '-v, --version');
 program.option('');
-program.option('    --home <path>' , 'home path');
+program.option('    --home <path>', 'home path');
 
 require('./start');
 require('./config');
@@ -26,7 +30,7 @@ if (!fs.existsSync(config)) {
     mkdirp.sync(Helper.HOME);
     fs.writeFileSync(
         config,
-        fs.readFileSync(__dirname + '/../../defaults/config.js')
+        fs.readFileSync(path.resolve(__dirname, '/../../defaults/config.js'))
     );
     console.log('Config created:');
     console.log(config);
