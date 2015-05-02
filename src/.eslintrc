@@ -4,9 +4,6 @@
 
     "rules": {
         // Stylistic Issues
-        "indent": [2, "tab", {
-            "indentSwitchCase": true
-        }],
         "quotes": [2, "double", "avoid-escape"]
     }
 }
