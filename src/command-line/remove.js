@@ -1,4 +1,7 @@
-var ClientManager = new require('../clientManager');
+/*eslint quotes: [2, "single"]*/
+'use strict';
+
+var ClientManager = require('../clientManager');
 var fs = require('fs');
 var program = require('commander');
 var Helper = require('../helper');
@@ -7,9 +10,9 @@ program
     .command('remove <name>')
     .description('Remove an existing user')
     .action(function(name) {
+        var path = Helper.HOME + '/users';
+        var test = path + '/.test';
         try {
-            var path = Helper.HOME + '/users';
-            var test = path + '/.test';
             fs.mkdirSync(test);
             fs.rmdirSync(test);
         } catch (e) {
