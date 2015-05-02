@@ -6,28 +6,25 @@ export default function(network, chan, cmd, args) {
         return;
     }
 
-    var client = this;
-    var irc = network.irc;
-
+    let slap = '';
     switch (cmd) {
         /*eslint-disable no-fallthrough */
         case 'slap':
-            var slap = 'slaps ' + args[0] + ' around a bit with a large trout';
-            /* XXX: fall through */
+            slap = 'slaps ' + args[0] + ' around a bit with a large trout';
+        /* XXX: fall through */
         /*eslint-enable */
 
-        case 'me':
+        case 'me': {
+            const client = this;
+            const irc = network.irc;
             if (args.length === 0) {
                 break;
             }
 
-            var text = slap || args.join(' ');
-            irc.action(
-                chan.name,
-                text
-            );
+            const text = slap || args.join(' ');
+            irc.action(chan.name, text);
 
-            var msg = new Msg({
+            const msg = new Msg({
                 type: MessageType.ACTION,
                 from: irc.me,
                 text: text
@@ -37,6 +34,8 @@ export default function(network, chan, cmd, args) {
                 chan: chan.id,
                 msg: msg
             });
+
             break;
+        }
     }
 }

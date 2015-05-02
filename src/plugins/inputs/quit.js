@@ -5,9 +5,7 @@ export default function(network, chan, cmd, args) {
         return;
     }
 
-    var client = this;
-    var irc = network.irc;
-    var quitMessage = args[0] ? args.join(' ') : '';
+    const client = this;
 
     client.networks = _.without(client.networks, network);
     client.save();
@@ -15,5 +13,7 @@ export default function(network, chan, cmd, args) {
         network: network.id
     });
 
+    const irc = network.irc;
+    const quitMessage = args[0] ? args.join(' ') : '';
     irc.quit(quitMessage);
 }

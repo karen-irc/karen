@@ -3,9 +3,9 @@ export default function(network, chan, cmd, args) {
         return;
     }
     if (args.length !== 0) {
-        var client = this;
+        const client = this;
         client.connect({
-            host: args[0]
+            host: args[0],
         });
     }
 }

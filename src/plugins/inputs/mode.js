@@ -5,26 +5,22 @@ export default function(network, chan, cmd, args) {
         return;
     }
 
-    var mode;
-    var user;
+    let mode = '';
+    let user = null;
     if (cmd !== 'mode') {
         user = args[0];
-        mode = {
-             'op': '+o',
-          'voice': '+v',
-           'deop': '-o',
-        'devoice': '-v'
-        }[cmd];
+        mode = ({
+            op: '+o',
+            voice: '+v',
+            deop: '-o',
+            devoice: '-v'
+        })[cmd];
     } else if (args.length === 1) {
         return;
     } else {
         mode = args[0];
         user = args[1];
     }
-    var irc = network.irc;
-    irc.mode(
-        chan.name,
-        mode,
-        user
-    );
+    const irc = network.irc;
+    irc.mode(chan.name, mode, user);
 }
