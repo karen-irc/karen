@@ -92,16 +92,8 @@ gulp.task('jslint', function () {
     return gulp.src([
             './gulpfile.js',
             './client/script/**/*.js',
-            './defaults/config.js',
-            './src/client.js',
-            './src/clientManager.js',
-            './src/command-line/**/*.js',
-            './src/helper.js',
-            './src/identd.js',
-            './src/log.js',
-            './src/models/**/*.js',
-            './src/plugins/**/*.js',
-            './src/server.js',
+            './defaults/**/*.js',
+            './src/**/*.js',
         ])
         .pipe(eslint(option))
         .pipe(eslint.format())
