@@ -57,7 +57,7 @@ function Network(attr) {
     this.id = data.id;
 
     /** @type   {string}    */
-    this.name = (data.name === '') ? data.name : prettify(data.host);
+    this.name = (data.name !== '') ? data.name : prettify(data.host);
 
     /** @type   {string}    */
     this.host = data.host;
