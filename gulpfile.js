@@ -54,6 +54,22 @@ const SRC = [
 const DIST_CLIENT = './client/dist/';
 const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
 
+/**
+ *  # The rules of task name
+ *
+ *  ## public task
+ *  - This is completed in itself.
+ *  - This is callable as `gulp <taskname>`.
+ *
+ *  ## private task
+ *  - This has some sideeffect in dependent task trees
+ *    and it cannot recovery by self.
+ *  - This is __callable only from public task__.
+ *    DONT CALL as `gulp <taskname>`.
+ *  - MUST name `__taskname`.
+ */
+
+
 gulp.task('__uglify', ['clean:client'], function () {
     return gulp.src(SRC)
         .pipe(uglify('libs.min.js', {
@@ -136,7 +152,3 @@ gulp.task('clean:client', function (callback) {
 gulp.task('build:client', ['__handlebars', '__uglify', '__copy']);
 gulp.task('clean', ['clean:client']);
 gulp.task('default', ['jslint', 'build:client']);
-
-gulp.task('watch', ['build:client'], function () {
-    gulp.watch(SRC, ['build:client']);
-});
