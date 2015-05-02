@@ -5,7 +5,8 @@ var fs = require("fs");
 var identd = require("./identd");
 var log = require("./log");
 var net = require("net");
-var Msg = require("./models/msg");
+var Msg = require("./models/Message");
+var MessageType = require('./models/MessageType');
 var Network = require("./models/network");
 var slate = require("slate-irc");
 var tls = require("tls");
@@ -143,7 +144,7 @@ Client.prototype.connect = function(args) {
 		console.log("Client#connect():\n" + e);
 		stream.end();
 		var msg = new Msg({
-			type: Msg.Type.ERROR,
+			type: MessageType.ERROR,
 			text: "Connection error."
 		});
 		client.emit("msg", {

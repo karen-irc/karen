@@ -1,6 +1,7 @@
 var _ = require("lodash");
 var Chan = require("../../models/chan");
-var Msg = require("../../models/msg");
+var Msg = require("../../models/Message");
+var MessageType = require('../../models/MessageType');
 
 module.exports = function(irc, network) {
 	var client = this;
@@ -33,7 +34,7 @@ module.exports = function(irc, network) {
 				continue;
 			}
 			var msg = new Msg({
-				type: Msg.Type.WHOIS,
+				type: MessageType.WHOIS,
 				from: data.nickname,
 				text: key + " " + data[k]
 			});

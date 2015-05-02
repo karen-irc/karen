@@ -1,5 +1,6 @@
 var _ = require("lodash");
-var Msg = require("../../models/msg");
+var Msg = require("../../models/Message");
+var MessageType = require('../../models/MessageType');
 
 module.exports = function(irc, network) {
 	var client = this;
@@ -15,7 +16,7 @@ module.exports = function(irc, network) {
 		}
 		var topic = data.topic;
 		var msg = new Msg({
-			type: Msg.Type.TOPIC,
+			type: MessageType.TOPIC,
 			mode: chan.getMode(from),
 			from: from,
 			text: topic,

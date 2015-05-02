@@ -1,5 +1,5 @@
 var _ = require("lodash");
-var User = require("../../models/user");
+var User = require("../../models/User");
 
 module.exports = function(irc, network) {
 	var client = this;

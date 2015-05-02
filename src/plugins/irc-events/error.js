@@ -1,11 +1,12 @@
-var Msg = require("../../models/msg");
+var Msg = require("../../models/Message");
+var MessageType = require('../../models/MessageType');
 
 module.exports = function(irc, network) {
 	var client = this;
 	irc.on("errors", function(data) {
 		var lobby = network.channels[0];
 		var msg = new Msg({
-			type: Msg.Type.ERROR,
+			type: MessageType.ERROR,
 			text: data.message,
 		});
 		client.emit("msg", {

@@ -1,6 +1,7 @@
 var _ = require("lodash");
 var cheerio = require("cheerio");
-var Msg = require("../../models/msg");
+var Msg = require("../../models/Message");
+var MessageType = require('../../models/MessageType');
 var request = require("request");
 var Helper = require("../../helper");
 var es = require('event-stream');
@@ -38,7 +39,7 @@ module.exports = function(irc, network) {
 		}
 
 		var msg = new Msg({
-			type: Msg.Type.TOGGLE,
+			type: MessageType.TOGGLE,
 			time: ""
 		});
 		chan.messages.push(msg);

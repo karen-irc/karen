@@ -1,5 +1,6 @@
 var _ = require("lodash");
-var Msg = require("../../models/msg");
+var Msg = require("../../models/Message");
+var MessageType = require('../../models/MessageType');
 
 module.exports = function(irc, network) {
 	var client = this;
@@ -35,7 +36,7 @@ module.exports = function(irc, network) {
 				users: chan.users
 			});
 			var msg = new Msg({
-				type: Msg.Type.NICK,
+				type: MessageType.NICK,
 				from: data.nick,
 				text: nick,
 				self: self
