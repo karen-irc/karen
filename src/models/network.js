@@ -1,6 +1,6 @@
 var _ = require("lodash");
 var assign = require("object-assign");
-var Chan = require("./chan");
+var Chan = require("./Channel");
 
 module.exports = Network;
 

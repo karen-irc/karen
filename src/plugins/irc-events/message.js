@@ -1,5 +1,5 @@
 var _ = require("lodash");
-var Chan = require("../../models/chan");
+var Chan = require("../../models/Channel");
 var Msg = require("../../models/Message");
 var MessageType = require('../../models/MessageType');
 

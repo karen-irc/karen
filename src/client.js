@@ -1,5 +1,5 @@
 var _ = require("lodash");
-var Chan = require("./models/chan");
+var Chan = require("./models/Channel");
 var crypto = require("crypto");
 var fs = require("fs");
 var identd = require("./identd");
