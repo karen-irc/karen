@@ -24,4 +24,4 @@
 
 import Application from './lib/Application';
 
-var shoutApp = new Application();
+let karenApp = new Application();
