@@ -24,6 +24,7 @@
 
 'use strict';
 
+let babel = require('gulp-babel');
 let babelify = require('babelify');
 let browserify = require('browserify');
 let childProcess = require('child_process');
@@ -144,6 +145,15 @@ gulp.task('build:client2', ['jslint'], function () {
         .pipe(gulp.dest('client/dist/'));
 });
 
+gulp.task('__babel:server', ['clean:server'], function () {
+    return gulp.src('./src/**/*.js')
+        .pipe(babel({
+            blacklist: [],
+            sourceMaps: false,
+        }))
+        .pipe(gulp.dest(DIST_SERVER));
+});
+
 gulp.task('clean:client', function (callback) {
     return del([
         DIST_CLIENT,
@@ -156,7 +166,8 @@ gulp.task('clean:server', function (callback) {
     ], callback);
 });
 
+gulp.task('build:server', ['jslint', '__babel:server']);
 gulp.task('build:client', ['__handlebars', '__uglify', '__copy']);
-gulp.task('build', ['jslint', 'build:client']);
+gulp.task('build', ['jslint', 'build:client', 'build:server']);
 gulp.task('clean', ['clean:client', 'clean:server']);
 gulp.task('default', ['build']);
