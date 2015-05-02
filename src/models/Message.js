@@ -34,7 +34,7 @@ let id = 0;
 function Message(attr) {
     let data = assign({
         type: MessageType.MESSAGE,
-        id: id + 1,
+        id: id++,
         text: '',
         time: moment().utc().format('HH:mm:ss'),
         from: '',
