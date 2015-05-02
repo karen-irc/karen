@@ -150,5 +150,6 @@ gulp.task('clean:client', function (callback) {
 });
 
 gulp.task('build:client', ['__handlebars', '__uglify', '__copy']);
+gulp.task('build', ['jslint', 'build:client']);
 gulp.task('clean', ['clean:client']);
-gulp.task('default', ['jslint', 'build:client']);
+gulp.task('default', ['build']);
