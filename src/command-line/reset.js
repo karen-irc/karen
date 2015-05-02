@@ -1,5 +1,8 @@
+/*eslint quotes: [2, "single"]*/
+'use strict';
+
 var bcrypt = require('bcrypt-nodejs');
-var ClientManager = new require('../clientManager');
+var ClientManager = require('../clientManager');
 var fs = require('fs');
 var program = require('commander');
 var Helper = require('../helper');
