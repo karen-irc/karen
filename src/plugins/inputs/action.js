@@ -1,8 +1,11 @@
-var Msg = require("../../models/Message");
+/*eslint quotes: [2, "single"]*/
+'use strict';
+
+var Msg = require('../../models/Message');
 var MessageType = require('../../models/MessageType');
 
 module.exports = function(network, chan, cmd, args) {
-    if (cmd != "slap" && cmd != "me") {
+    if (cmd !== 'slap' && cmd !== 'me') {
         return;
     }
 
@@ -10,30 +13,33 @@ module.exports = function(network, chan, cmd, args) {
     var irc = network.irc;
 
     switch (cmd) {
-    case "slap":
-        var slap = "slaps " + args[0] + " around a bit with a large trout";
-        /* fall through */
-    case "me":
-        if (args.length === 0) {
+        /*eslint-disable no-fallthrough */
+        case 'slap':
+            var slap = 'slaps ' + args[0] + ' around a bit with a large trout';
+            /* XXX: fall through */
+        /*eslint-enable */
+
+        case 'me':
+            if (args.length === 0) {
+                break;
+            }
+
+            var text = slap || args.join(' ');
+            irc.action(
+                chan.name,
+                text
+            );
+
+            var msg = new Msg({
+                type: MessageType.ACTION,
+                from: irc.me,
+                text: text
+            });
+            chan.messages.push(msg);
+            client.emit('msg', {
+                chan: chan.id,
+                msg: msg
+            });
             break;
-        }
-
-        var text = slap || args.join(" ");
-        irc.action(
-            chan.name,
-            text
-        );
-
-        var msg = new Msg({
-            type: MessageType.ACTION,
-            from: irc.me,
-            text: text
-        });
-        chan.messages.push(msg);
-        client.emit("msg", {
-            chan: chan.id,
-            msg: msg
-        });
-        break;
     }
 };

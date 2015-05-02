@@ -1,13 +1,16 @@
-var _ = require("lodash");
+/*eslint quotes: [2, "single"]*/
+'use strict';
+
+var _ = require('lodash');
 
 module.exports = function(network, chan, cmd, args) {
-    if (cmd != "part" && cmd != "leave" && cmd != "close") {
+    if (cmd !== 'part' && cmd !== 'leave' && cmd !== 'close') {
         return;
     }
     var client = this;
-    if (chan.type == "query") {
+    if (chan.type === 'query') {
         network.channels = _.without(network.channels, chan);
-        client.emit("part", {
+        client.emit('part', {
             chan: chan.id
         });
     } else {

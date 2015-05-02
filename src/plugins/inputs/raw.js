@@ -1,9 +1,12 @@
+/*eslint quotes: [2, "single"]*/
+'use strict';
+
 module.exports = function(network, chan, cmd, args) {
-    if (cmd != "raw" && cmd != "send" && cmd != "quote") {
+    if (cmd !== 'raw' && cmd !== 'send' && cmd !== 'quote') {
         return;
     }
     if (args.length !== 0) {
         var irc = network.irc;
-        irc.write(args.join(" "));
+        irc.write(args.join(' '));
     }
 };
