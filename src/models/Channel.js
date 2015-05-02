@@ -36,44 +36,49 @@ const MODES = [
 
 let id = 0;
 
-export default function Channal(attr) {
-    let data = assign({
-        id: id++,
-        messages: [],
-        name: '',
-        topic: '',
-        type: ChannelType.CHANNEL,
-        unread: 0,
-        users: []
-    }, attr);
+export default class Channal {
 
-    /** @type   {number}    */
-    this.id = data.id;
+    /**
+     *  @constructor
+     *  @param  {?} attr
+     */
+    constructor(attr) {
+        let data = assign({
+            id: id++,
+            messages: [],
+            name: '',
+            topic: '',
+            type: ChannelType.CHANNEL,
+            unread: 0,
+            users: []
+        }, attr);
 
-    /** @type   {string}    */
-    this.name = data.name;
+        /** @type   {number}    */
+        this.id = data.id;
 
-    /** @type   {string}    */
-    this.topic = data.topic;
+        /** @type   {string}    */
+        this.name = data.name;
 
-    /** @type   {ChannelType}    */
-    this.type = data.type;
+        /** @type   {string}    */
+        this.topic = data.topic;
 
-    /** @type   {Array}    */
-    this.messages = data.messages;
+        /** @type   {ChannelType}    */
+        this.type = data.type;
 
-    /** @type   {number}    */
-    this.unread = data.unread;
+        /** @type   {Array}    */
+        this.messages = data.messages;
 
-    /** @type   {Array}    */
-    this.users = data.users;
-}
-Channal.prototype = {
+        /** @type   {number}    */
+        this.unread = data.unread;
+
+        /** @type   {Array}    */
+        this.users = data.users;
+    }
 
     /**
      *  @return {void}
      */
-    sortUsers: function() {
+    sortUsers() {
         this.users = _.sortBy(this.users, function(u) {
             return u.name.toLowerCase();
         });
@@ -83,13 +88,13 @@ Channal.prototype = {
                 return u.mode === mode;
             }).concat(this.users);
         }, this);
-    },
+    }
 
     /**
      *  @param  {string}    name
      *  @return {string}
      */
-    getMode: function(name) {
+    getMode(name) {
         let user = _.find(this.users, {name: name});
         if (!!user) {
             return user.mode;
@@ -97,14 +102,14 @@ Channal.prototype = {
         else {
             return '';
         }
-    },
+    }
 
     /**
      *  @return {Channal}
      */
-    toJSON: function() {
+    toJSON() {
         let clone = _.clone(this);
         clone.messages = clone.messages.slice(-100);
         return clone;
-    },
-};
+    }
+}

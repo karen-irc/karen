@@ -29,35 +29,42 @@ import MessageType from './MessageType';
 
 let id = 0;
 
-export default function Message(attr) {
-    let data = assign({
-        type: MessageType.MESSAGE,
-        id: id++,
-        text: '',
-        time: moment().utc().format('HH:mm:ss'),
-        from: '',
-        mode: '',
-        self: false
-    }, attr);
+export default class Message {
 
-    /** @type   {MessageType}  */
-    this.type = data.type;
+    /**
+     *  @constructor
+     *  @param  {?} attr
+     */
+    constructor(attr) {
+        let data = assign({
+            type: MessageType.MESSAGE,
+            id: id++,
+            text: '',
+            time: moment().utc().format('HH:mm:ss'),
+            from: '',
+            mode: '',
+            self: false
+        }, attr);
 
-    /** @type   {number}    */
-    this.id = data.id;
+        /** @type   {MessageType}  */
+        this.type = data.type;
 
-    /** @type   {string}    */
-    this.text = data.text;
+        /** @type   {number}    */
+        this.id = data.id;
 
-    /** @type   {string}    */
-    this.time = data.time;
+        /** @type   {string}    */
+        this.text = data.text;
 
-    /** @type   {string}    */
-    this.from = data.from;
+        /** @type   {string}    */
+        this.time = data.time;
 
-    /** @type   {string}    */
-    this.mode = data.mode;
+        /** @type   {string}    */
+        this.from = data.from;
 
-    /** @type   {boolean}   */
-    this.self = data.self;
+        /** @type   {string}    */
+        this.mode = data.mode;
+
+        /** @type   {boolean}   */
+        this.self = data.self;
+    }
 }
