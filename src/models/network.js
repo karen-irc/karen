@@ -1,4 +1,5 @@
 var _ = require("lodash");
+var assign = require("object-assign");
 var Chan = require("./chan");
 
 module.exports = Network;
@@ -6,7 +7,7 @@ module.exports = Network;
 var id = 0;
 
 function Network(attr) {
-	_.merge(this, _.extend({
+	_.merge(this, assign({
 		name: "",
 		host: "",
 		port: 6667,
@@ -30,7 +31,7 @@ function Network(attr) {
 }
 
 Network.prototype.toJSON = function() {
-	var json = _.extend(this, {nick: (this.irc || {}).me || ""});
+	var json = assign(this, {nick: (this.irc || {}).me || ""});
 	return _.omit(json, "irc", "password");
 };
 

@@ -1,4 +1,5 @@
 var _ = require("lodash");
+var assign = require("object-assign");
 var bcrypt = require("bcrypt-nodejs");
 var Client = require("./client");
 var ClientManager = require("./clientManager");
@@ -13,7 +14,7 @@ var manager = new ClientManager();
 
 module.exports = function(options) {
 	config = Helper.getConfig();
-	config = _.extend(config, options);
+	config = assign(config, options);
 
 	var app = express()
 		.use(index)
