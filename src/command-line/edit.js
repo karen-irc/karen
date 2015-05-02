@@ -1,22 +1,25 @@
-var ClientManager = new require("../clientManager");
-var program = require("commander");
-var child = require("child_process");
-var Helper = require("../helper");
+/*eslint quotes: [2, "single"]*/
+'use strict';
+
+var ClientManager = require('../clientManager');
+var program = require('commander');
+var child = require('child_process');
+var Helper = require('../helper');
 
 program
-    .command("edit <name>")
-    .description("Edit user: '" + Helper.HOME + "/users/<name>.json'")
+    .command('edit <name>')
+    .description('Edit user: \'' + Helper.HOME + '/users/<name>.json\'')
     .action(function(name) {
         var users = new ClientManager().getUsers();
         if (users.indexOf(name) === -1) {
-            console.log("");
-            console.log("User '" + name + "' doesn't exist.");
-            console.log("");
+            console.log('');
+            console.log('User \'' + name + '\' doesn\'t exist.');
+            console.log('');
             return;
         }
         child.spawn(
-            process.env.EDITOR || "vi",
-            [require("path").join(Helper.HOME, "users", name + ".json")],
-            {stdio: "inherit"}
+            process.env.EDITOR || 'vi',
+            [require('path').join(Helper.HOME, 'users', name + '.json')],
+            {stdio: 'inherit'}
         );
     });
