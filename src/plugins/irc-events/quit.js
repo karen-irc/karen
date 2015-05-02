@@ -1,18 +1,20 @@
-var _ = require("lodash");
-var Msg = require("../../models/Message");
+'use strict';
+
+var _ = require('lodash');
+var Msg = require('../../models/Message');
 var MessageType = require('../../models/MessageType');
 
 module.exports = function(irc, network) {
     var client = this;
-    irc.on("quit", function(data) {
+    irc.on('quit', function(data) {
         network.channels.forEach(function(chan) {
             var from = data.nick;
             var user = _.findWhere(chan.users, {name: from});
-            if (typeof user === "undefined") {
+            if (typeof user === 'undefined') {
                 return;
             }
             chan.users = _.without(chan.users, user);
-            client.emit("users", {
+            client.emit('users', {
                 chan: chan.id,
                 users: chan.users
             });
@@ -22,7 +24,7 @@ module.exports = function(irc, network) {
                 from: from
             });
             chan.messages.push(msg);
-            client.emit("msg", {
+            client.emit('msg', {
                 chan: chan.id,
                 msg: msg
             });
