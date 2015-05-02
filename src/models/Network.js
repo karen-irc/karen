@@ -27,13 +27,18 @@
 
 const _ = require('lodash');
 const assign = require('object-assign');
-const Chan = require('./Channel');
+const Channel = require('./Channel');
 const ChannelType = require('./ChannelType');
 
+/** @type   {number}    */
 let id = 0;
 
+/**
+ *  @constructor
+ *  @param  {Object} attr
+ */
 function Network(attr) {
-    _.merge(this, assign({
+    let data = assign({
         name: '',
         host: '',
         port: 6667,
@@ -46,40 +51,90 @@ function Network(attr) {
         connected: false,
         id: id++,
         irc: null,
-    }, attr));
-    this.name = attr.name || prettify(attr.host);
+    }, attr);
+
+    /** @type   {number}    */
+    this.id = data.id;
+
+    /** @type   {string}    */
+    this.name = (data.name === '') ? data.name : prettify(data.host);
+
+    /** @type   {string}    */
+    this.host = data.host;
+
+    /** @type   {number}    */
+    this.port = data.port;
+
+    /** @type   {boolean}   */
+    this.tls = data.tls;
+
+    /** @type   {string}    */
+    this.password = data.password;
+
+    /** @type   {Array} */
+    this.commands = data.commands;
+
+    // FIXME: create the object which represents user account information.
+
+    /** @type   {string}  */
+    this.username = data.username;
+
+    /** @type   {string}    */
+    this.realname = data.realname;
+
+    /** @type   {Array<Channel>} */
+    this.channels = data.channels;
+
+    /** @type   {boolean}   */
+    this.connected = data.connected;
+
+    /** @type   {?} */
+    this.irc = data.irc;
+
     this.channels.unshift(
-        new Chan({
+        new Channel({
             name: this.name,
             type: ChannelType.LOBBY
         })
     );
 }
+Network.prototype = {
 
-Network.prototype.toJSON = function() {
-    let json = assign(this, {nick: (this.irc || {}).me || ''});
-    return _.omit(json, 'irc', 'password');
+    /**
+     *  @return {?}
+     */
+    export: function() {
+        let network = _.pick(this, [
+            'name',
+            'host',
+            'port',
+            'tls',
+            'password',
+            'username',
+            'realname',
+            'commands'
+        ]);
+        network.nick = (this.irc || {}).me;
+        network.join = _.pluck(
+            _.where(this.channels, {type: 'channel'}),
+            'name'
+        ).join(',');
+        return network;
+    },
+
+    /**
+     *  @return {Object}
+     */
+    toJSON: function() {
+        let json = assign(this, {nick: (this.irc || {}).me || ''});
+        return _.omit(json, 'irc', 'password');
+    },
 };
 
-Network.prototype.export = function() {
-    let network = _.pick(this, [
-        'name',
-        'host',
-        'port',
-        'tls',
-        'password',
-        'username',
-        'realname',
-        'commands'
-    ]);
-    network.nick = (this.irc || {}).me;
-    network.join = _.pluck(
-        _.where(this.channels, {type: 'channel'}),
-        'name'
-    ).join(',');
-    return network;
-};
-
+/**
+ *  @param  {string}    host
+ *  @return {string}
+ */
 function prettify(host) {
     let name = capitalize(host.split('.')[1]);
     if (!name) {
@@ -88,10 +143,17 @@ function prettify(host) {
     return name;
 }
 
+/**
+ *  @param  {string}    str
+ *  @return {string}
+ *  @throws {Error}
+ */
 function capitalize(str) {
-    if (typeof str === 'string') {
-        return str.charAt(0).toUpperCase() + str.slice(1);
+    if (typeof str !== 'string') {
+        throw new Error();
     }
+
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 module.exports = Network;
