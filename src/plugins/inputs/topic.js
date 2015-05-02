@@ -1,11 +1,14 @@
+/*eslint quotes: [2, "single"]*/
+'use strict';
+
 module.exports = function(network, chan, cmd, args) {
-    if (cmd != "topic") {
+    if (cmd !== 'topic') {
         return;
     }
 
-    var msg = "TOPIC";
-    msg += " " + chan.name;
-    msg += args[0] ? (" :" + args.join(" ")) : "";
+    var msg = 'TOPIC';
+    msg += ' ' + chan.name;
+    msg += args[0] ? (' :' + args.join(' ')) : '';
 
     var irc = network.irc;
     irc.write(msg);
