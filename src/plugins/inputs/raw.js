@@ -3,7 +3,7 @@ export default function(network, chan, cmd, args) {
         return;
     }
     if (args.length !== 0) {
-        var irc = network.irc;
+        const irc = network.irc;
         irc.write(args.join(' '));
     }
 }

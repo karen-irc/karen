@@ -4,18 +4,22 @@ export default function(network, chan, cmd, args) {
     if (cmd !== 'ns' && cmd !== 'cs' && cmd !== 'hs') {
         return;
     }
-    var target = ({
-        'ns': 'nickserv',
-        'cs': 'chanserv',
-        'hs': 'hostserv',
-    })[cmd];
+
+    const target = ({
+        ns: 'nickserv',
+        cs: 'chanserv',
+        hs: 'hostserv' })[cmd];
     if (!target || args.length === 0 || args[0] === '') {
         return;
     }
-    var irc = network.irc;
-    var msg = args.join(' ');
+
+    const irc = network.irc;
+    const msg = args.join(' ');
     irc.send(target, msg);
-    var channel = _.find(network.channels, {name: target});
+
+    const channel = _.find(network.channels, {
+        name: target,
+    });
     if (typeof channel !== 'undefined') {
         irc.emit('message', {
             from: irc.me,

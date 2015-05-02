@@ -4,14 +4,15 @@ export default function(network, chan, cmd, args) {
     if (cmd !== 'part' && cmd !== 'leave' && cmd !== 'close') {
         return;
     }
-    var client = this;
+
     if (chan.type === 'query') {
+        const client = this;
         network.channels = _.without(network.channels, chan);
         client.emit('part', {
             chan: chan.id
         });
     } else {
-        var irc = network.irc;
+        const irc = network.irc;
         if (args.length === 0) {
             args.push(chan.name);
         }

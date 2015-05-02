@@ -3,10 +3,10 @@ export default function(network, chan, cmd, args) {
         return;
     }
 
-    var msg = 'TOPIC';
+    let msg = 'TOPIC';
     msg += ' ' + chan.name;
-    msg += args[0] ? (' :' + args.join(' ')) : '';
+    msg += args[0] ? ' :' + args.join(' ') : '';
 
-    var irc = network.irc;
+    const irc = network.irc;
     irc.write(msg);
 }
