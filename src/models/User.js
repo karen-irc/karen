@@ -31,7 +31,7 @@ function User(attr) {
     let data = assign({
         mode: '',
         name: '',
-    });
+    }, attr);
 
     /** @type {string} */
     this.mode = data.mode;
