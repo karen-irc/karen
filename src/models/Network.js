@@ -1,11 +1,11 @@
-var _ = require("lodash");
-var assign = require("object-assign");
-var Chan = require("./Channel");
-var ChannelType = require('./ChannelType');
+'use strict';
 
-module.exports = Network;
+const _ = require("lodash");
+const assign = require("object-assign");
+const Chan = require("./Channel");
+const ChannelType = require('./ChannelType');
 
-var id = 0;
+let id = 0;
 
 function Network(attr) {
     _.merge(this, assign({
@@ -32,12 +32,12 @@ function Network(attr) {
 }
 
 Network.prototype.toJSON = function() {
-    var json = assign(this, {nick: (this.irc || {}).me || ""});
+    let json = assign(this, {nick: (this.irc || {}).me || ""});
     return _.omit(json, "irc", "password");
 };
 
 Network.prototype.export = function() {
-    var network = _.pick(this, [
+    let network = _.pick(this, [
         "name",
         "host",
         "port",
@@ -56,7 +56,7 @@ Network.prototype.export = function() {
 };
 
 function prettify(host) {
-    var name = capitalize(host.split(".")[1]);
+    let name = capitalize(host.split(".")[1]);
     if (!name) {
         name = host;
     }
@@ -68,3 +68,5 @@ function capitalize(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 }
+
+module.exports = Network;
