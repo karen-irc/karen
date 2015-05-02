@@ -1,37 +1,39 @@
-var _ = require("lodash");
-var Msg = require("../../models/Message");
+'use strict';
+
+var _ = require('lodash');
+var Msg = require('../../models/Message');
 var MessageType = require('../../models/MessageType');
 
 module.exports = function(irc, network) {
     var client = this;
-    irc.on("nick", function(data) {
+    irc.on('nick', function(data) {
         var self = false;
-        var nick = data["new"];
-        if (nick == irc.me) {
+        var nick = data.new;
+        if (nick === irc.me) {
             var lobby = network.channels[0];
             var msg = new Msg({
-                text: "You're now known as " + nick,
+                text: 'You\'re now known as ' + nick,
             });
             lobby.messages.push(msg);
-            client.emit("msg", {
+            client.emit('msg', {
                 chan: lobby.id,
                 msg: msg
             });
             self = true;
             client.save();
-            client.emit("nick", {
+            client.emit('nick', {
                 network: network.id,
                 nick: nick
             });
         }
         network.channels.forEach(function(chan) {
             var user = _.findWhere(chan.users, {name: data.nick});
-            if (typeof user === "undefined") {
+            if (typeof user === 'undefined') {
                 return;
             }
             user.name = nick;
             chan.sortUsers();
-            client.emit("users", {
+            client.emit('users', {
                 chan: chan.id,
                 users: chan.users
             });
@@ -42,7 +44,7 @@ module.exports = function(irc, network) {
                 self: self
             });
             chan.messages.push(msg);
-            client.emit("msg", {
+            client.emit('msg', {
                 chan: chan.id,
                 msg: msg
             });
