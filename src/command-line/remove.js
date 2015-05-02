@@ -1,9 +1,7 @@
-'use strict';
-
-var ClientManager = require('../clientManager');
-var fs = require('fs');
-var program = require('commander');
-var Helper = require('../helper');
+import ClientManager from '../clientManager';
+import fs from 'fs';
+import program from 'commander';
+import Helper from '../helper';
 
 program
     .command('remove <name>')

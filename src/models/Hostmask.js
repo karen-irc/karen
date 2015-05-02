@@ -22,11 +22,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-'use strict';
 
-const assign = require('object-assign');
+import assign from 'object-assign';
 
-function Hostmask(attr) {
+export default function Hostmask(attr) {
     let data = assign({
         nick: '',
         username: '',
@@ -46,5 +45,3 @@ function Hostmask(attr) {
     /** @type   {number}    */
     this.string = data.string;
 }
-
-module.exports = Hostmask;

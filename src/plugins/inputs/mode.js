@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = function(network, chan, cmd, args) {
+export default function(network, chan, cmd, args) {
     if (cmd !== 'mode' && cmd !== 'op' && cmd !== 'voice' && cmd !== 'deop' && cmd !== 'devoice') {
         return;
     } else if (args.length === 0) {
@@ -29,4 +27,4 @@ module.exports = function(network, chan, cmd, args) {
         mode,
         user
     );
-};
+}

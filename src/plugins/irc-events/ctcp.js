@@ -1,8 +1,6 @@
-'use strict';
-
 var pkg = require(process.cwd() + '/package.json');
 
-module.exports = function(irc, network) {
+export default function(irc, network) {
     irc.on('message', function(data) {
         if (data.message.indexOf('\u0001') !== 0) {
             return;
@@ -23,4 +21,4 @@ module.exports = function(irc, network) {
                 break;
         }
     });
-};
+}

@@ -22,21 +22,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-'use strict';
 
-const _ = require('lodash');
-const assign = require('object-assign');
-const Channel = require('./Channel');
-const ChannelType = require('./ChannelType');
+import _ from 'lodash';
+import assign from 'object-assign';
+import Channel from './Channel';
+import ChannelType from './ChannelType';
 
 /** @type   {number}    */
 let id = 0;
 
 /**
+ *  @param  {string}    str
+ *  @return {string}
+ *  @throws {Error}
+ */
+function capitalize(str) {
+    if (typeof str !== 'string') {
+        throw new Error();
+    }
+
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+/**
+ *  @param  {string}    host
+ *  @return {string}
+ */
+function prettify(host) {
+    let name = capitalize(host.split('.')[1]);
+    if (!name) {
+        name = host;
+    }
+    return name;
+}
+
+/**
  *  @constructor
  *  @param  {Object} attr
  */
-function Network(attr) {
+export default function Network(attr) {
     let data = assign({
         name: '',
         host: '',
@@ -129,30 +153,3 @@ Network.prototype = {
         return _.omit(json, 'irc', 'password');
     },
 };
-
-/**
- *  @param  {string}    host
- *  @return {string}
- */
-function prettify(host) {
-    let name = capitalize(host.split('.')[1]);
-    if (!name) {
-        name = host;
-    }
-    return name;
-}
-
-/**
- *  @param  {string}    str
- *  @return {string}
- *  @throws {Error}
- */
-function capitalize(str) {
-    if (typeof str !== 'string') {
-        throw new Error();
-    }
-
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-module.exports = Network;

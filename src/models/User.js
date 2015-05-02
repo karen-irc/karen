@@ -22,11 +22,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-'use strict';
 
-const assign = require('object-assign');
+import assign from 'object-assign';
 
-function User(attr) {
+export default function User(attr) {
     let data = assign({
         mode: '',
         name: '',
@@ -38,5 +37,3 @@ function User(attr) {
     /** @type {string} */
     this.name = data.name;
 }
-
-module.exports = User;

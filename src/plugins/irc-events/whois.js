@@ -1,12 +1,10 @@
-'use strict';
+import _ from 'lodash';
+import Chan from '../../models/Channel';
+import ChannelType from '../../models/ChannelType';
+import Msg from '../../models/Message';
+import MessageType from '../../models/MessageType';
 
-var _ = require('lodash');
-var Chan = require('../../models/Channel');
-var ChannelType = require('../../models/ChannelType');
-var Msg = require('../../models/Message');
-var MessageType = require('../../models/MessageType');
-
-module.exports = function(irc, network) {
+export default function(irc, network) {
     var client = this;
     irc.on('whois', function(err, data) {
         if (!!err) {
@@ -52,4 +50,4 @@ module.exports = function(irc, network) {
             });
         }
     });
-};
+}

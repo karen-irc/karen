@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = function(network, chan, cmd, args) {
+export default function(network, chan, cmd, args) {
     if (cmd !== 'connect' && cmd !== 'server') {
         return;
     }
@@ -10,4 +8,4 @@ module.exports = function(network, chan, cmd, args) {
             host: args[0]
         });
     }
-};
+}

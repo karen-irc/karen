@@ -1,21 +1,17 @@
-'use strict';
-
-var _ = require('lodash');
-var Chan = require('./models/Channel');
-var ChannelType = require('./models/ChannelType');
-var crypto = require('crypto');
-var fs = require('fs');
-var identd = require('./identd');
-var log = require('./log');
-var net = require('net');
-var Msg = require('./models/Message');
-var MessageType = require('./models/MessageType');
-var Network = require('./models/Network');
-var slate = require('slate-irc');
-var tls = require('tls');
-var Helper = require('./helper');
-
-module.exports = Client;
+import _ from 'lodash';
+import Chan from './models/Channel';
+import ChannelType from './models/ChannelType';
+import crypto from 'crypto';
+import fs from 'fs';
+import identd from './identd';
+import log from './log';
+import net from 'net';
+import Msg from './models/Message';
+import MessageType from './models/MessageType';
+import Network from './models/Network';
+import slate from 'slate-irc';
+import tls from 'tls';
+import Helper from './helper';
 
 var id = 0;
 var events = [
@@ -54,7 +50,7 @@ var inputs = [
     'whois'
 ];
 
-function Client(sockets, name, config) {
+export default function Client(sockets, name, config) {
     _.merge(this, {
         activeChannel: -1,
         config: config,

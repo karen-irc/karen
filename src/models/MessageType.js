@@ -22,10 +22,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-'use strict';
 
 /** @enum {string} */
-const MessageType = Object.freeze({
+export default Object.freeze({
     ACTION: 'action',
     ERROR: 'error',
     JOIN: 'join',
@@ -41,5 +40,3 @@ const MessageType = Object.freeze({
     TOPIC: 'topic',
     WHOIS: 'whois'
 });
-
-module.exports = MessageType;

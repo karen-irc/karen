@@ -1,11 +1,9 @@
-'use strict';
-
-var fs = require('fs');
-var path = require('path');
-var program = require('commander');
-var mkdirp = require('mkdirp');
-var child = require('child_process');
-var Helper = require('../helper');
+import fs from 'fs';
+import path from 'path';
+import program from 'commander';
+import mkdirp from 'mkdirp';
+import child from 'child_process';
+import Helper from '../helper';
 
 program
     .command('config')

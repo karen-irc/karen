@@ -1,10 +1,8 @@
-'use strict';
+import _ from 'lodash';
+import Msg from '../../models/Message';
+import MessageType from '../../models/MessageType';
 
-var _ = require('lodash');
-var Msg = require('../../models/Message');
-var MessageType = require('../../models/MessageType');
-
-module.exports = function(irc, network) {
+export default function(irc, network) {
     var client = this;
     irc.on('topic', function(data) {
         var chan = _.findWhere(network.channels, {name: data.channel});
@@ -35,4 +33,4 @@ module.exports = function(irc, network) {
             topic: chan.topic
         });
     });
-};
+}

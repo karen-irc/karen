@@ -22,13 +22,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-'use strict';
 
 /** @enum {string} */
-const ChannelType = Object.freeze({
+export default Object.freeze({
     CHANNEL: 'channel',
     LOBBY: 'lobby',
     QUERY: 'query',
 });
-
-module.exports = ChannelType;

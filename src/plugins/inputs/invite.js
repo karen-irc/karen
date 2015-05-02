@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = function(network, chan, cmd, args) {
+export default function(network, chan, cmd, args) {
     if (cmd !== 'invite') {
         return;
     }
@@ -8,4 +6,4 @@ module.exports = function(network, chan, cmd, args) {
     if (args.length === 2) {
         irc.invite(args[0], args[1]);
     }
-};
+}
