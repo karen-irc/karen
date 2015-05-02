@@ -1,57 +1,57 @@
 'use strict';
 
-var _ = require("lodash");
-var Chan = require("./models/Channel");
+var _ = require('lodash');
+var Chan = require('./models/Channel');
 var ChannelType = require('./models/ChannelType');
-var crypto = require("crypto");
-var fs = require("fs");
-var identd = require("./identd");
-var log = require("./log");
-var net = require("net");
-var Msg = require("./models/Message");
+var crypto = require('crypto');
+var fs = require('fs');
+var identd = require('./identd');
+var log = require('./log');
+var net = require('net');
+var Msg = require('./models/Message');
 var MessageType = require('./models/MessageType');
-var Network = require("./models/Network");
-var slate = require("slate-irc");
-var tls = require("tls");
-var Helper = require("./helper");
+var Network = require('./models/Network');
+var slate = require('slate-irc');
+var tls = require('tls');
+var Helper = require('./helper');
 
 module.exports = Client;
 
 var id = 0;
 var events = [
-    "ctcp",
-    "error",
-    "join",
-    "kick",
-    "mode",
-    "motd",
-    "message",
-    "link",
-    "names",
-    "nick",
-    "notice",
-    "part",
-    "quit",
-    "topic",
-    "welcome",
-    "whois"
+    'ctcp',
+    'error',
+    'join',
+    'kick',
+    'mode',
+    'motd',
+    'message',
+    'link',
+    'names',
+    'nick',
+    'notice',
+    'part',
+    'quit',
+    'topic',
+    'welcome',
+    'whois'
 ];
 var inputs = [
-    "action",
-    "connect",
-    "invite",
-    "join",
-    "kick",
-    "mode",
-    "msg",
-    "nick",
-    "notice",
-    "part",
-    "quit",
-    "raw",
-    "services",
-    "topic",
-    "whois"
+    'action',
+    'connect',
+    'invite',
+    'join',
+    'kick',
+    'mode',
+    'msg',
+    'nick',
+    'notice',
+    'part',
+    'quit',
+    'raw',
+    'services',
+    'topic',
+    'whois'
 ];
 
 function Client(sockets, name, config) {
@@ -69,7 +69,7 @@ function Client(sockets, name, config) {
             throw err;
         }
 
-        client.token = buf.toString("hex");
+        client.token = buf.toString('hex');
     });
     if (config) {
         var delay = 0;
@@ -88,7 +88,7 @@ Client.prototype.emit = function(event, data) {
     }
     var config = this.config || {};
     if (config.log === true) {
-        if (event === "msg") {
+        if (event === 'msg') {
             var target = this.find(data.chan);
             if (target) {
                 var chan = target.chan.name;
@@ -131,8 +131,8 @@ Client.prototype.connect = function(args) {
     var config = Helper.getConfig();
     var client = this;
     var server = {
-        name: args.name || "",
-        host: args.host || "irc.freenode.org",
+        name: args.name || '',
+        host: args.host || 'irc.freenode.org',
         port: args.port || (args.tls ? 6697 : 6667),
         rejectUnauthorized: false
     };
@@ -147,21 +147,21 @@ Client.prototype.connect = function(args) {
 
     var stream = args.tls ? tls.connect(server) : net.connect(server);
 
-    stream.on("error", function(e) {
-        console.log("Client#connect():\n" + e);
+    stream.on('error', function(e) {
+        console.log('Client#connect():\n' + e);
         stream.end();
         var msg = new Msg({
             type: MessageType.ERROR,
-            text: "Connection error."
+            text: 'Connection error.'
         });
-        client.emit("msg", {
+        client.emit('msg', {
             msg: msg
         });
     });
 
-    var nick = args.nick || "shout-user";
+    var nick = args.nick || 'shout-user';
     var username = args.username || nick.replace(/[^a-zA-Z0-9]/g, '');
-    var realname = args.realname || "Shout User";
+    var realname = args.realname || 'Shout User';
 
     var irc = slate(stream);
     identd.hook(stream, username);
@@ -188,19 +188,19 @@ Client.prototype.connect = function(args) {
     network.irc = irc;
 
     client.networks.push(network);
-    client.emit("network", {
+    client.emit('network', {
         network: network
     });
 
     events.forEach(function(plugin) {
-        var path = "./plugins/irc-events/" + plugin;
+        var path = './plugins/irc-events/' + plugin;
         require(path).apply(client, [
             irc,
             network
         ]);
     });
 
-    irc.once("welcome", function() {
+    irc.once('welcome', function() {
         var delay = 1000;
         var commands = args.commands;
         if (Array.isArray(commands)) {
@@ -215,14 +215,14 @@ Client.prototype.connect = function(args) {
             });
         }
         setTimeout(function() {
-            irc.write("PING " + network.host);
+            irc.write('PING ' + network.host);
         }, delay);
     });
 
-    irc.once("pong", function() {
-        var join = (args.join || "");
+    irc.once('pong', function() {
+        var join = (args.join || '');
         if (join) {
-            join = join.replace(/\,/g, " ").split(/\s+/g);
+            join = join.replace(/\,/g, ' ').split(/\s+/g);
             irc.join(join);
         }
     });
@@ -232,15 +232,15 @@ Client.prototype.input = function(data) {
     var client = this;
     var text = data.text.trim();
     var target = client.find(data.target);
-    if (text.charAt(0) !== "/") {
-        text = "/say " + text;
+    if (text.charAt(0) !== '/') {
+        text = '/say ' + text;
     }
-    var args = text.split(" ");
-    var cmd = args.shift().replace("/", "").toLowerCase();
+    var args = text.split(' ');
+    var cmd = args.shift().replace('/', '').toLowerCase();
     _.each(inputs, function(plugin) {
         var path = '';
         try {
-            path = "./plugins/inputs/" + plugin;
+            path = './plugins/inputs/' + plugin;
             var fn = require(path);
             fn.apply(client, [
                 target.network,
@@ -249,7 +249,7 @@ Client.prototype.input = function(data) {
                 args
             ]);
         } catch (e) {
-            console.log(path + ": " + e);
+            console.log(path + ': ' + e);
         }
     });
 };
@@ -263,7 +263,7 @@ Client.prototype.more = function(data) {
     var chan = target.chan;
     var count = chan.messages.length - (data.count || 0);
     var messages = chan.messages.slice(Math.max(0, count - 100), count);
-    client.emit("more", {
+    client.emit('more', {
         chan: chan.id,
         messages: messages
     });
@@ -285,7 +285,7 @@ Client.prototype.sort = function(data) {
     var sorted = null;
 
     switch (type) {
-    case "networks":
+    case 'networks':
         sorted = [];
         _.each(order, function(i) {
             var find = _.find(self.networks, {id: i});
@@ -296,7 +296,7 @@ Client.prototype.sort = function(data) {
         self.networks = sorted;
         break;
 
-    case "channels":
+    case 'channels':
         var target = data.target;
         var network = _.find(self.networks, {id: target});
         if (!network) {
@@ -351,7 +351,7 @@ Client.prototype.save = function(force) {
     }
 
     var name = this.name;
-    var path = Helper.HOME + "/users/" + name + ".json";
+    var path = Helper.HOME + '/users/' + name + '.json';
 
     var networks = _.map(
         this.networks,
@@ -361,7 +361,7 @@ Client.prototype.save = function(force) {
     );
 
     var json = {};
-    fs.readFile(path, "utf-8", function(err, data) {
+    fs.readFile(path, 'utf-8', function(err, data) {
         if (err) {
             console.log(err);
             return;
@@ -377,8 +377,8 @@ Client.prototype.save = function(force) {
 
         fs.writeFile(
             path,
-            JSON.stringify(json, null, "  "),
-            {mode: "0777"},
+            JSON.stringify(json, null, '  '),
+            {mode: '0777'},
             function(err) {
                 if (err) {
                     console.log(err);
