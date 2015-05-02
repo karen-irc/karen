@@ -32,7 +32,7 @@ let eslint = require('gulp-eslint');
 let gulp = require('gulp');
 let path = require('path');
 let source = require('vinyl-source-stream');
-let uglify = require('gulp-uglify');
+let uglify = require('gulp-uglifyjs');
 
 const isRelease = process.env.NODE_ENV === 'production';
 
@@ -54,8 +54,7 @@ const DIST_JS = 'client/dist/js/';
 
 gulp.task('uglify', function () {
     return gulp.src(SRC)
-        .pipe(concat('libs.min.js'))
-        .pipe(uglify({
+        .pipe(uglify('libs.min.js', {
             compress: false,
         }))
         .pipe(gulp.dest(DIST_JS));
