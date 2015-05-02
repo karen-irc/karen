@@ -162,7 +162,7 @@ Client.prototype.connect = function(args) {
 
     var nick = args.nick || 'karen-user';
     var username = args.username || nick.replace(/[^a-zA-Z0-9]/g, '');
-    var realname = args.realname || 'Karen User';
+    var realname = args.realname || 'karen User';
 
     var irc = slate(stream);
     identd.hook(stream, username);

@@ -32,7 +32,7 @@ let Footer = React.createClass({
             <footer id='footer'>
 
                 <Button className='icon sign-in'
-                        tooltip='Sign in to Karen'
+                        tooltip='Sign in to karen'
                         target='#sign-in'
                         title='Sign in'/>
 

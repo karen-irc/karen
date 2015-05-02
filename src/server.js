@@ -61,7 +61,7 @@ module.exports = function(options) {
     manager.sockets = sockets;
 
     console.log('');
-    console.log('Karen is now running on ' + protocol + '://' + config.host + ':' + config.port + '/');
+    console.log('karen is now running on ' + protocol + '://' + config.host + ':' + config.port + '/');
     console.log('Press ctrl-c to stop');
     console.log('');
 

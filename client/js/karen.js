@@ -482,7 +482,7 @@ $(function() {
 			.sticky()
 			.end();
 
-		var title = "Shout";
+		var title = "karen";
 		if (chan.data("title")) {
 			title = chan.data("title") + " — " + title;
 		}

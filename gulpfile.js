@@ -74,7 +74,7 @@ gulp.task('build', ['copy'], function () {
         String(handlebars),
         'client/views/',
         '-e', 'tpl',
-        '-f', 'client/dist/js/shout.templates.js',
+        '-f', 'client/dist/js/karen.templates.js',
     ];
 
     let option = {
@@ -107,7 +107,7 @@ gulp.task('jslint', function () {
 });
 
 gulp.task('build2', ['jslint'], function () {
-    const SRC_JS = ['./client/script/shout.js'];
+    const SRC_JS = ['./client/script/karen.js'];
 
     let option = {
         insertGlobals: false,
