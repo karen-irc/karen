@@ -1,17 +1,20 @@
-var _ = require("lodash");
+/*eslint quotes: [2, "single"]*/
+'use strict';
+
+var _ = require('lodash');
 
 module.exports = function(network, chan, cmd, args) {
-    if (cmd != "quit" && cmd != "disconnect") {
+    if (cmd !== 'quit' && cmd !== 'disconnect') {
         return;
     }
 
     var client = this;
     var irc = network.irc;
-    var quitMessage = args[0] ? args.join(" ") : "";
+    var quitMessage = args[0] ? args.join(' ') : '';
 
     client.networks = _.without(client.networks, network);
     client.save();
-    client.emit("quit", {
+    client.emit('quit', {
         network: network.id
     });
 
