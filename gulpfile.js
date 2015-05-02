@@ -97,6 +97,7 @@ gulp.task('jslint', function () {
             './src/command-line/**/*.js',
             './src/helper.js',
             './src/identd.js',
+            './src/log.js',
             './src/models/**/*.js',
         ])
         .pipe(eslint(option))
