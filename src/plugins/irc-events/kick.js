@@ -1,31 +1,33 @@
-var _ = require("lodash");
-var Msg = require("../../models/Message");
+'use strict';
+
+var _ = require('lodash');
+var Msg = require('../../models/Message');
 var MessageType = require('../../models/MessageType');
 
 module.exports = function(irc, network) {
     var client = this;
-    irc.on("kick", function(data) {
+    irc.on('kick', function(data) {
         var from = data.nick;
         var chan = _.findWhere(network.channels, {name: data.channel});
         var mode = chan.getMode(from);
 
-        if (typeof chan === "undefined") {
+        if (typeof chan === 'undefined') {
             return;
         }
 
-        if (data.client == irc.me) {
+        if (data.client === irc.me) {
             chan.users = [];
         } else {
             chan.users = _.without(chan.users, _.findWhere(chan.users, {name: data.client}));
         }
 
-        client.emit("users", {
+        client.emit('users', {
             chan: chan.id,
             users: chan.users
         });
 
         var self = false;
-        if (data.nick.toLowerCase() == irc.me.toLowerCase()) {
+        if (data.nick.toLowerCase() === irc.me.toLowerCase()) {
             self = true;
         }
 
@@ -37,7 +39,7 @@ module.exports = function(irc, network) {
             self: self
         });
         chan.messages.push(msg);
-        client.emit("msg", {
+        client.emit('msg', {
             chan: chan.id,
             msg: msg
         });
