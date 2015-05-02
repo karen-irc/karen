@@ -28,6 +28,7 @@ let babelify = require('babelify');
 let browserify = require('browserify');
 let childProcess = require('child_process');
 let concat = require('gulp-concat');
+let del = require('del');
 let eslint = require('gulp-eslint');
 let gulp = require('gulp');
 let path = require('path');
@@ -50,14 +51,15 @@ const SRC = [
     'client/js/libs/uri.js',
 ];
 
-const DIST_JS = 'client/dist/js/';
+const DIST_CLIENT = './client/dist/';
+const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
 
 gulp.task('uglify', function () {
     return gulp.src(SRC)
         .pipe(uglify('libs.min.js', {
             compress: false,
         }))
-        .pipe(gulp.dest(DIST_JS));
+        .pipe(gulp.dest(DIST_CLIENT_JS));
 });
 
 gulp.task('copy', function () {
@@ -65,7 +67,7 @@ gulp.task('copy', function () {
         './node_modules/rx/dist/rx.js',
     ];
     return gulp.src(src)
-        .pipe(gulp.dest(DIST_JS));
+        .pipe(gulp.dest(DIST_CLIENT_JS));
 });
 
 gulp.task('build', ['copy'], function () {
@@ -74,7 +76,7 @@ gulp.task('build', ['copy'], function () {
         String(handlebars),
         'client/views/',
         '-e', 'tpl',
-        '-f', 'client/dist/js/karen.templates.js',
+        '-f', path.resolve(DIST_CLIENT, './js/karen.templates.js'),
     ];
 
     let option = {
@@ -125,6 +127,13 @@ gulp.task('build2', ['jslint'], function () {
         .pipe(gulp.dest('client/dist/'));
 });
 
+gulp.task('clean:client', function (callback) {
+    return del([
+        DIST_CLIENT,
+    ], callback);
+});
+
+gulp.task('clean', ['clean:client']);
 gulp.task('default', ['uglify', 'build']);
 
 gulp.task('watch', ['uglify'], function () {
