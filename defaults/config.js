@@ -56,7 +56,7 @@ module.exports = {
 	//
 	// Prefetch URLs
 	//
-	// If enabled, Shout will try to load thumbnails and site descriptions from
+	// If enabled, karen will try to load thumbnails and site descriptions from
 	// URLs posted in channels.
 	//
 	// @type     boolean
@@ -67,7 +67,7 @@ module.exports = {
 	//
 	// Display network
 	//
-	// If set to false Shout will not expose network settings in login
+	// If set to false karen will not expose network settings in login
 	// form, limiting client to connect to the configured network.
 	//
 	// @type     boolean
@@ -153,33 +153,33 @@ module.exports = {
 		// Nick
 		//
 		// @type     string
-		// @default  "shout-user"
+		// @default  "karen-user"
 		//
-		nick: "shout-user",
+		nick: "karen-user",
 
 		//
 		// Username
 		//
 		// @type     string
-		// @default  "shout-user"
+		// @default  "karen-user"
 		//
-		username: "shout-user",
+		username: "karen-user",
 
 		//
 		// Real Name
 		//
 		// @type     string
-		// @default  "Shout User"
+		// @default  "karen User"
 		//
-		realname: "Shout User",
+		realname: "karen User",
 
 		//
 		// Channels
 		//
 		// @type     string
-		// @default  "#foo, #shout-irc"
+		// @default  "#foo, #karen-irc"
 		//
-		join: "#foo, #shout-irc"
+		join: "#foo, #karen-irc"
 	},
 
 	//
@@ -191,7 +191,7 @@ module.exports = {
 	transports: ["polling", "websocket"],
 
 	//
-	// Run Shout with HTTPS support.
+	// Run karen with HTTPS support.
 	//
 	// @type     object
 	// @default  {}
@@ -225,7 +225,7 @@ module.exports = {
 	},
 
 	//
-	// Run Shout with identd support.
+	// Run karen with identd support.
 	//
 	// @type     object
 	// @default  {}
