@@ -54,7 +54,8 @@ const DIST_JS = 'client/dist/js/';
 
 gulp.task('uglify', function () {
     return gulp.src(SRC)
-        .pipe(uglify('libs.min.js', {
+        .pipe(concat('libs.min.js'))
+        .pipe(uglify({
             compress: false,
         }))
         .pipe(gulp.dest(DIST_JS));
