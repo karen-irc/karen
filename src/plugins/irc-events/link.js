@@ -1,28 +1,30 @@
-var _ = require("lodash");
-var cheerio = require("cheerio");
-var Msg = require("../../models/Message");
+'use strict';
+
+var _ = require('lodash');
+var cheerio = require('cheerio');
+var Msg = require('../../models/Message');
 var MessageType = require('../../models/MessageType');
-var request = require("request");
-var Helper = require("../../helper");
+var request = require('request');
+var Helper = require('../../helper');
 var es = require('event-stream');
 
 process.setMaxListeners(0);
 
 module.exports = function(irc, network) {
     var client = this;
-    irc.on("message", function(data) {
+    irc.on('message', function(data) {
         var config = Helper.getConfig();
         if (!config.prefetch) {
             return;
         }
 
         var links = [];
-        var split = data.message.split(" ");
+        var split = data.message.split(' ');
         _.each(split, function(w) {
             if (w.match(/^(http|https):\/\/localhost/g)) {
                 return;
             }
-            var match = w.indexOf("http://") === 0 || w.indexOf("https://") === 0;
+            var match = w.indexOf('http://') === 0 || w.indexOf('https://') === 0;
             if (match) {
                 links.push(w);
             }
@@ -32,18 +34,18 @@ module.exports = function(irc, network) {
             return;
         }
 
-        var self = data.to.toLowerCase() == irc.me.toLowerCase();
+        var self = data.to.toLowerCase() === irc.me.toLowerCase();
         var chan = _.findWhere(network.channels, {name: self ? data.from : data.to});
-        if (typeof chan === "undefined") {
+        if (typeof chan === 'undefined') {
             return;
         }
 
         var msg = new Msg({
             type: MessageType.TOGGLE,
-            time: ""
+            time: ''
         });
         chan.messages.push(msg);
-        client.emit("msg", {
+        client.emit('msg', {
             chan: chan.id,
             msg: msg
         });
@@ -58,45 +60,46 @@ module.exports = function(irc, network) {
 function parse(msg, url, res, client) {
     var toggle = msg.toggle = {
         id: msg.id,
-        type: "",
-        head: "",
-        body: "",
-        thumb: "",
+        type: '',
+        head: '',
+        body: '',
+        thumb: '',
         link: url
     };
 
     switch (res.type) {
-    case "text/html":
+    case 'text/html':
         var $ = cheerio.load(res.text);
-        toggle.type = "link";
-        toggle.head = $("title").text();
+        toggle.type = 'link';
+        toggle.head = $('title').text();
         toggle.body =
-               $('meta[name=description]').attr('content')
-            || $('meta[property="og:description"]').attr('content')
-            || "No description found.";
+            $('meta[name=description]').attr('content') ||
+            $('meta[property=\'og:description\']').attr('content') ||
+            'No description found.';
         toggle.thumb =
-               $('meta[property="og:image"]').attr('content')
-            || $('meta[name="twitter:image:src"]').attr('content')
-            || "";
+            $('meta[property=\'og:image\']').attr('content') ||
+            $('meta[name=\'twitter:image:src\']').attr('content') ||
+            '';
         break;
 
-    case "image/png":
-    case "image/gif":
-    case "image/jpg":
-    case "image/jpeg":
-        toggle.type = "image";
+    case 'image/png':
+    case 'image/gif':
+    case 'image/jpg':
+    case 'image/jpeg':
+        toggle.type = 'image';
         break;
 
     default:
         return;
     }
 
-    client.emit("toggle", toggle);
+    client.emit('toggle', toggle);
 }
 
 function fetch(url, cb) {
+    var req = null;
     try {
-        var req = request.get(url);
+        req = request.get(url);
     } catch(e) {
         return;
     }
@@ -105,7 +108,7 @@ function fetch(url, cb) {
     req
         .on('response', function(res) {
             if (!(/(text\/html|application\/json)/.test(res.headers['content-type']))) {
-              res.req.abort();
+                res.req.abort();
             }
         })
         .on('error', function() {})
@@ -117,7 +120,9 @@ function fetch(url, cb) {
             next(null, data);
         }))
         .pipe(es.wait(function(err, data) {
-            if (err) return;
+            if (err) {
+                return;
+            }
             var body;
             var type;
             try {
@@ -130,11 +135,11 @@ function fetch(url, cb) {
             } catch(e) {
                 type = {};
             }
-            data = {
+            var param = {
                 text: data,
                 body: body,
                 type: type
             };
-            cb(data);
+            cb(param);
         }));
 }
