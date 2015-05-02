@@ -1,6 +1,7 @@
 var _ = require("lodash");
 var assign = require("object-assign");
 var Chan = require("./Channel");
+var ChannelType = require('./ChannelType');
 
 module.exports = Network;
 
@@ -25,7 +26,7 @@ function Network(attr) {
 	this.channels.unshift(
 		new Chan({
 			name: this.name,
-			type: Chan.Type.LOBBY
+			type: ChannelType.LOBBY
 		})
 	);
 }

@@ -1,5 +1,6 @@
 var _ = require("lodash");
 var Chan = require("../../models/Channel");
+var ChannelType = require('../../models/ChannelType');
 var Msg = require("../../models/Message");
 var MessageType = require('../../models/MessageType');
 
@@ -19,7 +20,7 @@ module.exports = function(irc, network) {
 		var chan = _.findWhere(network.channels, {name: target});
 		if (typeof chan === "undefined") {
 			chan = new Chan({
-				type: Chan.Type.QUERY,
+				type: ChannelType.QUERY,
 				name: data.from
 			});
 			network.channels.push(chan);

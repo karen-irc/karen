@@ -1,5 +1,6 @@
 var _ = require("lodash");
 var Chan = require("./models/Channel");
+var ChannelType = require('./models/ChannelType');
 var crypto = require("crypto");
 var fs = require("fs");
 var identd = require("./identd");
@@ -85,7 +86,7 @@ Client.prototype.emit = function(event, data) {
 			var target = this.find(data.chan);
 			if (target) {
 				var chan = target.chan.name;
-				if (target.chan.type == Chan.Type.LOBBY) {
+				if (target.chan.type == ChannelType.LOBBY) {
 					chan = target.network.host;
 				}
 				log.write(
