@@ -152,29 +152,31 @@ function auth(socketGateway, data) {
         });
 
         init(socketGateway, client);
-    } else {
-        const success = false;
-        _.each(manager.clients, function(client) {
-            if (data.token) {
-                if (data.token === client.token) {
-                    success = true;
-                }
-            } else if (client.config.user === data.user) {
-                if (bcrypt.compareSync(data.password || '', client.config.password)) {
-                    success = true;
-                }
+        return;
+    }
+
+    for (let client of manager.clients) {
+        let success = false;
+        if (data.token) {
+            if (data.token === client.token) {
+                success = true;
             }
-            if (success) {
-                let token = '';
-                if (data.remember || data.token) {
-                    token = client.token;
-                }
-                init(socketGateway, client, token);
-                return false;
+        } else if (client.config.user === data.user) {
+            if (bcrypt.compareSync(data.password || '', client.config.password)) {
+                success = true;
             }
-        });
-        if (!success) {
-            socketGateway.emitAuth();
+        }
+
+        if (success) {
+            let token = '';
+            if (data.remember || data.token) {
+                token = client.token;
+            }
+            init(socketGateway, client, token);
+            return;
         }
     }
+
+    // There are no succeeded clients, use authentication.
+    socketGateway.emitAuth();
 }
