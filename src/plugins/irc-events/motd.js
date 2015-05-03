@@ -1,4 +1,4 @@
-import Msg from '../../models/Message';
+import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
@@ -6,7 +6,7 @@ export default function(irc, network) {
     irc.on('motd', function(data) {
         const lobby = network.channels[0];
         data.motd.forEach(function(text) {
-            const msg = new Msg({
+            const msg = new Message({
                 type: MessageType.MOTD,
                 text: text
             });

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import cheerio from 'cheerio';
-import Msg from '../../models/Message';
+import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 import request from 'request';
 import Helper from '../../helper';
@@ -131,7 +131,7 @@ export default function(irc, network) {
             return;
         }
 
-        const msg = new Msg({
+        const msg = new Message({
             type: MessageType.TOGGLE,
             time: ''
         });

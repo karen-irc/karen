@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import Chan from '../../models/Channel';
-import Msg from '../../models/Message';
+import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 import User from '../../models/User';
 
@@ -32,7 +32,7 @@ export default function(irc, network) {
         if (data.nick.toLowerCase() === irc.me.toLowerCase()) {
             self = true;
         }
-        const msg = new Msg({
+        const msg = new Message({
             from: data.nick,
             type: MessageType.JOIN,
             self: self

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Msg from '../../models/Message';
+import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
@@ -20,7 +20,7 @@ export default function(irc, network) {
                 users: chan.users
             });
 
-            const msg = new Msg({
+            const msg = new Message({
                 type: MessageType.QUIT,
                 mode: chan.getMode(from),
                 from: from
