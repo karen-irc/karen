@@ -184,4 +184,12 @@ export default class ClientManager {
             });
         }, 1000);
     }
+
+    /**
+     *  @param  {Client}    client
+     *  @return {void}
+     */
+    addClient(client) {
+        this.clients.push(client);
+    }
 }

@@ -144,7 +144,7 @@ function init(gateway, client, token) {
 function auth(socketGateway, data) {
     if (config.public) {
         const client = new Client(gateway.getServer());
-        manager.clients.push(client);
+        manager.addClient(client);
 
         socketGateway.disconnect().subscribe(function() {
             manager.clients = _.without(manager.clients, client);
