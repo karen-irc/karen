@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import Chan from './models/Channel';
 import ChannelType from './models/ChannelType';
 import crypto from 'crypto';
 import fs from 'fs';

@@ -117,7 +117,7 @@ export default class Network {
         this.irc = data.irc;
 
         this.channels.unshift(
-            new Channel({
+            new Channel(this, {
                 name: this.name,
                 type: ChannelType.LOBBY
             })

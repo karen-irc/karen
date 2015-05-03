@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Chan from '../../models/Channel';
+import Channel from '../../models/Channel';
 import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 import User from '../../models/User';
@@ -9,7 +9,7 @@ export default function(irc, network) {
     irc.on('join', function(data) {
         let chan = _.find(network.channels, {name: data.channel});
         if (typeof chan === 'undefined') {
-            chan = new Chan({
+            chan = new Channel(network, {
                 name: data.channel
             });
             network.channels.push(chan);

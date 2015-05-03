@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Chan from '../../models/Channel';
+import Channel from '../../models/Channel';
 import Hostmask from '../../models/Hostmask';
 import ChannelType from '../../models/ChannelType';
 import Message from '../../models/Message';
@@ -20,7 +20,7 @@ export default function(irc, network) {
 
         let chan = _.findWhere(network.channels, {name: target});
         if (typeof chan === 'undefined') {
-            chan = new Chan({
+            chan = new Channel(network, {
                 type: ChannelType.QUERY,
                 name: data.from
             });
