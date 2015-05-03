@@ -5,13 +5,56 @@ import mkdirp from 'mkdirp';
 import ConfigDriver from './adopter/ConfigDriver';
 import moment from 'moment';
 
+/**
+ *  @template   T
+ *  @param  {Set<T>}    set
+ *  @param  {string}    path
+ *  @return {Array<T>}
+ */
+const pluckFromSet = function (set, path) {
+    const result = [];
+    for (const item of set) {
+        if ( item[path] !== undefined ) {
+            const value = item[path];
+            result.push(item);
+        }
+    }
+
+    return result;
+};
+
+/**
+ *  @template   T
+ *  @param  {!Set<T>}    set
+ *  @param  {!Object<string, *>}    predicate
+ *  @return {T}
+ */
+const findFromSet = function (set, predicate) {
+    /*eslint-disable no-labels, block-scoped-var*/
+    let keys = Object.keys(predicate);
+    outer: for (let item of set) {
+        for (let key of keys) {
+            const actual = item[key];
+            const expected = predicate[key];
+            if (actual !== expected) {
+                continue outer;
+            }
+        }
+        return item;
+    }
+    /*eslint-enable*/
+
+    return null;
+};
+
 export default class ClientManager {
 
     /**
      *  @constructor
      */
     constructor() {
-        this.clients = [];
+        /** @type   {Set<Client>}   */
+        this.clients = new Set();
 
         /** @type   {SocketIO.Socket}   */
         this.sockets = null;
@@ -22,8 +65,7 @@ export default class ClientManager {
      *  @return {Client}
      */
     _findClient(name) {
-        for (var i in this.clients) {
-            var client = this.clients[i];
+        for (let client of this.clients) {
             if (client.name === name) {
                 return client;
             }
@@ -73,7 +115,7 @@ export default class ClientManager {
         }
 
         var user = new Client(this.sockets, name, json);
-        this.clients.push(user);
+        this.clients.add(user);
 
         var message = 'User \'' + name + '\' loaded.';
         console.log(message);
@@ -157,26 +199,21 @@ export default class ClientManager {
      */
     autoload() {
         var self = this;
-        var loaded = [];
         setInterval(function() {
-            var loaded = _.pluck(
-                self.clients,
-                'name'
-            );
+            const loaded = pluckFromSet(self.clients, 'name');
             var added = _.difference(self.getUsers(), loaded);
             _.each(added, function(name) {
                 self.loadUser(name);
             });
             var removed = _.difference(loaded, self.getUsers());
             _.each(removed, function(name) {
-                var client = _.find(
-                    self.clients, {
-                        name: name
-                    }
-                );
+                var client = findFromSet(self.clients, {
+                    name: name
+                });
+
                 if (client) {
                     client.quit();
-                    self.clients = _.without(self.clients, client);
+                    self.removeClient(client);
                     console.log(
                         'User \'' + name + '\' disconnected.'
                     );
@@ -190,6 +227,14 @@ export default class ClientManager {
      *  @return {void}
      */
     addClient(client) {
-        this.clients.push(client);
+        this.clients.add(client);
+    }
+
+    /**
+     *  @param  {Client}    client
+     *  @return {void}
+     */
+    removeClient(client) {
+        this.clients.delete(client);
     }
 }
