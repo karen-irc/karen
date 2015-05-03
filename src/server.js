@@ -6,34 +6,36 @@ import Client from './Client';
 import ClientManager from './ClientManager';
 import express from 'express';
 import fs from 'fs';
-import server from 'http';
+import http from 'http';
 import io from 'socket.io';
 import Helper from './helper';
-var config = {};
 
-var sockets = null;
-var manager = new ClientManager();
+let server = null;
+let config = {};
+
+let sockets = null;
+const manager = new ClientManager();
 
 export default function(options) {
     config = Helper.getConfig();
     config = assign(config, options);
 
-    var app = express()
+    const app = express()
         .use(index)
         .use(express.static('client'));
 
     app.enable('trust proxy');
 
-    var https = config.https || {};
-    var protocol = https.enable ? 'https' : 'http';
-    var port = config.port;
-    var host = config.host;
-    var transports = config.transports || ['websocket', 'polling'];
+    const https = config.https || {};
+    const protocol = https.enable ? 'https' : 'http';
+    const port = config.port;
+    const host = config.host;
+    const transports = config.transports || ['websocket', 'polling'];
 
     if (!https.enable){
-        server = server.createServer(app).listen(port, host);
+        server = http.createServer(app).listen(port, host);
     } else {
-        server = server.createServer({
+        server = http.createServer({
             key: fs.readFileSync(https.key),
             cert: fs.readFileSync(https.certificate)
         }, app).listen(port, host);
@@ -44,7 +46,7 @@ export default function(options) {
     }
 
     sockets = io(server, {
-        transports: transports
+        transports,
     });
 
     sockets.on('connect', function(socket) {
@@ -137,9 +139,9 @@ function init(socket, client, token) {
 }
 
 function auth(data) {
-    var socket = this;
+    const socket = this;
     if (config.public) {
-        var client = new Client(sockets);
+        const client = new Client(sockets);
         manager.clients.push(client);
         socket.on('disconnect', function() {
             manager.clients = _.without(manager.clients, client);
@@ -147,7 +149,7 @@ function auth(data) {
         });
         init(socket, client);
     } else {
-        var success = false;
+        const success = false;
         _.each(manager.clients, function(client) {
             if (data.token) {
                 if (data.token === client.token) {
@@ -159,7 +161,7 @@ function auth(data) {
                 }
             }
             if (success) {
-                var token;
+                let token = '';
                 if (data.remember || data.token) {
                     token = client.token;
                 }
