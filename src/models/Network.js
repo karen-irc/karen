@@ -73,6 +73,7 @@ export default class Network {
             username: '',
             realname: '',
             channels: [],
+            allowUserImage: false,
             connected: false,
             id: id++,
             irc: null,
@@ -111,6 +112,9 @@ export default class Network {
         this.channels = data.channels;
 
         /** @type   {boolean}   */
+        this.allowUserImage = data.allowUserImage;
+
+        /** @type   {boolean}   */
         this.connected = data.connected;
 
         /** @type   {?} */
@@ -136,7 +140,8 @@ export default class Network {
             'password',
             'username',
             'realname',
-            'commands'
+            'commands',
+            'allowUserImage'
         ]);
         network.nick = (this.irc || {}).me;
         network.join = _.pluck(

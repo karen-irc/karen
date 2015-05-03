@@ -168,7 +168,8 @@ export default class Client {
             password: args.password,
             username: username,
             realname: realname,
-            commands: args.commands
+            commands: args.commands,
+            allowUserImage: args.allowUserImage
         });
 
         network.irc = irc;

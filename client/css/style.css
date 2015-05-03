@@ -558,6 +558,14 @@ button {
 	width: 134px;
 	min-width: 134px;
 }
+#chat .from .user {
+    height: 16px;
+}
+#chat .from .user-image {
+    height: 16px;
+    width: 16px;
+    vertical-align: text-bottom;
+}
 #chat a {
 	color: #84ce88;
 	color: #50a656;
