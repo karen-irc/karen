@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import fs from 'fs';
 import Client from './Client';
 import mkdirp from 'mkdirp';
