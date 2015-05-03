@@ -1,10 +1,10 @@
 import fs from 'fs';
 import mkdirp from 'mkdirp';
 import moment from 'moment';
-import Helper from './helper';
+import ConfigDriver from './adopter/ConfigDriver';
 
 function write(user, network, chan, msg) {
-    var path = Helper.HOME + '/logs/' + user + '/' + network;
+    var path = ConfigDriver.HOME + '/logs/' + user + '/' + network;
     try {
         mkdirp.sync(path);
     } catch(e) {
@@ -12,7 +12,7 @@ function write(user, network, chan, msg) {
         return;
     }
 
-    var config = Helper.getConfig();
+    var config = ConfigDriver.getConfig();
     var format = (config.logs || {}).format || 'YYYY-MM-DD HH:mm:ss';
     var tz = (config.logs || {}).timezone || 'UTC+00:00';
 

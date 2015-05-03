@@ -8,7 +8,7 @@ import SocketIoServerDriver from './adopter/SocketIoServerDriver';
 import express from 'express';
 import fs from 'fs';
 import http from 'http';
-import Helper from './helper';
+import ConfigDriver from './adopter/ConfigDriver';
 
 let server = null;
 let config = {};
@@ -18,7 +18,7 @@ let gateway = null;
 const manager = new ClientManager();
 
 export default function(options) {
-    config = Helper.getConfig();
+    config = ConfigDriver.getConfig();
     config = assign(config, options);
 
     const app = express()
