@@ -6,7 +6,7 @@ export default function(irc, network) {
     irc.on('motd', function(data) {
         const lobby = network.channels[0];
         data.motd.forEach(function(text) {
-            const msg = new Message({
+            const msg = new Message(lobby, {
                 type: MessageType.MOTD,
                 text: text
             });

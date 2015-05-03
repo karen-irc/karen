@@ -21,7 +21,7 @@ export default function(irc, network) {
                 self = true;
             }
 
-            const msg = new Message({
+            const msg = new Message(chan, {
                 type: MessageType.MODE,
                 mode: chan.getMode(from),
                 from: from,

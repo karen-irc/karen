@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Chan from '../../models/Channel';
+import Channel from '../../models/Channel';
 import ChannelType from '../../models/ChannelType';
 import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
@@ -17,7 +17,7 @@ export default function(irc, network) {
 
         let chan = _.findWhere(network.channels, {name: data.nickname});
         if (typeof chan === 'undefined') {
-            chan = new Chan({
+            chan = new Channel(network, {
                 type: ChannelType.QUERY,
                 name: data.nickname
             });
@@ -41,7 +41,7 @@ export default function(irc, network) {
                 continue;
             }
 
-            const msg = new Message({
+            const msg = new Message(chan, {
                 type: MessageType.WHOIS,
                 from: data.nickname,
                 text: key + ' ' + data[k]

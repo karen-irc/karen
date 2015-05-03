@@ -40,9 +40,10 @@ export default class Channal {
 
     /**
      *  @constructor
+     *  @param  {Network} network
      *  @param  {?} attr
      */
-    constructor(attr) {
+    constructor(network, attr) {
         let data = assign({
             id: id++,
             messages: [],
@@ -73,6 +74,9 @@ export default class Channal {
 
         /** @type   {Array}    */
         this.users = data.users;
+
+        /** @type   {Network}    */
+        this.network = network;
     }
 
     /**
@@ -110,6 +114,7 @@ export default class Channal {
     toJSON() {
         let clone = _.clone(this);
         clone.messages = clone.messages.slice(-100);
+        clone.network = undefined;
         return clone;
     }
 }

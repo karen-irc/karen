@@ -24,7 +24,7 @@ export default function(network, chan, cmd, args) {
             const text = slap || args.join(' ');
             irc.action(chan.name, text);
 
-            const msg = new Message({
+            const msg = new Message(chan, {
                 type: MessageType.ACTION,
                 from: irc.me,
                 text: text

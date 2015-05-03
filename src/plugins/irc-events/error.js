@@ -5,7 +5,7 @@ export default function(irc, network) {
     const client = this;
     irc.on('errors', function(data) {
         const lobby = network.channels[0];
-        const msg = new Message({
+        const msg = new Message(lobby, {
             type: MessageType.ERROR,
             text: data.message,
         });

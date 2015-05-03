@@ -22,20 +22,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
+import _ from 'lodash';
 import assign from 'object-assign';
 import moment from 'moment';
 import MessageType from './MessageType';
 
 let id = 0;
 
+/**
+ *  @param  {?Channel} channel
+ *  @param  {Message} message
+ *  @return {?string}
+ */
+function findUserImage (channel, message) {
+    if (!channel) {
+        return null;
+    }
+
+    if (message.type !== MessageType.MESSAGE) {
+        return null;
+    }
+
+    let network = channel.network;
+    if (!network.allowUserImage) {
+        return null;
+    }
+
+    let hostmask = message.hostmask;
+    if (!hostmask) {
+        return null;
+    }
+
+    return hostmask.hostname;
+}
+
 export default class Message {
 
     /**
      *  @constructor
+     *  @param  {?Channel} channel
      *  @param  {?} attr
      */
-    constructor(attr) {
+    constructor(channel, attr) {
         let data = assign({
             type: MessageType.MESSAGE,
             id: id++,
@@ -43,7 +71,8 @@ export default class Message {
             time: moment().utc().format('HH:mm:ss'),
             from: '',
             mode: '',
-            self: false
+            self: false,
+            hostmask: null
         }, attr);
 
         /** @type   {MessageType}  */
@@ -66,5 +95,20 @@ export default class Message {
 
         /** @type   {boolean}   */
         this.self = data.self;
+
+        /** @type   {?Channel}  */
+        this.channel = channel;
+
+        /** @type   {?Hostmask} */
+        this.hostmask = data.hostmask;
+
+        /** @type   {?string}   */
+        this.userImage = findUserImage(channel, this);
+    }
+
+    toJSON() {
+        let clone = _.clone(this);
+        clone.channel = undefined;
+        return clone;
     }
 }

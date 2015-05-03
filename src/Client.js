@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import Chan from './models/Channel';
 import ChannelType from './models/ChannelType';
 import crypto from 'crypto';
 import fs from 'fs';
@@ -138,7 +137,7 @@ export default class Client {
         stream.on('error', (e) => {
             console.log('Client#connect():\n' + e);
             stream.end();
-            var msg = new Message({
+            var msg = new Message(null, {
                 type: MessageType.ERROR,
                 text: 'Connection error.'
             });
@@ -169,7 +168,8 @@ export default class Client {
             password: args.password,
             username: username,
             realname: realname,
-            commands: args.commands
+            commands: args.commands,
+            allowUserImage: args.allowUserImage
         });
 
         network.irc = irc;

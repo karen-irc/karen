@@ -9,7 +9,7 @@ export default function(irc, network) {
 
         const lobby = network.channels[0];
         const nick = data;
-        const msg = new Message({
+        const msg = new Message(lobby, {
             text: 'You\'re now known as ' + nick
         });
 

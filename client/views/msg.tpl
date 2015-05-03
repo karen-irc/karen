@@ -5,7 +5,11 @@
 	</span>
 	<span class="from">
 		{{#if from}}
-		<button class="user" style="color: #{{stringcolor from}}">{{mode}}{{from}}</button>
+			<button class="user" style="color: #{{stringcolor from}}">{{mode}}{{from}}
+			{{#if userImage}}
+				<img src="{{userImage}}" class="user-image">
+			{{/if}}
+			</button>
 		{{/if}}
 	</span>
 	<span class="text">
