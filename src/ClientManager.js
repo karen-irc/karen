@@ -188,7 +188,7 @@ export default class ClientManager {
             return false;
         }
         try {
-            var userPath = ConfigDriver.HOME + '/users/' + name + '.json';
+            var userPath = path.join(ConfigDriver.getHome(), 'users', name + '.json');
             fs.unlinkSync(userPath);
         } catch(e) {
             throw e;
