@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import Client from './Client';
 import mkdirp from 'mkdirp';
 import ConfigDriver from './adopter/ConfigDriver';
@@ -92,7 +93,7 @@ export default class ClientManager {
         var raw = null;
         try {
             raw = fs.readFileSync(
-                ConfigDriver.HOME + '/users/' + name + '.json',
+                path.join(ConfigDriver.getHome(), 'users', name + '.json'),
                 'utf-8'
             );
         }
@@ -127,10 +128,10 @@ export default class ClientManager {
      */
     getUsers() {
         var users = [];
-        var path = ConfigDriver.HOME + '/users';
-        mkdirp.sync(path);
+        var usersPath = path.join(ConfigDriver.getHome(), 'users');
+        mkdirp.sync(usersPath);
         try {
-            var files = fs.readdirSync(path);
+            var files = fs.readdirSync(usersPath);
             files.forEach(function(file) {
                 if (file.indexOf('.json') !== -1) {
                     users.push(file.replace('.json', ''));
@@ -156,16 +157,16 @@ export default class ClientManager {
             return false;
         }
         try {
-            var path = ConfigDriver.HOME + '/users';
+            var usersPath = path.join(ConfigDriver.getHome(), 'users');
             var user = {
                 user: name,
                 password: password || '',
                 log: false,
                 networks: []
             };
-            mkdirp.sync(path);
+            mkdirp.sync(usersPath);
             fs.writeFileSync(
-                path + '/' + name + '.json',
+                path.join(usersPath, name + '.json'),
                 JSON.stringify(user, null, '  '),
                 {mode: '0777'}
             );
@@ -187,8 +188,8 @@ export default class ClientManager {
             return false;
         }
         try {
-            var path = ConfigDriver.HOME + '/users/' + name + '.json';
-            fs.unlinkSync(path);
+            var userPath = ConfigDriver.HOME + '/users/' + name + '.json';
+            fs.unlinkSync(userPath);
         } catch(e) {
             throw e;
         }

@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt-nodejs';
 import ClientManager from '../ClientManager';
 import fs from 'fs';
+import path from 'path';
 import program from 'commander';
 import ConfigDriver from '../adopter/ConfigDriver';
 import read from 'read';
@@ -16,7 +17,7 @@ program
             console.log('');
             return;
         }
-        const file = ConfigDriver.HOME + '/users/' + name + '.json';
+        const file = path.join(ConfigDriver.getHome(), 'users', name + '.json');
         const user = require(file);
 
         const param = {
