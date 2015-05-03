@@ -110,6 +110,7 @@ gulp.task('jslint', function () {
 
     return gulp.src([
             './gulpfile.js',
+            './client/js/karen.js',
             './client/script/**/*.js',
             './defaults/**/*.js',
             './src/**/*.js',
