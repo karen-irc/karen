@@ -4,36 +4,39 @@ import assign from 'object-assign';
 import bcrypt from 'bcrypt-nodejs';
 import Client from './Client';
 import ClientManager from './ClientManager';
+import SocketIoServerDriver from './adopter/SocketIoServerDriver';
 import express from 'express';
 import fs from 'fs';
-import server from 'http';
-import io from 'socket.io';
+import http from 'http';
 import Helper from './helper';
-var config = {};
 
-var sockets = null;
-var manager = new ClientManager();
+let server = null;
+let config = {};
+
+let gateway = null;
+
+const manager = new ClientManager();
 
 export default function(options) {
     config = Helper.getConfig();
     config = assign(config, options);
 
-    var app = express()
+    const app = express()
         .use(index)
         .use(express.static('client'));
 
     app.enable('trust proxy');
 
-    var https = config.https || {};
-    var protocol = https.enable ? 'https' : 'http';
-    var port = config.port;
-    var host = config.host;
-    var transports = config.transports || ['websocket', 'polling'];
+    const https = config.https || {};
+    const protocol = https.enable ? 'https' : 'http';
+    const port = config.port;
+    const host = config.host;
+    const transports = config.transports || ['websocket', 'polling'];
 
     if (!https.enable){
-        server = server.createServer(app).listen(port, host);
+        server = http.createServer(app).listen(port, host);
     } else {
-        server = server.createServer({
+        server = http.createServer({
             key: fs.readFileSync(https.key),
             cert: fs.readFileSync(https.certificate)
         }, app).listen(port, host);
@@ -43,19 +46,17 @@ export default function(options) {
         require('./identd').start(config.identd.port);
     }
 
-    sockets = io(server, {
-        transports: transports
-    });
+    gateway = new SocketIoServerDriver(server, transports);
 
-    sockets.on('connect', function(socket) {
+    gateway.connect().subscribe(function(gateway) {
         if (config.public) {
-            auth.call(socket);
+            auth(gateway);
         } else {
-            init(socket);
+            init(gateway);
         }
     });
 
-    manager.sockets = sockets;
+    manager.sockets = gateway.getServer();
 
     console.log('');
     console.log('karen is now running on ' + protocol + '://' + config.host + ':' + config.port + '/');
@@ -92,62 +93,67 @@ function index(req, res, next) {
     });
 }
 
-function init(socket, client, token) {
+/**
+ *  @param  {ClientSocketDriver}   gateway
+ *  @param  {Client=}   client  (optional)
+ *  @param  {string=}   token   (optional)
+ *  @return {void}
+ */
+function init(gateway, client, token) {
     if (!client) {
-        socket.emit('auth');
-        socket.on('auth', auth);
-    } else {
-        socket.on(
-            'input',
-            function(data) {
-                client.input(data);
-            }
-        );
-        socket.on(
-            'more',
-            function(data) {
-                client.more(data);
-            }
-        );
-        socket.on(
-            'conn',
-            function(data) {
-                client.connect(data);
-            }
-        );
-        socket.on(
-            'open',
-            function(data) {
-                client.open(data);
-            }
-        );
-        socket.on(
-            'sort',
-            function(data) {
-                client.sort(data);
-            }
-        );
-        socket.join(client.id);
-        socket.emit('init', {
-            active: client.activeChannel,
-            networks: client.networks,
-            token: token || ''
+        gateway.auth().subscribe(function (data) {
+            auth(gateway, data);
         });
+
+        gateway.emitAuth();
+    } else {
+        gateway.input().subscribe(function (data) {
+            client.input(data);
+        });
+
+        gateway.more().subscribe(function (data) {
+            client.more(data);
+        });
+
+        gateway.connect().subscribe(function (data) {
+            client.connect(data);
+        });
+
+        gateway.open().subscribe(function (data) {
+            client.open(data);
+        });
+
+        gateway.sort().subscribe(function (data) {
+            client.sort(data);
+        });
+
+        gateway.joinClient(client.id);
+
+        const key = (token !== undefined) ? token : '';
+        gateway.emitInitialize(client.activeChannel,
+                               client.networks,
+                               key);
     }
 }
 
-function auth(data) {
-    var socket = this;
+/**
+ *  @param  {ClientSocketDriver}   socketGateway
+ *  @param  {?} data
+ *  @return {void}
+ */
+function auth(socketGateway, data) {
     if (config.public) {
-        var client = new Client(sockets);
+        const client = new Client(gateway.getServer());
         manager.clients.push(client);
-        socket.on('disconnect', function() {
+
+        socketGateway.disconnect().subscribe(function() {
             manager.clients = _.without(manager.clients, client);
             client.quit();
         });
-        init(socket, client);
+
+        init(socketGateway, client);
     } else {
-        var success = false;
+        const success = false;
         _.each(manager.clients, function(client) {
             if (data.token) {
                 if (data.token === client.token) {
@@ -159,16 +165,16 @@ function auth(data) {
                 }
             }
             if (success) {
-                var token;
+                let token = '';
                 if (data.remember || data.token) {
                     token = client.token;
                 }
-                init(socket, client, token);
+                init(socketGateway, client, token);
                 return false;
             }
         });
         if (!success) {
-            socket.emit('auth');
+            socketGateway.emitAuth();
         }
     }
 }
