@@ -1,3 +1,5 @@
+/*global $:true, Mousetrap:true, Handlebars:true, Favico:true, io:true */
+
 $(function() {
     var socket = io();
     var commands = [
