@@ -8,7 +8,7 @@ export default function(irc, network) {
     const client = this;
     irc.on('whois', function(err, data) {
         if (!!err) {
-            throw err;
+            return;
         }
 
         if (data === null) {
