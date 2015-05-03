@@ -1,4 +1,5 @@
 /*global $:true, Mousetrap:true, Handlebars:true, Favico:true, io:true */
+'use strict';
 
 $(function() {
     var socket = io();
@@ -69,7 +70,9 @@ $(function() {
     );
 
     socket.on('error', function(e) {
+        /*eslint-disable no-console*/
         console.log(e);
+        /*eslint-enable*/
     });
 
     $.each(['connect_error', 'disconnect'], function(i, e) {

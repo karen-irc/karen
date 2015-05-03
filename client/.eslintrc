@@ -8,7 +8,7 @@
 
     "env": {
         "browser": true,
-        "node": false,
+        "node": true,
         "es6": false,
     }
 }
