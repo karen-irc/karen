@@ -54,10 +54,17 @@ export default class ClientManager {
      */
     constructor() {
         /** @type   {Set<Client>}   */
-        this.clients = new Set();
+        this._clients = new Set();
 
         /** @type   {SocketIO.Socket}   */
         this.sockets = null;
+    }
+
+    /**
+     *  @return {Set<Client>}
+     */
+    get clients() {
+        return this._clients;
     }
 
     /**
@@ -65,7 +72,7 @@ export default class ClientManager {
      *  @return {Client}
      */
     _findClient(name) {
-        for (let client of this.clients) {
+        for (let client of this._clients) {
             if (client.name === name) {
                 return client;
             }
@@ -115,7 +122,7 @@ export default class ClientManager {
         }
 
         var user = new Client(this.sockets, name, json);
-        this.clients.add(user);
+        this._clients.add(user);
 
         var message = 'User \'' + name + '\' loaded.';
         console.log(message);
@@ -200,14 +207,14 @@ export default class ClientManager {
     autoload() {
         var self = this;
         setInterval(function() {
-            const loaded = pluckFromSet(self.clients, 'name');
+            const loaded = pluckFromSet(self._clients, 'name');
             var added = _.difference(self.getUsers(), loaded);
             _.each(added, function(name) {
                 self.loadUser(name);
             });
             var removed = _.difference(loaded, self.getUsers());
             _.each(removed, function(name) {
-                var client = findFromSet(self.clients, {
+                var client = findFromSet(self._clients, {
                     name: name
                 });
 
@@ -227,7 +234,7 @@ export default class ClientManager {
      *  @return {void}
      */
     addClient(client) {
-        this.clients.add(client);
+        this._clients.add(client);
     }
 
     /**
@@ -235,6 +242,6 @@ export default class ClientManager {
      *  @return {void}
      */
     removeClient(client) {
-        this.clients.delete(client);
+        this._clients.delete(client);
     }
 }
