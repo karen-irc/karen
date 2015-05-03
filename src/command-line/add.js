@@ -1,4 +1,4 @@
-import ClientManager from '../clientManager';
+import ClientManager from '../ClientManager';
 import bcrypt from 'bcrypt-nodejs';
 import fs from 'fs';
 import program from 'commander';

@@ -1,4 +1,4 @@
-import ClientManager from '../clientManager';
+import ClientManager from '../ClientManager';
 import program from 'commander';
 
 program

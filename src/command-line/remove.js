@@ -1,4 +1,4 @@
-import ClientManager from '../clientManager';
+import ClientManager from '../ClientManager';
 import fs from 'fs';
 import program from 'commander';
 import Helper from '../helper';
