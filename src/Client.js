@@ -137,7 +137,7 @@ export default class Client {
         stream.on('error', (e) => {
             console.log('Client#connect():\n' + e);
             stream.end();
-            var msg = new Message({
+            var msg = new Message(null, {
                 type: MessageType.ERROR,
                 text: 'Connection error.'
             });

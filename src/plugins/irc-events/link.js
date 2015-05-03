@@ -131,7 +131,7 @@ export default function(irc, network) {
             return;
         }
 
-        const msg = new Message({
+        const msg = new Message(chan, {
             type: MessageType.TOGGLE,
             time: ''
         });

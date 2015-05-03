@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
+import _ from 'lodash';
 import assign from 'object-assign';
 import moment from 'moment';
 import MessageType from './MessageType';
@@ -33,9 +33,10 @@ export default class Message {
 
     /**
      *  @constructor
+     *  @param  {?Channel} channel
      *  @param  {?} attr
      */
-    constructor(attr) {
+    constructor(channel, attr) {
         let data = assign({
             type: MessageType.MESSAGE,
             id: id++,
@@ -66,5 +67,14 @@ export default class Message {
 
         /** @type   {boolean}   */
         this.self = data.self;
+
+        /** @type   {?Channel}  */
+        this.channel = channel;
+    }
+
+    toJSON() {
+        let clone = _.clone(this);
+        clone.channel = null;
+        return clone;
     }
 }

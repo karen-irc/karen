@@ -20,7 +20,7 @@ export default function(irc, network) {
             from = '';
         }
 
-        const msg = new Message({
+        const msg = new Message(chan, {
             type: MessageType.NOTICE,
             from: from,
             text: data.message

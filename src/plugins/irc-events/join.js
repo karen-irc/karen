@@ -32,7 +32,7 @@ export default function(irc, network) {
         if (data.nick.toLowerCase() === irc.me.toLowerCase()) {
             self = true;
         }
-        const msg = new Message({
+        const msg = new Message(chan, {
             from: data.nick,
             type: MessageType.JOIN,
             self: self

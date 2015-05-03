@@ -41,7 +41,7 @@ export default function(irc, network) {
                 continue;
             }
 
-            const msg = new Message({
+            const msg = new Message(chan, {
                 type: MessageType.WHOIS,
                 from: data.nickname,
                 text: key + ' ' + data[k]

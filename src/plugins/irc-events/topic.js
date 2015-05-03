@@ -17,7 +17,7 @@ export default function(irc, network) {
         }
 
         const topic = data.topic;
-        const msg = new Message({
+        const msg = new Message(chan, {
             type: MessageType.TOPIC,
             mode: chan.getMode(from),
             from: from,
