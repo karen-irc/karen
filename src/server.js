@@ -143,7 +143,7 @@ function auth(socketGateway, data) {
         manager.addClient(client);
 
         socketGateway.disconnect().subscribe(function() {
-            manager.removeClients(client);
+            manager.removeClient(client);
             client.quit();
         });
 
