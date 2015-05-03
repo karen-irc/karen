@@ -2,20 +2,23 @@ import Msg from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
-    var client = this;
+    const client = this;
     irc.on('welcome', function(data) {
         network.connected = true;
         irc.write('PING ' + network.host);
-        var lobby = network.channels[0];
-        var nick = data;
-        var msg = new Msg({
+
+        const lobby = network.channels[0];
+        const nick = data;
+        const msg = new Msg({
             text: 'You\'re now known as ' + nick
         });
+
         lobby.messages.push(msg);
         client.emit('msg', {
             chan: lobby.id,
             msg: msg
         });
+
         client.save();
         client.emit('nick', {
             network: network.id,

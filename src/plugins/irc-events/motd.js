@@ -2,11 +2,11 @@ import Msg from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
-    var client = this;
+    const client = this;
     irc.on('motd', function(data) {
-        var lobby = network.channels[0];
+        const lobby = network.channels[0];
         data.motd.forEach(function(text) {
-            var msg = new Msg({
+            const msg = new Msg({
                 type: MessageType.MOTD,
                 text: text
             });

@@ -5,7 +5,7 @@ import Msg from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
-    var client = this;
+    const client = this;
     irc.on('whois', function(err, data) {
         if (!!err) {
             throw err;
@@ -14,7 +14,8 @@ export default function(irc, network) {
         if (data === null) {
             return;
         }
-        var chan = _.findWhere(network.channels, {name: data.nickname});
+
+        let chan = _.findWhere(network.channels, {name: data.nickname});
         if (typeof chan === 'undefined') {
             chan = new Chan({
                 type: ChannelType.QUERY,
@@ -26,19 +27,21 @@ export default function(irc, network) {
                 chan: chan
             });
         }
-        var prefix = {
+
+        const prefix = {
             hostname: 'from',
             realname: 'is',
             channels: 'on',
             server: 'using'
         };
-        var i = 0;
-        for (var k in data) {
-            var key = prefix[k];
+
+        for (const k in data) {
+            const key = prefix[k];
             if (!key || data[k].toString() === '') {
                 continue;
             }
-            var msg = new Msg({
+
+            const msg = new Msg({
                 type: MessageType.WHOIS,
                 from: data.nickname,
                 text: key + ' ' + data[k]

@@ -2,10 +2,10 @@ import Msg from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
-    var client = this;
+    const client = this;
     irc.on('errors', function(data) {
-        var lobby = network.channels[0];
-        var msg = new Msg({
+        const lobby = network.channels[0];
+        const msg = new Msg({
             type: MessageType.ERROR,
             text: data.message,
         });
@@ -13,9 +13,10 @@ export default function(irc, network) {
             chan: lobby.id,
             msg: msg
         });
+
         if (!network.connected) {
             if (data.cmd === 'ERR_NICKNAMEINUSE') {
-                var random = irc.me + Math.floor(10 + (Math.random() * 89));
+                const random = irc.me + Math.floor(10 + (Math.random() * 89));
                 irc.nick(random);
             }
         }

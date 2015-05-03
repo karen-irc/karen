@@ -3,23 +3,24 @@ import Msg from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
-    var client = this;
+    const client = this;
     irc.on('notice', function(data) {
-        var target = data.to;
+        let target = data.to;
         if (target.toLowerCase() === irc.me.toLowerCase()) {
             target = data.from;
         }
 
-        var chan = _.findWhere(network.channels, {name: target});
+        let chan = _.findWhere(network.channels, {name: target});
         if (typeof chan === 'undefined') {
             chan = network.channels[0];
         }
 
-        var from = data.from || '';
+        let from = data.from || '';
         if (data.to === '*' || data.from.indexOf('.') !== -1) {
             from = '';
         }
-        var msg = new Msg({
+
+        const msg = new Msg({
             type: MessageType.NOTICE,
             from: from,
             text: data.message

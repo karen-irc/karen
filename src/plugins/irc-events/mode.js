@@ -3,22 +3,25 @@ import Msg from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
-    var client = this;
+    const client = this;
     irc.on('mode', function(data) {
-        var chan = _.findWhere(network.channels, {name: data.target});
+        const chan = _.findWhere(network.channels, {name: data.target});
         if (typeof chan !== 'undefined') {
             setTimeout(function() {
                 irc.write('NAMES ' + data.target);
             }, 200);
-            var from = data.nick;
+
+            let from = data.nick;
             if (from.indexOf('.') !== -1) {
                 from = data.target;
             }
-            var self = false;
+
+            let self = false;
             if (from.toLowerCase() === irc.me.toLowerCase()) {
                 self = true;
             }
-            var msg = new Msg({
+
+            const msg = new Msg({
                 type: MessageType.MODE,
                 mode: chan.getMode(from),
                 from: from,

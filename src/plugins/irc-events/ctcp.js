@@ -5,8 +5,9 @@ export default function(irc, network) {
         if (data.message.indexOf('\u0001') !== 0) {
             return;
         }
-        var msg = data.message.replace(/\u0001/g, '');
-        var split = msg.split(' ');
+
+        const msg = data.message.replace(/\u0001/g, '');
+        const split = msg.split(' ');
         switch (split[0]) {
             case 'VERSION':
                 irc.ctcp(

@@ -5,9 +5,9 @@ import MessageType from '../../models/MessageType';
 import User from '../../models/User';
 
 export default function(irc, network) {
-    var client = this;
+    const client = this;
     irc.on('join', function(data) {
-        var chan = _.find(network.channels, {name: data.channel});
+        let chan = _.find(network.channels, {name: data.channel});
         if (typeof chan === 'undefined') {
             chan = new Chan({
                 name: data.channel
@@ -19,18 +19,20 @@ export default function(irc, network) {
                 chan: chan
             });
         }
-        var users = chan.users;
+
+        const users = chan.users;
         users.push(new User({name: data.nick}));
         chan.sortUsers();
         client.emit('users', {
             chan: chan.id,
             users: users
         });
-        var self = false;
+
+        let self = false;
         if (data.nick.toLowerCase() === irc.me.toLowerCase()) {
             self = true;
         }
-        var msg = new Msg({
+        const msg = new Msg({
             from: data.nick,
             type: MessageType.JOIN,
             self: self
