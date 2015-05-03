@@ -1,9 +1,45 @@
-import _ from 'lodash';
 import fs from 'fs';
 import Client from './Client';
 import mkdirp from 'mkdirp';
 import ConfigDriver from './adopter/ConfigDriver';
 import moment from 'moment';
+import Rx from 'rx';
+
+/**
+ *  @template   T
+ *  @param  {Set<T>}    set
+ *  @param  {string}    path
+ *  @return {Array<T>}
+ */
+const pluckFromSet = function (set, path) {
+    const result = [];
+    for (const item of set) {
+        if ( item[path] !== undefined ) {
+            const value = item[path];
+            result.push(item);
+        }
+    }
+
+    return result;
+};
+
+/**
+ *  @template   T
+ *  @param  {Array<T>}  a
+ *  @param  {Array<T>}  b
+ *  @return {Array<T>}
+ */
+const difference = function (a, b) {
+    const diff = [];
+    const base = new Set(b);
+    for (const item of a) {
+        if (!base.has(item)) {
+            diff.push(item);
+        }
+    }
+
+    return diff;
+};
 
 export default class ClientManager {
 
@@ -11,10 +47,18 @@ export default class ClientManager {
      *  @constructor
      */
     constructor() {
-        this.clients = [];
+        /** @type   {Set<Client>}   */
+        this._clients = new Set();
 
         /** @type   {SocketIO.Socket}   */
         this.sockets = null;
+    }
+
+    /**
+     *  @return {Set<Client>}
+     */
+    get clients() {
+        return this._clients;
     }
 
     /**
@@ -22,8 +66,7 @@ export default class ClientManager {
      *  @return {Client}
      */
     _findClient(name) {
-        for (var i in this.clients) {
-            var client = this.clients[i];
+        for (let client of this._clients) {
             if (client.name === name) {
                 return client;
             }
@@ -73,7 +116,7 @@ export default class ClientManager {
         }
 
         var user = new Client(this.sockets, name, json);
-        this.clients.push(user);
+        this._clients.add(user);
 
         var message = 'User \'' + name + '\' loaded.';
         console.log(message);
@@ -153,35 +196,42 @@ export default class ClientManager {
     }
 
     /**
-     * @return {void}
+     * @return {Rx.IDisposable}
      */
     autoload() {
-        var self = this;
-        var loaded = [];
-        setInterval(function() {
-            var loaded = _.pluck(
-                self.clients,
-                'name'
-            );
-            var added = _.difference(self.getUsers(), loaded);
-            _.each(added, function(name) {
-                self.loadUser(name);
+        return Rx.Observable.interval(1000).subscribe(() => {
+            const loaded = pluckFromSet(this._clients, 'name');
+            const added = difference(this.getUsers(), loaded);
+            added.forEach((name) => {
+                this.loadUser(name);
             });
-            var removed = _.difference(loaded, self.getUsers());
-            _.each(removed, function(name) {
-                var client = _.find(
-                    self.clients, {
-                        name: name
-                    }
-                );
+
+            const removed = difference(loaded, this.getUsers());
+            removed.forEach((name) => {
+                const client = this._findClient(name);
+
                 if (client) {
                     client.quit();
-                    self.clients = _.without(self.clients, client);
-                    console.log(
-                        'User \'' + name + '\' disconnected.'
-                    );
+                    this.removeClient(client);
+                    console.log('User \'' + name + '\' disconnected.');
                 }
             });
-        }, 1000);
+        });
+    }
+
+    /**
+     *  @param  {Client}    client
+     *  @return {void}
+     */
+    addClient(client) {
+        this._clients.add(client);
+    }
+
+    /**
+     *  @param  {Client}    client
+     *  @return {void}
+     */
+    removeClient(client) {
+        this._clients.delete(client);
     }
 }
