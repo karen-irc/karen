@@ -224,29 +224,5 @@ module.exports = {
         // @default  ''
         //
         certificate: '',
-    },
-
-    //
-    // Run karen with identd support.
-    //
-    // @type     object
-    // @default  {}
-    //
-    identd: {
-        //
-        // Run the identd daemon on server start.
-        //
-        // @type     boolean
-        // @default  false
-        //
-        enable: false,
-
-        //
-        // Port to listen for ident requests.
-        //
-        // @type     int
-        // @default  113
-        //
-        port: 113,
     }
 };

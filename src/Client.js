@@ -3,7 +3,6 @@ import Chan from './models/Channel';
 import ChannelType from './models/ChannelType';
 import crypto from 'crypto';
 import fs from 'fs';
-import identd from './identd';
 import log from './log';
 import net from 'net';
 import Message from './models/Message';
@@ -152,7 +151,6 @@ export default class Client {
         var realname = args.realname || 'karen User';
 
         var irc = slate(stream);
-        identd.hook(stream, username);
 
         if (args.password) {
             irc.pass(args.password);
