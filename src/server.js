@@ -42,10 +42,6 @@ export default function(options) {
         }, app).listen(port, host);
     }
 
-    if ((config.identd || {}).enable) {
-        require('./identd').start(config.identd.port);
-    }
-
     gateway = new SocketIoServerDriver(server, transports);
 
     gateway.connect().subscribe(function(gateway) {
