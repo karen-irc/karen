@@ -114,7 +114,7 @@ export default class Channal {
     toJSON() {
         let clone = _.clone(this);
         clone.messages = clone.messages.slice(-100);
-        clone.network = null;
+        clone.network = undefined;
         return clone;
     }
 }

@@ -108,7 +108,7 @@ export default class Message {
 
     toJSON() {
         let clone = _.clone(this);
-        clone.channel = null;
+        clone.channel = undefined;
         return clone;
     }
 }
