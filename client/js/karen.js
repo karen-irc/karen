@@ -185,7 +185,7 @@ $(function() {
 
     socket.on('msg', function(data) {
         var target = '#chan-' + data.chan;
-        if (data.msg.type == 'error') {
+        if (data.msg.type === 'error') {
             target = '#chan-' + chat.find('.active').data('id');
         }
 
@@ -204,7 +204,7 @@ $(function() {
         }
 
         var type = data.msg.type;
-        if (type == 'message' || type == 'action') {
+        if (type === 'message' || type === 'action') {
             var nicks = chan.find('.users').data('nicks');
             if (nicks) {
                 var find = nicks.indexOf(from);
@@ -222,7 +222,7 @@ $(function() {
             .find('.messages')
             .prepend(render('msg', {messages: data.messages}))
             .end();
-        if (data.messages.length != 100) {
+        if (data.messages.length !== 100) {
             chan.find('.show-more').removeClass('show');
         }
     });
@@ -373,7 +373,7 @@ $(function() {
         ].indexOf(name) !== -1) {
             chat.toggleClass('hide-' + name, !self.prop('checked'));
         }
-        if (name == 'colors') {
+        if (name === 'colors') {
             chat.toggleClass('no-colors', !self.prop('checked'));
         }
     }).find('input')
@@ -382,7 +382,7 @@ $(function() {
     $('#badge').on('change', function() {
         var self = $(this);
         if (self.prop('checked')) {
-            if (Notification.permission != 'granted') {
+            if (Notification.permission !== 'granted') {
                 Notification.requestPermission();
             }
         }
@@ -427,7 +427,7 @@ $(function() {
             var text = '';
             if (window.getSelection) {
                 text = window.getSelection().toString();
-            } else if (document.selection && document.selection.type != 'Control') {
+            } else if (document.selection && document.selection.type !== 'Control') {
                 text = document.selection.createRange().text;
             }
             if (!text) {
@@ -579,7 +579,7 @@ $(function() {
                     pop.play();
                 }
                 favico.badge('!');
-                if (settings.badge && Notification.permission == 'granted') {
+                if (settings.badge && Notification.permission === 'granted') {
                     var notify = new Notification(msg.from + ' says:', {
                         body: msg.text.trim(),
                         icon: '/img/logo-64.png'
@@ -639,7 +639,7 @@ $(function() {
         var content = self.parent().next('.toggle-content');
         if (bottom && !content.hasClass('show')) {
             var img = content.find('img');
-            if (img.length != 0 && !img.width()) {
+            if (img.length !== 0 && !img.width()) {
                 img.on('load', function() {
                     chat.scrollBottom();
                 });
@@ -677,7 +677,7 @@ $(function() {
         form.find('.btn')
             .attr('disabled', true)
             .end();
-        if (form.closest('.window').attr('id') == 'connect') {
+        if (form.closest('.window').attr('id') === 'connect') {
             event = 'conn';
         }
         var values = {};
