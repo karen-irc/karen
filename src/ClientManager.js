@@ -4,6 +4,7 @@ import Client from './Client';
 import mkdirp from 'mkdirp';
 import ConfigDriver from './adopter/ConfigDriver';
 import moment from 'moment';
+import Rx from 'rx';
 
 /**
  *  @template   T
@@ -25,26 +26,20 @@ const pluckFromSet = function (set, path) {
 
 /**
  *  @template   T
- *  @param  {!Set<T>}    set
- *  @param  {!Object<string, *>}    predicate
- *  @return {T}
+ *  @param  {Array<T>}  a
+ *  @param  {Array<T>}  b
+ *  @return {Array<T>}
  */
-const findFromSet = function (set, predicate) {
-    /*eslint-disable no-labels, block-scoped-var*/
-    let keys = Object.keys(predicate);
-    outer: for (let item of set) {
-        for (let key of keys) {
-            const actual = item[key];
-            const expected = predicate[key];
-            if (actual !== expected) {
-                continue outer;
-            }
+const difference = function (a, b) {
+    const diff = [];
+    const base = new Set(b);
+    for (const item of a) {
+        if (!base.has(item)) {
+            diff.push(item);
         }
-        return item;
     }
-    /*eslint-enable*/
 
-    return null;
+    return diff;
 };
 
 export default class ClientManager {
@@ -202,31 +197,27 @@ export default class ClientManager {
     }
 
     /**
-     * @return {void}
+     * @return {Rx.IDisposable}
      */
     autoload() {
-        var self = this;
-        setInterval(function() {
-            const loaded = pluckFromSet(self._clients, 'name');
-            var added = _.difference(self.getUsers(), loaded);
-            _.each(added, function(name) {
-                self.loadUser(name);
+        return Rx.Observable.interval(1000).subscribe(() => {
+            const loaded = pluckFromSet(this._clients, 'name');
+            const added = difference(this.getUsers(), loaded);
+            added.forEach((name) => {
+                this.loadUser(name);
             });
-            var removed = _.difference(loaded, self.getUsers());
-            _.each(removed, function(name) {
-                var client = findFromSet(self._clients, {
-                    name: name
-                });
+
+            const removed = difference(loaded, this.getUsers());
+            removed.forEach((name) => {
+                const client = this._findClient(name);
 
                 if (client) {
                     client.quit();
-                    self.removeClient(client);
-                    console.log(
-                        'User \'' + name + '\' disconnected.'
-                    );
+                    this.removeClient(client);
+                    console.log('User \'' + name + '\' disconnected.');
                 }
             });
-        }, 1000);
+        });
     }
 
     /**
