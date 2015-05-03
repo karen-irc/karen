@@ -189,8 +189,11 @@ gulp.task('clean:server', function (callback) {
     return del(path.join(DIST_SERVER, '**', '*.*'), callback);
 });
 
-gulp.task('build:server', ['jslint', '__babel:server']);
-gulp.task('build:client', ['jslint', '__handlebars', '__uglify', '__copy', '__browserify']);
-gulp.task('build', ['jslint', 'build:client', 'build:server']);
+gulp.task('__build:server', ['__babel:server']);
+gulp.task('__build:client', ['__handlebars', '__uglify', '__copy', '__browserify']);
+
+gulp.task('build:server', ['jslint', '__build:server']);
+gulp.task('build:client', ['jslint', '__build:client']);
+gulp.task('build', ['jslint', '__build:client', '__build:server']);
 gulp.task('clean', ['clean:client', 'clean:server']);
 gulp.task('default', ['build']);
