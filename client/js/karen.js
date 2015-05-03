@@ -1,4 +1,4 @@
-/*global $:true, Mousetrap:true, Handlebars:true, Favico:true */
+/*global $:true, Mousetrap:true, Handlebars:true */
 
 import CookieDriver from '../script/adopter/CookieDriver';
 import SocketIoDriver from '../script/adopter/SocketIoDriver';
@@ -58,10 +58,6 @@ $(function() {
     /*eslint-disable new-cap*/
     $('.tse-scrollable').TrackpadScrollEmulator();
     /*eslint-enable */
-
-    var favico = new Favico({
-        animation: 'none'
-    });
 
     function render(name, data) {
         return Handlebars.templates[name](data);
@@ -474,10 +470,6 @@ $(function() {
             .data('count', '')
             .empty();
 
-        if (sidebar.find('.highlight').length === 0) {
-            favico.badge('');
-        }
-
         viewport.removeClass('lt');
         $('#windows .active').removeClass('active');
 
@@ -585,7 +577,6 @@ $(function() {
                 if (settings.notification) {
                     pop.play();
                 }
-                favico.badge('!');
                 if (settings.badge && Notification.permission === 'granted') {
                     var notify = new Notification(msg.from + ' says:', {
                         body: msg.text.trim(),
@@ -879,13 +870,4 @@ $(function() {
         array.splice(newIndex, 0, array.splice(oldIndex, 1)[0]);
         return array;
     }
-
-    document.addEventListener(
-        'visibilitychange',
-        function() {
-            if (sidebar.find('.highlight').length === 0) {
-                favico.badge('');
-            }
-        }
-    );
 });

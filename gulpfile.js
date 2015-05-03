@@ -38,7 +38,6 @@ let uglify = require('gulp-uglifyjs');
 const isRelease = process.env.NODE_ENV === 'production';
 
 const SRC = [
-    'client/js/libs/favico.js',
     'client/js/libs/handlebars.js',
     'client/js/libs/handlebars/**/*.js',
     'client/js/libs/jquery.js',
