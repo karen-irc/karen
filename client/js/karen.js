@@ -37,11 +37,12 @@ $(function() {
         $('html').addClass('web-app-mode');
     }
 
+    var pop = null;
     try {
-        var pop = new Audio();
+        pop = new Audio();
         pop.src = '/audio/pop.ogg';
     } catch(e) {
-        var pop = {
+        pop = {
             play: $.noop
         };
     }
@@ -49,7 +50,9 @@ $(function() {
     $('#play').on('click', function() { pop.play(); });
     $('#footer .icon').tooltip();
 
+    /*eslint-disable new-cap*/
     $('.tse-scrollable').TrackpadScrollEmulator();
+    /*eslint-enable */
 
     var favico = new Favico({
         animation: 'none'
@@ -268,7 +271,7 @@ $(function() {
         var highest = -1;
         chat.find('.chan').each(function() {
             var self = $(this);
-            var z = parseInt(self.css('z-index'));
+            var z = parseInt(self.css('z-index'), 10);
             if (z > highest) {
                 highest = z;
                 next = self;
@@ -276,7 +279,7 @@ $(function() {
         });
 
         if (next !== null) {
-            var id = next.data('id');
+            id = next.data('id');
             sidebar.find('[data-id=' + id + ']').click();
         } else {
             sidebar.find('.chan')
@@ -515,9 +518,11 @@ $(function() {
         if (chan.hasClass('lobby')) {
             cmd = '/quit';
             var server = chan.find('.name').html();
-            if (!confirm('Disconnect from ' + server + '?')) {
+            /*eslint-disable no-alert*/
+            if (!window.confirm('Disconnect from ' + server + '?')) {
                 return false;
             }
+            /*eslint-enable*/
         }
         socket.emit('input', {
             target: chan.data('id'),
@@ -865,16 +870,16 @@ $(function() {
         }
     }
 
-    function move(array, old_index, new_index) {
-        if (new_index >= array.length) {
-            var k = new_index - array.length;
+    function move(array, oldIndex, newIndex) {
+        if (newIndex >= array.length) {
+            var k = newIndex - array.length;
             while ((k--) + 1) {
                 this.push(undefined);
             }
         }
-        array.splice(new_index, 0, array.splice(old_index, 1)[0]);
+        array.splice(newIndex, 0, array.splice(oldIndex, 1)[0]);
         return array;
-    };
+    }
 
     document.addEventListener(
         'visibilitychange',
