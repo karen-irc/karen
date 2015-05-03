@@ -48,7 +48,8 @@ export default function(options) {
 
     gateway = new SocketIoServerDriver(server, transports);
 
-    gateway.connect().subscribe(function(socket) {
+    gateway.connect().subscribe(function(gateway) {
+        const socket = gateway.getSocket();
         if (config.public) {
             auth.call(socket);
         } else {

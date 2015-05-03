@@ -23,40 +23,21 @@
  * THE SOFTWARE.
  */
 
-import ClientSocketDriver from './ClientSocketDriver';
-import io from 'socket.io';
-import Rx from 'rx';
-
-export default class SocketIoServerDriver {
+export default class ClientSocketDriver {
 
     /**
      *  @constructor
-     *  @param  {http.Server}   server
-     *  @param  {Array<string>} transports
+     *  @param  {SocketIO.Socket}   socket
      */
-    constructor (server, transports) {
-        /** @type   {SocketIO.Server}   */
-        this._server = io(server, {
-            transports,
-        });
+    constructor (socket) {
+        /** @type   {SocketIO.Socket}   */
+        this._socket = socket;
     }
 
     /**
-     *  @return {SocketIO.Server}
+     *  @return {SocketIO.Socket}
      */
-    getServer() {
-        return this._server;
-    }
-
-    /**
-     *  @return {Rx.Observable<ClientSocketDriver>}
-     */
-    connect() {
-        return Rx.Observable.create((observer) => {
-            this._server.on('connect', (socket) => {
-                let gateway = new ClientSocketDriver(socket);
-                observer.onNext(gateway);
-            });
-        });
+    getSocket() {
+        return this._socket;
     }
 }
