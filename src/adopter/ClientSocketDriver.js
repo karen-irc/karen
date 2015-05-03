@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+import Rx from 'rx';
+
 export default class ClientSocketDriver {
 
     /**
@@ -39,5 +41,100 @@ export default class ClientSocketDriver {
      */
     getSocket() {
         return this._socket;
+    }
+
+    /**
+     *  @return {void}
+     */
+    emitAuth() {
+        this._socket.emit('auth');
+    }
+
+    /**
+     *  @return {Rx.Observable<?>}
+     */
+    auth() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('auth', (data) => {
+                observer.onNext(data);
+            });
+        });
+    }
+
+    /**
+     *  @return {Rx.Observable<?>}
+     */
+    input() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('input', (data) => {
+                observer.onNext(data);
+            });
+        });
+    }
+
+    /**
+     *  @return {Rx.Observable<?>}
+     */
+    more() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('more', (data) => {
+                observer.onNext(data);
+            });
+        });
+    }
+
+    /**
+     *  @return {Rx.Observable<?>}
+     */
+    connect() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('conn', (data) => {
+                observer.onNext(data);
+            });
+        });
+    }
+
+    /**
+     *  @return {Rx.Observable<?>}
+     */
+    open() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('open', (data) => {
+                observer.onNext(data);
+            });
+        });
+    }
+
+    /**
+     *  @return {Rx.Observable<?>}
+     */
+    sort() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('sort', (data) => {
+                observer.onNext(data);
+            });
+        });
+    }
+
+    /**
+     *  @param  {string}  id
+     *  @return {Socket}
+     */
+    joinClient(id) {
+        return this._socket.join(id);
+    }
+
+    /**
+     *  @param  {number}    active
+     *  @param  {Array<Network>}    networks
+     *  @param  {string}    token
+     *  @return {void}
+     */
+    emitInitialize(active, networks, token) {
+        this._socket.emit('init', {
+            active,
+            networks,
+            token,
+        });
     }
 }

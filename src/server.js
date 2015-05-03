@@ -49,11 +49,11 @@ export default function(options) {
     gateway = new SocketIoServerDriver(server, transports);
 
     gateway.connect().subscribe(function(gateway) {
-        const socket = gateway.getSocket();
         if (config.public) {
+            const socket = gateway.getSocket();
             auth.call(socket);
         } else {
-            init(socket);
+            init(gateway);
         }
     });
 
@@ -95,55 +95,54 @@ function index(req, res, next) {
 }
 
 /**
- *  @param  {SocketIO.Socket}   socket
+ *  @param  {ClientSocketDriver}   gateway
  *  @param  {Client=}   client  (optional)
  *  @param  {string=}   token   (optional)
  *  @return {void}
  */
-function init(socket, client, token) {
+function init(gateway, client, token) {
     if (!client) {
-        socket.emit('auth');
-        socket.on('auth', auth);
-    } else {
-        socket.on(
-            'input',
-            function(data) {
-                client.input(data);
-            }
-        );
-        socket.on(
-            'more',
-            function(data) {
-                client.more(data);
-            }
-        );
-        socket.on(
-            'conn',
-            function(data) {
-                client.connect(data);
-            }
-        );
-        socket.on(
-            'open',
-            function(data) {
-                client.open(data);
-            }
-        );
-        socket.on(
-            'sort',
-            function(data) {
-                client.sort(data);
-            }
-        );
-        socket.join(client.id);
-        socket.emit('init', {
-            active: client.activeChannel,
-            networks: client.networks,
-            token: token || ''
+        gateway.auth().subscribe(function (data) {
+            auth.call(gateway.getSocket(), data);
         });
+
+        gateway.emitAuth();
+    } else {
+        gateway.input().subscribe(function (data) {
+            client.input(data);
+        });
+
+        gateway.more().subscribe(function (data) {
+            client.more(data);
+        });
+
+        gateway.connect().subscribe(function (data) {
+            client.connect(data);
+        });
+
+        gateway.open().subscribe(function (data) {
+            client.open(data);
+        });
+
+        gateway.sort().subscribe(function (data) {
+            client.sort(data);
+        });
+
+        gateway.joinClient(client.id);
+
+        const key = (token !== undefined) ? token : '';
+        gateway.emitInitialize(client.activeChannel,
+                               client.networks,
+                               key);
     }
 }
 
+/**
+ *  @this   {SocketIO.Socket}
+ *
+ *  @param  {?} data
+ *  @return {void}
+ */
 function auth(data) {
     const socket = this;
     if (config.public) {
