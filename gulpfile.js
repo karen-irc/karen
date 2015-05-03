@@ -103,6 +103,27 @@ gulp.task('__handlebars', ['clean:client'], function () {
     childProcess.spawn('node', args, option);
 });
 
+gulp.task('__browserify', ['clean:client'], function () {
+    const SRC_JS = ['./client/js/karen.js'];
+
+    const option = {
+        insertGlobals: false,
+        debug: isRelease ? false : true,
+    };
+
+    const babel = babelify.configure({
+        optional: [],
+    });
+
+    browserify(SRC_JS, option)
+        .transform(babel)
+        .bundle()
+        .pipe(source('karen.js'))
+        .pipe(gulp.dest(DIST_CLIENT_JS));
+});
+
+
+
 gulp.task('jslint', function () {
     let option = {
         useEslintrc: true,
@@ -169,7 +190,7 @@ gulp.task('clean:server', function (callback) {
 });
 
 gulp.task('build:server', ['jslint', '__babel:server']);
-gulp.task('build:client', ['__handlebars', '__uglify', '__copy']);
+gulp.task('build:client', ['jslint', '__handlebars', '__uglify', '__copy', '__browserify']);
 gulp.task('build', ['jslint', 'build:client', 'build:server']);
 gulp.task('clean', ['clean:client', 'clean:server']);
 gulp.task('default', ['build']);

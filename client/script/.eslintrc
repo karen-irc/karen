@@ -4,6 +4,11 @@
     // http://eslint.org/docs/configuring/#comments-in-configuration-files
 
     "ecmaFeatures": {
+        "arrowFunctions": true,
+        "blockBindings": true,
+        "classes": true,
+        "modules": true,
+        "jsx": true
     },
 
     "env": {
