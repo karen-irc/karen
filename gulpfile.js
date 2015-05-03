@@ -45,7 +45,6 @@ const SRC = [
     'client/js/libs/jquery/**/*.js',
     'client/js/libs/moment.js',
     'client/js/libs/notification.js',
-    'client/js/libs/socket.io.js',
     'client/js/libs/string.contains.js',
     'client/js/libs/stringcolor.js',
     'client/js/libs/uri.js',
@@ -76,14 +75,6 @@ gulp.task('__uglify', ['clean:client'], function () {
         .pipe(uglify('libs.min.js', {
             compress: false,
         }))
-        .pipe(gulp.dest(DIST_CLIENT_JS));
-});
-
-gulp.task('__copy', ['clean:client'], function () {
-    var src = [
-        './node_modules/rx/dist/rx.js',
-    ];
-    return gulp.src(src)
         .pipe(gulp.dest(DIST_CLIENT_JS));
 });
 
@@ -190,7 +181,7 @@ gulp.task('clean:server', function (callback) {
 });
 
 gulp.task('__build:server', ['__babel:server']);
-gulp.task('__build:client', ['__handlebars', '__uglify', '__copy', '__browserify']);
+gulp.task('__build:client', ['__handlebars', '__uglify', '__browserify']);
 
 gulp.task('build:server', ['jslint', '__build:server']);
 gulp.task('build:client', ['jslint', '__build:client']);

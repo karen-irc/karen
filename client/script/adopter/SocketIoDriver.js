@@ -25,7 +25,7 @@
 import io from 'socket.io-client';
 import Rx from 'rx';
 
-class SocketIoDriver {
+export default class SocketIoDriver {
 
     /**
      *  @constructor
@@ -33,6 +33,13 @@ class SocketIoDriver {
     constructor() {
         /** @type   {SocketIOClient.Socket} */
         this._socket = io();
+    }
+
+    /**
+     *  @return {SocketIOClient.Socket}
+     */
+    getSocket() {
+        return this._socket;
     }
 
     /**
@@ -181,6 +188,17 @@ class SocketIoDriver {
     /**
      *  @return {!Rx.Observable<?>}
      */
+    topic() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('topic', function (data) {
+                observer.onNext(data);
+            });
+        });
+    }
+
+    /**
+     *  @return {!Rx.Observable<?>}
+     */
     users() {
         return Rx.Observable.create((observer) => {
             this._socket.on('users', function (data) {
@@ -189,5 +207,3 @@ class SocketIoDriver {
         });
     }
 }
-
-export default new SocketIoDriver();

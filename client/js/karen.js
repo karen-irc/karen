@@ -1,8 +1,10 @@
-/*global $:true, Mousetrap:true, Handlebars:true, Favico:true, io:true */
-'use strict';
+/*global $:true, Mousetrap:true, Handlebars:true, Favico:true */
+
+import SocketIoDriver from '../script/adopter/SocketIoDriver';
+
+const socket = new SocketIoDriver();
 
 $(function() {
-    var socket = io();
     var commands = [
         '/close',
         '/connect',
@@ -69,19 +71,21 @@ $(function() {
         }
     );
 
-    socket.on('error', function(e) {
+    socket.error().subscribe(function(e) {
         /*eslint-disable no-console*/
         console.log(e);
         /*eslint-enable*/
     });
 
-    $.each(['connect_error', 'disconnect'], function(i, e) {
-        socket.on(e, function() {
-            refresh();
-        });
+    socket.connectError().subscribe(function(){
+        refresh();
     });
 
-    socket.on('auth', function(data) {
+    socket.disconnect().subscribe(function(){
+        refresh();
+    });
+
+    socket.auth().subscribe(function(data) {
         var body = $('body');
         var login = $('#sign-in');
         if (!login.length) {
@@ -119,7 +123,7 @@ $(function() {
             .show();
     });
 
-    socket.on('init', function(data) {
+    socket.init().subscribe(function(data) {
         if (data.networks.length === 0) {
             $('#footer').find('.connect').trigger('click');
         } else {
@@ -166,7 +170,7 @@ $(function() {
         sortable();
     });
 
-    socket.on('join', function(data) {
+    socket.join().subscribe(function(data) {
         var id = data.network;
         var network = sidebar.find('#network-' + id);
         network.append(
@@ -189,7 +193,7 @@ $(function() {
         chan.click();
     });
 
-    socket.on('msg', function(data) {
+    socket.message().subscribe(function(data) {
         var target = '#chan-' + data.chan;
         if (data.msg.type === 'error') {
             target = '#chan-' + chat.find('.active').data('id');
@@ -221,7 +225,7 @@ $(function() {
         }
     });
 
-    socket.on('more', function(data) {
+    socket.more().subscribe(function(data) {
         var target = data.chan;
         var chan = chat
             .find('#chan-' + target)
@@ -233,7 +237,7 @@ $(function() {
         }
     });
 
-    socket.on('network', function(data) {
+    socket.network().subscribe(function(data) {
         sidebar.find('.empty').hide();
         sidebar.find('.networks').append(
             render('network', {
@@ -256,7 +260,7 @@ $(function() {
         sortable();
     });
 
-    socket.on('nick', function(data) {
+    socket.nickname().subscribe(function(data) {
         var id = data.network;
         var nick = data.nick;
         var network = sidebar.find('#network-' + id).data('nick', nick);
@@ -265,7 +269,7 @@ $(function() {
         }
     });
 
-    socket.on('part', function(data) {
+    socket.part().subscribe(function(data) {
         var id = data.chan;
         sidebar.find('.chan[data-id=\'' + id + '\']').remove();
         $('#chan-' + id).remove();
@@ -291,7 +295,7 @@ $(function() {
         }
     });
 
-    socket.on('quit', function(data) {
+    socket.quit().subscribe(function(data) {
         var id = data.network;
         sidebar.find('#network-' + id)
             .remove()
@@ -304,7 +308,7 @@ $(function() {
         }
     });
 
-    socket.on('toggle', function(data) {
+    socket.toggle().subscribe(function(data) {
         var toggle = $('#toggle-' + data.id);
         toggle.parent().after(render('toggle', {toggle: data}));
         switch (data.type) {
@@ -322,12 +326,12 @@ $(function() {
         }
     });
 
-    socket.on('topic', function(data) {
+    socket.topic().subscribe(function(data) {
         // .text() escapes HTML (but not quotes)
         $('#chan-' + data.chan).find('.header .topic').text(data.topic);
     });
 
-    socket.on('users', function(data) {
+    socket.users().subscribe(function(data) {
         var users = chat.find('#chan-' + data.chan).find('.users').html(render('user', data));
         var nicks = [];
         for (var i in data.users) {
@@ -422,7 +426,7 @@ $(function() {
             clear();
             return;
         }
-        socket.emit('input', {
+        socket.getSocket().emit('input', {
             target: chat.data('id'),
             text: text
         });
@@ -463,7 +467,7 @@ $(function() {
             'id',
             self.data('id')
         );
-        socket.emit(
+        socket.getSocket().emit(
             'open',
             self.data('id')
         );
@@ -527,7 +531,7 @@ $(function() {
             }
             /*eslint-enable*/
         }
-        socket.emit('input', {
+        socket.getSocket().emit('input', {
             target: chan.data('id'),
             text: cmd
         });
@@ -560,7 +564,7 @@ $(function() {
         }
         whois = true;
         var text = '/whois ' + user;
-        socket.emit('input', {
+        socket.getSocket().emit('input', {
             target: chat.data('id'),
             text: text
         });
@@ -634,7 +638,7 @@ $(function() {
     chat.on('click', '.show-more-button', function() {
         var self = $(this);
         var count = self.parent().next('.messages').children().length;
-        socket.emit('more', {
+        socket.getSocket().emit('more', {
             target: self.data('id'),
             count: count
         });
@@ -702,7 +706,7 @@ $(function() {
                 }
             );
         }
-        socket.emit(
+        socket.getSocket().emit(
             event, values
         );
     });
@@ -829,7 +833,7 @@ $(function() {
                     var id = $(this).data('id');
                     order.push(id);
                 });
-                socket.emit(
+                socket.getSocket().emit(
                     'sort', {
                         type: 'networks',
                         order: order
@@ -852,7 +856,7 @@ $(function() {
                     var id = $(this).data('id');
                     order.push(id);
                 });
-                socket.emit(
+                socket.getSocket().emit(
                     'sort', {
                         type: 'channels',
                         target: network.data('id'),
