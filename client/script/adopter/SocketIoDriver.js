@@ -25,164 +25,169 @@
 import io from 'socket.io-client';
 import Rx from 'rx';
 
-let socket = io();
+class SocketIoDriver {
 
-let SocketIoGateway = Object.freeze({
+    /**
+     *  @constructor
+     */
+    constructor() {
+        /** @type   {SocketIOClient.Socket} */
+        this._socket = io();
+    }
 
     /**
      *  @return {!Rx.Observable<?>}
      */
-    error: function () {
-        return Rx.Observable.create(function (observer) {
-            socket.on('error', (e) => {
+    error() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('error', function (e) {
                 observer.onError(e);
             });
         });
-    },
+    }
 
     /**
      *  @return {!Rx.Observable<void>}
      */
-    connectError: function () {
-        return Rx.Observable.create(function (observer) {
-            socket.on('connect_error', () => {
+    connectError() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('connect_error', function () {
                 observer.onNext();
             });
         });
-    },
+    }
 
     /**
      *  @return {!Rx.Observable<void>}
      */
-    disconnect: function () {
-        return Rx.Observable.create(function (observer) {
-            socket.on('disconnect', () => {
+    disconnect() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('disconnect', function () {
                 observer.onNext();
             });
         });
-    },
+    }
 
     /**
      *  @return {!Rx.Observable<?>}
      */
-    auth: function () {
-        return Rx.Observable.create(function (observer) {
-            socket.on('auth', (data) => {
+    auth() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('auth', function (data) {
                 observer.onNext(data);
             });
         });
-    },
+    }
 
     /**
      *  @return {!Rx.Observable<?>}
      */
-    init: function () {
-        return Rx.Observable.create(function (observer) {
-            socket.on('init', (data) => {
+    init() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('init', function (data) {
                 observer.onNext(data);
             });
         });
-    },
+    }
 
     /**
      *  @return {!Rx.Observable<?>}
      */
-    join: function () {
-        return Rx.Observable.create(function (observer) {
-            socket.on('join', (data) => {
+    join() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('join', function (data) {
                 observer.onNext(data);
             });
         });
-    },
+    }
 
     /**
      *  @return {!Rx.Observable<?>}
      */
-    message: function () {
-        return Rx.Observable.create(function (observer) {
-            socket.on('msg', (data) => {
+    message() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('msg', function (data) {
                 observer.onNext(data);
             });
         });
-    },
+    }
 
     /**
      *  @return {!Rx.Observable<?>}
      */
-    more: function () {
-        return Rx.Observable.create(function (observer) {
-            socket.on('more', (data) => {
+    more() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('more', function (data) {
                 observer.onNext(data);
             });
         });
-    },
+    }
 
     /**
      *  @return {!Rx.Observable<?>}
      */
-    network: function () {
-        return Rx.Observable.create(function (observer) {
-            socket.on('network', (data) => {
+    network() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('network', function (data) {
                 observer.onNext(data);
             });
         });
-    },
+    }
 
     /**
      *  @return {!Rx.Observable<?>}
      */
-    nickname: function () {
-        return Rx.Observable.create(function (observer) {
-            socket.on('nick', (data) => {
+    nickname() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('nick', function (data) {
                 observer.onNext(data);
             });
         });
-    },
+    }
 
     /**
      *  @return {!Rx.Observable<?>}
      */
-    part: function () {
-        return Rx.Observable.create(function (observer) {
-            socket.on('part', (data) => {
+    part() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('part', function (data) {
                 observer.onNext(data);
             });
         });
-    },
+    }
 
     /**
      *  @return {!Rx.Observable<?>}
      */
-    quit: function () {
-        return Rx.Observable.create(function (observer) {
-            socket.on('quit', (data) => {
+    quit() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('quit', function (data) {
                 observer.onNext(data);
             });
         });
-    },
+    }
 
     /**
      *  @return {!Rx.Observable<?>}
      */
-    toggle: function () {
-        return Rx.Observable.create(function (observer) {
-            socket.on('toggle', (data) => {
+    toggle() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('toggle', function (data) {
                 observer.onNext(data);
             });
         });
-    },
+    }
 
     /**
      *  @return {!Rx.Observable<?>}
      */
-    users: function () {
-        return Rx.Observable.create(function (observer) {
-            socket.on('users', (data) => {
+    users() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('users', function (data) {
                 observer.onNext(data);
             });
         });
-    },
+    }
+}
 
-});
-
-export default SocketIoGateway;
+export default new SocketIoDriver();
