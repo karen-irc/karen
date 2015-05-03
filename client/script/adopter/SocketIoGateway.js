@@ -25,7 +25,7 @@
 import io from 'socket.io-client';
 import Rx from 'rx';
 
-class SocketIoGateway {
+class SocketIoDriver {
 
     /**
      *  @constructor
@@ -190,4 +190,4 @@ class SocketIoGateway {
     }
 }
 
-export default new SocketIoGateway();
+export default new SocketIoDriver();
