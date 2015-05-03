@@ -1,6 +1,7 @@
 import ClientManager from '../ClientManager';
 import bcrypt from 'bcrypt-nodejs';
 import fs from 'fs';
+import path from 'path';
 import program from 'commander';
 import mkdirp from 'mkdirp';
 import ConfigDriver from '../adopter/ConfigDriver';
@@ -15,7 +16,7 @@ const add = function add(manager, name, password) {
         hash
     );
     console.log('User \'' + name + '\' created:');
-    console.log(ConfigDriver.HOME + '/users/' + name + '.json');
+    console.log(path.join(ConfigDriver.getHome(), 'users', name + '.json'));
     console.log('');
 };
 
@@ -23,23 +24,23 @@ program
     .command('add <name>')
     .description('Add a new user')
     .action(function(name, password) {
-        const path = ConfigDriver.HOME + '/users';
+        const usersPath = path.join(ConfigDriver.getHome(), 'users');
         try {
-            mkdirp.sync(path);
+            mkdirp.sync(usersPath);
         } catch (e) {
             console.log('');
-            console.log('Could not create ' + path);
+            console.log('Could not create ' + usersPath);
             console.log('Try running the command as sudo.');
             console.log('');
             return;
         }
         try {
-            const test = path + '/.test';
+            const test = path.join(usersPath, '.test');
             fs.mkdirSync(test);
             fs.rmdirSync(test);
         } catch (e) {
             console.log('');
-            console.log('You have no permissions to write to ' + path);
+            console.log('You have no permissions to write to ' + usersPath);
             console.log('Try running the command as sudo.');
             console.log('');
             return;

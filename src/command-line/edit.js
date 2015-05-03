@@ -1,11 +1,12 @@
 import ClientManager from '../ClientManager';
 import program from 'commander';
 import child from 'child_process';
+import path from 'path';
 import ConfigDriver from '../adopter/ConfigDriver';
 
 program
     .command('edit <name>')
-    .description('Edit user: \'' + ConfigDriver.HOME + '/users/<name>.json\'')
+    .description('Edit user: \'' + ConfigDriver.getHome() + '/users/<name>.json\'')
     .action(function(name) {
         const users = new ClientManager().getUsers();
         if (users.indexOf(name) === -1) {
@@ -16,7 +17,7 @@ program
         }
         child.spawn(
             process.env.EDITOR || 'vi',
-            [require('path').join(ConfigDriver.HOME, 'users', name + '.json')],
+            [path.join(ConfigDriver.getHome(), 'users', name + '.json')],
             {stdio: 'inherit'}
         );
     });

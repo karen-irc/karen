@@ -19,12 +19,12 @@ import './edit';
 
 var argv = program.parseOptions(process.argv);
 if (program.home) {
-    ConfigDriver.HOME = program.home;
+    ConfigDriver.setHome(program.home);
 }
 
-var config = ConfigDriver.HOME + '/config.js';
+var config = path.join(ConfigDriver.getHome(), 'config.js');
 if (!fs.existsSync(config)) {
-    mkdirp.sync(ConfigDriver.HOME);
+    mkdirp.sync(ConfigDriver.getHome());
     fs.writeFileSync(
         config,
         fs.readFileSync(path.resolve(__dirname, '../../defaults/config.js'))

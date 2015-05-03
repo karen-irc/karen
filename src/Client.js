@@ -3,6 +3,7 @@ import Chan from './models/Channel';
 import ChannelType from './models/ChannelType';
 import crypto from 'crypto';
 import fs from 'fs';
+import path from 'path';
 import Logger from './Logger';
 import net from 'net';
 import Message from './models/Message';
@@ -179,8 +180,8 @@ export default class Client {
         });
 
         events.forEach((plugin) => {
-            var path = './plugins/irc-events/' + plugin;
-            require(path).apply(this, [
+            var pluginPath = './plugins/irc-events/' + plugin;
+            require(pluginPath).apply(this, [
                 irc,
                 network
             ]);
@@ -223,10 +224,10 @@ export default class Client {
         var args = text.split(' ');
         var cmd = args.shift().replace('/', '').toLowerCase();
         inputs.forEach((plugin) => {
-            var path = '';
+            var pluginPath = '';
             try {
-                path = './plugins/inputs/' + plugin;
-                var fn = require(path);
+                pluginPath = './plugins/inputs/' + plugin;
+                var fn = require(pluginPath);
                 fn.apply(this, [
                     target.network,
                     target.chan,
@@ -234,7 +235,7 @@ export default class Client {
                     args
                 ]);
             } catch (e) {
-                console.log(path + ': ' + e);
+                console.log(pluginPath + ': ' + e);
             }
         });
     }
@@ -331,12 +332,12 @@ export default class Client {
         }
 
         var name = this.name;
-        var path = ConfigDriver.HOME + '/users/' + name + '.json';
+        var userPath = path.join(ConfigDriver.getHome(), 'users', name + '.json');
 
         var networks = this.networks.map((network) => network.export());
 
         var json = {};
-        fs.readFile(path, 'utf-8', (err, data) => {
+        fs.readFile(userPath, 'utf-8', (err, data) => {
             if (err) {
                 console.log(err);
                 return;
@@ -351,7 +352,7 @@ export default class Client {
             }
 
             fs.writeFile(
-                path,
+                userPath,
                 JSON.stringify(json, null, '  '),
                 {mode: '0777'},
                 (err) => {

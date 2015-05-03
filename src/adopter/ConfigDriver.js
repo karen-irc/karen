@@ -1,13 +1,24 @@
 import path from 'path';
 
-const HOME = (process.env.HOME || process.env.USERPROFILE) + '/.karen';
+class ConfigDriver {
+    constructor(defaultHome) {
+        this._home = defaultHome;
+    }
 
-function getConfig() {
-    const file = path.resolve(HOME, './config');
-    return module.require(file);
+    getConfig() {
+        const file = path.resolve(path.join(this.getHome(), 'config'));
+        return module.require(file);
+    }
+
+    getHome() {
+        return this._home;
+    }
+
+    setHome(home) {
+        this._home = home;
+    }
 }
 
-export default {
-    HOME,
-    getConfig
-};
+const HOME = (process.env.HOME || process.env.USERPROFILE) + '/.karen';
+
+export default new ConfigDriver(HOME);

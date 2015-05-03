@@ -7,11 +7,11 @@ import ConfigDriver from '../adopter/ConfigDriver';
 
 program
     .command('config')
-    .description('Edit config: \'' + ConfigDriver.HOME + '/config.js\'')
+    .description('Edit config: \'' + ConfigDriver.getHome() + '/config.js\'')
     .action(function() {
         child.spawn(
             process.env.EDITOR || 'vi',
-            [ConfigDriver.HOME + '/config.js'],
+            [path.join(ConfigDriver.getHome(), 'config.js')],
             {stdio: 'inherit'}
         );
     });

@@ -1,12 +1,13 @@
 import fs from 'fs';
+import path from 'path';
 import mkdirp from 'mkdirp';
 import moment from 'moment';
 import ConfigDriver from './adopter/ConfigDriver';
 
 function write(user, network, chan, msg) {
-    var path = ConfigDriver.HOME + '/logs/' + user + '/' + network;
+    var logsPath = path.join(ConfigDriver.getHome(), 'logs', user, network);
     try {
-        mkdirp.sync(path);
+        mkdirp.sync(logsPath);
     } catch(e) {
         console.log(e);
         return;
@@ -34,7 +35,7 @@ function write(user, network, chan, msg) {
     }
 
     fs.appendFile(
-        path + '/' + chan + '.log',
+        path.join(logsPath, chan + '.log'),
         line + '\n',
         function(e) {
             if (e) {
