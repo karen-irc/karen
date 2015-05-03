@@ -79,14 +79,6 @@ gulp.task('__uglify', ['clean:client'], function () {
         .pipe(gulp.dest(DIST_CLIENT_JS));
 });
 
-gulp.task('__copy', ['clean:client'], function () {
-    var src = [
-        './node_modules/rx/dist/rx.js',
-    ];
-    return gulp.src(src)
-        .pipe(gulp.dest(DIST_CLIENT_JS));
-});
-
 gulp.task('__handlebars', ['clean:client'], function () {
     let handlebars = path.relative(__dirname, './node_modules/handlebars/bin/handlebars');
     let args = [
@@ -190,7 +182,7 @@ gulp.task('clean:server', function (callback) {
 });
 
 gulp.task('__build:server', ['__babel:server']);
-gulp.task('__build:client', ['__handlebars', '__uglify', '__copy', '__browserify']);
+gulp.task('__build:client', ['__handlebars', '__uglify', '__browserify']);
 
 gulp.task('build:server', ['jslint', '__build:server']);
 gulp.task('build:client', ['jslint', '__build:client']);
