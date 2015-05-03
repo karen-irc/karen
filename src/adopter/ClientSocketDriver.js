@@ -37,13 +37,6 @@ export default class ClientSocketDriver {
     }
 
     /**
-     *  @return {SocketIO.Socket}
-     */
-    getSocket() {
-        return this._socket;
-    }
-
-    /**
      *  @return {void}
      */
     emitAuth() {
