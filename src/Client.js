@@ -3,7 +3,7 @@ import Chan from './models/Channel';
 import ChannelType from './models/ChannelType';
 import crypto from 'crypto';
 import fs from 'fs';
-import log from './log';
+import Logger from './Logger';
 import net from 'net';
 import Message from './models/Message';
 import MessageType from './models/MessageType';
@@ -94,7 +94,7 @@ export default class Client {
                     if (target.chan.type === ChannelType.LOBBY) {
                         chan = target.network.host;
                     }
-                    log.write(
+                    Logger.write(
                         this.name,
                         target.network.host,
                         chan,
