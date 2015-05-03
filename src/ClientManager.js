@@ -12,6 +12,9 @@ export default class ClientManager {
      */
     constructor() {
         this.clients = [];
+
+        /** @type   {SocketIO.Socket}   */
+        this.sockets = null;
     }
 
     /**

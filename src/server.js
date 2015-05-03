@@ -4,16 +4,17 @@ import assign from 'object-assign';
 import bcrypt from 'bcrypt-nodejs';
 import Client from './Client';
 import ClientManager from './ClientManager';
+import SocketIoServerDriver from './adopter/SocketIoServerDriver';
 import express from 'express';
 import fs from 'fs';
 import http from 'http';
-import io from 'socket.io';
 import Helper from './helper';
 
 let server = null;
 let config = {};
 
-let sockets = null;
+let gateway = null;
+
 const manager = new ClientManager();
 
 export default function(options) {
@@ -45,11 +46,9 @@ export default function(options) {
         require('./identd').start(config.identd.port);
     }
 
-    sockets = io(server, {
-        transports,
-    });
+    gateway = new SocketIoServerDriver(server, transports);
 
-    sockets.on('connect', function(socket) {
+    gateway.connect().subscribe(function(socket) {
         if (config.public) {
             auth.call(socket);
         } else {
@@ -57,7 +56,7 @@ export default function(options) {
         }
     });
 
-    manager.sockets = sockets;
+    manager.sockets = gateway.getServer();
 
     console.log('');
     console.log('karen is now running on ' + protocol + '://' + config.host + ':' + config.port + '/');
@@ -94,6 +93,12 @@ function index(req, res, next) {
     });
 }
 
+/**
+ *  @param  {SocketIO.Socket}   socket
+ *  @param  {Client=}   client  (optional)
+ *  @param  {string=}   token   (optional)
+ *  @return {void}
+ */
 function init(socket, client, token) {
     if (!client) {
         socket.emit('auth');
@@ -141,7 +146,7 @@ function init(socket, client, token) {
 function auth(data) {
     const socket = this;
     if (config.public) {
-        const client = new Client(sockets);
+        const client = new Client(gateway.getServer());
         manager.clients.push(client);
         socket.on('disconnect', function() {
             manager.clients = _.without(manager.clients, client);
