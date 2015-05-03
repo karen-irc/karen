@@ -117,6 +117,17 @@ export default class ClientSocketDriver {
     }
 
     /**
+     *  @return {Rx.Observable<void>}
+     */
+    disconnect() {
+        return Rx.Observable.create((observer) => {
+            this._socket.on('disconnect', () => {
+                observer.onNext();
+            });
+        });
+    }
+
+    /**
      *  @param  {string}  id
      *  @return {Socket}
      */

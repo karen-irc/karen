@@ -50,8 +50,7 @@ export default function(options) {
 
     gateway.connect().subscribe(function(gateway) {
         if (config.public) {
-            const socket = gateway.getSocket();
-            auth.call(socket);
+            auth(gateway);
         } else {
             init(gateway);
         }
@@ -103,7 +102,7 @@ function index(req, res, next) {
 function init(gateway, client, token) {
     if (!client) {
         gateway.auth().subscribe(function (data) {
-            auth.call(gateway.getSocket(), data);
+            auth(gateway, data);
         });
 
         gateway.emitAuth();
@@ -138,21 +137,21 @@ function init(gateway, client, token) {
 }
 
 /**
- *  @this   {SocketIO.Socket}
- *
+ *  @param  {ClientSocketDriver}   socketGateway
  *  @param  {?} data
  *  @return {void}
  */
-function auth(data) {
-    const socket = this;
+function auth(socketGateway, data) {
     if (config.public) {
         const client = new Client(gateway.getServer());
         manager.clients.push(client);
-        socket.on('disconnect', function() {
+
+        socketGateway.disconnect().subscribe(function() {
             manager.clients = _.without(manager.clients, client);
             client.quit();
         });
-        init(socket, client);
+
+        init(socketGateway, client);
     } else {
         const success = false;
         _.each(manager.clients, function(client) {
@@ -170,12 +169,12 @@ function auth(data) {
                 if (data.remember || data.token) {
                     token = client.token;
                 }
-                init(socket, client, token);
+                init(socketGateway, client, token);
                 return false;
             }
         });
         if (!success) {
-            socket.emit('auth');
+            socketGateway.emitAuth();
         }
     }
 }
