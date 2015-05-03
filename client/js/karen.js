@@ -1,8 +1,10 @@
 /*global $:true, Mousetrap:true, Handlebars:true, Favico:true */
 
+import CookieDriver from '../script/adopter/CookieDriver';
 import SocketIoDriver from '../script/adopter/SocketIoDriver';
 
 const socket = new SocketIoDriver();
+const cookie = new CookieDriver(window);
 
 $(function() {
     var commands = [
@@ -93,9 +95,9 @@ $(function() {
             return;
         }
         login.find('.btn').prop('disabled', false);
-        var token = $.cookie('token');
+        var token = cookie.get('token');
         if (token) {
-            $.removeCookie('token');
+            cookie.remove('token');
             socket.emit('auth', {token: token});
         }
         if (body.hasClass('signed-out')) {
@@ -109,7 +111,7 @@ $(function() {
         }
         var input = login.find('input[name=\'user\']');
         if (input.val() === '') {
-            input.val($.cookie('user') || '');
+            input.val(cookie.get('user') || '');
         }
         if (token) {
             return;
@@ -145,12 +147,9 @@ $(function() {
         }
 
         if (data.token) {
-            $.cookie(
-                'token',
-                data.token, {
-                    expires: expire(30)
-                }
-            );
+            cookie.set('token', data.token, {
+                expires: expire(30),
+            });
         }
 
         $('body').removeClass('signed-out');
@@ -340,8 +339,6 @@ $(function() {
         users.data('nicks', nicks);
     });
 
-    $.cookie.json = true;
-
     var settings = $('#settings');
     var options = $.extend({
         badge: false,
@@ -355,7 +352,7 @@ $(function() {
         part: true,
         thumbnails: true,
         quit: true,
-    }, $.cookie('settings'));
+    }, cookie.get('settings'));
 
     for (var i in options) {
         if (options[i]) {
@@ -367,12 +364,10 @@ $(function() {
         var self = $(this);
         var name = self.attr('name');
         options[name] = self.prop('checked');
-        $.cookie(
-            'settings',
-            options, {
-                expires: expire(365)
-            }
-        );
+        cookie.set('settings', options, {
+            expires: expire(365),
+        });
+
         if ([
             'join',
             'mode',
@@ -515,7 +510,7 @@ $(function() {
     });
 
     sidebar.on('click', '#sign-out', function() {
-        $.removeCookie('token');
+        cookie.remove('token');
         location.reload();
     });
 
@@ -586,7 +581,7 @@ $(function() {
         var highlight = type.contains('highlight');
         if (highlight || isQuery) {
             if (!document.hasFocus() || !$(target).hasClass('active')) {
-                var settings = $.cookie('settings') || {};
+                var settings = cookie.get('settings') || {};
                 if (settings.notification) {
                     pop.play();
                 }
@@ -699,12 +694,9 @@ $(function() {
             }
         });
         if (values.user) {
-            $.cookie(
-                'user',
-                values.user, {
-                    expires: expire(30)
-                }
-            );
+            cookie.set('user', values.user, {
+                expires: expire(30),
+            });
         }
         socket.getSocket().emit(
             event, values
