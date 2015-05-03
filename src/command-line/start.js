@@ -2,7 +2,7 @@ import _ from 'lodash';
 import ClientManager from '../ClientManager';
 import program from 'commander';
 import karen from '../server';
-import Helper from '../helper';
+import ConfigDriver from '../adopter/ConfigDriver';
 
 program
     .option('-H, --host <ip>', 'host')
@@ -14,7 +14,7 @@ program
     .description('Start the server')
     .action(function() {
         const users = new ClientManager().getUsers();
-        const config = Helper.getConfig();
+        const config = ConfigDriver.getConfig();
         let mode = config.public;
         if (program.public) {
             mode = true;

@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt-nodejs';
 import fs from 'fs';
 import program from 'commander';
 import mkdirp from 'mkdirp';
-import Helper from '../helper';
+import ConfigDriver from '../adopter/ConfigDriver';
 import read from 'read';
 
 const add = function add(manager, name, password) {
@@ -15,7 +15,7 @@ const add = function add(manager, name, password) {
         hash
     );
     console.log('User \'' + name + '\' created:');
-    console.log(Helper.HOME + '/users/' + name + '.json');
+    console.log(ConfigDriver.HOME + '/users/' + name + '.json');
     console.log('');
 };
 
@@ -23,7 +23,7 @@ program
     .command('add <name>')
     .description('Add a new user')
     .action(function(name, password) {
-        const path = Helper.HOME + '/users';
+        const path = ConfigDriver.HOME + '/users';
         try {
             mkdirp.sync(path);
         } catch (e) {

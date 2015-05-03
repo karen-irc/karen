@@ -11,7 +11,7 @@ import MessageType from './models/MessageType';
 import Network from './models/Network';
 import slate from 'slate-irc';
 import tls from 'tls';
-import Helper from './helper';
+import ConfigDriver from './adopter/ConfigDriver';
 
 let id = 0;
 const events = [
@@ -117,7 +117,7 @@ export default class Client {
     }
 
     connect(args) {
-        var config = Helper.getConfig();
+        var config = ConfigDriver.getConfig();
         var server = {
             name: args.name || '',
             host: args.host || 'irc.freenode.org',
@@ -318,7 +318,7 @@ export default class Client {
     }
 
     save(force) {
-        var config = Helper.getConfig();
+        var config = ConfigDriver.getConfig();
 
         if(config.public) {
             return;
@@ -333,7 +333,7 @@ export default class Client {
         }
 
         var name = this.name;
-        var path = Helper.HOME + '/users/' + name + '.json';
+        var path = ConfigDriver.HOME + '/users/' + name + '.json';
 
         var networks = this.networks.map((network) => network.export());
 

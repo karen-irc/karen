@@ -3,7 +3,7 @@ import cheerio from 'cheerio';
 import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 import request from 'request';
-import Helper from '../../helper';
+import ConfigDriver from '../../adopter/ConfigDriver';
 import es from 'event-stream';
 
 process.setMaxListeners(0);
@@ -101,7 +101,7 @@ const fetch = function fetch(url, cb) {
 export default function(irc, network) {
     const client = this;
     irc.on('message', function(data) {
-        const config = Helper.getConfig();
+        const config = ConfigDriver.getConfig();
         if (!config.prefetch) {
             return;
         }

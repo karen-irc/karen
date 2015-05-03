@@ -1,13 +1,13 @@
 import ClientManager from '../ClientManager';
 import fs from 'fs';
 import program from 'commander';
-import Helper from '../helper';
+import ConfigDriver from '../adopter/ConfigDriver';
 
 program
     .command('remove <name>')
     .description('Remove an existing user')
     .action(function(name) {
-        const path = Helper.HOME + '/users';
+        const path = ConfigDriver.HOME + '/users';
         const test = path + '/.test';
         try {
             fs.mkdirSync(test);

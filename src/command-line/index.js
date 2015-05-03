@@ -3,7 +3,7 @@ import program from 'commander';
 import pkg from '../../package.json';
 import fs from 'fs';
 import mkdirp from 'mkdirp';
-import Helper from '../helper';
+import ConfigDriver from '../adopter/ConfigDriver';
 
 program.version(pkg.version, '-v, --version');
 program.option('');
@@ -19,12 +19,12 @@ import './edit';
 
 var argv = program.parseOptions(process.argv);
 if (program.home) {
-    Helper.HOME = program.home;
+    ConfigDriver.HOME = program.home;
 }
 
-var config = Helper.HOME + '/config.js';
+var config = ConfigDriver.HOME + '/config.js';
 if (!fs.existsSync(config)) {
-    mkdirp.sync(Helper.HOME);
+    mkdirp.sync(ConfigDriver.HOME);
     fs.writeFileSync(
         config,
         fs.readFileSync(path.resolve(__dirname, '../../defaults/config.js'))

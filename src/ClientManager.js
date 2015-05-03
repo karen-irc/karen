@@ -2,7 +2,7 @@ import _ from 'lodash';
 import fs from 'fs';
 import Client from './Client';
 import mkdirp from 'mkdirp';
-import Helper from './helper';
+import ConfigDriver from './adopter/ConfigDriver';
 import moment from 'moment';
 
 export default class ClientManager {
@@ -49,7 +49,7 @@ export default class ClientManager {
         var raw = null;
         try {
             raw = fs.readFileSync(
-                Helper.HOME + '/users/' + name + '.json',
+                ConfigDriver.HOME + '/users/' + name + '.json',
                 'utf-8'
             );
         }
@@ -84,7 +84,7 @@ export default class ClientManager {
      */
     getUsers() {
         var users = [];
-        var path = Helper.HOME + '/users';
+        var path = ConfigDriver.HOME + '/users';
         mkdirp.sync(path);
         try {
             var files = fs.readdirSync(path);
@@ -113,7 +113,7 @@ export default class ClientManager {
             return false;
         }
         try {
-            var path = Helper.HOME + '/users';
+            var path = ConfigDriver.HOME + '/users';
             var user = {
                 user: name,
                 password: password || '',
@@ -144,7 +144,7 @@ export default class ClientManager {
             return false;
         }
         try {
-            var path = Helper.HOME + '/users/' + name + '.json';
+            var path = ConfigDriver.HOME + '/users/' + name + '.json';
             fs.unlinkSync(path);
         } catch(e) {
             throw e;

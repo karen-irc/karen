@@ -3,15 +3,15 @@ import path from 'path';
 import program from 'commander';
 import mkdirp from 'mkdirp';
 import child from 'child_process';
-import Helper from '../helper';
+import ConfigDriver from '../adopter/ConfigDriver';
 
 program
     .command('config')
-    .description('Edit config: \'' + Helper.HOME + '/config.js\'')
+    .description('Edit config: \'' + ConfigDriver.HOME + '/config.js\'')
     .action(function() {
         child.spawn(
             process.env.EDITOR || 'vi',
-            [Helper.HOME + '/config.js'],
+            [ConfigDriver.HOME + '/config.js'],
             {stdio: 'inherit'}
         );
     });
