@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import fs from 'fs';
-import Client from './client';
+import Client from './Client';
 import mkdirp from 'mkdirp';
 import Helper from './helper';
 import moment from 'moment';
