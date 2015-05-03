@@ -1,4 +1,4 @@
-import ClientManager from '../clientManager';
+import ClientManager from '../ClientManager';
 import program from 'commander';
 import child from 'child_process';
 import Helper from '../helper';

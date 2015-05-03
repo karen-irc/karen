@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import ClientManager from '../clientManager';
+import ClientManager from '../ClientManager';
 import program from 'commander';
 import karen from '../server';
 import Helper from '../helper';

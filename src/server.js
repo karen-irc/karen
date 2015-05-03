@@ -3,7 +3,7 @@ import _ from 'lodash';
 import assign from 'object-assign';
 import bcrypt from 'bcrypt-nodejs';
 import Client from './client';
-import ClientManager from './clientManager';
+import ClientManager from './ClientManager';
 import express from 'express';
 import fs from 'fs';
 import server from 'http';
