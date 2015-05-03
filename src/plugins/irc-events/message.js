@@ -2,7 +2,7 @@ import _ from 'lodash';
 import Chan from '../../models/Channel';
 import Hostmask from '../../models/Hostmask';
 import ChannelType from '../../models/ChannelType';
-import Msg from '../../models/Message';
+import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
@@ -54,7 +54,7 @@ export default function(irc, network) {
         }
 
         const name = data.from;
-        const msg = new Msg({
+        const msg = new Message({
             type: type || MessageType.MESSAGE,
             mode: chan.getMode(name),
             from: name,

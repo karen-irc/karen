@@ -1,4 +1,4 @@
-import Msg from '../../models/Message';
+import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(network, chan, cmd, args) {
@@ -24,7 +24,7 @@ export default function(network, chan, cmd, args) {
             const text = slap || args.join(' ');
             irc.action(chan.name, text);
 
-            const msg = new Msg({
+            const msg = new Message({
                 type: MessageType.ACTION,
                 from: irc.me,
                 text: text

@@ -6,7 +6,7 @@ import fs from 'fs';
 import identd from './identd';
 import log from './log';
 import net from 'net';
-import Msg from './models/Message';
+import Message from './models/Message';
 import MessageType from './models/MessageType';
 import Network from './models/Network';
 import slate from 'slate-irc';
@@ -146,7 +146,7 @@ Client.prototype.connect = function(args) {
     stream.on('error', function(e) {
         console.log('Client#connect():\n' + e);
         stream.end();
-        var msg = new Msg({
+        var msg = new Message({
             type: MessageType.ERROR,
             text: 'Connection error.'
         });

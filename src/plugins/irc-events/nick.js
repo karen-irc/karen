@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Msg from '../../models/Message';
+import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
@@ -9,7 +9,7 @@ export default function(irc, network) {
         const nick = data.new;
         if (nick === irc.me) {
             const lobby = network.channels[0];
-            const msg = new Msg({
+            const msg = new Message({
                 text: 'You\'re now known as ' + nick,
             });
             lobby.messages.push(msg);
@@ -36,7 +36,7 @@ export default function(irc, network) {
                 chan: chan.id,
                 users: chan.users
             });
-            const msg = new Msg({
+            const msg = new Message({
                 type: MessageType.NICK,
                 from: data.nick,
                 text: nick,

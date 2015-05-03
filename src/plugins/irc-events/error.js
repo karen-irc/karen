@@ -1,11 +1,11 @@
-import Msg from '../../models/Message';
+import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
     const client = this;
     irc.on('errors', function(data) {
         const lobby = network.channels[0];
-        const msg = new Msg({
+        const msg = new Message({
             type: MessageType.ERROR,
             text: data.message,
         });
