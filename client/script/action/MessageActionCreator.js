@@ -56,6 +56,13 @@ class MessageActionCreator {
             text: command,
         });
     }
+
+    /**
+     *  @return {void}
+     */
+    clear() {
+        ChatCommandDispatcher.clearMessage.onNext();
+    }
 }
 
 export default new MessageActionCreator();

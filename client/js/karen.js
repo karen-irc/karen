@@ -389,7 +389,8 @@ $(function() {
     });
 
     MessageActionCreator.getDispatcher().clearMessage.subscribe(function() {
-        clear();
+        chat.find('.active .messages').empty();
+        chat.find('.active .show-more').addClass('show');
     });
 
     MessageActionCreator.getDispatcher().sendCommand.subscribe(function(data){
@@ -655,7 +656,7 @@ $(function() {
         'ctrl+shift+l'
     ], function (e) {
         if(e.target === input[0]) {
-            clear();
+            MessageActionCreator.clear();
         }
     });
 
@@ -667,11 +668,6 @@ $(function() {
             }
         });
     }, 1000 * 10);
-
-    function clear() {
-        chat.find('.active .messages').empty();
-        chat.find('.active .show-more').addClass('show');
-    }
 
     function complete(word) {
         var words = CommandList.concat(); // clone array.
