@@ -1,4 +1,4 @@
-/*global $:true, Mousetrap:true, Handlebars:true */
+/*global $:true, Mousetrap:true, Handlebars:true, moment: true */
 
 import AudioDriver from '../script/adopter/AudioDriver';
 import CommandTypeMod from '../script/model/CommandType';
@@ -115,7 +115,7 @@ $(function() {
 
         if (data.token) {
             cookie.set('token', data.token, {
-                expires: expire(30),
+                expires: moment().add(30, 'days').toDate(),
             });
         }
 
@@ -332,7 +332,7 @@ $(function() {
         var name = self.attr('name');
         options[name] = self.prop('checked');
         cookie.set('settings', options, {
-            expires: expire(365),
+            expires: moment().add(365, 'days').toDate(),
         });
 
         if ([
@@ -713,12 +713,6 @@ $(function() {
     function refresh() {
         window.onbeforeunload = null;
         location.reload();
-    }
-
-    function expire(days) {
-        var date = new Date();
-        date.setTime(date.getTime() + ((3600 * 1000 * 24) * days));
-        return date;
     }
 
     function sortable() {
