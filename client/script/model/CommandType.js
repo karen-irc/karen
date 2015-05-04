@@ -25,6 +25,7 @@
 
 /** @enum {string}  */
 const CommandType = Object.freeze({
+    CLEAR: '/clear',
     CLOSE: '/close',
     CONNECT: '/connect',
     DEOP: '/deop',
