@@ -2,6 +2,7 @@
 
 import AudioDriver from '../script/adopter/AudioDriver';
 import CookieDriver from '../script/adopter/CookieDriver';
+import MainViewController from '../script/output/view/MainViewController';
 import SocketIoDriver from '../script/adopter/SocketIoDriver';
 
 const socket = new SocketIoDriver();
@@ -36,6 +37,8 @@ $(function() {
         '/voice',
         '/whois'
     ];
+
+    const windows = new MainViewController(document.getElementById('windows'));
 
     var sidebar = $('#sidebar, #footer');
     var chat = $('#chat');
@@ -641,25 +644,7 @@ $(function() {
         }
     });
 
-    var windows = $('#windows');
     var forms = $('#sign-in, #connect');
-
-    windows.on('show', '#sign-in', function() {
-        var self = $(this);
-        var inputs = self.find('input');
-        inputs.each(function() {
-            var self = $(this);
-            if (self.val() === '') {
-                self.focus();
-                return false;
-            }
-        });
-    });
-
-    windows.on('click', '.input', function() {
-        $(this).select();
-    });
-
     forms.on('submit', 'form', function(e) {
         e.preventDefault();
         var event = 'auth';
