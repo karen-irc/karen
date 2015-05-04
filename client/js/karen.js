@@ -10,6 +10,7 @@ import AuthRepository from '../script/adopter/AuthRepository';
 import CommandTypeMod from '../script/model/CommandType';
 import ConfigRepository from '../script/adopter/ConfigRepository';
 import CookieDriver from '../script/adopter/CookieDriver';
+import InputBoxViewController from '../script/output/view/InputBoxViewController';
 import MainViewController from '../script/output/view/MainViewController';
 import MessageActionCreator from '../script/action/MessageActionCreator';
 import Mousetrap from 'mousetrap';
@@ -32,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     const appView = new AppViewController(document.getElementById('viewport'));
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
+    const inputBox = new InputBoxViewController(document.getElementById('form'));
 
     var sidebar = $('#sidebar, #footer');
     var chat = $('#chat');
@@ -369,17 +371,13 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    var input = document.getElementById('input');
-    $(input).tab(complete, {hint: false});
+    // FIXME: Move to InputBoxViewController
+    $(inputBox.textInput).tab(complete, {hint: false});
 
-    document.getElementById('form').addEventListener('submit', function (aEvent) {
-        aEvent.preventDefault();
-
-        const text = input.value;
-        var id = chat.data('id');
-        MessageActionCreator.inputCommand(id, text);
-
-        input.value = '';
+    inputBox.queryCurrentChannel.subscribe(function(subject){
+        const id = chat.data('id');
+        subject.onNext(id);
+        subject.onCompleted();
     });
 
     MessageActionCreator.getDispatcher().clearMessage.subscribe(function() {
@@ -403,10 +401,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     UIActionCreator.getDispatcher().focusWindow.subscribe(function(){
         window.focus();
-    });
-
-    UIActionCreator.getDispatcher().focusInputBox.subscribe(function () {
-        input.focus();
     });
 
     var top = 1;
@@ -627,16 +621,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    Mousetrap.bind([
-        'command+k',
-        'ctrl+l',
-        'ctrl+shift+l'
-    ], function (e) {
-        if(e.target === input) {
-            MessageActionCreator.clear();
-        }
-    });
-
     setInterval(function() {
         chat.find('.chan:not(.active)').each(function() {
             var chan = $(this);
@@ -747,7 +731,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             .width();
         if (width) {
             width += 31;
-            $(input).css('padding-left', width);
+            $(inputBox.textInput).css('padding-left', width);
         }
     }
 
