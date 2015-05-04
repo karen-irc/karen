@@ -23,20 +23,39 @@
  * THE SOFTWARE.
  */
 
-import ChatMessageDispatcher from '../dispatcher/ChatMessageDispatcher';
+import ChatCommandDispatcher from '../dispatcher/ChatCommandDispatcher';
+import CommandTypeMod from '../script/model/CommandType';
+
+const CommandType = CommandTypeMod.type;
 
 class MessageActionCreator {
     constructor() {
     }
 
     /**
-     *  @param  {string}  message
+     *  @return {ChatCommandDispatcher}
+     */
+    getDispatcher() {
+        return ChatCommandDispatcher;
+    }
+
+    /**
+     *  @param  {string}  targetId
+     *  @param  {string}  command
+     *    The command string.
      *  @return {void}
      */
-    sendMessage(message) {
-        ChatMessageDispatcher.sendMessage.onNext(message);
+    inputCommand(targetId, command) {
+        if ( command.startsWith(CommandType.CLEAR) ) {
+            ChatCommandDispatcher.clearMessage.onNext();
+            return;
+        }
+
+        ChatCommandDispatcher.sendCommand.onNext({
+            targetId: targetId,
+            text: command,
+        });
     }
 }
 
-let action = new MessageActionCreator();
-export default action;
+export default new MessageActionCreator();

@@ -4,6 +4,7 @@ import AudioDriver from '../script/adopter/AudioDriver';
 import CommandTypeMod from '../script/model/CommandType';
 import CookieDriver from '../script/adopter/CookieDriver';
 import MainViewController from '../script/output/view/MainViewController';
+import MessageActionCreator from '../script/action/MessageActionCreator';
 import SocketIoDriver from '../script/adopter/SocketIoDriver';
 
 const CommandType = CommandTypeMod.type;
@@ -378,19 +379,24 @@ $(function() {
         .tab(complete, {hint: false});
 
     var form = $('#form');
-    var submit = $('#submit');
 
     form.on('submit', function(e) {
         e.preventDefault();
         var text = input.val();
+        var id = chat.data('id');
+        MessageActionCreator.inputCommand(id, text);
+
         input.val('');
-        if (text.indexOf(CommandType.CLEAR) === 0) {
-            clear();
-            return;
-        }
-        socket.getSocket().emit('input', {
-            target: chat.data('id'),
-            text: text
+    });
+
+    MessageActionCreator.getDispatcher().clearMessage.subscribe(function() {
+        clear();
+    });
+
+    MessageActionCreator.getDispatcher().sendCommand.subscribe(function(data){
+        socket.emit('input', {
+            target: data.targetId,
+            text: data.text,
         });
     });
 

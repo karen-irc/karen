@@ -25,5 +25,15 @@
 
 import Rx from 'rx';
 
-/** @type {Rx.Subject<string>}  */
-export let sendMessage = new Rx.Subject();
+class ChatCommandDispatcher {
+
+    constructor() {
+        /** @type {Rx.Subject<{targetId: string, text: string}>}  */
+        this.sendCommand = new Rx.Subject();
+
+        /** @type {Rx.Subject<void>}  */
+        this.clearMessage = new Rx.Subject();
+    }
+}
+
+export default new ChatCommandDispatcher();
