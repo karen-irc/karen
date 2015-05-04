@@ -1,10 +1,12 @@
 /*global $:true, Mousetrap:true, Handlebars:true */
 
+import AudioDriver from '../script/adopter/AudioDriver';
 import CookieDriver from '../script/adopter/CookieDriver';
 import SocketIoDriver from '../script/adopter/SocketIoDriver';
 
 const socket = new SocketIoDriver();
 const cookie = new CookieDriver(window);
+const pop = new AudioDriver('/audio/pop.ogg');
 
 $(function() {
     var commands = [
@@ -40,16 +42,6 @@ $(function() {
 
     if (navigator.standalone) {
         $('html').addClass('web-app-mode');
-    }
-
-    var pop = null;
-    try {
-        pop = new Audio();
-        pop.src = '/audio/pop.ogg';
-    } catch(e) {
-        pop = {
-            play: $.noop
-        };
     }
 
     $('#play').on('click', function() { pop.play(); });
