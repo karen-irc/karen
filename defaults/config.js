@@ -181,7 +181,7 @@ module.exports = {
         // @type     string
         // @default  '#foo, #karen-irc'
         //
-        join: '#foo, #karen-irc',
+        join: ['#foo', '#karen-irc'],
 
         //
         // Allow showing user image
