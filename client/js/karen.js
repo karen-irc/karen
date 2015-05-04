@@ -1,43 +1,19 @@
 /*global $:true, Mousetrap:true, Handlebars:true */
 
 import AudioDriver from '../script/adopter/AudioDriver';
+import CommandTypeMod from '../script/model/CommandType';
 import CookieDriver from '../script/adopter/CookieDriver';
 import MainViewController from '../script/output/view/MainViewController';
 import SocketIoDriver from '../script/adopter/SocketIoDriver';
+
+const CommandType = CommandTypeMod.type;
+const CommandList = CommandTypeMod.list;
 
 const socket = new SocketIoDriver();
 const cookie = new CookieDriver(window);
 const pop = new AudioDriver('/audio/pop.ogg');
 
 $(function() {
-    var commands = [
-        '/close',
-        '/connect',
-        '/deop',
-        '/devoice',
-        '/disconnect',
-        '/invite',
-        '/join',
-        '/kick',
-        '/leave',
-        '/mode',
-        '/msg',
-        '/nick',
-        '/notice',
-        '/op',
-        '/part',
-        '/query',
-        '/quit',
-        '/raw',
-        '/say',
-        '/send',
-        '/server',
-        '/slap',
-        '/topic',
-        '/voice',
-        '/whois'
-    ];
-
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
 
     var sidebar = $('#sidebar, #footer');
@@ -693,7 +669,7 @@ $(function() {
     }
 
     function complete(word) {
-        var words = commands.slice();
+        var words = CommandList.concat(); // clone array.
         var users = chat.find('.active').find('.users');
         var nicks = users.data('nicks');
 
