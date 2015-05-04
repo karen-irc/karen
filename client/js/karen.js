@@ -384,7 +384,7 @@ $(function() {
         e.preventDefault();
         var text = input.val();
         input.val('');
-        if (text.indexOf('/clear') === 0) {
+        if (text.indexOf(CommandType.CLEAR) === 0) {
             clear();
             return;
         }
@@ -478,10 +478,10 @@ $(function() {
     });
 
     sidebar.on('click', '.close', function() {
-        var cmd = '/close';
+        var cmd = CommandType.CLOSE;
         var chan = $(this).closest('.chan');
         if (chan.hasClass('lobby')) {
-            cmd = '/quit';
+            cmd = CommandType.QUIT;
             var server = chan.find('.name').html();
             /*eslint-disable no-alert*/
             if (!window.confirm('Disconnect from ' + server + '?')) {
@@ -521,7 +521,7 @@ $(function() {
             return;
         }
         whois = true;
-        var text = '/whois ' + user;
+        var text = CommandType.WHOIS + ' ' + user;
         socket.getSocket().emit('input', {
             target: chat.data('id'),
             text: text
