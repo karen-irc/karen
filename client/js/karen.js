@@ -26,10 +26,6 @@ $(function() {
     $('#play').on('click', function() { pop.play(); });
     $('#footer .icon').tooltip();
 
-    /*eslint-disable new-cap*/
-    $('.tse-scrollable').TrackpadScrollEmulator();
-    /*eslint-enable */
-
     function render(name, data) {
         return Handlebars.templates[name](data);
     }
