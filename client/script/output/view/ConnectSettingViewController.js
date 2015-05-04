@@ -1,3 +1,4 @@
+/*global jQuery:true */
 /**
  * @license MIT License
  *
@@ -23,31 +24,28 @@
  * THE SOFTWARE.
  */
 
-import ConnectSettingViewController from './ConnectSettingViewController';
-import SignInViewController from './SignInViewController';
+const EVENT_NAME = 'conn';
 
-export default class MainViewController {
+export default class ConnectSettingViewController {
 
     /**
      *  @constructor
      *  @param  {Element}   element
-     *  @param  {CookieDriver}  cookie
      *  @param  {SocketIoDriver}    socket
      */
-    constructor(element, cookie, socket) {
-        if (!element) {
+    constructor(element, socket) {
+        if (!element || !socket) {
             throw new Error();
         }
 
+        /** @type   {Element}   */
         this._element = element;
 
-        /** @type   {SignInViewController}  */
-        this._signin = new SignInViewController(element.querySelector('#sign-in'), cookie, socket);
+        /** @type {SocketIoDriver}  */
+        this._socket = socket;
 
-        /** @type   {ConnectSettingViewController}  */
-        this._connect = new ConnectSettingViewController( element.querySelector('#connect'), socket);
-
-        element.addEventListener('click', this);
+        element.addEventListener('submit', this);
+        element.addEventListener('input', this);
     }
 
     /**
@@ -56,8 +54,11 @@ export default class MainViewController {
      */
     handleEvent(aEvent) {
         switch (aEvent.type) {
-            case 'click':
-                this.onClick(aEvent);
+            case 'submit':
+                this.onSubmit(aEvent);
+                break;
+            case 'input':
+                this.onInput(aEvent);
                 break;
         }
     }
@@ -66,10 +67,42 @@ export default class MainViewController {
      *  @param  {Event} aEvent
      *  @return {void}
      */
-    onClick(aEvent) {
+    onSubmit(aEvent) {
         const target = aEvent.target;
-        if (target.classList.contains('input')) {
-            target.select();
+        if (target.localName !== 'form') {
+            return;
+        }
+        aEvent.preventDefault();
+
+        const list = target.querySelectorAll('.btn');
+        for (let element of Array.prototype.slice.call(list)) {
+            element.setAttribute('disabled', 'true');
+        }
+
+        const values = {};
+        jQuery(target).serializeArray().forEach(function(obj) {
+            if (obj.value !== '') {
+                values[obj.name] = obj.value;
+            }
+        });
+
+        this._socket.emit(EVENT_NAME, values);
+    }
+
+    /**
+     *  @param  {Event} aEvent
+     *  @return {void}
+     */
+    onInput(aEvent) {
+        const target = aEvent.target;
+        if (!target.classList.contains('nick')) {
+            return;
+        }
+
+        const nickname = target.value;
+        const list = this._element.querySelectorAll('.username');
+        for (let input of Array.prototype.slice.call(list)) {
+            input.value = nickname;
         }
     }
 }
