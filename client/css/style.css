@@ -135,7 +135,7 @@ button {
 	bottom: 52px;
 	left: 0;
 	overflow: hidden;
-	/*overflow-y: auto;*/
+	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
 	position: absolute;
 	top: 0;
