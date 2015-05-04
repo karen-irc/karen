@@ -41,7 +41,15 @@ export default class CookieDriver {
      */
     get(key) {
         const value = this._cookie.get(key);
-        return JSON.parse(value);
+        let result = null;
+        /*eslint-disable no-empty*/
+        try {
+            result = JSON.parse(value);
+        }
+        catch (e) {}
+        /*eslint-enable*/
+
+        return result;
     }
 
     /**
