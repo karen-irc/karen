@@ -30,6 +30,9 @@ class NotificationDispatcher {
     constructor() {
         /** @type {Rx.Subject<void>}  */
         this.playSound = new Rx.Subject();
+
+        /** @type {Rx.Subject<void>}  */
+        this.requestPermission = new Rx.Subject();
     }
 }
 

@@ -29,17 +29,26 @@ import NotificationActionCreator from '../action/NotificationActionCreator';
 export default class NotificationPresenter {
 
     constructor() {
+        const dispatcher = NotificationActionCreator.getDispatcher();
+
         /** @type {AudioDriver} */
         this._audio = new AudioDriver('/audio/pop.ogg');
 
+        /*eslint-disable valid-jsdoc*/
         /** @type {Rx.IDisposable} */
-        this._disposePlay = NotificationActionCreator.getDispatcher().playSound.subscribe(() => {
+        this._disposePlay = dispatcher.playSound.subscribe(() => {
             this.playSound();
         });
+
+        /** @type {Rx.IDisposable} */
+        this._disposeRequestPermission = dispatcher.requestPermission.subscribe(() => {
+            this.requestPermission();
+        });
+        /*eslint-enable */
     }
 
     /**
-     *  @return {void}
+     *  @returns {void}
      */
     destroy() {
         this._disposePlay.dispose();
@@ -53,5 +62,14 @@ export default class NotificationPresenter {
      */
     playSound() {
         this._audio.play();
+    }
+
+    /**
+     *  @return {void}
+     */
+    requestPermission() {
+        if (Notification.permission !== 'granted') {
+            Notification.requestPermission();
+        }
     }
 }

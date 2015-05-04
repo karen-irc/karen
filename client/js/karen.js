@@ -355,9 +355,7 @@ $(function() {
     $('#badge').on('change', function() {
         var self = $(this);
         if (self.prop('checked')) {
-            if (Notification.permission !== 'granted') {
-                Notification.requestPermission();
-            }
+            NotificationActionCreator.requestPermission();
         }
     });
 

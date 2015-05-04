@@ -42,6 +42,13 @@ class NotificationActionCreator {
     playSound() {
         NotificationDispatcher.playSound.onNext();
     }
+
+    /**
+     *  @return {void}
+     */
+    requestPermission() {
+        NotificationDispatcher.requestPermission.onNext();
+    }
 }
 
 export default new NotificationActionCreator();
