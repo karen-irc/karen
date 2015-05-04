@@ -24,7 +24,7 @@
  */
 
 import ChatCommandDispatcher from '../dispatcher/ChatCommandDispatcher';
-import CommandTypeMod from '../script/model/CommandType';
+import CommandTypeMod from '../model/CommandType';
 
 const CommandType = CommandTypeMod.type;
 
