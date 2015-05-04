@@ -5,6 +5,8 @@ import CommandTypeMod from '../script/model/CommandType';
 import CookieDriver from '../script/adopter/CookieDriver';
 import MainViewController from '../script/output/view/MainViewController';
 import MessageActionCreator from '../script/action/MessageActionCreator';
+import NotificationActionCreator from '../script/action/NotificationActionCreator';
+import NotificationPresenter from '../script/output/NotificationPresenter';
 import SocketIoDriver from '../script/adopter/SocketIoDriver';
 
 const CommandType = CommandTypeMod.type;
@@ -12,7 +14,7 @@ const CommandList = CommandTypeMod.list;
 
 const socket = new SocketIoDriver();
 const cookie = new CookieDriver(window);
-const pop = new AudioDriver('/audio/pop.ogg');
+const notify = new NotificationPresenter();
 
 $(function() {
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
@@ -24,7 +26,9 @@ $(function() {
         $('html').addClass('web-app-mode');
     }
 
-    $('#play').on('click', function() { pop.play(); });
+    $('#play').on('click', function() {
+        NotificationActionCreator.playSound();
+    });
     $('#footer .icon').tooltip();
 
     function render(name, data) {
@@ -351,9 +355,7 @@ $(function() {
     $('#badge').on('change', function() {
         var self = $(this);
         if (self.prop('checked')) {
-            if (Notification.permission !== 'granted') {
-                Notification.requestPermission();
-            }
+            NotificationActionCreator.requestPermission();
         }
     });
 
@@ -548,7 +550,7 @@ $(function() {
             if (!document.hasFocus() || !$(target).hasClass('active')) {
                 var settings = cookie.get('settings') || {};
                 if (settings.notification) {
-                    pop.play();
+                    NotificationActionCreator.playSound();
                 }
                 if (settings.badge && Notification.permission === 'granted') {
                     var notify = new Notification(msg.from + ' says:', {
