@@ -1,10 +1,11 @@
-/*global $:true, Mousetrap:true, Handlebars:true, moment: true */
+/*global $:true, Handlebars:true, moment: true */
 
 import AudioDriver from '../script/adopter/AudioDriver';
 import CommandTypeMod from '../script/model/CommandType';
 import CookieDriver from '../script/adopter/CookieDriver';
 import MainViewController from '../script/output/view/MainViewController';
 import MessageActionCreator from '../script/action/MessageActionCreator';
+import Mousetrap from 'mousetrap';
 import NotificationActionCreator from '../script/action/NotificationActionCreator';
 import NotificationPresenter from '../script/output/NotificationPresenter';
 import SocketIoDriver from '../script/adopter/SocketIoDriver';
