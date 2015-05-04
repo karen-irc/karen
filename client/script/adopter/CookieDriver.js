@@ -29,9 +29,8 @@ export default class CookieDriver {
 
     /**
      *  @constructor
-     *  @param  {Window}    win
      */
-    constructor(win) {
+    constructor() {
         /** @type   {Cookies} */
         this._cookie = cookies;
     }
