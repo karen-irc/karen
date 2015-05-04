@@ -38,7 +38,7 @@ $(function() {
         '/whois'
     ];
 
-    const windows = new MainViewController(document.getElementById('windows'));
+    const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
 
     var sidebar = $('#sidebar, #footer');
     var chat = $('#chat');
@@ -642,38 +642,6 @@ $(function() {
         if (bottom) {
             chat.scrollBottom();
         }
-    });
-
-    var forms = $('#sign-in, #connect');
-    forms.on('submit', 'form', function(e) {
-        e.preventDefault();
-        var event = 'auth';
-        var form = $(this);
-        form.find('.btn')
-            .attr('disabled', true)
-            .end();
-        if (form.closest('.window').attr('id') === 'connect') {
-            event = 'conn';
-        }
-        var values = {};
-        $.each(form.serializeArray(), function(i, obj) {
-            if (obj.value !== '') {
-                values[obj.name] = obj.value;
-            }
-        });
-        if (values.user) {
-            cookie.set('user', values.user, {
-                expires: expire(30),
-            });
-        }
-        socket.getSocket().emit(
-            event, values
-        );
-    });
-
-    forms.on('input', '.nick', function() {
-        var nick = $(this).val();
-        forms.find('.username').val(nick);
     });
 
     Mousetrap.bind([
