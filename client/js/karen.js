@@ -38,7 +38,7 @@ $(function() {
         '/whois'
     ];
 
-    const windows = new MainViewController(document.getElementById('windows'));
+    const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
 
     var sidebar = $('#sidebar, #footer');
     var chat = $('#chat');
@@ -644,7 +644,7 @@ $(function() {
         }
     });
 
-    var forms = $('#sign-in, #connect');
+    var forms = $('#connect');
     forms.on('submit', 'form', function(e) {
         e.preventDefault();
         var event = 'auth';

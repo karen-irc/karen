@@ -1,3 +1,4 @@
+/*global jQuery:true, moment:true */
 /**
  * @license MIT License
  *
@@ -23,9 +24,9 @@
  * THE SOFTWARE.
  */
 
-import SignInViewController from './SignInViewController';
+const EVENT_NAME = 'auth';
 
-export default class MainViewController {
+export default class SignInViewController {
 
     /**
      *  @constructor
@@ -34,16 +35,21 @@ export default class MainViewController {
      *  @param  {SocketIoDriver}    socket
      */
     constructor(element, cookie, socket) {
-        if (!element) {
+        if (!element || !cookie || !socket) {
             throw new Error();
         }
 
+        /** @type   {Element}   */
         this._element = element;
 
-        /** @type   {SignInViewController}  */
-        this._signin = new SignInViewController(element.querySelector('#sign-in'), cookie, socket);
+        /** @type   {CookieDriver}  */
+        this._cookie = cookie;
 
-        element.addEventListener('click', this);
+        /** @type   {SocketIoDriver}    */
+        this._socket = socket;
+
+        element.addEventListener('show', this);
+        element.addEventListener('submit', this);
     }
 
     /**
@@ -52,8 +58,11 @@ export default class MainViewController {
      */
     handleEvent(aEvent) {
         switch (aEvent.type) {
-            case 'click':
-                this.onClick(aEvent);
+            case 'show':
+                this.onShow(aEvent);
+                break;
+            case 'submit':
+                this.onSubmit(aEvent);
                 break;
         }
     }
@@ -62,10 +71,49 @@ export default class MainViewController {
      *  @param  {Event} aEvent
      *  @return {void}
      */
-    onClick(aEvent) {
-        const target = aEvent.target;
-        if (target.classList.contains('input')) {
-            target.select();
+    onShow(aEvent) {
+        const target = aEvent.currentTarget;
+        const list = target.querySelectorAll('input');
+        const array = Array.prototype.slice.call(list);
+        for (let input of array) {
+            // If we find the element which has no value,
+            // we stop iteration & focus it.
+            if (input.value === '') {
+                input.focus();
+                break;
+            }
         }
+    }
+
+    /**
+     *  @param  {Event} aEvent
+     *  @return {void}
+     */
+    onSubmit(aEvent) {
+        const target = aEvent.target;
+        if (target.localName !== 'form') {
+            return;
+        }
+        aEvent.preventDefault();
+
+        const list = target.querySelectorAll('.btn');
+        for (let element of Array.prototype.slice.call(list)) {
+            element.setAttribute('disabled', 'true');
+        }
+
+        const values = {};
+        jQuery(target).serializeArray().forEach(function(obj) {
+            if (obj.value !== '') {
+                values[obj.name] = obj.value;
+            }
+        });
+
+        if (!!values.user) {
+            this._cookie.set('user', values.user, {
+                expires: moment().add(30, 'days').toDate(),
+            });
+        }
+
+        this._socket.emit(EVENT_NAME, values);
     }
 }

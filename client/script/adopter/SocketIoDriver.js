@@ -207,4 +207,13 @@ export default class SocketIoDriver {
             });
         });
     }
+
+    /**
+     *  @param  {string}  name
+     *  @param  {?} obj
+     *  @return {void}
+     */
+    emit(name, obj) {
+        this._socket.emit(name, obj);
+    }
 }
