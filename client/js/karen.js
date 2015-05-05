@@ -20,7 +20,9 @@ const socket = new SocketIoDriver();
 const cookie = new CookieDriver();
 const notify = new NotificationPresenter();
 
-$(function() {
+document.addEventListener('DOMContentLoaded', function onLoad() {
+    document.removeEventListener('DOMContentLoaded', onLoad);
+
     const appView = new AppViewController(document.getElementById('viewport'));
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
 
