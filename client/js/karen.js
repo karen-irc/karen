@@ -666,37 +666,35 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     }, 1000 * 10);
 
     function complete(word) {
-        var words = CommandList.concat(); // clone array.
+        const words = CommandList.map(function(item){
+            return item.toLowerCase();
+        });
         var users = chat.find('.active').find('.users');
         var nicks = users.data('nicks');
 
         if (!nicks) {
             nicks = [];
-            users.find('.user').each(function() {
-                var nick = $(this).text().replace(/[~&@%+]/, '');
+            users.find('.user').each(function(i, element) {
+                var nick = element.textContent.replace(/[~&@%+]/, '');
                 nicks.push(nick);
             });
             users.data('nicks', nicks);
         }
 
-        for (var i in nicks) {
-            words.push(nicks[i]);
+        for (let n of nicks) {
+            words.push(n.toLowerCase());
         }
 
         var channels = sidebar.find('.chan')
-            .each(function() {
-                var self = $(this);
-                if (!self.hasClass('lobby')) {
-                    words.push(self.data('title'));
+            .each(function(i, element) {
+                if (!element.classList.contains('lobby')) {
+                    words.push($(element).data('title').toLowerCase());
                 }
             });
 
-        return $.grep(
-            words,
-            function(w) {
-                return !w.toLowerCase().indexOf(word.toLowerCase());
-            }
-        );
+        return words.filter(function(word, item){
+            return item.indexOf(word) === 0;
+        }.bind(null, word.toLowerCase()));
     }
 
     function confirmExit() {
