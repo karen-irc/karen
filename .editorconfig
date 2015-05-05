@@ -7,7 +7,7 @@ root = true
 end_of_line = lf
 charset = utf-8
 
-[*.js]
+[*.{js,html}]
 indent_style = space
 indent_size = 4
 
