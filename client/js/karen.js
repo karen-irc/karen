@@ -10,6 +10,7 @@ import Mousetrap from 'mousetrap';
 import NotificationActionCreator from '../script/action/NotificationActionCreator';
 import NotificationPresenter from '../script/output/NotificationPresenter';
 import SocketIoDriver from '../script/adopter/SocketIoDriver';
+import UIActionCreator from '../script/action/UIActionCreator';
 
 const CommandType = CommandTypeMod.type;
 const CommandList = CommandTypeMod.list;
