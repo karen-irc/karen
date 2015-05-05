@@ -399,23 +399,6 @@ $(function() {
         });
     });
 
-    chat.on('click', '.messages', function() {
-        setTimeout(function() {
-            var text = '';
-            if (window.getSelection) {
-                text = window.getSelection().toString();
-            } else if (document.selection && document.selection.type !== 'Control') {
-                text = document.selection.createRange().text;
-            }
-            if (!text) {
-                var chan = chat.find('.active');
-                if (screen.width > 768 && chan.hasClass('chan')) {
-                    UIActionCreator.focusInputBox();
-                }
-            }
-        }, 2);
-    });
-
     $(window).on('focus', function () {
         var chan = chat.find('.active');
         if (screen.width > 768 && chan.hasClass('chan')) {
