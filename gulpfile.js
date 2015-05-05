@@ -132,31 +132,6 @@ gulp.task('jslint', function () {
         .pipe(eslint.failAfterError());
 });
 
-gulp.task('build:client2', ['jslint'], function () {
-    const SRC_JS = ['./client/script/karen.js'];
-
-    let option = {
-        insertGlobals: false,
-        debug: isRelease ? false : true,
-    };
-
-    let babel = babelify.configure({
-        optional: [
-            'optimisation.react.constantElements',
-            // 'optimisation.react.inlineElements', // FIXME: #17
-            'utility.deadCodeElimination',
-            'utility.inlineEnvironmentVariables',
-            'utility.inlineExpressions',
-        ],
-    });
-
-    browserify(SRC_JS, option)
-        .transform(babel)
-        .bundle()
-        .pipe(source('bundle.js'))
-        .pipe(gulp.dest('client/dist/'));
-});
-
 gulp.task('__babel:server', ['clean:server'], function () {
     return gulp.src('./src/**/*.js')
         .pipe(babel({
