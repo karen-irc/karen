@@ -20,7 +20,9 @@ const socket = new SocketIoDriver();
 const cookie = new CookieDriver();
 const notify = new NotificationPresenter();
 
-$(function() {
+document.addEventListener('DOMContentLoaded', function onLoad() {
+    document.removeEventListener('DOMContentLoaded', onLoad);
+
     const appView = new AppViewController(document.getElementById('viewport'));
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
 
@@ -28,12 +30,13 @@ $(function() {
     var chat = $('#chat');
 
     if (navigator.standalone) {
-        $('html').addClass('web-app-mode');
+        document.documentElement.classList.add('web-app-mode');
     }
 
-    $('#play').on('click', function() {
+    document.getElementById('play').addEventListener('click', function () {
         NotificationActionCreator.playSound();
     });
+
     $('#footer .icon').tooltip();
 
     function render(name, data) {
@@ -357,34 +360,36 @@ $(function() {
     }).find('input')
         .trigger('change');
 
-    $('#badge').on('change', function() {
-        var self = $(this);
-        if (self.prop('checked')) {
+    document.getElementById('badge').addEventListener('change', function (aEvent) {
+        const input = aEvent.target;
+        if (input.checked) {
             NotificationActionCreator.requestPermission();
         }
     });
 
     UIActionCreator.getDispatcher().toggleLeftPane.subscribe(function (shouldOpen) {
         if (shouldOpen) {
-            chat.find('.chat').one('click', function() {
-                UIActionCreator.toggleLeftPane(false);
+            chat.find('.chat').each(function(i, element) {
+                element.addEventListener('click', function onClick(aEvent) {
+                    aEvent.currentTarget.removeEventListener('click', onClick);
+                    UIActionCreator.toggleLeftPane(false);
+                });
             });
         }
     });
 
-    var input = $('#input')
-        .history()
-        .tab(complete, {hint: false});
+    var input = document.getElementById('input');
+    $(input).history()
+            .tab(complete, {hint: false});
 
-    var form = $('#form');
+    document.getElementById('form').addEventListener('submit', function (aEvent) {
+        aEvent.preventDefault();
 
-    form.on('submit', function(e) {
-        e.preventDefault();
-        var text = input.val();
+        const text = input.value;
         var id = chat.data('id');
         MessageActionCreator.inputCommand(id, text);
 
-        input.val('');
+        input.value = '';
     });
 
     MessageActionCreator.getDispatcher().clearMessage.subscribe(function() {
@@ -399,7 +404,7 @@ $(function() {
         });
     });
 
-    $(window).on('focus', function () {
+    window.addEventListener('focus', function () {
         var chan = chat.find('.active');
         if (screen.width > 768 && chan.hasClass('chan')) {
             UIActionCreator.focusInputBox();
@@ -646,7 +651,7 @@ $(function() {
         'ctrl+l',
         'ctrl+shift+l'
     ], function (e) {
-        if(e.target === input[0]) {
+        if(e.target === input) {
             MessageActionCreator.clear();
         }
     });
@@ -763,7 +768,7 @@ $(function() {
             .width();
         if (width) {
             width += 31;
-            input.css('padding-left', width);
+            $(input).css('padding-left', width);
         }
     }
 
