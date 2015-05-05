@@ -4,6 +4,7 @@ import 'babelify/polyfill';
 import AppViewController from '../script/output/view/AppViewController';
 import AudioDriver from '../script/adopter/AudioDriver';
 import CommandTypeMod from '../script/model/CommandType';
+import ConfigRepository from '../script/adopter/ConfigRepository';
 import CookieDriver from '../script/adopter/CookieDriver';
 import MainViewController from '../script/output/view/MainViewController';
 import MessageActionCreator from '../script/action/MessageActionCreator';
@@ -18,6 +19,7 @@ const CommandList = CommandTypeMod.list;
 
 const socket = new SocketIoDriver();
 const cookie = new CookieDriver();
+const config = new ConfigRepository(cookie);
 const notify = new NotificationPresenter();
 
 document.addEventListener('DOMContentLoaded', function onLoad() {
@@ -316,19 +318,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     var settings = $('#settings');
-    var options = $.extend({
-        badge: false,
-        colors: false,
-        join: true,
-        links: true,
-        mode: true,
-        motd: false,
-        nick: true,
-        notification: true,
-        part: true,
-        thumbnails: true,
-        quit: true,
-    }, cookie.get('settings'));
+    var options = config.get();
 
     for (var i in options) {
         if (options[i]) {
@@ -340,9 +330,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         var self = $(this);
         var name = self.attr('name');
         options[name] = self.prop('checked');
-        cookie.set('settings', options, {
-            expires: moment().add(365, 'days').toDate(),
-        });
+        config.set(options);
 
         if ([
             'join',
@@ -546,7 +534,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         var highlight = type.indexOf('highlight') !== -1;
         if (highlight || isQuery) {
             if (!document.hasFocus() || !$(target).hasClass('active')) {
-                var settings = cookie.get('settings') || {};
+                var settings = config.get();
                 if (settings.notification) {
                     NotificationActionCreator.playSound();
                 }
