@@ -37,17 +37,19 @@ class UIActionCreator {
     }
 
     /**
+     *  @param  {boolean}   shouldOpen
      *  @return {void}
      */
-    toggleLeftPane() {
-        UIActionDispatcher.toggleLeftPane.onNext();
+    toggleLeftPane(shouldOpen) {
+        UIActionDispatcher.toggleLeftPane.onNext(shouldOpen);
     }
 
     /**
+     *  @param  {boolean}   shouldOpen
      *  @return {void}
      */
-    toggleRightPane() {
-        UIActionDispatcher.toggleRightPane.onNext();
+    toggleRightPane(shouldOpen) {
+        UIActionDispatcher.toggleRightPane.onNext(shouldOpen);
     }
 }
 
