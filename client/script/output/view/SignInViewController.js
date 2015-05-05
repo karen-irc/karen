@@ -24,6 +24,12 @@
  * THE SOFTWARE.
  */
 
+// babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
+import 'core-js/modules/es6.array.iterator';
+import 'core-js/es6/symbol';
+
+import arrayFrom from 'core-js/library/fn/array/from';
+
 const EVENT_NAME = 'auth';
 
 export default class SignInViewController {
@@ -74,7 +80,7 @@ export default class SignInViewController {
     onShow(aEvent) {
         const target = aEvent.currentTarget;
         const list = target.querySelectorAll('input');
-        const array = Array.prototype.slice.call(list);
+        const array = arrayFrom(list);
         for (let input of array) {
             // If we find the element which has no value,
             // we stop iteration & focus it.
@@ -97,7 +103,7 @@ export default class SignInViewController {
         aEvent.preventDefault();
 
         const list = target.querySelectorAll('.btn');
-        for (let element of Array.prototype.slice.call(list)) {
+        for (let element of arrayFrom(list)) {
             element.setAttribute('disabled', 'true');
         }
 
