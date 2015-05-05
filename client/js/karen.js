@@ -691,12 +691,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
                 }
             });
 
-        return $.grep(
-            words,
-            function(w) {
-                return !w.toLowerCase().indexOf(word.toLowerCase());
-            }
-        );
+        return words.map(function(item){
+            return item.toLowerCase();
+        }).filter(function(word, item){
+            return item.indexOf(word) === 0;
+        }.bind(null, word.toLowerCase()));
     }
 
     function confirmExit() {
