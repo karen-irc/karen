@@ -28,10 +28,10 @@ import Rx from 'rx';
 class UIActionDispatcher {
 
     constructor() {
-        /** @type {Rx.Subject<void>}  */
+        /** @type {Rx.Subject<boolean>}  */
         this.toggleLeftPane = new Rx.Subject();
 
-        /** @type {Rx.Subject<void>}  */
+        /** @type {Rx.Subject<boolean>}  */
         this.toggleRightPane = new Rx.Subject();
     }
 }

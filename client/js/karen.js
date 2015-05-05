@@ -1,6 +1,7 @@
 /*global $:true, Handlebars:true, moment: true */
 
 import 'babelify/polyfill';
+import AppViewController from '../script/output/view/AppViewController';
 import AudioDriver from '../script/adopter/AudioDriver';
 import CommandTypeMod from '../script/model/CommandType';
 import CookieDriver from '../script/adopter/CookieDriver';
@@ -20,6 +21,7 @@ const cookie = new CookieDriver();
 const notify = new NotificationPresenter();
 
 $(function() {
+    const appView = new AppViewController(document.getElementById('viewport'));
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
 
     var sidebar = $('#sidebar, #footer');
@@ -362,31 +364,13 @@ $(function() {
         }
     });
 
-    var viewport = $('#viewport');
-
-    viewport.on('click', '.lt', function(e) {
-        UIActionCreator.toggleLeftPane();
-    });
-
-    UIActionCreator.getDispatcher().toggleLeftPane.subscribe(function () {
-        viewport.toggleClass('lt');
-        const isOpened = viewport.get(0).classList.contains('lt');
-
-        if (isOpened) {
+    UIActionCreator.getDispatcher().toggleLeftPane.subscribe(function (shouldOpen) {
+        if (shouldOpen) {
             chat.find('.chat').one('click', function() {
-                viewport.removeClass('lt');
+                UIActionCreator.toggleLeftPane(false);
             });
         }
     });
-
-    viewport.on('click', '.rt', function(e) {
-        UIActionCreator.toggleRightPane();
-    });
-
-    UIActionCreator.getDispatcher().toggleRightPane.subscribe(function () {
-        viewport.toggleClass('rt');
-    });
-
 
     var input = $('#input')
         .history()
@@ -462,7 +446,7 @@ $(function() {
             .data('count', '')
             .empty();
 
-        viewport.removeClass('lt');
+        UIActionCreator.toggleLeftPane(false);
         $('#windows .active').removeClass('active');
 
         var chan = $(target)
