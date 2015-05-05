@@ -58,6 +58,13 @@ class UIActionCreator {
     focusInputBox() {
         UIActionDispatcher.focusInputBox.onNext();
     }
+
+    /**
+     *  @return {void}
+     */
+    focusWindow() {
+        UIActionDispatcher.focusWindow.onNext();
+    }
 }
 
 export default new UIActionCreator();

@@ -423,6 +423,10 @@ $(function() {
         }
     });
 
+    UIActionCreator.getDispatcher().focusWindow.subscribe(function(){
+        window.focus();
+    });
+
     UIActionCreator.getDispatcher().focusInputBox.subscribe(function () {
         input.focus();
     });
@@ -564,7 +568,7 @@ $(function() {
                         icon: '/img/logo-64.png'
                     });
                     notify.onclick = function() {
-                        window.focus();
+                        UIActionCreator.focusWindow();
                         button.click();
                         this.close();
                     };
