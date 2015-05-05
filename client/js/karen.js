@@ -10,6 +10,7 @@ import Mousetrap from 'mousetrap';
 import NotificationActionCreator from '../script/action/NotificationActionCreator';
 import NotificationPresenter from '../script/output/NotificationPresenter';
 import SocketIoDriver from '../script/adopter/SocketIoDriver';
+import UIActionCreator from '../script/action/UIActionCreator';
 
 const CommandType = CommandTypeMod.type;
 const CommandList = CommandTypeMod.list;
@@ -363,16 +364,29 @@ $(function() {
 
     var viewport = $('#viewport');
 
-    viewport.on('click', '.lt, .rt', function(e) {
-        var self = $(this);
-        viewport.toggleClass(self.attr('class'));
-        if (viewport.is('.lt, .rt')) {
-            e.stopPropagation();
+    viewport.on('click', '.lt', function(e) {
+        UIActionCreator.toggleLeftPane();
+    });
+
+    UIActionCreator.getDispatcher().toggleLeftPane.subscribe(function () {
+        viewport.toggleClass('lt');
+        const isOpened = viewport.get(0).classList.contains('lt');
+
+        if (isOpened) {
             chat.find('.chat').one('click', function() {
                 viewport.removeClass('lt');
             });
         }
     });
+
+    viewport.on('click', '.rt', function(e) {
+        UIActionCreator.toggleRightPane();
+    });
+
+    UIActionCreator.getDispatcher().toggleRightPane.subscribe(function () {
+        viewport.toggleClass('rt');
+    });
+
 
     var input = $('#input')
         .history()
