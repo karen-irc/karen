@@ -51,6 +51,20 @@ class UIActionCreator {
     toggleRightPane(shouldOpen) {
         UIActionDispatcher.toggleRightPane.onNext(shouldOpen);
     }
+
+    /**
+     *  @return {void}
+     */
+    focusInputBox() {
+        UIActionDispatcher.focusInputBox.onNext();
+    }
+
+    /**
+     *  @return {void}
+     */
+    focusWindow() {
+        UIActionDispatcher.focusWindow.onNext();
+    }
 }
 
 export default new UIActionCreator();
