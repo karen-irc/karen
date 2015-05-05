@@ -44,7 +44,6 @@ const SRC = [
     'client/js/libs/jquery.js',
     'client/js/libs/jquery/**/*.js',
     'client/js/libs/moment.js',
-    'client/js/libs/string.contains.js',
     'client/js/libs/stringcolor.js',
     'client/js/libs/uri.js',
 ];
