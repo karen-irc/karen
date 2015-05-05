@@ -462,7 +462,7 @@ $(function() {
             .data('count', '')
             .empty();
 
-        viewport.removeClass('lt');
+        UIActionCreator.toggleLeftPane();
         $('#windows .active').removeClass('active');
 
         var chan = $(target)
