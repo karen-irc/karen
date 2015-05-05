@@ -15,7 +15,7 @@ const CommandType = CommandTypeMod.type;
 const CommandList = CommandTypeMod.list;
 
 const socket = new SocketIoDriver();
-const cookie = new CookieDriver(window);
+const cookie = new CookieDriver();
 const notify = new NotificationPresenter();
 
 $(function() {
