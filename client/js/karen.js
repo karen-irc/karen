@@ -538,7 +538,7 @@ $(function() {
         var button = sidebar.find('.chan[data-target=' + target + ']');
         var isQuery = button.hasClass('query');
         var type = msg.type;
-        var highlight = type.contains('highlight');
+        var highlight = type.indexOf('highlight') !== -1;
         if (highlight || isQuery) {
             if (!document.hasFocus() || !$(target).hasClass('active')) {
                 var settings = cookie.get('settings') || {};
