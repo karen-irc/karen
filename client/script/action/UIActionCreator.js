@@ -39,6 +39,13 @@ class UIActionCreator {
     /**
      *  @return {void}
      */
+    toggleLeftPane() {
+        UIActionDispatcher.toggleLeftPane.onNext();
+    }
+
+    /**
+     *  @return {void}
+     */
     toggleRightPane() {
         UIActionDispatcher.toggleRightPane.onNext();
     }

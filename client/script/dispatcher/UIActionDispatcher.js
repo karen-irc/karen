@@ -29,6 +29,9 @@ class UIActionDispatcher {
 
     constructor() {
         /** @type {Rx.Subject<void>}  */
+        this.toggleLeftPane = new Rx.Subject();
+
+        /** @type {Rx.Subject<void>}  */
         this.toggleRightPane = new Rx.Subject();
     }
 }

@@ -365,10 +365,14 @@ $(function() {
     var viewport = $('#viewport');
 
     viewport.on('click', '.lt', function(e) {
-        var self = $(this);
-        viewport.toggleClass(self.attr('class'));
-        if (viewport.is('.lt, .rt')) {
-            e.stopPropagation();
+        UIActionCreator.toggleLeftPane();
+    });
+
+    UIActionCreator.getDispatcher().toggleLeftPane.subscribe(function () {
+        viewport.toggleClass('lt');
+        const isOpened = viewport.get(0).classList.contains('lt');
+
+        if (isOpened) {
             chat.find('.chat').one('click', function() {
                 viewport.removeClass('lt');
             });
@@ -381,13 +385,6 @@ $(function() {
 
     UIActionCreator.getDispatcher().toggleRightPane.subscribe(function () {
         viewport.toggleClass('rt');
-        const isOpened = viewport.get(0).classList.contains('rt');
-
-        if (isOpened) {
-            chat.find('.chat').one('click', function() {
-                viewport.removeClass('lt');
-            });
-        }
     });
 
 
