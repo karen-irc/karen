@@ -1,5 +1,6 @@
 /*global $:true, Handlebars:true, moment: true */
 
+import 'babelify/polyfill';
 import AudioDriver from '../script/adopter/AudioDriver';
 import CommandTypeMod from '../script/model/CommandType';
 import CookieDriver from '../script/adopter/CookieDriver';
