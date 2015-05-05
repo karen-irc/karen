@@ -35,6 +35,13 @@ class UIActionCreator {
     getDispatcher() {
         return UIActionDispatcher;
     }
+
+    /**
+     *  @return {void}
+     */
+    toggleRightPane() {
+        UIActionDispatcher.toggleRightPane.onNext();
+    }
 }
 
 export default new UIActionCreator();

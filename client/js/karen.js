@@ -364,7 +364,7 @@ $(function() {
 
     var viewport = $('#viewport');
 
-    viewport.on('click', '.lt, .rt', function(e) {
+    viewport.on('click', '.lt', function(e) {
         var self = $(this);
         viewport.toggleClass(self.attr('class'));
         if (viewport.is('.lt, .rt')) {
@@ -374,6 +374,22 @@ $(function() {
             });
         }
     });
+
+    viewport.on('click', '.rt', function(e) {
+        UIActionCreator.toggleRightPane();
+    });
+
+    UIActionCreator.getDispatcher().toggleRightPane.subscribe(function () {
+        viewport.toggleClass('rt');
+        const isOpened = viewport.get(0).classList.contains('rt');
+
+        if (isOpened) {
+            chat.find('.chat').one('click', function() {
+                viewport.removeClass('lt');
+            });
+        }
+    });
+
 
     var input = $('#input')
         .history()

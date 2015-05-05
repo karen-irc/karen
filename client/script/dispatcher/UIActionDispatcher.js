@@ -28,6 +28,8 @@ import Rx from 'rx';
 class UIActionDispatcher {
 
     constructor() {
+        /** @type {Rx.Subject<void>}  */
+        this.toggleRightPane = new Rx.Subject();
     }
 }
 
