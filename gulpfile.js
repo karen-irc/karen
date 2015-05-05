@@ -136,6 +136,7 @@ gulp.task('__babel:server', ['clean:server'], function () {
             // For io.js, we need not some transforms:
             blacklist: [
                 'es6.blockScoping',
+                'es6.classes',
                 'es6.constants',
                 'es6.forOf',
                 'es6.templateLiterals',
