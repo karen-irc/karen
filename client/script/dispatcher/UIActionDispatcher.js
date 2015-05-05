@@ -33,6 +33,9 @@ class UIActionDispatcher {
 
         /** @type {Rx.Subject<boolean>}  */
         this.toggleRightPane = new Rx.Subject();
+
+        /** @type {Rx.Subject<void>}  */
+        this.focusInputBox = new Rx.Subject();
     }
 }
 
