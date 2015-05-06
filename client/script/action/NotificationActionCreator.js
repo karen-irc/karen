@@ -49,6 +49,19 @@ class NotificationActionCreator {
     requestPermission() {
         NotificationDispatcher.requestPermission.onNext();
     }
+
+    /**
+     *  @param  {string}  channelId
+     *  @param  {{ from: string, text: string }}  message
+     *  @return {void}
+     */
+    showNotification(channelId, message) {
+        NotificationDispatcher.showNotification.onNext({
+            channelId: channelId,
+            from: message.from,
+            text: message.text,
+        });
+    }
 }
 
 export default new NotificationActionCreator();

@@ -25,14 +25,25 @@
 
 import AudioDriver from '../adopter/AudioDriver';
 import NotificationActionCreator from '../action/NotificationActionCreator';
+import Rx from 'rx';
+import UIActionCreator from '../action/UIActionCreator';
+
+const ICON_URL = '/img/logo-64.png';
 
 export default class NotificationPresenter {
 
-    constructor() {
+    /**
+     *  @constructor
+     *  @param  {ConfigRepository}  config
+     */
+    constructor(config) {
         const dispatcher = NotificationActionCreator.getDispatcher();
 
         /** @type {AudioDriver} */
         this._audio = new AudioDriver('/audio/pop.ogg');
+
+        /** @type {ConfigRepository}  */
+        this._config = config;
 
         /*eslint-disable valid-jsdoc*/
         /** @type {Rx.IDisposable} */
@@ -43,6 +54,11 @@ export default class NotificationPresenter {
         /** @type {Rx.IDisposable} */
         this._disposeRequestPermission = dispatcher.requestPermission.subscribe(() => {
             this.requestPermission();
+        });
+
+        /** @type {Rx.IDisposable} */
+        this._disposeshowNotification = dispatcher.showNotification.subscribe((data) => {
+            this.showNotification(data.channelId, data.from, data.text);
         });
         /*eslint-enable */
     }
@@ -70,6 +86,38 @@ export default class NotificationPresenter {
     requestPermission() {
         if (Notification.permission !== 'granted') {
             Notification.requestPermission();
+        }
+    }
+
+    /**
+     *  @param  {string}  channelId
+     *  @param  {string}  from
+     *  @param  {string}  text
+     *  @return {void}
+     */
+    showNotification(channelId, from, text) {
+        const settings = this._config.get();
+        if (settings.notification) {
+            // FIXME: should call in `NotificationActionCreator.showNotification()`
+            NotificationActionCreator.playSound();
+        }
+
+        if (settings.badge && Notification.permission === 'granted') {
+            let notification = new Notification(from + ' says:', {
+                body: text,
+                icon: ICON_URL,
+            });
+
+            const timeout = Rx.Observable.empty().delay(5 * 1000);
+            const click = Rx.Observable.fromEvent(notification, 'click').take(1).do(function(){
+                UIActionCreator.focusWindow();
+                UIActionCreator.selectChannel(channelId);
+            });
+
+            click.amb(timeout).subscribeOnCompleted(function(){
+                notification.close();
+                notification = null;
+            });
         }
     }
 }
