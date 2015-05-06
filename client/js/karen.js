@@ -3,6 +3,7 @@
 import 'babelify/polyfill';
 import AppViewController from '../script/output/view/AppViewController';
 import AudioDriver from '../script/adopter/AudioDriver';
+import AuthRepository from '../script/adopter/AuthRepository';
 import CommandTypeMod from '../script/model/CommandType';
 import CookieDriver from '../script/adopter/CookieDriver';
 import MainViewController from '../script/output/view/MainViewController';
@@ -19,6 +20,7 @@ const CommandList = CommandTypeMod.list;
 const socket = new SocketIoDriver();
 const cookie = new CookieDriver();
 const notify = new NotificationPresenter();
+const auth = new AuthRepository(cookie);
 
 document.addEventListener('DOMContentLoaded', function onLoad() {
     document.removeEventListener('DOMContentLoaded', onLoad);
@@ -71,9 +73,9 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             return;
         }
         login.find('.btn').prop('disabled', false);
-        var token = cookie.get('token');
+        var token = auth.getToken();
         if (token) {
-            cookie.remove('token');
+            auth.removeToken();
             socket.emit('auth', {token: token});
         }
         if (body.hasClass('signed-out')) {
@@ -87,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
         var input = login.find('input[name=\'user\']');
         if (input.val() === '') {
-            input.val(cookie.get('user') || '');
+            input.val(auth.getUser() || '');
         }
         if (token) {
             return;
@@ -123,9 +125,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
 
         if (data.token) {
-            cookie.set('token', data.token, {
-                expires: moment().add(30, 'days').toDate(),
-            });
+            auth.setToken(data.token);
         }
 
         $('body').removeClass('signed-out');
@@ -475,7 +475,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     sidebar.on('click', '#sign-out', function() {
-        cookie.remove('token');
+        auth.removeToken();
         location.reload();
     });
 
