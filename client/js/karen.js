@@ -24,7 +24,7 @@ const CommandList = CommandTypeMod.list;
 const socket = new SocketIoDriver();
 const cookie = new CookieDriver();
 const config = new ConfigRepository(cookie);
-const notify = new NotificationPresenter();
+const notify = new NotificationPresenter(config);
 const auth = new AuthRepository(cookie);
 
 document.addEventListener('DOMContentLoaded', function onLoad() {
@@ -530,6 +530,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             .click();
     });
 
+    UIActionCreator.getDispatcher().selectChannel.subscribe(function (channelId) {
+        const button = sidebar.find('.chan[data-target=' + channelId + ']');
+        button.click();
+    });
+
     chat.on('msg', '.messages', function(e, target, msg) {
         var button = sidebar.find('.chan[data-target=' + target + ']');
         var isQuery = button.hasClass('query');
@@ -537,24 +542,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         var highlight = type.indexOf('highlight') !== -1;
         if (highlight || isQuery) {
             if (!document.hasFocus() || !$(target).hasClass('active')) {
-                var settings = config.get();
-                if (settings.notification) {
-                    NotificationActionCreator.playSound();
-                }
-                if (settings.badge && Notification.permission === 'granted') {
-                    var notify = new Notification(msg.from + ' says:', {
-                        body: msg.text.trim(),
-                        icon: '/img/logo-64.png'
-                    });
-                    notify.onclick = function() {
-                        UIActionCreator.focusWindow();
-                        button.click();
-                        this.close();
-                    };
-                    window.setTimeout(function() {
-                        notify.close();
-                    }, 5 * 1000);
-                }
+                NotificationActionCreator.showNotification(target, {
+                    from: msg.from,
+                    text: msg.text.trim(),
+                });
             }
         }
 

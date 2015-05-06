@@ -33,6 +33,9 @@ class NotificationDispatcher {
 
         /** @type {Rx.Subject<void>}  */
         this.requestPermission = new Rx.Subject();
+
+        /** @type {Rx.Subject<{ channelId: string, from: string, text: string}>}  */
+        this.showNotification = new Rx.Subject();
     }
 }
 

@@ -39,6 +39,9 @@ class UIActionDispatcher {
 
         /** @type {Rx.Subject<void>}  */
         this.focusWindow = new Rx.Subject();
+
+        /** @type {Rx.Subject<string>}  */
+        this.selectChannel = new Rx.Subject();
     }
 }
 

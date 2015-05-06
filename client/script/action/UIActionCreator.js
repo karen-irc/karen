@@ -65,6 +65,14 @@ class UIActionCreator {
     focusWindow() {
         UIActionDispatcher.focusWindow.onNext();
     }
+
+    /**
+     *  @param  {string}  id
+     *  @return {void}
+     */
+    selectChannel(id) {
+        UIActionDispatcher.selectChannel.onNext(id);
+    }
 }
 
 export default new UIActionCreator();
