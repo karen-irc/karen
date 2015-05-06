@@ -382,7 +382,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     $(input).history()
             .tab(complete, {hint: false});
 
-    document.getElementById('form').addEventListener('submit', function (aEvent) {
+    $(document.getElementById('form')).on('submit', function (aEvent) {
         aEvent.preventDefault();
 
         const text = input.value;
