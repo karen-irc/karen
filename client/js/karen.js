@@ -1,6 +1,9 @@
 /*global $:true, Handlebars:true, moment: true */
 
-import 'babelify/polyfill';
+// babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
+import 'core-js/modules/es6.array.iterator';
+import 'core-js/es6/symbol';
+
 import AppViewController from '../script/output/view/AppViewController';
 import AudioDriver from '../script/adopter/AudioDriver';
 import AuthRepository from '../script/adopter/AuthRepository';

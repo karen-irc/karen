@@ -24,6 +24,12 @@
  * THE SOFTWARE.
  */
 
+// babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
+import 'core-js/modules/es6.array.iterator';
+import 'core-js/es6/symbol';
+
+import arrayFrom from 'core-js/library/fn/array/from';
+
 const EVENT_NAME = 'conn';
 
 export default class ConnectSettingViewController {
@@ -75,7 +81,7 @@ export default class ConnectSettingViewController {
         aEvent.preventDefault();
 
         const list = target.querySelectorAll('.btn');
-        for (let element of Array.prototype.slice.call(list)) {
+        for (let element of arrayFrom(list)) {
             element.setAttribute('disabled', 'true');
         }
 
@@ -101,7 +107,7 @@ export default class ConnectSettingViewController {
 
         const nickname = target.value;
         const list = this._element.querySelectorAll('.username');
-        for (let input of Array.prototype.slice.call(list)) {
+        for (let input of arrayFrom(list)) {
             input.value = nickname;
         }
     }
