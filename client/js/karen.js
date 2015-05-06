@@ -370,10 +370,9 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     var input = document.getElementById('input');
-    $(input).history()
-            .tab(complete, {hint: false});
+    $(input).tab(complete, {hint: false});
 
-    $(document.getElementById('form')).on('submit', function (aEvent) {
+    document.getElementById('form').addEventListener('submit', function (aEvent) {
         aEvent.preventDefault();
 
         const text = input.value;
