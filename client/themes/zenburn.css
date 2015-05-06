@@ -151,7 +151,7 @@ QUIT #bc6c4c
 
 /* Hide unnecessary buttons */
 #windows .header .button,
-#form #submit {
+#form .submit {
   display: none;
 }
 
