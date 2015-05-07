@@ -4,6 +4,7 @@
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
+import AppActionCreator from '../script/action/AppActionCreator';
 import AppViewController from '../script/output/view/AppViewController';
 import AudioDriver from '../script/adopter/AudioDriver';
 import AuthRepository from '../script/adopter/AuthRepository';
@@ -65,18 +66,18 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     socket.connectError().subscribe(function(){
-        refresh();
+        AppActionCreator.reload();
     });
 
     socket.disconnect().subscribe(function(){
-        refresh();
+        AppActionCreator.reload();
     });
 
     socket.auth().subscribe(function(data) {
         var body = $('body');
         var login = $('#sign-in');
         if (!login.length) {
-            refresh();
+            AppActionCreator.reload();
             return;
         }
         login.find('.btn').prop('disabled', false);
@@ -670,10 +671,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     }
 
-    function refresh() {
+    AppActionCreator.getDispatcher().reload.subscribe(function() {
         window.onbeforeunload = null;
         location.reload();
-    }
+    });
 
     function sortable() {
         sidebar.sortable({
