@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-import AudioDriver from '../adopter/AudioDriver';
+import AudioDriver from '../adapter/AudioDriver';
 import NotificationActionCreator from '../action/NotificationActionCreator';
 import Rx from 'rx';
 import UIActionCreator from '../action/UIActionCreator';

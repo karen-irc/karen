@@ -10,7 +10,7 @@ import MessageType from './models/MessageType';
 import Network from './models/Network';
 import slate from 'slate-irc';
 import tls from 'tls';
-import ConfigDriver from './adopter/ConfigDriver';
+import ConfigDriver from './adapter/ConfigDriver';
 
 let id = 0;
 const events = [

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import mkdirp from 'mkdirp';
 import moment from 'moment';
-import ConfigDriver from './adopter/ConfigDriver';
+import ConfigDriver from './adapter/ConfigDriver';
 
 function write(user, network, chan, msg) {
     var logsPath = path.join(ConfigDriver.getHome(), 'logs', user, network);

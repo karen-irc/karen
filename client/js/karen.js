@@ -6,18 +6,18 @@ import 'core-js/es6/symbol';
 
 import AppActionCreator from '../script/action/AppActionCreator';
 import AppViewController from '../script/output/view/AppViewController';
-import AudioDriver from '../script/adopter/AudioDriver';
-import AuthRepository from '../script/adopter/AuthRepository';
+import AudioDriver from '../script/adapter/AudioDriver';
+import AuthRepository from '../script/adapter/AuthRepository';
 import CommandTypeMod from '../script/model/CommandType';
-import ConfigRepository from '../script/adopter/ConfigRepository';
-import CookieDriver from '../script/adopter/CookieDriver';
+import ConfigRepository from '../script/adapter/ConfigRepository';
+import CookieDriver from '../script/adapter/CookieDriver';
 import InputBoxViewController from '../script/output/view/InputBoxViewController';
 import MainViewController from '../script/output/view/MainViewController';
 import MessageActionCreator from '../script/action/MessageActionCreator';
 import Mousetrap from 'mousetrap';
 import NotificationActionCreator from '../script/action/NotificationActionCreator';
 import NotificationPresenter from '../script/output/NotificationPresenter';
-import SocketIoDriver from '../script/adopter/SocketIoDriver';
+import SocketIoDriver from '../script/adapter/SocketIoDriver';
 import UIActionCreator from '../script/action/UIActionCreator';
 
 const CommandType = CommandTypeMod.type;

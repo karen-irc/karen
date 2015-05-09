@@ -3,7 +3,7 @@ import program from 'commander';
 import pkg from '../../package.json';
 import fs from 'fs';
 import mkdirp from 'mkdirp';
-import ConfigDriver from '../adopter/ConfigDriver';
+import ConfigDriver from '../adapter/ConfigDriver';
 
 program.version(pkg.version, '-v, --version');
 program.option('');

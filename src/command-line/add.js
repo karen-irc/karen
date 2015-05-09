@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import program from 'commander';
 import mkdirp from 'mkdirp';
-import ConfigDriver from '../adopter/ConfigDriver';
+import ConfigDriver from '../adapter/ConfigDriver';
 import read from 'read';
 
 const add = function add(manager, name, password) {
