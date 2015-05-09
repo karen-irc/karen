@@ -4,11 +4,11 @@ import assign from 'object-assign';
 import bcrypt from 'bcrypt-nodejs';
 import Client from './Client';
 import ClientManager from './ClientManager';
-import SocketIoServerDriver from './adopter/SocketIoServerDriver';
+import SocketIoServerDriver from './adapter/SocketIoServerDriver';
 import express from 'express';
 import fs from 'fs';
 import http from 'http';
-import ConfigDriver from './adopter/ConfigDriver';
+import ConfigDriver from './adapter/ConfigDriver';
 
 let server = null;
 let config = {};

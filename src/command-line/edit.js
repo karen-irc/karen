@@ -2,7 +2,7 @@ import ClientManager from '../ClientManager';
 import program from 'commander';
 import child from 'child_process';
 import path from 'path';
-import ConfigDriver from '../adopter/ConfigDriver';
+import ConfigDriver from '../adapter/ConfigDriver';
 
 program
     .command('edit <name>')

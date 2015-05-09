@@ -2,7 +2,7 @@ import ClientManager from '../ClientManager';
 import fs from 'fs';
 import path from 'path';
 import program from 'commander';
-import ConfigDriver from '../adopter/ConfigDriver';
+import ConfigDriver from '../adapter/ConfigDriver';
 
 program
     .command('remove <name>')

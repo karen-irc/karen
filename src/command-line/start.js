@@ -2,7 +2,7 @@ import _ from 'lodash';
 import ClientManager from '../ClientManager';
 import program from 'commander';
 import karen from '../server';
-import ConfigDriver from '../adopter/ConfigDriver';
+import ConfigDriver from '../adapter/ConfigDriver';
 
 program
     .option('-H, --host <ip>', 'host')
