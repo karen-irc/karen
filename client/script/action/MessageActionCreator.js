@@ -63,6 +63,54 @@ class MessageActionCreator {
     clear() {
         ChatCommandDispatcher.clearMessage.onNext();
     }
+
+    /**
+     *  @param  {string}    channelId
+     *  @param  {string}    topic
+     *  @return {void}
+     */
+    setTopic(channelId, topic) {
+        ChatCommandDispatcher.setTopic.onNext({
+            id: channelId,
+            topic: topic,
+        });
+    }
+
+    /**
+     *  @param  {string}    id
+     *  @return {void}
+     */
+    quitNetwork(id) {
+        ChatCommandDispatcher.quitNetwork.onNext(id);
+    }
+
+    /**
+     *  @param  {string}    id
+     *  @return {void}
+     */
+    partFromChannel(id) {
+        ChatCommandDispatcher.partFromChannel.onNext(id);
+    }
+
+    /**
+     *  @param  {string}    networkId
+     *  @param  {string}    nickname
+     *  @return {void}
+     */
+    setNickname(networkId, nickname) {
+        ChatCommandDispatcher.setNickname.onNext({
+            id: networkId,
+            nickname: nickname,
+        });
+    }
+
+    /**
+     *  @param  {Object}    network
+     *  @return {void}
+     */
+    connectNetwork(network) {
+        ChatCommandDispatcher.connectNetwork.onNext(network);
+    }
 }
 
 export default new MessageActionCreator();

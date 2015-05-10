@@ -221,15 +221,19 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     socket.network().subscribe(function(data) {
+        MessageActionCreator.connectNetwork(data.network);
+    });
+
+    MessageActionCreator.getDispatcher().connectNetwork.subscribe(function (network) {
         sidebar.find('.empty').hide();
         sidebar.find('.networks').append(
             render('network', {
-                networks: [data.network]
+                networks: [network]
             })
         );
         chat.append(
             render('chat', {
-                channels: data.network.channels
+                channels: network.channels
             })
         );
         sidebar.find('.chan')
@@ -244,16 +248,26 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     socket.nickname().subscribe(function(data) {
-        var id = data.network;
-        var nick = data.nick;
-        var network = sidebar.find('#network-' + id).data('nick', nick);
-        if (network.find('.active').length) {
+        const id = data.network;
+        const nickname = data.nick;
+        MessageActionCreator.setNickname(id, nickname);
+    });
+
+    MessageActionCreator.getDispatcher().setNickname.subscribe(function (data) {
+        const id = data.network;
+        const nick = data.nick;
+        const network = sidebar.find('#network-' + id).data('nick', nick);
+        if (network.find('.active').length !== 0) {
             setNick(nick);
         }
     });
 
     socket.part().subscribe(function(data) {
-        var id = data.chan;
+        const id = data.chan;
+        MessageActionCreator.partFromChannel(id);
+    });
+
+    MessageActionCreator.getDispatcher().partFromChannel.subscribe(function(id){
         sidebar.find('.chan[data-id=\'' + id + '\']').remove();
         $('#chan-' + id).remove();
 
@@ -269,7 +283,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         });
 
         if (next !== null) {
-            id = next.data('id');
+            let id = next.data('id');
             sidebar.find('[data-id=' + id + ']').click();
         } else {
             sidebar.find('.chan')
@@ -279,7 +293,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     socket.quit().subscribe(function(data) {
-        var id = data.network;
+        const id = data.network;
+        MessageActionCreator.quitNetwork(id);
+    });
+
+    MessageActionCreator.getDispatcher().quitNetwork.subscribe(function(id){
         sidebar.find('#network-' + id)
             .remove()
             .end();
@@ -290,6 +308,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             sidebar.find('.empty').show();
         }
     });
+
 
     socket.toggle().subscribe(function(data) {
         var toggle = $('#toggle-' + data.id);
@@ -310,8 +329,17 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     socket.topic().subscribe(function(data) {
-        // .text() escapes HTML (but not quotes)
-        $('#chan-' + data.chan).find('.header .topic').text(data.topic);
+        MessageActionCreator.setTopic(data.chan, data.topic);
+    });
+
+    MessageActionCreator.getDispatcher().setTopic.subscribe(function(data) {
+        const channel = document.getElementById('chan-' + data.id);
+        const topicElement = channel.querySelector('.header .topic');
+        if (!topicElement) {
+            return;
+        }
+
+        topicElement.textContent = data.topic;
     });
 
     socket.users().subscribe(function(data) {

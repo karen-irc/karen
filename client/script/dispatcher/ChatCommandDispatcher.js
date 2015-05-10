@@ -33,6 +33,21 @@ class ChatCommandDispatcher {
 
         /** @type {Rx.Subject<void>}  */
         this.clearMessage = new Rx.Subject();
+
+        /** @type   {Rx.Subject<{id: string, topic: string}>}   */
+        this.setTopic = new Rx.Subject();
+
+        /** @type   {Rx.Subject<string>}  */
+        this.quitNetwork = new Rx.Subject();
+
+        /** @type   {Rx.Subject<string>}    */
+        this.partFromChannel = new Rx.Subject();
+
+        /** @type   {Rx.Subject<{id: string, nickname: string}>}   */
+        this.setNickname = new Rx.Subject();
+
+        /** @type   {Rx.Subject<Object>}    */
+        this.connectNetwork = new Rx.Subject();
     }
 }
 
