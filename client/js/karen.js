@@ -310,8 +310,17 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     socket.topic().subscribe(function(data) {
-        // .text() escapes HTML (but not quotes)
-        $('#chan-' + data.chan).find('.header .topic').text(data.topic);
+        MessageActionCreator.setTopic(data.chan, data.topic);
+    });
+
+    MessageActionCreator.getDispatcher().setTopic.subscribe(function(data) {
+        const channel = document.getElementById('chan-' + data.id);
+        const topicElement = channel.querySelector('.header .topic');
+        if (!topicElement) {
+            return;
+        }
+
+        topicElement.textContent = data.topic;
     });
 
     socket.users().subscribe(function(data) {

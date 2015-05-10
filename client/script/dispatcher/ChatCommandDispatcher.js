@@ -33,6 +33,9 @@ class ChatCommandDispatcher {
 
         /** @type {Rx.Subject<void>}  */
         this.clearMessage = new Rx.Subject();
+
+        /** @type   {Rx.Subject<{id: string, topic: string}>}   */
+        this.setTopic = new Rx.Subject();
     }
 }
 

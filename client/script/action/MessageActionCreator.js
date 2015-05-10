@@ -63,6 +63,18 @@ class MessageActionCreator {
     clear() {
         ChatCommandDispatcher.clearMessage.onNext();
     }
+
+    /**
+     *  @param  {string}    channelId
+     *  @param  {string}    topic
+     *  @return {void}
+     */
+    setTopic(channelId, topic) {
+        ChatCommandDispatcher.setTopic.onNext({
+            id: channelId,
+            topic: topic,
+        });
+    }
 }
 
 export default new MessageActionCreator();
