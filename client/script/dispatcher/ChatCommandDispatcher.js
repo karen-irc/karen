@@ -45,6 +45,9 @@ class ChatCommandDispatcher {
 
         /** @type   {Rx.Subject<{id: string, nickname: string}>}   */
         this.setNickname = new Rx.Subject();
+
+        /** @type   {Rx.Subject<Object>}    */
+        this.connectNetwork = new Rx.Subject();
     }
 }
 

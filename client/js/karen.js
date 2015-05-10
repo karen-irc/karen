@@ -221,15 +221,19 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     socket.network().subscribe(function(data) {
+        MessageActionCreator.connectNetwork(data.network);
+    });
+
+    MessageActionCreator.getDispatcher().connectNetwork.subscribe(function (network) {
         sidebar.find('.empty').hide();
         sidebar.find('.networks').append(
             render('network', {
-                networks: [data.network]
+                networks: [network]
             })
         );
         chat.append(
             render('chat', {
-                channels: data.network.channels
+                channels: network.channels
             })
         );
         sidebar.find('.chan')

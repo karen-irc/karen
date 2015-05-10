@@ -103,6 +103,14 @@ class MessageActionCreator {
             nickname: nickname,
         });
     }
+
+    /**
+     *  @param  {Object}    network
+     *  @return {void}
+     */
+    connectNetwork(network) {
+        ChatCommandDispatcher.connectNetwork.onNext(network);
+    }
 }
 
 export default new MessageActionCreator();
