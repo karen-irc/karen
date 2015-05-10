@@ -11,6 +11,7 @@ import AuthRepository from '../script/adapter/AuthRepository';
 import CommandTypeMod from '../script/model/CommandType';
 import ConfigRepository from '../script/adapter/ConfigRepository';
 import CookieDriver from '../script/adapter/CookieDriver';
+import GeneralSettingViewController from '../script/output/view/GeneralSettingViewController';
 import InputBoxViewController from '../script/output/view/InputBoxViewController';
 import MainViewController from '../script/output/view/MainViewController';
 import MessageActionCreator from '../script/action/MessageActionCreator';
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const appView = new AppViewController(document.getElementById('viewport'));
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
     const inputBox = new InputBoxViewController(document.getElementById('form'));
+    const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
 
     var sidebar = $('#sidebar, #footer');
     var chat = $('#chat');
@@ -48,10 +50,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     if (navigator.standalone) {
         document.documentElement.classList.add('web-app-mode');
     }
-
-    document.getElementById('play').addEventListener('click', function () {
-        NotificationActionCreator.playSound();
-    });
 
     $('#footer .icon').tooltip();
 
@@ -357,14 +355,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         users.data('nicks', nicks);
     });
 
-    var settings = $('#settings');
     var options = config.get();
 
     settingStore.subscribe(function (option) {
         const name = option.name;
         const value = option.value;
-
-        settings.find('input[name=' + name + ']').prop('checked', value);
 
         const set = new Set([
             'join',
@@ -381,14 +376,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (name === 'colors') {
             chat.toggleClass('no-colors', value);
         }
-    });
-
-    settings.on('change', 'input', function(aEvent) {
-        var self = $(this);
-        var name = self.attr('name');
-        var value = self.prop('checked');
-
-        SettingActionCreator.setOption(name, value);
     });
 
     document.getElementById('badge').addEventListener('change', function (aEvent) {
