@@ -17,6 +17,7 @@ import MessageActionCreator from '../script/action/MessageActionCreator';
 import Mousetrap from 'mousetrap';
 import NotificationActionCreator from '../script/action/NotificationActionCreator';
 import NotificationPresenter from '../script/output/NotificationPresenter';
+import SettingActionCreator from '../script/action/SettingActionCreator';
 import SettingStore from '../script/store/SettingStore';
 import SocketIoDriver from '../script/adapter/SocketIoDriver';
 import UIActionCreator from '../script/action/UIActionCreator';
@@ -360,30 +361,35 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     var options = config.get();
 
     settingStore.subscribe(function (option) {
-        settings.find('input[name=' + option.name + ']').prop('checked', option.value);
-    });
+        const name = option.name;
+        const value = option.value;
 
-    settings.on('change', 'input', function() {
-        var self = $(this);
-        var name = self.attr('name');
-        options[name] = self.prop('checked');
-        config.set(options);
+        settings.find('input[name=' + name + ']').prop('checked', value);
 
-        if ([
+        const set = new Set([
             'join',
             'mode',
             'motd',
             'nick',
             'part',
             'quit',
-        ].indexOf(name) !== -1) {
-            chat.toggleClass('hide-' + name, !self.prop('checked'));
+        ]);
+        if (set.has(name)) {
+            chat.toggleClass('hide-' + name, value);
         }
+
         if (name === 'colors') {
-            chat.toggleClass('no-colors', !self.prop('checked'));
+            chat.toggleClass('no-colors', value);
         }
-    }).find('input')
-        .trigger('change');
+    });
+
+    settings.on('change', 'input', function(aEvent) {
+        var self = $(this);
+        var name = self.attr('name');
+        var value = self.prop('checked');
+
+        SettingActionCreator.setOption(name, value);
+    });
 
     document.getElementById('badge').addEventListener('change', function (aEvent) {
         const input = aEvent.target;

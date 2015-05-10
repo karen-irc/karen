@@ -75,4 +75,20 @@ export default class SettingStore {
             this._initStream
         ).subscribe(observer);
     }
+
+    /**
+     *  @param  {string}  name
+     *  @param  {*} value
+     *  @return {void}
+     */
+    update(name, value) {
+        const setting = this._setting;
+        setting[name] = value;
+        this._repository.set(setting);
+
+        this._subject.onNext({
+            name: name,
+            value: value,
+        });
+    }
 }
