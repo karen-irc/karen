@@ -75,6 +75,14 @@ class MessageActionCreator {
             topic: topic,
         });
     }
+
+    /**
+     *  @param  {string}    id
+     *  @return {void}
+     */
+    quitNetwork(id) {
+        ChatCommandDispatcher.quitNetwork.onNext(id);
+    }
 }
 
 export default new MessageActionCreator();

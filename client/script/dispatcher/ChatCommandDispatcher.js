@@ -36,6 +36,9 @@ class ChatCommandDispatcher {
 
         /** @type   {Rx.Subject<{id: string, topic: string}>}   */
         this.setTopic = new Rx.Subject();
+
+        /** @type   {Rx.Subject<string>}  */
+        this.quitNetwork = new Rx.Subject();
     }
 }
 

@@ -279,7 +279,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     socket.quit().subscribe(function(data) {
-        var id = data.network;
+        const id = data.network;
+        MessageActionCreator.quitNetwork(id);
+    });
+
+    MessageActionCreator.getDispatcher().quitNetwork.subscribe(function(id){
         sidebar.find('#network-' + id)
             .remove()
             .end();
@@ -290,6 +294,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             sidebar.find('.empty').show();
         }
     });
+
 
     socket.toggle().subscribe(function(data) {
         var toggle = $('#toggle-' + data.id);
