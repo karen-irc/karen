@@ -1,3 +1,4 @@
+/*global jQuery:true, moment:true */
 /**
  * @license MIT License
  *
@@ -23,63 +24,47 @@
  * THE SOFTWARE.
  */
 
-import UIActionDispatcher from '../dispatcher/UIActionDispatcher';
+import AppActionCreator from '../action/AppActionCreator';
+import UIActionCreator from '../action/UIActionCreator';
 
-class UIActionCreator {
+export default class WindowPresenter {
+
+    /**
+     *  @constructor
+     */
     constructor() {
+        /*eslint-disable valid-jsdoc */
+
+        /** @type {Rx.IDisposable} */
+        this._disposeReload = AppActionCreator.getDispatcher().reload.subscribe(function () {
+            window.onbeforeunload = null;
+
+            location.reload();
+        });
+
+        /** @type {Rx.IDisposable} */
+        this._disposeFocus = UIActionCreator.getDispatcher().focusWindow.subscribe(function(){
+            window.focus();
+        });
+
+        /** @type {Rx.IDisposable} */
+        UIActionCreator.getDispatcher().setQuitConfirmDialog.subscribe(() => {
+            if (document.body.classList.contains('public')) {
+                window.onbeforeunload = this._onBeforeUnload;
+            }
+        });
+
+        /*eslint-enable*/
     }
 
     /**
-     *  @return {UIActionDispatcher}
-     */
-    getDispatcher() {
-        return UIActionDispatcher;
-    }
-
-    /**
-     *  @param  {boolean}   shouldOpen
+     *  @param  {Event} aEvent
      *  @return {void}
      */
-    toggleLeftPane(shouldOpen) {
-        UIActionDispatcher.toggleLeftPane.onNext(shouldOpen);
-    }
-
-    /**
-     *  @param  {boolean}   shouldOpen
-     *  @return {void}
-     */
-    toggleRightPane(shouldOpen) {
-        UIActionDispatcher.toggleRightPane.onNext(shouldOpen);
-    }
-
-    /**
-     *  @return {void}
-     */
-    focusInputBox() {
-        UIActionDispatcher.focusInputBox.onNext();
-    }
-
-    /**
-     *  @return {void}
-     */
-    focusWindow() {
-        UIActionDispatcher.focusWindow.onNext();
-    }
-
-    /**
-     *  @param  {string}  id
-     *  @return {void}
-     */
-    selectChannel(id) {
-        UIActionDispatcher.selectChannel.onNext(id);
-    }
-
-    /**
-     *  @return {void}
-     */
-    setQuitConfirmDialog() {
-        UIActionDispatcher.setQuitConfirmDialog.onNext();
+    _onBeforeUnload(aEvent) {
+        // This function is called on `beforeunload` event,
+        // we cannnot call window.confirm, alert, prompt during the event.
+        // Thus we need to use classical way to show a modal prompt.
+        return 'Are you sure you want to navigate away from this page?';
     }
 }
-
-export default new UIActionCreator();
