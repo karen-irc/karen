@@ -16,6 +16,7 @@ import InputBoxViewController from './output/view/InputBoxViewController';
 import MainViewController from './output/view/MainViewController';
 import MessageActionCreator from './intent/action/MessageActionCreator';
 import Mousetrap from 'mousetrap';
+import Network from './model/Network';
 import NotificationActionCreator from './intent/action/NotificationActionCreator';
 import NotificationPresenter from './output/NotificationPresenter';
 import SettingActionCreator from './intent/action/SettingActionCreator';
@@ -45,6 +46,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const inputBox = new InputBoxViewController(document.getElementById('form'));
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarViewController(document.getElementById('sidebar'));
+
+    const networkSet = new Set();
 
     var sidebar = $('#sidebar');
     var $footer = $('#footer');
@@ -121,6 +124,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (data.networks.length === 0) {
             UIActionCreator.showConnectSetting();
         } else {
+            data.networks.forEach(function(n){
+                const network = new Network(n);
+                networkSet.add(network);
+            });
+
             AppActionCreator.renderNetworksInView(data);
 
             var channels = $.map(data.networks, function(n) {
