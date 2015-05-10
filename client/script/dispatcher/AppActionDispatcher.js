@@ -30,6 +30,9 @@ class AppActionDispatcher {
     constructor() {
         /** @type {Rx.Subject<void>}  */
         this.reload = new Rx.Subject();
+
+        /** @type   {Rx.Subject<void>}  */
+        this.signout = new Rx.Subject();
     }
 }
 

@@ -460,8 +460,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     sidebar.on('click', '#sign-out', function() {
+        MessageActionCreator.signout();
+    });
+
+    MessageActionCreator.getDispatcher().signout.subscribe(function(){
         auth.removeToken();
-        location.reload();
     });
 
     sidebar.on('click', '.close', function() {

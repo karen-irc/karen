@@ -42,6 +42,14 @@ class AppActionCreator {
     reload() {
         AppActionDispatcher.reload.onNext();
     }
+
+    /**
+     *  @return {void}
+     */
+    signout() {
+        AppActionDispatcher.signout.onNext();
+        AppActionDispatcher.reload.onNext();
+    }
 }
 
 export default new AppActionCreator();
