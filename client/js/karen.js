@@ -442,7 +442,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             'id',
             self.data('id')
         );
-        socket.getSocket().emit(
+        socket.emit(
             'open',
             self.data('id')
         );
@@ -505,7 +505,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             }
             /*eslint-enable*/
         }
-        socket.getSocket().emit('input', {
+        socket.emit('input', {
             target: chan.data('id'),
             text: cmd
         });
@@ -538,7 +538,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
         whois = true;
         var text = CommandType.WHOIS + ' ' + user;
-        socket.getSocket().emit('input', {
+        socket.emit('input', {
             target: chat.data('id'),
             text: text
         });
@@ -602,7 +602,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     chat.on('click', '.show-more-button', function() {
         var self = $(this);
         var count = self.parent().next('.messages').children().length;
-        socket.getSocket().emit('more', {
+        socket.emit('more', {
             target: self.data('id'),
             count: count
         });
@@ -708,7 +708,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
                     var id = $(this).data('id');
                     order.push(id);
                 });
-                socket.getSocket().emit(
+                socket.emit(
                     'sort', {
                         type: 'networks',
                         order: order
@@ -731,7 +731,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
                     var id = $(this).data('id');
                     order.push(id);
                 });
-                socket.getSocket().emit(
+                socket.emit(
                     'sort', {
                         type: 'channels',
                         target: network.data('id'),

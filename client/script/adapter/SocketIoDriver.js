@@ -37,13 +37,6 @@ export default class SocketIoDriver {
     }
 
     /**
-     *  @return {SocketIOClient.Socket}
-     */
-    getSocket() {
-        return this._socket;
-    }
-
-    /**
      *  @return {!Rx.Observable<?>}
      */
     error() {
