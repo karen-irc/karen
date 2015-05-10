@@ -17,6 +17,7 @@ import MessageActionCreator from '../script/action/MessageActionCreator';
 import Mousetrap from 'mousetrap';
 import NotificationActionCreator from '../script/action/NotificationActionCreator';
 import NotificationPresenter from '../script/output/NotificationPresenter';
+import SettingStore from '../script/store/SettingStore';
 import SocketIoDriver from '../script/adapter/SocketIoDriver';
 import UIActionCreator from '../script/action/UIActionCreator';
 import WindowPresenter from '../script/output/WindowPresenter';
@@ -29,6 +30,8 @@ const cookie = new CookieDriver();
 const config = new ConfigRepository(cookie);
 const notify = new NotificationPresenter(config);
 const auth = new AuthRepository(cookie);
+
+const settingStore = new SettingStore(config);
 
 document.addEventListener('DOMContentLoaded', function onLoad() {
     document.removeEventListener('DOMContentLoaded', onLoad);
@@ -356,11 +359,9 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     var settings = $('#settings');
     var options = config.get();
 
-    for (var i in options) {
-        if (options[i]) {
-            settings.find('input[name=' + i + ']').prop('checked', true);
-        }
-    }
+    settingStore.subscribe(function (option) {
+        settings.find('input[name=' + option.name + ']').prop('checked', option.value);
+    });
 
     settings.on('change', 'input', function() {
         var self = $(this);
