@@ -19,6 +19,7 @@ import NotificationActionCreator from '../script/action/NotificationActionCreato
 import NotificationPresenter from '../script/output/NotificationPresenter';
 import SocketIoDriver from '../script/adapter/SocketIoDriver';
 import UIActionCreator from '../script/action/UIActionCreator';
+import WindowPresenter from '../script/output/WindowPresenter';
 
 const CommandType = CommandTypeMod.type;
 const CommandList = CommandTypeMod.list;
@@ -32,6 +33,7 @@ const auth = new AuthRepository(cookie);
 document.addEventListener('DOMContentLoaded', function onLoad() {
     document.removeEventListener('DOMContentLoaded', onLoad);
 
+    const appWindow = new WindowPresenter();
     const appView = new AppViewController(document.getElementById('viewport'));
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
     const inputBox = new InputBoxViewController(document.getElementById('form'));
@@ -129,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
                     channels: channels
                 })
             );
-            confirmExit();
+            UIActionCreator.setQuitConfirmDialog();
         }
 
         if (data.token) {
@@ -243,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             .find('.btn')
             .prop('disabled', false)
             .end();
-        confirmExit();
+        UIActionCreator.setQuitConfirmDialog();
         sortable();
     });
 
@@ -428,10 +430,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    UIActionCreator.getDispatcher().focusWindow.subscribe(function(){
-        window.focus();
-    });
-
     var top = 1;
     sidebar.on('click', '.chan, button', function() {
         var self = $(this);
@@ -488,8 +486,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     sidebar.on('click', '#sign-out', function() {
+        MessageActionCreator.signout();
+    });
+
+    AppActionCreator.getDispatcher().signout.subscribe(function(){
         auth.removeToken();
-        location.reload();
     });
 
     sidebar.on('click', '.close', function() {
@@ -690,19 +691,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             return item.indexOf(word) === 0;
         }.bind(null, word.toLowerCase()));
     }
-
-    function confirmExit() {
-        if ($('body').hasClass('public')) {
-            window.onbeforeunload = function() {
-                return 'Are you sure you want to navigate away from this page?';
-            };
-        }
-    }
-
-    AppActionCreator.getDispatcher().reload.subscribe(function() {
-        window.onbeforeunload = null;
-        location.reload();
-    });
 
     function sortable() {
         sidebar.sortable({

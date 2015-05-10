@@ -73,6 +73,13 @@ class UIActionCreator {
     selectChannel(id) {
         UIActionDispatcher.selectChannel.onNext(id);
     }
+
+    /**
+     *  @return {void}
+     */
+    setQuitConfirmDialog() {
+        UIActionDispatcher.setQuitConfirmDialog.onNext();
+    }
 }
 
 export default new UIActionCreator();

@@ -42,6 +42,9 @@ class UIActionDispatcher {
 
         /** @type {Rx.Subject<string>}  */
         this.selectChannel = new Rx.Subject();
+
+        /** @type   {Rx.Subject<void>}    */
+        this.setQuitConfirmDialog = new Rx.Subject();
     }
 }
 
