@@ -46,30 +46,5 @@ export default class MainViewController {
 
         /** @type   {ConnectSettingViewController}  */
         this._connect = new ConnectSettingViewController( element.querySelector('#connect'), socket);
-
-        element.addEventListener('click', this);
-    }
-
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    handleEvent(aEvent) {
-        switch (aEvent.type) {
-            case 'click':
-                this.onClick(aEvent);
-                break;
-        }
-    }
-
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    onClick(aEvent) {
-        const target = aEvent.target;
-        if (target.classList.contains('input')) {
-            target.select();
-        }
     }
 }
