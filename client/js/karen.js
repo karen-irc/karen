@@ -244,10 +244,16 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     socket.nickname().subscribe(function(data) {
-        var id = data.network;
-        var nick = data.nick;
-        var network = sidebar.find('#network-' + id).data('nick', nick);
-        if (network.find('.active').length) {
+        const id = data.network;
+        const nickname = data.nick;
+        MessageActionCreator.setNickname(id, nickname);
+    });
+
+    MessageActionCreator.getDispatcher().setNickname.subscribe(function (data) {
+        const id = data.network;
+        const nick = data.nick;
+        const network = sidebar.find('#network-' + id).data('nick', nick);
+        if (network.find('.active').length !== 0) {
             setNick(nick);
         }
     });

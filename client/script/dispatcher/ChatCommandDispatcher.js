@@ -42,6 +42,9 @@ class ChatCommandDispatcher {
 
         /** @type   {Rx.Subject<string>}    */
         this.partFromChannel = new Rx.Subject();
+
+        /** @type   {Rx.Subject<{id: string, nickname: string}>}   */
+        this.setNickname = new Rx.Subject();
     }
 }
 

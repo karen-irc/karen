@@ -91,6 +91,18 @@ class MessageActionCreator {
     partFromChannel(id) {
         ChatCommandDispatcher.partFromChannel.onNext(id);
     }
+
+    /**
+     *  @param  {string}    networkId
+     *  @param  {string}    nickname
+     *  @return {void}
+     */
+    setNickname(networkId, nickname) {
+        ChatCommandDispatcher.setNickname.onNext({
+            id: networkId,
+            nickname: nickname,
+        });
+    }
 }
 
 export default new MessageActionCreator();
