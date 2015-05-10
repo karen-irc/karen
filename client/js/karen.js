@@ -11,12 +11,15 @@ import AuthRepository from '../script/adapter/AuthRepository';
 import CommandTypeMod from '../script/model/CommandType';
 import ConfigRepository from '../script/adapter/ConfigRepository';
 import CookieDriver from '../script/adapter/CookieDriver';
+import GeneralSettingViewController from '../script/output/view/GeneralSettingViewController';
 import InputBoxViewController from '../script/output/view/InputBoxViewController';
 import MainViewController from '../script/output/view/MainViewController';
 import MessageActionCreator from '../script/action/MessageActionCreator';
 import Mousetrap from 'mousetrap';
 import NotificationActionCreator from '../script/action/NotificationActionCreator';
 import NotificationPresenter from '../script/output/NotificationPresenter';
+import SettingActionCreator from '../script/action/SettingActionCreator';
+import SettingStore from '../script/store/SettingStore';
 import SocketIoDriver from '../script/adapter/SocketIoDriver';
 import UIActionCreator from '../script/action/UIActionCreator';
 import WindowPresenter from '../script/output/WindowPresenter';
@@ -30,6 +33,8 @@ const config = new ConfigRepository(cookie);
 const notify = new NotificationPresenter(config);
 const auth = new AuthRepository(cookie);
 
+const settingStore = new SettingStore(config);
+
 document.addEventListener('DOMContentLoaded', function onLoad() {
     document.removeEventListener('DOMContentLoaded', onLoad);
 
@@ -37,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const appView = new AppViewController(document.getElementById('viewport'));
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
     const inputBox = new InputBoxViewController(document.getElementById('form'));
+    const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
 
     var sidebar = $('#sidebar, #footer');
     var chat = $('#chat');
@@ -44,10 +50,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     if (navigator.standalone) {
         document.documentElement.classList.add('web-app-mode');
     }
-
-    document.getElementById('play').addEventListener('click', function () {
-        NotificationActionCreator.playSound();
-    });
 
     $('#footer .icon').tooltip();
 
@@ -353,36 +355,28 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         users.data('nicks', nicks);
     });
 
-    var settings = $('#settings');
     var options = config.get();
 
-    for (var i in options) {
-        if (options[i]) {
-            settings.find('input[name=' + i + ']').prop('checked', true);
-        }
-    }
+    settingStore.subscribe(function (option) {
+        const name = option.name;
+        const value = option.value;
 
-    settings.on('change', 'input', function() {
-        var self = $(this);
-        var name = self.attr('name');
-        options[name] = self.prop('checked');
-        config.set(options);
-
-        if ([
+        const set = new Set([
             'join',
             'mode',
             'motd',
             'nick',
             'part',
             'quit',
-        ].indexOf(name) !== -1) {
-            chat.toggleClass('hide-' + name, !self.prop('checked'));
+        ]);
+        if (set.has(name)) {
+            chat.toggleClass('hide-' + name, value);
         }
+
         if (name === 'colors') {
-            chat.toggleClass('no-colors', !self.prop('checked'));
+            chat.toggleClass('no-colors', value);
         }
-    }).find('input')
-        .trigger('change');
+    });
 
     document.getElementById('badge').addEventListener('change', function (aEvent) {
         const input = aEvent.target;
