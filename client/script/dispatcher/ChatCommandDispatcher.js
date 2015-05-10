@@ -39,6 +39,9 @@ class ChatCommandDispatcher {
 
         /** @type   {Rx.Subject<string>}  */
         this.quitNetwork = new Rx.Subject();
+
+        /** @type   {Rx.Subject<string>}    */
+        this.partFromChannel = new Rx.Subject();
     }
 }
 

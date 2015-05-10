@@ -253,7 +253,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     socket.part().subscribe(function(data) {
-        var id = data.chan;
+        const id = data.chan;
+        MessageActionCreator.partFromChannel(id);
+    });
+
+    MessageActionCreator.getDispatcher().partFromChannel.subscribe(function(id){
         sidebar.find('.chan[data-id=\'' + id + '\']').remove();
         $('#chan-' + id).remove();
 
@@ -269,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         });
 
         if (next !== null) {
-            id = next.data('id');
+            let id = next.data('id');
             sidebar.find('[data-id=' + id + ']').click();
         } else {
             sidebar.find('.chan')

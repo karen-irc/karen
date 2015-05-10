@@ -83,6 +83,14 @@ class MessageActionCreator {
     quitNetwork(id) {
         ChatCommandDispatcher.quitNetwork.onNext(id);
     }
+
+    /**
+     *  @param  {string}    id
+     *  @return {void}
+     */
+    partFromChannel(id) {
+        ChatCommandDispatcher.partFromChannel.onNext(id);
+    }
 }
 
 export default new MessageActionCreator();
