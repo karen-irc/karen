@@ -370,11 +370,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             'quit',
         ]);
         if (set.has(name)) {
-            chat.toggleClass('hide-' + name, value);
+            chat.toggleClass('hide-' + name, !value);
         }
 
         if (name === 'colors') {
-            chat.toggleClass('no-colors', value);
+            chat.toggleClass('no-colors', !value);
         }
     });
 
