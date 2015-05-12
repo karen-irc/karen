@@ -38,6 +38,7 @@ export default class SocketIoServerDriver {
         /** @type   {SocketIO.Server}   */
         this._server = io(server, {
             transports,
+            httpCompression: true
         });
     }
 
