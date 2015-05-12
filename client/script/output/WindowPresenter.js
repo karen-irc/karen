@@ -1,4 +1,3 @@
-/*global jQuery:true, moment:true */
 /**
  * @license MIT License
  *
