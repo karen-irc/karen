@@ -101,7 +101,7 @@ gulp.task('__browserify', ['clean:client'], function () {
 
     const option = {
         insertGlobals: false,
-        debug: isRelease ? false : true,
+        debug: !isRelease,
     };
 
     const babel = babelify.configure({
