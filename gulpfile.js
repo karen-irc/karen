@@ -38,7 +38,7 @@ let uglify = require('gulp-uglifyjs');
 
 const isRelease = process.env.NODE_ENV === 'production';
 
-const SRC = [
+const CLIENT_SRC = [
     'client/js/libs/handlebars.js',
     'client/js/libs/handlebars/**/*.js',
     'client/js/libs/jquery.js',
@@ -46,6 +46,10 @@ const SRC = [
     'client/js/libs/moment.js',
     'client/js/libs/stringcolor.js',
     'client/js/libs/uri.js',
+];
+
+const SERVER_SRC = [
+    './server/**/*.js'
 ];
 
 const DIST_SERVER = './dist/';
@@ -69,7 +73,7 @@ const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
 
 
 gulp.task('__uglify', ['clean:client'], function () {
-    return gulp.src(SRC)
+    return gulp.src(CLIENT_SRC)
         .pipe(uglify('libs.min.js', {
             compress: false,
         }))
@@ -93,7 +97,7 @@ gulp.task('__handlebars', ['clean:client'], function () {
 });
 
 gulp.task('__browserify', ['clean:client'], function () {
-    const SRC_JS = ['./client/js/karen.js'];
+    const ENTRY_POINT = ['./client/js/karen.js'];
 
     const option = {
         insertGlobals: false,
@@ -104,7 +108,7 @@ gulp.task('__browserify', ['clean:client'], function () {
         optional: [],
     });
 
-    browserify(SRC_JS, option)
+    browserify(ENTRY_POINT, option)
         .transform(babel)
         .bundle()
         .pipe(source('karen.js'))
@@ -123,7 +127,7 @@ gulp.task('jslint', function () {
             './client/js/karen.js',
             './client/script/**/*.js',
             './defaults/**/*.js',
-            './src/**/*.js',
+            './server/**/*.js',
         ])
         .pipe(eslint(option))
         .pipe(eslint.format())
@@ -131,7 +135,7 @@ gulp.task('jslint', function () {
 });
 
 gulp.task('__babel:server', ['clean:server'], function () {
-    return gulp.src('./src/**/*.js')
+    return gulp.src(SERVER_SRC)
         .pipe(babel({
             // For io.js, we need not some transforms:
             blacklist: [
