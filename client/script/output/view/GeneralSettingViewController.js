@@ -1,4 +1,3 @@
-/*global jQuery:true */
 /**
  * @license MIT License
  *
