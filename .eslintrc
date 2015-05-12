@@ -59,6 +59,7 @@
             "after": true
         }],
         "comma-style": [2, "last"],
+        "linebreak-style": [2, "unix"],
         "no-mixed-spaces-and-tabs": 2,
         "no-underscore-dangle": 0,
         "operator-linebreak": [2, "after"],
