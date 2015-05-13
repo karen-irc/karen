@@ -1,3 +1,4 @@
+/*global Handlebars:true */
 /**
  * @license MIT License
  *
@@ -41,9 +42,15 @@ export default class SidebarViewController {
 
         /*eslint-disable valid-jsdoc */
         /** @type   {Rx.IDisposable}  */
-        AppActionCreator.getDispatcher().signout.subscribe(() => {
+        this._disposeSignout = AppActionCreator.getDispatcher().signout.subscribe(() => {
             this.clearAllNetworks();
             this.showEmptinesse();
+        });
+
+        /** @type   {Rx.IDisposable}  */
+        this._disposeRenderNetworks = AppActionCreator.getDispatcher().renderNetworksInView.subscribe((data) => {
+            this.hideEmptinesse();
+            this.renderNetworks(data.networks);
         });
         /*eslint-enable */
     }
@@ -77,5 +84,18 @@ export default class SidebarViewController {
     hideEmptinesse() {
         let element = this._element.querySelector('.empty');
         element.style.display = 'none';
+    }
+
+    /**
+     *  @param  {?} networks
+     *  @return {void}
+     */
+    renderNetworks(networks) {
+        const element = this._element.querySelector('.networks');
+        const html = Handlebars.templates.networks({
+            networks,
+        });
+
+        element.innerHTML = html;
     }
 }

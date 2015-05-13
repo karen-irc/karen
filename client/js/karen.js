@@ -121,12 +121,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (data.networks.length === 0) {
             $('#footer').find('.connect').trigger('click');
         } else {
-            sidebar.find('.empty').hide();
-            sidebar.find('.networks').html(
-                render('network', {
-                    networks: data.networks
-                })
-            );
+            AppActionCreator.renderNetworksInView(data);
+
             var channels = $.map(data.networks, function(n) {
                 return n.channels;
             });

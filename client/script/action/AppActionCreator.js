@@ -57,6 +57,14 @@ class AppActionCreator {
     showSignIn() {
         AppActionDispatcher.signout.onNext();
     }
+
+    /**
+     *  @param  {?} data
+     *  @return {void}
+     */
+    renderNetworksInView(data) {
+        AppActionCreator.renderNetworksInView.onNext(data);
+    }
 }
 
 export default new AppActionCreator();
