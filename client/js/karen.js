@@ -44,7 +44,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const inputBox = new InputBoxViewController(document.getElementById('form'));
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
 
-    var sidebar = $('#sidebar, #footer');
+    var sidebar = $('#sidebar');
+    var $footer = $('#footer');
     var chat = $('#chat');
 
     if (navigator.standalone) {
@@ -106,10 +107,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (token) {
             return;
         }
-        sidebar.find('.sign-in')
-            .click()
-            .end()
-            .find('.networks')
+        $footer.find('.sign-in')
+            .click();
+
+        sidebar.find('.networks')
             .html('')
             .next()
             .show();
@@ -479,7 +480,48 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    sidebar.on('click', '#sign-out', function() {
+    $footer.on('click', '.chan, button', function() {
+        var self = $(this);
+        var target = self.data('target');
+        if (!target) {
+            return;
+        }
+
+        chat.data(
+            'id',
+            self.data('id')
+        );
+        socket.emit(
+            'open',
+            self.data('id')
+        );
+
+        $footer.find('.active').removeClass('active');
+        self.addClass('active')
+            .find('.badge')
+            .removeClass('highlight')
+            .data('count', '')
+            .empty();
+
+        UIActionCreator.toggleLeftPane(false);
+        $('#windows .active').removeClass('active');
+
+        var chan = $(target)
+            .addClass('active')
+            .trigger('show')
+            .css('z-index', top++)
+            .find('.chat')
+            .sticky()
+            .end();
+
+        var title = 'karen';
+        if (chan.data('title')) {
+            title = chan.data('title') + ' — ' + title;
+        }
+        document.title = title;
+    });
+
+    $footer.on('click', '#sign-out', function() {
         MessageActionCreator.signout();
     });
 
