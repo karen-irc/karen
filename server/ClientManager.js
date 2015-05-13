@@ -14,7 +14,7 @@ import Rx from 'rx';
  */
 const pluckFromSet = function (set, path) {
     const result = [];
-    for (const item of set) {
+    for (let item of set) {
         if ( item[path] !== undefined ) {
             const value = item[path];
             result.push(item);
@@ -33,7 +33,7 @@ const pluckFromSet = function (set, path) {
 const difference = function (a, b) {
     const diff = [];
     const base = new Set(b);
-    for (const item of a) {
+    for (let item of a) {
         if (!base.has(item)) {
             diff.push(item);
         }

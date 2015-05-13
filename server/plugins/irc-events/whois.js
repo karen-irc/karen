@@ -35,7 +35,7 @@ export default function(irc, network) {
             server: 'using'
         };
 
-        for (const k in data) {
+        for (let k in data) {
             const key = prefix[k];
             if (!key || data[k].toString() === '') {
                 continue;
