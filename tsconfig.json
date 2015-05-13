@@ -3,8 +3,7 @@
         "noImplicitAny": true,
         "removeComments": false,
         "preserveConstEnums": true,
-        "out": "./build/sample.ts",
-        "outDir": "./build/",
+        "outDir": "./__obj/",
         "target": "ES6",
         "sourceMap": true
     },

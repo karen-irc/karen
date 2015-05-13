@@ -96,7 +96,12 @@ gulp.task('__handlebars', ['clean:client'], function () {
     childProcess.spawn('node', args, option);
 });
 
-gulp.task('__browserify', ['clean:client'], function () {
+gulp.task('__cp', ['clean:client'], function () {
+    return gulp.src('./client/script/**/*.js')
+        .pipe(gulp.dest('./__obj/'));
+});
+
+gulp.task('__browserify', ['clean:client', '__cp'], function () {
     const ENTRY_POINT = ['./client/script/karen.js'];
 
     const option = {
