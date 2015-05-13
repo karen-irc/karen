@@ -97,7 +97,7 @@ gulp.task('__handlebars', ['clean:client'], function () {
 });
 
 gulp.task('__browserify', ['clean:client'], function () {
-    const ENTRY_POINT = ['./client/js/karen.js'];
+    const ENTRY_POINT = ['./client/script/karen.js'];
 
     const option = {
         insertGlobals: false,
