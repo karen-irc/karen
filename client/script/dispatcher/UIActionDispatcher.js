@@ -45,6 +45,9 @@ class UIActionDispatcher {
 
         /** @type   {Rx.Subject<void>}    */
         this.setQuitConfirmDialog = new Rx.Subject();
+
+        /** @type   {Rx.Subject<void>}  */
+        this.showConnectSetting = new Rx.Subject();
     }
 }
 

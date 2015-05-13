@@ -20,6 +20,7 @@ import NotificationActionCreator from '../script/action/NotificationActionCreato
 import NotificationPresenter from '../script/output/NotificationPresenter';
 import SettingActionCreator from '../script/action/SettingActionCreator';
 import SettingStore from '../script/store/SettingStore';
+import SidebarViewController from '../script/output/view/SidebarViewController';
 import SocketIoDriver from '../script/adapter/SocketIoDriver';
 import UIActionCreator from '../script/action/UIActionCreator';
 import WindowPresenter from '../script/output/WindowPresenter';
@@ -43,8 +44,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
     const inputBox = new InputBoxViewController(document.getElementById('form'));
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
+    const sidebarView = new SidebarViewController(document.getElementById('sidebar'));
 
-    var sidebar = $('#sidebar, #footer');
+    var sidebar = $('#sidebar');
+    var $footer = $('#footer');
     var chat = $('#chat');
 
     if (navigator.standalone) {
@@ -106,25 +109,20 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (token) {
             return;
         }
-        sidebar.find('.sign-in')
-            .click()
-            .end()
-            .find('.networks')
-            .html('')
-            .next()
-            .show();
+
+        AppActionCreator.showSignIn();
+    });
+
+    AppActionCreator.getDispatcher().signout.subscribe(function() {
+        $footer.find('.sign-in').click();
     });
 
     socket.init().subscribe(function(data) {
         if (data.networks.length === 0) {
-            $('#footer').find('.connect').trigger('click');
+            UIActionCreator.showConnectSetting();
         } else {
-            sidebar.find('.empty').hide();
-            sidebar.find('.networks').html(
-                render('network', {
-                    networks: data.networks
-                })
-            );
+            AppActionCreator.renderNetworksInView(data);
+
             var channels = $.map(data.networks, function(n) {
                 return n.channels;
             });
@@ -144,17 +142,13 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         $('#sign-in').detach();
 
         var id = data.active;
-        var target = sidebar.find('[data-id=\'' + id + '\']').trigger('click');
-        if (target.length === 0) {
-            var first = sidebar.find('.chan')
-                .eq(0)
-                .trigger('click');
-            if (first.length === 0) {
-                $('#footer').find('.connect').trigger('click');
-            }
-        }
+        UIActionCreator.selectChannel(String(id));
 
         sortable();
+    });
+
+    UIActionCreator.getDispatcher().showConnectSetting.subscribe(function(){
+        $footer.find('.connect').trigger('click');
     });
 
     socket.join().subscribe(function(data) {
@@ -479,7 +473,48 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    sidebar.on('click', '#sign-out', function() {
+    $footer.on('click', '.chan, button', function() {
+        var self = $(this);
+        var target = self.data('target');
+        if (!target) {
+            return;
+        }
+
+        chat.data(
+            'id',
+            self.data('id')
+        );
+        socket.emit(
+            'open',
+            self.data('id')
+        );
+
+        $footer.find('.active').removeClass('active');
+        self.addClass('active')
+            .find('.badge')
+            .removeClass('highlight')
+            .data('count', '')
+            .empty();
+
+        UIActionCreator.toggleLeftPane(false);
+        $('#windows .active').removeClass('active');
+
+        var chan = $(target)
+            .addClass('active')
+            .trigger('show')
+            .css('z-index', top++)
+            .find('.chat')
+            .sticky()
+            .end();
+
+        var title = 'karen';
+        if (chan.data('title')) {
+            title = chan.data('title') + ' — ' + title;
+        }
+        document.title = title;
+    });
+
+    $footer.on('click', '#sign-out', function() {
         MessageActionCreator.signout();
     });
 
@@ -545,11 +580,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         sidebar.find('.chan[data-id=\'' + id + '\']')
             .find('.close')
             .click();
-    });
-
-    UIActionCreator.getDispatcher().selectChannel.subscribe(function (channelId) {
-        const button = sidebar.find('.chan[data-target=' + channelId + ']');
-        button.click();
     });
 
     chat.on('msg', '.messages', function(e, target, msg) {
