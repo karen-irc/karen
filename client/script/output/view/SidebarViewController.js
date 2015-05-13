@@ -25,6 +25,7 @@
  */
 
 import AppActionCreator from '../../action/AppActionCreator';
+import UIActionCreator from '../../action/UIActionCreator';
 
 export default class SidebarViewController {
 
@@ -51,6 +52,11 @@ export default class SidebarViewController {
         this._disposeRenderNetworks = AppActionCreator.getDispatcher().renderNetworksInView.subscribe((data) => {
             this.hideEmptinesse();
             this.renderNetworks(data.networks);
+        });
+
+        /** @type   {Rx.IDisposable}  */
+        this._disposeSelectChannel = UIActionCreator.getDispatcher().selectChannel.subscribe((channelId) => {
+            this.selectChannel(channelId);
         });
         /*eslint-enable */
     }
@@ -97,5 +103,26 @@ export default class SidebarViewController {
         });
 
         element.innerHTML = html;
+    }
+
+    /**
+     *  @param  {string}    id
+     *  @return {void}
+     */
+    selectChannel(id) {
+        const selector = '.chan[data-target=\'' + id + '\']';
+        let button = this._element.querySelector(selector);
+        if (button === null) {
+            button = this._element.querySelector('.chan');
+        }
+
+        if (button === null) {
+            // FIXME: This should not call here.
+            // this method should not be called if there is no `.chan`.
+            UIActionCreator.showConnectSetting();
+            return;
+        }
+
+        button.click();
     }
 }

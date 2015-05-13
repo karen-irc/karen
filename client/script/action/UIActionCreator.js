@@ -80,6 +80,13 @@ class UIActionCreator {
     setQuitConfirmDialog() {
         UIActionDispatcher.setQuitConfirmDialog.onNext();
     }
+
+    /**
+     *  @return {void}
+     */
+    showConnectSetting() {
+        UIActionDispatcher.showConnectSetting.onNext();
+    }
 }
 
 export default new UIActionCreator();

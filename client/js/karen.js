@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     socket.init().subscribe(function(data) {
         if (data.networks.length === 0) {
-            $('#footer').find('.connect').trigger('click');
+            UIActionCreator.showConnectSetting();
         } else {
             AppActionCreator.renderNetworksInView(data);
 
@@ -142,17 +142,13 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         $('#sign-in').detach();
 
         var id = data.active;
-        var target = sidebar.find('[data-id=\'' + id + '\']').trigger('click');
-        if (target.length === 0) {
-            var first = sidebar.find('.chan')
-                .eq(0)
-                .trigger('click');
-            if (first.length === 0) {
-                $('#footer').find('.connect').trigger('click');
-            }
-        }
+        UIActionCreator.selectChannel(String(id));
 
         sortable();
+    });
+
+    UIActionCreator.getDispatcher().showConnectSetting.subscribe(function(){
+        $footer.find('.connect').trigger('click');
     });
 
     socket.join().subscribe(function(data) {
@@ -584,11 +580,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         sidebar.find('.chan[data-id=\'' + id + '\']')
             .find('.close')
             .click();
-    });
-
-    UIActionCreator.getDispatcher().selectChannel.subscribe(function (channelId) {
-        const button = sidebar.find('.chan[data-target=' + channelId + ']');
-        button.click();
     });
 
     chat.on('msg', '.messages', function(e, target, msg) {
