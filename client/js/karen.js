@@ -20,6 +20,7 @@ import NotificationActionCreator from '../script/action/NotificationActionCreato
 import NotificationPresenter from '../script/output/NotificationPresenter';
 import SettingActionCreator from '../script/action/SettingActionCreator';
 import SettingStore from '../script/store/SettingStore';
+import SidebarViewController from '../script/output/view/SidebarViewController';
 import SocketIoDriver from '../script/adapter/SocketIoDriver';
 import UIActionCreator from '../script/action/UIActionCreator';
 import WindowPresenter from '../script/output/WindowPresenter';
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
     const inputBox = new InputBoxViewController(document.getElementById('form'));
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
+    const sidebarView = new SidebarViewController(document.getElementById('sidebar'));
 
     var sidebar = $('#sidebar');
     var $footer = $('#footer');
