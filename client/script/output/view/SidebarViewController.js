@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+import AppActionCreator from '../../action/AppActionCreator';
+
 export default class SidebarViewController {
 
     /**
@@ -36,6 +38,14 @@ export default class SidebarViewController {
 
         /** @type   {Element}   */
         this._element = element;
+
+        /*eslint-disable valid-jsdoc */
+        /** @type   {Rx.IDisposable}  */
+        AppActionCreator.getDispatcher().signout.subscribe(() => {
+            this.clearAllNetworks();
+            this.showEmptinesse();
+        });
+        /*eslint-enable */
     }
 
     /**
@@ -43,5 +53,29 @@ export default class SidebarViewController {
      *  @return {void}
      */
     handleEvent(aEvent) {
+    }
+
+    /**
+     *  @return {void}
+     */
+    clearAllNetworks() {
+        let element = this._element.querySelector('.networks');
+        element.innerHTML = '';
+    }
+
+    /**
+     *  @return {void}
+     */
+    showEmptinesse() {
+        let element = this._element.querySelector('.empty');
+        element.style.display = 'block';
+    }
+
+    /**
+     *  @return {void}
+     */
+    hideEmptinesse() {
+        let element = this._element.querySelector('.empty');
+        element.style.display = 'none';
     }
 }

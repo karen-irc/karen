@@ -50,6 +50,13 @@ class AppActionCreator {
         AppActionDispatcher.signout.onNext();
         AppActionDispatcher.reload.onNext();
     }
+
+    /**
+     *  @return {void}
+     */
+    showSignIn() {
+        AppActionDispatcher.signout.onNext();
+    }
 }
 
 export default new AppActionCreator();

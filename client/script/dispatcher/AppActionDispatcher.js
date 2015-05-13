@@ -33,6 +33,9 @@ class AppActionDispatcher {
 
         /** @type   {Rx.Subject<void>}  */
         this.signout = new Rx.Subject();
+
+        /** @type   {Rx.Subject<void>}  */
+        this.renderNetworksInView = new Rx.Subject();
     }
 }
 

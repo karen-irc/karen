@@ -109,13 +109,12 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (token) {
             return;
         }
-        $footer.find('.sign-in')
-            .click();
 
-        sidebar.find('.networks')
-            .html('')
-            .next()
-            .show();
+        AppActionCreator.showSignIn();
+    });
+
+    AppActionCreator.getDispatcher().signout.subscribe(function() {
+        $footer.find('.sign-in').click();
     });
 
     socket.init().subscribe(function(data) {
