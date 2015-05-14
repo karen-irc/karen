@@ -1,4 +1,7 @@
 /*eslint-disable block-scoped-var */
+
+require('babelify/polyfill');
+
 import _ from 'lodash';
 import assign from 'object-assign';
 import bcrypt from 'bcrypt-nodejs';
