@@ -63,7 +63,7 @@ class AppActionCreator {
      *  @return {void}
      */
     renderNetworksInView(data) {
-        AppActionCreator.renderNetworksInView.onNext(data);
+        AppActionDispatcher.renderNetworksInView.onNext(data);
     }
 }
 
