@@ -98,7 +98,7 @@ export default class SidebarViewController {
      */
     renderNetworks(networks) {
         const element = this._element.querySelector('.networks');
-        const html = Handlebars.templates.networks({
+        const html = Handlebars.templates.network({
             networks,
         });
 
