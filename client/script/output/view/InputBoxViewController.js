@@ -66,8 +66,10 @@ export default class InputBoxViewController {
             'ctrl+l',
             'ctrl+shift+l'
         ];
-        Mousetrap(this._textInput).bind(shortcut, (aEvent) => {
-            MessageActionCreator.clear();
+        new Mousetrap(this._textInput).bind(shortcut, (aEvent) => {
+            if (aEvent.target === this._textInput) {
+                MessageActionCreator.clear();
+            }
         });
     }
 
