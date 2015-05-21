@@ -31,6 +31,9 @@ export default class Channel {
      *  @param  {Object}    raw
      */
     constructor(raw) {
+        /** @type   {number}    */
+        this.id = raw.id;
+
         /** @type   {string}    */
         this.name = raw.name;
 

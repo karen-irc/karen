@@ -39,4 +39,11 @@ export default class Network {
         /** @type   {Array<Channel>} */
         this._channelList = channelList;
     }
+
+    /**
+     *  @return {Array<Channel>}
+     */
+    getChannelList() {
+        return this._channelList;
+    }
 }

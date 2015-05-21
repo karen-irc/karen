@@ -4,6 +4,8 @@
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
+import arrayFrom from 'core-js/library/fn/array/from';
+
 import AppActionCreator from './intent/action/AppActionCreator';
 import AppViewController from './output/view/AppViewController';
 import AudioDriver from './adapter/AudioDriver';
@@ -129,11 +131,13 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
                 networkSet.add(network);
             });
 
-            AppActionCreator.renderNetworksInView(data);
+            const networkArray = arrayFrom(networkSet);
+            AppActionCreator.renderNetworksInView(networkArray);
 
-            var channels = $.map(data.networks, function(n) {
-                return n.channels;
+            const channels = networkArray.map(function(network){
+                return network.getChannelList();
             });
+
             chat.html(
                 render('chat', {
                     channels: channels
