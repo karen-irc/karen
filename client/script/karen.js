@@ -19,6 +19,7 @@ import MainViewController from './output/view/MainViewController';
 import MessageActionCreator from './intent/action/MessageActionCreator';
 import Mousetrap from 'mousetrap';
 import Network from './model/Network';
+import NetworkSet from './model/NetworkSet';
 import NotificationActionCreator from './intent/action/NotificationActionCreator';
 import NotificationPresenter from './output/NotificationPresenter';
 import SettingActionCreator from './intent/action/SettingActionCreator';
@@ -49,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarViewController(document.getElementById('sidebar'));
 
-    const networkSet = new Set();
+    let networkSet = null;
 
     var sidebar = $('#sidebar');
     var $footer = $('#footer');
@@ -126,12 +127,9 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (data.networks.length === 0) {
             UIActionCreator.showConnectSetting();
         } else {
-            data.networks.forEach(function(n){
-                const network = new Network(n);
-                networkSet.add(network);
-            });
+            networkSet = new NetworkSet(data.networks);
 
-            const networkArray = arrayFrom(networkSet);
+            const networkArray = networkSet.asArray();
             AppActionCreator.renderNetworksInView(networkArray);
 
             const channels = networkArray.map(function(network){

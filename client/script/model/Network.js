@@ -31,6 +31,9 @@ export default class Network {
      *  @param  {Object}    raw
      */
     constructor(raw) {
+        /** @type   {string}    */
+        this.id = String(raw.id);
+
         const channelList = raw.channels.map(function(item){
             const channel = new Channel(item);
             return channel;
