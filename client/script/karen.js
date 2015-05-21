@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarViewController(document.getElementById('sidebar'));
 
-    let networkSet = null;
+    let networkSet = new NetworkSet([]);
 
     var sidebar = $('#sidebar');
     var $footer = $('#footer');
@@ -230,6 +230,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     socket.network().subscribe(function(data) {
         MessageActionCreator.connectNetwork(data.network);
+    });
+
+    MessageActionCreator.getDispatcher().connectNetwork.subscribe(function (data) {
+        const network = new Network(data);
+        networkSet.add(network);
     });
 
     MessageActionCreator.getDispatcher().connectNetwork.subscribe(function (network) {
