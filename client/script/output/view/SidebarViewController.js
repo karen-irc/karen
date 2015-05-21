@@ -24,8 +24,8 @@
  * THE SOFTWARE.
  */
 
-import AppActionCreator from '../../action/AppActionCreator';
-import UIActionCreator from '../../action/UIActionCreator';
+import AppActionCreator from '../../intent/action/AppActionCreator';
+import UIActionCreator from '../../intent/action/UIActionCreator';
 
 export default class SidebarViewController {
 

@@ -24,9 +24,9 @@
  */
 
 import AudioDriver from '../adapter/AudioDriver';
-import NotificationActionCreator from '../action/NotificationActionCreator';
+import NotificationActionCreator from '../intent/action/NotificationActionCreator';
 import Rx from 'rx';
-import UIActionCreator from '../action/UIActionCreator';
+import UIActionCreator from '../intent/action/UIActionCreator';
 
 const ICON_URL = '/img/logo-64.png';
 

@@ -23,8 +23,8 @@
  * THE SOFTWARE.
  */
 
-import NotificationActionCreator from '../../action/NotificationActionCreator';
-import SettingActionCreator from '../../action/SettingActionCreator';
+import NotificationActionCreator from '../../intent/action/NotificationActionCreator';
+import SettingActionCreator from '../../intent/action/SettingActionCreator';
 
 export default class GeneralSettingViewController {
 

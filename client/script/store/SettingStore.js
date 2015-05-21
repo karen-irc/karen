@@ -28,7 +28,7 @@ import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
 import Rx from 'rx';
-import SettingActionCreator from '../action/SettingActionCreator';
+import SettingActionCreator from '../intent/action/SettingActionCreator';
 
 export default class SettingStore {
     /**
