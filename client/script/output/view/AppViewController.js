@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-import UIActionCreator from '../../action/UIActionCreator';
+import UIActionCreator from '../../intent/action/UIActionCreator';
 
 export default class AppViewController {
 

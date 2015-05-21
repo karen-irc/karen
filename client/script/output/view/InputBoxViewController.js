@@ -23,10 +23,10 @@
  * THE SOFTWARE.
  */
 
-import MessageActionCreator from '../../action/MessageActionCreator';
+import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import Mousetrap from 'mousetrap';
 import Rx from 'rx';
-import UIActionCreator from '../../action/UIActionCreator';
+import UIActionCreator from '../../intent/action/UIActionCreator';
 
 export default class InputBoxViewController {
 

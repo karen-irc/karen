@@ -4,7 +4,7 @@
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
-import AppActionCreator from './action/AppActionCreator';
+import AppActionCreator from './intent/action/AppActionCreator';
 import AppViewController from './output/view/AppViewController';
 import AudioDriver from './adapter/AudioDriver';
 import AuthRepository from './adapter/AuthRepository';
@@ -14,15 +14,15 @@ import CookieDriver from './adapter/CookieDriver';
 import GeneralSettingViewController from './output/view/GeneralSettingViewController';
 import InputBoxViewController from './output/view/InputBoxViewController';
 import MainViewController from './output/view/MainViewController';
-import MessageActionCreator from './action/MessageActionCreator';
+import MessageActionCreator from './intent/action/MessageActionCreator';
 import Mousetrap from 'mousetrap';
-import NotificationActionCreator from './action/NotificationActionCreator';
+import NotificationActionCreator from './intent/action/NotificationActionCreator';
 import NotificationPresenter from './output/NotificationPresenter';
-import SettingActionCreator from './action/SettingActionCreator';
+import SettingActionCreator from './intent/action/SettingActionCreator';
 import SettingStore from './store/SettingStore';
 import SidebarViewController from './output/view/SidebarViewController';
 import SocketIoDriver from './adapter/SocketIoDriver';
-import UIActionCreator from './action/UIActionCreator';
+import UIActionCreator from './intent/action/UIActionCreator';
 import WindowPresenter from './output/WindowPresenter';
 
 const CommandType = CommandTypeMod.type;
