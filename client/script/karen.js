@@ -306,6 +306,14 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     MessageActionCreator.getDispatcher().quitNetwork.subscribe(function(id){
+        const n = networkSet.getById(id);
+        n.map(function(network){
+            networkSet.delete(network);
+            network.quit();
+        });
+    });
+
+    MessageActionCreator.getDispatcher().quitNetwork.subscribe(function(id){
         sidebar.find('#network-' + id)
             .remove()
             .end();

@@ -49,4 +49,10 @@ export default class Network {
     getChannelList() {
         return this._channelList;
     }
+
+    /**
+     *  @return {void}
+     */
+    quit() {
+    }
 }
