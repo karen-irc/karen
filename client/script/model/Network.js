@@ -23,20 +23,27 @@
  * THE SOFTWARE.
  */
 
-import Rx from 'rx';
+import Channel from './Channel';
 
-class AppActionDispatcher {
+export default class Network {
+    /**
+     *  @constructor
+     *  @param  {Object}    raw
+     */
+    constructor(raw) {
+        const channelList = raw.channels.map(function(item){
+            const channel = new Channel(item);
+            return channel;
+        });
 
-    constructor() {
-        /** @type {Rx.Subject<void>}  */
-        this.reload = new Rx.Subject();
+        /** @type   {Array<Channel>} */
+        this._channelList = channelList;
+    }
 
-        /** @type   {Rx.Subject<void>}  */
-        this.signout = new Rx.Subject();
-
-        /** @type   {Rx.Subject<Array<Network>>}  */
-        this.renderNetworksInView = new Rx.Subject();
+    /**
+     *  @return {Array<Channel>}
+     */
+    getChannelList() {
+        return this._channelList;
     }
 }
-
-export default new AppActionDispatcher();

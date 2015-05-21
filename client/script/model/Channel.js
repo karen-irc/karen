@@ -23,20 +23,49 @@
  * THE SOFTWARE.
  */
 
-import Rx from 'rx';
+import User from './User';
 
-class AppActionDispatcher {
+export default class Channel {
+    /**
+     *  @constructor
+     *  @param  {Object}    raw
+     */
+    constructor(raw) {
+        /** @type   {number}    */
+        this.id = raw.id;
 
-    constructor() {
-        /** @type {Rx.Subject<void>}  */
-        this.reload = new Rx.Subject();
+        /** @type   {string}    */
+        this.name = raw.name;
 
-        /** @type   {Rx.Subject<void>}  */
-        this.signout = new Rx.Subject();
+        /** @type   {topic} */
+        this.topic = raw.topic;
 
-        /** @type   {Rx.Subject<Array<Network>>}  */
-        this.renderNetworksInView = new Rx.Subject();
+        const userList = raw.users.map(function(item){
+            const user = new User(item);
+            return user;
+        });
+        /** @type Array<User>   **/
+        this._userList = userList;
+
+        /** @type   {number}    */
+        this._unread = raw.unread;
+
+        let messages = null;
+        if (Array.isArray(raw.messages)) {
+            messages = raw.messages;
+        }
+        else {
+            messages = [];
+        }
+
+        /** @type   {Array<Message>}    */
+        this._messageBuffer = messages;
+    }
+
+    /**
+     *  @return {number}
+     */
+    getUnread() {
+        return this._unread;
     }
 }
-
-export default new AppActionDispatcher();

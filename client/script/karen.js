@@ -4,6 +4,8 @@
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
+import arrayFrom from 'core-js/library/fn/array/from';
+
 import AppActionCreator from './intent/action/AppActionCreator';
 import AppViewController from './output/view/AppViewController';
 import AudioDriver from './adapter/AudioDriver';
@@ -16,6 +18,7 @@ import InputBoxViewController from './output/view/InputBoxViewController';
 import MainViewController from './output/view/MainViewController';
 import MessageActionCreator from './intent/action/MessageActionCreator';
 import Mousetrap from 'mousetrap';
+import Network from './model/Network';
 import NotificationActionCreator from './intent/action/NotificationActionCreator';
 import NotificationPresenter from './output/NotificationPresenter';
 import SettingActionCreator from './intent/action/SettingActionCreator';
@@ -45,6 +48,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const inputBox = new InputBoxViewController(document.getElementById('form'));
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarViewController(document.getElementById('sidebar'));
+
+    const networkSet = new Set();
 
     var sidebar = $('#sidebar');
     var $footer = $('#footer');
@@ -121,11 +126,18 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (data.networks.length === 0) {
             UIActionCreator.showConnectSetting();
         } else {
-            AppActionCreator.renderNetworksInView(data);
-
-            var channels = $.map(data.networks, function(n) {
-                return n.channels;
+            data.networks.forEach(function(n){
+                const network = new Network(n);
+                networkSet.add(network);
             });
+
+            const networkArray = arrayFrom(networkSet);
+            AppActionCreator.renderNetworksInView(networkArray);
+
+            const channels = networkArray.map(function(network){
+                return network.getChannelList();
+            });
+
             chat.html(
                 render('chat', {
                     channels: channels

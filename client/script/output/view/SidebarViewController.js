@@ -49,9 +49,9 @@ export default class SidebarViewController {
         });
 
         /** @type   {Rx.IDisposable}  */
-        this._disposeRenderNetworks = AppActionCreator.getDispatcher().renderNetworksInView.subscribe((data) => {
+        this._disposeRenderNetworks = AppActionCreator.getDispatcher().renderNetworksInView.subscribe((networks) => {
             this.hideEmptinesse();
-            this.renderNetworks(data.networks);
+            this.renderNetworks(networks);
         });
 
         /** @type   {Rx.IDisposable}  */

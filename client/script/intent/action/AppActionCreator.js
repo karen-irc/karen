@@ -59,7 +59,7 @@ class AppActionCreator {
     }
 
     /**
-     *  @param  {?} data
+     *  @param  {Array<Network>}    data
      *  @return {void}
      */
     renderNetworksInView(data) {

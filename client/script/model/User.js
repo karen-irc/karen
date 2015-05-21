@@ -23,20 +23,17 @@
  * THE SOFTWARE.
  */
 
-import Rx from 'rx';
+export default class User {
 
-class AppActionDispatcher {
+    /**
+     *  @constructor
+     *  @param  {Object}    raw
+     */
+    constructor(raw) {
+        /** @type   {string}    */
+        this.nickname = raw.name;
 
-    constructor() {
-        /** @type {Rx.Subject<void>}  */
-        this.reload = new Rx.Subject();
-
-        /** @type   {Rx.Subject<void>}  */
-        this.signout = new Rx.Subject();
-
-        /** @type   {Rx.Subject<Array<Network>>}  */
-        this.renderNetworksInView = new Rx.Subject();
+        /** @type   {string}  */
+        this.permission = raw.mode;
     }
 }
-
-export default new AppActionDispatcher();
