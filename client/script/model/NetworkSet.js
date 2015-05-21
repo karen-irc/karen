@@ -25,6 +25,8 @@
 
 import arrayFrom from 'core-js/library/fn/array/from';
 import Network from './Network';
+import Rx from 'rx';
+
 import {Some, None} from 'option-t';
 
 /**
@@ -45,6 +47,15 @@ export default class NetworkSet {
             const n = new Network(item);
             this._idMap.set(n.id, n);
         });
+
+        /** @type   {Rx.Subject<Network>}    */
+        this._added = new Rx.Subject();
+
+        /** @type   {Rx.Subject<Network>}   */
+        this._deleted = new Rx.Subject();
+
+        /** @type   {Rx.Subject<void>}  */
+        this._cleared = new Rx.Subject();
     }
 
     /**
@@ -57,6 +68,14 @@ export default class NetworkSet {
         }
 
         this._idMap.set(item.id, item);
+        this._added.onNext(item);
+    }
+
+    /**
+     *  @return {Rx.Observable<Network>}
+     */
+    addedStream() {
+        return this._added.asObservable();
     }
 
     /**
@@ -88,7 +107,18 @@ export default class NetworkSet {
      */
     delete(item) {
         const id = item.id;
-        return this._idMap.delete(id);
+        const isDeleted = this._idMap.delete(id);
+        if (isDeleted) {
+            this._deleted.onNext(item);
+        }
+        return isDeleted;
+    }
+
+    /**
+     *  @return {Rx.Observable<Network>}
+     */
+    deletedStream() {
+        return this._deleted.asObservable();
     }
 
     /**
@@ -96,6 +126,14 @@ export default class NetworkSet {
      */
     clear() {
         this._idMap.clear();
+        this._cleared.onNext();
+    }
+
+    /**
+     *  @return {Rx.Observable<Network>}
+     */
+    clearedStream() {
+        return this._cleared.asObservable();
     }
 
     /**
