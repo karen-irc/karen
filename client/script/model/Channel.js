@@ -40,6 +40,9 @@ export default class Channel {
         /** @type   {topic} */
         this.topic = raw.topic;
 
+        /** @type   {type}  */
+        this.type = raw.type;
+
         const userList = raw.users.map(function(item){
             const user = new User(item);
             return user;
@@ -60,6 +63,22 @@ export default class Channel {
 
         /** @type   {Array<Message>}    */
         this._messageBuffer = messages;
+    }
+
+    /**
+     *  @deprecated
+     *  @return {number}
+     */
+    get unread() {
+        return this.getUnread();
+    }
+
+    /**
+     *  @deprecated
+     *  @return {Array<Message>}
+     */
+    get messages() {
+        return this._messageBuffer;
     }
 
     /**

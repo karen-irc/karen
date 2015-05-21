@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         networkSet.add(network);
     });
 
-    MessageActionCreator.getDispatcher().connectNetwork.subscribe(function (network) {
+    networkSet.addedStream().subscribe(function (network) {
         sidebar.find('.empty').hide();
         sidebar.find('.networks').append(
             render('network', {
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         );
         chat.append(
             render('chat', {
-                channels: network.channels
+                channels: network.getChannelList(),
             })
         );
         sidebar.find('.chan')
@@ -311,14 +311,16 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     MessageActionCreator.getDispatcher().quitNetwork.subscribe(function(id){
-        const n = networkSet.getById(id);
+        const n = networkSet.getById(String(id));
         n.map(function(network){
             networkSet.delete(network);
             network.quit();
         });
     });
 
-    MessageActionCreator.getDispatcher().quitNetwork.subscribe(function(id){
+    networkSet.deletedStream().subscribe(function(network){
+        const id = network.id;
+
         sidebar.find('#network-' + id)
             .remove()
             .end();
