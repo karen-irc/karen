@@ -19,6 +19,7 @@ import MainViewController from './output/view/MainViewController';
 import MessageActionCreator from './intent/action/MessageActionCreator';
 import Mousetrap from 'mousetrap';
 import Network from './model/Network';
+import NetworkSet from './model/NetworkSet';
 import NotificationActionCreator from './intent/action/NotificationActionCreator';
 import NotificationPresenter from './output/NotificationPresenter';
 import SettingActionCreator from './intent/action/SettingActionCreator';
@@ -49,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarViewController(document.getElementById('sidebar'));
 
-    const networkSet = new Set();
+    let networkSet = new NetworkSet([]);
 
     var sidebar = $('#sidebar');
     var $footer = $('#footer');
@@ -126,12 +127,9 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (data.networks.length === 0) {
             UIActionCreator.showConnectSetting();
         } else {
-            data.networks.forEach(function(n){
-                const network = new Network(n);
-                networkSet.add(network);
-            });
+            networkSet = new NetworkSet(data.networks);
 
-            const networkArray = arrayFrom(networkSet);
+            const networkArray = networkSet.asArray();
             AppActionCreator.renderNetworksInView(networkArray);
 
             const channels = networkArray.map(function(network){
@@ -234,7 +232,12 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         MessageActionCreator.connectNetwork(data.network);
     });
 
-    MessageActionCreator.getDispatcher().connectNetwork.subscribe(function (network) {
+    MessageActionCreator.getDispatcher().connectNetwork.subscribe(function (data) {
+        const network = new Network(data);
+        networkSet.add(network);
+    });
+
+    networkSet.addedStream().subscribe(function (network) {
         sidebar.find('.empty').hide();
         sidebar.find('.networks').append(
             render('network', {
@@ -243,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         );
         chat.append(
             render('chat', {
-                channels: network.channels
+                channels: network.getChannelList(),
             })
         );
         sidebar.find('.chan')
@@ -308,6 +311,16 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     MessageActionCreator.getDispatcher().quitNetwork.subscribe(function(id){
+        const n = networkSet.getById(String(id));
+        n.map(function(network){
+            networkSet.delete(network);
+            network.quit();
+        });
+    });
+
+    networkSet.deletedStream().subscribe(function(network){
+        const id = network.id;
+
         sidebar.find('#network-' + id)
             .remove()
             .end();

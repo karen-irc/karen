@@ -31,6 +31,12 @@ export default class Network {
      *  @param  {Object}    raw
      */
     constructor(raw) {
+        /** @type   {string}    */
+        this.id = String(raw.id);
+
+        /** @type   {string}    */
+        this.nickname = raw.nick;
+
         const channelList = raw.channels.map(function(item){
             const channel = new Channel(item);
             return channel;
@@ -41,9 +47,31 @@ export default class Network {
     }
 
     /**
+     *  @deprecated
+     *  @return {string}
+     */
+    get nick() {
+        return this.nickname;
+    }
+
+    /**
+     *  @deprecated
+     *  @return {Array<Channel>}
+     */
+    get channels() {
+        return this.getChannelList();
+    }
+
+    /**
      *  @return {Array<Channel>}
      */
     getChannelList() {
         return this._channelList;
+    }
+
+    /**
+     *  @return {void}
+     */
+    quit() {
     }
 }
