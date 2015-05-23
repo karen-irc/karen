@@ -23,6 +23,10 @@
  * THE SOFTWARE.
  */
 
+// babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
+import 'core-js/modules/es6.array.iterator';
+import 'core-js/es6/symbol';
+
 import arrayFrom from 'core-js/library/fn/array/from';
 import Network from './Network';
 import Rx from 'rx';
@@ -143,5 +147,20 @@ export default class NetworkSet {
         const set = new Set(this._idMap.values());
         const array = arrayFrom(set);
         return array;
+    }
+
+    /**
+     *  @param  {number}    channelId
+     *  @return {!OptionT<Channel>}
+     */
+    getChannelById(channelId) {
+        for (const network of this._idMap.values()) {
+            const channel = network.getChannelById(channelId);
+            if (channelId.isSome) {
+                return channel;
+            }
+        }
+
+        return new None();
     }
 }

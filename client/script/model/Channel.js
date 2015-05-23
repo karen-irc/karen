@@ -87,4 +87,12 @@ export default class Channel {
     getUnread() {
         return this._unread;
     }
+
+    /**
+     *  @param  {Array<User>}   list
+     *  @return {void}
+     */
+    updateUserList(list) {
+        this._userList = list;
+    }
 }

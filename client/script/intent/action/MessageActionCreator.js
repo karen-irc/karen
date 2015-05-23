@@ -111,6 +111,18 @@ class MessageActionCreator {
     connectNetwork(network) {
         ChatCommandDispatcher.connectNetwork.onNext(network);
     }
+
+    /**
+     *  @param  {number}    channelId
+     *  @param  {Array}     list
+     *  @return {void}
+     */
+    updateUserList(channelId, list) {
+        ChatCommandDispatcher.updateUserList.onNext({
+            channelId,
+            list,
+        });
+    }
 }
 
 export default new MessageActionCreator();

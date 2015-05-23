@@ -27,6 +27,7 @@ import SettingStore from './store/SettingStore';
 import SidebarViewController from './output/view/SidebarViewController';
 import SocketIoDriver from './adapter/SocketIoDriver';
 import UIActionCreator from './intent/action/UIActionCreator';
+import User from './model/User';
 import WindowPresenter from './output/WindowPresenter';
 
 const CommandType = CommandTypeMod.type;
@@ -366,12 +367,25 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     socket.users().subscribe(function(data) {
-        var users = chat.find('#chan-' + data.chan).find('.users').html(render('user', data));
-        var nicks = [];
-        for (var i in data.users) {
-            nicks.push(data.users[i].name);
-        }
-        users.data('nicks', nicks);
+        const channelId = data.chan;
+        const users = data.users.map(function(element){
+            return new User(element);
+        });
+        MessageActionCreator.updateUserList(channelId, users);
+    });
+
+    MessageActionCreator.getDispatcher().updateUserList.subscribe(function(data){
+        const channel = networkSet.getChannelById(data.channelId);
+        channel.map(function(channel){
+            channel.updateUserList(data.list);
+        });
+    });
+
+    MessageActionCreator.getDispatcher().updateUserList.subscribe(function(data){
+        var users = chat.find('#chan-' + data.channelId).find('.users').html(render('user', {
+            users: data.list,
+        }));
+        users.data('nicks', data.list);
     });
 
     var options = config.get();
