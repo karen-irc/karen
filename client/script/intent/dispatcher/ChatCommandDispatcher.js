@@ -48,6 +48,9 @@ class ChatCommandDispatcher {
 
         /** @type   {Rx.Subject<Object>}    */
         this.connectNetwork = new Rx.Subject();
+
+        /** @type   {Rx.Subject<{ channelId: numver, users: Array<User> }>} */
+        this.updateUserList = new Rx.Subject();
     }
 }
 

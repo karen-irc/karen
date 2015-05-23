@@ -368,22 +368,24 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     socket.users().subscribe(function(data) {
         const channelId = data.chan;
-        const channel = networkSet.getChannelById(channelId);
+        const users = data.users.map(function(element){
+            return new User(element);
+        });
+        MessageActionCreator.updateUserList(channelId, users);
+    });
+
+    MessageActionCreator.getDispatcher().updateUserList.subscribe(function(data){
+        const channel = networkSet.getChannelById(data.channelId);
         channel.map(function(channel){
-            const users = data.users.map(function(element){
-                return new User(element);
-            });
-            channel.updateUserList(users);
+            channel.updateUserList(data.list);
         });
     });
 
-    socket.users().subscribe(function(data) {
-        var users = chat.find('#chan-' + data.chan).find('.users').html(render('user', data));
-        var nicks = [];
-        for (var i in data.users) {
-            nicks.push(data.users[i].name);
-        }
-        users.data('nicks', nicks);
+    MessageActionCreator.getDispatcher().updateUserList.subscribe(function(data){
+        var users = chat.find('#chan-' + data.channelId).find('.users').html(render('user', {
+            users: data.list,
+        }));
+        users.data('nicks', data.list);
     });
 
     var options = config.get();

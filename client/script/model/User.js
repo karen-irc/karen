@@ -36,4 +36,20 @@ export default class User {
         /** @type   {string}  */
         this.permission = raw.mode;
     }
+
+    /**
+     *  @deprecated
+     *  @return {string}
+     */
+    get name() {
+        return this.nickname;
+    }
+
+    /**
+     *  @deprecated
+     *  @return {string}
+     */
+    get mode() {
+        return this.permission;
+    }
 }
