@@ -27,6 +27,7 @@ import SettingStore from './store/SettingStore';
 import SidebarViewController from './output/view/SidebarViewController';
 import SocketIoDriver from './adapter/SocketIoDriver';
 import UIActionCreator from './intent/action/UIActionCreator';
+import User from './model/User';
 import WindowPresenter from './output/WindowPresenter';
 
 const CommandType = CommandTypeMod.type;
@@ -363,6 +364,17 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
 
         topicElement.textContent = data.topic;
+    });
+
+    socket.users().subscribe(function(data) {
+        const channelId = data.chan;
+        const channel = networkSet.getChannelById(channelId);
+        channel.map(function(channel){
+            const users = data.users.map(function(element){
+                return new User(element);
+            });
+            channel.updateUserList(users);
+        });
     });
 
     socket.users().subscribe(function(data) {
