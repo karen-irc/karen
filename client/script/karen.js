@@ -26,6 +26,7 @@ import SettingActionCreator from './intent/action/SettingActionCreator';
 import SettingStore from './store/SettingStore';
 import SidebarViewController from './output/view/SidebarViewController';
 import SocketIoDriver from './adapter/SocketIoDriver';
+import {Some, None} from 'option-t';
 import UIActionCreator from './intent/action/UIActionCreator';
 import User from './model/User';
 import WindowPresenter from './output/WindowPresenter';
@@ -41,6 +42,39 @@ const auth = new AuthRepository(cookie);
 
 const settingStore = new SettingStore(config);
 
+// FIXME: This should be go a way.
+class SelectedTab {
+
+    /**
+     *  @constructor
+     *  @param  {string}    type
+     *  @param  {string|number} id
+     */
+    constructor(type, id) {
+        this.type = type;
+        this.id = id;
+    }
+
+    static get TYPE() {
+        return {
+            SETTING: 'setting',
+            CHANNEL: 'channel',
+        };
+    }
+
+    /**
+     *  @return {OptionT<number>}
+     */
+    get channelId() {
+        if (this.type === SelectedTab.TYPE.SETTING) {
+            return new None();
+        }
+
+        const id = parseInt(this.id, 10);
+        return new Some(id);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function onLoad() {
     document.removeEventListener('DOMContentLoaded', onLoad);
 
@@ -52,6 +86,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const sidebarView = new SidebarViewController(document.getElementById('sidebar'));
 
     let networkSet = new NetworkSet([]);
+    let currentTab = null;
 
     var sidebar = $('#sidebar');
     var $footer = $('#footer');
@@ -158,6 +193,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         sortable();
     });
 
+    UIActionCreator.getDispatcher().selectChannel.subscribe(function(id){
+        currentTab = new SelectedTab(SelectedTab.TYPE.CHANNEL, id);
+    });
+
     UIActionCreator.getDispatcher().showConnectSetting.subscribe(function(){
         $footer.find('.connect').trigger('click');
     });
@@ -188,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     socket.message().subscribe(function(data) {
         var target = '#chan-' + data.chan;
         if (data.msg.type === 'error') {
-            target = '#chan-' + chat.find('.active').data('id');
+            target = currentTab.channelId.unwrap();
         }
 
         var chan = chat.find(target);
@@ -464,15 +503,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (!target) {
             return;
         }
+        var id = self.data('id');
 
-        chat.data(
-            'id',
-            self.data('id')
-        );
-        socket.emit(
-            'open',
-            self.data('id')
-        );
+        chat.data('id', id);
+        socket.emit('open', id);
 
         sidebar.find('.active').removeClass('active');
         self.addClass('active')
@@ -497,6 +531,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             title = chan.data('title') + ' — ' + title;
         }
         document.title = title;
+        currentTab = new SelectedTab(SelectedTab.TYPE.CHANNEL, id);
 
         if (self.hasClass('chan')) {
             var nick = self
@@ -518,15 +553,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (!target) {
             return;
         }
+        var id = self.data('id');
 
-        chat.data(
-            'id',
-            self.data('id')
-        );
-        socket.emit(
-            'open',
-            self.data('id')
-        );
+        chat.data('id', id);
+        socket.emit('open', id);
 
         $footer.find('.active').removeClass('active');
         self.addClass('active')
@@ -551,6 +581,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             title = chan.data('title') + ' — ' + title;
         }
         document.title = title;
+
+        currentTab = new SelectedTab(SelectedTab.TYPE.SETTING, id);
     });
 
     $footer.on('click', '#sign-out', function() {
@@ -727,28 +759,20 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         const words = CommandList.map(function(item){
             return item.toLowerCase();
         });
-        var users = chat.find('.active').find('.users');
-        var nicks = users.data('nicks');
+        const channel = currentTab.channelId.flatMap(function(channelId){
+            const channel = networkSet.getChannelById(channelId);
+            return channel;
+        });
+        const users = channel.map(function(channel){
+            return channel.getUserList();
+        });
 
-        if (!nicks) {
-            nicks = [];
-            users.find('.user').each(function(i, element) {
-                var nick = element.textContent.replace(/[~&@%+]/, '');
-                nicks.push(nick);
-            });
-            users.data('nicks', nicks);
+        if (users.isSome) {
+            for (let user of users.unwrap()) {
+                const n = user.nickname;
+                words.push(n.toLowerCase());
+            }
         }
-
-        for (let n of nicks) {
-            words.push(n.toLowerCase());
-        }
-
-        var channels = sidebar.find('.chan')
-            .each(function(i, element) {
-                if (!element.classList.contains('lobby')) {
-                    words.push($(element).data('title').toLowerCase());
-                }
-            });
 
         return words.filter(function(word, item){
             return item.indexOf(word) === 0;

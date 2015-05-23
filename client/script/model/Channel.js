@@ -89,6 +89,13 @@ export default class Channel {
     }
 
     /**
+     *  @return {Array<User>}
+     */
+    getUserList() {
+        return this._userList;
+    }
+
+    /**
      *  @param  {Array<User>}   list
      *  @return {void}
      */

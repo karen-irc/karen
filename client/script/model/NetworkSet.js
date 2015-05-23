@@ -163,4 +163,16 @@ export default class NetworkSet {
 
         return new None();
     }
+
+    /**
+     *  @return {Array<Channel>}
+     */
+    getChannelList() {
+        let result = [];
+        for (const network of this._idMap.values()) {
+            const list = network.getChannelList();
+            result = result.concat(list);
+        }
+        return result;
+    }
 }
