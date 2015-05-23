@@ -774,13 +774,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             }
         }
 
-        var channels = sidebar.find('.chan')
-            .each(function(i, element) {
-                if (!element.classList.contains('lobby')) {
-                    words.push($(element).data('title').toLowerCase());
-                }
-            });
-
         return words.filter(function(word, item){
             return item.indexOf(word) === 0;
         }.bind(null, word.toLowerCase()));
