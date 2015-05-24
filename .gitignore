@@ -3,3 +3,6 @@ npm-debug.log
 
 client/dist/
 dist/
+
+build/
+typings/

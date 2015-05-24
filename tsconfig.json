@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "out": "./build/sample.ts",
+        "outDir": "./build/",
+        "target": "ES6",
+        "sourceMap": true
+    },
+    "files": [
+    ]
+}
