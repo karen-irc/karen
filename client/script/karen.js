@@ -76,6 +76,13 @@ class SelectedTab {
     }
 }
 
+class DomainState {
+    constructor() {
+        this.networkSet = new NetworkSet([]);
+        this.currentTab = null;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function onLoad() {
     document.removeEventListener('DOMContentLoaded', onLoad);
 
@@ -85,9 +92,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const inputBox = new InputBoxViewController(document.getElementById('form'));
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarViewController(document.getElementById('sidebar'));
-
-    let networkSet = new NetworkSet([]);
-    let currentTab = null;
+    const globalState = new DomainState();
 
     var sidebar = $('#sidebar');
     var $footer = $('#footer');
@@ -164,9 +169,9 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (data.networks.length === 0) {
             UIActionCreator.showConnectSetting();
         } else {
-            networkSet = new NetworkSet(data.networks);
+            globalState.networkSet = new NetworkSet(data.networks);
 
-            const networkArray = networkSet.asArray();
+            const networkArray = globalState.networkSet.asArray();
             AppActionCreator.renderNetworksInView(networkArray);
 
             const channels = networkArray.map(function(network){
@@ -189,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         $('#sign-in').detach();
 
         var id = data.active;
-        if (currentTab === null || typeof id !== 'number' || id === -1) {
+        if (globalState.currentTab === null || typeof id !== 'number' || id === -1) {
             UIActionCreator.showConnectSetting();
         }
         else {
@@ -200,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     UIActionCreator.getDispatcher().selectChannel.subscribe(function(id){
-        currentTab = new SelectedTab(SelectedTab.TYPE.CHANNEL, id);
+        globalState.currentTab = new SelectedTab(SelectedTab.TYPE.CHANNEL, id);
     });
 
     UIActionCreator.getDispatcher().showConnectSetting.subscribe(function(){
@@ -209,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     socket.join().do(function(data){
         const networkId = data.network;
-        const network = networkSet.getById(networkId);
+        const network = globalState.networkSet.getById(networkId);
         network.map(function(network) {
             const channel = new Channel(network, data.chan);
             network.addChannel(channel);
@@ -240,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     socket.message().subscribe(function(data) {
         var target = '#chan-' + data.chan;
         if (data.msg.type === 'error') {
-            target = currentTab.channelId.unwrap();
+            target = globalState.currentTab.channelId.unwrap();
         }
 
         var chan = chat.find(target);
@@ -287,10 +292,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     MessageActionCreator.getDispatcher().connectNetwork.subscribe(function (data) {
         const network = new Network(data);
-        networkSet.add(network);
+        globalState.networkSet.add(network);
     });
 
-    networkSet.addedStream().subscribe(function (network) {
+    globalState.networkSet.addedStream().subscribe(function (network) {
         sidebar.find('.empty').hide();
         sidebar.find('.networks').append(
             render('network', {
@@ -364,14 +369,14 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     MessageActionCreator.getDispatcher().quitNetwork.subscribe(function(id){
-        const n = networkSet.getById(id);
+        const n = globalState.networkSet.getById(id);
         n.map(function(network){
-            networkSet.delete(network);
+            globalState.networkSet.delete(network);
             network.quit();
         });
     });
 
-    networkSet.deletedStream().subscribe(function(network){
+    globalState.networkSet.deletedStream().subscribe(function(network){
         const id = network.id;
 
         sidebar.find('#network-' + id)
@@ -427,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     MessageActionCreator.getDispatcher().updateUserList.subscribe(function(data){
-        const channel = networkSet.getChannelById(data.channelId);
+        const channel = globalState.networkSet.getChannelById(data.channelId);
         channel.map(function(channel){
             channel.updateUserList(data.list);
         });
@@ -528,7 +533,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             .sticky()
             .end();
 
-        const channel = networkSet.getChannelById(id);
+        const channel = globalState.networkSet.getChannelById(id);
         const baseTitle = 'karen';
         const title = channel.mapOr(baseTitle, function(channel){
             return channel.name + ' — ' + baseTitle;
@@ -539,7 +544,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         const network = channel.map(function(channel){
             return channel.network;
         }).orElse(function() {
-            return networkSet.getById(id);
+            return globalState.networkSet.getById(id);
         });
         if (network.isSome) {
             const nickname = network.unwrap().nickname;
@@ -586,7 +591,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
         document.title = title;
 
-        currentTab = new SelectedTab(SelectedTab.TYPE.SETTING, id);
+        globalState.currentTab = new SelectedTab(SelectedTab.TYPE.SETTING, id);
     });
 
     $footer.on('click', '#sign-out', function() {
@@ -763,8 +768,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         const words = CommandList.map(function(item){
             return item.toLowerCase();
         });
-        const channel = currentTab.channelId.flatMap(function(channelId){
-            const channel = networkSet.getChannelById(channelId);
+        const channel = globalState.currentTab.channelId.flatMap(function(channelId){
+            const channel = globalState.networkSet.getChannelById(channelId);
             return channel;
         });
         const users = channel.map(function(channel){
