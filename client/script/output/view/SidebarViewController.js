@@ -25,21 +25,29 @@
  */
 
 import AppActionCreator from '../../intent/action/AppActionCreator';
+import CommandTypeMod from '../../model/CommandType';
+import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
+
+const CommandType = CommandTypeMod.type;
 
 export default class SidebarViewController {
 
     /**
      *  @constructor
+     *  @param  {DomainState}   domain
      *  @param  {Element}   element
      */
-    constructor(element) {
+    constructor(domain, element) {
         if (!element) {
             throw new Error();
         }
 
         /** @type   {Element}   */
         this._element = element;
+
+        /** @type   {DomainState}   */
+        this.domain = domain;
 
         /*eslint-disable valid-jsdoc */
         /** @type   {Rx.IDisposable}  */
@@ -57,6 +65,16 @@ export default class SidebarViewController {
         /** @type   {Rx.IDisposable}  */
         this._disposeSelectChannel = UIActionCreator.getDispatcher().selectChannel.subscribe((channelId) => {
             this.selectChannel(channelId);
+        });
+
+        /** @type   {Rx.IDisposable}  */
+        this._disposeAddedNetwork = domain.networkSet.addedStream().subscribe((network) => {
+            this.addNetwork(network);
+        });
+
+        /** @type   {Rx.IDisposable}  */
+        this._disposeDeletedNetwork = domain.networkSet.deletedStream().subscribe((network) => {
+            this.deleteNetwork(network);
         });
         /*eslint-enable */
 
@@ -80,12 +98,53 @@ export default class SidebarViewController {
      */
     onClick(aEvent) {
         const target = aEvent.target;
-        if (!target.matches('.js-sidebar-channel, .js-sidebar-channel > :not(.close)')) {
+        if (!target.matches('.js-sidebar-channel, .js-sidebar-channel > *')) {
             return;
         }
 
-        const channelId = parseInt(target.getAttribute('data-id'), 10);
-        UIActionCreator.selectChannel(channelId);
+        // This is very heuristic way.
+        let button = target;
+        if (!target.classList.contains('js-sidebar-channel')) {
+            button = target.parentNode;
+        }
+
+        const channelId = parseInt(button.getAttribute('data-id'), 10);
+
+        const isCloseButton = target.classList.contains('close');
+        if (isCloseButton) {
+            this.closeChannel(channelId, button);
+        }
+        else {
+            UIActionCreator.selectChannel(channelId);
+        }
+    }
+
+    /**
+     *  @param  {number}    channelId
+     *  @param  {Element}   target
+     *  @return {void}
+     */
+    closeChannel(channelId, target) {
+        const channelWrap = this.domain.networkSet.getChannelById(channelId);
+        if (channelWrap.isNone) {
+            return;
+        }
+
+        const channel = channelWrap.unwrap();
+        const channelType = channel.type;
+        const isLobby = (channelType === 'lobby');
+        const command = isLobby ? CommandType.QUIT : CommandType.CLOSE;
+        if (isLobby) {
+            /*eslint-disable no-alert*/
+            if (!window.confirm('Disconnect from ' + channel.name + '?')) {
+                return;
+            }
+            /*eslint-enable*/
+        }
+        MessageActionCreator.inputCommand(channelId, command);
+
+        // FIXME: This visual state should be written in css.
+        target.style.opacity = '0.4';
     }
 
     /**
@@ -94,6 +153,40 @@ export default class SidebarViewController {
     clearAllNetworks() {
         let element = this._element.querySelector('.networks');
         element.innerHTML = '';
+    }
+
+    /**
+     *  @param  {Network}   network
+     *  @return {void}
+     */
+    addNetwork(network) {
+        this.hideEmptinesse();
+        this.appendNetworks([network]);
+
+        const channelList = network.getChannelList();
+        const lastId = channelList[channelList.length - 1].id;
+        UIActionCreator.selectChannel(lastId);
+    }
+
+    /**
+     *  @param  {Network}   network
+     *  @return {void}
+     */
+    deleteNetwork(network) {
+        const id = network.id;
+        const target = this._element.querySelector('#network-' + String(id));
+        if (!!target) {
+            target.parentNode.removeChild(target);
+        }
+
+        const newTarget = this._element.querySelector('.chan');
+        if (!newTarget) {
+            this.showEmptinesse();
+        }
+        else {
+            const newId = newTarget.getAttribute('data-id');
+            UIActionCreator.selectChannel( parseInt(newId, 10) );
+        }
     }
 
     /**
@@ -113,7 +206,7 @@ export default class SidebarViewController {
     }
 
     /**
-     *  @param  {?} networks
+     *  @param  {Array<Network>} networks
      *  @return {void}
      */
     renderNetworks(networks) {
@@ -123,6 +216,19 @@ export default class SidebarViewController {
         });
 
         element.innerHTML = html;
+    }
+
+    /**
+     *  @param  {Array<Network>} networks
+     *  @return {void}
+     */
+    appendNetworks(networks) {
+        const element = this._element.querySelector('.networks');
+        const html = Handlebars.templates.network({
+            networks,
+        });
+
+        element.innerHTML = element.innerHTML + html;
     }
 
     /**
