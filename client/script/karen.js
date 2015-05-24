@@ -5,7 +5,6 @@ import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
 import arrayFrom from 'core-js/library/fn/array/from';
-import arrayFindIndex from 'core-js/library/fn/array/find-index';
 
 import AppActionCreator from './intent/action/AppActionCreator';
 import AppViewController from './output/view/AppViewController';
@@ -19,7 +18,6 @@ import GeneralSettingViewController from './output/view/GeneralSettingViewContro
 import InputBoxViewController from './output/view/InputBoxViewController';
 import MainViewController from './output/view/MainViewController';
 import MessageActionCreator from './intent/action/MessageActionCreator';
-import Mousetrap from 'mousetrap';
 import Network from './model/Network';
 import NetworkSet from './model/NetworkSet';
 import NotificationActionCreator from './intent/action/NotificationActionCreator';
@@ -89,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     document.removeEventListener('DOMContentLoaded', onLoad);
 
     const globalState = new DomainState();
-    const appWindow = new WindowPresenter();
+    const appWindow = new WindowPresenter(globalState);
     const appView = new AppViewController(document.getElementById('viewport'));
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
     const inputBox = new InputBoxViewController(globalState, document.getElementById('form'));
@@ -682,45 +680,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         content.toggleClass('show');
         if (bottom) {
             chat.scrollBottom();
-        }
-    });
-
-    Mousetrap.bind([
-        'command+up',
-        'command+down',
-        'ctrl+up',
-        'ctrl+down'
-    ], function(e, keys) {
-        const direction = keys.split('+').pop();
-        const channelList = globalState.networkSet.getChannelList();
-        const currentIndex = globalState.currentTab.channelId.map(function(currentId) {
-            return arrayFindIndex(channelList, function(channel){
-                return channel.id === currentId;
-            });
-        });
-
-        if (currentIndex.isNone) {
-            return;
-        }
-
-        const index = currentIndex.unwrap();
-        const length = channelList.length;
-        switch (direction) {
-            case 'up': {
-                // Loop
-                const target = (length + (index - 1 + length)) % length;
-                const id = channelList[target].id;
-                UIActionCreator.selectChannel(id);
-                break;
-            }
-
-            case 'down': {
-                // Loop
-                const target = (length + (index + 1 + length)) % length;
-                const id = channelList[target].id;
-                UIActionCreator.selectChannel(id);
-                break;
-            }
         }
     });
 
