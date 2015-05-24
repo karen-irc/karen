@@ -579,29 +579,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         auth.removeToken();
     });
 
-    sidebar.on('click', '.close', function() {
-        var cmd = CommandType.CLOSE;
-        var chan = $(this).closest('.chan');
-        if (chan.hasClass('lobby')) {
-            cmd = CommandType.QUIT;
-            var server = chan.find('.name').html();
-            /*eslint-disable no-alert*/
-            if (!window.confirm('Disconnect from ' + server + '?')) {
-                return false;
-            }
-            /*eslint-enable*/
-        }
-        socket.emit('input', {
-            target: chan.data('id'),
-            text: cmd
-        });
-        chan.css({
-            transition: 'none',
-            opacity: 0.4
-        });
-        return false;
-    });
-
     chat.on('input', '.search', function() {
         var value = $(this).val().toLowerCase();
         var names = $(this).closest('.users').find('.names');

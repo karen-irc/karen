@@ -25,7 +25,11 @@
  */
 
 import AppActionCreator from '../../intent/action/AppActionCreator';
+import CommandTypeMod from '../../model/CommandType';
+import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
+
+const CommandType = CommandTypeMod.type;
 
 export default class SidebarViewController {
 
@@ -41,6 +45,9 @@ export default class SidebarViewController {
 
         /** @type   {Element}   */
         this._element = element;
+
+        /** @type   {DomainState}   */
+        this.domain = domain;
 
         /*eslint-disable valid-jsdoc */
         /** @type   {Rx.IDisposable}  */
@@ -91,7 +98,7 @@ export default class SidebarViewController {
      */
     onClick(aEvent) {
         const target = aEvent.target;
-        if (!target.matches('.js-sidebar-channel, .js-sidebar-channel > :not(.close)')) {
+        if (!target.matches('.js-sidebar-channel, .js-sidebar-channel > *')) {
             return;
         }
 
@@ -102,7 +109,42 @@ export default class SidebarViewController {
         }
 
         const channelId = parseInt(button.getAttribute('data-id'), 10);
-        UIActionCreator.selectChannel(channelId);
+
+        const isCloseButton = target.classList.contains('close');
+        if (isCloseButton) {
+            this.closeChannel(channelId, button);
+        }
+        else {
+            UIActionCreator.selectChannel(channelId);
+        }
+    }
+
+    /**
+     *  @param  {number}    channelId
+     *  @param  {Element}   target
+     *  @return {void}
+     */
+    closeChannel(channelId, target) {
+        const channelWrap = this.domain.networkSet.getChannelById(channelId);
+        if (channelWrap.isNone) {
+            return;
+        }
+
+        const channel = channelWrap.unwrap();
+        const channelType = channel.type;
+        const isLobby = (channelType === 'lobby');
+        const command = isLobby ? CommandType.QUIT : CommandType.CLOSE;
+        if (isLobby) {
+            /*eslint-disable no-alert*/
+            if (!window.confirm('Disconnect from ' + channel.name + '?')) {
+                return;
+            }
+            /*eslint-enable*/
+        }
+        MessageActionCreator.inputCommand(channelId, command);
+
+        // FIXME: This visual state should be written in css.
+        target.style.opacity = '0.4';
     }
 
     /**
