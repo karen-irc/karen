@@ -79,13 +79,18 @@ export default class Network {
      *  @return {!OptionT<Channel>}
      */
     getChannelById(channelId) {
+        let result = new None();
         for (const channel of this._channelList) {
+            // XXX: babel transforms this for-of to try-catch-finally.
+            // So we returns here, it start to do 'finally' block
+            // and supress to return a value in for-of block.
             if (channel.id === channelId) {
-                return new Some(channel);
+                result = new Some(channel);
+                break;
             }
         }
 
-        return new None();
+        return result;
     }
 
     /**

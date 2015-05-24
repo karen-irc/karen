@@ -154,14 +154,19 @@ export default class NetworkSet {
      *  @return {!OptionT<Channel>}
      */
     getChannelById(channelId) {
+        let result = new None();
         for (const network of this._idMap.values()) {
+            // XXX: babel transforms this for-of to try-catch-finally.
+            // So we returns here, it start to do 'finally' block
+            // and supress to return a value in for-of block.
             const channel = network.getChannelById(channelId);
             if (channelId.isSome) {
-                return channel;
+                result = channel;
+                break;
             }
         }
 
-        return new None();
+        return result;
     }
 
     /**
