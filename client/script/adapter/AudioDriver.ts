@@ -24,12 +24,13 @@
  */
 
 export default class AudioDriver {
+    _audio: HTMLAudioElement;
 
     /**
      *  @constructor
      *  @param  {string}    path
      */
-    constructor(path) {
+    constructor(path: string) {
         const audio = new Audio();
         audio.src = path;
 
@@ -37,7 +38,7 @@ export default class AudioDriver {
         this._audio = audio;
     }
 
-    play() {
+    play(): void {
         this._audio.play();
     }
 }
