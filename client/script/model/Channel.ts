@@ -23,28 +23,38 @@
  * THE SOFTWARE.
  */
 
+import Network from './Network';
 import User from './User';
 
 export default class Channel {
+    id: number;
+    name: string;
+    topic: string;
+    type: string;
+    _userList: Array<User>;
+    _unread: number;
+    _messageBuffer: Array<any>;
+    network: Network;
+
     /**
      *  @constructor
      *  @param  {Network}   network
      *  @param  {Object}    raw
      */
-    constructor(network, raw) {
+    constructor(network: Network, raw: any) {
         /** @type   {number}    */
         this.id = raw.id;
 
         /** @type   {string}    */
         this.name = raw.name;
 
-        /** @type   {topic} */
+        /** @type   {string} */
         this.topic = raw.topic;
 
-        /** @type   {type}  */
+        /** @type   {string}  */
         this.type = raw.type;
 
-        const userList = raw.users.map(function(item){
+        const userList: Array<User> = raw.users.map(function(item: any) {
             const user = new User(item);
             return user;
         });
@@ -54,7 +64,7 @@ export default class Channel {
         /** @type   {number}    */
         this._unread = raw.unread;
 
-        let messages = null;
+        let messages: Array<any> = null;
         if (Array.isArray(raw.messages)) {
             messages = raw.messages;
         }
@@ -73,7 +83,7 @@ export default class Channel {
      *  @deprecated
      *  @return {number}
      */
-    get unread() {
+    get unread(): number {
         return this.getUnread();
     }
 
@@ -81,21 +91,21 @@ export default class Channel {
      *  @deprecated
      *  @return {Array<Message>}
      */
-    get messages() {
+    get messages(): Array<any> {
         return this._messageBuffer;
     }
 
     /**
      *  @return {number}
      */
-    getUnread() {
+    getUnread(): number {
         return this._unread;
     }
 
     /**
      *  @return {Array<User>}
      */
-    getUserList() {
+    getUserList(): Array<User> {
         return this._userList;
     }
 
@@ -103,7 +113,7 @@ export default class Channel {
      *  @param  {Array<User>}   list
      *  @return {void}
      */
-    updateUserList(list) {
+    updateUserList(list: Array<User>): void {
         this._userList = list;
     }
 }

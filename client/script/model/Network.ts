@@ -23,31 +23,34 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../node_modules/option-t/option-t.d.ts" />
+
 // babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
 import Channel from './Channel';
-import {Some, None} from 'option-t';
+import {Some, None, Option} from 'option-t';
 
 export default class Network {
+    id: number;
+    nickname: string;
+    _channelList: Array<Channel>;
+
     /**
      *  @constructor
      *  @param  {Object}    raw
      */
-    constructor(raw) {
-        /** @type   {string}    */
+    constructor(raw: any) {
         this.id = raw.id;
 
-        /** @type   {string}    */
         this.nickname = raw.nick;
 
-        const channelList = raw.channels.map((item) => {
+        const channelList: Array<Channel> = raw.channels.map((item: Channel) => {
             const channel = new Channel(this, item);
             return channel;
         });
 
-        /** @type   {Array<Channel>} */
         this._channelList = channelList;
     }
 
@@ -55,7 +58,7 @@ export default class Network {
      *  @deprecated
      *  @return {string}
      */
-    get nick() {
+    get nick(): string {
         return this.nickname;
     }
 
@@ -63,14 +66,14 @@ export default class Network {
      *  @deprecated
      *  @return {Array<Channel>}
      */
-    get channels() {
+    get channels(): Array<Channel> {
         return this.getChannelList();
     }
 
     /**
      *  @return {Array<Channel>}
      */
-    getChannelList() {
+    getChannelList(): Array<Channel> {
         return this._channelList;
     }
 
@@ -78,8 +81,8 @@ export default class Network {
      *  @param  {number}    channelId
      *  @return {!OptionT<Channel>}
      */
-    getChannelById(channelId) {
-        let result = new None();
+    getChannelById(channelId: number): Option<Channel> {
+        let result = new None<Channel>();
         for (const channel of this._channelList) {
             // XXX: babel transforms this for-of to try-catch-finally.
             // So we returns here, it start to do 'finally' block
@@ -97,13 +100,13 @@ export default class Network {
      *  @param  {Channel}   channel
      *  @return {void}
      */
-    addChannel(channel) {
+    addChannel(channel: Channel): void {
         this._channelList.push(channel);
     }
 
     /**
      *  @return {void}
      */
-    quit() {
+    quit(): void {
     }
 }
