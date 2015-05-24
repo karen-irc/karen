@@ -24,6 +24,7 @@ import Network from './model/Network';
 import NetworkSet from './model/NetworkSet';
 import NotificationActionCreator from './intent/action/NotificationActionCreator';
 import NotificationPresenter from './output/NotificationPresenter';
+import Rx from 'rx';
 import SettingActionCreator from './intent/action/SettingActionCreator';
 import SettingStore from './store/SettingStore';
 import SidebarViewController from './output/view/SidebarViewController';
@@ -213,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         $footer.find('.connect').trigger('click');
     });
 
-    socket.join().subscribe(data) {
+    socket.join().subscribe(function(data) {
         const networkId = data.network;
         const network = globalState.networkSet.getById(networkId);
         network.map(function(network) {
@@ -224,27 +225,19 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         });
     });
 
-    MessageActionCreator.getDispatcher().joinChannel.subscribe(function(data){
-        var id = data.networkId;
-        var network = sidebar.find('#network-' + String(id));
-        network.append(
-            render('chan', {
-                channels: [data.channel]
-            })
-        );
+    const joinContentRendered = MessageActionCreator.getDispatcher().joinChannel.do(function(data){
         chat.append(
             render('chat', {
                 channels: [data.channel]
             })
         );
-        var chan = sidebar.find('.chan')
-            .sort(function(a, b) { return $(a).data('id') - $(b).data('id'); })
-            .last();
-        if (!whois) {
-            chan = chan.filter(':not(.query)');
-        }
-        whois = false;
-        chan.click();
+    });
+
+    // this operation should need to wait both of sidebar & contant rendered.
+    Rx.Observable.zip(sidebarView.joinnedChannel, joinContentRendered, function (s1, s2) {
+        return s1;
+    }).subscribe(function(id){
+        UIActionCreator.selectChannel(id);
     });
 
     socket.message().subscribe(function(data) {
@@ -604,13 +597,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         });
     });
 
-    var whois = false;
     chat.on('click', '.user', function() {
         var user = $(this).text().trim().replace(/[+%@~&]/, '');
         if (user.indexOf('#') !== -1) {
             return;
         }
-        whois = true;
         var text = CommandType.WHOIS + ' ' + user;
         socket.emit('input', {
             target: chat.data('id'),

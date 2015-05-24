@@ -27,6 +27,7 @@
 import AppActionCreator from '../../intent/action/AppActionCreator';
 import CommandTypeMod from '../../model/CommandType';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
+import {Some, None} from 'option-t';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
 const CommandType = CommandTypeMod.type;
@@ -76,9 +77,25 @@ export default class SidebarViewController {
         this._disposeDeletedNetwork = domain.networkSet.deletedStream().subscribe((network) => {
             this.deleteNetwork(network);
         });
+
+        /** @type   {Rx.Observable<number>}    */
+        this._obsJoinChannel = MessageActionCreator.getDispatcher().joinChannel.map((data) => {
+            return this.joinChannel(data.networkId, data.channel);
+        }).filter(function(id){
+            return id.isSome;
+        }).map(function(id){
+            return id.unwrap();
+        });
         /*eslint-enable */
 
         element.addEventListener('click', this);
+    }
+
+    /**
+     *  @return {number}
+     */
+    get joinnedChannel() {
+        return this._obsJoinChannel;
     }
 
     /**
@@ -117,6 +134,31 @@ export default class SidebarViewController {
         else {
             UIActionCreator.selectChannel(channelId);
         }
+    }
+
+    /**
+     *  @param  {number}    networkId
+     *  @param  {Channel}   channel
+     *  @return {!OptionT<number>}
+     *      the id which should be selected channel.
+     */
+    joinChannel(networkId, channel) {
+        const network = this._element.querySelector('#network-' + String(networkId));
+        if (!network) {
+            return new None();
+        }
+
+        this.appendChannel(network, channel);
+
+        // FIXME:
+        const channels = this._element.querySelectorAll('.chan:not(.query)');
+        const $target = $(channels).sort(function(a, b) {
+            return $(a).data('id') - $(b).data('id');
+        }).last();
+
+        const targetId = $target.get(0).getAttribute('data-id');
+        const id = parseInt(targetId, 10);
+        return new Some(id);
     }
 
     /**
@@ -229,6 +271,19 @@ export default class SidebarViewController {
         });
 
         element.innerHTML = element.innerHTML + html;
+    }
+
+    /**
+     *  @param  {Element}   network
+     *  @param  {Channel}   channel
+     *  @return {void}
+     */
+    appendChannel(network, channel) {
+        const html = Handlebars.templates.chan({
+            channels: [channel]
+        });
+
+        network.innerHTML = network.innerHTML + html;
     }
 
     /**
