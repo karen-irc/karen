@@ -316,10 +316,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     MessageActionCreator.getDispatcher().setNickname.subscribe(function (data) {
-        const id = data.network;
-        const nick = data.nick;
-        const network = sidebar.find('#network-' + id).data('nick', nick);
-        if (network.find('.active').length !== 0) {
+        const id = data.id;
+        const nick = data.nickname;
+        const network = globalState.networkSet.getById(id);
+        network.expect('network should be there').nickname = nick;
+        if (globalState.currentTab.channelId.isSome) {
             setNick(nick);
         }
     });
