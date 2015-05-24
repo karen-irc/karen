@@ -44,7 +44,7 @@ export default class NetworkSet {
      *  @param  {Array}    raw
      */
     constructor(raw) {
-        /** @type   {Map<string, Network>}  */
+        /** @type   {Map<number, Network>}  */
         this._idMap = new Map();
 
         raw.forEach((item) => {
@@ -83,7 +83,7 @@ export default class NetworkSet {
     }
 
     /**
-     *  @param  {string}    item
+     *  @param  {number}    item
      *  @return {boolean}
      */
     has(item) {
@@ -92,7 +92,7 @@ export default class NetworkSet {
     }
 
     /**
-     *  @param  {string}    id
+     *  @param  {number}    id
      *  @return {OptionT<Network>}
      */
     getById(id) {

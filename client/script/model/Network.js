@@ -37,7 +37,7 @@ export default class Network {
      */
     constructor(raw) {
         /** @type   {string}    */
-        this.id = String(raw.id);
+        this.id = raw.id;
 
         /** @type   {string}    */
         this.nickname = raw.nick;

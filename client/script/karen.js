@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     socket.join().do(function(data){
         const networkId = data.network;
-        const network = networkSet.getById(String(networkId));
+        const network = networkSet.getById(networkId);
         network.map(function(network) {
             const channel = new Channel(network, data.chan);
             network.addChannel(channel);
@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     MessageActionCreator.getDispatcher().quitNetwork.subscribe(function(id){
-        const n = networkSet.getById(String(id));
+        const n = networkSet.getById(id);
         n.map(function(network){
             networkSet.delete(network);
             network.quit();
@@ -539,7 +539,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         const network = channel.map(function(channel){
             return channel.network;
         }).orElse(function() {
-            return networkSet.getById(String(id));
+            return networkSet.getById(id);
         });
         if (network.isSome) {
             const nickname = network.unwrap().nickname;
