@@ -27,7 +27,7 @@
 import AppActionCreator from '../../intent/action/AppActionCreator';
 import CommandTypeMod from '../../model/CommandType';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
-import {Some, None} from 'option-t';
+import Rx from 'rx';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
 const CommandType = CommandTypeMod.type;
@@ -79,12 +79,8 @@ export default class SidebarViewController {
         });
 
         /** @type   {Rx.Observable<number>}    */
-        this._obsJoinChannel = MessageActionCreator.getDispatcher().joinChannel.map((data) => {
+        this._obsJoinChannel = MessageActionCreator.getDispatcher().joinChannel.flatMap((data) => {
             return this.joinChannel(data.networkId, data.channel);
-        }).filter(function(id){
-            return id.isSome;
-        }).map(function(id){
-            return id.unwrap();
         });
         /*eslint-enable */
 
@@ -139,13 +135,13 @@ export default class SidebarViewController {
     /**
      *  @param  {number}    networkId
      *  @param  {Channel}   channel
-     *  @return {!OptionT<number>}
+     *  @return {!Rx.Observable<number>}
      *      the id which should be selected channel.
      */
     joinChannel(networkId, channel) {
         const network = this._element.querySelector('#network-' + String(networkId));
         if (!network) {
-            return new None();
+            return Rx.Observable.throw();
         }
 
         this.appendChannel(network, channel);
@@ -158,7 +154,7 @@ export default class SidebarViewController {
 
         const targetId = $target.get(0).getAttribute('data-id');
         const id = parseInt(targetId, 10);
-        return new Some(id);
+        return Rx.Observable.just(id);
     }
 
     /**
