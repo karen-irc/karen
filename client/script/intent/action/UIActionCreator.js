@@ -67,7 +67,7 @@ class UIActionCreator {
     }
 
     /**
-     *  @param  {string}  id
+     *  @param  {number}  id
      *  @return {void}
      */
     selectChannel(id) {

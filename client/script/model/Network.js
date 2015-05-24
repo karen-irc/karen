@@ -37,13 +37,13 @@ export default class Network {
      */
     constructor(raw) {
         /** @type   {string}    */
-        this.id = String(raw.id);
+        this.id = raw.id;
 
         /** @type   {string}    */
         this.nickname = raw.nick;
 
-        const channelList = raw.channels.map(function(item){
-            const channel = new Channel(item);
+        const channelList = raw.channels.map((item) => {
+            const channel = new Channel(this, item);
             return channel;
         });
 
@@ -79,13 +79,26 @@ export default class Network {
      *  @return {!OptionT<Channel>}
      */
     getChannelById(channelId) {
+        let result = new None();
         for (const channel of this._channelList) {
+            // XXX: babel transforms this for-of to try-catch-finally.
+            // So we returns here, it start to do 'finally' block
+            // and supress to return a value in for-of block.
             if (channel.id === channelId) {
-                return new Some(channel);
+                result = new Some(channel);
+                break;
             }
         }
 
-        return new None();
+        return result;
+    }
+
+    /**
+     *  @param  {Channel}   channel
+     *  @return {void}
+     */
+    addChannel(channel) {
+        this._channelList.push(channel);
     }
 
     /**

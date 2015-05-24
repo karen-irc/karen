@@ -1,4 +1,4 @@
-/*global Handlebars:true */
+/*global Handlebars:true, $: true */
 /**
  * @license MIT License
  *
@@ -59,6 +59,8 @@ export default class SidebarViewController {
             this.selectChannel(channelId);
         });
         /*eslint-enable */
+
+        element.addEventListener('click', this);
     }
 
     /**
@@ -66,6 +68,24 @@ export default class SidebarViewController {
      *  @return {void}
      */
     handleEvent(aEvent) {
+        switch (aEvent.type) {
+            case 'click':
+                this.onClick(aEvent);
+        }
+    }
+
+    /**
+     *  @param  {Event} aEvent
+     *  @return {void}
+     */
+    onClick(aEvent) {
+        const target = aEvent.target;
+        if (!target.matches('.js-sidebar-channel, .js-sidebar-channel > :not(.close)')) {
+            return;
+        }
+
+        const channelId = parseInt(target.getAttribute('data-id'), 10);
+        UIActionCreator.selectChannel(channelId);
     }
 
     /**
@@ -106,23 +126,29 @@ export default class SidebarViewController {
     }
 
     /**
-     *  @param  {string}    id
+     *  @param  {number}    id
      *  @return {void}
      */
     selectChannel(id) {
-        const selector = '.chan[data-target=\'' + id + '\']';
-        let button = this._element.querySelector(selector);
-        if (button === null) {
-            button = this._element.querySelector('.chan');
+        const active = this._element.querySelector('.active');
+        if (!!active) {
+            active.classList.remove('active');
         }
 
-        if (button === null) {
-            // FIXME: This should not call here.
-            // this method should not be called if there is no `.chan`.
-            UIActionCreator.showConnectSetting();
+        const selector = '.js-sidebar-channel[data-id="' + String(id) + '"]';
+        const target = this._element.querySelector(selector);
+        if (!target) {
             return;
         }
 
-        button.click();
+        target.classList.add('active');
+
+        const badge = target.querySelector('.badge');
+        if (!!badge) {
+            badge.classList.remove('highlight');
+            // FIXME:
+            $(badge).data('count', '');
+            badge.textContent = '';
+        }
     }
 }

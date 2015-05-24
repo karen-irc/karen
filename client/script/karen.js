@@ -10,6 +10,7 @@ import AppActionCreator from './intent/action/AppActionCreator';
 import AppViewController from './output/view/AppViewController';
 import AudioDriver from './adapter/AudioDriver';
 import AuthRepository from './adapter/AuthRepository';
+import Channel from './model/Channel';
 import CommandTypeMod from './model/CommandType';
 import ConfigRepository from './adapter/ConfigRepository';
 import CookieDriver from './adapter/CookieDriver';
@@ -188,7 +189,12 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         $('#sign-in').detach();
 
         var id = data.active;
-        UIActionCreator.selectChannel(String(id));
+        if (currentTab === null || typeof id !== 'number' || id === -1) {
+            UIActionCreator.showConnectSetting();
+        }
+        else {
+            UIActionCreator.selectChannel(id);
+        }
 
         sortable();
     });
@@ -201,7 +207,14 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         $footer.find('.connect').trigger('click');
     });
 
-    socket.join().subscribe(function(data) {
+    socket.join().do(function(data){
+        const networkId = data.network;
+        const network = networkSet.getById(networkId);
+        network.map(function(network) {
+            const channel = new Channel(network, data.chan);
+            network.addChannel(channel);
+        });
+    }).subscribe(function(data) {
         var id = data.network;
         var network = sidebar.find('#network-' + id);
         network.append(
@@ -351,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     MessageActionCreator.getDispatcher().quitNetwork.subscribe(function(id){
-        const n = networkSet.getById(String(id));
+        const n = networkSet.getById(id);
         n.map(function(network){
             networkSet.delete(network);
             network.quit();
@@ -496,25 +509,14 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    var top = 1;
-    sidebar.on('click', '.chan, button', function() {
-        var self = $(this);
-        var target = self.data('target');
-        if (!target) {
-            return;
-        }
-        var id = self.data('id');
-
+    UIActionCreator.getDispatcher().selectChannel.subscribe(function(id){
         chat.data('id', id);
         socket.emit('open', id);
+    });
 
-        sidebar.find('.active').removeClass('active');
-        self.addClass('active')
-            .find('.badge')
-            .removeClass('highlight')
-            .data('count', '')
-            .empty();
-
+    var top = 1;
+    UIActionCreator.getDispatcher().selectChannel.subscribe(function(id){
+        const target = '#chan-' + String(id);
         UIActionCreator.toggleLeftPane(false);
         $('#windows .active').removeClass('active');
 
@@ -526,20 +528,22 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             .sticky()
             .end();
 
-        var title = 'karen';
-        if (chan.data('title')) {
-            title = chan.data('title') + ' — ' + title;
-        }
-        document.title = title;
-        currentTab = new SelectedTab(SelectedTab.TYPE.CHANNEL, id);
+        const channel = networkSet.getChannelById(id);
+        const baseTitle = 'karen';
+        const title = channel.mapOr(baseTitle, function(channel){
+            return channel.name + ' — ' + baseTitle;
+        });
 
-        if (self.hasClass('chan')) {
-            var nick = self
-                .closest('.network')
-                .data('nick');
-            if (nick) {
-                setNick(nick);
-            }
+        document.title = title;
+
+        const network = channel.map(function(channel){
+            return channel.network;
+        }).orElse(function() {
+            return networkSet.getById(id);
+        });
+        if (network.isSome) {
+            const nickname = network.unwrap().nickname;
+            setNick(nickname);
         }
 
         if (screen.width > 768 && chan.hasClass('chan')) {
