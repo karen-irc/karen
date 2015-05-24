@@ -90,7 +90,13 @@ export default class SidebarViewController {
             return;
         }
 
-        const channelId = parseInt(target.getAttribute('data-id'), 10);
+        // This is very heuristic way.
+        let button = target;
+        if (!target.classList.contains('js-sidebar-channel')) {
+            button = target.parentNode;
+        }
+
+        const channelId = parseInt(button.getAttribute('data-id'), 10);
         UIActionCreator.selectChannel(channelId);
     }
 
