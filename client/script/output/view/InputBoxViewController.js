@@ -32,15 +32,19 @@ export default class InputBoxViewController {
 
     /**
      *  @constructor
+     *  @param  {DomainState}   domain
      *  @param  {Element}   element
      */
-    constructor(element) {
+    constructor(domain, element) {
         if (!element) {
             throw new Error();
         }
 
         /** @type   {Element}   */
         this._element = element;
+
+        /** @type   {DomainState}   */
+        this._domain = domain;
 
         /** @type   {Element}   */
         this._textInput = element.querySelector('#input');
@@ -51,9 +55,6 @@ export default class InputBoxViewController {
             this.focusInput();
         });
         /*eslint-enable*/
-
-        /** @type   {Rx.Subject<Rx.AsyncSubject<string>>}   */
-        this.queryCurrentChannel = new Rx.Subject();
 
         this._init();
     }
@@ -101,19 +102,14 @@ export default class InputBoxViewController {
 
         const input = this._textInput;
         const text = input.value;
+        const channelId = this._domain.currentTab.channelId;
+        const id = channelId.expect('the input box cannot submitted if any channel is not selected');
+
         // lock input field until dispatching to input command.
         input.readOnly = true;
-
-        // FIXME: this is pretty ad hoc way.
-        // should create a reasonable domain model approach.
-        let query = new Rx.AsyncSubject();
-        query.subscribe((id) => {
-            MessageActionCreator.inputCommand(id, text);
-            input.value = '';
-            input.readOnly = false;
-        });
-
-        this.queryCurrentChannel.onNext(query);
+        MessageActionCreator.inputCommand(id, text);
+        input.value = '';
+        input.readOnly = false;
     }
 
     /**
