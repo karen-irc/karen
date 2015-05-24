@@ -297,9 +297,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     globalState.networkSet.addedStream().subscribe(function (network) {
+        const channelList = network.getChannelList();
         chat.append(
             render('chat', {
-                channels: network.getChannelList(),
+                channels: channelList,
             })
         );
         $('#connect')
@@ -307,6 +308,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             .prop('disabled', false)
             .end();
         UIActionCreator.setQuitConfirmDialog();
+
+        // Select the first tab of the connected network.
+        const id = channelList[0].id;
+        UIActionCreator.selectChannel(id);
+
         sortable();
     });
 
