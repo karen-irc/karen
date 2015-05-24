@@ -537,6 +537,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
+    UIActionCreator.getDispatcher().selectChannel.subscribe(function(){
+        $footer.find('.active').removeClass('active');
+    });
+
     $footer.on('click', '.chan, button', function() {
         var self = $(this);
         var target = self.data('target');
