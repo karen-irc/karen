@@ -23,15 +23,21 @@
  * THE SOFTWARE.
  */
 
+import arrayFindIndex from 'core-js/library/fn/array/find-index';
 import AppActionCreator from '../intent/action/AppActionCreator';
+import Mousetrap from 'mousetrap';
 import UIActionCreator from '../intent/action/UIActionCreator';
 
 export default class WindowPresenter {
 
     /**
      *  @constructor
+     *  @param  {DomainState}   domain
      */
-    constructor() {
+    constructor(domain) {
+        /** @type   {DomainState}   */
+        this._domain = domain;
+
         /*eslint-disable valid-jsdoc */
 
         /** @type {Rx.IDisposable} */
@@ -54,6 +60,15 @@ export default class WindowPresenter {
         });
 
         /*eslint-enable*/
+
+        Mousetrap.bind([
+            'command+up',
+            'command+down',
+            'ctrl+up',
+            'ctrl+down'
+        ], (e, keys) => {
+            this.handleShortcut(keys);
+        });
     }
 
     /**
@@ -65,5 +80,43 @@ export default class WindowPresenter {
         // we cannnot call window.confirm, alert, prompt during the event.
         // Thus we need to use classical way to show a modal prompt.
         return 'Are you sure you want to navigate away from this page?';
+    }
+
+    /**
+     *  @param  {string}    keys
+     *  @return {void}
+     */
+    handleShortcut(keys) {
+        const direction = keys.split('+').pop();
+        const channelList = this._domain.networkSet.getChannelList();
+        const currentIndex = this._domain.currentTab.channelId.map(function(currentId) {
+            return arrayFindIndex(channelList, function(channel){
+                return channel.id === currentId;
+            });
+        });
+
+        if (currentIndex.isNone) {
+            return;
+        }
+
+        const index = currentIndex.unwrap();
+        const length = channelList.length;
+        switch (direction) {
+            case 'up': {
+                // Loop
+                const target = (length + (index - 1 + length)) % length;
+                const id = channelList[target].id;
+                UIActionCreator.selectChannel(id);
+                break;
+            }
+
+            case 'down': {
+                // Loop
+                const target = (length + (index + 1 + length)) % length;
+                const id = channelList[target].id;
+                UIActionCreator.selectChannel(id);
+                break;
+            }
+        }
     }
 }
