@@ -88,9 +88,9 @@ export default class SidebarViewController {
     }
 
     /**
-     *  @return {number}
+     *  @return {Rx.Observable<number>}
      */
-    get joinnedChannel() {
+    get joinChannelRendered() {
         return this._obsJoinChannel;
     }
 

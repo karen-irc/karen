@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     // this operation should need to wait both of sidebar & contant rendered.
-    Rx.Observable.zip(sidebarView.joinnedChannel, joinContentRendered, function (s1, s2) {
+    Rx.Observable.zip(sidebarView.joinChannelRendered, joinContentRendered, function (s1, s2) {
         return s1;
     }).subscribe(function(id){
         UIActionCreator.selectChannel(id);
