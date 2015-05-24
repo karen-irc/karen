@@ -8,5 +8,6 @@
         "sourceMap": true
     },
     "files": [
+        "./client/script/model/User.ts"
     ]
 }
