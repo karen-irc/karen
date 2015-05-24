@@ -146,14 +146,7 @@ export default class SidebarViewController {
 
         this.appendChannel(network, channel);
 
-        // FIXME:
-        const channels = this._element.querySelectorAll('.chan:not(.query)');
-        const $target = $(channels).sort(function(a, b) {
-            return $(a).data('id') - $(b).data('id');
-        }).last();
-
-        const targetId = $target.get(0).getAttribute('data-id');
-        const id = parseInt(targetId, 10);
+        const id = channel.id;
         return Rx.Observable.just(id);
     }
 
