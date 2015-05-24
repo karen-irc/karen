@@ -25,11 +25,14 @@
 
 export default class User {
 
+    nickname: string;
+    permission: string;
+
     /**
      *  @constructor
      *  @param  {Object}    raw
      */
-    constructor(raw) {
+    constructor(raw: any) {
         /** @type   {string}    */
         this.nickname = raw.name;
 
