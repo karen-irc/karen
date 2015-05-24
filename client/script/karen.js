@@ -5,6 +5,7 @@ import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
 import arrayFrom from 'core-js/library/fn/array/from';
+import arrayFindIndex from 'core-js/library/fn/array/find-index';
 
 import AppActionCreator from './intent/action/AppActionCreator';
 import AppViewController from './output/view/AppViewController';
@@ -691,21 +692,36 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         'ctrl+up',
         'ctrl+down'
     ], function(e, keys) {
-        var channels = sidebar.find('.chan');
-        var index = channels.index(channels.filter('.active'));
-        var direction = keys.split('+').pop();
-        switch (direction) {
-        case 'up':
-            // Loop
-            var upTarget = (channels.length + (index - 1 + channels.length)) % channels.length;
-            channels.eq(upTarget).click();
-            break;
+        const direction = keys.split('+').pop();
+        const channelList = globalState.networkSet.getChannelList();
+        const currentIndex = globalState.currentTab.channelId.map(function(currentId) {
+            return arrayFindIndex(channelList, function(channel){
+                return channel.id === currentId;
+            });
+        });
 
-        case 'down':
-            // Loop
-            var downTarget = (channels.length + (index + 1 + channels.length)) % channels.length;
-            channels.eq(downTarget).click();
-            break;
+        if (currentIndex.isNone) {
+            return;
+        }
+
+        const index = currentIndex.unwrap();
+        const length = channelList.length;
+        switch (direction) {
+            case 'up': {
+                // Loop
+                const target = (length + (index - 1 + length)) % length;
+                const id = channelList[target].id;
+                UIActionCreator.selectChannel(id);
+                break;
+            }
+
+            case 'down': {
+                // Loop
+                const target = (length + (index + 1 + length)) % length;
+                const id = channelList[target].id;
+                UIActionCreator.selectChannel(id);
+                break;
+            }
         }
     });
 
