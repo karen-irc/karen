@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const appWindow = new WindowPresenter();
     const appView = new AppViewController(document.getElementById('viewport'));
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
-    const inputBox = new InputBoxViewController(document.getElementById('form'));
+    const inputBox = new InputBoxViewController(globalState, document.getElementById('form'));
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarViewController(globalState, document.getElementById('sidebar'));
 
@@ -469,12 +469,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     // FIXME: Move to InputBoxViewController
     $(inputBox.textInput).tab(complete, {hint: false});
-
-    inputBox.queryCurrentChannel.subscribe(function(subject){
-        const id = chat.data('id');
-        subject.onNext(id);
-        subject.onCompleted();
-    });
 
     MessageActionCreator.getDispatcher().clearMessage.subscribe(function() {
         chat.find('.active .messages').empty();
