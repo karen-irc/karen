@@ -368,21 +368,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         });
     });
 
-    globalState.networkSet.deletedStream().subscribe(function(network){
-        const id = network.id;
-
-        sidebar.find('#network-' + id)
-            .remove()
-            .end();
-        var chan = sidebar.find('.chan')
-            .eq(0)
-            .trigger('click');
-        if (chan.length === 0) {
-            sidebar.find('.empty').show();
-        }
-    });
-
-
     socket.toggle().subscribe(function(data) {
         var toggle = $('#toggle-' + data.id);
         toggle.parent().after(render('toggle', {toggle: data}));

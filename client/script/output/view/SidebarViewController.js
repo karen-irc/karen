@@ -64,6 +64,11 @@ export default class SidebarViewController {
         this._disposeAddedNetwork = domain.networkSet.addedStream().subscribe((network) => {
             this.addNetwork(network);
         });
+
+        /** @type   {Rx.IDisposable}  */
+        this._disposeDeletedNetwork = domain.networkSet.deletedStream().subscribe((network) => {
+            this.deleteNetwork(network);
+        });
         /*eslint-enable */
 
         element.addEventListener('click', this);
@@ -119,6 +124,27 @@ export default class SidebarViewController {
         const channelList = network.getChannelList();
         const lastId = channelList[channelList.length - 1].id;
         UIActionCreator.selectChannel(lastId);
+    }
+
+    /**
+     *  @param  {Network}   network
+     *  @return {void}
+     */
+    deleteNetwork(network) {
+        const id = network.id;
+        const target = this._element.querySelector('#network-' + String(id));
+        if (!!target) {
+            target.parentNode.removeChild(target);
+        }
+
+        const newTarget = this._element.querySelector('.chan');
+        if (!newTarget) {
+            this.showEmptinesse();
+        }
+        else {
+            const newId = newTarget.getAttribute('data-id');
+            UIActionCreator.selectChannel( parseInt(newId, 10) );
+        }
     }
 
     /**
