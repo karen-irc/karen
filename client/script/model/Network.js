@@ -42,8 +42,8 @@ export default class Network {
         /** @type   {string}    */
         this.nickname = raw.nick;
 
-        const channelList = raw.channels.map(function(item){
-            const channel = new Channel(item);
+        const channelList = raw.channels.map((item) => {
+            const channel = new Channel(this, item);
             return channel;
         });
 
@@ -91,6 +91,14 @@ export default class Network {
         }
 
         return result;
+    }
+
+    /**
+     *  @param  {Channel}   channel
+     *  @return {void}
+     */
+    addChannel(channel) {
+        this._channelList.push(channel);
     }
 
     /**

@@ -28,9 +28,10 @@ import User from './User';
 export default class Channel {
     /**
      *  @constructor
+     *  @param  {Network}   network
      *  @param  {Object}    raw
      */
-    constructor(raw) {
+    constructor(network, raw) {
         /** @type   {number}    */
         this.id = raw.id;
 
@@ -63,6 +64,9 @@ export default class Channel {
 
         /** @type   {Array<Message>}    */
         this._messageBuffer = messages;
+
+        /** @type   {Network}   */
+        this.network = network;
     }
 
     /**
