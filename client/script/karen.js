@@ -86,13 +86,13 @@ class DomainState {
 document.addEventListener('DOMContentLoaded', function onLoad() {
     document.removeEventListener('DOMContentLoaded', onLoad);
 
+    const globalState = new DomainState();
     const appWindow = new WindowPresenter();
     const appView = new AppViewController(document.getElementById('viewport'));
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
     const inputBox = new InputBoxViewController(document.getElementById('form'));
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
-    const sidebarView = new SidebarViewController(document.getElementById('sidebar'));
-    const globalState = new DomainState();
+    const sidebarView = new SidebarViewController(globalState, document.getElementById('sidebar'));
 
     var sidebar = $('#sidebar');
     var $footer = $('#footer');
@@ -296,20 +296,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     globalState.networkSet.addedStream().subscribe(function (network) {
-        sidebar.find('.empty').hide();
-        sidebar.find('.networks').append(
-            render('network', {
-                networks: [network]
-            })
-        );
         chat.append(
             render('chat', {
                 channels: network.getChannelList(),
             })
         );
-        sidebar.find('.chan')
-            .last()
-            .trigger('click');
         $('#connect')
             .find('.btn')
             .prop('disabled', false)

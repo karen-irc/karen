@@ -31,9 +31,10 @@ export default class SidebarViewController {
 
     /**
      *  @constructor
+     *  @param  {DomainState}   domain
      *  @param  {Element}   element
      */
-    constructor(element) {
+    constructor(domain, element) {
         if (!element) {
             throw new Error();
         }
@@ -57,6 +58,11 @@ export default class SidebarViewController {
         /** @type   {Rx.IDisposable}  */
         this._disposeSelectChannel = UIActionCreator.getDispatcher().selectChannel.subscribe((channelId) => {
             this.selectChannel(channelId);
+        });
+
+        /** @type   {Rx.IDisposable}  */
+        this._disposeAddedNetwork = domain.networkSet.addedStream().subscribe((network) => {
+            this.addNetwork(network);
         });
         /*eslint-enable */
 
@@ -97,6 +103,19 @@ export default class SidebarViewController {
     }
 
     /**
+     *  @param  {Network}   network
+     *  @return {void}
+     */
+    addNetwork(network) {
+        this.hideEmptinesse();
+        this.appendNetworks([network]);
+
+        const channelList = network.getChannelList();
+        const lastId = channelList[channelList.length - 1].id;
+        UIActionCreator.selectChannel(lastId);
+    }
+
+    /**
      *  @return {void}
      */
     showEmptinesse() {
@@ -113,7 +132,7 @@ export default class SidebarViewController {
     }
 
     /**
-     *  @param  {?} networks
+     *  @param  {Array<Network>} networks
      *  @return {void}
      */
     renderNetworks(networks) {
@@ -123,6 +142,19 @@ export default class SidebarViewController {
         });
 
         element.innerHTML = html;
+    }
+
+    /**
+     *  @param  {Array<Network>} networks
+     *  @return {void}
+     */
+    appendNetworks(networks) {
+        const element = this._element.querySelector('.networks');
+        const html = Handlebars.templates.network({
+            networks,
+        });
+
+        element.innerHTML = element.innerHTML + html;
     }
 
     /**
