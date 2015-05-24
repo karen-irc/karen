@@ -27,6 +27,7 @@
 import AppActionCreator from '../../intent/action/AppActionCreator';
 import CommandTypeMod from '../../model/CommandType';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
+import Rx from 'rx';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
 const CommandType = CommandTypeMod.type;
@@ -76,9 +77,21 @@ export default class SidebarViewController {
         this._disposeDeletedNetwork = domain.networkSet.deletedStream().subscribe((network) => {
             this.deleteNetwork(network);
         });
+
+        /** @type   {Rx.Observable<number>}    */
+        this._obsJoinChannel = MessageActionCreator.getDispatcher().joinChannel.flatMap((data) => {
+            return this.joinChannel(data.networkId, data.channel);
+        });
         /*eslint-enable */
 
         element.addEventListener('click', this);
+    }
+
+    /**
+     *  @return {Rx.Observable<number>}
+     */
+    get joinChannelRendered() {
+        return this._obsJoinChannel;
     }
 
     /**
@@ -117,6 +130,24 @@ export default class SidebarViewController {
         else {
             UIActionCreator.selectChannel(channelId);
         }
+    }
+
+    /**
+     *  @param  {number}    networkId
+     *  @param  {Channel}   channel
+     *  @return {!Rx.Observable<number>}
+     *      the id which should be selected channel.
+     */
+    joinChannel(networkId, channel) {
+        const network = this._element.querySelector('#network-' + String(networkId));
+        if (!network) {
+            return Rx.Observable.throw();
+        }
+
+        this.appendChannel(network, channel);
+
+        const id = channel.id;
+        return Rx.Observable.just(id);
     }
 
     /**
@@ -229,6 +260,19 @@ export default class SidebarViewController {
         });
 
         element.innerHTML = element.innerHTML + html;
+    }
+
+    /**
+     *  @param  {Element}   network
+     *  @param  {Channel}   channel
+     *  @return {void}
+     */
+    appendChannel(network, channel) {
+        const html = Handlebars.templates.chan({
+            channels: [channel]
+        });
+
+        network.innerHTML = network.innerHTML + html;
     }
 
     /**
