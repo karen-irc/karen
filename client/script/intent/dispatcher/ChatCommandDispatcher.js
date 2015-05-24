@@ -40,6 +40,9 @@ class ChatCommandDispatcher {
         /** @type   {Rx.Subject<string>}  */
         this.quitNetwork = new Rx.Subject();
 
+        /** @type   {Rx.Subject<{ networkId: number, channel: Channel }>} */
+        this.joinChannel = new Rx.Subject();
+
         /** @type   {Rx.Subject<string>}    */
         this.partFromChannel = new Rx.Subject();
 

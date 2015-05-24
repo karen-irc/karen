@@ -85,6 +85,18 @@ class MessageActionCreator {
     }
 
     /**
+     *  @param  {number}    networkId
+     *  @param  {Channel}   channel
+     *  @return {void}
+     */
+    joinChannel(networkId, channel) {
+        ChatCommandDispatcher.joinChannel.onNext({
+            networkId,
+            channel,
+        });
+    }
+
+    /**
      *  @param  {string}    id
      *  @return {void}
      */

@@ -213,24 +213,28 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         $footer.find('.connect').trigger('click');
     });
 
-    socket.join().do(function(data){
+    socket.join().subscribe(data) {
         const networkId = data.network;
         const network = globalState.networkSet.getById(networkId);
         network.map(function(network) {
             const channel = new Channel(network, data.chan);
             network.addChannel(channel);
+
+            MessageActionCreator.joinChannel(networkId, channel);
         });
-    }).subscribe(function(data) {
-        var id = data.network;
-        var network = sidebar.find('#network-' + id);
+    });
+
+    MessageActionCreator.getDispatcher().joinChannel.subscribe(function(data){
+        var id = data.networkId;
+        var network = sidebar.find('#network-' + String(id));
         network.append(
             render('chan', {
-                channels: [data.chan]
+                channels: [data.channel]
             })
         );
         chat.append(
             render('chat', {
-                channels: [data.chan]
+                channels: [data.channel]
             })
         );
         var chan = sidebar.find('.chan')
