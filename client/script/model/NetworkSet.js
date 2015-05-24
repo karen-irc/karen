@@ -160,7 +160,7 @@ export default class NetworkSet {
             // So we returns here, it start to do 'finally' block
             // and supress to return a value in for-of block.
             const channel = network.getChannelById(channelId);
-            if (channelId.isSome) {
+            if (channel.isSome) {
                 result = channel;
                 break;
             }
