@@ -23,52 +23,8 @@
  * THE SOFTWARE.
  */
 
-import cookies from 'cookies-js';
+declare var Cookies:any;
 
-export default class CookieDriver {
-
-    /**
-     *  @constructor
-     */
-    constructor() {
-        /** @type   {Cookies} */
-        this._cookie = cookies;
-    }
-
-    /**
-     *  @param  {string}    key
-     *  @return {*}
-     */
-    get(key) {
-        const value = this._cookie.get(key);
-        let result = null;
-        /*eslint-disable no-empty*/
-        try {
-            result = JSON.parse(value);
-        }
-        catch (e) {}
-        /*eslint-enable*/
-
-        return result;
-    }
-
-    /**
-     *  @param  {string}    key
-     *  @param  {*} value
-     *  @param  {Cookies.CookieOptions=}    option
-     *  @return {void}
-     */
-    set(key, value, option = {}) {
-        const encoded = JSON.stringify(value);
-        this._cookie.set(key, encoded, option);
-    }
-
-    /**
-     *  @param  {string}    key
-     *  @param  {Cookies.CookieOptions=}    option
-     *  @return {void}
-     */
-    remove(key, option = {}) {
-        this._cookie.expire(key, option);
-    }
+declare module "cookies-js" {
+    export default Cookies;
 }
