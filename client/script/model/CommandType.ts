@@ -53,7 +53,7 @@ const CommandType = Object.freeze({
     WHOIS: '/whois',
 });
 
-const list = Object.keys(CommandType).map(function(name) {
+const list: Array<string> = Object.keys(CommandType).map(function(name: string): string {
     return CommandType[name];
 });
 
