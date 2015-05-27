@@ -26,28 +26,32 @@
 import NotificationDispatcher from '../dispatcher/NotificationDispatcher';
 
 class NotificationActionCreator {
+
+    _dispatcher: NotificationDispatcher;
+
     constructor() {
+        this._dispatcher = new NotificationDispatcher();
     }
 
     /**
      *  @return {NotificationDispatcher}
      */
-    getDispatcher() {
-        return NotificationDispatcher;
+    getDispatcher(): NotificationDispatcher {
+        return this._dispatcher;
     }
 
     /**
      *  @return {void}
      */
-    playSound() {
-        NotificationDispatcher.playSound.onNext();
+    playSound(): void {
+        this._dispatcher.playSound.onNext(undefined);
     }
 
     /**
      *  @return {void}
      */
-    requestPermission() {
-        NotificationDispatcher.requestPermission.onNext();
+    requestPermission(): void {
+        this._dispatcher.requestPermission.onNext(undefined);
     }
 
     /**
@@ -55,8 +59,8 @@ class NotificationActionCreator {
      *  @param  {{ from: string, text: string }}  message
      *  @return {void}
      */
-    showNotification(channelId, message) {
-        NotificationDispatcher.showNotification.onNext({
+    showNotification(channelId: string, message: { from: string, text: string}): void {
+        this._dispatcher.showNotification.onNext({
             channelId: channelId,
             from: message.from,
             text: message.text,
