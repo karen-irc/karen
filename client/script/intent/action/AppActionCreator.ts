@@ -24,46 +24,51 @@
  */
 
 import AppActionDispatcher from '../dispatcher/AppActionDispatcher';
+import Network from '../../model/Network';
 
 class AppActionCreator {
+
+    _dispatcher: AppActionDispatcher;
+
     constructor() {
+        this._dispatcher = new AppActionDispatcher();
     }
 
     /**
      *  @return {AppActionDispatcher}
      */
-    getDispatcher() {
-        return AppActionDispatcher;
+    getDispatcher(): AppActionDispatcher {
+        return this._dispatcher;
     }
 
     /**
      *  @return {void}
      */
-    reload() {
-        AppActionDispatcher.reload.onNext();
+    reload(): void {
+        this._dispatcher.reload.onNext(undefined);
     }
 
     /**
      *  @return {void}
      */
-    signout() {
-        AppActionDispatcher.signout.onNext();
-        AppActionDispatcher.reload.onNext();
+    signout(): void {
+        this._dispatcher.signout.onNext(undefined);
+        this._dispatcher.reload.onNext(undefined);
     }
 
     /**
      *  @return {void}
      */
-    showSignIn() {
-        AppActionDispatcher.signout.onNext();
+    showSignIn(): void {
+        this._dispatcher.signout.onNext(undefined);
     }
 
     /**
      *  @param  {Array<Network>}    data
      *  @return {void}
      */
-    renderNetworksInView(data) {
-        AppActionDispatcher.renderNetworksInView.onNext(data);
+    renderNetworksInView(data: Array<Network>) {
+        this._dispatcher.renderNetworksInView.onNext(data);
     }
 }
 
