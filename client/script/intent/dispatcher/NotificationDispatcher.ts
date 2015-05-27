@@ -32,7 +32,7 @@ type NotificationValue = {
     text: string,
 };
 
-class NotificationDispatcher {
+export default class NotificationDispatcher {
 
     playSound: Rx.Subject<void>;
     requestPermission: Rx.Subject<void>;
@@ -44,5 +44,3 @@ class NotificationDispatcher {
         this.showNotification = new Rx.Subject<NotificationValue>();
     }
 }
-
-export default new NotificationDispatcher();
