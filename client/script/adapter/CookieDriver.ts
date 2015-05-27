@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../type/cookies.d.ts" />
+/// <reference path="../../../tsd/cookies.d.ts" />
 
 import cookies from 'cookies-js';
 
