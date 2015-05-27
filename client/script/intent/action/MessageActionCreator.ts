@@ -23,20 +23,26 @@
  * THE SOFTWARE.
  */
 
+import Channel from '../../model/Channel';
 import ChatCommandDispatcher from '../dispatcher/ChatCommandDispatcher';
 import CommandTypeMod from '../../model/CommandType';
+import User from '../../model/User';
 
 const CommandType = CommandTypeMod.type;
 
 class MessageActionCreator {
+
+    _dispatcher: ChatCommandDispatcher;
+
     constructor() {
+        this._dispatcher = new ChatCommandDispatcher();
     }
 
     /**
      *  @return {ChatCommandDispatcher}
      */
-    getDispatcher() {
-        return ChatCommandDispatcher;
+    getDispatcher(): ChatCommandDispatcher {
+        return this._dispatcher;
     }
 
     /**
@@ -45,13 +51,13 @@ class MessageActionCreator {
      *    The command string.
      *  @return {void}
      */
-    inputCommand(targetId, command) {
+    inputCommand(targetId: string, command: string): void {
         if ( command.startsWith(CommandType.CLEAR) ) {
-            ChatCommandDispatcher.clearMessage.onNext();
+            this._dispatcher.clearMessage.onNext(undefined);
             return;
         }
 
-        ChatCommandDispatcher.sendCommand.onNext({
+        this._dispatcher.sendCommand.onNext({
             targetId: targetId,
             text: command,
         });
@@ -60,8 +66,8 @@ class MessageActionCreator {
     /**
      *  @return {void}
      */
-    clear() {
-        ChatCommandDispatcher.clearMessage.onNext();
+    clear(): void {
+        this._dispatcher.clearMessage.onNext(undefined);
     }
 
     /**
@@ -69,8 +75,8 @@ class MessageActionCreator {
      *  @param  {string}    topic
      *  @return {void}
      */
-    setTopic(channelId, topic) {
-        ChatCommandDispatcher.setTopic.onNext({
+    setTopic(channelId: string, topic: string): void {
+        this._dispatcher.setTopic.onNext({
             id: channelId,
             topic: topic,
         });
@@ -80,8 +86,8 @@ class MessageActionCreator {
      *  @param  {string}    id
      *  @return {void}
      */
-    quitNetwork(id) {
-        ChatCommandDispatcher.quitNetwork.onNext(id);
+    quitNetwork(id: string): void {
+        this._dispatcher.quitNetwork.onNext(id);
     }
 
     /**
@@ -89,8 +95,8 @@ class MessageActionCreator {
      *  @param  {Channel}   channel
      *  @return {void}
      */
-    joinChannel(networkId, channel) {
-        ChatCommandDispatcher.joinChannel.onNext({
+    joinChannel(networkId: number, channel: Channel): void {
+        this._dispatcher.joinChannel.onNext({
             networkId,
             channel,
         });
@@ -100,8 +106,8 @@ class MessageActionCreator {
      *  @param  {string}    id
      *  @return {void}
      */
-    partFromChannel(id) {
-        ChatCommandDispatcher.partFromChannel.onNext(id);
+    partFromChannel(id: string): void {
+        this._dispatcher.partFromChannel.onNext(id);
     }
 
     /**
@@ -109,8 +115,8 @@ class MessageActionCreator {
      *  @param  {string}    nickname
      *  @return {void}
      */
-    setNickname(networkId, nickname) {
-        ChatCommandDispatcher.setNickname.onNext({
+    setNickname(networkId: string, nickname: string): void {
+        this._dispatcher.setNickname.onNext({
             id: networkId,
             nickname: nickname,
         });
@@ -120,8 +126,8 @@ class MessageActionCreator {
      *  @param  {Object}    network
      *  @return {void}
      */
-    connectNetwork(network) {
-        ChatCommandDispatcher.connectNetwork.onNext(network);
+    connectNetwork(network: any): void {
+        this._dispatcher.connectNetwork.onNext(network);
     }
 
     /**
@@ -129,8 +135,8 @@ class MessageActionCreator {
      *  @param  {Array}     list
      *  @return {void}
      */
-    updateUserList(channelId, list) {
-        ChatCommandDispatcher.updateUserList.onNext({
+    updateUserList(channelId: number, list: Array<User>): void {
+        this._dispatcher.updateUserList.onNext({
             channelId,
             list,
         });
