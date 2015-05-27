@@ -23,18 +23,29 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../type/core-js.d.ts" />
+/// <reference path="../../../typings/mousetrap/mousetrap.d.ts" />
+/// <reference path="../../../node_modules/option-t/option-t.d.ts" />
+
 import arrayFindIndex from 'core-js/library/fn/array/find-index';
 import AppActionCreator from '../intent/action/AppActionCreator';
-import Mousetrap from 'mousetrap';
+import Channel from '../model/Channel';
+import * as Mousetrap from 'mousetrap';
 import UIActionCreator from '../intent/action/UIActionCreator';
+import {Option} from 'option-t';
 
 export default class WindowPresenter {
+
+    _domain: any;
+    _disposeReload: Rx.IDisposable;
+    _disposeFocus: Rx.IDisposable;
+    _disposeQuitConfirmDialog: Rx.IDisposable;
 
     /**
      *  @constructor
      *  @param  {DomainState}   domain
      */
-    constructor(domain) {
+    constructor(domain: any) {
         /** @type   {DomainState}   */
         this._domain = domain;
 
@@ -53,7 +64,7 @@ export default class WindowPresenter {
         });
 
         /** @type {Rx.IDisposable} */
-        UIActionCreator.getDispatcher().setQuitConfirmDialog.subscribe(() => {
+        this._disposeQuitConfirmDialog = UIActionCreator.getDispatcher().setQuitConfirmDialog.subscribe(() => {
             if (document.body.classList.contains('public')) {
                 window.onbeforeunload = this._onBeforeUnload;
             }
@@ -71,11 +82,18 @@ export default class WindowPresenter {
         });
     }
 
+    destroy(): void {
+        this._domain = null;
+        this._disposeReload = null;
+        this._disposeFocus = null;
+        this._disposeQuitConfirmDialog = null;
+    }
+
     /**
      *  @param  {Event} aEvent
-     *  @return {void}
+     *  @return {string}
      */
-    _onBeforeUnload(aEvent) {
+    _onBeforeUnload(aEvent: Event): string {
         // This function is called on `beforeunload` event,
         // we cannnot call window.confirm, alert, prompt during the event.
         // Thus we need to use classical way to show a modal prompt.
@@ -86,11 +104,11 @@ export default class WindowPresenter {
      *  @param  {string}    keys
      *  @return {void}
      */
-    handleShortcut(keys) {
+    handleShortcut(keys: string): void {
         const direction = keys.split('+').pop();
-        const channelList = this._domain.networkSet.getChannelList();
-        const currentIndex = this._domain.currentTab.channelId.map(function(currentId) {
-            return arrayFindIndex(channelList, function(channel){
+        const channelList: Array<Channel> = this._domain.networkSet.getChannelList();
+        const currentIndex: Option<number> = this._domain.currentTab.channelId.map(function(currentId: number) {
+            return arrayFindIndex(channelList, function(channel: Channel){
                 return channel.id === currentId;
             });
         });
