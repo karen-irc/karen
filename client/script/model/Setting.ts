@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../type/object-assign.d.ts" />
+/// <reference path="../../../tsd/object-assign.d.ts" />
 
 import assign from 'object-assign';
 
