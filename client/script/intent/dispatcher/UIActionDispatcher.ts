@@ -23,31 +23,32 @@
  * THE SOFTWARE.
  */
 
-import Rx from 'rx';
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
+
+import * as Rx from 'rx';
 
 class UIActionDispatcher {
 
+    toggleLeftPane: Rx.Subject<boolean>;
+    toggleRightPane: Rx.Subject<boolean>;
+    focusInputBox: Rx.Subject<void>;
+    focusWindow: Rx.Subject<void>;
+    selectChannel: Rx.Subject<number>;
+    setQuitConfirmDialog: Rx.Subject<void>;
+    showConnectSetting: Rx.Subject<void>;
+
     constructor() {
-        /** @type {Rx.Subject<boolean>}  */
-        this.toggleLeftPane = new Rx.Subject();
+        this.toggleLeftPane = new Rx.Subject<boolean>();
+        this.toggleRightPane = new Rx.Subject<boolean>();
 
-        /** @type {Rx.Subject<boolean>}  */
-        this.toggleRightPane = new Rx.Subject();
+        this.focusInputBox = new Rx.Subject<void>();
+        this.focusWindow = new Rx.Subject<void>();
 
-        /** @type {Rx.Subject<void>}  */
-        this.focusInputBox = new Rx.Subject();
+        this.selectChannel = new Rx.Subject<number>();
 
-        /** @type {Rx.Subject<void>}  */
-        this.focusWindow = new Rx.Subject();
+        this.setQuitConfirmDialog = new Rx.Subject<void>();
 
-        /** @type {Rx.Subject<number>}  */
-        this.selectChannel = new Rx.Subject();
-
-        /** @type   {Rx.Subject<void>}    */
-        this.setQuitConfirmDialog = new Rx.Subject();
-
-        /** @type   {Rx.Subject<void>}  */
-        this.showConnectSetting = new Rx.Subject();
+        this.showConnectSetting = new Rx.Subject<void>();
     }
 }
 
