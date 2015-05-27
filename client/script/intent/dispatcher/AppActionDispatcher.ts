@@ -23,19 +23,22 @@
  * THE SOFTWARE.
  */
 
-import Rx from 'rx';
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
+
+import Network from '../../model/Network';
+import * as Rx from 'rx';
 
 class AppActionDispatcher {
+    reload: Rx.Subject<void>;
+    signout: Rx.Subject<void>;
+    renderNetworksInView: Rx.Subject<Array<Network>>;
 
     constructor() {
-        /** @type {Rx.Subject<void>}  */
-        this.reload = new Rx.Subject();
+        this.reload = new Rx.Subject<void>();
 
-        /** @type   {Rx.Subject<void>}  */
-        this.signout = new Rx.Subject();
+        this.signout = new Rx.Subject<void>();
 
-        /** @type   {Rx.Subject<Array<Network>>}  */
-        this.renderNetworksInView = new Rx.Subject();
+        this.renderNetworksInView = new Rx.Subject<Array<Network>>();
     }
 }
 
