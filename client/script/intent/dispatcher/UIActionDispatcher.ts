@@ -27,7 +27,7 @@
 
 import * as Rx from 'rx';
 
-class UIActionDispatcher {
+export default class UIActionDispatcher {
 
     toggleLeftPane: Rx.Subject<boolean>;
     toggleRightPane: Rx.Subject<boolean>;
@@ -51,5 +51,3 @@ class UIActionDispatcher {
         this.showConnectSetting = new Rx.Subject<void>();
     }
 }
-
-export default new UIActionDispatcher();
