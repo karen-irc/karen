@@ -23,14 +23,29 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../type/object-assign.d.ts" />
+
 import assign from 'object-assign';
 
 export default class Setting {
+
+    badge: boolean;
+    colors: boolean;
+    join: boolean;
+    links: boolean;
+    mode: boolean;
+    motd: boolean;
+    nick: boolean;
+    notification: boolean;
+    part: boolean;
+    thumbnails: boolean;
+    quit: boolean;
+
     /**
      *  @constructor
      *  @param  {Object}    raw
      */
-    constructor(raw) {
+    constructor(raw: any) {
         const data = assign({
             badge: false,
             colors: false,
