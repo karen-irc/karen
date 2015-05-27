@@ -26,14 +26,18 @@
 import SettingActionDispatcher from '../dispatcher/SettingActionDispatcher';
 
 class SettingActionCreator {
+
+    _dispatcher: SettingActionDispatcher;
+
     constructor() {
+        this._dispatcher = new SettingActionDispatcher();
     }
 
     /**
      *  @return {SettingActionDispatcher}
      */
-    getDispatcher() {
-        return SettingActionDispatcher;
+    getDispatcher(): SettingActionDispatcher {
+        return this._dispatcher;
     }
 
     /**
@@ -41,8 +45,8 @@ class SettingActionCreator {
      *  @param  {*} value
      *  @return {void}
      */
-    setOption(name, value) {
-        SettingActionDispatcher.setOption.onNext({
+    setOption(name: string, value: any): void {
+        this._dispatcher.setOption.onNext({
             name: name,
             value: value,
         });
