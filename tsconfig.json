@@ -29,6 +29,7 @@
         "./client/script/model/Setting.ts",
         "./client/script/model/User.ts",
         "./client/script/output/NotificationPresenter.ts",
-        "./client/script/output/WindowPresenter.ts"
+        "./client/script/output/WindowPresenter.ts",
+        "./client/script/store/SettingStore.ts"
     ]
 }
