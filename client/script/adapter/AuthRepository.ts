@@ -24,16 +24,22 @@
  * THE SOFTWARE.
  */
 
+import CookieDriver from './CookieDriver';
+
+declare const moment: any;
+
 const KEY_TOKEN = 'token';
 const KEY_USER = 'user';
 
 export default class AuthRepository {
 
+    _cookie: CookieDriver;
+
     /**
      *  @constructor
      *  @param  {CookieDriver}  cookie
      */
-    constructor(cookie) {
+    constructor(cookie: CookieDriver) {
         /** @type {CookieDriver}  */
         this._cookie = cookie;
     }
@@ -43,7 +49,7 @@ export default class AuthRepository {
      *
      *  FIXME: the returned value should `Maybe<T>`.
      */
-    getUser() {
+    getUser(): string {
         return this._cookie.get(KEY_USER);
     }
 
@@ -52,7 +58,7 @@ export default class AuthRepository {
      *
      *  FIXME: the returned value should `Maybe<T>`.
      */
-    getToken() {
+    getToken(): string {
         return this._cookie.get(KEY_TOKEN);
     }
 
@@ -60,7 +66,7 @@ export default class AuthRepository {
      *  @param  {string}  token
      *  @return {void}
      */
-    setToken(token) {
+    setToken(token: string): void {
         this._cookie.set(KEY_TOKEN, token, {
             expires: moment().add(30, 'days').toDate(),
         });
@@ -69,7 +75,7 @@ export default class AuthRepository {
     /**
      *  @return {void}
      */
-    removeToken() {
+    removeToken(): void {
         this._cookie.remove(KEY_TOKEN);
     }
 }
