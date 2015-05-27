@@ -101,7 +101,19 @@ gulp.task('__cp', ['clean:client'], function () {
         .pipe(gulp.dest('./__obj/'));
 });
 
-gulp.task('__browserify', ['clean:client', '__cp'], function () {
+gulp.task('__typescript', ['clean:client'], function (callback) {
+    const args = [
+        path.relative(__dirname, 'node_modules/.bin/tsc'),
+    ];
+    const option = {
+        cwd: path.relative(__dirname, ''),
+        stdio: 'inherit',
+    };
+    const tsc = childProcess.spawn('iojs', args, option);
+    tsc.on('exit', callback);
+});
+
+gulp.task('__browserify', ['clean:client', '__cp', '__typescript'], function () {
     const ENTRY_POINT = ['./__obj/karen.js'];
 
     const option = {
