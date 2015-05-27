@@ -24,17 +24,22 @@
  * THE SOFTWARE.
  */
 
+import CookieDriver from './CookieDriver';
 import Setting from '../model/Setting';
+
+declare const moment: any;
 
 const KEY_SETTING = 'settings';
 
 export default class ConfigRepository {
 
+    _cookie: CookieDriver;
+
     /**
      *  @constructor
      *  @param  {CookieDriver}  cookie
      */
-    constructor(cookie) {
+    constructor(cookie: CookieDriver) {
         /** @type   {CookieDriver} */
         this._cookie = cookie;
     }
@@ -42,7 +47,7 @@ export default class ConfigRepository {
     /**
      *  @return {Setting}
      */
-    get() {
+    get(): Setting {
         const raw = this._cookie.get(KEY_SETTING);
         const settings = new Setting(raw);
         return settings;
@@ -52,7 +57,7 @@ export default class ConfigRepository {
      *  @param  {Setting}  settings
      *  @return {void}
      */
-    set(settings) {
+    set(settings: Setting): void {
         this._cookie.set(KEY_SETTING, settings, {
             expires: moment().add(365, 'days').toDate(),
         });
