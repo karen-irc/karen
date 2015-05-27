@@ -23,19 +23,25 @@
  * THE SOFTWARE.
  */
 
-import Rx from 'rx';
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
+import * as Rx from 'rx';
+
+type NotificationValue = {
+    channelId: string,
+    from: string,
+    text: string,
+};
 
 class NotificationDispatcher {
 
+    playSound: Rx.Subject<void>;
+    requestPermission: Rx.Subject<void>;
+    showNotification: Rx.Subject<NotificationValue>;
+
     constructor() {
-        /** @type {Rx.Subject<void>}  */
-        this.playSound = new Rx.Subject();
-
-        /** @type {Rx.Subject<void>}  */
-        this.requestPermission = new Rx.Subject();
-
-        /** @type {Rx.Subject<{ channelId: string, from: string, text: string}>}  */
-        this.showNotification = new Rx.Subject();
+        this.playSound = new Rx.Subject<void>();
+        this.requestPermission = new Rx.Subject<void>();
+        this.showNotification = new Rx.Subject<NotificationValue>();
     }
 }
 
