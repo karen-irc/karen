@@ -9,6 +9,7 @@
     },
     "files": [
         "./client/script/adapter/AudioDriver.ts",
+        "./client/script/adapter/CookieDriver.ts",
         "./client/script/intent/action/AppActionCreator.ts",
         "./client/script/intent/action/NotificationActionCreator.ts",
         "./client/script/intent/action/UIActionCreator.ts",
