@@ -98,7 +98,7 @@ gulp.task('__handlebars', ['clean:client'], function () {
     childProcess.spawn('node', args, option);
 });
 
-gulp.task('__cp', ['clean:client'], function () {
+gulp.task('__cp_client', ['clean:client'], function () {
     return gulp.src('./client/script/**/*.js')
         .pipe(gulp.dest(OBJ_CLIENT));
 });
@@ -115,7 +115,7 @@ gulp.task('__typescript', ['clean:client'], function (callback) {
     tsc.on('exit', callback);
 });
 
-gulp.task('__browserify', ['clean:client', '__cp', '__typescript'], function () {
+gulp.task('__browserify', ['clean:client', '__cp_client', '__typescript'], function () {
     const ENTRY_POINT = [
         path.resolve(OBJ_CLIENT, './karen.js'),
     ];
