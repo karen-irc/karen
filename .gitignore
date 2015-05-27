@@ -7,4 +7,4 @@ client/dist/
 dist/
 
 build/
-typings/
+tsd/thrid_party/

@@ -23,8 +23,8 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../type/core-js.d.ts" />
-/// <reference path="../../../typings/mousetrap/mousetrap.d.ts" />
+/// <reference path="../../../tsd/core-js.d.ts" />
+/// <reference path="../../../tsd/thrid_party/mousetrap/mousetrap.d.ts" />
 /// <reference path="../../../node_modules/option-t/option-t.d.ts" />
 
 import arrayFindIndex from 'core-js/library/fn/array/find-index';
