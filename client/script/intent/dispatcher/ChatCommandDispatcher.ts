@@ -49,7 +49,7 @@ export default class ChatCommandDispatcher {
     partFromChannel: Rx.Subject<string>;
     setNickname: Rx.Subject<{ id: string, nickname: string }>;
     connectNetwork: Rx.Subject<any>;
-    updateUserList: Rx.Subject<{ channelId: number, users: Array<User> }>;
+    updateUserList: Rx.Subject<{ channelId: number, list: Array<User> }>;
 
     constructor() {
         /** @type {Rx.Subject<{targetId: string, text: string}>}  */
@@ -77,6 +77,6 @@ export default class ChatCommandDispatcher {
         this.connectNetwork = new Rx.Subject<any>();
 
         /** @type   {Rx.Subject<{ channelId: number, users: Array<User> }>} */
-        this.updateUserList = new Rx.Subject<{ channelId: number, users: Array<User> }>();
+        this.updateUserList = new Rx.Subject<{ channelId: number, list: Array<User> }>();
     }
 }

@@ -13,6 +13,7 @@
         "./client/script/adapter/CookieDriver.ts",
         "./client/script/adapter/ConfigRepository.ts",
         "./client/script/intent/action/AppActionCreator.ts",
+        "./client/script/intent/action/MessageActionCreator.ts",
         "./client/script/intent/action/NotificationActionCreator.ts",
         "./client/script/intent/action/SettingActionCreator.ts",
         "./client/script/intent/action/UIActionCreator.ts",
