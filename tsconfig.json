@@ -19,6 +19,7 @@
         "./client/script/model/Channel.ts",
         "./client/script/model/Network.ts",
         "./client/script/model/NetworkSet.ts",
+        "./client/script/model/Setting.ts",
         "./client/script/model/User.ts"
     ]
 }
