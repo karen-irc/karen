@@ -28,7 +28,7 @@
 import Network from '../../model/Network';
 import * as Rx from 'rx';
 
-class AppActionDispatcher {
+export default class AppActionDispatcher {
     reload: Rx.Subject<void>;
     signout: Rx.Subject<void>;
     renderNetworksInView: Rx.Subject<Array<Network>>;
@@ -41,5 +41,3 @@ class AppActionDispatcher {
         this.renderNetworksInView = new Rx.Subject<Array<Network>>();
     }
 }
-
-export default new AppActionDispatcher();
