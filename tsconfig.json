@@ -21,6 +21,7 @@
         "./client/script/model/Network.ts",
         "./client/script/model/NetworkSet.ts",
         "./client/script/model/Setting.ts",
-        "./client/script/model/User.ts"
+        "./client/script/model/User.ts",
+        "./client/script/output/NotificationPresenter.ts"
     ]
 }
