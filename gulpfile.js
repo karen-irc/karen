@@ -52,6 +52,8 @@ const SERVER_SRC = [
     './server/**/*.js'
 ];
 
+const OBJ_CLIENT = './client/__obj/';
+
 const DIST_SERVER = './dist/';
 const DIST_CLIENT = './client/dist/';
 const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
@@ -98,12 +100,12 @@ gulp.task('__handlebars', ['clean:client'], function () {
 
 gulp.task('__cp', function () {
     return gulp.src('./client/script/**/*.js')
-        .pipe(gulp.dest('./__obj/'));
+        .pipe(gulp.dest(OBJ_CLIENT));
 });
 
 gulp.task('__typescript', function (callback) {
     const args = [
-        path.relative(__dirname, 'node_modules/.bin/tsc'),
+        path.relative(__dirname, './node_modules/.bin/tsc'),
     ];
     const option = {
         cwd: path.relative(__dirname, ''),
@@ -114,7 +116,9 @@ gulp.task('__typescript', function (callback) {
 });
 
 gulp.task('__browserify', ['clean:client', '__cp', '__typescript'], function () {
-    const ENTRY_POINT = ['./__obj/karen.js'];
+    const ENTRY_POINT = [
+        path.resolve(OBJ_CLIENT, './karen.js'),
+    ];
 
     const option = {
         insertGlobals: false,

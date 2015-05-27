@@ -1,10 +1,10 @@
 node_modules/
 npm-debug.log
 
+client/__obj/
 client/dist/
+
 dist/
 
-
-__obj/
 build/
 typings/
