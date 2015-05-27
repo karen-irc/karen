@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "noImplicitAny": true,
+        "suppressImplicitAnyIndexErrors": true,
         "removeComments": false,
         "preserveConstEnums": true,
         "outDir": "./__obj/",
@@ -21,6 +22,7 @@
         "./client/script/intent/dispatcher/SettingActionDispatcher.ts",
         "./client/script/intent/dispatcher/UIActionDispatcher.ts",
         "./client/script/model/Channel.ts",
+        "./client/script/model/CommandType.ts",
         "./client/script/model/Network.ts",
         "./client/script/model/NetworkSet.ts",
         "./client/script/model/Setting.ts",
