@@ -17,6 +17,7 @@
         "./client/script/intent/dispatcher/AppActionDispatcher.ts",
         "./client/script/intent/dispatcher/ChatCommandDispatcher.ts",
         "./client/script/intent/dispatcher/NotificationDispatcher.ts",
+        "./client/script/intent/dispatcher/SettingActionDispatcher.ts",
         "./client/script/intent/dispatcher/UIActionDispatcher.ts",
         "./client/script/model/Channel.ts",
         "./client/script/model/Network.ts",
