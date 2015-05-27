@@ -11,6 +11,7 @@
         "./client/script/adapter/AudioDriver.ts",
         "./client/script/intent/action/AppActionCreator.ts",
         "./client/script/intent/action/NotificationActionCreator.ts",
+        "./client/script/intent/action/UIActionCreator.ts",
         "./client/script/intent/dispatcher/AppActionDispatcher.ts",
         "./client/script/intent/dispatcher/NotificationDispatcher.ts",
         "./client/script/intent/dispatcher/UIActionDispatcher.ts",

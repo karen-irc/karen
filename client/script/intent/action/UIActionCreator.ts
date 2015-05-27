@@ -26,66 +26,70 @@
 import UIActionDispatcher from '../dispatcher/UIActionDispatcher';
 
 class UIActionCreator {
+
+    _dispatcher: UIActionDispatcher;
+
     constructor() {
+        this._dispatcher = new UIActionDispatcher();
     }
 
     /**
      *  @return {UIActionDispatcher}
      */
-    getDispatcher() {
-        return UIActionDispatcher;
+    getDispatcher(): UIActionDispatcher {
+        return this._dispatcher;
     }
 
     /**
      *  @param  {boolean}   shouldOpen
      *  @return {void}
      */
-    toggleLeftPane(shouldOpen) {
-        UIActionDispatcher.toggleLeftPane.onNext(shouldOpen);
+    toggleLeftPane(shouldOpen: boolean): void {
+        this._dispatcher.toggleLeftPane.onNext(shouldOpen);
     }
 
     /**
      *  @param  {boolean}   shouldOpen
      *  @return {void}
      */
-    toggleRightPane(shouldOpen) {
-        UIActionDispatcher.toggleRightPane.onNext(shouldOpen);
+    toggleRightPane(shouldOpen: boolean): void {
+        this._dispatcher.toggleRightPane.onNext(shouldOpen);
     }
 
     /**
      *  @return {void}
      */
-    focusInputBox() {
-        UIActionDispatcher.focusInputBox.onNext();
+    focusInputBox(): void {
+        this._dispatcher.focusInputBox.onNext(undefined);
     }
 
     /**
      *  @return {void}
      */
-    focusWindow() {
-        UIActionDispatcher.focusWindow.onNext();
+    focusWindow(): void {
+        this._dispatcher.focusWindow.onNext(undefined);
     }
 
     /**
      *  @param  {number}  id
      *  @return {void}
      */
-    selectChannel(id) {
-        UIActionDispatcher.selectChannel.onNext(id);
+    selectChannel(id: number): void {
+        this._dispatcher.selectChannel.onNext(id);
     }
 
     /**
      *  @return {void}
      */
-    setQuitConfirmDialog() {
-        UIActionDispatcher.setQuitConfirmDialog.onNext();
+    setQuitConfirmDialog(): void {
+        this._dispatcher.setQuitConfirmDialog.onNext(undefined);
     }
 
     /**
      *  @return {void}
      */
-    showConnectSetting() {
-        UIActionDispatcher.showConnectSetting.onNext();
+    showConnectSetting(): void {
+        this._dispatcher.showConnectSetting.onNext(undefined);
     }
 }
 
