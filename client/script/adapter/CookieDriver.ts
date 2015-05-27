@@ -23,9 +23,21 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../type/cookies.d.ts" />
+
 import cookies from 'cookies-js';
 
+// from https://github.com/ScottHamper/Cookies/blob/master/src/cookies.d.ts
+type CookieOptions = {
+    path?: string;
+    domain?: string;
+    expires?: any;
+    secure?: boolean;
+};
+
 export default class CookieDriver {
+
+    _cookie: any; // Cookies
 
     /**
      *  @constructor
@@ -39,9 +51,9 @@ export default class CookieDriver {
      *  @param  {string}    key
      *  @return {*}
      */
-    get(key) {
-        const value = this._cookie.get(key);
-        let result = null;
+    get(key: string): any {
+        const value: string = this._cookie.get(key);
+        let result: any = null;
         /*eslint-disable no-empty*/
         try {
             result = JSON.parse(value);
@@ -58,7 +70,7 @@ export default class CookieDriver {
      *  @param  {Cookies.CookieOptions=}    option
      *  @return {void}
      */
-    set(key, value, option = {}) {
+    set(key: string, value: any, option: CookieOptions = {}): void {
         const encoded = JSON.stringify(value);
         this._cookie.set(key, encoded, option);
     }
@@ -68,7 +80,7 @@ export default class CookieDriver {
      *  @param  {Cookies.CookieOptions=}    option
      *  @return {void}
      */
-    remove(key, option = {}) {
+    remove(key: string, option: CookieOptions = {}): void {
         this._cookie.expire(key, option);
     }
 }
