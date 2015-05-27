@@ -27,7 +27,7 @@
 import * as Rx from 'rx';
 
 type NotificationValue = {
-    channelId: string,
+    channelId: number,
     from: string,
     text: string,
 };

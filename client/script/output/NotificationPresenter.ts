@@ -23,20 +23,31 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../node_modules/rx/ts/rx.all.d.ts" />
+
 import AudioDriver from '../adapter/AudioDriver';
+import ConfigRepository from '../adapter/ConfigRepository';
 import NotificationActionCreator from '../intent/action/NotificationActionCreator';
-import Rx from 'rx';
+import * as Rx from 'rx';
 import UIActionCreator from '../intent/action/UIActionCreator';
+
+declare const Notification: any;
 
 const ICON_URL = '/img/logo-64.png';
 
 export default class NotificationPresenter {
 
+    _audio: AudioDriver;
+    _config: ConfigRepository;
+    _disposePlay: Rx.IDisposable;
+    _disposeRequestPermission: Rx.IDisposable;
+    _disposeshowNotification: Rx.IDisposable;
+
     /**
      *  @constructor
      *  @param  {ConfigRepository}  config
      */
-    constructor(config) {
+    constructor(config: ConfigRepository) {
         const dispatcher = NotificationActionCreator.getDispatcher();
 
         /** @type {AudioDriver} */
@@ -66,36 +77,40 @@ export default class NotificationPresenter {
     /**
      *  @returns {void}
      */
-    destroy() {
+    destroy(): void {
         this._disposePlay.dispose();
+        this._disposeRequestPermission.dispose();
+        this._disposeshowNotification.dispose();
 
         this._audio = null;
         this._disposePlay = null;
+        this._disposeRequestPermission = null;
+        this._disposeshowNotification = null;
     }
 
     /**
      *  @return {void}
      */
-    playSound() {
+    playSound(): void {
         this._audio.play();
     }
 
     /**
      *  @return {void}
      */
-    requestPermission() {
+    requestPermission(): void {
         if (Notification.permission !== 'granted') {
             Notification.requestPermission();
         }
     }
 
     /**
-     *  @param  {string}  channelId
+     *  @param  {number}  channelId
      *  @param  {string}  from
      *  @param  {string}  text
      *  @return {void}
      */
-    showNotification(channelId, from, text) {
+    showNotification(channelId: number, from: string, text: string): void {
         const settings = this._config.get();
         if (settings.notification) {
             // FIXME: should call in `NotificationActionCreator.showNotification()`

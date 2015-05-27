@@ -55,11 +55,11 @@ class NotificationActionCreator {
     }
 
     /**
-     *  @param  {string}  channelId
+     *  @param  {number}  channelId
      *  @param  {{ from: string, text: string }}  message
      *  @return {void}
      */
-    showNotification(channelId: string, message: { from: string, text: string}): void {
+    showNotification(channelId: number, message: { from: string, text: string}): void {
         this._dispatcher.showNotification.onNext({
             channelId: channelId,
             from: message.from,
