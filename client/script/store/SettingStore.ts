@@ -23,21 +23,37 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
+
 // babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
-import Rx from 'rx';
+import ConfigRepository from '../adapter/ConfigRepository';
+import * as Rx from 'rx';
+import Setting from '../model/Setting';
 import SettingActionCreator from '../intent/action/SettingActionCreator';
 
+type SetValue = {
+    name: string;
+    value: any;
+};
+
 export default class SettingStore {
+
+    _subject: Rx.Subject<SetValue>;
+    _repository: ConfigRepository;
+    _setting: Setting;
+    _initStream: Rx.Observable<SetValue>;
+    _disposeUpdate: Rx.IDisposable;
+
     /**
      *  @constructor
      *  @param  {ConfigRepository}  config
      */
-    constructor(config) {
+    constructor(config: ConfigRepository) {
         /** @type   {Rx.Subject<{ name: string, value: *}>} */
-        this._subject = new Rx.Subject();
+        this._subject = new Rx.Subject<SetValue>();
 
         /** @type   {ConfigRepository}  */
         this._repository = config;
@@ -47,7 +63,7 @@ export default class SettingStore {
 
         /*eslint-disable valid-jsdoc */
         /** @type   {Rx.Observable<{ name: string, value: *}>}  */
-        this._initStream = Rx.Observable.create((observer) => {
+        this._initStream = Rx.Observable.create<SetValue>((observer) => {
             const keys = Object.keys(this._setting);
             for (let key of keys) {
                 observer.onNext({
@@ -58,7 +74,7 @@ export default class SettingStore {
             observer.onCompleted();
         });
 
-        /** @type   {Rx.Subject<{ name: string, value: *}>} */
+        /** @type   {Rx.IDisposable<{ name: string, value: *}>} */
         this._disposeUpdate = SettingActionCreator.getDispatcher().setOption.subscribe((data) => {
             this.update(data.name, data.value);
         });
@@ -69,7 +85,7 @@ export default class SettingStore {
      *  @param  {Rx.IObserver}  observer
      *  @return {Rx.IDisposable}
      */
-    subscribe(observer) {
+    subscribe(observer: Rx.Observer<SetValue>): Rx.IDisposable {
         return Rx.Observable.merge(
             this._subject,
             this._initStream
@@ -81,7 +97,7 @@ export default class SettingStore {
      *  @param  {*} value
      *  @return {void}
      */
-    update(name, value) {
+    update(name: string, value: any): void {
         const setting = this._setting;
         setting[name] = value;
         this._repository.set(setting);
