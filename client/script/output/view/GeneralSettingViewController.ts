@@ -23,43 +23,34 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
+
 import NotificationActionCreator from '../../intent/action/NotificationActionCreator';
+import * as Rx from 'rx';
 import SettingActionCreator from '../../intent/action/SettingActionCreator';
+import SettingStore from '../../store/SettingStore';
 
-export default class GeneralSettingViewController {
+export default class GeneralSettingViewController implements EventListenerObject {
 
-    /**
-     *  @constructor
-     *  @param  {Element}   element
-     *  @param  {SettingStore}  store
-     */
-    constructor(element, store) {
-        if (!element || !store) {
-            throw new Error();
-        }
+    _element: Element;
+    _playElement: Element;
+    _disposeStore: Rx.IDisposable;
 
-        /** @type   {Element}   */
+    constructor(element: Element, store: SettingStore) {
         this._element = element;
 
-        /** @type   {Element}   */
         this._playElement = element.querySelector('#play');
 
-        /*eslint-disable valid-jsdoc */
-        /** @type   {Rx.IDisposable}  */
-        this._disposeStore = store.subscribe((option) => {
+        const observer = Rx.Observer.create((option: { name: string; value: any; }) => {
             this.updateState(option);
         });
-        /*eslint-enable */
+        this._disposeStore = store.subscribe(observer);
 
         element.addEventListener('change', this);
         this._playElement.addEventListener('click', this);
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    handleEvent(aEvent) {
+    handleEvent(aEvent: Event): void {
         switch (aEvent.type) {
             case 'change':
                 this.onChange(aEvent);
@@ -70,36 +61,24 @@ export default class GeneralSettingViewController {
         }
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    onChange(aEvent) {
-        const target = aEvent.target;
+    onChange(aEvent: Event): void {
+        const target = <Element>aEvent.target;
         if (target.localName !== 'input') {
             return;
         }
 
         const name = target.getAttribute('name');
-        const value = target.checked;
+        const value = (<HTMLInputElement>target).checked;
 
         SettingActionCreator.setOption(name, value);
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    onClick(aEvent) {
+    onClick(aEvent: Event): void {
         NotificationActionCreator.playSound();
     }
 
-    /**
-     *  @param  {{ name: string, value: *}} option
-     *  @return {void}
-     */
-    updateState(option) {
-        const input = this._element.querySelector('input[name=' + option.name + ']');
+    updateState(option: { name: string, value: any}): void {
+        const input = <HTMLInputElement>this._element.querySelector('input[name=' + option.name + ']');
         if (!input) {
             return;
         }
