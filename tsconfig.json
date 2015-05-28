@@ -32,6 +32,7 @@
         "./client/script/model/User.ts",
         "./client/script/output/NotificationPresenter.ts",
         "./client/script/output/WindowPresenter.ts",
+        "./client/script/output/view/AppViewController.ts",
         "./client/script/store/SettingStore.ts"
     ]
 }

@@ -25,24 +25,20 @@
 
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
-export default class AppViewController {
+export default class AppViewController implements EventListenerObject {
 
-    /**
-     *  @constructor
-     *  @param  {Element}   element
-     */
-    constructor(element) {
-        if (!element) {
-            throw new Error();
-        }
+    _element: Element;
+    _toggleLeftPane: Rx.IDisposable;
+    _toggleRightPane: Rx.IDisposable;
+    _isOpenedLeftPane: boolean;
+    _isOpenedRightPane: boolean;
 
-        /** @type   {Element}   */
+    constructor(element: Element) {
         this._element = element;
 
         const uiDispatcher = UIActionCreator.getDispatcher();
 
         /*eslint-disable valid-jsdoc */
-        /** @type {Rx.IDisposable} */
         this._toggleLeftPane = uiDispatcher.toggleLeftPane.subscribe((shouldOpen) => {
             const className = 'lt';
             const classList = this._element.classList;
@@ -56,7 +52,6 @@ export default class AppViewController {
             }
         });
 
-        /** @type {Rx.IDisposable} */
         this._toggleRightPane = uiDispatcher.toggleRightPane.subscribe((shouldOpen) => {
             const className = 'rt';
             const classList = this._element.classList;
@@ -71,21 +66,14 @@ export default class AppViewController {
         });
         /*eslint-enable */
 
-        /** @type   {boolean}   */
         this._isOpenedLeftPane = element.classList.contains('rt');
 
-        /** @type   {boolean}   */
         this._isOpenedRightPane = element.classList.contains('rt');
-
 
         element.addEventListener('click', this);
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    handleEvent(aEvent) {
+    handleEvent(aEvent: Event): void {
         switch (aEvent.type) {
             case 'click':
                 this.onClick(aEvent);
@@ -93,13 +81,9 @@ export default class AppViewController {
         }
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    onClick(aEvent) {
-        const target = aEvent.target;
-        if (!target.localName === 'button') {
+    onClick(aEvent: Event): void {
+        const target = <Element>aEvent.target;
+        if (!(target.localName === 'button')) {
             return;
         }
 
