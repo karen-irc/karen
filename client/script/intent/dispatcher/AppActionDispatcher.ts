@@ -23,48 +23,21 @@
  * THE SOFTWARE.
  */
 
-import AppActionDispatcher from '../dispatcher/AppActionDispatcher';
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
-class AppActionCreator {
+import Network from '../../model/Network';
+import * as Rx from 'rx';
+
+export default class AppActionDispatcher {
+    reload: Rx.Subject<void>;
+    signout: Rx.Subject<void>;
+    renderNetworksInView: Rx.Subject<Array<Network>>;
+
     constructor() {
-    }
+        this.reload = new Rx.Subject<void>();
 
-    /**
-     *  @return {AppActionDispatcher}
-     */
-    getDispatcher() {
-        return AppActionDispatcher;
-    }
+        this.signout = new Rx.Subject<void>();
 
-    /**
-     *  @return {void}
-     */
-    reload() {
-        AppActionDispatcher.reload.onNext();
-    }
-
-    /**
-     *  @return {void}
-     */
-    signout() {
-        AppActionDispatcher.signout.onNext();
-        AppActionDispatcher.reload.onNext();
-    }
-
-    /**
-     *  @return {void}
-     */
-    showSignIn() {
-        AppActionDispatcher.signout.onNext();
-    }
-
-    /**
-     *  @param  {Array<Network>}    data
-     *  @return {void}
-     */
-    renderNetworksInView(data) {
-        AppActionDispatcher.renderNetworksInView.onNext(data);
+        this.renderNetworksInView = new Rx.Subject<Array<Network>>();
     }
 }
-
-export default new AppActionCreator();

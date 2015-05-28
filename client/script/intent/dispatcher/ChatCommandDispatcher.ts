@@ -23,38 +23,60 @@
  * THE SOFTWARE.
  */
 
-import Rx from 'rx';
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
-class ChatCommandDispatcher {
+import Channel from '../../model/Channel';
+import * as Rx from 'rx';
+import User from '../../model/User';
+
+type Command = {
+    targetId: string;
+    text: string;
+};
+
+type Topic = {
+    id: string;
+    topic: string;
+};
+
+export default class ChatCommandDispatcher {
+
+    sendCommand: Rx.Subject<Command>
+    clearMessage: Rx.Subject<void>;
+    setTopic: Rx.Subject<Topic>;
+    quitNetwork: Rx.Subject<string>;
+    joinChannel: Rx.Subject<{ networkId: number, channel: Channel }>;
+    partFromChannel: Rx.Subject<string>;
+    setNickname: Rx.Subject<{ id: string, nickname: string }>;
+    connectNetwork: Rx.Subject<any>;
+    updateUserList: Rx.Subject<{ channelId: number, list: Array<User> }>;
 
     constructor() {
         /** @type {Rx.Subject<{targetId: string, text: string}>}  */
-        this.sendCommand = new Rx.Subject();
+        this.sendCommand = new Rx.Subject<Command>();
 
         /** @type {Rx.Subject<void>}  */
-        this.clearMessage = new Rx.Subject();
+        this.clearMessage = new Rx.Subject<void>();
 
         /** @type   {Rx.Subject<{id: string, topic: string}>}   */
-        this.setTopic = new Rx.Subject();
+        this.setTopic = new Rx.Subject<Topic>();
 
         /** @type   {Rx.Subject<string>}  */
-        this.quitNetwork = new Rx.Subject();
+        this.quitNetwork = new Rx.Subject<string>();
 
         /** @type   {Rx.Subject<{ networkId: number, channel: Channel }>} */
-        this.joinChannel = new Rx.Subject();
+        this.joinChannel = new Rx.Subject<{ networkId: number, channel: Channel }>();
 
         /** @type   {Rx.Subject<string>}    */
-        this.partFromChannel = new Rx.Subject();
+        this.partFromChannel = new Rx.Subject<string>();
 
         /** @type   {Rx.Subject<{id: string, nickname: string}>}   */
-        this.setNickname = new Rx.Subject();
+        this.setNickname = new Rx.Subject<{ id: string, nickname: string }>();
 
         /** @type   {Rx.Subject<Object>}    */
-        this.connectNetwork = new Rx.Subject();
+        this.connectNetwork = new Rx.Subject<any>();
 
-        /** @type   {Rx.Subject<{ channelId: numver, users: Array<User> }>} */
-        this.updateUserList = new Rx.Subject();
+        /** @type   {Rx.Subject<{ channelId: number, users: Array<User> }>} */
+        this.updateUserList = new Rx.Subject<{ channelId: number, list: Array<User> }>();
     }
 }
-
-export default new ChatCommandDispatcher();

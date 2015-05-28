@@ -23,20 +23,22 @@
  * THE SOFTWARE.
  */
 
-import Rx from 'rx';
+export default class AudioDriver {
+    _audio: HTMLAudioElement;
 
-class NotificationDispatcher {
+    /**
+     *  @constructor
+     *  @param  {string}    path
+     */
+    constructor(path: string) {
+        const audio = new Audio();
+        audio.src = path;
 
-    constructor() {
-        /** @type {Rx.Subject<void>}  */
-        this.playSound = new Rx.Subject();
+        /** @type   {Audio} */
+        this._audio = audio;
+    }
 
-        /** @type {Rx.Subject<void>}  */
-        this.requestPermission = new Rx.Subject();
-
-        /** @type {Rx.Subject<{ channelId: string, from: string, text: string}>}  */
-        this.showNotification = new Rx.Subject();
+    play(): void {
+        this._audio.play();
     }
 }
-
-export default new NotificationDispatcher();

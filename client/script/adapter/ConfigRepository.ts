@@ -1,3 +1,4 @@
+/*global moment: true */
 /**
  * @license MIT License
  *
@@ -23,30 +24,42 @@
  * THE SOFTWARE.
  */
 
-import SettingActionDispatcher from '../dispatcher/SettingActionDispatcher';
+import CookieDriver from './CookieDriver';
+import Setting from '../model/Setting';
 
-class SettingActionCreator {
-    constructor() {
-    }
+declare const moment: any;
+
+const KEY_SETTING = 'settings';
+
+export default class ConfigRepository {
+
+    _cookie: CookieDriver;
 
     /**
-     *  @return {SettingActionDispatcher}
+     *  @constructor
+     *  @param  {CookieDriver}  cookie
      */
-    getDispatcher() {
-        return SettingActionDispatcher;
+    constructor(cookie: CookieDriver) {
+        /** @type   {CookieDriver} */
+        this._cookie = cookie;
     }
 
     /**
-     *  @param  {string}  name
-     *  @param  {*} value
+     *  @return {Setting}
+     */
+    get(): Setting {
+        const raw = this._cookie.get(KEY_SETTING);
+        const settings = new Setting(raw);
+        return settings;
+    }
+
+    /**
+     *  @param  {Setting}  settings
      *  @return {void}
      */
-    setOption(name, value) {
-        SettingActionDispatcher.setOption.onNext({
-            name: name,
-            value: value,
+    set(settings: Setting): void {
+        this._cookie.set(KEY_SETTING, settings, {
+            expires: moment().add(365, 'days').toDate(),
         });
     }
 }
-
-export default new SettingActionCreator();

@@ -23,33 +23,49 @@
  * THE SOFTWARE.
  */
 
-export default class User {
+import NotificationDispatcher from '../dispatcher/NotificationDispatcher';
 
-    /**
-     *  @constructor
-     *  @param  {Object}    raw
-     */
-    constructor(raw) {
-        /** @type   {string}    */
-        this.nickname = raw.name;
+class NotificationActionCreator {
 
-        /** @type   {string}  */
-        this.permission = raw.mode;
+    _dispatcher: NotificationDispatcher;
+
+    constructor() {
+        this._dispatcher = new NotificationDispatcher();
     }
 
     /**
-     *  @deprecated
-     *  @return {string}
+     *  @return {NotificationDispatcher}
      */
-    get name() {
-        return this.nickname;
+    getDispatcher(): NotificationDispatcher {
+        return this._dispatcher;
     }
 
     /**
-     *  @deprecated
-     *  @return {string}
+     *  @return {void}
      */
-    get mode() {
-        return this.permission;
+    playSound(): void {
+        this._dispatcher.playSound.onNext(undefined);
+    }
+
+    /**
+     *  @return {void}
+     */
+    requestPermission(): void {
+        this._dispatcher.requestPermission.onNext(undefined);
+    }
+
+    /**
+     *  @param  {number}  channelId
+     *  @param  {{ from: string, text: string }}  message
+     *  @return {void}
+     */
+    showNotification(channelId: number, message: { from: string, text: string}): void {
+        this._dispatcher.showNotification.onNext({
+            channelId: channelId,
+            from: message.from,
+            text: message.text,
+        });
     }
 }
+
+export default new NotificationActionCreator();

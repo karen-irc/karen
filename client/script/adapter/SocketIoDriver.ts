@@ -23,25 +23,30 @@
  * THE SOFTWARE.
  */
 
-import io from 'socket.io-client';
-import Rx from 'rx';
+/// <reference path="../../../tsd/thrid_party/socket.io-client/socket.io-client.d.ts" />
+/// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
+
+import * as io from 'socket.io-client';
+import * as Rx from 'rx';
 
 export default class SocketIoDriver {
+
+    _socket: SocketIOClient.Socket;
 
     /**
      *  @constructor
      */
     constructor() {
         /** @type   {SocketIOClient.Socket} */
-        this._socket = io();
+        this._socket = io.connect();
     }
 
     /**
      *  @return {!Rx.Observable<?>}
      */
-    error() {
-        return Rx.Observable.create((observer) => {
-            this._socket.on('error', function (e) {
+    error(): Rx.Observable<any> {
+        return Rx.Observable.create<any>((observer) => {
+            this._socket.on('error', function (e: any) {
                 observer.onError(e);
             });
         });
@@ -50,10 +55,10 @@ export default class SocketIoDriver {
     /**
      *  @return {!Rx.Observable<void>}
      */
-    connectError() {
-        return Rx.Observable.create((observer) => {
+    connectError(): Rx.Observable<void> {
+        return Rx.Observable.create<void>((observer) => {
             this._socket.on('connect_error', function () {
-                observer.onNext();
+                observer.onNext(undefined);
             });
         });
     }
@@ -61,10 +66,10 @@ export default class SocketIoDriver {
     /**
      *  @return {!Rx.Observable<void>}
      */
-    disconnect() {
-        return Rx.Observable.create((observer) => {
+    disconnect(): Rx.Observable<void> {
+        return Rx.Observable.create<void>((observer) => {
             this._socket.on('disconnect', function () {
-                observer.onNext();
+                observer.onNext(undefined);
             });
         });
     }
@@ -72,9 +77,9 @@ export default class SocketIoDriver {
     /**
      *  @return {!Rx.Observable<?>}
      */
-    auth() {
-        return Rx.Observable.create((observer) => {
-            this._socket.on('auth', function (data) {
+    auth(): Rx.Observable<any> {
+        return Rx.Observable.create<any>((observer) => {
+            this._socket.on('auth', function (data: any) {
                 observer.onNext(data);
             });
         });
@@ -83,9 +88,9 @@ export default class SocketIoDriver {
     /**
      *  @return {!Rx.Observable<?>}
      */
-    init() {
-        return Rx.Observable.create((observer) => {
-            this._socket.on('init', function (data) {
+    init(): Rx.Observable<any> {
+        return Rx.Observable.create<any>((observer) => {
+            this._socket.on('init', function (data: any) {
                 observer.onNext(data);
             });
         });
@@ -94,9 +99,9 @@ export default class SocketIoDriver {
     /**
      *  @return {!Rx.Observable<?>}
      */
-    join() {
-        return Rx.Observable.create((observer) => {
-            this._socket.on('join', function (data) {
+    join(): Rx.Observable<any> {
+        return Rx.Observable.create<any>((observer) => {
+            this._socket.on('join', function (data: any) {
                 observer.onNext(data);
             });
         });
@@ -105,9 +110,9 @@ export default class SocketIoDriver {
     /**
      *  @return {!Rx.Observable<?>}
      */
-    message() {
-        return Rx.Observable.create((observer) => {
-            this._socket.on('msg', function (data) {
+    message(): Rx.Observable<any> {
+        return Rx.Observable.create<any>((observer) => {
+            this._socket.on('msg', function (data: any) {
                 observer.onNext(data);
             });
         });
@@ -116,9 +121,9 @@ export default class SocketIoDriver {
     /**
      *  @return {!Rx.Observable<?>}
      */
-    more() {
-        return Rx.Observable.create((observer) => {
-            this._socket.on('more', function (data) {
+    more(): Rx.Observable<any> {
+        return Rx.Observable.create<any>((observer) => {
+            this._socket.on('more', function (data: any) {
                 observer.onNext(data);
             });
         });
@@ -127,9 +132,9 @@ export default class SocketIoDriver {
     /**
      *  @return {!Rx.Observable<?>}
      */
-    network() {
-        return Rx.Observable.create((observer) => {
-            this._socket.on('network', function (data) {
+    network(): Rx.Observable<any> {
+        return Rx.Observable.create<any>((observer) => {
+            this._socket.on('network', function (data: any) {
                 observer.onNext(data);
             });
         });
@@ -138,9 +143,9 @@ export default class SocketIoDriver {
     /**
      *  @return {!Rx.Observable<?>}
      */
-    nickname() {
-        return Rx.Observable.create((observer) => {
-            this._socket.on('nick', function (data) {
+    nickname(): Rx.Observable<any> {
+        return Rx.Observable.create<any>((observer) => {
+            this._socket.on('nick', function (data: any) {
                 observer.onNext(data);
             });
         });
@@ -149,9 +154,9 @@ export default class SocketIoDriver {
     /**
      *  @return {!Rx.Observable<?>}
      */
-    part() {
-        return Rx.Observable.create((observer) => {
-            this._socket.on('part', function (data) {
+    part(): Rx.Observable<any> {
+        return Rx.Observable.create<any>((observer) => {
+            this._socket.on('part', function (data: any) {
                 observer.onNext(data);
             });
         });
@@ -160,9 +165,9 @@ export default class SocketIoDriver {
     /**
      *  @return {!Rx.Observable<?>}
      */
-    quit() {
-        return Rx.Observable.create((observer) => {
-            this._socket.on('quit', function (data) {
+    quit(): Rx.Observable<any> {
+        return Rx.Observable.create<any>((observer) => {
+            this._socket.on('quit', function (data: any) {
                 observer.onNext(data);
             });
         });
@@ -171,9 +176,9 @@ export default class SocketIoDriver {
     /**
      *  @return {!Rx.Observable<?>}
      */
-    toggle() {
-        return Rx.Observable.create((observer) => {
-            this._socket.on('toggle', function (data) {
+    toggle(): Rx.Observable<any> {
+        return Rx.Observable.create<any>((observer) => {
+            this._socket.on('toggle', function (data: any) {
                 observer.onNext(data);
             });
         });
@@ -182,9 +187,9 @@ export default class SocketIoDriver {
     /**
      *  @return {!Rx.Observable<?>}
      */
-    topic() {
-        return Rx.Observable.create((observer) => {
-            this._socket.on('topic', function (data) {
+    topic(): Rx.Observable<any> {
+        return Rx.Observable.create<any>((observer) => {
+            this._socket.on('topic', function (data: any) {
                 observer.onNext(data);
             });
         });
@@ -193,9 +198,9 @@ export default class SocketIoDriver {
     /**
      *  @return {!Rx.Observable<?>}
      */
-    users() {
-        return Rx.Observable.create((observer) => {
-            this._socket.on('users', function (data) {
+    users(): Rx.Observable<any> {
+        return Rx.Observable.create<any>((observer) => {
+            this._socket.on('users', function (data: any) {
                 observer.onNext(data);
             });
         });
@@ -206,7 +211,7 @@ export default class SocketIoDriver {
      *  @param  {?} obj
      *  @return {void}
      */
-    emit(name, obj) {
+    emit(name: string, obj: any): void {
         this._socket.emit(name, obj);
     }
 }

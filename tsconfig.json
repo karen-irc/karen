@@ -1,0 +1,39 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "outDir": "./client/__obj/",
+        "target": "ES6",
+        "sourceMap": true
+    },
+    "files": [
+        "./client/script/adapter/AudioDriver.ts",
+        "./client/script/adapter/AuthRepository.ts",
+        "./client/script/adapter/CookieDriver.ts",
+        "./client/script/adapter/ConfigRepository.ts",
+        "./client/script/adapter/SocketIoDriver.ts",
+        "./client/script/intent/action/AppActionCreator.ts",
+        "./client/script/intent/action/MessageActionCreator.ts",
+        "./client/script/intent/action/NotificationActionCreator.ts",
+        "./client/script/intent/action/SettingActionCreator.ts",
+        "./client/script/intent/action/UIActionCreator.ts",
+        "./client/script/intent/dispatcher/AppActionDispatcher.ts",
+        "./client/script/intent/dispatcher/ChatCommandDispatcher.ts",
+        "./client/script/intent/dispatcher/NotificationDispatcher.ts",
+        "./client/script/intent/dispatcher/SettingActionDispatcher.ts",
+        "./client/script/intent/dispatcher/UIActionDispatcher.ts",
+        "./client/script/model/Channel.ts",
+        "./client/script/model/CommandType.ts",
+        "./client/script/model/Network.ts",
+        "./client/script/model/NetworkSet.ts",
+        "./client/script/model/Setting.ts",
+        "./client/script/model/User.ts",
+        "./client/script/output/NotificationPresenter.ts",
+        "./client/script/output/WindowPresenter.ts",
+        "./client/script/output/view/AppViewController.ts",
+        "./client/script/output/view/GeneralSettingViewController.ts",
+        "./client/script/store/SettingStore.ts"
+    ]
+}

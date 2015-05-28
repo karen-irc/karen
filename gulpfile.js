@@ -52,6 +52,8 @@ const SERVER_SRC = [
     './server/**/*.js'
 ];
 
+const OBJ_CLIENT = './client/__obj/';
+
 const DIST_SERVER = './dist/';
 const DIST_CLIENT = './client/dist/';
 const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
@@ -96,8 +98,27 @@ gulp.task('__handlebars', ['clean:client'], function () {
     childProcess.spawn('node', args, option);
 });
 
-gulp.task('__browserify', ['clean:client'], function () {
-    const ENTRY_POINT = ['./client/script/karen.js'];
+gulp.task('__cp_client', ['clean:client'], function () {
+    return gulp.src('./client/script/**/*.js')
+        .pipe(gulp.dest(OBJ_CLIENT));
+});
+
+gulp.task('__typescript', ['clean:client'], function (callback) {
+    const args = [
+        path.relative(__dirname, './node_modules/.bin/tsc'),
+    ];
+    const option = {
+        cwd: path.relative(__dirname, ''),
+        stdio: 'inherit',
+    };
+    const tsc = childProcess.spawn('iojs', args, option);
+    tsc.on('exit', callback);
+});
+
+gulp.task('__browserify', ['clean:client', '__cp_client', '__typescript'], function () {
+    const ENTRY_POINT = [
+        path.resolve(OBJ_CLIENT, './karen.js'),
+    ];
 
     const option = {
         insertGlobals: false,
@@ -151,8 +172,17 @@ gulp.task('__babel:server', ['clean:server'], function () {
         .pipe(gulp.dest(DIST_SERVER));
 });
 
-gulp.task('clean:client', function (callback) {
-    return del(path.join(DIST_CLIENT, '**', '*.*'), callback);
+gulp.task('clean:client', function () {
+    const deleter = function (dir) {
+        return new Promise(function(resolve){
+            del(path.join(dir, '**', '*.*'), resolve);
+        });
+    };
+
+    const obj = deleter(OBJ_CLIENT);
+    const dist = deleter(DIST_CLIENT);
+
+    return Promise.all([obj, dist]);
 });
 
 gulp.task('clean:server', function (callback) {

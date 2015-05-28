@@ -23,21 +23,6 @@
  * THE SOFTWARE.
  */
 
-export default class AudioDriver {
-
-    /**
-     *  @constructor
-     *  @param  {string}    path
-     */
-    constructor(path) {
-        const audio = new Audio();
-        audio.src = path;
-
-        /** @type   {Audio} */
-        this._audio = audio;
-    }
-
-    play() {
-        this._audio.play();
-    }
+declare module 'object-assign' {
+    export default function objectAssignFn(target: any, ...sources: any[]): any;
 }

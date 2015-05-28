@@ -1,4 +1,3 @@
-/*global moment: true */
 /**
  * @license MIT License
  *
@@ -24,37 +23,53 @@
  * THE SOFTWARE.
  */
 
-import Setting from '../model/Setting';
+import AppActionDispatcher from '../dispatcher/AppActionDispatcher';
+import Network from '../../model/Network';
 
-const KEY_SETTING = 'settings';
+class AppActionCreator {
 
-export default class ConfigRepository {
+    _dispatcher: AppActionDispatcher;
 
-    /**
-     *  @constructor
-     *  @param  {CookieDriver}  cookie
-     */
-    constructor(cookie) {
-        /** @type   {CookieDriver} */
-        this._cookie = cookie;
+    constructor() {
+        this._dispatcher = new AppActionDispatcher();
     }
 
     /**
-     *  @return {Setting}
+     *  @return {AppActionDispatcher}
      */
-    get() {
-        const raw = this._cookie.get(KEY_SETTING);
-        const settings = new Setting(raw);
-        return settings;
+    getDispatcher(): AppActionDispatcher {
+        return this._dispatcher;
     }
 
     /**
-     *  @param  {Setting}  settings
      *  @return {void}
      */
-    set(settings) {
-        this._cookie.set(KEY_SETTING, settings, {
-            expires: moment().add(365, 'days').toDate(),
-        });
+    reload(): void {
+        this._dispatcher.reload.onNext(undefined);
+    }
+
+    /**
+     *  @return {void}
+     */
+    signout(): void {
+        this._dispatcher.signout.onNext(undefined);
+        this._dispatcher.reload.onNext(undefined);
+    }
+
+    /**
+     *  @return {void}
+     */
+    showSignIn(): void {
+        this._dispatcher.signout.onNext(undefined);
+    }
+
+    /**
+     *  @param  {Array<Network>}    data
+     *  @return {void}
+     */
+    renderNetworksInView(data: Array<Network>) {
+        this._dispatcher.renderNetworksInView.onNext(data);
     }
 }
+
+export default new AppActionCreator();

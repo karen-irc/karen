@@ -23,14 +23,16 @@
  * THE SOFTWARE.
  */
 
-import Rx from 'rx';
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
-class SettingActionDispatcher {
+import * as Rx from 'rx';
+
+export default class SettingActionDispatcher {
+
+    setOption: Rx.Subject<{ name: string, value: any}>;
 
     constructor() {
         /** @type   {Rx.Subject<{ name: string, value: *}>} */
-        this.setOption = new Rx.Subject();
+        this.setOption = new Rx.Subject<{ name: string, value: any}>();
     }
 }
-
-export default new SettingActionDispatcher();

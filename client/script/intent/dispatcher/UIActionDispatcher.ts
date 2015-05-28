@@ -23,45 +23,31 @@
  * THE SOFTWARE.
  */
 
-import NotificationDispatcher from '../dispatcher/NotificationDispatcher';
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
-class NotificationActionCreator {
+import * as Rx from 'rx';
+
+export default class UIActionDispatcher {
+
+    toggleLeftPane: Rx.Subject<boolean>;
+    toggleRightPane: Rx.Subject<boolean>;
+    focusInputBox: Rx.Subject<void>;
+    focusWindow: Rx.Subject<void>;
+    selectChannel: Rx.Subject<number>;
+    setQuitConfirmDialog: Rx.Subject<void>;
+    showConnectSetting: Rx.Subject<void>;
+
     constructor() {
-    }
+        this.toggleLeftPane = new Rx.Subject<boolean>();
+        this.toggleRightPane = new Rx.Subject<boolean>();
 
-    /**
-     *  @return {NotificationDispatcher}
-     */
-    getDispatcher() {
-        return NotificationDispatcher;
-    }
+        this.focusInputBox = new Rx.Subject<void>();
+        this.focusWindow = new Rx.Subject<void>();
 
-    /**
-     *  @return {void}
-     */
-    playSound() {
-        NotificationDispatcher.playSound.onNext();
-    }
+        this.selectChannel = new Rx.Subject<number>();
 
-    /**
-     *  @return {void}
-     */
-    requestPermission() {
-        NotificationDispatcher.requestPermission.onNext();
-    }
+        this.setQuitConfirmDialog = new Rx.Subject<void>();
 
-    /**
-     *  @param  {string}  channelId
-     *  @param  {{ from: string, text: string }}  message
-     *  @return {void}
-     */
-    showNotification(channelId, message) {
-        NotificationDispatcher.showNotification.onNext({
-            channelId: channelId,
-            from: message.from,
-            text: message.text,
-        });
+        this.showConnectSetting = new Rx.Subject<void>();
     }
 }
-
-export default new NotificationActionCreator();

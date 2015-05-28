@@ -23,41 +23,34 @@
  * THE SOFTWARE.
  */
 
-/** @enum {string}  */
-const CommandType = Object.freeze({
-    CLEAR: '/clear',
-    CLOSE: '/close',
-    CONNECT: '/connect',
-    DEOP: '/deop',
-    DEVOICE: '/devoice',
-    DISCONNECT: '/disconnect',
-    INVITE: '/invite',
-    JOIN: '/join',
-    KICK: '/kick',
-    LEAVE: '/leave',
-    MODE: '/mode',
-    MSG: '/msg',
-    NICK: '/nick',
-    NOTICE: '/notice',
-    OP: '/op',
-    PART: '/part',
-    QUERY: '/query',
-    QUIT: '/quit',
-    RAW: '/raw',
-    SAY: '/say',
-    SEND: '/send',
-    SERVER: '/server',
-    SLAP: '/slap',
-    TOPIC: '/topic',
-    VOICE: '/voice',
-    WHOIS: '/whois',
-});
+import SettingActionDispatcher from '../dispatcher/SettingActionDispatcher';
 
-const list = Object.keys(CommandType).map(function(name) {
-    return CommandType[name];
-});
+class SettingActionCreator {
 
-export default {
-    type: CommandType,
-    list: Object.freeze(list),
-};
+    _dispatcher: SettingActionDispatcher;
+
+    constructor() {
+        this._dispatcher = new SettingActionDispatcher();
+    }
+
+    /**
+     *  @return {SettingActionDispatcher}
+     */
+    getDispatcher(): SettingActionDispatcher {
+        return this._dispatcher;
+    }
+
+    /**
+     *  @param  {string}  name
+     *  @param  {*} value
+     *  @return {void}
+     */
+    setOption(name: string, value: any): void {
+        this._dispatcher.setOption.onNext({
+            name: name,
+            value: value,
+        });
+    }
+}
+
+export default new SettingActionCreator();

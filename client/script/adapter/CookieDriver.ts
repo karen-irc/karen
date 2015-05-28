@@ -23,70 +23,64 @@
  * THE SOFTWARE.
  */
 
-import UIActionDispatcher from '../dispatcher/UIActionDispatcher';
+/// <reference path="../../../tsd/cookies.d.ts" />
 
-class UIActionCreator {
-    constructor() {
-    }
+import cookies from 'cookies-js';
 
-    /**
-     *  @return {UIActionDispatcher}
-     */
-    getDispatcher() {
-        return UIActionDispatcher;
-    }
-
-    /**
-     *  @param  {boolean}   shouldOpen
-     *  @return {void}
-     */
-    toggleLeftPane(shouldOpen) {
-        UIActionDispatcher.toggleLeftPane.onNext(shouldOpen);
-    }
-
-    /**
-     *  @param  {boolean}   shouldOpen
-     *  @return {void}
-     */
-    toggleRightPane(shouldOpen) {
-        UIActionDispatcher.toggleRightPane.onNext(shouldOpen);
-    }
-
-    /**
-     *  @return {void}
-     */
-    focusInputBox() {
-        UIActionDispatcher.focusInputBox.onNext();
-    }
-
-    /**
-     *  @return {void}
-     */
-    focusWindow() {
-        UIActionDispatcher.focusWindow.onNext();
-    }
-
-    /**
-     *  @param  {number}  id
-     *  @return {void}
-     */
-    selectChannel(id) {
-        UIActionDispatcher.selectChannel.onNext(id);
-    }
-
-    /**
-     *  @return {void}
-     */
-    setQuitConfirmDialog() {
-        UIActionDispatcher.setQuitConfirmDialog.onNext();
-    }
-
-    /**
-     *  @return {void}
-     */
-    showConnectSetting() {
-        UIActionDispatcher.showConnectSetting.onNext();
-    }
+// from https://github.com/ScottHamper/Cookies/blob/master/src/cookies.d.ts
+type CookieOptions = {
+    path?: string;
+    domain?: string;
+    expires?: any;
+    secure?: boolean;
 }
 
-export default new UIActionCreator();
+export default class CookieDriver {
+
+    _cookie: any; // Cookies
+
+    /**
+     *  @constructor
+     */
+    constructor() {
+        /** @type   {Cookies} */
+        this._cookie = cookies;
+    }
+
+    /**
+     *  @param  {string}    key
+     *  @return {*}
+     */
+    get(key: string): any {
+        const value: string = this._cookie.get(key);
+        let result: any = null;
+        /*eslint-disable no-empty*/
+        try {
+            result = JSON.parse(value);
+        }
+        catch (e) {}
+        /*eslint-enable*/
+
+        return result;
+    }
+
+    /**
+     *  @param  {string}    key
+     *  @param  {*} value
+     *  @param  {Cookies.CookieOptions=}    option
+     *  @return {void}
+     */
+    set(key: string, value: any, option: CookieOptions = {}): void {
+        const encoded = JSON.stringify(value);
+        this._cookie.set(key, encoded, option);
+    }
+
+    /**
+     *  @param  {string}    key
+     *  @param  {Cookies.CookieOptions=}    option
+     *  @return {void}
+     */
+    remove(key: string, option: CookieOptions = {}): void {
+        this._cookie.expire(key, option);
+    }
+}

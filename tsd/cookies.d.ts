@@ -23,32 +23,8 @@
  * THE SOFTWARE.
  */
 
-import Rx from 'rx';
+declare var Cookies:any;
 
-class UIActionDispatcher {
-
-    constructor() {
-        /** @type {Rx.Subject<boolean>}  */
-        this.toggleLeftPane = new Rx.Subject();
-
-        /** @type {Rx.Subject<boolean>}  */
-        this.toggleRightPane = new Rx.Subject();
-
-        /** @type {Rx.Subject<void>}  */
-        this.focusInputBox = new Rx.Subject();
-
-        /** @type {Rx.Subject<void>}  */
-        this.focusWindow = new Rx.Subject();
-
-        /** @type {Rx.Subject<number>}  */
-        this.selectChannel = new Rx.Subject();
-
-        /** @type   {Rx.Subject<void>}    */
-        this.setQuitConfirmDialog = new Rx.Subject();
-
-        /** @type   {Rx.Subject<void>}  */
-        this.showConnectSetting = new Rx.Subject();
-    }
+declare module "cookies-js" {
+    export default Cookies;
 }
-
-export default new UIActionDispatcher();

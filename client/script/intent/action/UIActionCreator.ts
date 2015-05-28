@@ -1,4 +1,3 @@
-/*global moment: true */
 /**
  * @license MIT License
  *
@@ -24,52 +23,74 @@
  * THE SOFTWARE.
  */
 
-const KEY_TOKEN = 'token';
-const KEY_USER = 'user';
+import UIActionDispatcher from '../dispatcher/UIActionDispatcher';
 
-export default class AuthRepository {
+class UIActionCreator {
 
-    /**
-     *  @constructor
-     *  @param  {CookieDriver}  cookie
-     */
-    constructor(cookie) {
-        /** @type {CookieDriver}  */
-        this._cookie = cookie;
+    _dispatcher: UIActionDispatcher;
+
+    constructor() {
+        this._dispatcher = new UIActionDispatcher();
     }
 
     /**
-     *  @return {string}
-     *
-     *  FIXME: the returned value should `Maybe<T>`.
+     *  @return {UIActionDispatcher}
      */
-    getUser() {
-        return this._cookie.get(KEY_USER);
+    getDispatcher(): UIActionDispatcher {
+        return this._dispatcher;
     }
 
     /**
-     *  @return {string}
-     *
-     *  FIXME: the returned value should `Maybe<T>`.
-     */
-    getToken() {
-        return this._cookie.get(KEY_TOKEN);
-    }
-
-    /**
-     *  @param  {string}  token
+     *  @param  {boolean}   shouldOpen
      *  @return {void}
      */
-    setToken(token) {
-        this._cookie.set(KEY_TOKEN, token, {
-            expires: moment().add(30, 'days').toDate(),
-        });
+    toggleLeftPane(shouldOpen: boolean): void {
+        this._dispatcher.toggleLeftPane.onNext(shouldOpen);
+    }
+
+    /**
+     *  @param  {boolean}   shouldOpen
+     *  @return {void}
+     */
+    toggleRightPane(shouldOpen: boolean): void {
+        this._dispatcher.toggleRightPane.onNext(shouldOpen);
     }
 
     /**
      *  @return {void}
      */
-    removeToken() {
-        this._cookie.remove(KEY_TOKEN);
+    focusInputBox(): void {
+        this._dispatcher.focusInputBox.onNext(undefined);
+    }
+
+    /**
+     *  @return {void}
+     */
+    focusWindow(): void {
+        this._dispatcher.focusWindow.onNext(undefined);
+    }
+
+    /**
+     *  @param  {number}  id
+     *  @return {void}
+     */
+    selectChannel(id: number): void {
+        this._dispatcher.selectChannel.onNext(id);
+    }
+
+    /**
+     *  @return {void}
+     */
+    setQuitConfirmDialog(): void {
+        this._dispatcher.setQuitConfirmDialog.onNext(undefined);
+    }
+
+    /**
+     *  @return {void}
+     */
+    showConnectSetting(): void {
+        this._dispatcher.showConnectSetting.onNext(undefined);
     }
 }
+
+export default new UIActionCreator();

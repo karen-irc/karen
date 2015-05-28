@@ -23,20 +23,10 @@
  * THE SOFTWARE.
  */
 
-import Rx from 'rx';
-
-class AppActionDispatcher {
-
-    constructor() {
-        /** @type {Rx.Subject<void>}  */
-        this.reload = new Rx.Subject();
-
-        /** @type   {Rx.Subject<void>}  */
-        this.signout = new Rx.Subject();
-
-        /** @type   {Rx.Subject<Array<Network>>}  */
-        this.renderNetworksInView = new Rx.Subject();
-    }
+declare module 'core-js/library/fn/array/from' {
+    export default function arrayFromFn<T>(v: IterableIterator<T>): Array<T>;
 }
 
-export default new AppActionDispatcher();
+declare module 'core-js/library/fn/array/find-index' {
+    export default function arrayFindIndexFn<T>(target: any, predicate: (value: T) => boolean, thisArg?: any): number;
+}

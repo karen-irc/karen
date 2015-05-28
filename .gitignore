@@ -1,5 +1,10 @@
 node_modules/
 npm-debug.log
 
+client/__obj/
 client/dist/
+
 dist/
+
+build/
+tsd/thrid_party/

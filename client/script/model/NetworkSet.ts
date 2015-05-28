@@ -23,29 +23,38 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
+/// <reference path="../../../node_modules/typescript/bin/lib.es6.d.ts" />
+/// <reference path="../../../tsd/core-js.d.ts" />
+
 // babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
 import arrayFrom from 'core-js/library/fn/array/from';
+import Channel from './Channel';
 import Network from './Network';
-import Rx from 'rx';
+import * as Rx from 'rx';
 
-import {Some, None} from 'option-t';
+import {Some, None, Option} from 'option-t';
 
 /**
  *  This object is based on the assumption that
  *  `Network.id` will be unique while the runtime.
  */
 export default class NetworkSet {
+    _idMap: Map<number, Network>;
+    _added: Rx.Subject<Network>;
+    _deleted: Rx.Subject<Network>;
+    _cleared: Rx.Subject<void>;
 
     /**
      *  @constructor
      *  @param  {Array}    raw
      */
-    constructor(raw) {
+    constructor(raw: Array<any>) {
         /** @type   {Map<number, Network>}  */
-        this._idMap = new Map();
+        this._idMap = new Map<number, Network>();
 
         raw.forEach((item) => {
             const n = new Network(item);
@@ -53,20 +62,20 @@ export default class NetworkSet {
         });
 
         /** @type   {Rx.Subject<Network>}    */
-        this._added = new Rx.Subject();
+        this._added = new Rx.Subject<Network>();
 
         /** @type   {Rx.Subject<Network>}   */
-        this._deleted = new Rx.Subject();
+        this._deleted = new Rx.Subject<Network>();
 
         /** @type   {Rx.Subject<void>}  */
-        this._cleared = new Rx.Subject();
+        this._cleared = new Rx.Subject<void>();
     }
 
     /**
      *  @param  {Network}   item
      *  @return {void}
      */
-    add(item) {
+    add(item: Network): void {
         if (this.has(item)) {
             return;
         }
@@ -78,15 +87,15 @@ export default class NetworkSet {
     /**
      *  @return {Rx.Observable<Network>}
      */
-    addedStream() {
+    addedStream(): Rx.Observable<Network> {
         return this._added.asObservable();
     }
 
     /**
-     *  @param  {number}    item
+     *  @param  {Network}    item
      *  @return {boolean}
      */
-    has(item) {
+    has(item: Network): boolean {
         const id = item.id;
         return this._idMap.has(id);
     }
@@ -95,13 +104,13 @@ export default class NetworkSet {
      *  @param  {number}    id
      *  @return {OptionT<Network>}
      */
-    getById(id) {
+    getById(id: number): Option<Network> {
         const result = this._idMap.get(id);
         if (result === undefined) {
-            return new None();
+            return new None<Network>();
         }
         else {
-            return new Some(result);
+            return new Some<Network>(result);
         }
     }
 
@@ -109,7 +118,7 @@ export default class NetworkSet {
      *  @param  {Network}   item
      *  @return {boolean}
      */
-    delete(item) {
+    delete(item: Network): boolean {
         const id = item.id;
         const isDeleted = this._idMap.delete(id);
         if (isDeleted) {
@@ -128,24 +137,24 @@ export default class NetworkSet {
     /**
      *  @return {void}
      */
-    clear() {
+    clear(): void {
         this._idMap.clear();
-        this._cleared.onNext();
+        this._cleared.onNext(undefined);
     }
 
     /**
-     *  @return {Rx.Observable<Network>}
+     *  @return {Rx.Observable<void>}
      */
-    clearedStream() {
+    clearedStream(): Rx.Observable<void> {
         return this._cleared.asObservable();
     }
 
     /**
      *  @return {Array<Network>}
      */
-    asArray() {
+    asArray(): Array<Network> {
         const set = new Set(this._idMap.values());
-        const array = arrayFrom(set);
+        const array = Array.from(set);
         return array;
     }
 
@@ -153,8 +162,8 @@ export default class NetworkSet {
      *  @param  {number}    channelId
      *  @return {!OptionT<Channel>}
      */
-    getChannelById(channelId) {
-        let result = new None();
+    getChannelById(channelId: number): Option<Channel> {
+        let result = new None<Channel>();
         for (const network of this._idMap.values()) {
             // XXX: babel transforms this for-of to try-catch-finally.
             // So we returns here, it start to do 'finally' block
@@ -172,8 +181,8 @@ export default class NetworkSet {
     /**
      *  @return {Array<Channel>}
      */
-    getChannelList() {
-        let result = [];
+    getChannelList(): Array<Channel> {
+        let result: Array<Channel> = [];
         for (const network of this._idMap.values()) {
             const list = network.getChannelList();
             result = result.concat(list);

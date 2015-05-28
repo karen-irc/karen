@@ -23,52 +23,41 @@
  * THE SOFTWARE.
  */
 
-import cookies from 'cookies-js';
+/** @enum {string}  */
+const CommandType = Object.freeze({
+    CLEAR: '/clear',
+    CLOSE: '/close',
+    CONNECT: '/connect',
+    DEOP: '/deop',
+    DEVOICE: '/devoice',
+    DISCONNECT: '/disconnect',
+    INVITE: '/invite',
+    JOIN: '/join',
+    KICK: '/kick',
+    LEAVE: '/leave',
+    MODE: '/mode',
+    MSG: '/msg',
+    NICK: '/nick',
+    NOTICE: '/notice',
+    OP: '/op',
+    PART: '/part',
+    QUERY: '/query',
+    QUIT: '/quit',
+    RAW: '/raw',
+    SAY: '/say',
+    SEND: '/send',
+    SERVER: '/server',
+    SLAP: '/slap',
+    TOPIC: '/topic',
+    VOICE: '/voice',
+    WHOIS: '/whois',
+});
 
-export default class CookieDriver {
+const list: Array<string> = Object.keys(CommandType).map(function(name: string): string {
+    return CommandType[name];
+});
 
-    /**
-     *  @constructor
-     */
-    constructor() {
-        /** @type   {Cookies} */
-        this._cookie = cookies;
-    }
-
-    /**
-     *  @param  {string}    key
-     *  @return {*}
-     */
-    get(key) {
-        const value = this._cookie.get(key);
-        let result = null;
-        /*eslint-disable no-empty*/
-        try {
-            result = JSON.parse(value);
-        }
-        catch (e) {}
-        /*eslint-enable*/
-
-        return result;
-    }
-
-    /**
-     *  @param  {string}    key
-     *  @param  {*} value
-     *  @param  {Cookies.CookieOptions=}    option
-     *  @return {void}
-     */
-    set(key, value, option = {}) {
-        const encoded = JSON.stringify(value);
-        this._cookie.set(key, encoded, option);
-    }
-
-    /**
-     *  @param  {string}    key
-     *  @param  {Cookies.CookieOptions=}    option
-     *  @return {void}
-     */
-    remove(key, option = {}) {
-        this._cookie.expire(key, option);
-    }
-}
+export default {
+    type: CommandType,
+    list: Object.freeze(list),
+};
