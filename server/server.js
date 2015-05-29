@@ -70,6 +70,24 @@ export default function(options) {
     }
 }
 
+const cspDirective = {
+    'default-src': '\'none\'',
+    'connect-src': '\'self\' ws:',
+    'font-src': '\'self\' https://fonts.gstatic.com',
+
+    // XXX: karen tries to expand all image which is embedded in a message.
+    'img-src': '*',
+
+    'media-src': '\'self\'',
+    'script-src': '\'self\'',
+
+    // FIXME: this 'unsfae-inline' should be removed.
+    'style-src': '\'self\' https://fonts.googleapis.com \'unsafe-inline\'',
+};
+const cspDirectiveStr = Object.keys(cspDirective).map(function(key){
+    return key + ' ' + cspDirective[key] + ';';
+}).join(' ');
+
 function index(req, res, next) {
     if (req.url.split('?')[0] !== '/') {
         return next();
@@ -84,6 +102,7 @@ function index(req, res, next) {
             config
         );
         res.setHeader('Content-Type', 'text/html');
+        res.setHeader('Content-Security-Policy', cspDirectiveStr);
         res.writeHead(200);
         res.end(_.template(
             file,
