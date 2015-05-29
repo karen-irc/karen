@@ -24,45 +24,37 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../../tsd/core-js.d.ts" />
+/// <reference path="../../../../tsd/thrid_party/jquery/jquery.d.ts" />
+
 // babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
 import arrayFrom from 'core-js/library/fn/array/from';
+import CookieDriver from '../../adapter/CookieDriver';
+import SocketIoDriver from '../../adapter/SocketIoDriver';
+
+declare const moment: any;
 
 const EVENT_NAME = 'auth';
 
-export default class SignInViewController {
+export default class SignInViewController implements EventListenerObject {
 
-    /**
-     *  @constructor
-     *  @param  {Element}   element
-     *  @param  {CookieDriver}  cookie
-     *  @param  {SocketIoDriver}    socket
-     */
-    constructor(element, cookie, socket) {
-        if (!element || !cookie || !socket) {
-            throw new Error();
-        }
+    _element: Element;
+    _cookie: CookieDriver;
+    _socket: SocketIoDriver;
 
-        /** @type   {Element}   */
+    constructor(element: Element, cookie: CookieDriver, socket: SocketIoDriver) {
         this._element = element;
-
-        /** @type   {CookieDriver}  */
         this._cookie = cookie;
-
-        /** @type   {SocketIoDriver}    */
         this._socket = socket;
 
         element.addEventListener('show', this);
         element.addEventListener('submit', this);
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    handleEvent(aEvent) {
+    handleEvent(aEvent: Event): void {
         switch (aEvent.type) {
             case 'show':
                 this.onShow(aEvent);
@@ -73,15 +65,14 @@ export default class SignInViewController {
         }
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    onShow(aEvent) {
-        const target = aEvent.currentTarget;
-        const list = target.querySelectorAll('input');
-        const array = arrayFrom(list);
-        for (let input of array) {
+    onShow(aEvent: Event): void {
+        const target = <Element>aEvent.currentTarget;
+        // XXX: By DOM spec (https://dom.spec.whatwg.org/#interface-nodelist),
+        // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
+        // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
+        const list: any = target.querySelectorAll('input');
+        for (let element of arrayFrom(list)) {
+            const input = <HTMLInputElement>element;
             // If we find the element which has no value,
             // we stop iteration & focus it.
             if (input.value === '') {
@@ -91,23 +82,24 @@ export default class SignInViewController {
         }
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    onSubmit(aEvent) {
-        const target = aEvent.target;
+    onSubmit(aEvent: Event): void {
+        const target = <Element>aEvent.target;
         if (target.localName !== 'form') {
             return;
         }
         aEvent.preventDefault();
 
-        const list = target.querySelectorAll('.btn');
+        // XXX: By DOM spec (https://dom.spec.whatwg.org/#interface-nodelist),
+        // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
+        // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
+        const list: any = target.querySelectorAll('.btn');
         for (let element of arrayFrom(list)) {
-            element.setAttribute('disabled', 'true');
+            (<Element>element).setAttribute('disabled', 'true');
         }
 
-        const values = {};
+        const values: { user: string, [key: string]: any, } = {
+            user: '',
+        };
         jQuery(target).serializeArray().forEach(function(obj) {
             if (obj.value !== '') {
                 values[obj.name] = obj.value;

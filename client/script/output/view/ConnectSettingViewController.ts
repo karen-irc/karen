@@ -24,41 +24,37 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../../tsd/core-js.d.ts" />
+/// <reference path="../../../../tsd/thrid_party/jquery/jquery.d.ts" />
+
 // babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
 import arrayFrom from 'core-js/library/fn/array/from';
+import SocketIoDriver from '../../adapter/SocketIoDriver';
 
 const EVENT_NAME = 'conn';
 
-export default class ConnectSettingViewController {
+export default class ConnectSettingViewController implements EventListenerObject {
 
-    /**
-     *  @constructor
-     *  @param  {Element}   element
-     *  @param  {SocketIoDriver}    socket
-     */
-    constructor(element, socket) {
+    _element: Element;
+    _socket: SocketIoDriver;
+
+    constructor(element: Element, socket: SocketIoDriver) {
         if (!element || !socket) {
             throw new Error();
         }
 
-        /** @type   {Element}   */
         this._element = element;
 
-        /** @type {SocketIoDriver}  */
         this._socket = socket;
 
         element.addEventListener('submit', this);
         element.addEventListener('input', this);
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    handleEvent(aEvent) {
+    handleEvent(aEvent: Event): void {
         switch (aEvent.type) {
             case 'submit':
                 this.onSubmit(aEvent);
@@ -69,20 +65,20 @@ export default class ConnectSettingViewController {
         }
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    onSubmit(aEvent) {
-        const target = aEvent.target;
+
+    onSubmit(aEvent: Event): void {
+        const target = <Element>aEvent.target;
         if (target.localName !== 'form') {
             return;
         }
         aEvent.preventDefault();
 
-        const list = target.querySelectorAll('.btn');
+        // XXX: By DOM spec (https://dom.spec.whatwg.org/#interface-nodelist),
+        // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
+        // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
+        const list: any = target.querySelectorAll('.btn');
         for (let element of arrayFrom(list)) {
-            element.setAttribute('disabled', 'true');
+            (<Element>element).setAttribute('disabled', 'true');
         }
 
         const values = {};
@@ -95,20 +91,20 @@ export default class ConnectSettingViewController {
         this._socket.emit(EVENT_NAME, values);
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    onInput(aEvent) {
-        const target = aEvent.target;
+    onInput(aEvent: Event): void {
+        const target = <HTMLInputElement>aEvent.target;
         if (!target.classList.contains('nick')) {
             return;
         }
 
         const nickname = target.value;
-        const list = this._element.querySelectorAll('.username');
-        for (let input of arrayFrom(list)) {
-            input.value = nickname;
+        
+        // XXX: By DOM spec (https://dom.spec.whatwg.org/#interface-nodelist),
+        // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
+        // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
+        const list: any = this._element.querySelectorAll('.username');
+        for (let input of arrayFrom<Node>(list)) {
+            (<HTMLInputElement>input).value = nickname;
         }
     }
 }

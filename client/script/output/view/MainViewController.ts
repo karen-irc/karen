@@ -23,28 +23,22 @@
  * THE SOFTWARE.
  */
 
+import CookieDriver from '../../adapter/CookieDriver';
 import ConnectSettingViewController from './ConnectSettingViewController';
 import SignInViewController from './SignInViewController';
+import SocketIoDriver from '../../adapter/SocketIoDriver';
 
 export default class MainViewController {
 
-    /**
-     *  @constructor
-     *  @param  {Element}   element
-     *  @param  {CookieDriver}  cookie
-     *  @param  {SocketIoDriver}    socket
-     */
-    constructor(element, cookie, socket) {
-        if (!element) {
-            throw new Error();
-        }
+    _element: Element;
+    _signin: SignInViewController;
+    _connect :ConnectSettingViewController;
 
+    constructor(element: Element, cookie: CookieDriver, socket: SocketIoDriver) {
         this._element = element;
 
-        /** @type   {SignInViewController}  */
         this._signin = new SignInViewController(element.querySelector('#sign-in'), cookie, socket);
 
-        /** @type   {ConnectSettingViewController}  */
         this._connect = new ConnectSettingViewController( element.querySelector('#connect'), socket);
     }
 }

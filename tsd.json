@@ -10,6 +10,9 @@
     },
     "socket.io-client/socket.io-client.d.ts": {
       "commit": "70737c2a2496f7a13c4da63eb00081cad94d19f1"
+    },
+    "jquery/jquery.d.ts": {
+      "commit": "2d4c4679bc2b509f27435a4f9da5e2de11258571"
     }
   }
 }
