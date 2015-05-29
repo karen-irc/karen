@@ -24,93 +24,78 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
+/// <reference path="../../../../tsd/thrid_party/jquery/jquery.d.ts" />
+
 import AppActionCreator from '../../intent/action/AppActionCreator';
+import Channel from '../../model/Channel';
 import CommandTypeMod from '../../model/CommandType';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
-import Rx from 'rx';
+import Network from '../../model/Network';
+import * as Rx from 'rx';
 import UIActionCreator from '../../intent/action/UIActionCreator';
+
+declare const Handlebars: any;
 
 const CommandType = CommandTypeMod.type;
 
-export default class SidebarViewController {
+export default class SidebarViewController implements EventListenerObject {
 
-    /**
-     *  @constructor
-     *  @param  {DomainState}   domain
-     *  @param  {Element}   element
-     */
-    constructor(domain, element) {
-        if (!element) {
-            throw new Error();
-        }
+    _element: Element;
+    domain: any;
+    _disposeSignout: Rx.IDisposable;
+    _disposeRenderNetworks: Rx.IDisposable;
+    _disposeSelectChannel: Rx.IDisposable;
+    _disposeAddedNetwork: Rx.IDisposable;
+    _disposeDeletedNetwork: Rx.IDisposable;
+    _obsJoinChannel: Rx.Observable<number>;
 
-        /** @type   {Element}   */
+    constructor(domain: any, element: Element) {
         this._element = element;
-
-        /** @type   {DomainState}   */
         this.domain = domain;
 
-        /*eslint-disable valid-jsdoc */
-        /** @type   {Rx.IDisposable}  */
         this._disposeSignout = AppActionCreator.getDispatcher().signout.subscribe(() => {
             this.clearAllNetworks();
             this.showEmptinesse();
         });
 
-        /** @type   {Rx.IDisposable}  */
         this._disposeRenderNetworks = AppActionCreator.getDispatcher().renderNetworksInView.subscribe((networks) => {
             this.hideEmptinesse();
             this.renderNetworks(networks);
         });
 
-        /** @type   {Rx.IDisposable}  */
         this._disposeSelectChannel = UIActionCreator.getDispatcher().selectChannel.subscribe((channelId) => {
             this.selectChannel(channelId);
         });
 
-        /** @type   {Rx.IDisposable}  */
-        this._disposeAddedNetwork = domain.networkSet.addedStream().subscribe((network) => {
+        this._disposeAddedNetwork = domain.networkSet.addedStream().subscribe((network: Network) => {
             this.addNetwork(network);
         });
 
-        /** @type   {Rx.IDisposable}  */
-        this._disposeDeletedNetwork = domain.networkSet.deletedStream().subscribe((network) => {
+        this._disposeDeletedNetwork = domain.networkSet.deletedStream().subscribe((network: Network) => {
             this.deleteNetwork(network);
         });
 
-        /** @type   {Rx.Observable<number>}    */
         this._obsJoinChannel = MessageActionCreator.getDispatcher().joinChannel.flatMap((data) => {
             return this.joinChannel(data.networkId, data.channel);
         });
-        /*eslint-enable */
 
         element.addEventListener('click', this);
     }
 
-    /**
-     *  @return {Rx.Observable<number>}
-     */
-    get joinChannelRendered() {
+    get joinChannelRendered(): Rx.Observable<number> {
         return this._obsJoinChannel;
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    handleEvent(aEvent) {
+    handleEvent(aEvent: Event): void {
         switch (aEvent.type) {
             case 'click':
                 this.onClick(aEvent);
         }
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    onClick(aEvent) {
-        const target = aEvent.target;
+    onClick(aEvent: Event): void {
+        const target: any = aEvent.target;
         if (!target.matches('.js-sidebar-channel, .js-sidebar-channel > *')) {
             return;
         }
@@ -118,7 +103,7 @@ export default class SidebarViewController {
         // This is very heuristic way.
         let button = target;
         if (!target.classList.contains('js-sidebar-channel')) {
-            button = target.parentNode;
+            button = <Element>target.parentNode;
         }
 
         const channelId = parseInt(button.getAttribute('data-id'), 10);
@@ -132,30 +117,19 @@ export default class SidebarViewController {
         }
     }
 
-    /**
-     *  @param  {number}    networkId
-     *  @param  {Channel}   channel
-     *  @return {!Rx.Observable<number>}
-     *      the id which should be selected channel.
-     */
-    joinChannel(networkId, channel) {
+    joinChannel(networkId: number, channel: Channel): Rx.Observable<number> {
         const network = this._element.querySelector('#network-' + String(networkId));
         if (!network) {
-            return Rx.Observable.throw();
+            return Rx.Observable.throw<number>(undefined);
         }
 
-        this.appendChannel(network, channel);
+        this.appendChannel(<HTMLElement>network, channel);
 
         const id = channel.id;
         return Rx.Observable.just(id);
     }
 
-    /**
-     *  @param  {number}    channelId
-     *  @param  {Element}   target
-     *  @return {void}
-     */
-    closeChannel(channelId, target) {
+    closeChannel(channelId: number, target: HTMLElement): void {
         const channelWrap = this.domain.networkSet.getChannelById(channelId);
         if (channelWrap.isNone) {
             return;
@@ -172,25 +146,18 @@ export default class SidebarViewController {
             }
             /*eslint-enable*/
         }
-        MessageActionCreator.inputCommand(channelId, command);
+        MessageActionCreator.inputCommand(String(channelId), command);
 
         // FIXME: This visual state should be written in css.
         target.style.opacity = '0.4';
     }
 
-    /**
-     *  @return {void}
-     */
-    clearAllNetworks() {
-        let element = this._element.querySelector('.networks');
+    clearAllNetworks(): void {
+        let element = <HTMLElement>this._element.querySelector('.networks');
         element.innerHTML = '';
     }
 
-    /**
-     *  @param  {Network}   network
-     *  @return {void}
-     */
-    addNetwork(network) {
+    addNetwork(network: Network): void {
         this.hideEmptinesse();
         this.appendNetworks([network]);
 
@@ -199,11 +166,7 @@ export default class SidebarViewController {
         UIActionCreator.selectChannel(lastId);
     }
 
-    /**
-     *  @param  {Network}   network
-     *  @return {void}
-     */
-    deleteNetwork(network) {
+    deleteNetwork(network: Network): void {
         const id = network.id;
         const target = this._element.querySelector('#network-' + String(id));
         if (!!target) {
@@ -220,19 +183,13 @@ export default class SidebarViewController {
         }
     }
 
-    /**
-     *  @return {void}
-     */
-    showEmptinesse() {
-        let element = this._element.querySelector('.empty');
+    showEmptinesse(): void {
+        let element = <HTMLElement>this._element.querySelector('.empty');
         element.style.display = 'block';
     }
 
-    /**
-     *  @return {void}
-     */
-    hideEmptinesse() {
-        let element = this._element.querySelector('.empty');
+    hideEmptinesse(): void {
+        let element = <HTMLElement>this._element.querySelector('.empty');
         element.style.display = 'none';
     }
 
@@ -240,8 +197,8 @@ export default class SidebarViewController {
      *  @param  {Array<Network>} networks
      *  @return {void}
      */
-    renderNetworks(networks) {
-        const element = this._element.querySelector('.networks');
+    renderNetworks(networks: Array<Network>): void {
+        const element = <HTMLElement>this._element.querySelector('.networks');
         const html = Handlebars.templates.network({
             networks,
         });
@@ -249,12 +206,8 @@ export default class SidebarViewController {
         element.innerHTML = html;
     }
 
-    /**
-     *  @param  {Array<Network>} networks
-     *  @return {void}
-     */
-    appendNetworks(networks) {
-        const element = this._element.querySelector('.networks');
+    appendNetworks(networks: Array<Network>): void {
+        const element = <HTMLElement>this._element.querySelector('.networks');
         const html = Handlebars.templates.network({
             networks,
         });
@@ -262,12 +215,7 @@ export default class SidebarViewController {
         element.innerHTML = element.innerHTML + html;
     }
 
-    /**
-     *  @param  {Element}   network
-     *  @param  {Channel}   channel
-     *  @return {void}
-     */
-    appendChannel(network, channel) {
+    appendChannel(network: HTMLElement, channel: Channel): void {
         const html = Handlebars.templates.chan({
             channels: [channel]
         });
@@ -275,11 +223,7 @@ export default class SidebarViewController {
         network.innerHTML = network.innerHTML + html;
     }
 
-    /**
-     *  @param  {number}    id
-     *  @return {void}
-     */
-    selectChannel(id) {
+    selectChannel(id: number): void {
         const active = this._element.querySelector('.active');
         if (!!active) {
             active.classList.remove('active');
