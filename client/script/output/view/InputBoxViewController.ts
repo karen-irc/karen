@@ -22,44 +22,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+ 
+ /// <reference path="../../../../tsd/thrid_party/mousetrap/mousetrap.d.ts" />
+ /// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
-import Mousetrap from 'mousetrap';
-import Rx from 'rx';
+import * as MousetrapMod from 'mousetrap';
+import * as Rx from 'rx';
 import UIActionCreator from '../../intent/action/UIActionCreator';
+
+// XXX: Mousetrap's type defenitions in Definitelytyped
+// don't support to call as constructor.
+const Mousetrap: any = MousetrapMod;
 
 export default class InputBoxViewController {
 
-    /**
-     *  @constructor
-     *  @param  {DomainState}   domain
-     *  @param  {Element}   element
-     */
-    constructor(domain, element) {
-        if (!element) {
-            throw new Error();
-        }
+    _element: Element;
+    _domain: any;
+    _textInput: HTMLInputElement;
+    _disposeFocus: Rx.IDisposable;
 
-        /** @type   {Element}   */
+    constructor(domain: any, element: Element) {
         this._element = element;
-
-        /** @type   {DomainState}   */
         this._domain = domain;
+        this._textInput = <HTMLInputElement>element.querySelector('#input');
 
-        /** @type   {Element}   */
-        this._textInput = element.querySelector('#input');
-
-        /*eslint-disable valid-jsdoc */
-        /** @type   {Rx.IDisposable}    */
         this._disposeFocus = UIActionCreator.getDispatcher().focusInputBox.subscribe(() => {
             this.focusInput();
         });
-        /*eslint-enable*/
 
         this._init();
     }
 
-    _init() {
+    _init(): void {
         this._element.addEventListener('submit', this);
 
         const shortcut = [
@@ -67,25 +62,18 @@ export default class InputBoxViewController {
             'ctrl+l',
             'ctrl+shift+l'
         ];
-        new Mousetrap(this._textInput).bind(shortcut, (aEvent) => {
+        new Mousetrap(this._textInput).bind(shortcut, (aEvent: Event) => {
             if (aEvent.target === this._textInput) {
                 MessageActionCreator.clear();
             }
         });
     }
 
-    /**
-     *  @return {Element}
-     */
-    get textInput() {
+    get textInput(): HTMLInputElement {
         return this._textInput;
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    handleEvent(aEvent) {
+    handleEvent(aEvent: Event): void {
         switch (aEvent.type) {
             case 'submit':
                 this.onSubmit(aEvent);
@@ -93,11 +81,7 @@ export default class InputBoxViewController {
         }
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {void}
-     */
-    onSubmit(aEvent) {
+    onSubmit(aEvent: Event): void {
         aEvent.preventDefault();
 
         const input = this._textInput;
@@ -112,10 +96,7 @@ export default class InputBoxViewController {
         input.readOnly = false;
     }
 
-    /**
-     *  @return {void}
-     */
-    focusInput() {
+    focusInput(): void {
         this._textInput.focus();
     }
 }
