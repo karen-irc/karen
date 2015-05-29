@@ -1,5 +1,12 @@
 /*global $:true, Handlebars:true, moment: true */
 
+/// <reference path="../../tsd/core-js.d.ts" />
+/// <reference path="../../tsd/extends.d.ts" />
+/// <reference path="../../node_modules/rx/ts/rx.d.ts" />
+/// <reference path="../../node_modules/option-t/option-t.d.ts" />
+/// <reference path="../../tsd/thrid_party/jquery/jquery.d.ts" />
+/// <reference path="../../tsd/thrid_party/jqueryui/jqueryui.d.ts" />
+
 // babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
@@ -22,15 +29,18 @@ import Network from './model/Network';
 import NetworkSet from './model/NetworkSet';
 import NotificationActionCreator from './intent/action/NotificationActionCreator';
 import NotificationPresenter from './output/NotificationPresenter';
-import Rx from 'rx';
+import * as Rx from 'rx';
 import SettingActionCreator from './intent/action/SettingActionCreator';
 import SettingStore from './store/SettingStore';
 import SidebarViewController from './output/view/SidebarViewController';
 import SocketIoDriver from './adapter/SocketIoDriver';
-import {Some, None} from 'option-t';
+import {Some, None, Option} from 'option-t';
 import UIActionCreator from './intent/action/UIActionCreator';
 import User from './model/User';
 import WindowPresenter from './output/WindowPresenter';
+
+declare const Handlebars: any;
+declare const momoent: any;
 
 const CommandType = CommandTypeMod.type;
 const CommandList = CommandTypeMod.list;
@@ -46,37 +56,36 @@ const settingStore = new SettingStore(config);
 // FIXME: This should be go a way.
 class SelectedTab {
 
-    /**
-     *  @constructor
-     *  @param  {string}    type
-     *  @param  {string|number} id
-     */
-    constructor(type, id) {
+    type: string;
+    id: string|number;
+
+    constructor(type: string, id: string|number) {
         this.type = type;
         this.id = id;
     }
 
-    static get TYPE() {
+    static get TYPE(): any {
         return {
             SETTING: 'setting',
             CHANNEL: 'channel',
         };
     }
 
-    /**
-     *  @return {OptionT<number>}
-     */
-    get channelId() {
+    get channelId(): Option<number> {
         if (this.type === SelectedTab.TYPE.SETTING) {
-            return new None();
+            return new None<number>();
         }
 
-        const id = parseInt(this.id, 10);
-        return new Some(id);
+        const id = parseInt(<any>this.id, 10);
+        return new Some<number>(id);
     }
 }
 
 class DomainState {
+
+    networkSet: NetworkSet;
+    currentTab: SelectedTab;
+
     constructor() {
         this.networkSet = new NetworkSet([]);
         this.currentTab = null;
@@ -104,17 +113,17 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     $('#footer .icon').tooltip();
 
-    function render(name, data) {
+    function render(name: string, data: any): string {
         return Handlebars.templates[name](data);
     }
 
     Handlebars.registerHelper(
-        'partial', function(id) {
+        'partial', function(id: string) {
             return new Handlebars.SafeString(render(id, this));
         }
     );
 
-    socket.error().subscribe(function(e) {
+    socket.error().subscribe(function(e: any) {
         /*eslint-disable no-console*/
         console.log(e);
         /*eslint-enable*/
@@ -128,15 +137,15 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         AppActionCreator.reload();
     });
 
-    socket.auth().subscribe(function(data) {
-        var body = $('body');
-        var login = $('#sign-in');
+    socket.auth().subscribe(function(data: any) {
+        var body: JQuery = $('body');
+        var login: JQuery = $('#sign-in');
         if (!login.length) {
             AppActionCreator.reload();
             return;
         }
         login.find('.btn').prop('disabled', false);
-        var token = auth.getToken();
+        var token: string = auth.getToken();
         if (token) {
             auth.removeToken();
             socket.emit('auth', {token: token});
@@ -150,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (!token) {
             body.addClass('signed-out');
         }
-        var input = login.find('input[name=\'user\']');
+        var input: JQuery = login.find('input[name=\'user\']');
         if (input.val() === '') {
             input.val(auth.getUser() || '');
         }
@@ -241,11 +250,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     socket.message().subscribe(function(data) {
         var target = '#chan-' + data.chan;
         if (data.msg.type === 'error') {
-            target = globalState.currentTab.channelId.unwrap();
+            target = String(globalState.currentTab.channelId.unwrap());
         }
 
-        var chan = chat.find(target);
-        var from = data.msg.from;
+        var chan: JQuery = chat.find(target);
+        var from: string = data.msg.from;
 
         chan.find('.messages')
             .append(render('msg', {messages: [data.msg]}))
@@ -258,11 +267,13 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             return;
         }
 
-        var type = data.msg.type;
+        var type: string = data.msg.type;
         if (type === 'message' || type === 'action') {
-            var nicks = chan.find('.users').data('nicks');
+            var nicks: Array<User> = chan.find('.users').data('nicks');
             if (nicks) {
-                var find = nicks.indexOf(from);
+                var find = nicks.map(function(i: User): string {
+                    return i.nickname;
+                }).indexOf(from);
                 if (find !== -1 && typeof move === 'function') {
                     move(nicks, find, 0);
                 }
@@ -336,10 +347,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         sidebar.find('.chan[data-id=\'' + id + '\']').remove();
         $('#chan-' + id).remove();
 
-        var next = null;
+        var next: JQuery = null;
         var highest = -1;
         chat.find('.chan').each(function() {
-            var self = $(this);
+            var self: JQuery = $(this);
             var z = parseInt(self.css('z-index'), 10);
             if (z > highest) {
                 highest = z;
@@ -364,7 +375,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     MessageActionCreator.getDispatcher().quitNetwork.subscribe(function(id){
         const n = globalState.networkSet.getById(id);
-        n.map(function(network){
+        n.map(function(network: Network){
             globalState.networkSet.delete(network);
             network.quit();
         });
@@ -404,7 +415,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     socket.users().subscribe(function(data) {
         const channelId = data.chan;
-        const users = data.users.map(function(element){
+        const users = data.users.map(function(element: any){
             return new User(element);
         });
         MessageActionCreator.updateUserList(channelId, users);
@@ -426,7 +437,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     var options = config.get();
 
-    settingStore.subscribe(function (option) {
+    settingStore.subscribe(Rx.Observer.create(function (option: any) { // FIXME
         const name = option.name;
         const value = option.value;
 
@@ -445,10 +456,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (name === 'colors') {
             chat.toggleClass('no-colors', !value);
         }
-    });
+    }));
 
     document.getElementById('badge').addEventListener('change', function (aEvent) {
-        const input = aEvent.target;
+        const input = <HTMLInputElement>aEvent.target;
         if (input.checked) {
             NotificationActionCreator.requestPermission();
         }
@@ -572,7 +583,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     $footer.on('click', '#sign-out', function() {
-        MessageActionCreator.signout();
+        AppActionCreator.signout();
     });
 
     AppActionCreator.getDispatcher().signout.subscribe(function(){
@@ -692,15 +703,15 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         });
     }, 1000 * 10);
 
-    function complete(word) {
-        const words = CommandList.map(function(item){
+    function complete(word: string) {
+        const words: Array<string> = CommandList.map(function(item){
             return item.toLowerCase();
         });
-        const channel = globalState.currentTab.channelId.flatMap(function(channelId){
+        const channel: Option<Channel> = globalState.currentTab.channelId.flatMap(function(channelId){
             const channel = globalState.networkSet.getChannelById(channelId);
             return channel;
         });
-        const users = channel.map(function(channel){
+        const users: Option<Array<User>> = channel.map(function(channel){
             return channel.getUserList();
         });
 
@@ -711,7 +722,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             }
         }
 
-        return words.filter(function(word, item){
+        return words.filter(function(word: string, item: string){
             return item.indexOf(word) === 0;
         }.bind(null, word.toLowerCase()));
     }
@@ -727,7 +738,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             placeholder: 'network-placeholder',
             forcePlaceholderSize: true,
             update: function() {
-                var order = [];
+                var order: Array<string> = [];
                 sidebar.find('.network').each(function() {
                     var id = $(this).data('id');
                     order.push(id);
@@ -749,7 +760,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             placeholder: 'chan-placeholder',
             forcePlaceholderSize: true,
             update: function(e, ui) {
-                var order = [];
+                var order: Array<string> = [];
                 var network = ui.item.parent();
                 network.find('.chan').each(function() {
                     var id = $(this).data('id');
@@ -766,7 +777,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         });
     }
 
-    function setNick(nick) {
+    function setNick(nick: string): void {
         var width = $('#nick')
             .html(nick + ':')
             .width();
@@ -776,7 +787,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     }
 
-    function move(array, oldIndex, newIndex) {
+    function move(array: Array<User>, oldIndex: number, newIndex: number) {
         if (newIndex >= array.length) {
             var k = newIndex - array.length;
             while ((k--) + 1) {
