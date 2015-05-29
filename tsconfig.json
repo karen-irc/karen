@@ -37,6 +37,7 @@
         "./client/script/output/view/GeneralSettingViewController.ts",
         "./client/script/output/view/InputBoxViewController.ts",
         "./client/script/output/view/MainViewController.ts",
+        "./client/script/output/view/SidebarViewController.ts",
         "./client/script/output/view/SignInViewController.ts",
         "./client/script/store/SettingStore.ts"
     ]
