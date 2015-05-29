@@ -33,6 +33,7 @@
         "./client/script/output/NotificationPresenter.ts",
         "./client/script/output/WindowPresenter.ts",
         "./client/script/output/view/AppViewController.ts",
+        "./client/script/output/view/ConnectSettingViewController.ts",
         "./client/script/output/view/GeneralSettingViewController.ts",
         "./client/script/store/SettingStore.ts"
     ]
