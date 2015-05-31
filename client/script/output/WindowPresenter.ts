@@ -84,6 +84,10 @@ export default class WindowPresenter {
     }
 
     destroy(): void {
+        this._disposeReload.dispose();
+        this._disposeFocus.dispose();
+        this._disposeQuitConfirmDialog.dispose();
+
         this._domain = null;
         this._disposeReload = null;
         this._disposeFocus = null;
