@@ -24,13 +24,14 @@
  */
 
 /// <reference path="../../../tsd/core-js.d.ts" />
+/// <reference path="../../../tsd/extends.d.ts" />
 /// <reference path="../../../tsd/thrid_party/mousetrap/mousetrap.d.ts" />
 /// <reference path="../../../node_modules/option-t/option-t.d.ts" />
 
 import arrayFindIndex from 'core-js/library/fn/array/find-index';
 import AppActionCreator from '../intent/action/AppActionCreator';
 import Channel from '../model/Channel';
-import * as Mousetrap from 'mousetrap';
+import Mousetrap from 'mousetrap';
 import UIActionCreator from '../intent/action/UIActionCreator';
 import {Option} from 'option-t';
 
@@ -71,13 +72,13 @@ export default class WindowPresenter {
         });
 
         /*eslint-enable*/
-
-        Mousetrap.bind([
+        const mousetrap = new Mousetrap(window.document.documentElement);
+        mousetrap.bind([
             'command+up',
             'command+down',
             'ctrl+up',
             'ctrl+down'
-        ], (e, keys) => {
+        ], (e: Event, keys: string) => {
             this.handleShortcut(keys);
         });
     }

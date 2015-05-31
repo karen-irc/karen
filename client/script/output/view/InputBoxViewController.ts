@@ -22,18 +22,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
- 
- /// <reference path="../../../../tsd/thrid_party/mousetrap/mousetrap.d.ts" />
- /// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
+
+/// <reference path="../../../../tsd/extends.d.ts" />
+/// <reference path="../../../../tsd/thrid_party/mousetrap/mousetrap.d.ts" />
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
-import * as MousetrapMod from 'mousetrap';
+import Mousetrap from 'mousetrap';
 import * as Rx from 'rx';
 import UIActionCreator from '../../intent/action/UIActionCreator';
-
-// XXX: Mousetrap's type defenitions in Definitelytyped
-// don't support to call as constructor.
-const Mousetrap: any = MousetrapMod;
 
 export default class InputBoxViewController {
 
