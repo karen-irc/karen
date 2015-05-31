@@ -44,10 +44,10 @@ export default class ChatCommandDispatcher {
     sendCommand: Rx.Subject<Command>
     clearMessage: Rx.Subject<void>;
     setTopic: Rx.Subject<Topic>;
-    quitNetwork: Rx.Subject<string>;
+    quitNetwork: Rx.Subject<number>;
     joinChannel: Rx.Subject<{ networkId: number, channel: Channel }>;
     partFromChannel: Rx.Subject<string>;
-    setNickname: Rx.Subject<{ id: string, nickname: string }>;
+    setNickname: Rx.Subject<{ id: number, nickname: string }>;
     connectNetwork: Rx.Subject<any>;
     updateUserList: Rx.Subject<{ channelId: number, list: Array<User> }>;
 
@@ -62,7 +62,7 @@ export default class ChatCommandDispatcher {
         this.setTopic = new Rx.Subject<Topic>();
 
         /** @type   {Rx.Subject<string>}  */
-        this.quitNetwork = new Rx.Subject<string>();
+        this.quitNetwork = new Rx.Subject<number>();
 
         /** @type   {Rx.Subject<{ networkId: number, channel: Channel }>} */
         this.joinChannel = new Rx.Subject<{ networkId: number, channel: Channel }>();
@@ -71,7 +71,7 @@ export default class ChatCommandDispatcher {
         this.partFromChannel = new Rx.Subject<string>();
 
         /** @type   {Rx.Subject<{id: string, nickname: string}>}   */
-        this.setNickname = new Rx.Subject<{ id: string, nickname: string }>();
+        this.setNickname = new Rx.Subject<{ id: number, nickname: string }>();
 
         /** @type   {Rx.Subject<Object>}    */
         this.connectNetwork = new Rx.Subject<any>();

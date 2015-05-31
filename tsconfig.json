@@ -9,6 +9,7 @@
         "sourceMap": true
     },
     "files": [
+        "./client/script/karen.ts",
         "./client/script/adapter/AudioDriver.ts",
         "./client/script/adapter/AuthRepository.ts",
         "./client/script/adapter/CookieDriver.ts",

@@ -83,10 +83,10 @@ class MessageActionCreator {
     }
 
     /**
-     *  @param  {string}    id
+     *  @param  {number}    id
      *  @return {void}
      */
-    quitNetwork(id: string): void {
+    quitNetwork(id: number): void {
         this._dispatcher.quitNetwork.onNext(id);
     }
 
@@ -111,11 +111,11 @@ class MessageActionCreator {
     }
 
     /**
-     *  @param  {string}    networkId
+     *  @param  {number}    networkId
      *  @param  {string}    nickname
      *  @return {void}
      */
-    setNickname(networkId: string, nickname: string): void {
+    setNickname(networkId: number, nickname: string): void {
         this._dispatcher.setNickname.onNext({
             id: networkId,
             nickname: nickname,
