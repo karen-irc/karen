@@ -16,10 +16,13 @@ interface MousetrapStatic {
     unbind(keyArray: string[], action?: string): void;
     trigger(keys: string, action?: string): void;
     reset(): void;
+
+    new(element?: Element): MousetrapStatic;
+    prototype: MousetrapStatic;
 }
 
 declare var Mousetrap: MousetrapStatic;
 
 declare module "mousetrap" {
-    export = Mousetrap;
+    export default Mousetrap;
 }
