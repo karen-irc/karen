@@ -154,7 +154,7 @@ export default class NetworkSet {
      */
     asArray(): Array<Network> {
         const set = new Set(this._idMap.values());
-        const array = Array.from(set);
+        const array = arrayFrom(set);
         return array;
     }
 

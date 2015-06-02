@@ -24,7 +24,7 @@
  */
 
 declare module 'core-js/library/fn/array/from' {
-    export default function arrayFromFn<T>(v: IterableIterator<T>): Array<T>;
+    export default function arrayFromFn<T>(v: Iterable<T>): Array<T>;
 }
 
 declare module 'core-js/library/fn/array/find-index' {
