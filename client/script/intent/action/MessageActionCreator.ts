@@ -38,44 +38,26 @@ class MessageActionCreator {
         this._dispatcher = new ChatCommandDispatcher();
     }
 
-    /**
-     *  @return {ChatCommandDispatcher}
-     */
     getDispatcher(): ChatCommandDispatcher {
         return this._dispatcher;
     }
 
-    /**
-     *  @param  {number}  targetId
-     *  The target channel's id.
-     *  @param  {string}  command
-     *    The command string.
-     *  @return {void}
-     */
-    inputCommand(targetId: number, command: string): void {
+    inputCommand(channelId: number, command: string): void {
         if ( command.startsWith(CommandType.CLEAR) ) {
             this._dispatcher.clearMessage.onNext(undefined);
             return;
         }
 
         this._dispatcher.sendCommand.onNext({
-            targetId: targetId,
+            channelId: channelId,
             text: command,
         });
     }
 
-    /**
-     *  @return {void}
-     */
     clear(): void {
         this._dispatcher.clearMessage.onNext(undefined);
     }
 
-    /**
-     *  @param  {string}    channelId
-     *  @param  {string}    topic
-     *  @return {void}
-     */
     setTopic(channelId: string, topic: string): void {
         this._dispatcher.setTopic.onNext({
             id: channelId,
@@ -83,19 +65,10 @@ class MessageActionCreator {
         });
     }
 
-    /**
-     *  @param  {number}    id
-     *  @return {void}
-     */
     quitNetwork(id: number): void {
         this._dispatcher.quitNetwork.onNext(id);
     }
 
-    /**
-     *  @param  {number}    networkId
-     *  @param  {Channel}   channel
-     *  @return {void}
-     */
     joinChannel(networkId: number, channel: Channel): void {
         this._dispatcher.joinChannel.onNext({
             networkId,
@@ -103,19 +76,10 @@ class MessageActionCreator {
         });
     }
 
-    /**
-     *  @param  {string}    id
-     *  @return {void}
-     */
     partFromChannel(id: string): void {
         this._dispatcher.partFromChannel.onNext(id);
     }
 
-    /**
-     *  @param  {number}    networkId
-     *  @param  {string}    nickname
-     *  @return {void}
-     */
     setNickname(networkId: number, nickname: string): void {
         this._dispatcher.setNickname.onNext({
             id: networkId,
@@ -123,19 +87,10 @@ class MessageActionCreator {
         });
     }
 
-    /**
-     *  @param  {Object}    network
-     *  @return {void}
-     */
     connectNetwork(network: any): void {
         this._dispatcher.connectNetwork.onNext(network);
     }
 
-    /**
-     *  @param  {number}    channelId
-     *  @param  {Array}     list
-     *  @return {void}
-     */
     updateUserList(channelId: number, list: Array<User>): void {
         this._dispatcher.updateUserList.onNext({
             channelId,

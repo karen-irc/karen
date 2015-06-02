@@ -30,7 +30,7 @@ import * as Rx from 'rx';
 import User from '../../model/User';
 
 type Command = {
-    targetId: number;
+    channelId: number;
     text: string;
 };
 
@@ -52,31 +52,22 @@ export default class ChatCommandDispatcher {
     updateUserList: Rx.Subject<{ channelId: number, list: Array<User> }>;
 
     constructor() {
-        /** @type {Rx.Subject<{targetId: string, text: string}>}  */
         this.sendCommand = new Rx.Subject<Command>();
 
-        /** @type {Rx.Subject<void>}  */
         this.clearMessage = new Rx.Subject<void>();
 
-        /** @type   {Rx.Subject<{id: string, topic: string}>}   */
         this.setTopic = new Rx.Subject<Topic>();
 
-        /** @type   {Rx.Subject<string>}  */
         this.quitNetwork = new Rx.Subject<number>();
 
-        /** @type   {Rx.Subject<{ networkId: number, channel: Channel }>} */
         this.joinChannel = new Rx.Subject<{ networkId: number, channel: Channel }>();
 
-        /** @type   {Rx.Subject<string>}    */
         this.partFromChannel = new Rx.Subject<string>();
 
-        /** @type   {Rx.Subject<{id: string, nickname: string}>}   */
         this.setNickname = new Rx.Subject<{ id: number, nickname: string }>();
 
-        /** @type   {Rx.Subject<Object>}    */
         this.connectNetwork = new Rx.Subject<any>();
 
-        /** @type   {Rx.Subject<{ channelId: number, users: Array<User> }>} */
         this.updateUserList = new Rx.Subject<{ channelId: number, list: Array<User> }>();
     }
 }

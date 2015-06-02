@@ -33,18 +33,10 @@ class SettingActionCreator {
         this._dispatcher = new SettingActionDispatcher();
     }
 
-    /**
-     *  @return {SettingActionDispatcher}
-     */
     getDispatcher(): SettingActionDispatcher {
         return this._dispatcher;
     }
 
-    /**
-     *  @param  {string}  name
-     *  @param  {*} value
-     *  @return {void}
-     */
     setOption(name: string, value: any): void {
         this._dispatcher.setOption.onNext({
             name: name,

@@ -33,17 +33,10 @@ export default class SocketIoDriver {
 
     _socket: SocketIOClient.Socket;
 
-    /**
-     *  @constructor
-     */
     constructor() {
-        /** @type   {SocketIOClient.Socket} */
         this._socket = io.connect();
     }
 
-    /**
-     *  @return {!Rx.Observable<?>}
-     */
     error(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             this._socket.on('error', function (e: any) {
@@ -52,9 +45,6 @@ export default class SocketIoDriver {
         });
     }
 
-    /**
-     *  @return {!Rx.Observable<void>}
-     */
     connectError(): Rx.Observable<void> {
         return Rx.Observable.create<void>((observer) => {
             this._socket.on('connect_error', function () {
@@ -63,9 +53,6 @@ export default class SocketIoDriver {
         });
     }
 
-    /**
-     *  @return {!Rx.Observable<void>}
-     */
     disconnect(): Rx.Observable<void> {
         return Rx.Observable.create<void>((observer) => {
             this._socket.on('disconnect', function () {
@@ -74,9 +61,6 @@ export default class SocketIoDriver {
         });
     }
 
-    /**
-     *  @return {!Rx.Observable<?>}
-     */
     auth(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             this._socket.on('auth', function (data: any) {
@@ -85,9 +69,6 @@ export default class SocketIoDriver {
         });
     }
 
-    /**
-     *  @return {!Rx.Observable<?>}
-     */
     init(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             this._socket.on('init', function (data: any) {
@@ -96,9 +77,6 @@ export default class SocketIoDriver {
         });
     }
 
-    /**
-     *  @return {!Rx.Observable<?>}
-     */
     join(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             this._socket.on('join', function (data: any) {
@@ -107,9 +85,6 @@ export default class SocketIoDriver {
         });
     }
 
-    /**
-     *  @return {!Rx.Observable<?>}
-     */
     message(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             this._socket.on('msg', function (data: any) {
@@ -118,9 +93,6 @@ export default class SocketIoDriver {
         });
     }
 
-    /**
-     *  @return {!Rx.Observable<?>}
-     */
     more(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             this._socket.on('more', function (data: any) {
@@ -129,9 +101,6 @@ export default class SocketIoDriver {
         });
     }
 
-    /**
-     *  @return {!Rx.Observable<?>}
-     */
     network(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             this._socket.on('network', function (data: any) {
@@ -140,9 +109,6 @@ export default class SocketIoDriver {
         });
     }
 
-    /**
-     *  @return {!Rx.Observable<?>}
-     */
     nickname(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             this._socket.on('nick', function (data: any) {
@@ -151,9 +117,6 @@ export default class SocketIoDriver {
         });
     }
 
-    /**
-     *  @return {!Rx.Observable<?>}
-     */
     part(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             this._socket.on('part', function (data: any) {
@@ -162,9 +125,6 @@ export default class SocketIoDriver {
         });
     }
 
-    /**
-     *  @return {!Rx.Observable<?>}
-     */
     quit(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             this._socket.on('quit', function (data: any) {
@@ -173,9 +133,6 @@ export default class SocketIoDriver {
         });
     }
 
-    /**
-     *  @return {!Rx.Observable<?>}
-     */
     toggle(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             this._socket.on('toggle', function (data: any) {
@@ -184,9 +141,6 @@ export default class SocketIoDriver {
         });
     }
 
-    /**
-     *  @return {!Rx.Observable<?>}
-     */
     topic(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             this._socket.on('topic', function (data: any) {
@@ -195,9 +149,6 @@ export default class SocketIoDriver {
         });
     }
 
-    /**
-     *  @return {!Rx.Observable<?>}
-     */
     users(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             this._socket.on('users', function (data: any) {
@@ -206,11 +157,6 @@ export default class SocketIoDriver {
         });
     }
 
-    /**
-     *  @param  {string}  name
-     *  @param  {?} obj
-     *  @return {void}
-     */
     emit(name: string, obj: any): void {
         this._socket.emit(name, obj);
     }

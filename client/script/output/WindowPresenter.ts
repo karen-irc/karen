@@ -41,36 +41,25 @@ export default class WindowPresenter {
     _disposeFocus: Rx.IDisposable;
     _disposeQuitConfirmDialog: Rx.IDisposable;
 
-    /**
-     *  @constructor
-     *  @param  {DomainState}   domain
-     */
     constructor(domain: any) {
-        /** @type   {DomainState}   */
         this._domain = domain;
 
-        /*eslint-disable valid-jsdoc */
-
-        /** @type {Rx.IDisposable} */
         this._disposeReload = AppActionCreator.getDispatcher().reload.subscribe(function () {
             window.onbeforeunload = null;
 
             location.reload();
         });
 
-        /** @type {Rx.IDisposable} */
         this._disposeFocus = UIActionCreator.getDispatcher().focusWindow.subscribe(function(){
             window.focus();
         });
 
-        /** @type {Rx.IDisposable} */
         this._disposeQuitConfirmDialog = UIActionCreator.getDispatcher().setQuitConfirmDialog.subscribe(() => {
             if (document.body.classList.contains('public')) {
                 window.onbeforeunload = this._onBeforeUnload;
             }
         });
 
-        /*eslint-enable*/
         const mousetrap = new Mousetrap(window.document.documentElement);
         mousetrap.bind([
             'command+up',
@@ -93,10 +82,6 @@ export default class WindowPresenter {
         this._disposeQuitConfirmDialog = null;
     }
 
-    /**
-     *  @param  {Event} aEvent
-     *  @return {string}
-     */
     _onBeforeUnload(aEvent: Event): string {
         // This function is called on `beforeunload` event,
         // we cannnot call window.confirm, alert, prompt during the event.
@@ -104,10 +89,6 @@ export default class WindowPresenter {
         return 'Are you sure you want to navigate away from this page?';
     }
 
-    /**
-     *  @param  {string}    keys
-     *  @return {void}
-     */
     handleShortcut(keys: string): void {
         const direction = keys.split('+').pop();
         const channelList: Array<Channel> = this._domain.networkSet.getChannelList();

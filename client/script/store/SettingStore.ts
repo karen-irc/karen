@@ -47,22 +47,13 @@ export default class SettingStore {
     _initStream: Rx.Observable<SetValue>;
     _disposeUpdate: Rx.IDisposable;
 
-    /**
-     *  @constructor
-     *  @param  {ConfigRepository}  config
-     */
     constructor(config: ConfigRepository) {
-        /** @type   {Rx.Subject<{ name: string, value: *}>} */
         this._subject = new Rx.Subject<SetValue>();
 
-        /** @type   {ConfigRepository}  */
         this._repository = config;
 
-        /** @type   {Setting}   */
         this._setting = config.get();
 
-        /*eslint-disable valid-jsdoc */
-        /** @type   {Rx.Observable<{ name: string, value: *}>}  */
         this._initStream = Rx.Observable.create<SetValue>((observer) => {
             const keys = Object.keys(this._setting);
             for (let key of keys) {
@@ -74,17 +65,11 @@ export default class SettingStore {
             observer.onCompleted();
         });
 
-        /** @type   {Rx.IDisposable<{ name: string, value: *}>} */
         this._disposeUpdate = SettingActionCreator.getDispatcher().setOption.subscribe((data) => {
             this.update(data.name, data.value);
         });
-        /*eslint-enable*/
     }
 
-    /**
-     *  @param  {Rx.IObserver}  observer
-     *  @return {Rx.IDisposable}
-     */
     subscribe(observer: Rx.Observer<SetValue>): Rx.IDisposable {
         return Rx.Observable.merge(
             this._subject,
@@ -92,11 +77,6 @@ export default class SettingStore {
         ).subscribe(observer);
     }
 
-    /**
-     *  @param  {string}  name
-     *  @param  {*} value
-     *  @return {void}
-     */
     update(name: string, value: any): void {
         const setting = this._setting;
         setting[name] = value;

@@ -98,7 +98,7 @@ export default class ConnectSettingViewController implements EventListenerObject
         }
 
         const nickname = target.value;
-        
+
         // XXX: By DOM spec (https://dom.spec.whatwg.org/#interface-nodelist),
         // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
         // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).

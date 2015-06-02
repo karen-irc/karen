@@ -26,10 +26,6 @@
 export default class AudioDriver {
     _audio: HTMLAudioElement;
 
-    /**
-     *  @constructor
-     *  @param  {string}    path
-     */
     constructor(path: string) {
         const audio = new Audio();
         audio.src = path;

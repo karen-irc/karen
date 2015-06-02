@@ -28,21 +28,13 @@ export default class User {
     nickname: string;
     permission: string;
 
-    /**
-     *  @constructor
-     *  @param  {Object}    raw
-     */
     constructor(raw: any) {
-        /** @type   {string}    */
         this.nickname = raw.name;
-
-        /** @type   {string}  */
         this.permission = raw.mode;
     }
 
     /**
      *  @deprecated
-     *  @return {string}
      */
     get name() {
         return this.nickname;
@@ -50,7 +42,6 @@ export default class User {
 
     /**
      *  @deprecated
-     *  @return {string}
      */
     get mode() {
         return this.permission;

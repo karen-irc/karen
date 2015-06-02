@@ -43,40 +43,26 @@ export default class NotificationPresenter {
     _disposeRequestPermission: Rx.IDisposable;
     _disposeshowNotification: Rx.IDisposable;
 
-    /**
-     *  @constructor
-     *  @param  {ConfigRepository}  config
-     */
     constructor(config: ConfigRepository) {
         const dispatcher = NotificationActionCreator.getDispatcher();
 
-        /** @type {AudioDriver} */
         this._audio = new AudioDriver('/audio/pop.ogg');
 
-        /** @type {ConfigRepository}  */
         this._config = config;
 
-        /*eslint-disable valid-jsdoc*/
-        /** @type {Rx.IDisposable} */
         this._disposePlay = dispatcher.playSound.subscribe(() => {
             this.playSound();
         });
 
-        /** @type {Rx.IDisposable} */
         this._disposeRequestPermission = dispatcher.requestPermission.subscribe(() => {
             this.requestPermission();
         });
 
-        /** @type {Rx.IDisposable} */
         this._disposeshowNotification = dispatcher.showNotification.subscribe((data) => {
             this.showNotification(data.channelId, data.from, data.text);
         });
-        /*eslint-enable */
     }
 
-    /**
-     *  @returns {void}
-     */
     destroy(): void {
         this._disposePlay.dispose();
         this._disposeRequestPermission.dispose();
@@ -88,28 +74,16 @@ export default class NotificationPresenter {
         this._disposeshowNotification = null;
     }
 
-    /**
-     *  @return {void}
-     */
     playSound(): void {
         this._audio.play();
     }
 
-    /**
-     *  @return {void}
-     */
     requestPermission(): void {
         if (Notification.permission !== 'granted') {
             Notification.requestPermission();
         }
     }
 
-    /**
-     *  @param  {number}  channelId
-     *  @param  {string}  from
-     *  @param  {string}  text
-     *  @return {void}
-     */
     showNotification(channelId: number, from: string, text: string): void {
         const settings = this._config.get();
         if (settings.notification) {
