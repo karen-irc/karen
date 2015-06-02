@@ -46,12 +46,13 @@ class MessageActionCreator {
     }
 
     /**
-     *  @param  {string}  targetId
+     *  @param  {number}  targetId
+     *  The target channel's id.
      *  @param  {string}  command
      *    The command string.
      *  @return {void}
      */
-    inputCommand(targetId: string, command: string): void {
+    inputCommand(targetId: number, command: string): void {
         if ( command.startsWith(CommandType.CLEAR) ) {
             this._dispatcher.clearMessage.onNext(undefined);
             return;

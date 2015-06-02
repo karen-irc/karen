@@ -146,7 +146,7 @@ export default class SidebarViewController implements EventListenerObject {
             }
             /*eslint-enable*/
         }
-        MessageActionCreator.inputCommand(String(channelId), command);
+        MessageActionCreator.inputCommand(channelId, command);
 
         // FIXME: This visual state should be written in css.
         target.style.opacity = '0.4';
