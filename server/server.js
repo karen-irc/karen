@@ -12,6 +12,7 @@ import express from 'express';
 import fs from 'fs';
 import http from 'http';
 import ConfigDriver from './adapter/ConfigDriver';
+import Package from './Package';
 
 let server = null;
 let config = {};
@@ -98,10 +99,7 @@ function index(req, res, next) {
             throw err;
         }
 
-        var data = _.merge(
-            require('../../package.json'),
-            config
-        );
+        var data = _.merge(_.merge({}, Package.getPackage()), config);
         res.setHeader('Content-Type', 'text/html');
         res.setHeader('Content-Security-Policy', cspDirectiveStr);
         res.writeHead(200);
