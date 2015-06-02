@@ -30,7 +30,6 @@ let browserify = require('browserify');
 let childProcess = require('child_process');
 let concat = require('gulp-concat');
 let del = require('del');
-let eslint = require('gulp-eslint');
 let gulp = require('gulp');
 let path = require('path');
 let source = require('vinyl-source-stream');
@@ -138,21 +137,27 @@ gulp.task('__browserify', ['clean:client', '__cp_client', '__typescript'], funct
 
 
 
-gulp.task('jslint', function () {
-    let option = {
-        useEslintrc: true,
+gulp.task('jslint', function (callback) {
+    const src = [
+        './gulpfile.js',
+        './client/script/',
+        './defaults/',
+        './server/',
+    ];
+
+    const bin = path.join(__dirname, './node_modules/', './.bin', 'eslint');
+
+    const args = [
+        '--ext', '.js',
+    ].concat(src);
+
+    const option = {
+        cwd: path.relative(__dirname, ''),
+        stdio: 'inherit',
     };
 
-    return gulp.src([
-            './gulpfile.js',
-            './client/js/karen.js',
-            './client/script/**/*.js',
-            './defaults/**/*.js',
-            './server/**/*.js',
-        ])
-        .pipe(eslint(option))
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
+    const eslint = childProcess.spawn(bin, args, option);
+    eslint.on('exit', callback);
 });
 
 gulp.task('__babel:server', ['clean:server'], function () {
