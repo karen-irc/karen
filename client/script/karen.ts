@@ -199,6 +199,13 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
                     channels: channels
                 })
             );
+
+            // TODO: Seek the better way to update users list when initializing the karen.
+            channels.forEach((channel: Channel) => {
+                const users : Array<User> = channel.getUserList();
+                MessageActionCreator.updateUserList(channel.id, users);
+            });
+
             UIActionCreator.setQuitConfirmDialog();
         }
 
