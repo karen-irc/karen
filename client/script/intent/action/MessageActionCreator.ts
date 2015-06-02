@@ -76,7 +76,7 @@ class MessageActionCreator {
         });
     }
 
-    partFromChannel(id: string): void {
+    partFromChannel(id: number): void {
         this._dispatcher.partFromChannel.onNext(id);
     }
 
