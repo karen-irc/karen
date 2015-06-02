@@ -26,6 +26,7 @@
 /// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
 import Channel from '../../model/Channel';
+import Network from '../../model/Network';
 import * as Rx from 'rx';
 import User from '../../model/User';
 
@@ -48,7 +49,7 @@ export default class ChatCommandDispatcher {
     joinChannel: Rx.Subject<{ networkId: number, channel: Channel }>;
     partFromChannel: Rx.Subject<number>;
     setNickname: Rx.Subject<{ id: number, nickname: string }>;
-    connectNetwork: Rx.Subject<any>;
+    connectNetwork: Rx.Subject<Network>;
     updateUserList: Rx.Subject<{ channelId: number, list: Array<User> }>;
 
     constructor() {
@@ -66,7 +67,7 @@ export default class ChatCommandDispatcher {
 
         this.setNickname = new Rx.Subject<{ id: number, nickname: string }>();
 
-        this.connectNetwork = new Rx.Subject<any>();
+        this.connectNetwork = new Rx.Subject<Network>();
 
         this.updateUserList = new Rx.Subject<{ channelId: number, list: Array<User> }>();
     }
