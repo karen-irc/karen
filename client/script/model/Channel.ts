@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+import Message from './Message';
 import Network from './Network';
 import User from './User';
 
@@ -33,7 +34,7 @@ export default class Channel {
     type: string;
     _userList: Array<User>;
     _unread: number;
-    _messageBuffer: Array<any>;
+    _messageBuffer: Array<Message>;
     network: Network;
 
     constructor(network: Network, raw: any) {
@@ -53,7 +54,7 @@ export default class Channel {
 
         this._unread = raw.unread;
 
-        let messages: Array<any> = null;
+        let messages: Array<Message> = null;
         if (Array.isArray(raw.messages)) {
             messages = raw.messages;
         }
@@ -69,7 +70,7 @@ export default class Channel {
         return this.getUnread();
     }
 
-    get messages(): Array<any> {
+    get messages(): Array<Message> {
         return this._messageBuffer;
     }
 

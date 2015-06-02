@@ -26,6 +26,7 @@
 import Channel from '../../model/Channel';
 import ChatCommandDispatcher from '../dispatcher/ChatCommandDispatcher';
 import CommandTypeMod from '../../model/CommandType';
+import Network from '../../model/Network';
 import User from '../../model/User';
 
 const CommandType = CommandTypeMod.type;
@@ -76,7 +77,7 @@ class MessageActionCreator {
         });
     }
 
-    partFromChannel(id: string): void {
+    partFromChannel(id: number): void {
         this._dispatcher.partFromChannel.onNext(id);
     }
 
@@ -87,7 +88,7 @@ class MessageActionCreator {
         });
     }
 
-    connectNetwork(network: any): void {
+    connectNetwork(network: Network): void {
         this._dispatcher.connectNetwork.onNext(network);
     }
 
