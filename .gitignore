@@ -1,7 +1,12 @@
+*~
+*#
+*.dummy
+.DS_Store
+Thumbs.db
+Desktop.ini
+
 node_modules/
 npm-debug.log
 
 dist/
-
-build/
 tsd/thrid_party/
