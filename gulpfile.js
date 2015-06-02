@@ -56,6 +56,7 @@ const OBJ_CLIENT = './client/__obj/';
 const DIST_SERVER = './dist/';
 const DIST_CLIENT = './client/dist/';
 const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
+const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
 
 /**
  *  # The rules of task name
@@ -82,7 +83,7 @@ gulp.task('__uglify', ['clean:client'], function () {
 });
 
 gulp.task('__handlebars', ['clean:client'], function () {
-    let handlebars = path.relative(__dirname, './node_modules/handlebars/bin/handlebars');
+    let handlebars = path.resolve(NPM_MOD_DIR, './handlebars/bin/handlebars');
     let args = [
         String(handlebars),
         'client/views/',
@@ -104,7 +105,7 @@ gulp.task('__cp_client', ['clean:client'], function () {
 
 gulp.task('__typescript', ['clean:client'], function (callback) {
     const args = [
-        path.relative(__dirname, './node_modules/.bin/tsc'),
+        path.join(NPM_MOD_DIR, './.bin', 'tsc'),
     ];
     const option = {
         cwd: path.relative(__dirname, ''),
@@ -145,7 +146,7 @@ gulp.task('jslint', function (callback) {
         './server/',
     ];
 
-    const bin = path.join(__dirname, './node_modules/', './.bin', 'eslint');
+    const bin = path.join(NPM_MOD_DIR, './.bin', 'eslint');
 
     const args = [
         '--ext', '.js',
