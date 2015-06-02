@@ -28,8 +28,8 @@ import fs from 'fs';
 import path from 'path';
 
 // NOTE: Take care the path to the root. This Package.js will be locate at
-// dist/server/Package.js. So '../..' is required.
-const root = path.join(path.dirname(fs.realpathSync(__filename)), '../..');
+// dist/server/adapter/Package.js. So '../../..' is required.
+const root = path.join(path.dirname(fs.realpathSync(__filename)), '../../..');
 
 class Package {
     constructor(packageObject) {

@@ -12,7 +12,7 @@ import express from 'express';
 import fs from 'fs';
 import http from 'http';
 import ConfigDriver from './adapter/ConfigDriver';
-import Package from './Package';
+import Package from './adapter/Package';
 
 let server = null;
 let config = {};

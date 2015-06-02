@@ -3,7 +3,7 @@ import program from 'commander';
 import fs from 'fs';
 import mkdirp from 'mkdirp';
 import ConfigDriver from '../adapter/ConfigDriver';
-import Package from '../Package';
+import Package from '../adapter/Package';
 
 const pkg = Package.getPackage();
 program.version(pkg.version, '-v, --version');

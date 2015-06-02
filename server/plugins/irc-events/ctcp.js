@@ -1,4 +1,4 @@
-import Package from '../../Package';
+import Package from '../../adapter/Package';
 
 const pkg = Package.getPackage();
 
