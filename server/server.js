@@ -26,6 +26,7 @@ export default function(options) {
 
     const app = express()
         .use(index)
+        .use(express.static('dist/client'))
         .use(express.static('client'));
 
     app.enable('trust proxy');
@@ -98,7 +99,7 @@ function index(req, res, next) {
         }
 
         var data = _.merge(
-            require('../package.json'),
+            require('../../package.json'),
             config
         );
         res.setHeader('Content-Type', 'text/html');

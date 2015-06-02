@@ -1,6 +1,6 @@
 import path from 'path';
 import program from 'commander';
-import pkg from '../../package.json';
+import pkg from '../../../package.json';
 import fs from 'fs';
 import mkdirp from 'mkdirp';
 import ConfigDriver from '../adapter/ConfigDriver';
