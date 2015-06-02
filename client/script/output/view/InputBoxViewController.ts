@@ -23,8 +23,7 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../tsd/extends.d.ts" />
-/// <reference path="../../../../tsd/thrid_party/mousetrap/mousetrap.d.ts" />
+/// <reference path="../../../../tsd/mousetrap.d.ts" />
 /// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
 import MessageActionCreator from '../../intent/action/MessageActionCreator';

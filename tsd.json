@@ -5,9 +5,6 @@
   "path": "tsd/thrid_party",
   "bundle": "tsd/thrid_party/tsd.d.ts",
   "installed": {
-    "mousetrap/mousetrap.d.ts": {
-      "commit": "70737c2a2496f7a13c4da63eb00081cad94d19f1"
-    },
     "socket.io-client/socket.io-client.d.ts": {
       "commit": "70737c2a2496f7a13c4da63eb00081cad94d19f1"
     },

@@ -24,7 +24,6 @@
  */
 
 /// <reference path="./thrid_party/jquery/jquery.d.ts"/>
-/// <reference path="./thrid_party/mousetrap/mousetrap.d.ts" />
 
 /**
  *  This type defenition provide some additional intafaces which extends exist ones.
@@ -45,9 +44,4 @@ interface JQuery {
     isScrollBottom: () => boolean;
     scrollBottom: () => JQuery;
     sticky: (option?: any) => JQuery;
-}
-
-interface MousetrapStatic {
-    new(element?: Element): MousetrapStatic;
-    prototype: MousetrapStatic;
 }
