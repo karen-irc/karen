@@ -34,39 +34,23 @@ class AppActionCreator {
         this._dispatcher = new AppActionDispatcher();
     }
 
-    /**
-     *  @return {AppActionDispatcher}
-     */
     getDispatcher(): AppActionDispatcher {
         return this._dispatcher;
     }
 
-    /**
-     *  @return {void}
-     */
     reload(): void {
         this._dispatcher.reload.onNext(undefined);
     }
 
-    /**
-     *  @return {void}
-     */
     signout(): void {
         this._dispatcher.signout.onNext(undefined);
         this._dispatcher.reload.onNext(undefined);
     }
 
-    /**
-     *  @return {void}
-     */
     showSignIn(): void {
         this._dispatcher.signout.onNext(undefined);
     }
 
-    /**
-     *  @param  {Array<Network>}    data
-     *  @return {void}
-     */
     renderNetworksInView(data: Array<Network>) {
         this._dispatcher.renderNetworksInView.onNext(data);
     }

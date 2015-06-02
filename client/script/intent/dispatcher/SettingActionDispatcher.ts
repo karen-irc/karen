@@ -32,7 +32,6 @@ export default class SettingActionDispatcher {
     setOption: Rx.Subject<{ name: string, value: any}>;
 
     constructor() {
-        /** @type   {Rx.Subject<{ name: string, value: *}>} */
         this.setOption = new Rx.Subject<{ name: string, value: any}>();
     }
 }

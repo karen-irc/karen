@@ -38,7 +38,6 @@ export default class AppViewController implements EventListenerObject {
 
         const uiDispatcher = UIActionCreator.getDispatcher();
 
-        /*eslint-disable valid-jsdoc */
         this._toggleLeftPane = uiDispatcher.toggleLeftPane.subscribe((shouldOpen) => {
             const className = 'lt';
             const classList = this._element.classList;
@@ -64,7 +63,6 @@ export default class AppViewController implements EventListenerObject {
                 classList.remove(className);
             }
         });
-        /*eslint-enable */
 
         this._isOpenedLeftPane = element.classList.contains('rt');
 

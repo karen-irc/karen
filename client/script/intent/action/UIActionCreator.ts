@@ -33,61 +33,34 @@ class UIActionCreator {
         this._dispatcher = new UIActionDispatcher();
     }
 
-    /**
-     *  @return {UIActionDispatcher}
-     */
     getDispatcher(): UIActionDispatcher {
         return this._dispatcher;
     }
 
-    /**
-     *  @param  {boolean}   shouldOpen
-     *  @return {void}
-     */
     toggleLeftPane(shouldOpen: boolean): void {
         this._dispatcher.toggleLeftPane.onNext(shouldOpen);
     }
 
-    /**
-     *  @param  {boolean}   shouldOpen
-     *  @return {void}
-     */
     toggleRightPane(shouldOpen: boolean): void {
         this._dispatcher.toggleRightPane.onNext(shouldOpen);
     }
 
-    /**
-     *  @return {void}
-     */
     focusInputBox(): void {
         this._dispatcher.focusInputBox.onNext(undefined);
     }
 
-    /**
-     *  @return {void}
-     */
     focusWindow(): void {
         this._dispatcher.focusWindow.onNext(undefined);
     }
 
-    /**
-     *  @param  {number}  id
-     *  @return {void}
-     */
     selectChannel(id: number): void {
         this._dispatcher.selectChannel.onNext(id);
     }
 
-    /**
-     *  @return {void}
-     */
     setQuitConfirmDialog(): void {
         this._dispatcher.setQuitConfirmDialog.onNext(undefined);
     }
 
-    /**
-     *  @return {void}
-     */
     showConnectSetting(): void {
         this._dispatcher.showConnectSetting.onNext(undefined);
     }

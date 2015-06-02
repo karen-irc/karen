@@ -35,18 +35,12 @@ export default class AuthRepository {
 
     _cookie: CookieDriver;
 
-    /**
-     *  @constructor
-     *  @param  {CookieDriver}  cookie
-     */
     constructor(cookie: CookieDriver) {
         /** @type {CookieDriver}  */
         this._cookie = cookie;
     }
 
     /**
-     *  @return {string}
-     *
      *  FIXME: the returned value should `Maybe<T>`.
      */
     getUser(): string {
@@ -54,27 +48,18 @@ export default class AuthRepository {
     }
 
     /**
-     *  @return {string}
-     *
      *  FIXME: the returned value should `Maybe<T>`.
      */
     getToken(): string {
         return this._cookie.get(KEY_TOKEN);
     }
 
-    /**
-     *  @param  {string}  token
-     *  @return {void}
-     */
     setToken(token: string): void {
         this._cookie.set(KEY_TOKEN, token, {
             expires: moment().add(30, 'days').toDate(),
         });
     }
 
-    /**
-     *  @return {void}
-     */
     removeToken(): void {
         this._cookie.remove(KEY_TOKEN);
     }

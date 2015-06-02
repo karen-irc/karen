@@ -35,28 +35,16 @@ export default class ConfigRepository {
 
     _cookie: CookieDriver;
 
-    /**
-     *  @constructor
-     *  @param  {CookieDriver}  cookie
-     */
     constructor(cookie: CookieDriver) {
-        /** @type   {CookieDriver} */
         this._cookie = cookie;
     }
 
-    /**
-     *  @return {Setting}
-     */
     get(): Setting {
         const raw = this._cookie.get(KEY_SETTING);
         const settings = new Setting(raw);
         return settings;
     }
 
-    /**
-     *  @param  {Setting}  settings
-     *  @return {void}
-     */
     set(settings: Setting): void {
         this._cookie.set(KEY_SETTING, settings, {
             expires: moment().add(365, 'days').toDate(),

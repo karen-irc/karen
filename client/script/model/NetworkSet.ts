@@ -48,12 +48,7 @@ export default class NetworkSet {
     _deleted: Rx.Subject<Network>;
     _cleared: Rx.Subject<void>;
 
-    /**
-     *  @constructor
-     *  @param  {Array}    raw
-     */
     constructor(raw: Array<any>) {
-        /** @type   {Map<number, Network>}  */
         this._idMap = new Map<number, Network>();
 
         raw.forEach((item) => {
@@ -61,20 +56,13 @@ export default class NetworkSet {
             this._idMap.set(n.id, n);
         });
 
-        /** @type   {Rx.Subject<Network>}    */
         this._added = new Rx.Subject<Network>();
 
-        /** @type   {Rx.Subject<Network>}   */
         this._deleted = new Rx.Subject<Network>();
 
-        /** @type   {Rx.Subject<void>}  */
         this._cleared = new Rx.Subject<void>();
     }
 
-    /**
-     *  @param  {Network}   item
-     *  @return {void}
-     */
     add(item: Network): void {
         if (this.has(item)) {
             return;
@@ -84,26 +72,15 @@ export default class NetworkSet {
         this._added.onNext(item);
     }
 
-    /**
-     *  @return {Rx.Observable<Network>}
-     */
     addedStream(): Rx.Observable<Network> {
         return this._added.asObservable();
     }
 
-    /**
-     *  @param  {Network}    item
-     *  @return {boolean}
-     */
     has(item: Network): boolean {
         const id = item.id;
         return this._idMap.has(id);
     }
 
-    /**
-     *  @param  {number}    id
-     *  @return {OptionT<Network>}
-     */
     getById(id: number): Option<Network> {
         const result = this._idMap.get(id);
         if (result === undefined) {
@@ -114,10 +91,6 @@ export default class NetworkSet {
         }
     }
 
-    /**
-     *  @param  {Network}   item
-     *  @return {boolean}
-     */
     delete(item: Network): boolean {
         const id = item.id;
         const isDeleted = this._idMap.delete(id);
@@ -127,41 +100,25 @@ export default class NetworkSet {
         return isDeleted;
     }
 
-    /**
-     *  @return {Rx.Observable<Network>}
-     */
     deletedStream() {
         return this._deleted.asObservable();
     }
 
-    /**
-     *  @return {void}
-     */
     clear(): void {
         this._idMap.clear();
         this._cleared.onNext(undefined);
     }
 
-    /**
-     *  @return {Rx.Observable<void>}
-     */
     clearedStream(): Rx.Observable<void> {
         return this._cleared.asObservable();
     }
 
-    /**
-     *  @return {Array<Network>}
-     */
     asArray(): Array<Network> {
         const set = new Set(this._idMap.values());
         const array = arrayFrom(set);
         return array;
     }
 
-    /**
-     *  @param  {number}    channelId
-     *  @return {!OptionT<Channel>}
-     */
     getChannelById(channelId: number): Option<Channel> {
         let result = new None<Channel>();
         for (const network of this._idMap.values()) {
@@ -178,9 +135,6 @@ export default class NetworkSet {
         return result;
     }
 
-    /**
-     *  @return {Array<Channel>}
-     */
     getChannelList(): Array<Channel> {
         let result: Array<Channel> = [];
         for (const network of this._idMap.values()) {

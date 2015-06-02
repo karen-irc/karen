@@ -193,10 +193,6 @@ export default class SidebarViewController implements EventListenerObject {
         element.style.display = 'none';
     }
 
-    /**
-     *  @param  {Array<Network>} networks
-     *  @return {void}
-     */
     renderNetworks(networks: Array<Network>): void {
         const element = <HTMLElement>this._element.querySelector('.networks');
         const html = Handlebars.templates.network({

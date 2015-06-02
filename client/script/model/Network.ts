@@ -37,10 +37,6 @@ export default class Network {
     nickname: string;
     _channelList: Array<Channel>;
 
-    /**
-     *  @constructor
-     *  @param  {Object}    raw
-     */
     constructor(raw: any) {
         this.id = raw.id;
 
@@ -56,7 +52,6 @@ export default class Network {
 
     /**
      *  @deprecated
-     *  @return {string}
      */
     get nick(): string {
         return this.nickname;
@@ -64,23 +59,15 @@ export default class Network {
 
     /**
      *  @deprecated
-     *  @return {Array<Channel>}
      */
     get channels(): Array<Channel> {
         return this.getChannelList();
     }
 
-    /**
-     *  @return {Array<Channel>}
-     */
     getChannelList(): Array<Channel> {
         return this._channelList;
     }
 
-    /**
-     *  @param  {number}    channelId
-     *  @return {!OptionT<Channel>}
-     */
     getChannelById(channelId: number): Option<Channel> {
         let result = new None<Channel>();
         for (const channel of this._channelList) {
@@ -96,17 +83,10 @@ export default class Network {
         return result;
     }
 
-    /**
-     *  @param  {Channel}   channel
-     *  @return {void}
-     */
     addChannel(channel: Channel): void {
         this._channelList.push(channel);
     }
 
-    /**
-     *  @return {void}
-     */
     quit(): void {
     }
 }

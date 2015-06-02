@@ -43,43 +43,25 @@ export default class CookieDriver {
      *  @constructor
      */
     constructor() {
-        /** @type   {Cookies} */
         this._cookie = cookies;
     }
 
-    /**
-     *  @param  {string}    key
-     *  @return {*}
-     */
     get(key: string): any {
         const value: string = this._cookie.get(key);
         let result: any = null;
-        /*eslint-disable no-empty*/
         try {
             result = JSON.parse(value);
         }
         catch (e) {}
-        /*eslint-enable*/
 
         return result;
     }
 
-    /**
-     *  @param  {string}    key
-     *  @param  {*} value
-     *  @param  {Cookies.CookieOptions=}    option
-     *  @return {void}
-     */
     set(key: string, value: any, option: CookieOptions = {}): void {
         const encoded = JSON.stringify(value);
         this._cookie.set(key, encoded, option);
     }
 
-    /**
-     *  @param  {string}    key
-     *  @param  {Cookies.CookieOptions=}    option
-     *  @return {void}
-     */
     remove(key: string, option: CookieOptions = {}): void {
         this._cookie.expire(key, option);
     }

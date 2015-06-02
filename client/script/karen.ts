@@ -500,7 +500,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     MessageActionCreator.getDispatcher().sendCommand.subscribe(function(data){
         socket.emit('input', {
-            target: data.targetId,
+            target: data.channelId,
             text: data.text,
         });
     });

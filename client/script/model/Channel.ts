@@ -36,32 +36,21 @@ export default class Channel {
     _messageBuffer: Array<any>;
     network: Network;
 
-    /**
-     *  @constructor
-     *  @param  {Network}   network
-     *  @param  {Object}    raw
-     */
     constructor(network: Network, raw: any) {
-        /** @type   {number}    */
         this.id = raw.id;
 
-        /** @type   {string}    */
         this.name = raw.name;
 
-        /** @type   {string} */
         this.topic = raw.topic;
 
-        /** @type   {string}  */
         this.type = raw.type;
 
         const userList: Array<User> = raw.users.map(function(item: any) {
             const user = new User(item);
             return user;
         });
-        /** @type Array<User>   **/
         this._userList = userList;
 
-        /** @type   {number}    */
         this._unread = raw.unread;
 
         let messages: Array<any> = null;
@@ -72,47 +61,26 @@ export default class Channel {
             messages = [];
         }
 
-        /** @type   {Array<Message>}    */
         this._messageBuffer = messages;
-
-        /** @type   {Network}   */
         this.network = network;
     }
 
-    /**
-     *  @deprecated
-     *  @return {number}
-     */
     get unread(): number {
         return this.getUnread();
     }
 
-    /**
-     *  @deprecated
-     *  @return {Array<Message>}
-     */
     get messages(): Array<any> {
         return this._messageBuffer;
     }
 
-    /**
-     *  @return {number}
-     */
     getUnread(): number {
         return this._unread;
     }
 
-    /**
-     *  @return {Array<User>}
-     */
     getUserList(): Array<User> {
         return this._userList;
     }
 
-    /**
-     *  @param  {Array<User>}   list
-     *  @return {void}
-     */
     updateUserList(list: Array<User>): void {
         this._userList = list;
     }

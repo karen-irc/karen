@@ -41,10 +41,6 @@ export default class Setting {
     thumbnails: boolean;
     quit: boolean;
 
-    /**
-     *  @constructor
-     *  @param  {Object}    raw
-     */
     constructor(raw: any) {
         const data = assign({
             badge: false,
@@ -60,37 +56,26 @@ export default class Setting {
             quit: true,
         }, raw);
 
-        /** @type   {boolean}   */
         this.badge = data.badge;
 
-        /** @type   {boolean}   */
         this.colors = data.colors;
 
-        /** @type   {boolean}   */
         this.join = data.join;
 
-        /** @type   {boolean}   */
         this.links = data.links;
 
-        /** @type   {boolean}   */
         this.mode = data.mode;
 
-        /** @type   {boolean}   */
         this.motd = data.motd;
 
-        /** @type   {boolean}   */
         this.nick = data.nick;
 
-        /** @type   {boolean}   */
         this.notification = data.notification;
 
-        /** @type   {boolean}   */
         this.part = data.part;
 
-        /** @type   {boolean}   */
         this.thumbnails = data.thumbnails;
 
-        /** @type   {boolean}   */
         this.quit = data.quit;
     }
 }

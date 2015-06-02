@@ -33,32 +33,18 @@ class NotificationActionCreator {
         this._dispatcher = new NotificationDispatcher();
     }
 
-    /**
-     *  @return {NotificationDispatcher}
-     */
     getDispatcher(): NotificationDispatcher {
         return this._dispatcher;
     }
 
-    /**
-     *  @return {void}
-     */
     playSound(): void {
         this._dispatcher.playSound.onNext(undefined);
     }
 
-    /**
-     *  @return {void}
-     */
     requestPermission(): void {
         this._dispatcher.requestPermission.onNext(undefined);
     }
 
-    /**
-     *  @param  {number}  channelId
-     *  @param  {{ from: string, text: string }}  message
-     *  @return {void}
-     */
     showNotification(channelId: number, message: { from: string, text: string}): void {
         this._dispatcher.showNotification.onNext({
             channelId: channelId,
