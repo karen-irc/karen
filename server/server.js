@@ -72,7 +72,7 @@ export default function(options) {
 
 const cspDirective = {
     'default-src': '\'none\'',
-    'connect-src': '\'self\' ws:',
+    'connect-src': '\'self\' ws: wss:',
     'font-src': '\'self\' https://fonts.gstatic.com',
 
     // XXX: karen tries to expand all image which is embedded in a message.
