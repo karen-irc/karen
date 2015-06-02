@@ -30,7 +30,7 @@ import * as Rx from 'rx';
 import User from '../../model/User';
 
 type Command = {
-    targetId: string;
+    targetId: number;
     text: string;
 };
 
