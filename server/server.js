@@ -12,6 +12,7 @@ import express from 'express';
 import fs from 'fs';
 import http from 'http';
 import ConfigDriver from './adapter/ConfigDriver';
+import Package from './adapter/Package';
 
 let server = null;
 let config = {};
@@ -26,6 +27,7 @@ export default function(options) {
 
     const app = express()
         .use(index)
+        .use(express.static('dist/client'))
         .use(express.static('client'));
 
     app.enable('trust proxy');
@@ -97,10 +99,7 @@ function index(req, res, next) {
             throw err;
         }
 
-        var data = _.merge(
-            require('../package.json'),
-            config
-        );
+        var data = _.merge(_.merge({}, Package.getPackage()), config);
         res.setHeader('Content-Type', 'text/html');
         res.setHeader('Content-Security-Policy', cspDirectiveStr);
         res.writeHead(200);

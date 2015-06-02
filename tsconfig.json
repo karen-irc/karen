@@ -4,7 +4,7 @@
         "suppressImplicitAnyIndexErrors": true,
         "removeComments": false,
         "preserveConstEnums": true,
-        "outDir": "./client/__obj/",
+        "outDir": "./dist/client/__obj/",
         "target": "ES6",
         "sourceMap": true
     },

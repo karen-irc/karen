@@ -1,10 +1,11 @@
 import path from 'path';
 import program from 'commander';
-import pkg from '../../package.json';
 import fs from 'fs';
 import mkdirp from 'mkdirp';
 import ConfigDriver from '../adapter/ConfigDriver';
+import Package from '../adapter/Package';
 
+const pkg = Package.getPackage();
 program.version(pkg.version, '-v, --version');
 program.option('');
 program.option('    --home <path>', 'home path');
@@ -27,7 +28,7 @@ if (!fs.existsSync(config)) {
     mkdirp.sync(ConfigDriver.getHome());
     fs.writeFileSync(
         config,
-        fs.readFileSync(path.resolve(__dirname, '../../defaults/config.js'))
+        fs.readFileSync(path.resolve(Package.getRoot(), './defaults/config.js'))
     );
     console.log('Config created:');
     console.log(config);

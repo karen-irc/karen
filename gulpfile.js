@@ -51,10 +51,10 @@ const SERVER_SRC = [
     './server/**/*.js'
 ];
 
-const OBJ_CLIENT = './client/__obj/';
 
-const DIST_SERVER = './dist/';
-const DIST_CLIENT = './client/dist/';
+const DIST_SERVER = './dist/server/';
+const DIST_CLIENT = './dist/client/';
+const DIST_CLIENT_OBJ = path.resolve(DIST_CLIENT, './__obj/');
 const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
 const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
 
@@ -100,7 +100,7 @@ gulp.task('__handlebars', ['clean:client'], function () {
 
 gulp.task('__cp_client', ['clean:client'], function () {
     return gulp.src('./client/script/**/*.js')
-        .pipe(gulp.dest(OBJ_CLIENT));
+        .pipe(gulp.dest(DIST_CLIENT_OBJ));
 });
 
 gulp.task('__typescript', ['clean:client'], function (callback) {
@@ -117,7 +117,7 @@ gulp.task('__typescript', ['clean:client'], function (callback) {
 
 gulp.task('__browserify', ['clean:client', '__cp_client', '__typescript'], function () {
     const ENTRY_POINT = [
-        path.resolve(OBJ_CLIENT, './karen.js'),
+        path.resolve(DIST_CLIENT_OBJ, './karen.js'),
     ];
 
     const option = {
@@ -185,7 +185,7 @@ gulp.task('clean:client', function () {
         });
     };
 
-    const obj = deleter(OBJ_CLIENT);
+    const obj = deleter(DIST_CLIENT_OBJ);
     const dist = deleter(DIST_CLIENT);
 
     return Promise.all([obj, dist]);

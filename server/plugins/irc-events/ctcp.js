@@ -1,4 +1,6 @@
-var pkg = require(process.cwd() + '/package.json');
+import Package from '../../adapter/Package';
+
+const pkg = Package.getPackage();
 
 export default function(irc, network) {
     irc.on('message', function(data) {
