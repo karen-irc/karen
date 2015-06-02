@@ -53,6 +53,13 @@ const auth = new AuthRepository(cookie);
 
 const settingStore = new SettingStore(config);
 
+function arrayFlatMap<T, U>(target: Array<T>, fn: {(value: T): Array<U>}) : Array<U> {
+    return target.reduce(function (result : Array<U>, element : T) {
+        const mapped : Array<U> = fn(element);
+        return result.concat(mapped);
+    }, []);
+}
+
 // FIXME: This should be go a way.
 class SelectedTab {
 
@@ -183,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             const networkArray = globalState.networkSet.asArray();
             AppActionCreator.renderNetworksInView(networkArray);
 
-            const channels = networkArray.map(function(network){
+            const channels : Array<Channel> = arrayFlatMap(networkArray, function(network){
                 return network.getChannelList();
             });
 
