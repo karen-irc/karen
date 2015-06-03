@@ -129,7 +129,7 @@ gulp.task('__browserify', ['clean:client', '__cp_client', '__typescript'], funct
         optional: [],
     });
 
-    browserify(ENTRY_POINT, option)
+    return browserify(ENTRY_POINT, option)
         .transform(babel)
         .bundle()
         .pipe(source('karen.js'))
