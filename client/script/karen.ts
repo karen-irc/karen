@@ -309,10 +309,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     socket.network().subscribe(function(data) {
         const network = new Network(data.network);
-        MessageActionCreator.connectNetwork(network);
-    });
-
-    MessageActionCreator.getDispatcher().connectNetwork.subscribe(function (network) {
         globalState.networkSet.add(network);
     });
 
