@@ -468,13 +468,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     }));
 
-    document.getElementById('badge').addEventListener('change', function (aEvent) {
-        const input = <HTMLInputElement>aEvent.target;
-        if (input.checked) {
-            NotificationActionCreator.requestPermission();
-        }
-    });
-
     UIActionCreator.getDispatcher().toggleLeftPane.subscribe(function (shouldOpen) {
         if (shouldOpen) {
             chat.find('.chat').each(function(i, element) {
