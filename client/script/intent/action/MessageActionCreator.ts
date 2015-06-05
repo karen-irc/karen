@@ -26,7 +26,6 @@
 import Channel from '../../model/Channel';
 import ChatCommandDispatcher from '../dispatcher/ChatCommandDispatcher';
 import CommandTypeMod from '../../model/CommandType';
-import Network from '../../model/Network';
 import User from '../../model/User';
 
 const CommandType = CommandTypeMod.type;
@@ -86,10 +85,6 @@ class MessageActionCreator {
             id: networkId,
             nickname: nickname,
         });
-    }
-
-    connectNetwork(network: Network): void {
-        this._dispatcher.connectNetwork.onNext(network);
     }
 
     updateUserList(channelId: number, list: Array<User>): void {

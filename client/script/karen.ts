@@ -309,10 +309,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     socket.network().subscribe(function(data) {
         const network = new Network(data.network);
-        MessageActionCreator.connectNetwork(network);
-    });
-
-    MessageActionCreator.getDispatcher().connectNetwork.subscribe(function (network) {
         globalState.networkSet.add(network);
     });
 
@@ -471,13 +467,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             chat.toggleClass('no-colors', !value);
         }
     }));
-
-    document.getElementById('badge').addEventListener('change', function (aEvent) {
-        const input = <HTMLInputElement>aEvent.target;
-        if (input.checked) {
-            NotificationActionCreator.requestPermission();
-        }
-    });
 
     UIActionCreator.getDispatcher().toggleLeftPane.subscribe(function (shouldOpen) {
         if (shouldOpen) {

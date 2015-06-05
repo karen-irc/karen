@@ -71,6 +71,10 @@ export default class GeneralSettingViewController implements EventListenerObject
         const value = (<HTMLInputElement>target).checked;
 
         SettingActionCreator.setOption(name, value);
+
+        if (value && target.getAttribute('id') === 'badge') {
+            NotificationActionCreator.requestPermission()
+        }
     }
 
     onClick(aEvent: Event): void {
