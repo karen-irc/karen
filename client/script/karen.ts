@@ -25,6 +25,7 @@ import GeneralSettingViewController from './output/view/GeneralSettingViewContro
 import InputBoxViewController from './output/view/InputBoxViewController';
 import MainViewController from './output/view/MainViewController';
 import MessageActionCreator from './intent/action/MessageActionCreator';
+import MessageGateway from './adapter/MessageGateway';
 import Network from './model/Network';
 import NetworkSet from './model/NetworkSet';
 import NotificationActionCreator from './intent/action/NotificationActionCreator';
@@ -46,6 +47,7 @@ const CommandType = CommandTypeMod.type;
 const CommandList = CommandTypeMod.list;
 
 const socket = new SocketIoDriver();
+const messageGateway = new MessageGateway(socket);
 const cookie = new CookieDriver();
 const config = new ConfigRepository(cookie);
 const notify = new NotificationPresenter(config);
@@ -136,11 +138,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         /*eslint-enable*/
     });
 
-    socket.connectError().subscribe(function(){
-        AppActionCreator.reload();
-    });
-
-    socket.disconnect().subscribe(function(){
+    messageGateway.disconnected().subscribe(function(){
         AppActionCreator.reload();
     });
 
@@ -182,9 +180,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     socket.init().subscribe(function(data) {
-        if (data.networks.length === 0) {
-            UIActionCreator.showConnectSetting();
-        } else {
+        if (data.networks.length !== 0) {
             globalState.networkSet = new NetworkSet(data.networks);
 
             const networkArray = globalState.networkSet.asArray();
@@ -231,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         globalState.currentTab = new SelectedTab(SelectedTab.TYPE.CHANNEL, id);
     });
 
-    UIActionCreator.getDispatcher().showConnectSetting.subscribe(function(){
+    messageGateway.showConnectSetting().subscribe(function(){
         $footer.find('.connect').trigger('click');
     });
 
@@ -307,8 +303,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    socket.network().subscribe(function(data) {
-        const network = new Network(data.network);
+    messageGateway.addNetwork().subscribe(function(network) {
         globalState.networkSet.add(network);
     });
 
@@ -332,14 +327,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         sortable();
     });
 
-    socket.nickname().subscribe(function(data) {
-        const id = data.network;
-        const nickname = data.nick;
-        MessageActionCreator.setNickname(id, nickname);
-    });
-
-    MessageActionCreator.getDispatcher().setNickname.subscribe(function (data) {
-        const id = data.id;
+    messageGateway.setNickname().subscribe(function (data) {
+        const id = data.networkId;
         const nick = data.nickname;
         const network = globalState.networkSet.getById(id);
         network.expect('network should be there').nickname = nick;
@@ -409,12 +398,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    socket.topic().subscribe(function(data) {
-        MessageActionCreator.setTopic(data.chan, data.topic);
-    });
-
-    MessageActionCreator.getDispatcher().setTopic.subscribe(function(data) {
-        const channel = document.getElementById('chan-' + data.id);
+    messageGateway.setTopic().subscribe(function(data) {
+        const channel = document.getElementById('chan-' + data.channelId);
         const topicElement = channel.querySelector('.header .topic');
         if (!topicElement) {
             return;
@@ -423,22 +408,14 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         topicElement.textContent = data.topic;
     });
 
-    socket.users().subscribe(function(data) {
-        const channelId = data.chan;
-        const users = data.users.map(function(element: any){
-            return new User(element);
-        });
-        MessageActionCreator.updateUserList(channelId, users);
-    });
-
-    MessageActionCreator.getDispatcher().updateUserList.subscribe(function(data){
+    messageGateway.updateUserList().subscribe(function(data){
         const channel = globalState.networkSet.getChannelById(data.channelId);
         channel.map(function(channel){
             channel.updateUserList(data.list);
         });
     });
 
-    MessageActionCreator.getDispatcher().updateUserList.subscribe(function(data){
+    messageGateway.updateUserList().subscribe(function(data){
         var users = chat.find('#chan-' + data.channelId).find('.users').html(render('user', {
             users: data.list,
         }));
