@@ -64,6 +64,14 @@ class UIActionCreator {
     showConnectSetting(): void {
         this._dispatcher.showConnectSetting.onNext(undefined);
     }
+
+    showGeneralSetting(): void {
+        this._dispatcher.showGeneralSetting.onNext(undefined);
+    }
+
+    showSignIn(): void {
+        this._dispatcher.showSignIn.onNext(undefined);
+    }
 }
 
 export default new UIActionCreator();

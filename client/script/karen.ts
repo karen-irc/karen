@@ -21,6 +21,7 @@ import Channel from './model/Channel';
 import CommandTypeMod from './model/CommandType';
 import ConfigRepository from './adapter/ConfigRepository';
 import CookieDriver from './adapter/CookieDriver';
+import FooterViewController from './output/view/FooterViewController';
 import GeneralSettingViewController from './output/view/GeneralSettingViewController';
 import InputBoxViewController from './output/view/InputBoxViewController';
 import MainViewController from './output/view/MainViewController';
@@ -111,9 +112,9 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const inputBox = new InputBoxViewController(globalState, document.getElementById('form'));
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarViewController(globalState, document.getElementById('sidebar'));
+    const footer = new FooterViewController(messageGateway, document.getElementById('footer'));
 
     var sidebar = $('#sidebar');
-    var $footer = $('#footer');
     var chat = $('#chat');
 
     if (navigator.standalone) {
@@ -175,10 +176,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         AppActionCreator.showSignIn();
     });
 
-    AppActionCreator.getDispatcher().signout.subscribe(function() {
-        $footer.find('.sign-in').click();
-    });
-
     socket.init().subscribe(function(data) {
         if (data.networks.length !== 0) {
             globalState.networkSet = new NetworkSet(data.networks);
@@ -225,10 +222,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     UIActionCreator.getDispatcher().selectChannel.subscribe(function(id){
         globalState.currentTab = new SelectedTab(SelectedTab.TYPE.CHANNEL, id);
-    });
-
-    messageGateway.showConnectSetting().subscribe(function(){
-        $footer.find('.connect').trigger('click');
     });
 
     socket.join().subscribe(function(data) {
@@ -520,27 +513,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    UIActionCreator.getDispatcher().selectChannel.subscribe(function(){
-        $footer.find('.active').removeClass('active');
-    });
-
-    $footer.on('click', '.chan, button', function() {
-        var self = $(this);
-        var target = self.data('target');
-        if (!target) {
-            return;
-        }
-        var id = self.data('id');
-
-        chat.data('id', id);
-        socket.emit('open', id);
-
-        $footer.find('.active').removeClass('active');
-        self.addClass('active')
-            .find('.badge')
-            .removeClass('highlight')
-            .data('count', '')
-            .empty();
+    UIActionCreator.getDispatcher().showSomeSettings.subscribe(function(id) {
+        const target = document.querySelector('#' + id);
 
         UIActionCreator.toggleLeftPane(false);
         $('#windows .active').removeClass('active');
@@ -560,10 +534,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         document.title = title;
 
         globalState.currentTab = new SelectedTab(SelectedTab.TYPE.SETTING, id);
-    });
-
-    $footer.on('click', '#sign-out', function() {
-        AppActionCreator.signout();
     });
 
     AppActionCreator.getDispatcher().signout.subscribe(function(){
