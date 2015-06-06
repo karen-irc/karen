@@ -67,17 +67,6 @@ module.exports = {
     prefetch: true,
 
     //
-    // Display network
-    //
-    // If set to false karen will not expose network settings in login
-    // form, limiting client to connect to the configured network.
-    //
-    // @type     boolean
-    // @default  true
-    //
-    displayNetwork: true,
-
-    //
     // Log settings
     //
     // Logging has to be enabled per user. If enabled, logs will be stored in
