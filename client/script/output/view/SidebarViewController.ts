@@ -25,7 +25,7 @@
  */
 
 /// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
-/// <reference path="../../../../tsd/thrid_party/jquery/jquery.d.ts" />
+/// <reference path="../../../../tsd/third_party/jquery/jquery.d.ts" />
 
 import AppActionCreator from '../../intent/action/AppActionCreator';
 import Channel from '../../model/Channel';

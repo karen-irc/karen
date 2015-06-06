@@ -4,8 +4,8 @@
 /// <reference path="../../tsd/extends.d.ts" />
 /// <reference path="../../node_modules/rx/ts/rx.d.ts" />
 /// <reference path="../../node_modules/option-t/option-t.d.ts" />
-/// <reference path="../../tsd/thrid_party/jquery/jquery.d.ts" />
-/// <reference path="../../tsd/thrid_party/jqueryui/jqueryui.d.ts" />
+/// <reference path="../../tsd/third_party/jquery/jquery.d.ts" />
+/// <reference path="../../tsd/third_party/jqueryui/jqueryui.d.ts" />
 
 // babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
 import 'core-js/modules/es6.array.iterator';
