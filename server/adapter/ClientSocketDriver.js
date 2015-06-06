@@ -48,8 +48,14 @@ export default class ClientSocketDriver {
      */
     auth() {
         return Rx.Observable.create((observer) => {
-            this._socket.on('auth', (data) => {
+            const topic = 'auth';
+            const callback = function (data) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
@@ -59,8 +65,14 @@ export default class ClientSocketDriver {
      */
     input() {
         return Rx.Observable.create((observer) => {
-            this._socket.on('input', (data) => {
+            const topic = 'input';
+            const callback = function (data) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
@@ -70,8 +82,14 @@ export default class ClientSocketDriver {
      */
     more() {
         return Rx.Observable.create((observer) => {
-            this._socket.on('more', (data) => {
+            const topic = 'more';
+            const callback = function (data) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
@@ -81,8 +99,14 @@ export default class ClientSocketDriver {
      */
     connect() {
         return Rx.Observable.create((observer) => {
-            this._socket.on('conn', (data) => {
+            const topic = 'conn';
+            const callback = function (data) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
@@ -92,8 +116,14 @@ export default class ClientSocketDriver {
      */
     open() {
         return Rx.Observable.create((observer) => {
-            this._socket.on('open', (data) => {
+            const topic = 'open';
+            const callback = function (data) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
@@ -103,8 +133,14 @@ export default class ClientSocketDriver {
      */
     sort() {
         return Rx.Observable.create((observer) => {
-            this._socket.on('sort', (data) => {
+            const topic = 'sort';
+            const callback = function (data) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
@@ -114,8 +150,14 @@ export default class ClientSocketDriver {
      */
     disconnect() {
         return Rx.Observable.create((observer) => {
-            this._socket.on('disconnect', () => {
+            const topic = 'disconnect';
+            const callback = function () {
                 observer.onNext();
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
