@@ -27,6 +27,8 @@
 
 import * as Rx from 'rx';
 
+type SettingId = string;
+
 export default class UIActionDispatcher {
 
     toggleLeftPane: Rx.Subject<boolean>;
@@ -36,6 +38,10 @@ export default class UIActionDispatcher {
     selectChannel: Rx.Subject<number>;
     setQuitConfirmDialog: Rx.Subject<void>;
     showConnectSetting: Rx.Subject<void>;
+    showGeneralSetting: Rx.Subject<void>;
+    showSignIn: Rx.Subject<void>;
+
+    showSomeSettings: Rx.Observable<SettingId>;
 
     constructor() {
         this.toggleLeftPane = new Rx.Subject<boolean>();
@@ -49,5 +55,14 @@ export default class UIActionDispatcher {
         this.setQuitConfirmDialog = new Rx.Subject<void>();
 
         this.showConnectSetting = new Rx.Subject<void>();
+        this.showGeneralSetting = new Rx.Subject<void>();
+
+        this.showSignIn = new Rx.Subject<void>();
+
+        this.showSomeSettings = Rx.Observable.merge<SettingId>([
+            this.showSignIn.asObservable().map(function() { return 'sign-in' }),
+            this.showConnectSetting.asObservable().map(function() { return 'connect' }),
+            this.showGeneralSetting.asObservable().map(function() { return 'settings' }),
+        ]);
     }
 }
