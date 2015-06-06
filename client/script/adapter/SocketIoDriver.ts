@@ -40,8 +40,8 @@ export default class SocketIoDriver {
     error(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             const topic = 'error';
-            const callback = function (data: any) {
-                observer.onNext(data);
+            const callback = function (e: any) {
+                observer.onError(e);
             };
             this._socket.on(topic, callback);
 
@@ -52,10 +52,10 @@ export default class SocketIoDriver {
     }
 
     connectError(): Rx.Observable<void> {
-        return Rx.Observable.create<any>((observer) => {
+        return Rx.Observable.create<void>((observer) => {
             const topic = 'connect_error';
-            const callback = function (data: any) {
-                observer.onNext(data);
+            const callback = function () {
+                observer.onNext(undefined);
             };
             this._socket.on(topic, callback);
 
@@ -66,10 +66,10 @@ export default class SocketIoDriver {
     }
 
     disconnect(): Rx.Observable<void> {
-        return Rx.Observable.create<any>((observer) => {
+        return Rx.Observable.create<void>((observer) => {
             const topic = 'disconnect';
-            const callback = function (data: any) {
-                observer.onNext(data);
+            const callback = function () {
+                observer.onNext(undefined);
             };
             this._socket.on(topic, callback);
 
