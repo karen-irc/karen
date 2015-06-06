@@ -39,56 +39,98 @@ export default class SocketIoDriver {
 
     error(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
-            this._socket.on('error', function (e: any) {
-                observer.onError(e);
+            const topic = 'error';
+            const callback = function (data: any) {
+                observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
 
     connectError(): Rx.Observable<void> {
-        return Rx.Observable.create<void>((observer) => {
-            this._socket.on('connect_error', function () {
-                observer.onNext(undefined);
+        return Rx.Observable.create<any>((observer) => {
+            const topic = 'connect_error';
+            const callback = function (data: any) {
+                observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
 
     disconnect(): Rx.Observable<void> {
-        return Rx.Observable.create<void>((observer) => {
-            this._socket.on('disconnect', function () {
-                observer.onNext(undefined);
+        return Rx.Observable.create<any>((observer) => {
+            const topic = 'disconnect';
+            const callback = function (data: any) {
+                observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
 
     auth(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
-            this._socket.on('auth', function (data: any) {
+            const topic = 'auth';
+            const callback = function (data: any) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
 
     init(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
-            this._socket.on('init', function (data: any) {
+            const topic = 'init';
+            const callback = function (data: any) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
 
     join(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
-            this._socket.on('join', function (data: any) {
+            const topic = 'join';
+            const callback = function (data: any) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
 
     message(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
-            this._socket.on('msg', function (data: any) {
+            const topic = 'msg';
+            const callback = function (data: any) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
@@ -103,16 +145,28 @@ export default class SocketIoDriver {
 
     network(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
-            this._socket.on('network', function (data: any) {
+            const topic = 'network';
+            const callback = function (data: any) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
 
     nickname(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
-            this._socket.on('nick', function (data: any) {
+            const topic = 'nick';
+            const callback = function (data: any) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
@@ -127,32 +181,56 @@ export default class SocketIoDriver {
 
     quit(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
-            this._socket.on('quit', function (data: any) {
+            const topic = 'quit';
+            const callback = function (data: any) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
 
     toggle(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
-            this._socket.on('toggle', function (data: any) {
+            const topic = 'toggle';
+            const callback = function (data: any) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
 
     topic(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
-            this._socket.on('topic', function (data: any) {
+            const topic = 'topic';
+            const callback = function (data: any) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
 
     users(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
-            this._socket.on('users', function (data: any) {
+            const topic = 'users';
+            const callback = function (data: any) {
                 observer.onNext(data);
+            };
+            this._socket.on(topic, callback);
+
+            return Rx.Disposable.create(function() {
+                this._socket.off(topic, callback);
             });
         });
     }
