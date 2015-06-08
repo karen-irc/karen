@@ -251,7 +251,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     socket.message().subscribe(function(data) {
-        var target = '#chan-' + data.chan;
+        const channelId = data.chan;
+        var target = '#chan-' + channelId;
         if (data.msg.type === 'error') {
             target = String(globalState.currentTab.channelId.unwrap());
         }
@@ -272,13 +273,17 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
         var type: string = data.msg.type;
         if (type === 'message' || type === 'action') {
-            var nicks: Array<User> = chan.find('.users').data('nicks');
-            if (nicks) {
-                var find = nicks.map(function(i: User): string {
+            const channel = globalState.networkSet.getChannelById(channelId);
+            const nicks: Option<Array<User>> = channel.map(function(channel){
+                return channel.getUserList();
+            });
+
+            if (nicks.isSome) {
+                var find = nicks.unwrap().map(function(i: User): string {
                     return i.nickname;
                 }).indexOf(from);
                 if (find !== -1 && typeof move === 'function') {
-                    move(nicks, find, 0);
+                    move(nicks.unwrap(), find, 0);
                 }
             }
         }
@@ -409,10 +414,9 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     messageGateway.updateUserList().subscribe(function(data){
-        var users = chat.find('#chan-' + data.channelId).find('.users').html(render('user', {
+        chat.find('#chan-' + data.channelId).find('.users').html(render('user', {
             users: data.list,
         }));
-        users.data('nicks', data.list);
     });
 
     var options = config.get();
