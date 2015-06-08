@@ -28,7 +28,6 @@ let babel = require('gulp-babel');
 let babelify = require('babelify');
 let browserify = require('browserify');
 let childProcess = require('child_process');
-let concat = require('gulp-concat');
 let del = require('del');
 let gulp = require('gulp');
 let path = require('path');
