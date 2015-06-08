@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             return;
         }
 
-        AppActionCreator.showSignIn();
+        UIActionCreator.showSignIn();
     });
 
     socket.init().subscribe(function(data) {

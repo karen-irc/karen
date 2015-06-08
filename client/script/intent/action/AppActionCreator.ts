@@ -47,10 +47,6 @@ class AppActionCreator {
         this._dispatcher.reload.onNext(undefined);
     }
 
-    showSignIn(): void {
-        this._dispatcher.signout.onNext(undefined);
-    }
-
     renderNetworksInView(data: Array<Network>) {
         this._dispatcher.renderNetworksInView.onNext(data);
     }
