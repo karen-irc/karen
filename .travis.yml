@@ -10,4 +10,9 @@ node_js:
   - "iojs"
 
 notifications:
+  email: false
   webhooks: http://utatane.softether.net:10800/travis
+
+branches:
+  only:
+    - auto
