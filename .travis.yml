@@ -8,3 +8,10 @@ before_script:
 
 node_js:
   - "iojs"
+
+notifications:
+  webhooks: http://utatane.softether.net:10800/travis
+
+branches:
+  only:
+    - auto
