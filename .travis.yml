@@ -16,3 +16,7 @@ notifications:
 branches:
   only:
     - auto
+
+cache:
+  directories:
+    - node_modules
