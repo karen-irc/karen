@@ -13,6 +13,11 @@ notifications:
   email: false
   webhooks: http://utatane.softether.net:10800/travis
 
+# blacklist
+branches:
+  except:
+    - tmp
+
 cache:
   directories:
     - node_modules
