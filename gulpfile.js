@@ -104,7 +104,7 @@ gulp.task('__cp_client', ['clean:client'], function () {
 
 gulp.task('__typescript', ['clean:client'], function (callback) {
     const args = [
-        path.join(NPM_MOD_DIR, './.bin', 'tsc'),
+        path.resolve(NPM_MOD_DIR, './typescript', './bin', './tsc'),
     ];
     const option = {
         cwd: path.relative(__dirname, ''),
@@ -145,9 +145,10 @@ gulp.task('jslint', function (callback) {
         './server/',
     ];
 
-    const bin = path.join(NPM_MOD_DIR, './.bin', 'eslint');
+    const bin = path.resolve(NPM_MOD_DIR, './eslint', './bin', './eslint.js');
 
     const args = [
+        bin,
         '--ext', '.js',
     ].concat(src);
 
@@ -156,7 +157,7 @@ gulp.task('jslint', function (callback) {
         stdio: 'inherit',
     };
 
-    const eslint = childProcess.spawn(bin, args, option);
+    const eslint = childProcess.spawn('iojs', args, option);
     eslint.on('exit', callback);
 });
 
