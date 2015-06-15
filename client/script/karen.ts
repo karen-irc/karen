@@ -250,6 +250,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         UIActionCreator.selectChannel(id);
     });
 
+    const messageRenderedSubject = new Rx.Subject<{ target: string; message: any; }>();
+
     socket.message().subscribe(function(data) {
         const channelId = data.chan;
         var target = '#chan-' + channelId;
@@ -261,11 +263,12 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         var from: string = data.msg.from;
 
         chan.find('.messages')
-            .append(render('msg', {messages: [data.msg]}))
-            .trigger('msg', [
-                target,
-                data.msg
-            ]);
+            .append(render('msg', {messages: [data.msg]}));
+
+        messageRenderedSubject.onNext({
+            target: target,
+            message: data.msg,
+        });
 
         if (!chan.hasClass('channel')) {
             return;
@@ -488,7 +491,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
         var chan = $(target)
             .addClass('active')
-            .trigger('show')
             .css('z-index', top++)
             .find('.chat')
             .sticky()
@@ -579,14 +581,17 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             .click();
     });
 
-    chat.on('msg', '.messages', function(e, target, msg) {
+    messageRenderedSubject.asObservable().subscribe(function(data){
+        const target = data.target;
+        const msg = data.message;
+
         var button = sidebar.find('.chan[data-target=' + target + ']');
         var isQuery = button.hasClass('query');
         var type = msg.type;
         var highlight = type.indexOf('highlight') !== -1;
         if (highlight || isQuery) {
             if (!document.hasFocus() || !$(target).hasClass('active')) {
-                NotificationActionCreator.showNotification(target, {
+                NotificationActionCreator.showNotification(parseInt(target, 10), {
                     from: msg.from,
                     text: msg.text.trim(),
                 });
