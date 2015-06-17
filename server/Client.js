@@ -71,7 +71,7 @@ export default class Client {
         });
 
         if (config) {
-            var delay = 0;
+            let delay = 0;
             (config.networks || []).forEach((n) => {
                 setTimeout(() => {
                     this.connect(n);
@@ -85,12 +85,12 @@ export default class Client {
         if (this.sockets !== null) {
             this.sockets.in(this.id).emit(event, data);
         }
-        var config = this.config || {};
+        const config = this.config || {};
         if (config.log === true) {
             if (event === 'msg') {
-                var target = this.find(data.chan);
+                const target = this.find(data.chan);
                 if (target) {
-                    var chan = target.chan.name;
+                    let chan = target.chan.name;
                     if (target.chan.type === ChannelType.LOBBY) {
                         chan = target.network.host;
                     }
@@ -116,8 +116,8 @@ export default class Client {
     }
 
     connect(args) {
-        var config = ConfigDriver.getConfig();
-        var server = {
+        const config = ConfigDriver.getConfig();
+        const server = {
             name: args.name || '',
             host: args.host || 'irc.freenode.org',
             port: args.port || (args.tls ? 6697 : 6667),
@@ -127,17 +127,17 @@ export default class Client {
         if (config.bind) {
             server.localAddress = config.bind;
             if(args.tls) {
-                var socket = net.connect(server);
+                const socket = net.connect(server);
                 server.socket = socket;
             }
         }
 
-        var stream = args.tls ? tls.connect(server) : net.connect(server);
+        const stream = args.tls ? tls.connect(server) : net.connect(server);
 
         stream.on('error', (e) => {
             console.log('Client#connect():\n' + e);
             stream.end();
-            var msg = new Message(null, {
+            const msg = new Message(null, {
                 type: MessageType.ERROR,
                 text: 'Connection error.'
             });
@@ -146,11 +146,11 @@ export default class Client {
             });
         });
 
-        var nick = args.nick || 'karen-user';
-        var username = args.username || nick.replace(/[^a-zA-Z0-9]/g, '');
-        var realname = args.realname || 'karen User';
+        const nick = args.nick || 'karen-user';
+        const username = args.username || nick.replace(/[^a-zA-Z0-9]/g, '');
+        const realname = args.realname || 'karen User';
 
-        var irc = slate(stream);
+        const irc = slate(stream);
 
         if (args.password) {
             irc.pass(args.password);
@@ -160,7 +160,7 @@ export default class Client {
         irc.nick(nick);
         irc.user(username, realname);
 
-        var network = new Network({
+        const network = new Network({
             name: server.name,
             host: server.host,
             port: server.port,
@@ -180,7 +180,7 @@ export default class Client {
         });
 
         events.forEach((plugin) => {
-            var pluginPath = './plugins/irc-events/' + plugin;
+            const pluginPath = './plugins/irc-events/' + plugin;
             require(pluginPath).apply(this, [
                 irc,
                 network
@@ -188,8 +188,8 @@ export default class Client {
         });
 
         irc.once('welcome', () => {
-            var delay = 1000;
-            var commands = args.commands;
+            let delay = 1000;
+            const commands = args.commands;
             if (Array.isArray(commands)) {
                 commands.forEach((cmd) => {
                     setTimeout(() => {
@@ -207,7 +207,7 @@ export default class Client {
         });
 
         irc.once('pong', () => {
-            var join = (args.join || '');
+            let join = (args.join || '');
             if (join) {
                 join = join.replace(/\,/g, ' ').split(/\s+/g);
                 irc.join(join);
@@ -216,18 +216,18 @@ export default class Client {
     }
 
     input(data) {
-        var text = data.text.trim();
-        var target = this.find(data.target);
+        let text = data.text.trim();
+        const target = this.find(data.target);
         if (text.charAt(0) !== '/') {
             text = '/say ' + text;
         }
-        var args = text.split(' ');
-        var cmd = args.shift().replace('/', '').toLowerCase();
+        const args = text.split(' ');
+        const cmd = args.shift().replace('/', '').toLowerCase();
         inputs.forEach((plugin) => {
-            var pluginPath = '';
+            let pluginPath = '';
             try {
                 pluginPath = './plugins/inputs/' + plugin;
-                var fn = require(pluginPath);
+                const fn = require(pluginPath);
                 fn.apply(this, [
                     target.network,
                     target.chan,
@@ -241,13 +241,13 @@ export default class Client {
     }
 
     more(data) {
-        var target = this.find(data.target);
+        const target = this.find(data.target);
         if (!target) {
             return;
         }
-        var chan = target.chan;
-        var count = chan.messages.length - (data.count || 0);
-        var messages = chan.messages.slice(Math.max(0, count - 100), count);
+        const chan = target.chan;
+        const count = chan.messages.length - (data.count || 0);
+        const messages = chan.messages.slice(Math.max(0, count - 100), count);
         this.emit('more', {
             chan: chan.id,
             messages: messages
@@ -255,7 +255,7 @@ export default class Client {
     }
 
     open(data) {
-        var target = this.find(data);
+        const target = this.find(data);
         if (target) {
             target.chan.unread = 0;
             this.activeChannel = target.chan.id;
@@ -263,31 +263,32 @@ export default class Client {
     }
 
     sort(data) {
-        var type = data.type;
-        var order = data.order || [];
-        var sorted = null;
+        const type = data.type;
+        const order = data.order || [];
+        let sorted = null;
 
         switch (type) {
-        case 'networks':
+        case 'networks': {
             sorted = [];
             order.forEach((id) => {
-                var find = _.find(this.networks, { id });
+                const find = _.find(this.networks, { id });
                 if (find) {
                     sorted.push(find);
                 }
             });
             this.networks = sorted;
             break;
+        }
 
-        case 'channels':
-            var target = data.target;
-            var network = _.find(this.networks, {id: target});
+        case 'channels': {
+            const target = data.target;
+            const network = _.find(this.networks, {id: target});
             if (!network) {
                 return;
             }
             sorted = [];
             order.forEach((id) => {
-                var find = _.find(network.channels, { id });
+                const find = _.find(network.channels, { id });
                 if (find) {
                     sorted.push(find);
                 }
@@ -295,19 +296,20 @@ export default class Client {
             network.channels = sorted;
             break;
         }
+        }
     }
 
     quit() {
-        var sockets = this.sockets.sockets;
-        var room = sockets.adapter.rooms[this.id] || [];
-        for (var user in room) {
-            var socket = sockets.adapter.nsp.connected[user];
+        const sockets = this.sockets.sockets;
+        const room = sockets.adapter.rooms[this.id] || [];
+        for (const user in room) {
+            const socket = sockets.adapter.nsp.connected[user];
             if (socket) {
                 socket.disconnect();
             }
         }
         this.networks.forEach((network) => {
-            var irc = network.irc;
+            const irc = network.irc;
             if (network.connected) {
                 irc.quit();
             } else {
@@ -317,7 +319,7 @@ export default class Client {
     }
 
     save(force) {
-        var config = ConfigDriver.getConfig();
+        const config = ConfigDriver.getConfig();
 
         if(config.public) {
             return;
@@ -331,12 +333,12 @@ export default class Client {
             return;
         }
 
-        var name = this.name;
-        var userPath = path.join(ConfigDriver.getHome(), 'users', name + '.json');
+        const name = this.name;
+        const userPath = path.join(ConfigDriver.getHome(), 'users', name + '.json');
 
-        var networks = this.networks.map((network) => network.export());
+        const networks = this.networks.map((network) => network.export());
 
-        var json = {};
+        let json = {};
         fs.readFile(userPath, 'utf-8', (err, data) => {
             if (err) {
                 console.log(err);

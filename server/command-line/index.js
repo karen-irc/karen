@@ -18,12 +18,12 @@ import './remove';
 import './reset';
 import './edit';
 
-var argv = program.parseOptions(process.argv);
+const argv = program.parseOptions(process.argv);
 if (program.home) {
     ConfigDriver.setHome(program.home);
 }
 
-var config = path.join(ConfigDriver.getHome(), 'config.js');
+const config = path.join(ConfigDriver.getHome(), 'config.js');
 if (!fs.existsSync(config)) {
     mkdirp.sync(ConfigDriver.getHome());
     fs.writeFileSync(
