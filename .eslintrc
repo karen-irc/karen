@@ -70,11 +70,14 @@
             "words": true,
             "nonwords": false
         }],
+        "spaced-comment": 0,
         "spaced-line-comment": 2,
 
         // ECMAScript 6
         "generator-star-spacing": [2, "after"],
+        "no-var": 1,
         "object-shorthand": 0,
+        "prefer-const": 1,
 
         // ESLint-plugin-React
         // https://github.com/yannickcr/eslint-plugin-react

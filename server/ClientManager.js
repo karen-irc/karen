@@ -14,7 +14,7 @@ import Rx from 'rx';
  */
 const pluckFromSet = function (set, path) {
     const result = [];
-    for (let item of set) {
+    for (const item of set) {
         if ( item[path] !== undefined ) {
             const value = item[path];
             result.push(item);
@@ -33,7 +33,7 @@ const pluckFromSet = function (set, path) {
 const difference = function (a, b) {
     const diff = [];
     const base = new Set(b);
-    for (let item of a) {
+    for (const item of a) {
         if (!base.has(item)) {
             diff.push(item);
         }
@@ -67,7 +67,7 @@ export default class ClientManager {
      *  @return {Client}
      */
     _findClient(name) {
-        for (let client of this._clients) {
+        for (const client of this._clients) {
             if (client.name === name) {
                 return client;
             }
@@ -79,8 +79,8 @@ export default class ClientManager {
      * @return {void}
      */
     loadUsers() {
-        var users = this.getUsers();
-        for (var i in users) {
+        const users = this.getUsers();
+        for (const i in users) {
             this.loadUser(users[i]);
         }
     }
@@ -90,7 +90,7 @@ export default class ClientManager {
      * @return {void}
      */
     loadUser(name) {
-        var raw = null;
+        let raw = null;
         try {
             raw = fs.readFileSync(
                 path.join(ConfigDriver.getHome(), 'users', name + '.json'),
@@ -101,7 +101,7 @@ export default class ClientManager {
             console.log(e);
         }
 
-        var json = null;
+        let json = null;
         try {
             json = JSON.parse(raw);
         } catch(e) {
@@ -116,10 +116,10 @@ export default class ClientManager {
             return;
         }
 
-        var user = new Client(this.sockets, name, json);
+        const user = new Client(this.sockets, name, json);
         this._clients.add(user);
 
-        var message = 'User \'' + name + '\' loaded.';
+        const message = 'User \'' + name + '\' loaded.';
         console.log(message);
     }
 
@@ -127,11 +127,11 @@ export default class ClientManager {
      * @return {Array}
      */
     getUsers() {
-        var users = [];
-        var usersPath = path.join(ConfigDriver.getHome(), 'users');
+        const users = [];
+        const usersPath = path.join(ConfigDriver.getHome(), 'users');
         mkdirp.sync(usersPath);
         try {
-            var files = fs.readdirSync(usersPath);
+            const files = fs.readdirSync(usersPath);
             files.forEach(function(file) {
                 if (file.indexOf('.json') !== -1) {
                     users.push(file.replace('.json', ''));
@@ -152,13 +152,13 @@ export default class ClientManager {
      * @throws {Error}
      */
     addUser(name, password) {
-        var users = this.getUsers();
+        const users = this.getUsers();
         if (users.indexOf(name) !== -1) {
             return false;
         }
         try {
-            var usersPath = path.join(ConfigDriver.getHome(), 'users');
-            var user = {
+            const usersPath = path.join(ConfigDriver.getHome(), 'users');
+            const user = {
                 user: name,
                 password: password || '',
                 log: false,
@@ -183,12 +183,12 @@ export default class ClientManager {
      * @throws {Error}
      */
     removeUser(name) {
-        var users = this.getUsers();
+        const users = this.getUsers();
         if (users.indexOf(name) === -1) {
             return false;
         }
         try {
-            var userPath = path.join(ConfigDriver.getHome(), 'users', name + '.json');
+            const userPath = path.join(ConfigDriver.getHome(), 'users', name + '.json');
             fs.unlinkSync(userPath);
         } catch(e) {
             throw e;

@@ -32,7 +32,7 @@ export default class User {
      *  @param  {?} attr
      */
     constructor(attr) {
-        let data = assign({
+        const data = assign({
             mode: '',
             name: '',
         }, attr);

@@ -32,7 +32,7 @@ export default class Hostmask {
      *  @param  {?} attr
      */
     constructor(attr) {
-        let data = assign({
+        const data = assign({
             nick: '',
             username: '',
             hostname: '',

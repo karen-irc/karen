@@ -99,7 +99,7 @@ function index(req, res, next) {
             throw err;
         }
 
-        var data = _.merge(_.merge({}, Package.getPackage()), config);
+        const data = _.merge(_.merge({}, Package.getPackage()), config);
         res.setHeader('Content-Type', 'text/html');
         res.setHeader('Content-Security-Policy', cspDirectiveStr);
         res.writeHead(200);
@@ -172,7 +172,7 @@ function auth(socketGateway, data) {
         return;
     }
 
-    for (let client of manager.clients) {
+    for (const client of manager.clients) {
         let success = false;
         if (data.token) {
             if (data.token === client.token) {

@@ -5,7 +5,7 @@ import moment from 'moment';
 import ConfigDriver from './adapter/ConfigDriver';
 
 function write(user, network, chan, msg) {
-    var logsPath = path.join(ConfigDriver.getHome(), 'logs', user, network);
+    const logsPath = path.join(ConfigDriver.getHome(), 'logs', user, network);
     try {
         mkdirp.sync(logsPath);
     } catch(e) {
@@ -13,14 +13,14 @@ function write(user, network, chan, msg) {
         return;
     }
 
-    var config = ConfigDriver.getConfig();
-    var format = (config.logs || {}).format || 'YYYY-MM-DD HH:mm:ss';
-    var tz = (config.logs || {}).timezone || 'UTC+00:00';
+    const config = ConfigDriver.getConfig();
+    const format = (config.logs || {}).format || 'YYYY-MM-DD HH:mm:ss';
+    const tz = (config.logs || {}).timezone || 'UTC+00:00';
 
-    var time = moment().zone(tz).format(format);
-    var line = '[' + time + '] ';
+    const time = moment().zone(tz).format(format);
+    let line = '[' + time + '] ';
 
-    var type = msg.type.trim();
+    const type = msg.type.trim();
     if (type === 'message' || type === 'highlight') {
         // Format:
         // [2014-01-01 00:00:00] <Arnold> Put that cookie down.. Now!!

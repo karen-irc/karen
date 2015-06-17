@@ -55,7 +55,7 @@ export default class SocketIoServerDriver {
     connect() {
         return Rx.Observable.create((observer) => {
             this._server.on('connect', (socket) => {
-                let gateway = new ClientSocketDriver(socket);
+                const gateway = new ClientSocketDriver(socket);
                 observer.onNext(gateway);
             });
         });
