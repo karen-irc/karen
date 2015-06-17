@@ -43,12 +43,12 @@ function findUserImage (channel, message) {
         return null;
     }
 
-    let network = channel.network;
+    const network = channel.network;
     if (!network.allowUserImage) {
         return null;
     }
 
-    let hostmask = message.hostmask;
+    const hostmask = message.hostmask;
     if (!hostmask) {
         return null;
     }
@@ -64,7 +64,7 @@ export default class Message {
      *  @param  {?} attr
      */
     constructor(channel, attr) {
-        let data = assign({
+        const data = assign({
             type: MessageType.MESSAGE,
             id: id++,
             text: '',
@@ -107,7 +107,7 @@ export default class Message {
     }
 
     toJSON() {
-        let clone = _.clone(this);
+        const clone = _.clone(this);
         clone.channel = undefined;
         return clone;
     }

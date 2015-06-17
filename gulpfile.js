@@ -24,15 +24,15 @@
  */
 'use strict';
 
-let babel = require('gulp-babel');
-let babelify = require('babelify');
-let browserify = require('browserify');
-let childProcess = require('child_process');
-let del = require('del');
-let gulp = require('gulp');
-let path = require('path');
-let source = require('vinyl-source-stream');
-let uglify = require('gulp-uglifyjs');
+const babel = require('gulp-babel');
+const babelify = require('babelify');
+const browserify = require('browserify');
+const childProcess = require('child_process');
+const del = require('del');
+const gulp = require('gulp');
+const path = require('path');
+const source = require('vinyl-source-stream');
+const uglify = require('gulp-uglifyjs');
 
 const isRelease = process.env.NODE_ENV === 'production';
 
@@ -82,15 +82,15 @@ gulp.task('__uglify', ['clean:client'], function () {
 });
 
 gulp.task('__handlebars', ['clean:client'], function () {
-    let handlebars = path.resolve(NPM_MOD_DIR, './handlebars/bin/handlebars');
-    let args = [
+    const handlebars = path.resolve(NPM_MOD_DIR, './handlebars/bin/handlebars');
+    const args = [
         String(handlebars),
         'client/views/',
         '-e', 'tpl',
         '-f', path.resolve(DIST_CLIENT_JS, './karen.templates.js'),
     ];
 
-    let option = {
+    const option = {
         cwd: path.relative(__dirname, ''),
         stdio: 'inherit',
     };

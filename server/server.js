@@ -172,7 +172,7 @@ function auth(socketGateway, data) {
         return;
     }
 
-    for (let client of manager.clients) {
+    for (const client of manager.clients) {
         let success = false;
         if (data.token) {
             if (data.token === client.token) {

@@ -44,7 +44,7 @@ export default class Channal {
      *  @param  {?} attr
      */
     constructor(network, attr) {
-        let data = assign({
+        const data = assign({
             id: id++,
             messages: [],
             name: '',
@@ -99,7 +99,7 @@ export default class Channal {
      *  @return {string}
      */
     getMode(name) {
-        let user = _.find(this.users, {name: name});
+        const user = _.find(this.users, {name: name});
         if (!!user) {
             return user.mode;
         }
@@ -112,7 +112,7 @@ export default class Channal {
      *  @return {Channal}
      */
     toJSON() {
-        let clone = _.clone(this);
+        const clone = _.clone(this);
         clone.messages = clone.messages.slice(-100);
         clone.network = undefined;
         return clone;

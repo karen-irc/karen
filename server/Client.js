@@ -106,8 +106,8 @@ export default class Client {
     }
 
     find(id) {
-        for (let network of this.networks) {
-            let chan = _.find(network.channels, {id: id});
+        for (const network of this.networks) {
+            const chan = _.find(network.channels, {id: id});
             if (chan) {
                 return { network, chan };
             }

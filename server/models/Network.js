@@ -63,7 +63,7 @@ export default class Network {
      *  @param  {?} attr
      */
     constructor(attr) {
-        let data = assign({
+        const data = assign({
             name: '',
             host: '',
             port: 6667,
@@ -132,7 +132,7 @@ export default class Network {
      *  @return {?}
      */
     export() {
-        let network = _.pick(this, [
+        const network = _.pick(this, [
             'name',
             'host',
             'port',
@@ -155,7 +155,7 @@ export default class Network {
      *  @return {Object}
      */
     toJSON() {
-        let json = assign(this, {nick: (this.irc || {}).me || ''});
+        const json = assign(this, {nick: (this.irc || {}).me || ''});
         return _.omit(json, 'irc', 'password');
     }
 }
