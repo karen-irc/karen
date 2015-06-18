@@ -121,8 +121,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         document.documentElement.classList.add('web-app-mode');
     }
 
-    $('#footer .icon').tooltip();
-
     function render(name: string, data: any): string {
         return Handlebars.templates[name](data);
     }
