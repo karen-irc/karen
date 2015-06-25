@@ -313,10 +313,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
                 channels: channelList,
             })
         );
-        $('#connect')
-            .find('.btn')
-            .prop('disabled', false)
-            .end();
+
         UIActionCreator.setQuitConfirmDialog();
 
         // Select the first tab of the connected network.
