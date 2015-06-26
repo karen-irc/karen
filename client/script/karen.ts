@@ -339,28 +339,15 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     MessageActionCreator.getDispatcher().partFromChannel.subscribe(function(id){
-        sidebar.find('.chan[data-id=\'' + id + '\']').remove();
         $('#chan-' + id).remove();
-
-        var next: JQuery = null;
         var highest = -1;
         chat.find('.chan').each(function() {
             var self: JQuery = $(this);
             var z = parseInt(self.css('z-index'), 10);
             if (z > highest) {
                 highest = z;
-                next = self;
             }
         });
-
-        if (next !== null) {
-            let id = next.data('id');
-            sidebar.find('[data-id=' + id + ']').click();
-        } else {
-            sidebar.find('.chan')
-                .eq(0)
-                .click();
-        }
     });
 
     socket.quit().subscribe(function(data) {

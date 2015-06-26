@@ -48,6 +48,8 @@ export default class SidebarViewController implements EventListenerObject {
     _disposeSelectChannel: Rx.IDisposable;
     _disposeAddedNetwork: Rx.IDisposable;
     _disposeDeletedNetwork: Rx.IDisposable;
+    _disposePartFromChannel: Rx.IDisposable;
+
     _obsJoinChannel: Rx.Observable<number>;
 
     constructor(domain: any, element: Element) {
@@ -75,6 +77,10 @@ export default class SidebarViewController implements EventListenerObject {
         this._disposeDeletedNetwork = domain.networkSet.deletedStream().subscribe((network: Network) => {
             this.deleteNetwork(network);
         });
+
+        this._disposePartFromChannel = MessageActionCreator.getDispatcher().partFromChannel.subscribe((id) => {
+            this.removeChannel(id);
+         });
 
         this._obsJoinChannel = MessageActionCreator.getDispatcher().joinChannel.flatMap((data) => {
             return this.joinChannel(data.networkId, data.channel);
@@ -226,9 +232,15 @@ export default class SidebarViewController implements EventListenerObject {
         }
 
         const selector = '.js-sidebar-channel[data-id="' + String(id) + '"]';
-        const target = this._element.querySelector(selector);
+        let target = this._element.querySelector(selector);
         if (!target) {
-            return;
+            const first = this._element.querySelector('.js-sidebar-channel');
+            if (!!first) {
+                target = first;
+            }
+            else {
+                return;
+            }
         }
 
         target.classList.add('active');
@@ -240,5 +252,14 @@ export default class SidebarViewController implements EventListenerObject {
             $(badge).data('count', '');
             badge.textContent = '';
         }
+    }
+
+    removeChannel(id: number): void {
+        const element = this._element.querySelector('.js-sidebar-channel[data-id=\'' + String(id) + '\']');
+        element.parentNode.removeChild(element);
+
+        // FIXME: This should be passed Option<T>.
+        const channelId = this.domain.currentTab.channelId.unwrapOr(-1);
+        UIActionCreator.selectChannel(channelId);
     }
 }
