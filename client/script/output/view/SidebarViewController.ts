@@ -30,6 +30,7 @@
 import AppActionCreator from '../../intent/action/AppActionCreator';
 import Channel from '../../model/Channel';
 import CommandTypeMod from '../../model/CommandType';
+import {DomainState} from '../../model/DomainState';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import Network from '../../model/Network';
 import * as Rx from 'rx';
@@ -42,7 +43,7 @@ const CommandType = CommandTypeMod.type;
 export default class SidebarViewController implements EventListenerObject {
 
     _element: Element;
-    domain: any;
+    domain: DomainState;
     _disposeSignout: Rx.IDisposable;
     _disposeRenderNetworks: Rx.IDisposable;
     _disposeSelectChannel: Rx.IDisposable;
@@ -52,7 +53,7 @@ export default class SidebarViewController implements EventListenerObject {
 
     _obsJoinChannel: Rx.Observable<number>;
 
-    constructor(domain: any, element: Element) {
+    constructor(domain: DomainState, element: Element) {
         this._element = element;
         this.domain = domain;
 

@@ -26,6 +26,7 @@
 /// <reference path="../../../../tsd/mousetrap.d.ts" />
 /// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
+import {DomainState} from '../../model/DomainState';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import Mousetrap from 'mousetrap';
 import * as Rx from 'rx';
@@ -34,11 +35,11 @@ import UIActionCreator from '../../intent/action/UIActionCreator';
 export default class InputBoxViewController {
 
     _element: Element;
-    _domain: any;
+    _domain: DomainState;
     _textInput: HTMLInputElement;
     _disposeFocus: Rx.IDisposable;
 
-    constructor(domain: any, element: Element) {
+    constructor(domain: DomainState, element: Element) {
         this._element = element;
         this._domain = domain;
         this._textInput = <HTMLInputElement>element.querySelector('#input');

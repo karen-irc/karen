@@ -30,18 +30,19 @@
 import arrayFindIndex from 'core-js/library/fn/array/find-index';
 import AppActionCreator from '../intent/action/AppActionCreator';
 import Channel from '../model/Channel';
+import {DomainState} from '../model/DomainState';
 import Mousetrap from 'mousetrap';
 import UIActionCreator from '../intent/action/UIActionCreator';
 import {Option} from 'option-t';
 
 export default class WindowPresenter {
 
-    _domain: any;
+    _domain: DomainState;
     _disposeReload: Rx.IDisposable;
     _disposeFocus: Rx.IDisposable;
     _disposeQuitConfirmDialog: Rx.IDisposable;
 
-    constructor(domain: any) {
+    constructor(domain: DomainState) {
         this._domain = domain;
 
         this._disposeReload = AppActionCreator.getDispatcher().reload.subscribe(function () {

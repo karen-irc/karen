@@ -21,6 +21,7 @@ import Channel from './model/Channel';
 import CommandTypeMod from './model/CommandType';
 import ConfigRepository from './adapter/ConfigRepository';
 import CookieDriver from './adapter/CookieDriver';
+import {DomainState, SelectedTab} from './model/DomainState'; 
 import FooterViewController from './output/view/FooterViewController';
 import GeneralSettingViewController from './output/view/GeneralSettingViewController';
 import InputBoxViewController from './output/view/InputBoxViewController';
@@ -61,45 +62,6 @@ function arrayFlatMap<T, U>(target: Array<T>, fn: {(value: T): Array<U>}) : Arra
         const mapped : Array<U> = fn(element);
         return result.concat(mapped);
     }, []);
-}
-
-// FIXME: This should be go a way.
-class SelectedTab {
-
-    type: string;
-    id: string|number;
-
-    constructor(type: string, id: string|number) {
-        this.type = type;
-        this.id = id;
-    }
-
-    static get TYPE(): any {
-        return {
-            SETTING: 'setting',
-            CHANNEL: 'channel',
-        };
-    }
-
-    get channelId(): Option<number> {
-        if (this.type === SelectedTab.TYPE.SETTING) {
-            return new None<number>();
-        }
-
-        const id = parseInt(<any>this.id, 10);
-        return new Some<number>(id);
-    }
-}
-
-class DomainState {
-
-    networkSet: NetworkSet;
-    currentTab: SelectedTab;
-
-    constructor() {
-        this.networkSet = new NetworkSet([]);
-        this.currentTab = null;
-    }
 }
 
 document.addEventListener('DOMContentLoaded', function onLoad() {
