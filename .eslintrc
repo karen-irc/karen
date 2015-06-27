@@ -26,6 +26,7 @@
             "requireParamDescription": false,
             "requireReturnDescription": false
         }],
+        "no-unexpected-multiline": 1,
 
         // Best Practices
         "block-scoped-var": 1,
@@ -74,7 +75,12 @@
         "spaced-line-comment": 2,
 
         // ECMAScript 6
-        "generator-star-spacing": [2, "after"],
+        "constructor-super": 2,
+        "generator-star-spacing": [2, {
+            "before": false,
+            "after": true
+        }],
+        "no-this-before-super": 2,
         "no-var": 1,
         "object-shorthand": 0,
         "prefer-const": 1,
