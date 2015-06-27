@@ -66,7 +66,7 @@
     "browserify": "^10.0.0",
     "del": "^1.1.1",
     "eslint": "^0.24.0",
-    "eslint-plugin-react": "^2.4.0",
+    "eslint-plugin-react": "^2.5.2",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
     "gulp-uglifyjs": "^0.6.1",
