@@ -37,6 +37,10 @@ export default class Network {
     nickname: string;
     _channelList: Array<Channel>;
 
+    private __addedChannelSubject: Rx.Subject<Channel>;
+    private __removedChannelSubject: Rx.Subject<Channel>;
+    private __changedNicknameSubject: Rx.Subject<string>;
+
     constructor(raw: any) {
         this.id = raw.id;
 
@@ -48,6 +52,10 @@ export default class Network {
         });
 
         this._channelList = channelList;
+
+        this.__addedChannelSubject = new Rx.Subject<Channel>();
+        this.__removedChannelSubject = new Rx.Subject<Channel>();
+        this.__changedNicknameSubject = new Rx.Subject<string>();
     }
 
     /**
@@ -88,5 +96,17 @@ export default class Network {
     }
 
     quit(): void {
+    }
+
+    addedChannelStream(): Rx.Observable<Channel> {
+        return this.__addedChannelSubject.asObservable();
+    }
+
+    removedChannelStream(): Rx.Observable<Channel> {
+        return this.__removedChannelSubject.asObservable();
+    }
+
+    changedNickStream(): Rx.Observable<string> {
+        return this.__changedNicknameSubject.asObservable();
     }
 }
