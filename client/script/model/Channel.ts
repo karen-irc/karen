@@ -37,6 +37,10 @@ export default class Channel {
     _messageBuffer: Array<Message>;
     network: Network;
 
+    private __newMessageSubject: Rx.Subject<Message>;
+    private __newTopicSubject: Rx.Subject<string>;
+    private __updateUserListSubject: Rx.Subject<Array<User>>;
+
     constructor(network: Network, raw: any) {
         this.id = raw.id;
 
@@ -64,6 +68,10 @@ export default class Channel {
 
         this._messageBuffer = messages;
         this.network = network;
+
+        this.__newMessageSubject = new Rx.Subject<Message>();
+        this.__newTopicSubject = new Rx.Subject<string>();
+        this.__updateUserListSubject = new Rx.Subject<Array<User>>();
     }
 
     get unread(): number {
@@ -84,5 +92,17 @@ export default class Channel {
 
     updateUserList(list: Array<User>): void {
         this._userList = list;
+    }
+
+    newMessageStream(): Rx.Observable<Message> {
+        return this.__newMessageSubject.asObservable();
+    }
+
+    newTopicStream(): Rx.Observable<string> {
+        return this.__newTopicSubject.asObservable();
+    }
+
+    updatedUserListStream(): Rx.Observable<Array<User>> {
+        return this.__updateUserListSubject.asObservable();
     }
 }
