@@ -93,6 +93,18 @@ export default class Network {
 
     addChannel(channel: Channel): void {
         this._channelList.push(channel);
+        this.__addedChannelSubject.onNext(channel);
+    }
+
+    removeChannel(channel: Channel): void {
+        const index = this._channelList.indexOf(channel);
+        this._channelList.slice(index, 0);
+        this.__removedChannelSubject.onNext(channel);
+    }
+
+    changeNickName(nick: string): void {
+        this.nickname = nick;
+        this.__changedNicknameSubject.onNext(nick);
     }
 
     quit(): void {
