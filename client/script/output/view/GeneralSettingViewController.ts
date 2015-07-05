@@ -28,7 +28,7 @@
 import NotificationActionCreator from '../../intent/action/NotificationActionCreator';
 import * as Rx from 'rx';
 import SettingActionCreator from '../../intent/action/SettingActionCreator';
-import SettingStore from '../../store/SettingStore';
+import SettingStore from '../viewmodel/SettingStore';
 
 export default class GeneralSettingViewController implements EventListenerObject {
 

@@ -34,7 +34,7 @@ import NotificationActionCreator from './intent/action/NotificationActionCreator
 import NotificationPresenter from './output/NotificationPresenter';
 import * as Rx from 'rx';
 import SettingActionCreator from './intent/action/SettingActionCreator';
-import SettingStore from './store/SettingStore';
+import SettingStore from './output/viewmodel/SettingStore';
 import SidebarViewController from './output/view/SidebarViewController';
 import SocketIoDriver from './adapter/SocketIoDriver';
 import {Some, None, Option} from 'option-t';

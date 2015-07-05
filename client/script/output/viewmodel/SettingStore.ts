@@ -23,16 +23,16 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
 // babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
-import ConfigRepository from '../adapter/ConfigRepository';
+import ConfigRepository from '../../adapter/ConfigRepository';
 import * as Rx from 'rx';
-import Setting from '../model/Setting';
-import SettingActionCreator from '../intent/action/SettingActionCreator';
+import Setting from '../../model/Setting';
+import SettingActionCreator from '../../intent/action/SettingActionCreator';
 
 type SetValue = {
     name: string;
