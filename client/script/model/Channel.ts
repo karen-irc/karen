@@ -90,8 +90,18 @@ export default class Channel {
         return this._userList;
     }
 
+    addNewMessage(message: Message): void {
+        this.__newMessageSubject.onNext(message);
+    }
+
+    updateTopic(topic: string): void {
+        this.topic = topic;
+        this.__newTopicSubject.onNext(topic);
+    }
+
     updateUserList(list: Array<User>): void {
         this._userList = list;
+        this.__updateUserListSubject.onNext(list);
     }
 
     newMessageStream(): Rx.Observable<Message> {
