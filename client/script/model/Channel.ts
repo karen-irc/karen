@@ -23,6 +23,9 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
+
+import * as Rx from 'rx';
 import Message from './Message';
 import Network from './Network';
 import User from './User';

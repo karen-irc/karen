@@ -26,7 +26,9 @@
 /// <reference path="../../../tsd/core-js.d.ts" />
 /// <reference path="../../../tsd/mousetrap.d.ts" />
 /// <reference path="../../../node_modules/option-t/option-t.d.ts" />
+/// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
 
+import * as Rx from 'rx';
 import arrayFindIndex from 'core-js/library/fn/array/find-index';
 import AppActionCreator from '../intent/action/AppActionCreator';
 import Channel from '../model/Channel';

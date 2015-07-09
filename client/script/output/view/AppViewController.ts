@@ -23,6 +23,9 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
+
+import * as Rx from 'rx';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
 export default class AppViewController implements EventListenerObject {
