@@ -40,12 +40,12 @@ export default class SocketIoDriver {
     error(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             const topic = 'error';
-            const callback = function (e: any) {
+            const callback = (e: any) => {
                 observer.onError(e);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -54,12 +54,12 @@ export default class SocketIoDriver {
     connectError(): Rx.Observable<void> {
         return Rx.Observable.create<void>((observer) => {
             const topic = 'connect_error';
-            const callback = function () {
+            const callback = () => {
                 observer.onNext(undefined);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -68,12 +68,12 @@ export default class SocketIoDriver {
     disconnect(): Rx.Observable<void> {
         return Rx.Observable.create<void>((observer) => {
             const topic = 'disconnect';
-            const callback = function () {
+            const callback = () => {
                 observer.onNext(undefined);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -82,12 +82,12 @@ export default class SocketIoDriver {
     auth(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             const topic = 'auth';
-            const callback = function (data: any) {
+            const callback = (data: any) => {
                 observer.onNext(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -96,12 +96,12 @@ export default class SocketIoDriver {
     init(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             const topic = 'init';
-            const callback = function (data: any) {
+            const callback = (data: any) => {
                 observer.onNext(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -110,12 +110,12 @@ export default class SocketIoDriver {
     join(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             const topic = 'join';
-            const callback = function (data: any) {
+            const callback = (data: any) => {
                 observer.onNext(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -124,12 +124,12 @@ export default class SocketIoDriver {
     message(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             const topic = 'msg';
-            const callback = function (data: any) {
+            const callback = (data: any) => {
                 observer.onNext(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -137,7 +137,7 @@ export default class SocketIoDriver {
 
     more(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
-            this._socket.on('more', function (data: any) {
+            this._socket.on('more', (data: any) => {
                 observer.onNext(data);
             });
         });
@@ -146,12 +146,12 @@ export default class SocketIoDriver {
     network(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             const topic = 'network';
-            const callback = function (data: any) {
+            const callback = (data: any) => {
                 observer.onNext(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -160,12 +160,12 @@ export default class SocketIoDriver {
     nickname(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             const topic = 'nick';
-            const callback = function (data: any) {
+            const callback = (data: any) => {
                 observer.onNext(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -173,7 +173,7 @@ export default class SocketIoDriver {
 
     part(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
-            this._socket.on('part', function (data: any) {
+            this._socket.on('part', (data: any) => {
                 observer.onNext(data);
             });
         });
@@ -182,12 +182,12 @@ export default class SocketIoDriver {
     quit(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             const topic = 'quit';
-            const callback = function (data: any) {
+            const callback = (data: any) => {
                 observer.onNext(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -196,12 +196,12 @@ export default class SocketIoDriver {
     toggle(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             const topic = 'toggle';
-            const callback = function (data: any) {
+            const callback = (data: any) => {
                 observer.onNext(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -210,12 +210,12 @@ export default class SocketIoDriver {
     topic(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             const topic = 'topic';
-            const callback = function (data: any) {
+            const callback = (data: any) => {
                 observer.onNext(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -224,12 +224,12 @@ export default class SocketIoDriver {
     users(): Rx.Observable<any> {
         return Rx.Observable.create<any>((observer) => {
             const topic = 'users';
-            const callback = function (data: any) {
+            const callback = (data: any) => {
                 observer.onNext(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
