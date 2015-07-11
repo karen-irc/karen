@@ -24,7 +24,7 @@
  */
 
 import AppActionDispatcher from '../dispatcher/AppActionDispatcher';
-import Network from '../../model/Network';
+import Network from '../../domain/Network';
 
 class AppActionCreator {
 

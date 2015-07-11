@@ -31,8 +31,8 @@
 import * as Rx from 'rx';
 import arrayFindIndex from 'core-js/library/fn/array/find-index';
 import AppActionCreator from '../intent/action/AppActionCreator';
-import Channel from '../model/Channel';
-import {DomainState} from '../model/DomainState';
+import Channel from '../domain/Channel';
+import {DomainState} from '../domain/DomainState';
 import Mousetrap from 'mousetrap';
 import UIActionCreator from '../intent/action/UIActionCreator';
 import {Option} from 'option-t';

@@ -31,7 +31,7 @@ import 'core-js/es6/symbol';
 
 import ConfigRepository from '../../adapter/ConfigRepository';
 import * as Rx from 'rx';
-import Setting from '../../model/Setting';
+import Setting from '../../domain/Setting';
 import SettingActionCreator from '../../intent/action/SettingActionCreator';
 
 type SetValue = {

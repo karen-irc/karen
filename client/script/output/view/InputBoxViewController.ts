@@ -26,7 +26,7 @@
 /// <reference path="../../../../tsd/mousetrap.d.ts" />
 /// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
-import {DomainState} from '../../model/DomainState';
+import {DomainState} from '../../domain/DomainState';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import Mousetrap from 'mousetrap';
 import * as Rx from 'rx';

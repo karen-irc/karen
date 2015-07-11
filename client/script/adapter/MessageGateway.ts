@@ -25,10 +25,10 @@
 
 /// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
 
-import Network from '../model/Network';
+import Network from '../domain/Network';
 import * as Rx from 'rx';
 import SocketIoDriver from './SocketIoDriver';
-import User from '../model/User';
+import User from '../domain/User';
 
 export default class MessageGateway {
 
