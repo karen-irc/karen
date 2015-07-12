@@ -25,7 +25,7 @@
  */
 
 import CookieDriver from './CookieDriver';
-import Setting from '../model/Setting';
+import Setting from '../domain/Setting';
 
 declare const moment: any;
 

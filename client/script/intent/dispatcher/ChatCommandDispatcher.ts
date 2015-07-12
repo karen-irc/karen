@@ -25,9 +25,9 @@
 
 /// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
-import Channel from '../../model/Channel';
+import Channel from '../../domain/Channel';
 import * as Rx from 'rx';
-import User from '../../model/User';
+import User from '../../domain/User';
 
 type Command = {
     channelId: number;

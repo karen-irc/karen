@@ -23,10 +23,10 @@
  * THE SOFTWARE.
  */
 
-import Channel from '../../model/Channel';
+import Channel from '../../domain/Channel';
 import ChatCommandDispatcher from '../dispatcher/ChatCommandDispatcher';
-import CommandTypeMod from '../../model/CommandType';
-import User from '../../model/User';
+import CommandTypeMod from '../../domain/CommandType';
+import User from '../../domain/User';
 
 const CommandType = CommandTypeMod.type;
 

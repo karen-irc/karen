@@ -25,7 +25,7 @@
 
 /// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
-import Network from '../../model/Network';
+import Network from '../../domain/Network';
 import * as Rx from 'rx';
 
 export default class AppActionDispatcher {

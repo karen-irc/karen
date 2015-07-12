@@ -28,11 +28,11 @@
 /// <reference path="../../../../tsd/third_party/jquery/jquery.d.ts" />
 
 import AppActionCreator from '../../intent/action/AppActionCreator';
-import Channel from '../../model/Channel';
-import CommandTypeMod from '../../model/CommandType';
-import {DomainState} from '../../model/DomainState';
+import Channel from '../../domain/Channel';
+import CommandTypeMod from '../../domain/CommandType';
+import {DomainState} from '../../domain/DomainState';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
-import Network from '../../model/Network';
+import Network from '../../domain/Network';
 import * as Rx from 'rx';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
