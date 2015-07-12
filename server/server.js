@@ -5,6 +5,7 @@ require('babelify/polyfill');
 import _ from 'lodash';
 import assign from 'object-assign';
 import bcrypt from 'bcrypt-nodejs';
+import compression from 'compression';
 import Client from './Client';
 import ClientManager from './ClientManager';
 import SocketIoServerDriver from './adapter/SocketIoServerDriver';
@@ -25,10 +26,11 @@ export default function(options) {
     config = ConfigDriver.getConfig();
     config = assign(config, options);
 
-    const app = express()
-        .use(index)
-        .use(express.static('dist/client'))
-        .use(express.static('client'));
+    const app = express();
+    app.use(compression());
+    app.use(index);
+    app.use(express.static('dist/client'));
+    app.use(express.static('client'));
 
     app.enable('trust proxy');
 

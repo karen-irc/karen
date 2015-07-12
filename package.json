@@ -45,6 +45,7 @@
     "bcrypt-nodejs": "0.0.3",
     "cheerio": "^0.19.0",
     "commander": "^2.3.0",
+    "compression": "^1.4.3",
     "cookies-js": "^1.2.1",
     "core-js": "^0.9.6",
     "event-stream": "^3.1.7",
