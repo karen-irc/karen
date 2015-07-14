@@ -76,7 +76,7 @@
     "mocha": "^2.2.4",
     "object-assign": "^3.0.0",
     "tsd": "^0.6.0-beta.5",
-    "typescript": "Microsoft/TypeScript.git#816cfe3ec6c879fd912f24d5b87130d9cb7fa1b2",
+    "typescript": "Microsoft/TypeScript.git#649e40b1711096de54eb325a702597d3ee62e9ef",
     "vinyl-source-stream": "^1.1.0"
   }
 }
