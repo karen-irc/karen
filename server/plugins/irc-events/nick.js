@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import 'core-js/fn/array/find';
 import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
@@ -26,7 +26,9 @@ export default function(irc, network) {
         }
 
         network.channels.forEach(function(chan) {
-            const user = _.findWhere(chan.users, {name: data.nick});
+            const user = chan.users.find(function(element){
+                return element.name === data.nick;
+            });
             if (typeof user === 'undefined') {
                 return;
             }

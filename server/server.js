@@ -101,7 +101,9 @@ function index(req, res, next) {
             throw err;
         }
 
-        const data = _.merge(_.merge({}, Package.getPackage()), config);
+
+        let data = assign({}, Package.getPackage());
+        data = assign(data, config);
         res.setHeader('Content-Type', 'text/html');
         res.setHeader('Content-Security-Policy', cspDirectiveStr);
         res.writeHead(200);

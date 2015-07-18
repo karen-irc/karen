@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import 'core-js/fn/array/find';
 import Channel from '../../models/Channel';
 import Hostmask from '../../models/Hostmask';
 import ChannelType from '../../models/ChannelType';
@@ -18,7 +18,9 @@ export default function(irc, network) {
             target = data.from;
         }
 
-        let chan = _.findWhere(network.channels, {name: target});
+        let chan = network.channels.find(function(element){
+            return element.name === target;
+        });
         if (typeof chan === 'undefined') {
             chan = new Channel(network, {
                 type: ChannelType.QUERY,

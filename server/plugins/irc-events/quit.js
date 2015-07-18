@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import 'core-js/fn/array/find';
 import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
@@ -7,14 +7,16 @@ export default function(irc, network) {
     irc.on('quit', function(data) {
         network.channels.forEach(function(chan) {
             const from = data.nick;
-            const user = _.findWhere(chan.users, {
-                name: from,
+            const user = chan.users.find(function(element){
+                return element.name === from;
             });
             if (typeof user === 'undefined') {
                 return;
             }
 
-            chan.users = _.without(chan.users, user);
+            chan.users = chan.users.filter(function(element){
+                return element !== user;
+            });
             client.emit('users', {
                 chan: chan.id,
                 users: chan.users
