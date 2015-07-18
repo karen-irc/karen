@@ -20,6 +20,8 @@ import * as React from 'react';
 let server = null;
 let config = {};
 
+let viewHtmlCache = '';
+
 let gateway = null;
 
 const manager = new ClientManager();
@@ -105,11 +107,14 @@ function index(req, res, next) {
     res.setHeader('Content-Security-Policy', cspDirectiveStr);
     res.writeHead(200);
 
-    const view = React.createElement(IndexTemplate, {
-        data: data,
-    });
-    const html = React.renderToStaticMarkup(view);
-    res.end('<!DOCTYPE html>' + html);
+    if (viewHtmlCache === '') {
+        const view = React.createElement(IndexTemplate, {
+            data: data,
+        });
+        viewHtmlCache = '<!DOCTYPE html>' + React.renderToStaticMarkup(view);
+    }
+
+    res.end(viewHtmlCache);
 }
 
 /**
