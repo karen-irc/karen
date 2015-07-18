@@ -1,11 +1,13 @@
-import _ from 'lodash';
+import 'core-js/fn/array/find';
 import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
     const client = this;
     irc.on('topic', function(data) {
-        const chan = _.findWhere(network.channels, {name: data.channel});
+        const chan = network.channels.find(function(element){
+            return element.name === data.channel;
+        });
         if (typeof chan === 'undefined') {
             return;
         }

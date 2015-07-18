@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 export default function(network, chan, cmd, args) {
     if (cmd !== 'part' && cmd !== 'leave' && cmd !== 'close') {
         return;
@@ -7,7 +5,9 @@ export default function(network, chan, cmd, args) {
 
     if (chan.type === 'query') {
         const client = this;
-        network.channels = _.without(network.channels, chan);
+        network.channels = network.channels.filter(function(element){
+            return element !== chan;
+        });
         client.emit('part', {
             chan: chan.id
         });

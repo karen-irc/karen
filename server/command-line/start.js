@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import ClientManager from '../ClientManager';
 import program from 'commander';
 import karen from '../server';

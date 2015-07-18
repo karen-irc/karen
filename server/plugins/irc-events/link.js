@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import 'core-js/fn/array/find';
 import cheerio from 'cheerio';
 import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
@@ -108,7 +108,7 @@ export default function(irc, network) {
 
         const links = [];
         const split = data.message.split(' ');
-        _.each(split, function(w) {
+        split.forEach(function(w){
             if (w.match(/^(http|https):\/\/localhost/g)) {
                 return;
             }
@@ -123,8 +123,8 @@ export default function(irc, network) {
         }
 
         const self = data.to.toLowerCase() === irc.me.toLowerCase();
-        const chan = _.findWhere(network.channels, {
-            name: self ? data.from : data.to,
+        const chan = network.channels.find(function(element){
+            return element.name === (self ? data.from : data.to);
         });
 
         if (typeof chan === 'undefined') {

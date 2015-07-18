@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 export default function(network, chan, cmd, args) {
     if (cmd !== 'quit' && cmd !== 'disconnect') {
         return;
@@ -7,7 +5,9 @@ export default function(network, chan, cmd, args) {
 
     const client = this;
 
-    client.networks = _.without(client.networks, network);
+    client.networks = client.networks.filter(function(element){
+        return element !== network;
+    });
     client.save();
     client.emit('quit', {
         network: network.id

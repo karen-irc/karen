@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import 'core-js/fn/array/find';
 
 export default function(network, chan, cmd, args) {
     if (cmd !== 'say' && cmd !== 'msg') {
@@ -20,7 +20,9 @@ export default function(network, chan, cmd, args) {
     }
     const msg = args.join(' ');
     irc.send(target, msg);
-    const channel = _.find(network.channels, { name: target });
+    const channel = network.channels.find(function(element){
+        return element.name === target;
+    });
     if (typeof channel !== 'undefined') {
         irc.emit('message', {
             from: irc.me,

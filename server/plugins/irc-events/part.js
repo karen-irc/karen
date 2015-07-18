@@ -1,28 +1,34 @@
-import _ from 'lodash';
+import 'core-js/fn/array/find';
 import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
 export default function(irc, network) {
     const client = this;
     irc.on('part', function(data) {
-        const chan = _.findWhere(network.channels, {name: data.channels[0]});
+        const chan = network.channels.find(function(element){
+            return element.name === data.channels[0];
+        });
         if (typeof chan === 'undefined') {
             return;
         }
 
         const from = data.nick;
         if (from === irc.me) {
-            network.channels = _.without(network.channels, chan);
+            network.channels = network.channels.filter(function(element){
+                return element !== chan;
+            });
             client.save();
             client.emit('part', {
                 chan: chan.id
             });
         }
         else {
-            const user = _.findWhere(chan.users, {
-                name: from,
+            const user = chan.users.find(function(element){
+                return element.name === from;
             });
-            chan.users = _.without(chan.users, user);
+            chan.users = chan.users.filter(function(element){
+                return element !== user;
+            });
             client.emit('users', {
                 chan: chan.id,
                 users: chan.users

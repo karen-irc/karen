@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import _ from 'lodash';
+import 'core-js/fn/array/find';
 import assign from 'object-assign';
 import ChannelType from './ChannelType';
 
@@ -83,14 +83,35 @@ export default class Channal {
      *  @return {void}
      */
     sortUsers() {
-        this.users = _.sortBy(this.users, function(u) {
-            return u.name.toLowerCase();
+        this.users = this.users.sort(function(a, b) {
+            const aName = a.name.toLowerCase();
+            const bName = b.name.toLowerCase();
+
+            if (aName < bName) {
+                return -1;
+            }
+            else if (aName > bName) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
         });
 
         MODES.forEach(function(mode) {
-            this.users = _.remove(this.users, function(u) {
-                return u.mode === mode;
-            }).concat(this.users);
+            const filtered = [];
+            const removed = [];
+
+            this.users.forEach(function(u) {
+                if (u.mode === mode) {
+                    removed.push(u);
+                }
+                else {
+                    filtered.push(u);
+                }
+            });
+
+            this.users = removed.concat(filtered);
         }, this);
     }
 
@@ -99,7 +120,9 @@ export default class Channal {
      *  @return {string}
      */
     getMode(name) {
-        const user = _.find(this.users, {name: name});
+        const user = this.users.find(function(element){
+            return element.name === name;
+        });
         if (!!user) {
             return user.mode;
         }
@@ -112,7 +135,7 @@ export default class Channal {
      *  @return {Channal}
      */
     toJSON() {
-        const clone = _.clone(this);
+        const clone = assign({}, this);
         clone.messages = clone.messages.slice(-100);
         clone.network = undefined;
         return clone;
