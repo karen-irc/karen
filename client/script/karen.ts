@@ -1,4 +1,4 @@
-/*global $:true, Handlebars:true, moment: true */
+/*global $:true, moment: true */
 
 /// <reference path="../../tsd/core-js.d.ts" />
 /// <reference path="../../tsd/extends.d.ts" />
@@ -19,6 +19,7 @@ import AppViewController from './output/view/AppViewController';
 import AudioDriver from './adapter/AudioDriver';
 import AuthRepository from './adapter/AuthRepository';
 import Channel from './domain/Channel';
+import {ChatWindowItem, ChatWindowList} from './output/view/ChatWindowItem';
 import CommandTypeMod from './domain/CommandType';
 import ConfigRepository from './adapter/ConfigRepository';
 import CookieDriver from './adapter/CookieDriver';
@@ -29,6 +30,7 @@ import InputBoxViewController from './output/view/InputBoxViewController';
 import MainViewController from './output/view/MainViewController';
 import MessageActionCreator from './intent/action/MessageActionCreator';
 import MessageGateway from './adapter/MessageGateway';
+import {MessageItem, MessageList} from './output/view/MessageItem';
 import Network from './domain/Network';
 import NetworkSet from './domain/NetworkSet';
 import NotificationActionCreator from './intent/action/NotificationActionCreator';
@@ -40,12 +42,12 @@ import SettingStore from './output/viewmodel/SettingStore';
 import SidebarViewController from './output/view/SidebarViewController';
 import SocketIoDriver from './adapter/SocketIoDriver';
 import {Some, None, Option} from 'option-t';
+import {ToggleItem} from './output/view/ToggleItem';
 import UIActionCreator from './intent/action/UIActionCreator';
 import User from './domain/User';
 import {UserList} from './output/view/UserList';
 import WindowPresenter from './output/WindowPresenter';
 
-declare const Handlebars: any;
 declare const momoent: any;
 
 const CommandType = CommandTypeMod.type;
@@ -85,16 +87,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     if (navigator.standalone) {
         document.documentElement.classList.add('web-app-mode');
     }
-
-    function render(name: string, data: any): string {
-        return Handlebars.templates[name](data);
-    }
-
-    Handlebars.registerHelper(
-        'partial', function(id: string) {
-            return new Handlebars.SafeString(render(id, this));
-        }
-    );
 
     socket.error().subscribe(function(e: any) {
         /*eslint-disable no-console*/
@@ -150,11 +142,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
                 return network.getChannelList();
             });
 
-            chat.html(
-                render('chat', {
-                    channels: channels
-                })
-            );
+            const view = React.createElement(ChatWindowList, {
+                list: channels,
+            });
+            const html = React.renderToStaticMarkup(view);
+            chat.html(html);
 
             // TODO: Seek the better way to update users list when initializing the karen.
             channels.forEach((channel: Channel) => {
@@ -199,11 +191,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     const joinContentRendered = MessageActionCreator.getDispatcher().joinChannel.do(function(data){
-        chat.append(
-            render('chat', {
-                channels: [data.channel]
-            })
-        );
+        const view = React.createElement(ChatWindowItem, {
+            channel: data.channel,
+        });
+        const html = React.renderToStaticMarkup(view);
+        chat.append(html);
     });
 
     // this operation should need to wait both of sidebar & contant rendered.
@@ -225,8 +217,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         var chan: JQuery = chat.find(target);
         var from: string = data.msg.from;
 
-        chan.find('.messages')
-            .append(render('msg', {messages: [data.msg]}));
+        const view = React.createElement(MessageItem, {
+            message: data.msg,
+        });
+        const html = React.renderToStaticMarkup(view);
+        chan.find('.messages').append(html);
 
         messageRenderedSubject.onNext({
             target: target,
@@ -257,10 +252,15 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     socket.more().subscribe(function(data) {
         var target = data.chan;
+        const view = React.createElement(MessageList, {
+            list: data.messages,
+        });
+        const html = React.renderToStaticMarkup(view);
+
         var chan = chat
             .find('#chan-' + target)
             .find('.messages')
-            .prepend(render('msg', {messages: data.messages}))
+            .prepend(html)
             .end();
         if (data.messages.length !== 100) {
             chan.find('.show-more').removeClass('show');
@@ -273,11 +273,12 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     globalState.networkSet.addedStream().subscribe(function (network) {
         const channelList = network.getChannelList();
-        chat.append(
-            render('chat', {
-                channels: channelList,
-            })
-        );
+
+        const view = React.createElement(ChatWindowList, {
+            list: channelList,
+        });
+        const html = React.renderToStaticMarkup(view);
+        chat.append(html);
 
         UIActionCreator.setQuitConfirmDialog();
 
@@ -330,7 +331,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     socket.toggle().subscribe(function(data) {
         var toggle = $('#toggle-' + data.id);
-        toggle.parent().after(render('toggle', {toggle: data}));
+        const view = React.createElement(ToggleItem, {
+            item: data,
+        });
+        const html = React.renderToStaticMarkup(view);
+        toggle.parent().after(html);
         switch (data.type) {
         case 'link':
             if (options.links) {
