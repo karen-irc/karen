@@ -6,6 +6,7 @@
 /// <reference path="../../node_modules/option-t/option-t.d.ts" />
 /// <reference path="../../tsd/third_party/jquery/jquery.d.ts" />
 /// <reference path="../../tsd/third_party/jqueryui/jqueryui.d.ts" />
+/// <reference path="../../tsd/third_party/react/react.d.ts" />
 
 // babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
 import 'core-js/modules/es6.array.iterator';
@@ -32,6 +33,7 @@ import Network from './domain/Network';
 import NetworkSet from './domain/NetworkSet';
 import NotificationActionCreator from './intent/action/NotificationActionCreator';
 import NotificationPresenter from './output/NotificationPresenter';
+import * as React from 'react';
 import * as Rx from 'rx';
 import SettingActionCreator from './intent/action/SettingActionCreator';
 import SettingStore from './output/viewmodel/SettingStore';
@@ -40,6 +42,7 @@ import SocketIoDriver from './adapter/SocketIoDriver';
 import {Some, None, Option} from 'option-t';
 import UIActionCreator from './intent/action/UIActionCreator';
 import User from './domain/User';
+import {UserList} from './output/view/UserList';
 import WindowPresenter from './output/WindowPresenter';
 
 declare const Handlebars: any;
@@ -361,9 +364,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     messageGateway.updateUserList().subscribe(function(data){
-        chat.find('#chan-' + data.channelId).find('.users').html(render('user', {
-            users: data.list,
-        }));
+        const node = chat.find('#chan-' + data.channelId).find('.users').get(0);
+        const view = React.createElement(UserList, {
+            list: data.list,
+        });
+        React.render(view, node);
     });
 
     var options = config.get();
