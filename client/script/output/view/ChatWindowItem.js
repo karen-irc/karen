@@ -4,6 +4,26 @@ import * as React from 'react';
 import Channel from '../../domain/Channel';
 import {MessageList} from './MessageItem';
 
+export class ChatWindowList extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const list = this.props.list.map(function(item){
+            return <ChatWindowItem key={item.id} channel={item}/>;
+        });
+
+        return (
+            <div>{list}</div>
+        );
+    }
+}
+ChatWindowList.propTypes = {
+    list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Channel)).isRequired,
+};
+
 export class ChatWindowItem extends React.Component {
 
     constructor(props) {
