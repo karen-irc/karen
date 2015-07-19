@@ -29,6 +29,7 @@ export class Header extends React.Component {
                 <link rel='apple-touch-icon' sizes='120x120' href='/img/apple-touch-icon-120x120.png'/>
 
                 <script defer='true' src='js/libs.min.js'></script>
+                <script defer='true' src='js/karen.templates.js'></script>
                 <script defer='true' src='js/karen.js'></script>
             </head>
         );
