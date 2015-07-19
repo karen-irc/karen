@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import 'core-js/fn/array/find';
 import Channel from '../../models/Channel';
 import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
@@ -7,7 +7,9 @@ import User from '../../models/User';
 export default function(irc, network) {
     const client = this;
     irc.on('join', function(data) {
-        let chan = _.find(network.channels, {name: data.channel});
+        let chan = network.channels.find(function(element){
+            return element.name === data.channel;
+        });
         if (typeof chan === 'undefined') {
             chan = new Channel(network, {
                 name: data.channel

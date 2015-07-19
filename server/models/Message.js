@@ -22,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import _ from 'lodash';
 import assign from 'object-assign';
 import moment from 'moment';
 import MessageType from './MessageType';
@@ -107,7 +106,7 @@ export default class Message {
     }
 
     toJSON() {
-        const clone = _.clone(this);
+        const clone = assign({}, this);
         clone.channel = undefined;
         return clone;
     }

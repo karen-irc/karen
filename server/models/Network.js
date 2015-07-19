@@ -23,7 +23,6 @@
  * THE SOFTWARE.
  */
 
-import _ from 'lodash';
 import assign from 'object-assign';
 import Channel from './Channel';
 import ChannelType from './ChannelType';
@@ -132,22 +131,25 @@ export default class Network {
      *  @return {?}
      */
     export() {
-        const network = _.pick(this, [
-            'name',
-            'host',
-            'port',
-            'tls',
-            'password',
-            'username',
-            'realname',
-            'commands',
-            'allowUserImage'
-        ]);
+        const network = {
+            name: this.name,
+            host: this.host,
+            port: this.port,
+            tls: this.tls,
+            password: this.password,
+            username: this.username,
+            realname: this.realname,
+            commands: this.commands,
+            allowUserImage: this.allowUserImage,
+        };
         network.nick = (this.irc || {}).me;
-        network.join = _.pluck(
-            _.where(this.channels, {type: 'channel'}),
-            'name'
-        ).join(',');
+        const collection = this.channels.filter(function(element){
+            return element.type === 'channel';
+        });
+
+        network.join = collection.map(function(element){
+            return element.name;
+        }).join(',');
         return network;
     }
 
@@ -155,7 +157,10 @@ export default class Network {
      *  @return {Object}
      */
     toJSON() {
-        const json = assign(this, {nick: (this.irc || {}).me || ''});
-        return _.omit(json, 'irc', 'password');
+        const nickname = (!!this.irc ? this.irc.me : '');
+        const json = assign({nick: nickname}, this);
+        json.irc = undefined;
+        json.password = undefined;
+        return json;
     }
 }

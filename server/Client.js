@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import 'core-js/fn/array/find';
+import assign from 'object-assign';
 import ChannelType from './models/ChannelType';
 import crypto from 'crypto';
 import fs from 'fs';
@@ -51,7 +52,7 @@ const inputs = [
 
 export default class Client {
     constructor(sockets, name, config) {
-        _.merge(this, {
+        assign(this, {
             activeChannel: -1,
             config: config,
             id: id++,
@@ -106,8 +107,11 @@ export default class Client {
     }
 
     find(id) {
+        const findFn = function (element) {
+            return element.id === id;
+        };
         for (const network of this.networks) {
-            const chan = _.find(network.channels, {id: id});
+            const chan = network.channels.find(findFn);
             if (chan) {
                 return { network, chan };
             }
@@ -271,7 +275,9 @@ export default class Client {
         case 'networks': {
             sorted = [];
             order.forEach((id) => {
-                const find = _.find(this.networks, { id });
+                const find = this.networks.find(function(element){
+                    return element.id === id;
+                });
                 if (find) {
                     sorted.push(find);
                 }
@@ -282,13 +288,17 @@ export default class Client {
 
         case 'channels': {
             const target = data.target;
-            const network = _.find(this.networks, {id: target});
+            const network = this.networks.find(function(element){
+                return element.id === target;
+            });
             if (!network) {
                 return;
             }
             sorted = [];
             order.forEach((id) => {
-                const find = _.find(network.channels, { id });
+                const find = network.channels.find(function(element){
+                    return element.id === id;
+                });
                 if (find) {
                     sorted.push(find);
                 }
