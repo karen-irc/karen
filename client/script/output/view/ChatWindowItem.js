@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Channel from '../../domain/Channel';
+import {MessageList} from './MessageItem';
 
 export class ChatWindowItem extends React.Component {
 
@@ -52,7 +53,7 @@ export class ChatWindowItem extends React.Component {
                         </button>
                     </div>
                     <div className='messages'>
-                        // TODO: partial message
+                        <MessageList list={channel.messages}/>
                     </div>
                 </div>
                 <aside className='sidebar'>
