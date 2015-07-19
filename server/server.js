@@ -77,22 +77,22 @@ export default function(options) {
     }
 }
 
-const cspDirective = {
-    'default-src': '\'none\'',
-    'connect-src': '\'self\' ws: wss:',
-    'font-src': '\'self\' https://fonts.gstatic.com',
+const cspDirective = new Map([
+    ['default-src', '\'none\''],
+    ['connect-src', '\'self\' ws: wss:'],
+    ['font-src', '\'self\' https://fonts.gstatic.com'],
 
     // XXX: karen tries to expand all image which is embedded in a message.
-    'img-src': '*',
+    ['img-src', '*'],
 
-    'media-src': '\'self\'',
-    'script-src': '\'self\'',
+    ['media-src', '\'self\''],
+    ['script-src', '\'self\''],
 
-    // FIXME: this 'unsfae-inline' should be removed.
-    'style-src': '\'self\' https://fonts.googleapis.com \'unsafe-inline\'',
-};
-const cspDirectiveStr = Object.keys(cspDirective).map(function(key){
-    return key + ' ' + cspDirective[key] + ';';
+    // FIXME: this 'unsafe-inline' should be removed.
+    ['style-src', '\'self\' https://fonts.googleapis.com \'unsafe-inline\''],
+]);
+const cspDirectiveStr = [...cspDirective.entries()].map(function([key, value]){
+    return key + ' ' + value + ';';
 }).join(' ');
 
 function index(req, res, next) {
