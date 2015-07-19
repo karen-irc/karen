@@ -1,16 +1,16 @@
-Handlebars.registerHelper(
-	"parse", function(text) {
-		var wrap = wraplong(text);
-		text = escape(text);
-		text = colors(text);
-		text = uri(text);
-		if (wrap) {
-			return "<i class='wrap'>" + text + "</i>";
-		} else {
-			return text;
-		}
+(function(window){
+
+window.parseForIRCMessage = function parseForIRCMessage(text) {
+	var wrap = wraplong(text);
+	text = escape(text);
+	text = colors(text);
+	text = uri(text);
+	if (wrap) {
+		return "<i class='wrap'>" + text + "</i>";
+	} else {
+		return text;
 	}
-);
+};
 
 function wraplong(text) {
 	return text.split(" ").some(function (line) {
@@ -136,3 +136,5 @@ function colors(line) {
     //replace the reminent colour terminations and be done with it
     return result.replace(colour_re, "");
 }
+
+})(window);

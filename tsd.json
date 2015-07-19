@@ -13,6 +13,9 @@
     },
     "jqueryui/jqueryui.d.ts": {
       "commit": "2d4c4679bc2b509f27435a4f9da5e2de11258571"
+    },
+    "react/react.d.ts": {
+      "commit": "34b5eb499d3c3be97660019dfb309a6d31d21837"
     }
   }
 }
