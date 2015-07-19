@@ -3,6 +3,28 @@
 import * as React from 'react';
 import {ToggleItem} from './ToggleItem';
 
+export class MessageList extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const list = this.props.list.map(function(item){
+            return <MessageItem key={item.id} message={item}/>;
+        });
+
+        return (
+            <div>
+                {list}
+            </div>
+        );
+    }
+}
+MessageList.propTypes = {
+    list: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+};
+
 const formatTimeZone = function (time) {
     if (!time) {
         return '';
