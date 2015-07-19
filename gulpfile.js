@@ -43,6 +43,7 @@ const CLIENT_SRC = [
     'client/js/libs/jquery/**/*.js',
     'client/js/libs/moment.js',
     'client/js/libs/stringcolor.js',
+    'client/js/libs/parse.js',
     'client/js/libs/uri.js',
 ];
 
