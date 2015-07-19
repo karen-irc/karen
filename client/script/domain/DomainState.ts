@@ -29,25 +29,23 @@
 import {Some, None, Option} from 'option-t';
 import NetworkSet from './NetworkSet';
 
+export const enum CurrentTabType {
+    SETTING = 0,
+    CHANNEL = 1,
+}
+
 export class SelectedTab {
 
-    type: string;
+    type: CurrentTabType;
     id: string|number;
 
-    constructor(type: string, id: string|number) {
+    constructor(type: CurrentTabType, id: string|number) {
         this.type = type;
         this.id = id;
     }
 
-    static get TYPE(): any {
-        return {
-            SETTING: 'setting',
-            CHANNEL: 'channel',
-        };
-    }
-
     get channelId(): Option<number> {
-        if (this.type === SelectedTab.TYPE.SETTING) {
+        if (this.type === CurrentTabType.SETTING) {
             return new None<number>();
         }
 
