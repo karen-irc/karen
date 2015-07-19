@@ -104,6 +104,7 @@
         "react/self-closing-comp": 2,
         "react/sort-comp": [1, {
             "order": [
+                "constructor",
                 "metadata",
                 "rendering",
                 "lifecycle",

@@ -12,11 +12,15 @@ import SocketIoServerDriver from './adapter/SocketIoServerDriver';
 import express from 'express';
 import fs from 'fs';
 import http from 'http';
+import { KarenAppIndex as IndexTemplate } from './view/Index';
 import ConfigDriver from './adapter/ConfigDriver';
 import Package from './adapter/Package';
+import * as React from 'react';
 
 let server = null;
 let config = {};
+
+let viewHtmlCache = '';
 
 let gateway = null;
 
@@ -96,22 +100,21 @@ function index(req, res, next) {
     if (req.url.split('?')[0] !== '/') {
         return next();
     }
-    return fs.readFile('client/index.html', 'utf-8', function(err, file) {
-        if (!!err) {
-            throw err;
-        }
 
+    let data = assign({}, Package.getPackage());
+    data = assign(data, config);
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Content-Security-Policy', cspDirectiveStr);
+    res.writeHead(200);
 
-        let data = assign({}, Package.getPackage());
-        data = assign(data, config);
-        res.setHeader('Content-Type', 'text/html');
-        res.setHeader('Content-Security-Policy', cspDirectiveStr);
-        res.writeHead(200);
-        res.end(_.template(
-            file,
-            data
-        ));
-    });
+    if (viewHtmlCache === '') {
+        const view = React.createElement(IndexTemplate, {
+            data: data,
+        });
+        viewHtmlCache = '<!DOCTYPE html>' + React.renderToStaticMarkup(view);
+    }
+
+    res.end(viewHtmlCache);
 }
 
 /**
