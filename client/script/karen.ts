@@ -495,20 +495,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         auth.removeToken();
     });
 
-    chat.on('input', '.search', function() {
-        var value = $(this).val().toLowerCase();
-        var names = $(this).closest('.users').find('.names');
-        names.find('button').each(function() {
-            var btn = $(this);
-            var name = btn.text().toLowerCase().replace(/[+%@~]/, '');
-            if (name.indexOf(value) === 0) {
-                btn.show();
-            } else {
-                btn.hide();
-            }
-        });
-    });
-
     chat.on('click', '.user', function() {
         var user = $(this).text().trim().replace(/[+%@~&]/, '');
         if (user.indexOf('#') !== -1) {
