@@ -1,9 +1,5 @@
 /*global stringcolor:true */
 
-// babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
-import 'core-js/modules/es6.array.iterator';
-import 'core-js/es6/symbol';
-
 import * as React from 'react';
 import User from '../../domain/User';
 
@@ -33,6 +29,9 @@ export class UserList extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            searchText: '',
+        };
     }
 
     render() {
@@ -44,21 +43,26 @@ export class UserList extends React.Component {
             count = (
                 <div className='count'>
                     <input className='search'
+                           onChange={this.onChangeSearch.bind(this)}
+                           value={this.state.searchText}
                            placeholder={placeholder}/>
                 </div>
             );
         }
 
         const modeMap = Object.create(null);
-        for (const user of users) {
+        users.forEach((user) => {
             let mode = modeMap[user.mode];
             if (mode === undefined) {
                 mode = [];
                 modeMap[user.mode] = mode;
             }
 
-            mode.push(user);
-        }
+            // XXX: This operation should be in view model layer.
+            if (user.name.indexOf(this.state.searchText) >= 0) {
+                mode.push(user);
+            }
+        });
 
         const list = Object.keys(modeMap).map(function(key) {
             const userList = modeMap[key];
@@ -75,6 +79,13 @@ export class UserList extends React.Component {
                 </div>
             </div>
         );
+    }
+
+    onChangeSearch(event) {
+        const value = event.target.value;
+        this.setState({
+            searchText: value,
+        });
     }
 }
 UserList.propTypes = {
