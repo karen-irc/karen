@@ -31,7 +31,6 @@
 	</div>
 	<aside class="sidebar">
 		<div class="users">
-			{{partial "user"}}
 		</div>
 	</aside>
 </div>
