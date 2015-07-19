@@ -1,4 +1,4 @@
-/*global $: true */
+/*global Handlebars:true, $: true */
 /**
  * @license MIT License
  *
@@ -26,19 +26,17 @@
 
 /// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 /// <reference path="../../../../tsd/third_party/jquery/jquery.d.ts" />
-/// <reference path="../../../../tsd/third_party/react/react.d.ts" />
 
 import AppActionCreator from '../../intent/action/AppActionCreator';
 import Channel from '../../domain/Channel';
-import {ChannelItem} from './ChannelItem';
 import CommandTypeMod from '../../domain/CommandType';
 import {DomainState} from '../../domain/DomainState';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import Network from '../../domain/Network';
-import {NetworkItemList} from './NetworkItemList';
-import * as React from 'react';
 import * as Rx from 'rx';
 import UIActionCreator from '../../intent/action/UIActionCreator';
+
+declare const Handlebars: any;
 
 const CommandType = CommandTypeMod.type;
 
@@ -204,29 +202,26 @@ export default class SidebarViewController implements EventListenerObject {
 
     renderNetworks(networks: Array<Network>): void {
         const element = <HTMLElement>this._element.querySelector('.networks');
-        const view = React.createElement(NetworkItemList, {
-            list: networks,
+        const html = Handlebars.templates.network({
+            networks,
         });
-        const html = React.renderToStaticMarkup(view);
 
         element.innerHTML = html;
     }
 
     appendNetworks(networks: Array<Network>): void {
         const element = <HTMLElement>this._element.querySelector('.networks');
-        const view = React.createElement(NetworkItemList, {
-            list: networks,
+        const html = Handlebars.templates.network({
+            networks,
         });
-        const html = React.renderToStaticMarkup(view);
 
         element.innerHTML = element.innerHTML + html;
     }
 
     appendChannel(network: HTMLElement, channel: Channel): void {
-        const view = React.createElement(ChannelItem, {
-            channel: channel,
+        const html = Handlebars.templates.chan({
+            channels: [channel]
         });
-        const html = React.renderToStaticMarkup(view);
 
         network.innerHTML = network.innerHTML + html;
     }
