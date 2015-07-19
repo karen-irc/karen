@@ -2,7 +2,6 @@
 
 require('babelify/polyfill');
 
-import _ from 'lodash';
 import assign from 'object-assign';
 import bcrypt from 'bcrypt-nodejs';
 import compression from 'compression';
