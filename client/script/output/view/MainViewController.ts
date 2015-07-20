@@ -28,6 +28,8 @@ import ConnectSettingViewController from './ConnectSettingViewController';
 import SignInViewController from './SignInViewController';
 import SocketIoDriver from '../../adapter/SocketIoDriver';
 
+const CONNECT_INSERTION_POINT_ID = '#js-insertion-point-connect';
+
 export default class MainViewController {
 
     _element: Element;
@@ -39,6 +41,6 @@ export default class MainViewController {
 
         this._signin = new SignInViewController(element.querySelector('#sign-in'), cookie, socket);
 
-        this._connect = new ConnectSettingViewController( element.querySelector('#connect'), socket);
+        this._connect = new ConnectSettingViewController( element.querySelector(CONNECT_INSERTION_POINT_ID), socket);
     }
 }
