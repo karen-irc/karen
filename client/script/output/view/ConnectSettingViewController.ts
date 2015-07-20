@@ -24,19 +24,14 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../tsd/core-js.d.ts" />
-/// <reference path="../../../../tsd/third_party/jquery/jquery.d.ts" />
+/// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
 
-// babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
-import 'core-js/modules/es6.array.iterator';
-import 'core-js/es6/symbol';
-
-import arrayFrom from 'core-js/library/fn/array/from';
 import SocketIoDriver from '../../adapter/SocketIoDriver';
 
-const EVENT_NAME = 'conn';
+import {ConnectSettingWindow} from './ConnectSettingWindow';
+import * as React from 'react';
 
-export default class ConnectSettingViewController implements EventListenerObject {
+export default class ConnectSettingViewController {
 
     _element: Element;
     _socket: SocketIoDriver;
@@ -47,64 +42,21 @@ export default class ConnectSettingViewController implements EventListenerObject
         }
 
         this._element = element;
-
         this._socket = socket;
 
-        element.addEventListener('submit', this);
-        element.addEventListener('input', this);
-    }
-
-    handleEvent(aEvent: Event): void {
-        switch (aEvent.type) {
-            case 'submit':
-                this.onSubmit(aEvent);
-                break;
-            case 'input':
-                this.onInput(aEvent);
-                break;
-        }
-    }
-
-
-    onSubmit(aEvent: Event): void {
-        const target = <Element>aEvent.target;
-        if (target.localName !== 'form') {
-            return;
-        }
-        aEvent.preventDefault();
-
-        // XXX: By DOM spec (https://dom.spec.whatwg.org/#interface-nodelist),
-        // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
-        // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
-        const list: any = target.querySelectorAll('.btn');
-        for (let element of arrayFrom(list)) {
-            (<Element>element).setAttribute('disabled', 'true');
-        }
-
-        const values = {};
-        jQuery(target).serializeArray().forEach(function(obj) {
-            if (obj.value !== '') {
-                values[obj.name] = obj.value;
-            }
+        socket.init().map<Array<any>>(function(data) {
+            return data.connections;
+        }).subscribeOnNext((data) => {
+            const first = data[0];
+            this.render(first);
         });
-
-        this._socket.emit(EVENT_NAME, values);
     }
 
-    onInput(aEvent: Event): void {
-        const target = <HTMLInputElement>aEvent.target;
-        if (!target.classList.contains('nick')) {
-            return;
-        }
-
-        const nickname = target.value;
-
-        // XXX: By DOM spec (https://dom.spec.whatwg.org/#interface-nodelist),
-        // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
-        // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
-        const list: any = this._element.querySelectorAll('.username');
-        for (let input of arrayFrom<Node>(list)) {
-            (<HTMLInputElement>input).value = nickname;
-        }
+    render(data: any) {
+        const view = React.createElement(ConnectSettingWindow, {
+            socket: this._socket,
+            settings: data,
+        });
+        React.render(view, this._element);
     }
 }
