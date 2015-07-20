@@ -155,7 +155,8 @@ function init(gateway, client, token) {
         const key = (token !== undefined) ? token : '';
         gateway.emitInitialize(client.activeChannel,
                                client.networks,
-                               key);
+                               key,
+                               [config.defaults]);
     }
 }
 
