@@ -19,6 +19,7 @@ import AudioDriver from './adapter/AudioDriver';
 import AuthRepository from './adapter/AuthRepository';
 import Channel from './domain/Channel';
 import CommandTypeMod from './domain/CommandType';
+import {ConnectionActionCreator} from './intent/action/ConnectionActionCreator';
 import ConfigRepository from './adapter/ConfigRepository';
 import CookieDriver from './adapter/CookieDriver';
 import {DomainState, SelectedTab, CurrentTabType} from './domain/DomainState'; 
