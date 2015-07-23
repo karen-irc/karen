@@ -2,4 +2,11 @@
 
 import {ComponentClass} from 'react';
 
-export var ConnectSettingWindow: ComponentClass<{ key?: any; settings: any; socket: any; }>;
+import {ConnectionActionCreator} from '../../intent/action/ConnectionActionCreator';
+import {ConnectionValue} from '../../domain/value/ConnectionSettings';
+
+export var ConnectSettingWindow: ComponentClass<{
+    key?: any;
+    action: ConnectionActionCreator;
+    data: ConnectionValue;
+}>;

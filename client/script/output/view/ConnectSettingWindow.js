@@ -1,47 +1,29 @@
 import * as React from 'react';
 
-class State {
-    constructor(state, isTrying) {
-        const username = (state.username !== undefined && state.username !== '') ?
-            state.username :
-            state.nick;
-
-        this.name = state.name;
-        this.host = state.host;
-        this.port = state.port;
-        this.password = state.password;
-        this.tls = state.tls;
-        this.nick = state.nick;
-        this.username = username;
-        this.realname = state.realname;
-        this.join = state.join;
-
-        this.isTrying = false;
-    }
-}
+import {ConnectionActionCreator} from '../../intent/action/ConnectionActionCreator';
+import {ConnectionValue} from '../../domain/value/ConnectionSettings';
 
 export class ConnectSettingWindow extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = new State(props.settings, false);
-
-        this.onSubmit = this.onSubmit.bind(this);
     }
 
     render() {
-        const settings = this.state;
-        const isTrying = this.state.isTrying;
-        const username = (settings.username !== undefined && settings.username !== '') ?
-            settings.username :
-            settings.nick;
+        const server = this.props.data.network;
+        const user = this.props.data.personal;
+
+        const isConnecting = !this.props.data.canConnect;
+        const username = (user.username !== undefined && user.username !== '') ?
+            user.username :
+            user.nickname;
 
         return (
             <div id='connect' data-title='Connect' className='window'>
                 <div className='header'>
                     <button className='lt'></button>
                 </div>
-                <form className='container' action='' onSubmit={this.onSubmit}>
+                <form className='container' action='' onSubmit={this.onSubmit.bind(this)}>
                     <div className='row'>
                         <div className='col-sm-12'>
                             <h1 className='title'>Connect</h1>
@@ -55,9 +37,9 @@ export class ConnectSettingWindow extends React.Component {
                         <div className='col-sm-9'>
                             <input className='input'
                                    name='name'
-                                   readOnly={isTrying}
-                                   value={settings.name}
-                                   onChange={this.onChange.bind(this, 'name')} />
+                                   readOnly={isConnecting}
+                                   value={server.name}
+                                   onChange={this.onChangeSetNetworkName.bind(this)} />
                         </div>
                         <div className='col-sm-3'>
                             <label>Server</label>
@@ -65,17 +47,17 @@ export class ConnectSettingWindow extends React.Component {
                         <div className='col-sm-6 col-xs-8'>
                             <input className='input'
                                    name='host'
-                                   readOnly={isTrying}
-                                   value={settings.host}
-                                   onChange={this.onChange.bind(this, 'host')} />
+                                   readOnly={isConnecting}
+                                   value={server.url}
+                                   onChange={this.onChangeSetServerURL.bind(this)} />
                         </div>
                         <div className='col-sm-3 col-xs-4'>
                             <div className='port'>
                                 <input className='input'
                                        name='port'
-                                       readOnly={isTrying}
-                                       value={settings.port}
-                                       onChange={this.onChange.bind(this, 'port')} />
+                                       readOnly={isConnecting}
+                                       value={server.port}
+                                       onChange={this.onChangeSetServerPort.bind(this)} />
                             </div>
                         </div>
                         <div className='clearfix'></div>
@@ -86,18 +68,18 @@ export class ConnectSettingWindow extends React.Component {
                             <input className='input'
                                    type='password'
                                    name='password'
-                                   readOnly={isTrying}
-                                   value={settings.password}
-                                   onChange={this.onChange.bind(this, 'password')} />
+                                   readOnly={isConnecting}
+                                   value={server.pass}
+                                   onChange={this.onChangeSetServerPass.bind(this)} />
                         </div>
                         <div className='col-sm-3'></div>
                         <div className='col-sm-9'>
                             <label className='tls'>
                                 <input type='checkbox'
                                        name='tls'
-                                       readOnly={isTrying}
-                                       checked={settings.tls}
-                                       onChange={this.onChange.bind(this, 'tls')} />
+                                       readOnly={isConnecting}
+                                       checked={server.useTLS}
+                                       onChange={this.onChangeSetServerPass.bind(this)} />
                                 Enable TLS/SSL
                             </label>
                         </div>
@@ -111,9 +93,9 @@ export class ConnectSettingWindow extends React.Component {
                         <div className='col-sm-5'>
                             <input className='input nick'
                                    name='nick'
-                                   readOnly={isTrying}
-                                   value={settings.nick}
-                                   onChange={this.onChange.bind(this, 'nick')} />
+                                   readOnly={isConnecting}
+                                   value={user.nickname}
+                                   onChange={this.onChangeSetNickName.bind(this)} />
                         </div>
                         <div className='clearfix'></div>
                         <div className='col-sm-3'>
@@ -122,9 +104,9 @@ export class ConnectSettingWindow extends React.Component {
                         <div className='col-sm-5'>
                             <input className='input username'
                                    name='username'
-                                   readOnly={isTrying}
+                                   readOnly={isConnecting}
                                    value={username}
-                                   onChange={this.onChange.bind(this, 'username')} />
+                                   onChange={this.onChangeSetUserName.bind(this)} />
                         </div>
                         <div className='clearfix'></div>
                         <div className='col-sm-3'>
@@ -133,9 +115,9 @@ export class ConnectSettingWindow extends React.Component {
                         <div className='col-sm-9'>
                             <input className='input'
                                    name='realname'
-                                   readOnly={isTrying}
-                                   value={settings.realname}
-                                   onChange={this.onChange.bind(this, 'realname')} />
+                                   readOnly={isConnecting}
+                                   value={user.realname}
+                                   onChange={this.onChangeSetRealName.bind(this)} />
                         </div>
                         <div className='col-sm-3'>
                             <label>Channels</label>
@@ -143,15 +125,15 @@ export class ConnectSettingWindow extends React.Component {
                         <div className='col-sm-9'>
                             <input className='input'
                                    name='join'
-                                   readOnly={isTrying}
-                                   value={settings.join}
-                                   onChange={this.onChange.bind(this, 'join')} />
+                                   readOnly={isConnecting}
+                                   value={user.channel}
+                                   onChange={this.onChangeSetChannel.bind(this)} />
                         </div>
                         <div className='col-sm-3 clearfix'></div>
                         <div className='col-sm-9'>
                             <button type='submit'
                                     className='btn'
-                                    disabled={isTrying}>
+                                    disabled={isConnecting}>
                                 Connect
                             </button>
                         </div>
@@ -161,25 +143,60 @@ export class ConnectSettingWindow extends React.Component {
         );
     }
 
-    onChange(name, event) {
+    onChangeSetNetworkName(event) {
         const value = event.target.value;
-        this.setState({
-            [name]: value,
-        });
+        this.props.action.setNetworkName(value);
+    }
+
+    onChangeSetServerURL(event) {
+        const value = event.target.value;
+        this.props.action.setServerURL(value);
+    }
+
+    onChangeSetServerPort(event) {
+        const value = event.target.value;
+        const port = parseInt(value, 10);
+        this.props.action.setServerPort(port);
+    }
+
+    onChangeSetServerPass(event) {
+        const value = event.target.value;
+        this.props.action.setServerPass(value);
+    }
+
+    onChangeUseTLS(event) {
+        const isChecked = event.target.checked;
+        this.props.action.shouldUseTLS(isChecked);
+    }
+
+    onChangeSetNickName(event) {
+        const value = event.target.value;
+        this.props.action.setNickName(value);
+    }
+
+    onChangeSetUserName(event) {
+        const value = event.target.value;
+        this.props.action.setUserName(value);
+    }
+
+    onChangeSetRealName(event) {
+        const value = event.target.value;
+        this.props.action.setRealName(value);
+    }
+
+    onChangeSetChannel(event) {
+        const value = event.target.value;
+        this.props.action.setChannel(value);
     }
 
     onSubmit(event) {
         event.preventDefault();
 
-        const values = new State(this.state, false);
-        this.props.socket.emit('conn', values);
-
-        this.setState({
-            isTrying: true,
-        });
+        const param = this.props.data;
+        this.props.action.tryConnect(param);
     }
 }
 ConnectSettingWindow.propTypes = {
-    settings: React.PropTypes.object.isRequired,
-    socket: React.PropTypes.object.isRequired,
+    action: React.PropTypes.instanceOf(ConnectionActionCreator).isRequired,
+    data: React.PropTypes.instanceOf(ConnectionValue).isRequired,
 };

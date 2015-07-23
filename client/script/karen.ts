@@ -21,7 +21,7 @@ import Channel from './domain/Channel';
 import CommandTypeMod from './domain/CommandType';
 import ConfigRepository from './adapter/ConfigRepository';
 import CookieDriver from './adapter/CookieDriver';
-import {DomainState, SelectedTab, CurrentTabType} from './domain/DomainState'; 
+import {DomainState, SelectedTab, CurrentTabType} from './domain/DomainState';
 import FooterViewController from './output/view/FooterViewController';
 import GeneralSettingViewController from './output/view/GeneralSettingViewController';
 import InputBoxViewController from './output/view/InputBoxViewController';
