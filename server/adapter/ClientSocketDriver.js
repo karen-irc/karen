@@ -54,7 +54,7 @@ export default class ClientSocketDriver {
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -71,7 +71,7 @@ export default class ClientSocketDriver {
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -88,7 +88,7 @@ export default class ClientSocketDriver {
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -105,7 +105,7 @@ export default class ClientSocketDriver {
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -122,7 +122,7 @@ export default class ClientSocketDriver {
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -139,7 +139,7 @@ export default class ClientSocketDriver {
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });
@@ -156,7 +156,7 @@ export default class ClientSocketDriver {
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(function() {
+            return Rx.Disposable.create(() => {
                 this._socket.off(topic, callback);
             });
         });

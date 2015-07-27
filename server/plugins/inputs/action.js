@@ -14,7 +14,9 @@ export default function(network, chan, cmd, args) {
         /* XXX: fall through */
         /*eslint-enable */
 
+        /* eslint-disable indent */
         case 'me': {
+        /* eslint-enable */
             const client = this;
             const irc = network.irc;
             if (args.length === 0) {
