@@ -22,6 +22,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+ 
+ /// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
+
+import * as Rx from 'rx';
 
 import {ConnectionActionDispatcher} from '../../intent/dispatcher/ConnectionActionDispatcher';
 import {ConnectionValue, NetworkValue, PersonalValue} from '../../domain/value/ConnectionSettings';

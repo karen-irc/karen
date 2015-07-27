@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+import {ConnectionValue} from '../../domain/value/ConnectionSettings';
 import {ConnectionActionDispatcher} from '../dispatcher/ConnectionActionDispatcher';
 
 export class ConnectionActionCreator {
@@ -73,7 +74,7 @@ export class ConnectionActionCreator {
         this._dispatcher.setChannel.onNext(text);
     }
 
-    tryConnect(): void {
-        this._dispatcher.tryConnect.onNext(undefined);
+    tryConnect(param: ConnectionValue): void {
+        this._dispatcher.tryConnect.onNext(param);
     }
 }

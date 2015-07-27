@@ -24,7 +24,14 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
+
+import * as Rx from 'rx';
+
+import {ConnectionActionCreator} from '../../intent/action/ConnectionActionCreator';
+import {ConnectionStore} from '../viewmodel/ConnectionStore';
+import {ConnectionValue} from '../../domain/value/ConnectionSettings';
 
 import SocketIoDriver from '../../adapter/SocketIoDriver';
 
@@ -33,8 +40,11 @@ import * as React from 'react';
 
 export default class ConnectSettingViewController {
 
-    _element: Element;
-    _socket: SocketIoDriver;
+    private _element: Element;
+    private _socket: SocketIoDriver;
+
+    private _action: ConnectionActionCreator;
+    private _disposable: Rx.CompositeDisposable;
 
     constructor(element: Element, socket: SocketIoDriver) {
         if (!element || !socket) {
@@ -44,19 +54,51 @@ export default class ConnectSettingViewController {
         this._element = element;
         this._socket = socket;
 
-        socket.init().map<Array<any>>(function(data) {
+        const action = new ConnectionActionCreator();
+        this._action = action;
+
+        const store = new ConnectionStore(action.getDispatcher());
+
+        const observer: Rx.Observer<ConnectionValue> = Rx.Observer.create((data: ConnectionValue) => {
+            this.render(data);
+        });
+        this._disposable = new Rx.CompositeDisposable();
+        this._disposable.add( store.subscribe(observer) );
+
+        const initSocket = socket.init().map<Array<any>>(function(data) {
             return data.connections;
         }).subscribeOnNext((data) => {
             const first = data[0];
-            this.render(first);
+
+            action.setNetworkName(first.name);
+            action.setServerURL(first.host);
+            action.setServerPort(first.port);
+            action.setServerPass(first.passward);
+            action.shouldUseTLS(first.tls);
+
+            action.setNickName(first.nick);
+            action.setUserName(first.username);
+            action.setRealName(first.realname);
+            action.setChannel(first.join);
         });
+        this._disposable.add(initSocket);
+
+        const tryConnect = action.getDispatcher().tryConnect.asObservable().subscribeOnNext(function(value){
+            const prop = value.toJSON();
+            socket.emit('conn', prop);
+        });
+        this._disposable.add(tryConnect);
     }
 
-    render(data: any) {
+    render(data: ConnectionValue) {
         const view = React.createElement(ConnectSettingWindow, {
-            socket: this._socket,
-            settings: data,
+            action: this._action,
+            data: data,
         });
         React.render(view, this._element);
+    }
+
+    dispose(): void {
+        this._disposable.dispose();
     }
 }

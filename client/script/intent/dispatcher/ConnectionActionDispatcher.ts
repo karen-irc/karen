@@ -27,6 +27,8 @@
 
 import * as Rx from 'rx';
 
+import {ConnectionValue} from '../../domain/value/ConnectionSettings';
+
 export class ConnectionActionDispatcher {
 
     setNetworkName: Rx.Subject<string>;
@@ -40,7 +42,7 @@ export class ConnectionActionDispatcher {
     setRealName: Rx.Subject<string>;
     setChannel: Rx.Subject<string>;
 
-    tryConnect: Rx.Subject<void>;
+    tryConnect: Rx.Subject<ConnectionValue>;
 
     constructor() {
         this.setNetworkName = new Rx.Subject<string>();
@@ -54,7 +56,7 @@ export class ConnectionActionDispatcher {
         this.setRealName = new Rx.Subject<string>();
         this.setChannel = new Rx.Subject<string>();
 
-        this.tryConnect = new Rx.Subject<void>();
+        this.tryConnect = new Rx.Subject<ConnectionValue>();
 
         Object.seal(this);
     }

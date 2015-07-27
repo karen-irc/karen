@@ -74,6 +74,20 @@ export class ConnectionValue {
 
         Object.seal(this);
     }
+
+    toJSON(): any {
+        return {
+            name: this.network.name,
+            host: this.network.url,
+            passward: this.network.port,
+            port: this.network.port,
+            tls: this.network.useTLS,
+            nick: this.personal.nickname,
+            username: this.personal.username,
+            realname: this.personal.realname,
+            join: this.personal.channel,
+        };
+    }
 }
 
 
