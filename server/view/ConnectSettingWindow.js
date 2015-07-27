@@ -75,13 +75,13 @@ export class ConnectSettingWindow extends React.Component {
                             <label>Real name</label>
                         </div>
                         <div className='col-sm-9'>
-                            <input className='input' name='realname' className='input' defaultValue={settings.realname}/>
+                            <input className='input' name='realname' defaultValue={settings.realname}/>
                         </div>
                         <div className='col-sm-3'>
                             <label>Channels</label>
                         </div>
                         <div className='col-sm-9'>
-                            <input className='input' name='join' className='input' defaultValue={settings.join}/>
+                            <input className='input' name='join' defaultValue={settings.join}/>
                         </div>
                         <div className='col-sm-3 clearfix'></div>
                         <div className='col-sm-9'>
