@@ -61,6 +61,8 @@ export default class ConnectSettingViewController {
 
         const observer: Rx.Observer<ConnectionValue> = Rx.Observer.create((data: ConnectionValue) => {
             this.render(data);
+        }, ()=> {}, () => {
+            React.unmountComponentAtNode(this._element);
         });
         this._disposable = new Rx.CompositeDisposable();
         this._disposable.add( store.subscribe(observer) );
@@ -100,5 +102,8 @@ export default class ConnectSettingViewController {
 
     dispose(): void {
         this._disposable.dispose();
+
+        this._element = null;
+        this._socket = null;
     }
 }
