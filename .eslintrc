@@ -58,7 +58,7 @@
 
         // Stylistic Issues
         "indent": [2, 4, {
-            "indentSwitchCase": true
+            "SwitchCase": 1,
         }],
         "comma-spacing": [2, {
             "before": false,
