@@ -47,7 +47,7 @@
     "commander": "^2.3.0",
     "compression": "^1.4.3",
     "cookies-js": "^1.2.1",
-    "core-js": "^0.9.6",
+    "core-js": "^1.0.1",
     "event-stream": "^3.1.7",
     "express": "^4.9.5",
     "mkdirp": "^0.5.0",
