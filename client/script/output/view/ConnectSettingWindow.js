@@ -83,7 +83,7 @@ export class ConnectSettingWindow extends React.Component {
                                        name='tls'
                                        disabled={isConnecting}
                                        checked={server.useTLS}
-                                       onChange={this.onChangeSetServerPass.bind(this)} />
+                                       onChange={this.onChangeUseTLS.bind(this)} />
                                 Enable TLS/SSL
                             </label>
                         </div>
