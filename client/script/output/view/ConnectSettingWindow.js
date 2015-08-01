@@ -13,7 +13,8 @@ export class ConnectSettingWindow extends React.Component {
         const server = this.props.data.network;
         const user = this.props.data.personal;
 
-        const isConnecting = !this.props.data.canConnect;
+        const canConnect = this.props.data.canConnect;
+        const isConnecting = false;
         const username = (user.username !== undefined && user.username !== '') ?
             user.username :
             user.nickname;
@@ -38,7 +39,7 @@ export class ConnectSettingWindow extends React.Component {
                             <input className='input'
                                    type='text'
                                    name='name'
-                                   readOnly={isConnecting}
+                                   disabled={isConnecting}
                                    value={server.name}
                                    onChange={this.onChangeSetNetworkName.bind(this)} />
                         </div>
@@ -49,7 +50,7 @@ export class ConnectSettingWindow extends React.Component {
                             <input className='input'
                                    type='text'
                                    name='host'
-                                   readOnly={isConnecting}
+                                   disabled={isConnecting}
                                    value={server.url}
                                    onChange={this.onChangeSetServerURL.bind(this)} />
                         </div>
@@ -58,7 +59,7 @@ export class ConnectSettingWindow extends React.Component {
                                 <input className='input'
                                        type='number'
                                        name='port'
-                                       readOnly={isConnecting}
+                                       disabled={isConnecting}
                                        value={server.port}
                                        onChange={this.onChangeSetServerPort.bind(this)} />
                             </div>
@@ -71,7 +72,7 @@ export class ConnectSettingWindow extends React.Component {
                             <input className='input'
                                    type='password'
                                    name='password'
-                                   readOnly={isConnecting}
+                                   disabled={isConnecting}
                                    value={server.pass}
                                    onChange={this.onChangeSetServerPass.bind(this)} />
                         </div>
@@ -80,7 +81,7 @@ export class ConnectSettingWindow extends React.Component {
                             <label className='tls'>
                                 <input type='checkbox'
                                        name='tls'
-                                       readOnly={isConnecting}
+                                       disabled={isConnecting}
                                        checked={server.useTLS}
                                        onChange={this.onChangeSetServerPass.bind(this)} />
                                 Enable TLS/SSL
@@ -97,7 +98,7 @@ export class ConnectSettingWindow extends React.Component {
                             <input className='input nick'
                                    type='text'
                                    name='nick'
-                                   readOnly={isConnecting}
+                                   disabled={isConnecting}
                                    value={user.nickname}
                                    onChange={this.onChangeSetNickName.bind(this)} />
                         </div>
@@ -109,7 +110,7 @@ export class ConnectSettingWindow extends React.Component {
                             <input className='input username'
                                    type='text'
                                    name='username'
-                                   readOnly={isConnecting}
+                                   disabled={isConnecting}
                                    value={username}
                                    onChange={this.onChangeSetUserName.bind(this)} />
                         </div>
@@ -121,7 +122,7 @@ export class ConnectSettingWindow extends React.Component {
                             <input className='input'
                                    type='text'
                                    name='realname'
-                                   readOnly={isConnecting}
+                                   disabled={isConnecting}
                                    value={user.realname}
                                    onChange={this.onChangeSetRealName.bind(this)} />
                         </div>
@@ -132,7 +133,7 @@ export class ConnectSettingWindow extends React.Component {
                             <input className='input'
                                    type='text'
                                    name='join'
-                                   readOnly={isConnecting}
+                                   disabled={isConnecting}
                                    value={user.channel}
                                    onChange={this.onChangeSetChannel.bind(this)} />
                         </div>
@@ -140,7 +141,7 @@ export class ConnectSettingWindow extends React.Component {
                         <div className='col-sm-9'>
                             <button type='submit'
                                     className='btn'
-                                    disabled={isConnecting}>
+                                    disabled={isConnecting || !canConnect}>
                                 Connect
                             </button>
                         </div>
