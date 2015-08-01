@@ -104,7 +104,7 @@ export class MessageItem extends React.Component {
         }
 
         return (
-            <div className={'msg ' + message.type + (message.self ? 'self' : '') }>
+            <div className={'msg ' + message.type + (message.self ? 'self' : '')}>
                 <span className='time'>
                     {formatTimeZone(message.time)}
                 </span>

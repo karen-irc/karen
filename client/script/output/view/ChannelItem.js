@@ -43,7 +43,7 @@ export class ChannelItem extends React.Component {
                  className={'js-sidebar-channel chan ' + channel.type}>
                 <span className='badge'
                       data-count={String(channel.unread)}>
-                    { (channel.unread > 0) ? String(channel.unread) : '' }
+                    {(channel.unread > 0) ? String(channel.unread) : ''}
                 </span>
                 <span className='close'></span>
                 <span className='name'>{channel.name}</span>
