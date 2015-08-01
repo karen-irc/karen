@@ -105,6 +105,7 @@ gulp.task('__browserify', ['clean:client', '__cp_client', '__typescript'], funct
     const option = {
         insertGlobals: false,
         debug: !isRelease,
+        extensions: ['.jsx'],
     };
 
     const babel = babelify.configure({
