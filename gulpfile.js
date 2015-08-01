@@ -37,12 +37,11 @@ const uglify = require('gulp-uglifyjs');
 const isRelease = process.env.NODE_ENV === 'production';
 
 const CLIENT_SRC = [
-    'client/js/libs/handlebars.js',
-    'client/js/libs/handlebars/**/*.js',
     'client/js/libs/jquery.js',
     'client/js/libs/jquery/**/*.js',
     'client/js/libs/moment.js',
     'client/js/libs/stringcolor.js',
+    'client/js/libs/parse.js',
     'client/js/libs/uri.js',
 ];
 
@@ -79,22 +78,6 @@ gulp.task('__uglify', ['clean:client'], function () {
             compress: false,
         }))
         .pipe(gulp.dest(DIST_CLIENT_JS));
-});
-
-gulp.task('__handlebars', ['clean:client'], function () {
-    const handlebars = path.resolve(NPM_MOD_DIR, './handlebars/bin/handlebars');
-    const args = [
-        String(handlebars),
-        'client/views/',
-        '-e', 'tpl',
-        '-f', path.resolve(DIST_CLIENT_JS, './karen.templates.js'),
-    ];
-
-    const option = {
-        cwd: path.relative(__dirname, ''),
-        stdio: 'inherit',
-    };
-    childProcess.spawn('node', args, option);
 });
 
 gulp.task('__cp_client', ['clean:client'], function () {
@@ -197,7 +180,7 @@ gulp.task('clean:server', function (callback) {
 });
 
 gulp.task('__build:server', ['__babel:server']);
-gulp.task('__build:client', ['__handlebars', '__uglify', '__browserify']);
+gulp.task('__build:client', ['__uglify', '__browserify']);
 
 gulp.task('build:server', ['jslint', '__build:server']);
 gulp.task('build:client', ['jslint', '__build:client']);

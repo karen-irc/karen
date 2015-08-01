@@ -23,43 +23,60 @@
  * THE SOFTWARE.
  */
 
+import {ChannelItem} from './ChannelItem';
+import Network from '../../domain/Network';
 import * as React from 'react';
 
-export class Header extends React.Component {
+export class NetworkItemList extends React.Component {
 
     constructor(props) {
         super(props);
     }
 
     render() {
-        const theme = this.props.theme;
+        const list = this.props.list.map(function(network){
+            return (
+                <NetworkItem key={String(network.id)}
+                             network={network} />
+            );
+        });
 
         return (
-            <head>
-                <meta charSet='utf-8'/>
-                <meta name='viewport' content='width=device-width, user-scalable=no'/>
-                <meta httpEquiv='X-UA-Compatible' content='IE=edge'/>
-                <meta name='apple-mobile-web-app-capable' content='yes'/>
-                <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'/>
-                <meta name='mobile-web-app-capable' content='yes'/>
-
-                <title>karen</title>
-
-                <link rel='stylesheet' href='css/bootstrap.css'/>
-                <link rel='stylesheet' href='css/style.css'/>
-                <link id='theme' rel='stylesheet' href={theme}/>
-
-                <link rel='shortcut icon' href='/img/favicon.png'/>
-                <link rel='icon' sizes='192x192' href='/img/touch-icon-192x192.png'/>
-                <link rel='apple-touch-icon' sizes='120x120' href='/img/apple-touch-icon-120x120.png'/>
-
-                <script defer='true' src='js/libs.min.js'></script>
-                <script defer='true' src='js/karen.js'></script>
-            </head>
+            <div>{list}</div>
         );
     }
 }
+NetworkItemList.propTypes = {
+    list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Network)).isRequired,
+};
 
-Header.propTypes = {
-    theme: React.PropTypes.string.isRequired,
+export class NetworkItem extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const network = this.props.network;
+        const id = String(network.id);
+
+        const channels = network.getChannelList().map(function(channel){
+            return (
+                <ChannelItem key={String(channel.id)}
+                             channel={channel} />
+            );
+        });
+
+        return (
+            <section id={'network-' + id}
+                     className='network'
+                     data-id={id}
+                     data-nick={network.nickname}>
+                {channels}
+            </section>
+        );
+    }
+}
+NetworkItem.propTypes = {
+    network: React.PropTypes.instanceOf(Network).isRequired,
 };
