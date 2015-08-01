@@ -24,22 +24,27 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../tsd/core-js.d.ts" />
-/// <reference path="../../../../tsd/third_party/jquery/jquery.d.ts" />
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
+/// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
 
-// babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
-import 'core-js/modules/es6.array.iterator';
-import 'core-js/es6/symbol';
+import * as Rx from 'rx';
 
-import arrayFrom from 'core-js/library/fn/array/from';
+import {ConnectionActionCreator} from '../../intent/action/ConnectionActionCreator';
+import {ConnectionStore} from '../viewmodel/ConnectionStore';
+import {ConnectionValue} from '../../domain/value/ConnectionSettings';
+
 import SocketIoDriver from '../../adapter/SocketIoDriver';
 
-const EVENT_NAME = 'conn';
+import {ConnectSettingWindow} from './ConnectSettingWindow';
+import * as React from 'react';
 
-export default class ConnectSettingViewController implements EventListenerObject {
+export default class ConnectSettingViewController {
 
-    _element: Element;
-    _socket: SocketIoDriver;
+    private _element: Element;
+    private _socket: SocketIoDriver;
+
+    private _action: ConnectionActionCreator;
+    private _disposable: Rx.CompositeDisposable;
 
     constructor(element: Element, socket: SocketIoDriver) {
         if (!element || !socket) {
@@ -47,64 +52,58 @@ export default class ConnectSettingViewController implements EventListenerObject
         }
 
         this._element = element;
-
         this._socket = socket;
 
-        element.addEventListener('submit', this);
-        element.addEventListener('input', this);
-    }
+        const action = new ConnectionActionCreator();
+        this._action = action;
 
-    handleEvent(aEvent: Event): void {
-        switch (aEvent.type) {
-            case 'submit':
-                this.onSubmit(aEvent);
-                break;
-            case 'input':
-                this.onInput(aEvent);
-                break;
-        }
-    }
+        const store = new ConnectionStore(action.getDispatcher());
 
-
-    onSubmit(aEvent: Event): void {
-        const target = <Element>aEvent.target;
-        if (target.localName !== 'form') {
-            return;
-        }
-        aEvent.preventDefault();
-
-        // XXX: By DOM spec (https://dom.spec.whatwg.org/#interface-nodelist),
-        // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
-        // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
-        const list: any = target.querySelectorAll('.btn');
-        for (let element of arrayFrom(list)) {
-            (<Element>element).setAttribute('disabled', 'true');
-        }
-
-        const values = {};
-        jQuery(target).serializeArray().forEach(function(obj) {
-            if (obj.value !== '') {
-                values[obj.name] = obj.value;
-            }
+        const observer: Rx.Observer<ConnectionValue> = Rx.Observer.create((data: ConnectionValue) => {
+            this.render(data);
+        }, ()=> {}, () => {
+            React.unmountComponentAtNode(this._element);
         });
+        this._disposable = new Rx.CompositeDisposable();
+        this._disposable.add( store.subscribe(observer) );
 
-        this._socket.emit(EVENT_NAME, values);
+        const initSocket = socket.init().map<Array<any>>(function(data) {
+            return data.connections;
+        }).subscribeOnNext((data) => {
+            const first = data[0];
+
+            action.setNetworkName(first.name);
+            action.setServerURL(first.host);
+            action.setServerPort(first.port);
+            action.setServerPass(first.passward);
+            action.shouldUseTLS(first.tls);
+
+            action.setNickName(first.nick);
+            action.setUserName(first.username);
+            action.setRealName(first.realname);
+            action.setChannel(first.join);
+        });
+        this._disposable.add(initSocket);
+
+        const tryConnect = action.getDispatcher().tryConnect.asObservable().subscribeOnNext(function(value){
+            const prop = value.toJSON();
+            socket.emit('conn', prop);
+        });
+        this._disposable.add(tryConnect);
     }
 
-    onInput(aEvent: Event): void {
-        const target = <HTMLInputElement>aEvent.target;
-        if (!target.classList.contains('nick')) {
-            return;
-        }
+    render(data: ConnectionValue) {
+        const view = React.createElement(ConnectSettingWindow, {
+            action: this._action,
+            data: data,
+        });
+        React.render(view, this._element);
+    }
 
-        const nickname = target.value;
+    dispose(): void {
+        this._disposable.dispose();
 
-        // XXX: By DOM spec (https://dom.spec.whatwg.org/#interface-nodelist),
-        // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
-        // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
-        const list: any = this._element.querySelectorAll('.username');
-        for (let input of arrayFrom<Node>(list)) {
-            (<HTMLInputElement>input).value = nickname;
-        }
+        this._element = null;
+        this._socket = null;
     }
 }

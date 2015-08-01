@@ -174,13 +174,15 @@ export default class ClientSocketDriver {
      *  @param  {number}    active
      *  @param  {Array<Network>}    networks
      *  @param  {string}    token
+     *  @param  {Array<?>}  connections
      *  @return {void}
      */
-    emitInitialize(active, networks, token) {
+    emitInitialize(active, networks, token, connections) {
         this._socket.emit('init', {
             active,
             networks,
             token,
+            connections,
         });
     }
 }

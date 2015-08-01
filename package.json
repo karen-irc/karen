@@ -68,14 +68,14 @@
     "browserify": "^11.0.0",
     "del": "^1.1.1",
     "eslint": "^0.24.0",
-    "eslint-plugin-react": "^2.5.2",
+    "eslint-plugin-react": "^3.0.0",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
     "gulp-uglifyjs": "^0.6.1",
     "mocha": "^2.2.4",
     "object-assign": "^3.0.0",
     "tsd": "^0.6.0-beta.5",
-    "typescript": "Microsoft/TypeScript.git#649e40b1711096de54eb325a702597d3ee62e9ef",
+    "typescript": "1.6.0-dev.20150723",
     "vinyl-source-stream": "^1.1.0"
   }
 }

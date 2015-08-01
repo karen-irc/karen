@@ -23,44 +23,41 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
-/// <reference path="../../../node_modules/option-t/option-t.d.ts" />
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
-import {Some, None, Option} from 'option-t';
-import NetworkSet from './NetworkSet';
+import * as Rx from 'rx';
 
-export const enum CurrentTabType {
-    SETTING = 0,
-    CHANNEL = 1,
-}
+import {ConnectionValue} from '../../domain/value/ConnectionSettings';
 
-export class SelectedTab {
+export class ConnectionActionDispatcher {
 
-    type: CurrentTabType;
-    id: string|number;
+    setNetworkName: Rx.Subject<string>;
+    setServerURL: Rx.Subject<string>;
+    setServerPort: Rx.Subject<number>;
+    setServerPass: Rx.Subject<string>;
+    shouldUseTLS: Rx.Subject<boolean>;
 
-    constructor(type: CurrentTabType, id: string|number) {
-        this.type = type;
-        this.id = id;
-    }
+    setNickName: Rx.Subject<string>;
+    setUserName: Rx.Subject<string>;
+    setRealName: Rx.Subject<string>;
+    setChannel: Rx.Subject<string>;
 
-    get channelId(): Option<number> {
-        if (this.type === CurrentTabType.SETTING) {
-            return new None<number>();
-        }
-
-        const id = parseInt(<any>this.id, 10);
-        return new Some<number>(id);
-    }
-}
-
-export class DomainState {
-
-    networkSet: NetworkSet;
-    currentTab: SelectedTab;
+    tryConnect: Rx.Subject<ConnectionValue>;
 
     constructor() {
-        this.networkSet = new NetworkSet([]);
-        this.currentTab = null;
+        this.setNetworkName = new Rx.Subject<string>();
+        this.setServerURL = new Rx.Subject<string>();
+        this.setServerPort = new Rx.Subject<number>();
+        this.setServerPass = new Rx.Subject<string>();
+        this.shouldUseTLS = new Rx.Subject<boolean>();
+
+        this.setNickName = new Rx.Subject<string>();
+        this.setUserName = new Rx.Subject<string>();
+        this.setRealName = new Rx.Subject<string>();
+        this.setChannel = new Rx.Subject<string>();
+
+        this.tryConnect = new Rx.Subject<ConnectionValue>();
+
+        Object.seal(this);
     }
 }

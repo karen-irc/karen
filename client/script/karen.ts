@@ -23,7 +23,7 @@ import {ChatWindowItem, ChatWindowList} from './output/view/ChatWindowItem';
 import CommandTypeMod from './domain/CommandType';
 import ConfigRepository from './adapter/ConfigRepository';
 import CookieDriver from './adapter/CookieDriver';
-import {DomainState, SelectedTab} from './domain/DomainState'; 
+import {DomainState, SelectedTab, CurrentTabType} from './domain/DomainState';
 import FooterViewController from './output/view/FooterViewController';
 import GeneralSettingViewController from './output/view/GeneralSettingViewController';
 import InputBoxViewController from './output/view/InputBoxViewController';
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     UIActionCreator.getDispatcher().selectChannel.subscribe(function(id){
-        globalState.currentTab = new SelectedTab(SelectedTab.TYPE.CHANNEL, id);
+        globalState.currentTab = new SelectedTab(CurrentTabType.CHANNEL, id);
     });
 
     socket.join().subscribe(function(data) {
@@ -493,7 +493,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
         document.title = title;
 
-        globalState.currentTab = new SelectedTab(SelectedTab.TYPE.SETTING, id);
+        globalState.currentTab = new SelectedTab(CurrentTabType.SETTING, id);
     });
 
     AppActionCreator.getDispatcher().signout.subscribe(function(){
