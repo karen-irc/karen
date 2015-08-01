@@ -32,7 +32,7 @@ import {ConnectionValue, NetworkValue, PersonalValue} from '../../domain/value/C
 
 export class ConnectionStore {
 
-    private _model: Rx.Observable<ConnectionValue>;
+    private _state: Rx.Observable<ConnectionValue>;
 
     constructor(intent: ConnectionActionDispatcher) {
         const networkName = intent.setNetworkName.asObservable();
@@ -77,13 +77,13 @@ export class ConnectionStore {
             }
         ).startWith(false);
 
-        this._model = Rx.Observable.combineLatest(network, name, canConnect, function(network, name, canConnect) {
+        this._state = Rx.Observable.combineLatest(network, name, canConnect, function(network, name, canConnect) {
             const value = new ConnectionValue(network, name, canConnect);
             return value;
         });
     }
 
     subscribe(observer: Rx.Observer<ConnectionValue>): Rx.IDisposable {
-        return this._model.subscribe(observer);
+        return this._state.subscribe(observer);
     }
 }
