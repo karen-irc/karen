@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {ChatWindow} from './ChatWindow';
-import {ConnectSettingWindow} from './ConnectSettingWindow';
 import {Footer} from './Footer';
 import {InputForm} from './InputForm';
 import {GeneralSettingWindow} from './GeneralSettingWindow';
@@ -29,7 +28,7 @@ export class KarenAppIndex extends React.Component {
                             <div id='windows'>
                                 <ChatWindow/>
                                 <SignInWindow/>
-                                <ConnectSettingWindow settings={data.defaults}/>
+                                <div id='js-insertion-point-connect'/>
                                 <GeneralSettingWindow prefetch={data.prefetch}
                                                       version={data.version} />
                             </div>

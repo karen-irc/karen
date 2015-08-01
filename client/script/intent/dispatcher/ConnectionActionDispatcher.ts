@@ -23,24 +23,41 @@
  * THE SOFTWARE.
  */
 
-import CookieDriver from '../../adapter/CookieDriver';
-import ConnectSettingViewController from './ConnectSettingViewController';
-import SignInViewController from './SignInViewController';
-import SocketIoDriver from '../../adapter/SocketIoDriver';
+/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
-const CONNECT_INSERTION_POINT_ID = '#js-insertion-point-connect';
+import * as Rx from 'rx';
 
-export default class MainViewController {
+import {ConnectionValue} from '../../domain/value/ConnectionSettings';
 
-    _element: Element;
-    _signin: SignInViewController;
-    _connect :ConnectSettingViewController;
+export class ConnectionActionDispatcher {
 
-    constructor(element: Element, cookie: CookieDriver, socket: SocketIoDriver) {
-        this._element = element;
+    setNetworkName: Rx.Subject<string>;
+    setServerURL: Rx.Subject<string>;
+    setServerPort: Rx.Subject<number>;
+    setServerPass: Rx.Subject<string>;
+    shouldUseTLS: Rx.Subject<boolean>;
 
-        this._signin = new SignInViewController(element.querySelector('#sign-in'), cookie, socket);
+    setNickName: Rx.Subject<string>;
+    setUserName: Rx.Subject<string>;
+    setRealName: Rx.Subject<string>;
+    setChannel: Rx.Subject<string>;
 
-        this._connect = new ConnectSettingViewController( element.querySelector(CONNECT_INSERTION_POINT_ID), socket);
+    tryConnect: Rx.Subject<ConnectionValue>;
+
+    constructor() {
+        this.setNetworkName = new Rx.Subject<string>();
+        this.setServerURL = new Rx.Subject<string>();
+        this.setServerPort = new Rx.Subject<number>();
+        this.setServerPass = new Rx.Subject<string>();
+        this.shouldUseTLS = new Rx.Subject<boolean>();
+
+        this.setNickName = new Rx.Subject<string>();
+        this.setUserName = new Rx.Subject<string>();
+        this.setRealName = new Rx.Subject<string>();
+        this.setChannel = new Rx.Subject<string>();
+
+        this.tryConnect = new Rx.Subject<ConnectionValue>();
+
+        Object.seal(this);
     }
 }
