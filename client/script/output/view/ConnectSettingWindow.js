@@ -36,6 +36,7 @@ export class ConnectSettingWindow extends React.Component {
                             </div>
                         <div className='col-sm-9'>
                             <input className='input'
+                                   type='text'
                                    name='name'
                                    readOnly={isConnecting}
                                    value={server.name}
@@ -46,6 +47,7 @@ export class ConnectSettingWindow extends React.Component {
                         </div>
                         <div className='col-sm-6 col-xs-8'>
                             <input className='input'
+                                   type='text'
                                    name='host'
                                    readOnly={isConnecting}
                                    value={server.url}
@@ -54,6 +56,7 @@ export class ConnectSettingWindow extends React.Component {
                         <div className='col-sm-3 col-xs-4'>
                             <div className='port'>
                                 <input className='input'
+                                       type='number'
                                        name='port'
                                        readOnly={isConnecting}
                                        value={server.port}
@@ -92,6 +95,7 @@ export class ConnectSettingWindow extends React.Component {
                         </div>
                         <div className='col-sm-5'>
                             <input className='input nick'
+                                   type='text'
                                    name='nick'
                                    readOnly={isConnecting}
                                    value={user.nickname}
@@ -103,6 +107,7 @@ export class ConnectSettingWindow extends React.Component {
                         </div>
                         <div className='col-sm-5'>
                             <input className='input username'
+                                   type='text'
                                    name='username'
                                    readOnly={isConnecting}
                                    value={username}
@@ -114,6 +119,7 @@ export class ConnectSettingWindow extends React.Component {
                         </div>
                         <div className='col-sm-9'>
                             <input className='input'
+                                   type='text'
                                    name='realname'
                                    readOnly={isConnecting}
                                    value={user.realname}
@@ -124,6 +130,7 @@ export class ConnectSettingWindow extends React.Component {
                         </div>
                         <div className='col-sm-9'>
                             <input className='input'
+                                   type='text'
                                    name='join'
                                    readOnly={isConnecting}
                                    value={user.channel}
