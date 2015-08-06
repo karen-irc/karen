@@ -39,10 +39,10 @@ export class InputForm extends React.Component {
                         Send
                     </button>
                     <div className='input'>
-                        <label htmlFor='input'
-                               id='nick'></label>
-                        <input id='input'
-                               className='mousetrap'
+                        <label htmlFor='js-input'
+                               id='js-nick' className="input-form__nick"></label>
+                        <input id='js-input'
+                               className='mousetrap input-form__input'
                                autoComplete='off'/>
                     </div>
                 </div>

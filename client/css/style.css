@@ -848,7 +848,7 @@ button {
     margin-right: 64px;
     position: relative;
 }
-.input-form #nick {
+.input-form .input-form__nick {
     background: #f6f6f6;
     color: #666;
     position: absolute;
@@ -864,7 +864,7 @@ button {
         -ms-user-select: none;
             user-select: none;
 }
-.input-form #input {
+.input-form .input-form__input {
     border: 1px solid #cfdae1;
     border: 1px solid #ddd;
     font: inherit;
