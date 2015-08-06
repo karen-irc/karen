@@ -112,6 +112,7 @@ export default class InputBoxViewController {
             return;
         }
 
+        event.preventDefault();
         MessageActionCreator.clear();
     }
 }
