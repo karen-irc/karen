@@ -677,7 +677,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     }
 
     function setNick(nick: string): void {
-        var width = $('#nick')
+        var width = $('#js-nick')
             .html(nick + ':')
             .width();
         if (width) {

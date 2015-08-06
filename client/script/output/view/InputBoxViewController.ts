@@ -42,7 +42,7 @@ export default class InputBoxViewController {
     constructor(domain: DomainState, element: Element) {
         this._element = element;
         this._domain = domain;
-        this._textInput = <HTMLInputElement>element.querySelector('#input');
+        this._textInput = <HTMLInputElement>element.querySelector('#js-input');
 
         this._disposeFocus = UIActionCreator.getDispatcher().focusInputBox.subscribe(() => {
             this.focusInput();
