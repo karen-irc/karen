@@ -37,7 +37,7 @@ import Mousetrap from 'mousetrap';
 import UIActionCreator from '../intent/action/UIActionCreator';
 import {Option} from 'option-t';
 
-export default class WindowPresenter {
+export default class WindowPresenter implements EventListenerObject {
 
     _domain: DomainState;
     _disposeReload: Rx.IDisposable;
@@ -72,9 +72,23 @@ export default class WindowPresenter {
         ], (e: Event, keys: string) => {
             this.handleShortcut(keys);
         });
+
+        window.addEventListener('resize', this);
+    }
+
+    handleEvent(event: Event) {
+        switch (event.type) {
+            case 'resize':
+                this._domain.currentTab.channelId.map(function(channelId){
+                    UIActionCreator.showLatestInChannel(channelId);
+                });
+                break;
+        }
     }
 
     destroy(): void {
+        window.removeEventListener('resize', this);
+
         this._disposeReload.dispose();
         this._disposeFocus.dispose();
         this._disposeQuitConfirmDialog.dispose();

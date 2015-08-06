@@ -72,6 +72,10 @@ class UIActionCreator {
     showSignIn(): void {
         this._dispatcher.showSignIn.onNext(undefined);
     }
+
+    showLatestInChannel(channelId: number): void {
+        this._dispatcher.showLatestInChannel.onNext(channelId);
+    }
 }
 
 export default new UIActionCreator();
