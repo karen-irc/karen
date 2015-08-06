@@ -136,6 +136,7 @@ export default class WindowPresenter implements EventListenerObject {
                 // Loop
                 const target = (length + (index - 1 + length)) % length;
                 const id = channelList[target].id;
+                event.preventDefault();
                 UIActionCreator.selectChannel(id);
                 break;
             }
@@ -144,6 +145,7 @@ export default class WindowPresenter implements EventListenerObject {
                 // Loop
                 const target = (length + (index + 1 + length)) % length;
                 const id = channelList[target].id;
+                event.preventDefault();
                 UIActionCreator.selectChannel(id);
                 break;
             }
