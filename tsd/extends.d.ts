@@ -41,7 +41,4 @@ interface Navigator {
 
 interface JQuery {
     tab: (args: (v: string) => Array<string>, options: any) => JQuery;
-    isScrollBottom: () => boolean;
-    scrollBottom: () => JQuery;
-    sticky: (option?: any) => JQuery;
 }

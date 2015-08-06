@@ -196,6 +196,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         });
         const html = React.renderToStaticMarkup(view);
         chat.append(html);
+        UIActionCreator.showLatestInChannel(data.channel.id);
     });
 
     // this operation should need to wait both of sidebar & contant rendered.
@@ -217,11 +218,19 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         var chan: JQuery = chat.find(target);
         var from: string = data.msg.from;
 
+        const channelBox = chan.find('.chat').get(0);
+        const shouldBottom = channelBox && isScrollBottom(channelBox);
+
         const view = React.createElement(MessageItem, {
             message: data.msg,
         });
         const html = React.renderToStaticMarkup(view);
+
         chan.find('.messages').append(html);
+
+        if (shouldBottom) {
+            UIActionCreator.showLatestInChannel(channelId);
+        }
 
         messageRenderedSubject.onNext({
             target: target,
@@ -432,6 +441,32 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
+    const shouldShowLatestInChannel = UIActionCreator.getDispatcher().showLatestInChannel.debounce(100)
+        .merge(UIActionCreator.getDispatcher().selectChannel);
+    shouldShowLatestInChannel.subscribe(function(channelId){
+        const targetChanel = document.getElementById('js-chan-' + String(channelId));
+        if (!targetChanel) {
+            return;
+        }
+        const targetBox = document.querySelector('.chat');
+        if (!targetBox) {
+            return;
+        }
+
+        const isBottom = isScrollBottom(targetBox);
+        if (isBottom) {
+            return;
+        }
+
+        // move to bottom
+        targetBox.scrollTop = targetBox.scrollHeight;
+    });
+
+    function isScrollBottom(target: Element): boolean {
+        const isBottom = ((target.scrollTop | 0) + (target.clientHeight | 0) + 1) >= (target.scrollHeight | 0);
+        return isBottom;
+    }
+
     UIActionCreator.getDispatcher().selectChannel.subscribe(function(id){
         chat.data('id', id);
         socket.emit('open', id);
@@ -447,7 +482,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             .addClass('active')
             .css('z-index', top++)
             .find('.chat')
-            .sticky()
             .end();
 
         const channel = globalState.networkSet.getChannelById(id);
@@ -484,7 +518,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             .trigger('show')
             .css('z-index', top++)
             .find('.chat')
-            .sticky()
             .end();
 
         var title = 'karen';
@@ -576,20 +609,20 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     chat.on('click', '.toggle-button', function() {
         var self = $(this);
-        var chat = self.closest('.chat');
-        var bottom = chat.isScrollBottom();
+        var chat = self.closest('.chat').get(0);
+        var bottom = isScrollBottom(chat);
         var content = self.parent().next('.toggle-content');
         if (bottom && !content.hasClass('show')) {
             var img = content.find('img');
             if (img.length !== 0 && !img.width()) {
                 img.on('load', function() {
-                    chat.scrollBottom();
+                    chat.scrollTop = chat.scrollHeight;
                 });
             }
         }
         content.toggleClass('show');
         if (bottom) {
-            chat.scrollBottom();
+            chat.scrollTop = chat.scrollHeight;
         }
     });
 

@@ -41,6 +41,8 @@ export default class UIActionDispatcher {
     showGeneralSetting: Rx.Subject<void>;
     showSignIn: Rx.Subject<void>;
 
+    showLatestInChannel: Rx.Subject<number>;
+
     showSomeSettings: Rx.Observable<SettingId>;
 
     constructor() {
@@ -58,6 +60,8 @@ export default class UIActionDispatcher {
         this.showGeneralSetting = new Rx.Subject<void>();
 
         this.showSignIn = new Rx.Subject<void>();
+
+        this.showLatestInChannel = new Rx.Subject<number>();
 
         this.showSomeSettings = Rx.Observable.merge<SettingId>([
             this.showSignIn.asObservable().map(function() { return 'sign-in' }),
