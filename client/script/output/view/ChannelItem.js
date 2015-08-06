@@ -38,7 +38,7 @@ export class ChannelItem extends React.Component {
 
         return (
             <div data-id={id}
-                 data-target={'#chan-' + id}
+                 data-target={'#js-chan-' + id}
                  data-title={channel.name}
                  className={'js-sidebar-channel chan ' + channel.type}>
                 <span className='badge'
