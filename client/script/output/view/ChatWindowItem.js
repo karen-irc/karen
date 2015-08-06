@@ -73,7 +73,7 @@ export class ChatWindowItem extends React.Component {
         };
 
         return (
-            <div id={'chan-' + String(channel.id)}
+            <div id={'js-chan-' + String(channel.id)}
                  data-title={channel.title}
                  data-id={String(channel.id)}
                  data-type={channel.type}
@@ -87,7 +87,7 @@ export class ChatWindowItem extends React.Component {
                         </button>
                     </div>
                     <span className='title'>{channel.name}</span>
-                    <span className='topic' dangerouslySetInnerHTML={topic}/>
+                    <span className='topic js-topic' dangerouslySetInnerHTML={topic}/>
                 </div>
 
                 <div className='chat'>
@@ -101,7 +101,7 @@ export class ChatWindowItem extends React.Component {
                     </div>
                 </div>
                 <aside className='sidebar'>
-                    <div className='users'>
+                    <div className='js-users'>
                     </div>
                 </aside>
             </div>

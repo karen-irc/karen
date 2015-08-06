@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     socket.message().subscribe(function(data) {
         const channelId = data.chan;
-        var target = '#chan-' + channelId;
+        var target = '#js-chan-' + channelId;
         if (data.msg.type === 'error') {
             target = String(globalState.currentTab.channelId.unwrap());
         }
@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         const html = React.renderToStaticMarkup(view);
 
         var chan = chat
-            .find('#chan-' + target)
+            .find('#js-chan-' + target)
             .find('.messages')
             .prepend(html)
             .end();
@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     MessageActionCreator.getDispatcher().partFromChannel.subscribe(function(id){
-        $('#chan-' + id).remove();
+        $('#js-chan-' + id).remove();
         var highest = -1;
         chat.find('.chan').each(function() {
             var self: JQuery = $(this);
@@ -352,8 +352,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     messageGateway.setTopic().subscribe(function(data) {
-        const channel = document.getElementById('chan-' + data.channelId);
-        const topicElement = channel.querySelector('.header .topic');
+        const channel = document.getElementById('js-chan-' + data.channelId);
+        const topicElement = channel.querySelector('.js-topic');
         if (!topicElement) {
             return;
         }
@@ -369,7 +369,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     messageGateway.updateUserList().subscribe(function(data){
-        const node = chat.find('#chan-' + data.channelId).find('.users').get(0);
+        const node = chat.find('#js-chan-' + data.channelId).find('.js-users').get(0);
         const view = React.createElement(UserList, {
             list: data.list,
         });
@@ -439,7 +439,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     var top = 1;
     UIActionCreator.getDispatcher().selectChannel.subscribe(function(id){
-        const target = '#chan-' + String(id);
+        const target = '#js-chan-' + String(id);
         UIActionCreator.toggleLeftPane(false);
         $('#windows .active').removeClass('active');
 
