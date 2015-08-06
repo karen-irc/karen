@@ -23,12 +23,10 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../tsd/mousetrap.d.ts" />
 /// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
 import {DomainState} from '../../domain/DomainState';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
-import Mousetrap from 'mousetrap';
 import * as Rx from 'rx';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
@@ -53,17 +51,7 @@ export default class InputBoxViewController {
 
     _init(): void {
         this._element.addEventListener('submit', this);
-
-        const shortcut = [
-            'command+k',
-            'ctrl+l',
-            'ctrl+shift+l'
-        ];
-        new Mousetrap(this._textInput).bind(shortcut, (aEvent: Event) => {
-            if (aEvent.target === this._textInput) {
-                MessageActionCreator.clear();
-            }
-        });
+        this._textInput.addEventListener('keydown', this);
     }
 
     get textInput(): HTMLInputElement {
@@ -74,6 +62,9 @@ export default class InputBoxViewController {
         switch (aEvent.type) {
             case 'submit':
                 this.onSubmit(aEvent);
+                break;
+            case 'keydown':
+                this.onKeydown(<KeyboardEvent>aEvent);
                 break;
         }
     }
@@ -95,5 +86,32 @@ export default class InputBoxViewController {
 
     focusInput(): void {
         this._textInput.focus();
+    }
+
+    onKeydown(aEvent: KeyboardEvent): void {
+        if (aEvent.target !== this._textInput) {
+            return;
+        }
+
+        const pressShiftKey = aEvent.shiftKey;
+        const pressCtrlKey = aEvent.ctrlKey;
+        const pressMetaKey = aEvent.metaKey;
+        if (pressCtrlKey || pressMetaKey) {
+            return;
+        }
+
+        const keyCode = aEvent.keyCode;
+        const key = aEvent.key;
+        const isKeyK = (key === 'k' || keyCode === 75); // DOM_VK_K
+        const isKeyL = (key === 'l' || keyCode === 76); // DOM_VK_L
+
+        const shouldClear = (isKeyL && pressCtrlKey) ||
+                            (isKeyL && pressCtrlKey && pressShiftKey) ||
+                            (isKeyK && pressMetaKey);
+        if (!shouldClear) {
+            return;
+        }
+
+        MessageActionCreator.clear();
     }
 }
