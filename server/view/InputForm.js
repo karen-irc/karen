@@ -33,7 +33,7 @@ export class InputForm extends React.Component {
 
     render() {
         return (
-            <form id='form' action=''>
+            <form id='js-form' className='input-form' action=''>
                 <div className='inner'>
                     <button className='submit' type='submit'>
                         Send

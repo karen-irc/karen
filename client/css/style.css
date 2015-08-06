@@ -823,7 +823,7 @@ button {
     padding-top: 2px;
     line-height: 1.8;
 }
-#form {
+.input-form {
     background: #e4eaee;
     background: #eee;
     border-top: 1px solid #cfdae1;
@@ -834,21 +834,21 @@ button {
     position: absolute;
     right: 0px;
 }
-#form .inner {
+.input-form .inner {
     bottom: 7px;
     left: 7px;
     position: absolute;
     right: 7px;
     top: 6px;
 }
-#form .input {
+.input-form .input {
     font: 12px Consolas, Menlo, Monaco, "Lucida Console", "DejaVu Sans Mono", "Courier New", monospace;
     left: 0;
     height: 34px;
     margin-right: 64px;
     position: relative;
 }
-#form #nick {
+.input-form #nick {
     background: #f6f6f6;
     color: #666;
     position: absolute;
@@ -864,7 +864,7 @@ button {
         -ms-user-select: none;
             user-select: none;
 }
-#form #input {
+.input-form #input {
     border: 1px solid #cfdae1;
     border: 1px solid #ddd;
     font: inherit;
@@ -875,7 +875,7 @@ button {
     -webkit-appearance: none;
     width: 100%;
 }
-#form .submit {
+.input-form .submit {
     background: #f4f4f4;
     background-image: linear-gradient(#f4f4f4, #ececec);
     border: 1px solid #d7d7d7;
@@ -1051,7 +1051,7 @@ button {
         display: none !important;
     }
     .sidebar,
-    #form,
+    .input-form,
     #sidebar {
         display: none;
     }
