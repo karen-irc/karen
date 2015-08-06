@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const appWindow = new WindowPresenter(globalState);
     const appView = new AppViewController(document.getElementById('viewport'));
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
-    const inputBox = new InputBoxViewController(globalState, document.getElementById('form'));
+    const inputBox = new InputBoxViewController(globalState, document.getElementById('js-form'));
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarViewController(globalState, document.getElementById('sidebar'));
     const footer = new FooterViewController(messageGateway, document.getElementById('footer'));
