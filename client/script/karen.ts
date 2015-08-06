@@ -556,7 +556,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
         var badge = button.find('.badge');
         if (badge.length !== 0) {
-            var i = (badge.data('count') || 0) + 1;
+            var i = (<any>badge.data('count') || 0) + 1;
             badge.data('count', i);
             badge.html(i > 999 ? (i / 1000).toFixed(1) + 'k' : i);
             if (highlight || isQuery) {
@@ -639,7 +639,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             update: function() {
                 var order: Array<string> = [];
                 sidebar.find('.network').each(function() {
-                    var id = $(this).data('id');
+                    var id: string = <any>$(this).data('id');
                     order.push(id);
                 });
                 socket.emit(
@@ -662,7 +662,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
                 var order: Array<string> = [];
                 var network = ui.item.parent();
                 network.find('.chan').each(function() {
-                    var id = $(this).data('id');
+                    var id: string = <any>$(this).data('id');
                     order.push(id);
                 });
                 socket.emit(
