@@ -24,7 +24,6 @@
  */
 
 /// <reference path="../../../tsd/core-js.d.ts" />
-/// <reference path="../../../tsd/mousetrap.d.ts" />
 /// <reference path="../../../node_modules/option-t/option-t.d.ts" />
 /// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
 
@@ -33,7 +32,6 @@ import arrayFindIndex from 'core-js/library/fn/array/find-index';
 import AppActionCreator from '../intent/action/AppActionCreator';
 import Channel from '../domain/Channel';
 import {DomainState} from '../domain/DomainState';
-import Mousetrap from 'mousetrap';
 import UIActionCreator from '../intent/action/UIActionCreator';
 import {Option} from 'option-t';
 
@@ -62,32 +60,26 @@ export default class WindowPresenter implements EventListenerObject {
                 window.onbeforeunload = this._onBeforeUnload;
             }
         });
-
-        const mousetrap = new Mousetrap(window.document.documentElement);
-        mousetrap.bind([
-            'command+up',
-            'command+down',
-            'ctrl+up',
-            'ctrl+down'
-        ], (e: Event, keys: string) => {
-            this.handleShortcut(keys);
-        });
-
+        window.document.documentElement.addEventListener('keydown', this);
         window.addEventListener('resize', this);
     }
 
-    handleEvent(event: Event) {
+    handleEvent(event: Event): void {
         switch (event.type) {
             case 'resize':
                 this._domain.currentTab.channelId.map(function(channelId){
                     UIActionCreator.showLatestInChannel(channelId);
                 });
                 break;
+            case 'keydown':
+                this.onKeydown(<KeyboardEvent>event);
+                break
         }
     }
 
     destroy(): void {
         window.removeEventListener('resize', this);
+        window.document.documentElement.removeEventListener('keydown', this);
 
         this._disposeReload.dispose();
         this._disposeFocus.dispose();
@@ -106,8 +98,33 @@ export default class WindowPresenter implements EventListenerObject {
         return 'Are you sure you want to navigate away from this page?';
     }
 
-    handleShortcut(keys: string): void {
-        const direction = keys.split('+').pop();
+    onKeydown(event: KeyboardEvent): void {
+        const isPressedMeta = event.metaKey;
+        const isPressedCtrl = event.ctrlKey;
+        if ( !(isPressedMeta || isPressedCtrl) ) {
+            return;
+        }
+
+        let key = '';
+        if (event.key !== undefined) {
+            key = event.key;
+        }
+        else {
+            const keyCode = event.keyCode;
+            switch (keyCode) {
+                case 38:
+                    key = "ArrowUp";
+                    break;
+                case 40:
+                    key = "ArrowDown";
+                    break;
+            }
+        }
+
+        this.handleShortcut(key);
+    }
+
+    handleShortcut(key: string): void {
         const channelList: Array<Channel> = this._domain.networkSet.getChannelList();
         const currentIndex: Option<number> = this._domain.currentTab.channelId.map(function(currentId: number) {
             return arrayFindIndex(channelList, function(channel: Channel){
@@ -121,19 +138,21 @@ export default class WindowPresenter implements EventListenerObject {
 
         const index = currentIndex.unwrap();
         const length = channelList.length;
-        switch (direction) {
-            case 'up': {
+        switch (key) {
+            case 'ArrowUp': {
                 // Loop
                 const target = (length + (index - 1 + length)) % length;
                 const id = channelList[target].id;
+                event.preventDefault();
                 UIActionCreator.selectChannel(id);
                 break;
             }
 
-            case 'down': {
+            case 'ArrowDown': {
                 // Loop
                 const target = (length + (index + 1 + length)) % length;
                 const id = channelList[target].id;
+                event.preventDefault();
                 UIActionCreator.selectChannel(id);
                 break;
             }
