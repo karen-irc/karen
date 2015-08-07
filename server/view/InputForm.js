@@ -42,7 +42,7 @@ export class InputForm extends React.Component {
                         <label htmlFor='js-input'
                                id='js-nick' className="input-form__nick"></label>
                         <input id='js-input'
-                               className='mousetrap input-form__input'
+                               className='input-form__input'
                                autoComplete='off'/>
                     </div>
                 </div>
