@@ -272,40 +272,44 @@ export default class Client {
         let sorted = null;
 
         switch (type) {
-        case 'networks': {
-            sorted = [];
-            order.forEach((id) => {
-                const find = this.networks.find(function(element){
-                    return element.id === id;
+            /* eslint-disable indent */
+            case 'networks': {
+            /* eslint-enable */
+                sorted = [];
+                order.forEach((id) => {
+                    const find = this.networks.find(function(element){
+                        return element.id === id;
+                    });
+                    if (find) {
+                        sorted.push(find);
+                    }
                 });
-                if (find) {
-                    sorted.push(find);
-                }
-            });
-            this.networks = sorted;
-            break;
-        }
-
-        case 'channels': {
-            const target = data.target;
-            const network = this.networks.find(function(element){
-                return element.id === target;
-            });
-            if (!network) {
-                return;
+                this.networks = sorted;
+                break;
             }
-            sorted = [];
-            order.forEach((id) => {
-                const find = network.channels.find(function(element){
-                    return element.id === id;
+
+            /* eslint-disable indent */
+            case 'channels': {
+            /* eslint-enable */
+                const target = data.target;
+                const network = this.networks.find(function(element){
+                    return element.id === target;
                 });
-                if (find) {
-                    sorted.push(find);
+                if (!network) {
+                    return;
                 }
-            });
-            network.channels = sorted;
-            break;
-        }
+                sorted = [];
+                order.forEach((id) => {
+                    const find = network.channels.find(function(element){
+                        return element.id === id;
+                    });
+                    if (find) {
+                        sorted.push(find);
+                    }
+                });
+                network.channels = sorted;
+                break;
+            }
         }
     }
 

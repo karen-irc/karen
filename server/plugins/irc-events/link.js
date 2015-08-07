@@ -19,30 +19,32 @@ const parse = function parse(msg, url, res, client) {
     };
 
     switch (res.type) {
-    case 'text/html': {
-        const $ = cheerio.load(res.text);
-        toggle.type = 'link';
-        toggle.head = $('title').text();
-        toggle.body =
-            $('meta[name=description]').attr('content') ||
-            $('meta[property=\'og:description\']').attr('content') ||
-            'No description found.';
-        toggle.thumb =
-            $('meta[property=\'og:image\']').attr('content') ||
-            $('meta[name=\'twitter:image:src\']').attr('content') ||
-            '';
-        break;
-    }
+        /* eslint-disable indent */
+        case 'text/html': {
+        /* eslint-enable */
+            const $ = cheerio.load(res.text);
+            toggle.type = 'link';
+            toggle.head = $('title').text();
+            toggle.body =
+                $('meta[name=description]').attr('content') ||
+                $('meta[property=\'og:description\']').attr('content') ||
+                'No description found.';
+            toggle.thumb =
+                $('meta[property=\'og:image\']').attr('content') ||
+                $('meta[name=\'twitter:image:src\']').attr('content') ||
+                '';
+            break;
+        }
 
-    case 'image/png':
-    case 'image/gif':
-    case 'image/jpg':
-    case 'image/jpeg':
-        toggle.type = 'image';
-        break;
+        case 'image/png':
+        case 'image/gif':
+        case 'image/jpg':
+        case 'image/jpeg':
+            toggle.type = 'image';
+            break;
 
-    default:
-        return;
+        default:
+            return;
     }
 
     client.emit('toggle', toggle);
@@ -76,8 +78,8 @@ const fetch = function fetch(url, cb) {
             if (err) {
                 return;
             }
-            let body;
-            let type;
+            let body = null;
+            let type = null;
             try {
                 body = JSON.parse(data);
             } catch(e) {
