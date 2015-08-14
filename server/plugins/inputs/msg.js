@@ -1,5 +1,15 @@
 import 'core-js/fn/array/find';
 
+/**
+ *  @this   Client
+ *
+ *  @param  {Network}   network
+ *  @param  {Channel}   chan
+ *  @param  {string}    cmd
+ *  @param  {Array<string>} args
+ *
+ *  @return {void}
+ */
 export default function(network, chan, cmd, args) {
     if (cmd !== 'say' && cmd !== 'msg') {
         return;

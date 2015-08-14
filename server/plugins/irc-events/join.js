@@ -4,6 +4,14 @@ import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 import User from '../../models/User';
 
+/**
+ *  @this   Client
+ *
+ *  @param  {?} irc
+ *  @param  {Network} network
+ *
+ *  @return {void}
+ */
 export default function(irc, network) {
     const client = this;
     irc.on('join', function(data) {

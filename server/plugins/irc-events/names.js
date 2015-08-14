@@ -1,6 +1,14 @@
 import 'core-js/fn/array/find';
 import User from '../../models/User';
 
+/**
+ *  @this   Client
+ *
+ *  @param  {?} irc
+ *  @param  {Network} network
+ *
+ *  @return {void}
+ */
 export default function(irc, network) {
     const client = this;
     irc.on('names', function(data) {

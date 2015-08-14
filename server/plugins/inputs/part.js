@@ -1,3 +1,13 @@
+/**
+ *  @this   Client
+ *
+ *  @param  {Network}   network
+ *  @param  {Channel}   chan
+ *  @param  {string}    cmd
+ *  @param  {Array<string>} args
+ *
+ *  @return {void}
+ */
 export default function(network, chan, cmd, args) {
     if (cmd !== 'part' && cmd !== 'leave' && cmd !== 'close') {
         return;
