@@ -1,6 +1,14 @@
 import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
 
+/**
+ *  @this   Client
+ *
+ *  @param  {?} irc
+ *  @param  {Network} network
+ *
+ *  @return {void}
+ */
 export default function(irc, network) {
     const client = this;
     irc.on('motd', function(data) {

@@ -100,6 +100,14 @@ const fetch = function fetch(url, cb) {
         }));
 };
 
+/**
+ *  @this   Client
+ *
+ *  @param  {?} irc
+ *  @param  {Network} network
+ *
+ *  @return {void}
+ */
 export default function(irc, network) {
     const client = this;
     irc.on('message', function(data) {
