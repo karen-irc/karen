@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../node_modules/rx/ts/rx.all.d.ts" />
+/// <reference path="../../../node_modules/rx/ts/es6/rx.all.d.ts" />
 
 import AudioDriver from '../adapter/AudioDriver';
 import ConfigRepository from '../adapter/ConfigRepository';

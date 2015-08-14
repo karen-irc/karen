@@ -2,7 +2,7 @@
 
 /// <reference path="../../tsd/core-js.d.ts" />
 /// <reference path="../../tsd/extends.d.ts" />
-/// <reference path="../../node_modules/rx/ts/rx.d.ts" />
+/// <reference path="../../node_modules/rx/ts/es6/rx.all.d.ts" />
 /// <reference path="../../node_modules/option-t/option-t.d.ts" />
 /// <reference path="../../tsd/third_party/jquery/jquery.d.ts" />
 /// <reference path="../../tsd/third_party/jqueryui/jqueryui.d.ts" />

@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
+/// <reference path="../../../node_modules/rx/ts/es6/rx.all.d.ts" />
 /// <reference path="../../../node_modules/option-t/option-t.d.ts" />
 
 import {Some, None, Option} from 'option-t';

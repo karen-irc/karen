@@ -23,7 +23,8 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
+/// <reference path="../../../../node_modules/rx/ts/es6/rx.all.d.ts" />
+
 import * as Rx from 'rx';
 
 type NotificationValue = {

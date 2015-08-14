@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
+/// <reference path="../../../node_modules/rx/ts/es6/rx.all.d.ts" />
 /// <reference path="../../../node_modules/typescript/lib/lib.es6.d.ts" />
 /// <reference path="../../../tsd/core-js.d.ts" />
 
