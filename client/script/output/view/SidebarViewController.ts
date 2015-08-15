@@ -70,7 +70,7 @@ export default class SidebarViewController implements EventListenerObject {
             this.renderNetworks(networks);
         });
 
-        this._disposeSelectChannel = UIActionCreator.getDispatcher().selectChannel.subscribe((channelId) => {
+        this._disposeSelectChannel = domain.getSelectedChannel().subscribe((channelId) => {
             this.selectChannel(channelId);
         });
 
@@ -264,9 +264,5 @@ export default class SidebarViewController implements EventListenerObject {
     removeChannel(id: number): void {
         const element = this._element.querySelector('.js-sidebar-channel[data-id=\'' + String(id) + '\']');
         element.parentNode.removeChild(element);
-
-        // FIXME: This should be passed Option<T>.
-        const channelId = this.domain.currentTab.channelId.unwrapOr(-1);
-        UIActionCreator.selectChannel(channelId);
     }
 }

@@ -23,11 +23,17 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
+/// <reference path="../../../node_modules/rx/ts/rx.all.d.ts" />
 /// <reference path="../../../node_modules/option-t/option-t.d.ts" />
 
 import {Some, None, Option} from 'option-t';
+import * as Rx from 'rx';
+
 import NetworkSet from './NetworkSet';
+
+import MessageGateway from '../adapter/MessageGateway';
+import UIActionCreator from '../intent/action/UIActionCreator';
+import UIActionDispatcher from '../intent/dispatcher/UIActionDispatcher';
 
 export const enum CurrentTabType {
     SETTING = 0,
@@ -57,10 +63,65 @@ export class SelectedTab {
 export class DomainState {
 
     networkSet: NetworkSet;
-    currentTab: SelectedTab;
 
-    constructor() {
+    private _latestCurrentTab: SelectedTab;
+    private _currentTab: Rx.Observable<SelectedTab>;
+
+    constructor(gateway: MessageGateway) {
         this.networkSet = new NetworkSet([]);
-        this.currentTab = null;
+        this._latestCurrentTab = null;
+        this._currentTab = selectTab(gateway, UIActionCreator.getDispatcher()).do((state) => {
+            this._latestCurrentTab = state;
+        }).share();
     }
+
+    get currentTab(): SelectedTab {
+        return this._latestCurrentTab;
+    }
+
+    getCurrentTab(): Rx.Observable<SelectedTab> {
+        return this._currentTab;
+    }
+
+    getSelectedChannel(): Rx.Observable<number> {
+        return this.getCurrentTab().filter(function(state){
+            return state.channelId.isSome;
+        }).map(function(state){
+            return state.channelId.expect('this should be unwrapped safely');
+        });
+    }
+
+    getSelectedSetting(): Rx.Observable<string> {
+        return this.getCurrentTab().filter(function(state){
+            return state.type === CurrentTabType.SETTING;
+        }).map(function(state){
+            return <string>state.id;
+        });
+    }
+}
+
+function selectTab(gateway: MessageGateway, intent: UIActionDispatcher): Rx.Observable<SelectedTab> {
+    const removedChannel = gateway.partFromChannel().map(function(_){
+        // FIXME: This should be passed Option<T>
+        const tab = new SelectedTab(CurrentTabType.CHANNEL, -1);
+        return tab;
+    });
+
+    const shouldShowConnectSetting = gateway.showConnectSetting().map(function(){
+        const tab = new SelectedTab(CurrentTabType.CHANNEL, 'connect');
+        return tab;
+    });
+
+    const selectedChannel = intent.selectChannel.map(function(channelId){
+        const tab = new SelectedTab(CurrentTabType.CHANNEL, channelId);
+        return tab;
+    });
+
+    const selectedSettings = intent.showSomeSettings.map(function(id){
+        const tab = new SelectedTab(CurrentTabType.SETTING, id);
+        return tab;
+    });
+
+    const tab = selectedChannel.merge(selectedSettings).merge(removedChannel).merge(shouldShowConnectSetting);
+    return tab;
 }
