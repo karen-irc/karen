@@ -93,6 +93,10 @@ export default class Channel {
         return this._userList;
     }
 
+    bindToNetwork(network: Network): void {
+        this.network = network;
+    }
+
     addNewMessage(message: Message): void {
         this.__newMessageSubject.onNext(message);
     }

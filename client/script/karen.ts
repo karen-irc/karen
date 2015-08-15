@@ -179,11 +179,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         globalState.currentTab = new SelectedTab(CurrentTabType.CHANNEL, id);
     });
 
-    socket.join().subscribe(function(data) {
-        const networkId = data.network;
+    messageGateway.joinChannel().subscribe(function({networkId, channel}){
         const network = globalState.networkSet.getById(networkId);
         network.map(function(network) {
-            const channel = new Channel(data.chan, network);
+            channel.bindToNetwork(network);
             network.addChannel(channel);
 
             MessageActionCreator.joinChannel(networkId, channel);
