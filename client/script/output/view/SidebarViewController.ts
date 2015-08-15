@@ -34,6 +34,7 @@ import {ChannelItem} from './ChannelItem';
 import CommandTypeMod from '../../domain/CommandType';
 import {DomainState} from '../../domain/DomainState';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
+import MessageGateway from '../../adapter/MessageGateway';
 import Network from '../../domain/Network';
 import {NetworkItemList} from './NetworkItemList';
 import * as React from 'react';
@@ -55,7 +56,7 @@ export default class SidebarViewController implements EventListenerObject {
 
     _obsJoinChannel: Rx.Observable<number>;
 
-    constructor(domain: DomainState, element: Element) {
+    constructor(domain: DomainState, element: Element, gateway: MessageGateway) {
         this._element = element;
         this.domain = domain;
 
@@ -81,7 +82,7 @@ export default class SidebarViewController implements EventListenerObject {
             this.deleteNetwork(network);
         });
 
-        this._disposePartFromChannel = MessageActionCreator.getDispatcher().partFromChannel.subscribe((id) => {
+        this._disposePartFromChannel = gateway.partFromChannel().subscribe((id) => {
             this.removeChannel(id);
          });
 

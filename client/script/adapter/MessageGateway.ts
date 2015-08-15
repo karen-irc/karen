@@ -99,4 +99,10 @@ export default class MessageGateway {
             };
         });
     }
+
+    partFromChannel(): Rx.Observable<number> { // channelId
+        return this._socket.part().map(function(data){
+            return <number>data.chan;
+        });
+    }
 }
