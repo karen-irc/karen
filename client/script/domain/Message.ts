@@ -24,6 +24,15 @@
  */
 
 interface Message {
+    id: number;
+    mode: string;
+    type: string;
+    from: string;
+    time: string;
+    text: string;
+    toggle: boolean;
+    self: boolean;
+    userImage?: string;
 }
 
 export default Message;

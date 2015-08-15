@@ -208,21 +208,21 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     const messageRenderedSubject = new Rx.Subject<{ target: string; message: any; }>();
 
-    socket.message().subscribe(function(data) {
-        const channelId = data.chan;
+    messageGateway.recieveMessage().subscribe(function(data) {
+        const channelId = data.channelId;
         var target = '#js-chan-' + channelId;
-        if (data.msg.type === 'error') {
+        if (data.message.type === 'error') {
             target = String(globalState.currentTab.channelId.unwrap());
         }
 
         var chan: JQuery = chat.find(target);
-        var from: string = data.msg.from;
+        var from: string = data.message.from;
 
         const channelBox = chan.find('.chat').get(0);
         const shouldBottom = channelBox && isScrollBottom(channelBox);
 
         const view = React.createElement(MessageItem, {
-            message: data.msg,
+            message: data.message,
         });
         const html = React.renderToStaticMarkup(view);
 
@@ -234,14 +234,14 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
         messageRenderedSubject.onNext({
             target: target,
-            message: data.msg,
+            message: data.message,
         });
 
         if (!chan.hasClass('channel')) {
             return;
         }
 
-        var type: string = data.msg.type;
+        var type: string = data.message.type;
         if (type === 'message' || type === 'action') {
             const channel = globalState.networkSet.getChannelById(channelId);
             const nicks: Option<Array<User>> = channel.map(function(channel){
