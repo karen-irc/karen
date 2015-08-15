@@ -49,7 +49,7 @@ export default class Network {
         this.nickname = raw.nick;
 
         const channelList: Array<Channel> = raw.channels.map((item: Channel) => {
-            const channel = new Channel(this, item);
+            const channel = new Channel(item, this);
             return channel;
         });
 

@@ -44,7 +44,7 @@ export default class Channel {
     private __newTopicSubject: Rx.Subject<string>;
     private __updateUserListSubject: Rx.Subject<Array<User>>;
 
-    constructor(network: Network, raw: any) {
+    constructor(raw: any, network: Network = null) {
         this.id = raw.id;
 
         this.name = raw.name;

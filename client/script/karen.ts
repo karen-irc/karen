@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         const networkId = data.network;
         const network = globalState.networkSet.getById(networkId);
         network.map(function(network) {
-            const channel = new Channel(network, data.chan);
+            const channel = new Channel(data.chan, network);
             network.addChannel(channel);
 
             MessageActionCreator.joinChannel(networkId, channel);
