@@ -25,6 +25,7 @@
 
 /// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
 
+import Channel from '../domain/Channel';
 import Message from '../domain/Message';
 import Network from '../domain/Network';
 import * as Rx from 'rx';
@@ -96,6 +97,17 @@ export default class MessageGateway {
             return {
                 channelId: data.chan,
                 message: data.msg,
+            };
+        });
+    }
+
+    joinChannel(): Rx.Observable<{networkId: number; channel: Channel}> {
+        return this._socket.join().map(function(data){
+            const networkId = data.network;
+            const channel = new Channel(data.chan);
+            return {
+                networkId,
+                channel,
             };
         });
     }
