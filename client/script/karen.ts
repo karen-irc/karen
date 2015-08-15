@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
     const inputBox = new InputBoxViewController(globalState, document.getElementById('js-form'));
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
-    const sidebarView = new SidebarViewController(globalState, document.getElementById('sidebar'));
+    const sidebarView = new SidebarViewController(globalState, document.getElementById('sidebar'), messageGateway);
     const footer = new FooterViewController(messageGateway, document.getElementById('footer'));
 
     var sidebar = $('#sidebar');
@@ -308,12 +308,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    socket.part().subscribe(function(data) {
-        const id = data.chan;
-        MessageActionCreator.partFromChannel(id);
-    });
-
-    MessageActionCreator.getDispatcher().partFromChannel.subscribe(function(id){
+    messageGateway.partFromChannel().subscribe(function(id){
         $('#js-chan-' + id).remove();
         var highest = -1;
         chat.find('.chan').each(function() {

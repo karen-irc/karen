@@ -46,7 +46,6 @@ export default class ChatCommandDispatcher {
     setTopic: Rx.Subject<Topic>;
     quitNetwork: Rx.Subject<number>;
     joinChannel: Rx.Subject<{ networkId: number, channel: Channel }>;
-    partFromChannel: Rx.Subject<number>;
     setNickname: Rx.Subject<{ id: number, nickname: string }>;
     updateUserList: Rx.Subject<{ channelId: number, list: Array<User> }>;
 
@@ -60,8 +59,6 @@ export default class ChatCommandDispatcher {
         this.quitNetwork = new Rx.Subject<number>();
 
         this.joinChannel = new Rx.Subject<{ networkId: number, channel: Channel }>();
-
-        this.partFromChannel = new Rx.Subject<number>();
 
         this.setNickname = new Rx.Subject<{ id: number, nickname: string }>();
 

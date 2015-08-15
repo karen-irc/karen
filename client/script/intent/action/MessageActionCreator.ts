@@ -76,10 +76,6 @@ class MessageActionCreator {
         });
     }
 
-    partFromChannel(id: number): void {
-        this._dispatcher.partFromChannel.onNext(id);
-    }
-
     setNickname(networkId: number, nickname: string): void {
         this._dispatcher.setNickname.onNext({
             id: networkId,
