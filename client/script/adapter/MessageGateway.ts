@@ -25,6 +25,7 @@
 
 /// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
 
+import Message from '../domain/Message';
 import Network from '../domain/Network';
 import * as Rx from 'rx';
 import SocketIoDriver from './SocketIoDriver';
@@ -86,6 +87,15 @@ export default class MessageGateway {
             return {
                 channelId: data.chan,
                 topic: data.topic,
+            };
+        });
+    }
+
+    recieveMessage(): Rx.Observable<{ channelId: number; message: Message;}> {
+        return this._socket.message().map(function(data){
+            return {
+                channelId: data.chan,
+                message: data.msg,
             };
         });
     }
