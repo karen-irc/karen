@@ -30,6 +30,8 @@ import MessageGateway from '../../adapter/MessageGateway';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 import * as Rx from 'rx';
 
+import {DomainState} from '../../domain/DomainState';
+
 export default class FooterViewController implements EventListenerObject {
 
     _element: Element;
@@ -46,7 +48,7 @@ export default class FooterViewController implements EventListenerObject {
     _disposableShowSetting: Rx.IDisposable;
     _disposableSelectChannel: Rx.IDisposable;
 
-    constructor(message: MessageGateway, element: Element) {
+    constructor(domain: DomainState, message: MessageGateway, element: Element) {
         this._element = element;
         this._signinElement = <HTMLElement>element.querySelector('.sign-in');
         this._signoutElement = <HTMLElement>element.querySelector('.sign-out');
@@ -74,7 +76,9 @@ export default class FooterViewController implements EventListenerObject {
             this.selectElement(this._lastSelectedElement, this._settingElement);
         });
 
-        this._disposableSelectChannel = UIActionCreator.getDispatcher().selectChannel.subscribe(() => {
+        this._disposableSelectChannel = domain.getCurrentTab().filter(function(state){
+            return state.channelId.isSome;
+        }).subscribe(() => {
             this.selectElement(this._lastSelectedElement, null);
         });
 

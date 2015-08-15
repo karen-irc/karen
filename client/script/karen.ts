@@ -72,14 +72,14 @@ function arrayFlatMap<T, U>(target: Array<T>, fn: {(value: T): Array<U>}) : Arra
 document.addEventListener('DOMContentLoaded', function onLoad() {
     document.removeEventListener('DOMContentLoaded', onLoad);
 
-    const globalState = new DomainState();
+    const globalState = new DomainState(messageGateway);
     const appWindow = new WindowPresenter(globalState);
     const appView = new AppViewController(document.getElementById('viewport'));
     const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
     const inputBox = new InputBoxViewController(globalState, document.getElementById('js-form'));
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarViewController(globalState, document.getElementById('sidebar'), messageGateway);
-    const footer = new FooterViewController(messageGateway, document.getElementById('footer'));
+    const footer = new FooterViewController(globalState, messageGateway, document.getElementById('footer'));
 
     var sidebar = $('#sidebar');
     var chat = $('#chat');
@@ -175,8 +175,9 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         sortable();
     });
 
-    UIActionCreator.getDispatcher().selectChannel.subscribe(function(id){
-        globalState.currentTab = new SelectedTab(CurrentTabType.CHANNEL, id);
+    globalState.getCurrentTab().subscribe(function(state){
+        chat.data('id', state.id);
+        socket.emit('open', state.id);
     });
 
     messageGateway.joinChannel().subscribe(function({networkId, channel}){
@@ -435,8 +436,13 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
+
     const shouldShowLatestInChannel = UIActionCreator.getDispatcher().showLatestInChannel.debounce(100)
-        .merge(UIActionCreator.getDispatcher().selectChannel);
+        .merge(globalState.getCurrentTab().filter(function(state){
+            return state.channelId.isSome;
+        }).map(function(state){
+            return state.channelId.unwrap();
+        }));
     shouldShowLatestInChannel.subscribe(function(channelId){
         const targetChanel = document.getElementById('js-chan-' + String(channelId));
         if (!targetChanel) {
@@ -461,13 +467,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         return isBottom;
     }
 
-    UIActionCreator.getDispatcher().selectChannel.subscribe(function(id){
-        chat.data('id', id);
-        socket.emit('open', id);
-    });
-
     var top = 1;
-    UIActionCreator.getDispatcher().selectChannel.subscribe(function(id){
+    globalState.getSelectedChannel().subscribe(function(id){
         const target = '#js-chan-' + String(id);
         UIActionCreator.toggleLeftPane(false);
         $('#windows .active').removeClass('active');
@@ -500,8 +501,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             UIActionCreator.focusInputBox();
         }
     });
-
-    UIActionCreator.getDispatcher().showSomeSettings.subscribe(function(id) {
+    
+    globalState.getSelectedSetting().subscribe(function(id) {
         const target = document.querySelector('#' + id);
 
         UIActionCreator.toggleLeftPane(false);
@@ -519,8 +520,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             title = chan.data('title') + ' — ' + title;
         }
         document.title = title;
-
-        globalState.currentTab = new SelectedTab(CurrentTabType.SETTING, id);
     });
 
     AppActionCreator.getDispatcher().signout.subscribe(function(){
