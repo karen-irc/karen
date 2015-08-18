@@ -29,10 +29,10 @@ import Channel from '../domain/Channel';
 import Message from '../domain/Message';
 import Network from '../domain/Network';
 import * as Rx from 'rx';
-import SocketIoDriver from './SocketIoDriver';
+import {SocketIoDriver} from './SocketIoDriver';
 import User from '../domain/User';
 
-export default class MessageGateway {
+export class MessageGateway {
 
     _socket: SocketIoDriver;
 
@@ -43,6 +43,20 @@ export default class MessageGateway {
     showConnectSetting(): Rx.Observable<void> {
         return this._socket.init().filter(function(data){
             return (data.networks.length === 0);
+        });
+    }
+
+    invokeInit(): Rx.Observable<{ networks: Array<Network>; token: string; active: number; }> {
+        return this._socket.init().map(function(data){
+            const list = (data.networks.length !== 0) ?
+                (<Array<any>>data.networks).map(function(item){
+                    return new Network(item);
+                }) : [];
+            return {
+                networks: list,
+                token: data.token,
+                active: data.active,
+            };
         });
     }
 

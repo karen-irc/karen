@@ -29,7 +29,7 @@ import GeneralSettingViewController from './output/view/GeneralSettingViewContro
 import InputBoxViewController from './output/view/InputBoxViewController';
 import MainViewController from './output/view/MainViewController';
 import MessageActionCreator from './intent/action/MessageActionCreator';
-import MessageGateway from './adapter/MessageGateway';
+import {MessageGateway} from './adapter/MessageGateway';
 import {MessageItem, MessageList} from './output/view/MessageItem';
 import Network from './domain/Network';
 import NetworkSet from './domain/NetworkSet';
@@ -40,7 +40,7 @@ import * as Rx from 'rx';
 import SettingActionCreator from './intent/action/SettingActionCreator';
 import SettingStore from './output/viewmodel/SettingStore';
 import SidebarViewController from './output/view/SidebarViewController';
-import SocketIoDriver from './adapter/SocketIoDriver';
+import {SocketIoDriver} from './adapter/SocketIoDriver';
 import {Some, None, Option} from 'option-t';
 import {ToggleItem} from './output/view/ToggleItem';
 import UIActionCreator from './intent/action/UIActionCreator';
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         UIActionCreator.showSignIn();
     });
 
-    socket.init().subscribe(function(data) {
+    messageGateway.invokeInit().subscribe(function(data) {
         if (data.networks.length !== 0) {
             globalState.networkSet = new NetworkSet(data.networks);
 

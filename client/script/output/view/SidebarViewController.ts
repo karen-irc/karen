@@ -34,7 +34,7 @@ import {ChannelItem} from './ChannelItem';
 import CommandTypeMod from '../../domain/CommandType';
 import {DomainState} from '../../domain/DomainState';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
-import MessageGateway from '../../adapter/MessageGateway';
+import {MessageGateway} from '../../adapter/MessageGateway';
 import Network from '../../domain/Network';
 import {NetworkItemList} from './NetworkItemList';
 import * as React from 'react';

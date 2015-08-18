@@ -31,7 +31,7 @@ import * as Rx from 'rx';
 
 import NetworkSet from './NetworkSet';
 
-import MessageGateway from '../adapter/MessageGateway';
+import {MessageGateway} from '../adapter/MessageGateway';
 import UIActionCreator from '../intent/action/UIActionCreator';
 import UIActionDispatcher from '../intent/dispatcher/UIActionDispatcher';
 

@@ -33,7 +33,7 @@ import 'core-js/es6/symbol';
 
 import arrayFrom from 'core-js/library/fn/array/from';
 import CookieDriver from '../../adapter/CookieDriver';
-import SocketIoDriver from '../../adapter/SocketIoDriver';
+import {SocketIoDriver} from '../../adapter/SocketIoDriver';
 
 declare const moment: any;
 
