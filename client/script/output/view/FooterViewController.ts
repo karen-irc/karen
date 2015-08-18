@@ -30,6 +30,8 @@ import MessageGateway from '../../adapter/MessageGateway';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 import * as Rx from 'rx';
 
+import {DomainState} from '../../domain/DomainState';
+
 export default class FooterViewController implements EventListenerObject {
 
     _element: Element;
@@ -46,7 +48,7 @@ export default class FooterViewController implements EventListenerObject {
     _disposableShowSetting: Rx.IDisposable;
     _disposableSelectChannel: Rx.IDisposable;
 
-    constructor(message: MessageGateway, element: Element) {
+    constructor(domain: DomainState, message: MessageGateway, element: Element) {
         this._element = element;
         this._signinElement = <HTMLElement>element.querySelector('.sign-in');
         this._signoutElement = <HTMLElement>element.querySelector('.sign-out');
@@ -63,18 +65,19 @@ export default class FooterViewController implements EventListenerObject {
             this.selectElement(this._lastSelectedElement, this._signoutElement);
         });
 
-        this._disposableShowConnect = Rx.Observable.merge([
-            message.showConnectSetting(),
-            UIActionCreator.getDispatcher().showConnectSetting,
-        ]).subscribe(() => {
+        this._disposableShowConnect = domain.getSelectedSetting().filter(function(id){
+            return (id === 'connect');
+        }).subscribe(() => {
             this.selectElement(this._lastSelectedElement, this._connectElement);
         });
 
-        this._disposableShowSetting = UIActionCreator.getDispatcher().showGeneralSetting.subscribe(() => {
+        this._disposableShowSetting = domain.getSelectedSetting().filter(function(id){
+            return (id === 'settings');
+        }).subscribe(() => {
             this.selectElement(this._lastSelectedElement, this._settingElement);
         });
 
-        this._disposableSelectChannel = UIActionCreator.getDispatcher().selectChannel.subscribe(() => {
+        this._disposableSelectChannel = domain.getSelectedChannel().subscribe(() => {
             this.selectElement(this._lastSelectedElement, null);
         });
 
