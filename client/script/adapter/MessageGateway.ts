@@ -117,4 +117,11 @@ export default class MessageGateway {
             return <number>data.chan;
         });
     }
+
+    quitNetwork(): Rx.Observable<number> {
+        return this._socket.quit().map(function(data) {
+            const id = <number>data.network;
+            return id;
+        });
+    }
 }

@@ -319,13 +319,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             }
         });
     });
-
-    socket.quit().subscribe(function(data) {
-        const id = data.network;
-        MessageActionCreator.quitNetwork(id);
-    });
-
-    MessageActionCreator.getDispatcher().quitNetwork.subscribe(function(id){
+    
+    messageGateway.quitNetwork().subscribe(function(id){
         const n = globalState.networkSet.getById(id);
         n.map(function(network: Network){
             globalState.networkSet.delete(network);

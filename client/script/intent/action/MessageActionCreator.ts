@@ -65,10 +65,6 @@ class MessageActionCreator {
         });
     }
 
-    quitNetwork(id: number): void {
-        this._dispatcher.quitNetwork.onNext(id);
-    }
-
     joinChannel(networkId: number, channel: Channel): void {
         this._dispatcher.joinChannel.onNext({
             networkId,
