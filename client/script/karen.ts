@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         UIActionCreator.showSignIn();
     });
 
-    socket.init().subscribe(function(data) {
+    messageGateway.invokeInit().subscribe(function(data) {
         if (data.networks.length !== 0) {
             globalState.networkSet = new NetworkSet(data.networks);
 

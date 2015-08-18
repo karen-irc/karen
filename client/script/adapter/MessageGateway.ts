@@ -46,6 +46,20 @@ export default class MessageGateway {
         });
     }
 
+    invokeInit(): Rx.Observable<{ networks: Array<Network>; token: string; active: number; }> {
+        return this._socket.init().map(function(data){
+            const list = (data.networks.length !== 0) ?
+                (<Array<any>>data.networks).map(function(item){
+                    return new Network(item);
+                }) : [];
+            return {
+                networks: list,
+                token: data.token,
+                active: data.active,
+            };
+        });
+    }
+
     disconnected(): Rx.Observable<void> {
         return Rx.Observable.merge([
             this._socket.connectError(),

@@ -48,12 +48,11 @@ export default class NetworkSet {
     _deleted: Rx.Subject<Network>;
     _cleared: Rx.Subject<void>;
 
-    constructor(raw: Array<any>) {
+    constructor(raw: Array<Network>) {
         this._idMap = new Map<number, Network>();
 
         raw.forEach((item) => {
-            const n = new Network(item);
-            this._idMap.set(n.id, n);
+            this._idMap.set(item.id, item);
         });
 
         this._added = new Rx.Subject<Network>();
