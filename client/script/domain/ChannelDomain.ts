@@ -26,74 +26,62 @@
 /// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
 import * as Rx from 'rx';
+
+import Channel from './Channel';
 import Message from './Message';
-import Network from './Network';
 import User from './User';
 
-export default class Channel {
-    id: number;
-    name: string;
-    topic: string;
-    type: string;
-    _userList: Array<User>;
-    _unread: number;
-    _messageBuffer: Array<Message>;
-    network: Network;
+import {MessageGateway} from '../adapter/MessageGateway';
 
-    constructor(raw: any, network: Network = null) {
-        this.id = raw.id;
+export class ChannelDomain {
 
-        this.name = raw.name;
+    private _data: Channel;
+    private _topic: Rx.Observable<string>;
+    private _userList: Rx.Observable<Array<User>>;
+    private _message: Rx.Observable<Message>;
 
-        this.topic = raw.topic;
+    constructor(gateway: MessageGateway, data: Channel) {
+        this._data = data;
 
-        this.type = raw.type;
+        const filterFn = (data: { channelId: number }) => {
+            return data.channelId === this._data.id;
+        };
 
-        const userList: Array<User> = raw.users.map(function(item: any) {
-            const user = new User(item);
-            return user;
-        });
-        this._userList = userList;
+        this._topic = gateway.setTopic().filter(filterFn).map(function(data){
+            return data.topic;
+        }).do((topic) => {
+            this._data.updateTopic(topic);
+        }).share();
 
-        this._unread = raw.unread;
+        this._userList = gateway.updateUserList().filter(filterFn).map(function(data){
+            return data.list;
+        }).do((list) => {
+            this._data.updateUserList(list);
+        }).share();
 
-        let messages: Array<Message> = null;
-        if (Array.isArray(raw.messages)) {
-            messages = raw.messages;
-        }
-        else {
-            messages = [];
-        }
-
-        this._messageBuffer = messages;
-        this.network = network;
+        // TODO: pipe message buffer in `data`
+        this._message = gateway.recieveMessage().filter(filterFn).map(function(data){
+            return data.message;
+        }).share();
     }
 
-    get unread(): number {
-        return this.getUnread();
+    getId(): number {
+        return this._data.id;
     }
 
-    get messages(): Array<Message> {
-        return this._messageBuffer;
+    getValue(): Channel {
+        return this._data;
     }
 
-    getUnread(): number {
-        return this._unread;
+    updatedTopic(): Rx.Observable<string> {
+        return this._topic;
     }
 
-    getUserList(): Array<User> {
+    updatedUserList(): Rx.Observable<Array<User>> {
         return this._userList;
     }
 
-    bindToNetwork(network: Network): void {
-        this.network = network;
-    }
-
-    updateTopic(topic: string): void {
-        this.topic = topic;
-    }
-
-    updateUserList(list: Array<User>): void {
-        this._userList = list;
+    recievedMessage(): Rx.Observable<Message> {
+        return this._message;
     }
 }
