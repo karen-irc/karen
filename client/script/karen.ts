@@ -29,7 +29,7 @@ import GeneralSettingViewController from './output/view/GeneralSettingViewContro
 import InputBoxViewController from './output/view/InputBoxViewController';
 import MainViewController from './output/view/MainViewController';
 import MessageActionCreator from './intent/action/MessageActionCreator';
-import MessageGateway from './adapter/MessageGateway';
+import {MessageGateway} from './adapter/MessageGateway';
 import {MessageItem, MessageList} from './output/view/MessageItem';
 import Network from './domain/Network';
 import NetworkSet from './domain/NetworkSet';

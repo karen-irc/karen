@@ -26,7 +26,7 @@
 /// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
 
 import AppActionCreator from '../../intent/action/AppActionCreator';
-import MessageGateway from '../../adapter/MessageGateway';
+import {MessageGateway} from '../../adapter/MessageGateway';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 import * as Rx from 'rx';
 

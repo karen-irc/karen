@@ -32,7 +32,7 @@ import * as Rx from 'rx';
 import SocketIoDriver from './SocketIoDriver';
 import User from '../domain/User';
 
-export default class MessageGateway {
+export class MessageGateway {
 
     _socket: SocketIoDriver;
 
