@@ -40,7 +40,7 @@ import * as Rx from 'rx';
 import SettingActionCreator from './intent/action/SettingActionCreator';
 import SettingStore from './output/viewmodel/SettingStore';
 import SidebarViewController from './output/view/SidebarViewController';
-import SocketIoDriver from './adapter/SocketIoDriver';
+import {SocketIoDriver} from './adapter/SocketIoDriver';
 import {Some, None, Option} from 'option-t';
 import {ToggleItem} from './output/view/ToggleItem';
 import UIActionCreator from './intent/action/UIActionCreator';

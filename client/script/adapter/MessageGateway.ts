@@ -29,7 +29,7 @@ import Channel from '../domain/Channel';
 import Message from '../domain/Message';
 import Network from '../domain/Network';
 import * as Rx from 'rx';
-import SocketIoDriver from './SocketIoDriver';
+import {SocketIoDriver} from './SocketIoDriver';
 import User from '../domain/User';
 
 export class MessageGateway {

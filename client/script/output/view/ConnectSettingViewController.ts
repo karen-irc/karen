@@ -33,7 +33,7 @@ import {ConnectionActionCreator} from '../../intent/action/ConnectionActionCreat
 import {ConnectionStore} from '../viewmodel/ConnectionStore';
 import {ConnectionValue} from '../../domain/value/ConnectionSettings';
 
-import SocketIoDriver from '../../adapter/SocketIoDriver';
+import {SocketIoDriver} from '../../adapter/SocketIoDriver';
 
 import {ConnectSettingWindow} from './ConnectSettingWindow';
 import * as React from 'react';

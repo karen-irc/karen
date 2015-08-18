@@ -29,7 +29,7 @@
 import * as io from 'socket.io-client';
 import * as Rx from 'rx';
 
-export default class SocketIoDriver {
+export class SocketIoDriver {
 
     _socket: SocketIOClient.Socket;
 

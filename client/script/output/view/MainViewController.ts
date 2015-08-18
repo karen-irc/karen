@@ -26,7 +26,7 @@
 import CookieDriver from '../../adapter/CookieDriver';
 import ConnectSettingViewController from './ConnectSettingViewController';
 import SignInViewController from './SignInViewController';
-import SocketIoDriver from '../../adapter/SocketIoDriver';
+import {SocketIoDriver} from '../../adapter/SocketIoDriver';
 
 const CONNECT_INSERTION_POINT_ID = '#js-insertion-point-connect';
 
