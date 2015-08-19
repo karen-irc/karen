@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
+/// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
 import Network from '../../domain/Network';
 import * as Rx from 'rx';

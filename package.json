@@ -57,7 +57,7 @@
     "react": "^0.13.3",
     "read": "^1.0.5",
     "request": "^2.51.0",
-    "rx": "3.0.0",
+    "rx": "^3.1.0",
     "slate-irc": "karen-irc/slate-irc.git#b12d540fa231b64e4e012c9e29412a2dc448acbe",
     "socket.io": "^1.3.5",
     "socket.io-client": "^1.3.5"

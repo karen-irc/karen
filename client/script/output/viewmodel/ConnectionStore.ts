@@ -22,8 +22,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
- 
- /// <reference path="../../../../node_modules/rx/ts/rx.d.ts" />
+
+ /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
 import * as Rx from 'rx';
 

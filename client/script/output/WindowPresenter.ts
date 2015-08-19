@@ -25,7 +25,7 @@
 
 /// <reference path="../../../tsd/core-js.d.ts" />
 /// <reference path="../../../node_modules/option-t/option-t.d.ts" />
-/// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
+/// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
 import * as Rx from 'rx';
 import arrayFindIndex from 'core-js/library/fn/array/find-index';
