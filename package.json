@@ -19,7 +19,6 @@
     "test": "npm run lint && npm run unit-test",
     "lint": "gulp jslint",
     "unit-test": "mocha test/**/*.js",
-
     "gulp": "gulp"
   },
   "keywords": [
@@ -68,7 +67,7 @@
     "babelify": "^6.0.2",
     "browserify": "^11.0.0",
     "del": "^1.1.1",
-    "eslint": "^1.0.0",
+    "eslint": "^1.2.0",
     "eslint-plugin-react": "^3.2.0",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
