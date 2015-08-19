@@ -24,7 +24,7 @@
  */
 
 /// <reference path="../../../tsd/third_party/socket.io-client/socket.io-client.d.ts" />
-/// <reference path="../../../node_modules/rx/ts/rx.d.ts" />
+/// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
 import * as io from 'socket.io-client';
 import * as Rx from 'rx';

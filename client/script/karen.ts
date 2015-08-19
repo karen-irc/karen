@@ -2,7 +2,7 @@
 
 /// <reference path="../../tsd/core-js.d.ts" />
 /// <reference path="../../tsd/extends.d.ts" />
-/// <reference path="../../node_modules/rx/ts/rx.d.ts" />
+/// <reference path="../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../node_modules/option-t/option-t.d.ts" />
 /// <reference path="../../tsd/third_party/jquery/jquery.d.ts" />
 /// <reference path="../../tsd/third_party/jqueryui/jqueryui.d.ts" />
@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             }
         });
     });
-    
+
     messageGateway.quitNetwork().subscribe(function(id){
         const n = globalState.networkSet.getById(id);
         n.map(function(network: Network){
@@ -492,7 +492,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             UIActionCreator.focusInputBox();
         }
     });
-    
+
     globalState.getSelectedSetting().subscribe(function(id) {
         const target = document.querySelector('#' + id);
 
