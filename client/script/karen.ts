@@ -190,21 +190,14 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         });
     });
 
-    const joinContentRendered = MessageActionCreator.getDispatcher().joinChannel.do(function(data){
+    MessageActionCreator.getDispatcher().joinChannel.subscribe(function(data){
         const view = React.createElement(ChatWindowItem, {
             channel: data.channel,
         });
         const html = React.renderToStaticMarkup(view);
         chat.append(html);
         UIActionCreator.showLatestInChannel(data.channel.id);
-    });
-
-    // this operation should need to wait both of sidebar & contant rendered.
-    Rx.Observable.zip(sidebarView.joinChannelRendered, joinContentRendered, function (s1, s2) {
-        return s1;
-    }).subscribe(function(id){
-        UIActionCreator.selectChannel(id);
-    });
+    })
 
     const messageRenderedSubject = new Rx.Subject<{ target: string; message: any; }>();
 
