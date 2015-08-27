@@ -30,6 +30,7 @@ import {Some, None, Option} from 'option-t';
 import * as Rx from 'rx';
 
 import NetworkSet from './NetworkSet';
+import {NetworkSetDomain} from './NetworkSetDomain';
 
 import {MessageGateway} from '../adapter/MessageGateway';
 import UIActionCreator from '../intent/action/UIActionCreator';
@@ -64,13 +65,16 @@ export class DomainState {
 
     networkSet: NetworkSet;
 
+    private _networkSet: NetworkSetDomain;
     private _latestCurrentTab: SelectedTab;
     private _currentTab: Rx.Observable<SelectedTab>;
 
     constructor(gateway: MessageGateway) {
         this.networkSet = new NetworkSet([]);
+
+        this._networkSet = new NetworkSetDomain(gateway);
         this._latestCurrentTab = null;
-        this._currentTab = selectTab(gateway, UIActionCreator.getDispatcher()).do((state) => {
+        this._currentTab = selectTab(gateway, UIActionCreator.getDispatcher(), this._networkSet).do((state) => {
             this._latestCurrentTab = state;
         }).share();
     }
@@ -98,10 +102,19 @@ export class DomainState {
             return <string>state.id;
         });
     }
+
+    getNetworkDomain(): NetworkSetDomain {
+        return this._networkSet;
+    }
 }
 
-function selectTab(gateway: MessageGateway, intent: UIActionDispatcher): Rx.Observable<SelectedTab> {
-    const removedChannel = gateway.partFromChannel().map(function(_){
+function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: NetworkSetDomain): Rx.Observable<SelectedTab> {
+    const addedChannel = set.joinedChannelAtAll().map(function(channel){
+        const tab = new SelectedTab(CurrentTabType.CHANNEL, channel.getId());
+        return tab;
+    });
+
+    const removedChannel = set.partedChannelAtAll().map(function(_){
         // FIXME: This should be passed Option<T>
         const tab = new SelectedTab(CurrentTabType.CHANNEL, -1);
         return tab;
@@ -122,6 +135,10 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher): Rx.Obse
         return tab;
     });
 
-    const tab = selectedChannel.merge(selectedSettings).merge(removedChannel).merge(shouldShowConnectSetting);
+    const tab = selectedChannel
+        .merge(selectedSettings)
+        .merge(addedChannel)
+        .merge(removedChannel)
+        .merge(shouldShowConnectSetting);
     return tab;
 }

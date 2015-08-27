@@ -36,6 +36,7 @@ import {DomainState} from '../../domain/DomainState';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import {MessageGateway} from '../../adapter/MessageGateway';
 import Network from '../../domain/Network';
+import {NetworkDomain} from '../../domain/NetworkDomain';
 import {NetworkItemList} from './NetworkItemList';
 import * as React from 'react';
 import * as Rx from 'rx';
@@ -52,9 +53,8 @@ export default class SidebarViewController implements EventListenerObject {
     _disposeSelectChannel: Rx.IDisposable;
     _disposeAddedNetwork: Rx.IDisposable;
     _disposeDeletedNetwork: Rx.IDisposable;
+    _disposeJoinChannel: Rx.IDisposable;
     _disposePartFromChannel: Rx.IDisposable;
-
-    _obsJoinChannel: Rx.Observable<number>;
 
     constructor(domain: DomainState, element: Element, gateway: MessageGateway) {
         this._element = element;
@@ -70,31 +70,31 @@ export default class SidebarViewController implements EventListenerObject {
             this.renderNetworks(networks);
         });
 
-        this._disposeSelectChannel = domain.getSelectedChannel().subscribe((channelId) => {
+        // This should be scheduled on the next event loop
+        // bacause to wait to complete other tasks.
+        this._disposeSelectChannel = domain.getSelectedChannel().observeOn(Rx.Scheduler.default).subscribe((channelId) => {
             this.selectChannel(channelId);
         });
 
-        this._disposeAddedNetwork = domain.networkSet.addedStream().subscribe((network: Network) => {
-            this.addNetwork(network);
+        this._disposeAddedNetwork = domain.getNetworkDomain().addedNetwork().subscribe((network: NetworkDomain) => {
+            this.addNetwork(network.getValue());
         });
 
-        this._disposeDeletedNetwork = domain.networkSet.deletedStream().subscribe((network: Network) => {
+        this._disposeDeletedNetwork = domain.getNetworkDomain().removedNetwork().subscribe((network: NetworkDomain) => {
             this.deleteNetwork(network);
         });
 
-        this._disposePartFromChannel = gateway.partFromChannel().subscribe((id) => {
-            this.removeChannel(id);
-         });
+        this._disposeJoinChannel = domain.getNetworkDomain().joinedChannelAtAll().subscribe((channel) => {
+            const value = channel.getValue();
+            const networkId = value.network.id;
+            this.joinChannel(networkId, value);
+        });
 
-        this._obsJoinChannel = MessageActionCreator.getDispatcher().joinChannel.flatMap((data) => {
-            return this.joinChannel(data.networkId, data.channel);
+        this._disposePartFromChannel = domain.getNetworkDomain().partedChannelAtAll().subscribe((channel) => {
+            this.removeChannel(channel.getId());
         });
 
         element.addEventListener('click', this);
-    }
-
-    get joinChannelRendered(): Rx.Observable<number> {
-        return this._obsJoinChannel;
     }
 
     handleEvent(aEvent: Event): void {
@@ -170,14 +170,10 @@ export default class SidebarViewController implements EventListenerObject {
     addNetwork(network: Network): void {
         this.hideEmptinesse();
         this.appendNetworks([network]);
-
-        const channelList = network.getChannelList();
-        const lastId = channelList[channelList.length - 1].id;
-        UIActionCreator.selectChannel(lastId);
     }
 
-    deleteNetwork(network: Network): void {
-        const id = network.id;
+    deleteNetwork(network: NetworkDomain): void {
+        const id = network.getId();
         const target = this._element.querySelector('#network-' + String(id));
         if (!!target) {
             target.parentNode.removeChild(target);
