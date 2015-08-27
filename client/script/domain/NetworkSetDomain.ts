@@ -37,12 +37,15 @@ import * as Rx from 'rx';
 
 import Channel from './Channel';
 import Network from './Network';
+import NetworkSet from './NetworkSet';
 import {ChannelDomain} from './ChannelDomain';
 import {NetworkDomain} from './NetworkDomain';
 
 import {MessageGateway} from '../adapter/MessageGateway';
 
 export class NetworkSetDomain {
+
+    legacy: NetworkSet;
 
     private _joinedChannel: Rx.Subject<ChannelDomain>;
     private _partedChannel: Rx.Subject<ChannelDomain>;
@@ -54,6 +57,8 @@ export class NetworkSetDomain {
     private _ignitionDisposable: Rx.IDisposable;
 
     constructor(gateway: MessageGateway) {
+        this.legacy = new NetworkSet([]);
+
         this._joinedChannel = new Rx.Subject<ChannelDomain>();
         this._partedChannel = new Rx.Subject<ChannelDomain>();
 

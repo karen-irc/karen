@@ -63,15 +63,11 @@ export class SelectedTab {
 
 export class DomainState {
 
-    networkSet: NetworkSet;
-
     private _networkSet: NetworkSetDomain;
     private _latestCurrentTab: SelectedTab;
     private _currentTab: Rx.Observable<SelectedTab>;
 
     constructor(gateway: MessageGateway) {
-        this.networkSet = new NetworkSet([]);
-
         this._networkSet = new NetworkSetDomain(gateway);
         this._latestCurrentTab = null;
 
@@ -80,6 +76,17 @@ export class DomainState {
         this._currentTab = selectTab(gateway, UIActionCreator.getDispatcher(), this._networkSet).do((state) => {
             this._latestCurrentTab = state;
         }).observeOn(Rx.Scheduler.default).share();
+    }
+
+    /**
+     *  @deprecated
+     */
+    get networkSet(): NetworkSet {
+        return this._networkSet.legacy;
+    }
+
+    set networkSet(v) {
+        this._networkSet.legacy = v;
     }
 
     get currentTab(): SelectedTab {
