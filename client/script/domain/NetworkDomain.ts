@@ -92,6 +92,7 @@ export class NetworkDomain {
         }).do((channel) => {
             this._channels.delete(channel.getId());
             this._data.removeChannel(channel.getValue());
+            channel.dispose();
         }).share();
 
         this._subscribed = new Rx.CompositeDisposable();

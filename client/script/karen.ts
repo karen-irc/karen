@@ -335,13 +335,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     messageGateway.updateUserList().subscribe(function(data){
-        const channel = globalState.networkSet.getChannelById(data.channelId);
-        channel.map(function(channel){
-            channel.updateUserList(data.list);
-        });
-    });
-
-    messageGateway.updateUserList().subscribe(function(data){
         const node = chat.find('#js-chan-' + data.channelId).find('.js-users').get(0);
         const view = React.createElement(UserList, {
             list: data.list,

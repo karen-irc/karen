@@ -40,6 +40,8 @@ export class ChannelDomain {
     private _userList: Rx.Observable<Array<User>>;
     private _message: Rx.Observable<Message>;
 
+    private _ignitionDisposable: Rx.IDisposable;
+
     constructor(gateway: MessageGateway, data: Channel) {
         this._data = data;
 
@@ -63,6 +65,19 @@ export class ChannelDomain {
         this._message = gateway.recieveMessage().filter(filterFn).map(function(data){
             return data.message;
         }).share();
+
+        this._ignitionDisposable = this._init();
+    }
+
+    private _init(): Rx.IDisposable {
+        const d = new Rx.CompositeDisposable();
+        d.add(this._topic.subscribe());
+        d.add(this._userList.subscribe());
+        return d;
+    }
+
+    dispose(): void {
+        this._ignitionDisposable.dispose();
     }
 
     getId(): number {
