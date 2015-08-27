@@ -260,10 +260,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    messageGateway.addNetwork().subscribe(function(network) {
-        globalState.networkSet.add(network);
-    });
-
     globalState.getNetworkDomain().addedNetwork().subscribe(function(domain){
         const network = domain.getValue();
         const channelList = network.getChannelList();
@@ -303,14 +299,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             if (z > highest) {
                 highest = z;
             }
-        });
-    });
-
-    messageGateway.quitNetwork().subscribe(function(id){
-        const n = globalState.networkSet.getById(id);
-        n.map(function(network: Network){
-            globalState.networkSet.delete(network);
-            network.quit();
         });
     });
 
