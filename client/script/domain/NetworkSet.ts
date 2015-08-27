@@ -81,10 +81,6 @@ export default class NetworkSet {
         return isDeleted;
     }
 
-    clear(): void {
-        this._idMap.clear();
-    }
-
     asArray(): Array<Network> {
         const set = new Set(this._idMap.values());
         const array = arrayFrom(set);
