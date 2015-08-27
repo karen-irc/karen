@@ -180,24 +180,15 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         socket.emit('open', state.id);
     });
 
-    messageGateway.joinChannel().subscribe(function({networkId, channel}){
-        const network = globalState.networkSet.getById(networkId);
-        network.map(function(network) {
-            channel.bindToNetwork(network);
-            network.addChannel(channel);
-
-            MessageActionCreator.joinChannel(networkId, channel);
-        });
-    });
-
-    MessageActionCreator.getDispatcher().joinChannel.subscribe(function(data){
+    globalState.getNetworkDomain().joinedChannelAtAll().subscribe(function(domain){
+        const channel = domain.getValue();
         const view = React.createElement(ChatWindowItem, {
-            channel: data.channel,
+            channel: channel,
         });
         const html = React.renderToStaticMarkup(view);
         chat.append(html);
-        UIActionCreator.showLatestInChannel(data.channel.id);
-    })
+        UIActionCreator.showLatestInChannel(channel.id);
+    });
 
     const messageRenderedSubject = new Rx.Subject<{ target: string; message: any; }>();
 
@@ -302,7 +293,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    messageGateway.partFromChannel().subscribe(function(id){
+    globalState.getNetworkDomain().partedChannelAtAll().subscribe(function(domain){
+        const id = domain.getId();
         $('#js-chan-' + id).remove();
         var highest = -1;
         chat.find('.chan').each(function() {
