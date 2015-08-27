@@ -273,7 +273,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         globalState.networkSet.add(network);
     });
 
-    globalState.networkSet.addedStream().subscribe(function (network) {
+    globalState.getNetworkDomain().addedNetwork().subscribe(function(domain){
+        const network = domain.getValue();
         const channelList = network.getChannelList();
 
         const view = React.createElement(ChatWindowList, {

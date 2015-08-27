@@ -43,9 +43,6 @@ import {Some, None, Option} from 'option-t';
  */
 export default class NetworkSet {
     _idMap: Map<number, Network>;
-    _added: Rx.Subject<Network>;
-    _deleted: Rx.Subject<Network>;
-    _cleared: Rx.Subject<void>;
 
     constructor(raw: Array<Network>) {
         this._idMap = new Map<number, Network>();
@@ -53,12 +50,6 @@ export default class NetworkSet {
         raw.forEach((item) => {
             this._idMap.set(item.id, item);
         });
-
-        this._added = new Rx.Subject<Network>();
-
-        this._deleted = new Rx.Subject<Network>();
-
-        this._cleared = new Rx.Subject<void>();
     }
 
     add(item: Network): void {
@@ -67,11 +58,6 @@ export default class NetworkSet {
         }
 
         this._idMap.set(item.id, item);
-        this._added.onNext(item);
-    }
-
-    addedStream(): Rx.Observable<Network> {
-        return this._added.asObservable();
     }
 
     has(item: Network): boolean {
@@ -92,23 +78,7 @@ export default class NetworkSet {
     delete(item: Network): boolean {
         const id = item.id;
         const isDeleted = this._idMap.delete(id);
-        if (isDeleted) {
-            this._deleted.onNext(item);
-        }
         return isDeleted;
-    }
-
-    deletedStream() {
-        return this._deleted.asObservable();
-    }
-
-    clear(): void {
-        this._idMap.clear();
-        this._cleared.onNext(undefined);
-    }
-
-    clearedStream(): Rx.Observable<void> {
-        return this._cleared.asObservable();
     }
 
     asArray(): Array<Network> {
