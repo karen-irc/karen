@@ -65,13 +65,6 @@ class MessageActionCreator {
         });
     }
 
-    joinChannel(networkId: number, channel: Channel): void {
-        this._dispatcher.joinChannel.onNext({
-            networkId,
-            channel,
-        });
-    }
-
     setNickname(networkId: number, nickname: string): void {
         this._dispatcher.setNickname.onNext({
             id: networkId,
