@@ -293,7 +293,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    messageGateway.partFromChannel().subscribe(function(id){
+    globalState.getNetworkDomain().partedChannelAtAll().subscribe(function(domain){
+        const id = domain.getId();
         $('#js-chan-' + id).remove();
         var highest = -1;
         chat.find('.chan').each(function() {
