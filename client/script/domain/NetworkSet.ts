@@ -44,7 +44,6 @@ import {Some, None, Option} from 'option-t';
 export default class NetworkSet {
     _idMap: Map<number, Network>;
     _added: Rx.Subject<Network>;
-    _deleted: Rx.Subject<Network>;
 
     constructor(raw: Array<Network>) {
         this._idMap = new Map<number, Network>();
@@ -54,8 +53,6 @@ export default class NetworkSet {
         });
 
         this._added = new Rx.Subject<Network>();
-
-        this._deleted = new Rx.Subject<Network>();
     }
 
     add(item: Network): void {
@@ -89,14 +86,7 @@ export default class NetworkSet {
     delete(item: Network): boolean {
         const id = item.id;
         const isDeleted = this._idMap.delete(id);
-        if (isDeleted) {
-            this._deleted.onNext(item);
-        }
         return isDeleted;
-    }
-
-    deletedStream() {
-        return this._deleted.asObservable();
     }
 
     clear(): void {
