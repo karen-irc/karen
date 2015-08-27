@@ -53,16 +53,11 @@ export default class NetworkSet {
     }
 
     add(item: Network): void {
-        if (this.has(item)) {
+        if (this._idMap.has(item.id)) {
             return;
         }
 
         this._idMap.set(item.id, item);
-    }
-
-    has(item: Network): boolean {
-        const id = item.id;
-        return this._idMap.has(id);
     }
 
     getById(id: number): Option<Network> {
