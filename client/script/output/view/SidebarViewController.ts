@@ -72,7 +72,7 @@ export default class SidebarViewController implements EventListenerObject {
 
         // This should be scheduled on the next event loop
         // bacause to wait to complete other tasks.
-        this._disposeSelectChannel = domain.getSelectedChannel().observeOn(Rx.Scheduler.default).subscribe((channelId) => {
+        this._disposeSelectChannel = domain.getSelectedChannel().subscribe((channelId) => {
             this.selectChannel(channelId);
         });
 

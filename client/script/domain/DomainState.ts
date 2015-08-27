@@ -74,9 +74,12 @@ export class DomainState {
 
         this._networkSet = new NetworkSetDomain(gateway);
         this._latestCurrentTab = null;
+
+        // In most of case, a rendering operation is depend on the source of `selectTab()`.
+        // So this observable should be on the next event loop.
         this._currentTab = selectTab(gateway, UIActionCreator.getDispatcher(), this._networkSet).do((state) => {
             this._latestCurrentTab = state;
-        }).share();
+        }).observeOn(Rx.Scheduler.default).share();
     }
 
     get currentTab(): SelectedTab {
