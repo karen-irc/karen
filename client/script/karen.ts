@@ -260,10 +260,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    messageGateway.addNetwork().subscribe(function(network) {
-        globalState.networkSet.add(network);
-    });
-
     globalState.getNetworkDomain().addedNetwork().subscribe(function(domain){
         const network = domain.getValue();
         const channelList = network.getChannelList();
@@ -306,14 +302,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         });
     });
 
-    messageGateway.quitNetwork().subscribe(function(id){
-        const n = globalState.networkSet.getById(id);
-        n.map(function(network: Network){
-            globalState.networkSet.delete(network);
-            network.quit();
-        });
-    });
-
     socket.toggle().subscribe(function(data) {
         var toggle = $('#toggle-' + data.id);
         const view = React.createElement(ToggleItem, {
@@ -344,13 +332,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
 
         topicElement.textContent = data.topic;
-    });
-
-    messageGateway.updateUserList().subscribe(function(data){
-        const channel = globalState.networkSet.getChannelById(data.channelId);
-        channel.map(function(channel){
-            channel.updateUserList(data.list);
-        });
     });
 
     messageGateway.updateUserList().subscribe(function(data){
