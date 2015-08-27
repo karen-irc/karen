@@ -45,7 +45,6 @@ export default class NetworkSet {
     _idMap: Map<number, Network>;
     _added: Rx.Subject<Network>;
     _deleted: Rx.Subject<Network>;
-    _cleared: Rx.Subject<void>;
 
     constructor(raw: Array<Network>) {
         this._idMap = new Map<number, Network>();
@@ -57,8 +56,6 @@ export default class NetworkSet {
         this._added = new Rx.Subject<Network>();
 
         this._deleted = new Rx.Subject<Network>();
-
-        this._cleared = new Rx.Subject<void>();
     }
 
     add(item: Network): void {
@@ -104,11 +101,6 @@ export default class NetworkSet {
 
     clear(): void {
         this._idMap.clear();
-        this._cleared.onNext(undefined);
-    }
-
-    clearedStream(): Rx.Observable<void> {
-        return this._cleared.asObservable();
     }
 
     asArray(): Array<Network> {
