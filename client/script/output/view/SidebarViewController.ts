@@ -127,16 +127,13 @@ export default class SidebarViewController implements EventListenerObject {
         }
     }
 
-    joinChannel(networkId: number, channel: Channel): Rx.Observable<number> {
+    joinChannel(networkId: number, channel: Channel): void {
         const network = this._element.querySelector('#network-' + String(networkId));
         if (!network) {
-            return Rx.Observable.throw<number>(undefined);
+            throw new Error();
         }
 
         this.appendChannel(<HTMLElement>network, channel);
-
-        const id = channel.id;
-        return Rx.Observable.just(id);
     }
 
     closeChannel(channelId: number, target: HTMLElement): void {
