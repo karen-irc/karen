@@ -43,7 +43,6 @@ import {Some, None, Option} from 'option-t';
  */
 export default class NetworkSet {
     _idMap: Map<number, Network>;
-    _added: Rx.Subject<Network>;
 
     constructor(raw: Array<Network>) {
         this._idMap = new Map<number, Network>();
@@ -51,8 +50,6 @@ export default class NetworkSet {
         raw.forEach((item) => {
             this._idMap.set(item.id, item);
         });
-
-        this._added = new Rx.Subject<Network>();
     }
 
     add(item: Network): void {
@@ -61,11 +58,6 @@ export default class NetworkSet {
         }
 
         this._idMap.set(item.id, item);
-        this._added.onNext(item);
-    }
-
-    addedStream(): Rx.Observable<Network> {
-        return this._added.asObservable();
     }
 
     has(item: Network): boolean {
