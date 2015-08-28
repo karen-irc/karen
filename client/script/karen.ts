@@ -131,14 +131,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         UIActionCreator.showSignIn();
     });
 
-    messageGateway.invokeInit().subscribe(function(data) {
-        if (data.networks.length !== 0) {
-            globalState.networkSet = new NetworkSet(data.networks);
-
-            const networkArray = globalState.networkSet.asArray();
-            AppActionCreator.renderNetworksInView(networkArray);
-
-            const channels : Array<Channel> = arrayFlatMap(networkArray, function(network){
+    globalState.getNetworkDomain().initialState().subscribe(function(data) {
+        if (data.domain.length !== 0) {
+            const channels: Array<Channel> = arrayFlatMap(data.domain, function(networkDomain){
+                const network = networkDomain.getValue();
                 return network.getChannelList();
             });
 
@@ -148,12 +144,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             const html = React.renderToStaticMarkup(view);
             chat.html(html);
 
-            // TODO: Seek the better way to update users list when initializing the karen.
-            channels.forEach((channel: Channel) => {
-                const users : Array<User> = channel.getUserList();
-                MessageActionCreator.updateUserList(channel.id, users);
-            });
-
             UIActionCreator.setQuitConfirmDialog();
         }
 
@@ -161,16 +151,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             auth.setToken(data.token);
         }
 
-        $('body').removeClass('signed-out');
-        $('#sign-in').detach();
+        document.body.classList.remove('signed-out');
 
-        var id = data.active;
-        if (globalState.currentTab === null || typeof id !== 'number' || id === -1) {
-            UIActionCreator.showConnectSetting();
-        }
-        else {
-            UIActionCreator.selectChannel(id);
-        }
+        const signinButtom = document.getElementById('#sign-in');
+        signinButtom.parentNode.removeChild(signinButtom);
 
         sortable();
     });

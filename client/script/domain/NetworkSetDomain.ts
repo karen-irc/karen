@@ -43,6 +43,12 @@ import {NetworkDomain} from './NetworkDomain';
 
 import {MessageGateway} from '../adapter/MessageGateway';
 
+interface InitState {
+    domain: Array<NetworkDomain>;
+    token: string;
+    active: number;
+}
+
 export class NetworkSetDomain {
 
     legacy: NetworkSet;
@@ -51,6 +57,7 @@ export class NetworkSetDomain {
     private _partedChannel: Rx.Subject<ChannelDomain>;
 
     private _list: Rx.Observable<Array<NetworkDomain>>;
+    private _initialState: Rx.Observable<InitState>;
     private _addedNetwork: Rx.Observable<NetworkDomain>;
     private _removedNetwork: Rx.Observable<Option<NetworkDomain>>;
 
@@ -66,6 +73,14 @@ export class NetworkSetDomain {
             return data.networks.map((item) => {
                 return new NetworkDomain(gateway, item, this._joinedChannel, this._partedChannel);
             });
+        }).share();
+
+        this._initialState = gateway.invokeInit().zip(this._list, function (data, domain){
+            return {
+                domain,
+                token: data.token,
+                active: data.active,
+            };
         }).share();
 
         this._addedNetwork = gateway.addNetwork().map((network) => {
@@ -108,6 +123,10 @@ export class NetworkSetDomain {
 
     dispose(): void {
         this._ignitionDisposable.dispose();
+    }
+
+    initialState(): Rx.Observable<InitState> {
+        return this._initialState;
     }
 
     addedNetwork(): Rx.Observable<NetworkDomain> {

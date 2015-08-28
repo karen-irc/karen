@@ -49,7 +49,7 @@ export default class SidebarViewController implements EventListenerObject {
     _element: Element;
     domain: DomainState;
     _disposeSignout: Rx.IDisposable;
-    _disposeRenderNetworks: Rx.IDisposable;
+    _disposeInitialRenderNetworks: Rx.IDisposable;
     _disposeSelectChannel: Rx.IDisposable;
     _disposeAddedNetwork: Rx.IDisposable;
     _disposeDeletedNetwork: Rx.IDisposable;
@@ -65,7 +65,11 @@ export default class SidebarViewController implements EventListenerObject {
             this.showEmptinesse();
         });
 
-        this._disposeRenderNetworks = AppActionCreator.getDispatcher().renderNetworksInView.subscribe((networks) => {
+        this._disposeInitialRenderNetworks = domain.getNetworkDomain().initialState().subscribe((data) => {
+            const networks = data.domain.map(function(domain){
+                return domain.getValue();
+            });
+
             this.hideEmptinesse();
             this.renderNetworks(networks);
         });

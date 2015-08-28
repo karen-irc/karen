@@ -85,10 +85,6 @@ export class DomainState {
         return this._networkSet.legacy;
     }
 
-    set networkSet(v) {
-        this._networkSet.legacy = v;
-    }
-
     get currentTab(): SelectedTab {
         return this._latestCurrentTab;
     }
@@ -131,7 +127,7 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
     });
 
     const shouldShowConnectSetting = gateway.showConnectSetting().map(function(){
-        const tab = new SelectedTab(CurrentTabType.CHANNEL, 'connect');
+        const tab = new SelectedTab(CurrentTabType.SETTING, 'connect');
         return tab;
     });
 
@@ -145,10 +141,23 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
         return tab;
     });
 
+    const initial = set.initialState().map(function(data){
+        const id = data.active;
+        let tab: SelectedTab = null;
+        if (typeof id !== 'number' || id === -1) {
+            tab = new SelectedTab(CurrentTabType.SETTING, 'connect');
+        }
+        else {
+            tab = new SelectedTab(CurrentTabType.CHANNEL, id);
+        }
+        return tab;
+    });
+
     const tab = selectedChannel
         .merge(selectedSettings)
         .merge(addedChannel)
         .merge(removedChannel)
-        .merge(shouldShowConnectSetting);
+        .merge(shouldShowConnectSetting)
+        .merge(initial);
     return tab;
 }
