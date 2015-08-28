@@ -31,13 +31,10 @@ import * as Rx from 'rx';
 export default class AppActionDispatcher {
     reload: Rx.Subject<void>;
     signout: Rx.Subject<void>;
-    renderNetworksInView: Rx.Subject<Array<Network>>;
 
     constructor() {
         this.reload = new Rx.Subject<void>();
 
         this.signout = new Rx.Subject<void>();
-
-        this.renderNetworksInView = new Rx.Subject<Array<Network>>();
     }
 }

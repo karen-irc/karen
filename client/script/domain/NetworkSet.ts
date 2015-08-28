@@ -76,12 +76,6 @@ export default class NetworkSet {
         return isDeleted;
     }
 
-    asArray(): Array<Network> {
-        const set = new Set(this._idMap.values());
-        const array = arrayFrom(set);
-        return array;
-    }
-
     getChannelById(channelId: number): Option<Channel> {
         let result = new None<Channel>();
         for (const network of this._idMap.values()) {
