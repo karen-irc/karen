@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
         document.body.classList.remove('signed-out');
 
-        const signinButtom = document.getElementById('#sign-in');
+        const signinButtom = document.getElementById('sign-in');
         signinButtom.parentNode.removeChild(signinButtom);
 
         sortable();
