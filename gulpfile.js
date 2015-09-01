@@ -164,9 +164,7 @@ gulp.task('__babel:server', ['clean:server'], function () {
 
 gulp.task('clean:client', function () {
     const deleter = function (dir) {
-        return new Promise(function(resolve){
-            del(path.join(dir, '**', '*.*'), resolve);
-        });
+        return del(path.join(dir, '**', '*.*'));
     };
 
     const obj = deleter(DIST_CLIENT_OBJ);
@@ -175,8 +173,8 @@ gulp.task('clean:client', function () {
     return Promise.all([obj, dist]);
 });
 
-gulp.task('clean:server', function (callback) {
-    return del(path.join(DIST_SERVER, '**', '*.*'), callback);
+gulp.task('clean:server', function () {
+    return del(path.join(DIST_SERVER, '**', '*.*'));
 });
 
 gulp.task('__build:server', ['__babel:server']);
