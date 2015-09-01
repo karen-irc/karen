@@ -52,20 +52,6 @@ export default class Network {
         this._channelList = channelList;
     }
 
-    /**
-     *  @deprecated
-     */
-    get nick(): string {
-        return this.nickname;
-    }
-
-    /**
-     *  @deprecated
-     */
-    get channels(): Array<Channel> {
-        return this.getChannelList();
-    }
-
     getChannelList(): Array<Channel> {
         return this._channelList;
     }
