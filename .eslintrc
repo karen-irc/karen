@@ -52,6 +52,7 @@
         "no-throw-literal": 2,
         "no-unused-expressions": 2,
         "no-useless-call": 1,
+        "no-useless-concat": 1,
         "radix": 2,
 
         // Strict Mode
@@ -114,7 +115,9 @@
         // https://github.com/yannickcr/eslint-plugin-react
         "react/display-name": 0, // JSX transpiler creates displayName automatically.
         "react/jsx-boolean-value": [2, "always"], // Force boolean attribute explicitly.
+        "react/jsx-closing-bracket-location": 0,
         "react/jsx-curly-spacing": 1,
+        "react/jsx-indent-props": 0,
         "react/jsx-max-props-per-line": 0,
         "react/jsx-no-duplicate-props": 2,
         "react/jsx-no-literals": 0,
@@ -128,6 +131,7 @@
         "react/no-did-mount-set-state": [1, "allow-in-func"],
         "react/no-did-update-set-state": 1,
         "react/no-multi-comp": 0,
+        "react/no-set-state": 0,
         "react/no-unknown-property": 2,
         "react/prop-types": 1,
         "react/react-in-jsx-scope": 1,
