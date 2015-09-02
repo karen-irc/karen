@@ -24,7 +24,6 @@
  */
 
 /// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
-/// <reference path="../../../node_modules/option-t/option-t.d.ts" />
 
 import {Some, None, Option} from 'option-t';
 import * as Rx from 'rx';
