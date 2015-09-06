@@ -120,9 +120,12 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
         return tab;
     });
 
-    const removedChannel = set.partedChannelAtAll().map(function(_){
+    const removedChannel = set.partedChannelAtAll().map(function(channel){
+        const parentNetwork = channel.getValue().network;
+        const nextId = parentNetwork.id;
+
         // FIXME: This should be passed Option<T>
-        const tab = new SelectedTab(CurrentTabType.CHANNEL, -1);
+        const tab = new SelectedTab(CurrentTabType.CHANNEL, nextId);
         return tab;
     });
 
