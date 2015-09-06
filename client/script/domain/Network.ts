@@ -52,6 +52,16 @@ export default class Network {
         this._channelList = channelList;
     }
 
+    getLobbyId(): number {
+        for (const channel of this._channelList) {
+            if (channel.type === 'lobby') {
+                return channel.id;
+            }
+        }
+
+        throw new Error('cannot find the lobby id');
+    }
+
     getChannelList(): Array<Channel> {
         return this._channelList;
     }
