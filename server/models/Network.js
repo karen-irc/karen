@@ -122,7 +122,8 @@ export default class Network {
         this.channels.unshift(
             new Channel(this, {
                 name: this.name,
-                type: ChannelType.LOBBY
+                type: ChannelType.LOBBY,
+                id: this.id,
             })
         );
     }
