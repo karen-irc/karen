@@ -184,10 +184,6 @@ export default class SidebarViewController implements EventListenerObject {
         if (!newTarget) {
             this.showEmptinesse();
         }
-        else {
-            const newId = newTarget.getAttribute('data-id');
-            UIActionCreator.selectChannel( parseInt(newId, 10) );
-        }
     }
 
     showEmptinesse(): void {

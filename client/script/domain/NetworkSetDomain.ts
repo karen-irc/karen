@@ -103,7 +103,7 @@ export class NetworkSetDomain {
             }
 
             const index = list.indexOf(target);
-            list.splice(index, 0);
+            list.splice(index, 1);
 
             this.legacy.delete(target.getValue());
 
@@ -127,6 +127,12 @@ export class NetworkSetDomain {
 
     initialState(): Rx.Observable<InitState> {
         return this._initialState;
+    }
+
+    getNetworkList(): Rx.Observable<Array<NetworkDomain>> {
+        // XXX: This depends on that the list is a mutable collection.
+        // If we make the list a immutable collection, we must update this properly.
+        return this._list;
     }
 
     addedNetwork(): Rx.Observable<NetworkDomain> {
