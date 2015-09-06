@@ -46,7 +46,7 @@ import {MessageGateway} from '../adapter/MessageGateway';
 interface InitState {
     domain: Array<NetworkDomain>;
     token: string;
-    active: number;
+    active: Option<number|string>;
 }
 
 export class NetworkSetDomain {

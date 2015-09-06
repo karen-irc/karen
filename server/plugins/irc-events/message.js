@@ -59,7 +59,10 @@ export default function(irc, network) {
             self = true;
         }
 
-        if (chan.id !== client.activeChannel) {
+        const isActive = client.activeChannel.mapOr(false, function(activeId) {
+            return chan.id === activeId;
+        });
+        if (!isActive) {
             chan.unread++;
         }
 
