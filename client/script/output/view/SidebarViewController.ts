@@ -238,13 +238,7 @@ export default class SidebarViewController implements EventListenerObject {
         const selector = '.js-sidebar-channel[data-id="' + String(id) + '"]';
         let target = this._element.querySelector(selector);
         if (!target) {
-            const first = this._element.querySelector('.js-sidebar-channel');
-            if (!!first) {
-                target = first;
-            }
-            else {
-                return;
-            }
+            return;
         }
 
         target.classList.add('active');
