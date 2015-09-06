@@ -1,5 +1,6 @@
 import 'core-js/fn/array/find';
 import assign from 'object-assign';
+import {Some, None} from 'option-t';
 import ChannelType from './models/ChannelType';
 import crypto from 'crypto';
 import fs from 'fs';
@@ -53,7 +54,6 @@ const inputs = [
 export default class Client {
     constructor(sockets, name, config) {
         assign(this, {
-            activeChannel: -1,
             config: config,
             id: id++,
             name: name,
@@ -61,6 +61,7 @@ export default class Client {
             sockets: sockets
         });
 
+        this.activeChannel = new None();
         this.timer = null;
 
         crypto.randomBytes(48, (err, buf) => {
@@ -262,7 +263,7 @@ export default class Client {
         const target = this.find(data);
         if (target) {
             target.chan.unread = 0;
-            this.activeChannel = target.chan.id;
+            this.activeChannel = new Some(target.chan.id);
         }
     }
 

@@ -158,13 +158,16 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
     });
 
     const initial = set.initialState().map(function(data){
-        const id = data.active;
         let tab: SelectedTab = null;
-        if (typeof id !== 'number' || id === -1) {
+
+        const idIsSetting = data.active.mapOr(true, function(id){
+            return (typeof id !== 'number');
+        });
+        if (idIsSetting) {
             tab = new SelectedTab(CurrentTabType.SETTING, 'connect');
         }
         else {
-            tab = new SelectedTab(CurrentTabType.CHANNEL, id);
+            tab = new SelectedTab(CurrentTabType.CHANNEL, data.active.expect('this should be channel id'));
         }
         return tab;
     });

@@ -171,7 +171,7 @@ export default class ClientSocketDriver {
     }
 
     /**
-     *  @param  {number}    active
+     *  @param  {Option<number|string>}    active
      *  @param  {Array<Network>}    networks
      *  @param  {string}    token
      *  @param  {Array<?>}  connections

@@ -23,12 +23,16 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../node_modules/option-t/option-t.d.ts" />
 /// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
+
+import {Option, Some, None} from 'option-t';
+import * as Rx from 'rx';
 
 import Channel from '../domain/Channel';
 import Message from '../domain/Message';
 import Network from '../domain/Network';
-import * as Rx from 'rx';
+
 import {SocketIoDriver} from './SocketIoDriver';
 import User from '../domain/User';
 
@@ -46,7 +50,7 @@ export class MessageGateway {
         });
     }
 
-    invokeInit(): Rx.Observable<{ networks: Array<Network>; token: string; active: number; }> {
+    invokeInit(): Rx.Observable<{ networks: Array<Network>; token: string; active: Option<number|string>; }> {
         return this._socket.init().map(function(data){
             const list = (data.networks.length !== 0) ?
                 (<Array<any>>data.networks).map(function(item){
@@ -55,7 +59,7 @@ export class MessageGateway {
             return {
                 networks: list,
                 token: data.token,
-                active: data.active,
+                active: data.active.is_some ? new Some(data.active) : new None<number>(),
             };
         });
     }
