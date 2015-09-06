@@ -45,7 +45,6 @@ import {Some, None, Option} from 'option-t';
 import {ToggleItem} from './output/view/ToggleItem';
 import UIActionCreator from './intent/action/UIActionCreator';
 import User from './domain/User';
-import {UserList} from './output/view/UserList';
 import WindowPresenter from './output/WindowPresenter';
 
 declare const momoent: any;
@@ -293,14 +292,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
 
         topicElement.textContent = data.topic;
-    });
-
-    messageGateway.updateUserList().subscribe(function(data){
-        const node = chat.find('#js-chan-' + data.channelId).find('.js-users').get(0);
-        const view = React.createElement(UserList, {
-            list: data.list,
-        });
-        React.render(view, node);
     });
 
     var options = config.get();

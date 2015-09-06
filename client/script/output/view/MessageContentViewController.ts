@@ -30,20 +30,29 @@ import * as React from 'react';
 import * as Rx from 'rx';
 
 import {ChatWindowItem} from './ChatWindowItem';
+import {UserList} from './UserList';
 
 import {ChannelDomain} from '../../domain/ChannelDomain';
+import User from '../../domain/User';
 
 export class MessageContentViewController {
 
     private _element: Element;
+    private _userElement: Element;
+
     private _disposer: Rx.IDisposable;
 
     constructor(domain: ChannelDomain) {
         const fragment: Node = <Node>createChannelFragment(domain);
         this._element = <Element>fragment.firstChild;
+        this._userElement = this._element.querySelector('.js-users');
 
         const disposer: Rx.CompositeDisposable = new Rx.CompositeDisposable();
         this._disposer = disposer;
+
+        disposer.add(domain.updatedUserList().subscribe((list: Array<User>) => {
+            this._updateUserList(list);
+        }));
     }
 
     dispose(): void {
@@ -54,6 +63,13 @@ export class MessageContentViewController {
 
     getElement(): Element {
         return this._element;
+    }
+
+    private _updateUserList(list: Array<User>): void {
+        const view = React.createElement(UserList, {
+            list: list,
+        });
+        React.render(view, this._userElement);
     }
 }
 
