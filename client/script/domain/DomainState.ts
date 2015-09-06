@@ -129,6 +129,19 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
         return tab;
     });
 
+    const removedNetwork = set.removedNetwork().withLatestFrom(set.getNetworkList(), function(_, list) {
+        let tab: SelectedTab = null;
+        if (list.length === 0) {
+            tab = new SelectedTab(CurrentTabType.SETTING, 'connect');
+        }
+        else {
+            const first = list[0];
+            const id = first.getValue().getLobbyId();
+            tab = new SelectedTab(CurrentTabType.CHANNEL, id);
+        }
+        return tab;
+    });
+
     const shouldShowConnectSetting = gateway.showConnectSetting().map(function(){
         const tab = new SelectedTab(CurrentTabType.SETTING, 'connect');
         return tab;
@@ -160,6 +173,7 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
         .merge(selectedSettings)
         .merge(addedChannel)
         .merge(removedChannel)
+        .merge(removedNetwork)
         .merge(shouldShowConnectSetting)
         .merge(initial);
     return tab;
