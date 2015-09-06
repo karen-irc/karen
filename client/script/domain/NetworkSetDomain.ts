@@ -103,7 +103,7 @@ export class NetworkSetDomain {
             }
 
             const index = list.indexOf(target);
-            list.splice(index, 0);
+            list.splice(index, 1);
 
             this.legacy.delete(target.getValue());
 
