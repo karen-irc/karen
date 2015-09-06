@@ -43,7 +43,7 @@ import UIActionCreator from '../../intent/action/UIActionCreator';
 
 const CommandType = CommandTypeMod.type;
 
-export default class SidebarViewController implements EventListenerObject {
+export class SidebarViewController implements EventListenerObject {
 
     _element: Element;
     domain: DomainState;
