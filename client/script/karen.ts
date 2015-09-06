@@ -19,7 +19,7 @@ import AppViewController from './output/view/AppViewController';
 import AudioDriver from './adapter/AudioDriver';
 import AuthRepository from './adapter/AuthRepository';
 import Channel from './domain/Channel';
-import {ChatWindowItem, ChatWindowList} from './output/view/ChatWindowItem';
+import {ChatWindowList} from './output/view/ChatWindowItem';
 import CommandTypeMod from './domain/CommandType';
 import ConfigRepository from './adapter/ConfigRepository';
 import CookieDriver from './adapter/CookieDriver';
@@ -164,16 +164,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         socket.emit('open', state.id);
     });
 
-    globalState.getNetworkDomain().joinedChannelAtAll().subscribe(function(domain){
-        const channel = domain.getValue();
-        const view = React.createElement(ChatWindowItem, {
-            channel: channel,
-        });
-        const html = React.renderToStaticMarkup(view);
-        chat.append(html);
-        UIActionCreator.showLatestInChannel(channel.id);
-    });
-
     const messageRenderedSubject = new Rx.Subject<{ target: string; message: any; }>();
 
     messageGateway.recieveMessage().subscribe(function(data) {
@@ -271,19 +261,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (globalState.currentTab.channelId.isSome) {
             setNick(nick);
         }
-    });
-
-    globalState.getNetworkDomain().partedChannelAtAll().subscribe(function(domain){
-        const id = domain.getId();
-        $('#js-chan-' + id).remove();
-        var highest = -1;
-        chat.find('.chan').each(function() {
-            var self: JQuery = $(this);
-            var z = parseInt(self.css('z-index'), 10);
-            if (z > highest) {
-                highest = z;
-            }
-        });
     });
 
     socket.toggle().subscribe(function(data) {
