@@ -163,8 +163,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         socket.emit('open', state.id);
     });
 
-    const messageRenderedSubject = new Rx.Subject<{ target: string; message: any; }>();
-
     messageGateway.recieveMessage().subscribe(function(data) {
         const channelId = data.channelId;
         var target = '#js-chan-' + channelId;
@@ -189,10 +187,46 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             UIActionCreator.showLatestInChannel(channelId);
         }
 
-        messageRenderedSubject.onNext({
-            target: target,
-            message: data.message,
-        });
+        const msg = data.message;
+
+        var button = sidebar.find('.chan[data-target=' + target + ']');
+        var isQuery = button.hasClass('query');
+        var type = msg.type;
+        var highlight = type.indexOf('highlight') !== -1;
+        if (highlight || isQuery) {
+            if (!document.hasFocus() || !$(target).hasClass('active')) {
+                NotificationActionCreator.showNotification(parseInt(target, 10), {
+                    from: msg.from,
+                    text: msg.text.trim(),
+                });
+            }
+        }
+
+        button = button.filter(':not(.active)');
+        if (button.length === 0) {
+            return;
+        }
+
+        var ignore = [
+            'join',
+            'part',
+            'quit',
+            'nick',
+            'mode',
+        ];
+        if ($.inArray(type, ignore) !== -1){
+            return;
+        }
+
+        var badge = button.find('.badge');
+        if (badge.length !== 0) {
+            var i = (<any>badge.data('count') || 0) + 1;
+            badge.data('count', i);
+            badge.html(i > 999 ? (i / 1000).toFixed(1) + 'k' : i);
+            if (highlight || isQuery) {
+                badge.addClass('highlight');
+            }
+        }
     });
 
     socket.more().subscribe(function(data) {
@@ -424,50 +458,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         sidebar.find('.chan[data-id=\'' + id + '\']')
             .find('.close')
             .click();
-    });
-
-    messageRenderedSubject.asObservable().subscribe(function(data){
-        const target = data.target;
-        const msg = data.message;
-
-        var button = sidebar.find('.chan[data-target=' + target + ']');
-        var isQuery = button.hasClass('query');
-        var type = msg.type;
-        var highlight = type.indexOf('highlight') !== -1;
-        if (highlight || isQuery) {
-            if (!document.hasFocus() || !$(target).hasClass('active')) {
-                NotificationActionCreator.showNotification(parseInt(target, 10), {
-                    from: msg.from,
-                    text: msg.text.trim(),
-                });
-            }
-        }
-
-        button = button.filter(':not(.active)');
-        if (button.length === 0) {
-            return;
-        }
-
-        var ignore = [
-            'join',
-            'part',
-            'quit',
-            'nick',
-            'mode',
-        ];
-        if ($.inArray(type, ignore) !== -1){
-            return;
-        }
-
-        var badge = button.find('.badge');
-        if (badge.length !== 0) {
-            var i = (<any>badge.data('count') || 0) + 1;
-            badge.data('count', i);
-            badge.html(i > 999 ? (i / 1000).toFixed(1) + 'k' : i);
-            if (highlight || isQuery) {
-                badge.addClass('highlight');
-            }
-        }
     });
 
     chat.on('click', '.show-more-button', function() {
