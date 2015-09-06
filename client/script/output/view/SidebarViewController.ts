@@ -37,6 +37,7 @@ import {MessageGateway} from '../../adapter/MessageGateway';
 import Channel from '../../domain/Channel';
 import CommandTypeMod from '../../domain/CommandType';
 import {DomainState} from '../../domain/DomainState';
+import Message from '../../domain/Message';
 import Network from '../../domain/Network';
 import {NetworkDomain} from '../../domain/NetworkDomain';
 import AppActionCreator from '../../intent/action/AppActionCreator';
@@ -97,6 +98,12 @@ export class SidebarViewController implements EventListenerObject {
 
         disposer.add(domain.getNetworkDomain().partedChannelAtAll().subscribe((channel) => {
             this.removeChannel(channel.getId());
+        }));
+
+        disposer.add(domain.getNetworkDomain().recieveNotableMessage().subscribe((data) => {
+            const targetId = data.targetId;
+            const message = data.message;
+            this._highlightTab(targetId, message);
         }));
 
         element.addEventListener('click', this);
@@ -252,5 +259,34 @@ export class SidebarViewController implements EventListenerObject {
     removeChannel(id: number): void {
         const element = this._element.querySelector('.js-sidebar-channel[data-id=\'' + String(id) + '\']');
         element.parentNode.removeChild(element);
+    }
+
+    private _highlightTab(targetId: number, message: Message): void {
+        const target = this._element.querySelector('.chan[data-target=\'#js-chan-' + String(targetId) + '\']');
+        if (!target) {
+            return;
+        }
+
+        const isActive = target.classList.contains('active');
+        if (isActive) {
+            return;
+        }
+
+        const badge = target.querySelector('.badge');
+        if (!badge) {
+            return;
+        }
+
+        const rawCount = badge.getAttribute('data-count');
+        const count = (parseInt(rawCount, 10)) + 1;
+        badge.setAttribute('data-count', String(count));
+        badge.textContent = (count > 999) ? (count / 1000).toFixed(1) + 'k' : String(count);
+
+        const shouldHighlight = (message.type.indexOf('highlight') !== -1);
+        const isQuery = (message.type.indexOf('query') !== -1);
+
+        if (shouldHighlight || isQuery) {
+            badge.classList.add('highlight');
+        }
     }
 }

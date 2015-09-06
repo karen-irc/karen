@@ -33,16 +33,25 @@ import User from './User';
 
 import {MessageGateway} from '../adapter/MessageGateway';
 
+// FIXME: for Safari 8
+const nonNotableMessage = new Set<string>();
+['join', 'part', 'quit', 'nick', 'mode'].forEach(function(type){
+    nonNotableMessage.add(type);
+});
+
 export class ChannelDomain {
 
     private _data: Channel;
     private _topic: Rx.Observable<string>;
     private _userList: Rx.Observable<Array<User>>;
     private _message: Rx.Observable<Message>;
+    private _notableMessage: Rx.Observable<{ targetId: number; message: Message }>;
+
+    private _notableDispatcher: Rx.Subject<{ targetId: number; message: Message }>;
 
     private _ignitionDisposable: Rx.IDisposable;
 
-    constructor(gateway: MessageGateway, data: Channel) {
+    constructor(gateway: MessageGateway, data: Channel, notableDispatcher: Rx.Subject<{ targetId: number; message: Message }>) {
         this._data = data;
 
         const filterFn = (data: { channelId: number }) => {
@@ -66,6 +75,17 @@ export class ChannelDomain {
             return data.message;
         }).share();
 
+        this._notableMessage = this._message.filter(function(message){
+            return !nonNotableMessage.has(message.type);
+        }).map((msg: Message) => {
+            return {
+                targetId: this.getId(),
+                message: msg,
+            };
+        }).share();
+
+        this._notableDispatcher = notableDispatcher;
+
         this._ignitionDisposable = this._init();
     }
 
@@ -73,11 +93,15 @@ export class ChannelDomain {
         const d = new Rx.CompositeDisposable();
         d.add(this._topic.subscribe());
         d.add(this._userList.subscribe());
+        d.add(this._notableMessage.subscribe((message) => {
+            this._notableDispatcher.onNext(message);
+        }));
         return d;
     }
 
     dispose(): void {
         this._ignitionDisposable.dispose();
+        this._notableDispatcher = null;
     }
 
     getId(): number {
