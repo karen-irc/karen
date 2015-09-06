@@ -47,24 +47,21 @@ export class SidebarViewController implements EventListenerObject {
 
     private _element: Element;
     private _domain: DomainState;
-    private _disposeSignout: Rx.IDisposable;
-    private _disposeInitialRenderNetworks: Rx.IDisposable;
-    private _disposeSelectChannel: Rx.IDisposable;
-    private _disposeAddedNetwork: Rx.IDisposable;
-    private _disposeDeletedNetwork: Rx.IDisposable;
-    private _disposeJoinChannel: Rx.IDisposable;
-    private _disposePartFromChannel: Rx.IDisposable;
+    private _eventDisposer: Rx.Disposable;
 
     constructor(domain: DomainState, element: Element, gateway: MessageGateway) {
         this._element = element;
         this._domain = domain;
 
-        this._disposeSignout = AppActionCreator.getDispatcher().signout.subscribe(() => {
+        const disposer = new Rx.CompositeDisposable();
+        this._eventDisposer = disposer;
+
+        disposer.add(AppActionCreator.getDispatcher().signout.subscribe(() => {
             this.clearAllNetworks();
             this.showEmptinesse();
-        });
+        }));
 
-        this._disposeInitialRenderNetworks = domain.getNetworkDomain().initialState().subscribe((data) => {
+        disposer.add(domain.getNetworkDomain().initialState().subscribe((data) => {
             if (data.domain.length === 0) {
                 this.showEmptinesse();
                 return;
@@ -76,31 +73,31 @@ export class SidebarViewController implements EventListenerObject {
 
             this.hideEmptinesse();
             this.renderNetworks(networks);
-        });
+        }));
 
         // This should be scheduled on the next event loop
         // bacause to wait to complete other tasks.
-        this._disposeSelectChannel = domain.getSelectedChannel().subscribe((channelId) => {
+        disposer.add(domain.getSelectedChannel().subscribe((channelId) => {
             this.selectChannel(channelId);
-        });
+        }));
 
-        this._disposeAddedNetwork = domain.getNetworkDomain().addedNetwork().subscribe((network: NetworkDomain) => {
+        disposer.add(domain.getNetworkDomain().addedNetwork().subscribe((network: NetworkDomain) => {
             this.addNetwork(network.getValue());
-        });
+        }));
 
-        this._disposeDeletedNetwork = domain.getNetworkDomain().removedNetwork().subscribe((network: NetworkDomain) => {
+        disposer.add(domain.getNetworkDomain().removedNetwork().subscribe((network: NetworkDomain) => {
             this.deleteNetwork(network);
-        });
+        }));
 
-        this._disposeJoinChannel = domain.getNetworkDomain().joinedChannelAtAll().subscribe((channel) => {
+        disposer.add(domain.getNetworkDomain().joinedChannelAtAll().subscribe((channel) => {
             const value = channel.getValue();
             const networkId = value.network.id;
             this.joinChannel(networkId, value);
-        });
+        }));
 
-        this._disposePartFromChannel = domain.getNetworkDomain().partedChannelAtAll().subscribe((channel) => {
+        disposer.add(domain.getNetworkDomain().partedChannelAtAll().subscribe((channel) => {
             this.removeChannel(channel.getId());
-        });
+        }));
 
         element.addEventListener('click', this);
     }
