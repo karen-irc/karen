@@ -193,27 +193,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             target: target,
             message: data.message,
         });
-
-        if (!chan.hasClass('channel')) {
-            return;
-        }
-
-        var type: string = data.message.type;
-        if (type === 'message' || type === 'action') {
-            const channel = globalState.networkSet.getChannelById(channelId);
-            const nicks: Option<Array<User>> = channel.map(function(channel){
-                return channel.getUserList();
-            });
-
-            if (nicks.isSome) {
-                var find = nicks.unwrap().map(function(i: User): string {
-                    return i.nickname;
-                }).indexOf(from);
-                if (find !== -1 && typeof move === 'function') {
-                    move(nicks.unwrap(), find, 0);
-                }
-            }
-        }
     });
 
     socket.more().subscribe(function(data) {
