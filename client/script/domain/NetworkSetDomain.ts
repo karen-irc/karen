@@ -36,6 +36,7 @@ import {Some, None, Option} from 'option-t';
 import * as Rx from 'rx';
 
 import Channel from './Channel';
+import Message from './Message';
 import Network from './Network';
 import NetworkSet from './NetworkSet';
 import {ChannelDomain} from './ChannelDomain';
@@ -55,6 +56,7 @@ export class NetworkSetDomain {
 
     private _joinedChannel: Rx.Subject<ChannelDomain>;
     private _partedChannel: Rx.Subject<ChannelDomain>;
+    private _notableMsgDispatcher: Rx.Subject<{ targetId: number; message: Message; }>;
 
     private _list: Rx.Observable<Array<NetworkDomain>>;
     private _initialState: Rx.Observable<InitState>;
@@ -68,10 +70,11 @@ export class NetworkSetDomain {
 
         this._joinedChannel = new Rx.Subject<ChannelDomain>();
         this._partedChannel = new Rx.Subject<ChannelDomain>();
+        this._notableMsgDispatcher = new Rx.Subject<{ targetId: number; message: Message; }>();
 
         this._list = gateway.invokeInit().map((data) => {
             return data.networks.map((item) => {
-                return new NetworkDomain(gateway, item, this._joinedChannel, this._partedChannel);
+                return new NetworkDomain(gateway, item, this._joinedChannel, this._partedChannel, this._notableMsgDispatcher);
             });
         }).share();
 
@@ -84,7 +87,7 @@ export class NetworkSetDomain {
         }).share();
 
         this._addedNetwork = gateway.addNetwork().map((network) => {
-            const domain = new NetworkDomain(gateway, network, this._joinedChannel, this._partedChannel);
+            const domain = new NetworkDomain(gateway, network, this._joinedChannel, this._partedChannel, this._notableMsgDispatcher);
             return domain;
         }).combineLatest<Array<NetworkDomain>, [NetworkDomain, Array<NetworkDomain>]>(this._list, (network, list) => {
             this.legacy.add(network.getValue()); // for legacy model.
@@ -155,5 +158,9 @@ export class NetworkSetDomain {
 
     partedChannelAtAll(): Rx.Observable<ChannelDomain> {
         return this._partedChannel;
+    }
+
+    recieveNotableMessage(): Rx.Observable<{ targetId: number; message: Message; }> {
+        return this._notableMsgDispatcher;
     }
 }

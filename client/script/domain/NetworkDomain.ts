@@ -35,6 +35,7 @@ import * as Rx from 'rx';
 
 import Channel from './Channel';
 import {ChannelDomain} from './ChannelDomain';
+import Message from './Message';
 import Network from './Network';
 
 import {MessageGateway} from '../adapter/MessageGateway';
@@ -50,18 +51,21 @@ export class NetworkDomain {
 
     private _joinedUpdater: Rx.Subject<ChannelDomain>;
     private _partedUpdater: Rx.Subject<ChannelDomain>;
+    private _notableMsgDispatcher: Rx.Subject<{ targetId: number; message: Message; }>;
 
     private _subscribed: Rx.CompositeDisposable;
 
     constructor(gateway: MessageGateway,
                 data: Network,
                 joinedUpdater: Rx.Subject<ChannelDomain>,
-                partedUpdater: Rx.Subject<ChannelDomain>) {
+                partedUpdater: Rx.Subject<ChannelDomain>,
+                notableMsgDispatcher: Rx.Subject<{ targetId: number; message: Message; }>) {
 
         this._channels = new Map();
         this._data = data;
         this._joinedUpdater = joinedUpdater;
         this._partedUpdater = partedUpdater;
+        this._notableMsgDispatcher = notableMsgDispatcher;
 
         this._nickname = gateway.setNickname().filter((data) => {
             return data.networkId === this._data.id;
@@ -73,9 +77,9 @@ export class NetworkDomain {
 
         this._joinedChannel = gateway.joinChannel().filter((data) => {
             return data.networkId === this._data.id;
-        }).map(function(data) {
+        }).map((data) => {
             const channel = data.channel;
-            const domain = new ChannelDomain(gateway, channel);
+            const domain = new ChannelDomain(gateway, channel, this._notableMsgDispatcher);
             return domain;
         }).do((channel) => {
             this._channels.set(channel.getId(), channel);
@@ -109,6 +113,8 @@ export class NetworkDomain {
         this._nickname = null;
         this._joinedChannel = null;
         this._partedChannel = null;
+
+        this._notableMsgDispatcher = null;
 
         this._subscribed.dispose();
         this._subscribed = null;

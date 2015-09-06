@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
         const msg = data.message;
 
-        var button = sidebar.find('.chan[data-target=' + target + ']');
+        var button = sidebar.find('.chan[data-target="' + target + '"]');
         var isQuery = button.hasClass('query');
         var type = msg.type;
         var highlight = type.indexOf('highlight') !== -1;
@@ -199,32 +199,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
                     from: msg.from,
                     text: msg.text.trim(),
                 });
-            }
-        }
-
-        button = button.filter(':not(.active)');
-        if (button.length === 0) {
-            return;
-        }
-
-        var ignore = [
-            'join',
-            'part',
-            'quit',
-            'nick',
-            'mode',
-        ];
-        if ($.inArray(type, ignore) !== -1){
-            return;
-        }
-
-        var badge = button.find('.badge');
-        if (badge.length !== 0) {
-            var i = (<any>badge.data('count') || 0) + 1;
-            badge.data('count', i);
-            badge.html(i > 999 ? (i / 1000).toFixed(1) + 'k' : i);
-            if (highlight || isQuery) {
-                badge.addClass('highlight');
             }
         }
     });
