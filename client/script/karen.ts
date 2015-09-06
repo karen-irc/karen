@@ -166,26 +166,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     messageGateway.recieveMessage().subscribe(function(data) {
         const channelId = data.channelId;
         var target = '#js-chan-' + channelId;
-        if (data.message.type === 'error') {
-            target = String(globalState.currentTab.channelId.unwrap());
-        }
-
-        var chan: JQuery = chat.find(target);
-        var from: string = data.message.from;
-
-        const channelBox = chan.find('.chat').get(0);
-        const shouldBottom = channelBox && isScrollBottom(channelBox);
-
-        const view = React.createElement(MessageItem, {
-            message: data.message,
-        });
-        const html = React.renderToStaticMarkup(view);
-
-        chan.find('.messages').append(html);
-
-        if (shouldBottom) {
-            UIActionCreator.showLatestInChannel(channelId);
-        }
 
         const msg = data.message;
 
