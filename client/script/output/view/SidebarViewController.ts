@@ -25,47 +25,45 @@
  */
 
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
-/// <reference path="../../../../tsd/third_party/jquery/jquery.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react.d.ts" />
 
-import AppActionCreator from '../../intent/action/AppActionCreator';
-import Channel from '../../domain/Channel';
-import {ChannelItem} from './ChannelItem';
-import CommandTypeMod from '../../domain/CommandType';
-import {DomainState} from '../../domain/DomainState';
-import MessageActionCreator from '../../intent/action/MessageActionCreator';
-import {MessageGateway} from '../../adapter/MessageGateway';
-import Network from '../../domain/Network';
-import {NetworkDomain} from '../../domain/NetworkDomain';
-import {NetworkItemList} from './NetworkItemList';
 import * as React from 'react';
 import * as Rx from 'rx';
+
+import {ChannelItem} from './ChannelItem';
+import {NetworkItemList} from './NetworkItemList';
+
+import {MessageGateway} from '../../adapter/MessageGateway';
+import Channel from '../../domain/Channel';
+import CommandTypeMod from '../../domain/CommandType';
+import {DomainState} from '../../domain/DomainState';
+import Network from '../../domain/Network';
+import {NetworkDomain} from '../../domain/NetworkDomain';
+import AppActionCreator from '../../intent/action/AppActionCreator';
+import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
 const CommandType = CommandTypeMod.type;
 
-export default class SidebarViewController implements EventListenerObject {
+export class SidebarViewController implements EventListenerObject {
 
-    _element: Element;
-    domain: DomainState;
-    _disposeSignout: Rx.IDisposable;
-    _disposeInitialRenderNetworks: Rx.IDisposable;
-    _disposeSelectChannel: Rx.IDisposable;
-    _disposeAddedNetwork: Rx.IDisposable;
-    _disposeDeletedNetwork: Rx.IDisposable;
-    _disposeJoinChannel: Rx.IDisposable;
-    _disposePartFromChannel: Rx.IDisposable;
+    private _element: Element;
+    private _domain: DomainState;
+    private _eventDisposer: Rx.Disposable;
 
     constructor(domain: DomainState, element: Element, gateway: MessageGateway) {
         this._element = element;
-        this.domain = domain;
+        this._domain = domain;
 
-        this._disposeSignout = AppActionCreator.getDispatcher().signout.subscribe(() => {
+        const disposer = new Rx.CompositeDisposable();
+        this._eventDisposer = disposer;
+
+        disposer.add(AppActionCreator.getDispatcher().signout.subscribe(() => {
             this.clearAllNetworks();
             this.showEmptinesse();
-        });
+        }));
 
-        this._disposeInitialRenderNetworks = domain.getNetworkDomain().initialState().subscribe((data) => {
+        disposer.add(domain.getNetworkDomain().initialState().subscribe((data) => {
             if (data.domain.length === 0) {
                 this.showEmptinesse();
                 return;
@@ -77,31 +75,29 @@ export default class SidebarViewController implements EventListenerObject {
 
             this.hideEmptinesse();
             this.renderNetworks(networks);
-        });
+        }));
 
-        // This should be scheduled on the next event loop
-        // bacause to wait to complete other tasks.
-        this._disposeSelectChannel = domain.getSelectedChannel().subscribe((channelId) => {
+        disposer.add(domain.getSelectedChannel().subscribe((channelId) => {
             this.selectChannel(channelId);
-        });
+        }));
 
-        this._disposeAddedNetwork = domain.getNetworkDomain().addedNetwork().subscribe((network: NetworkDomain) => {
+        disposer.add(domain.getNetworkDomain().addedNetwork().subscribe((network: NetworkDomain) => {
             this.addNetwork(network.getValue());
-        });
+        }));
 
-        this._disposeDeletedNetwork = domain.getNetworkDomain().removedNetwork().subscribe((network: NetworkDomain) => {
+        disposer.add(domain.getNetworkDomain().removedNetwork().subscribe((network: NetworkDomain) => {
             this.deleteNetwork(network);
-        });
+        }));
 
-        this._disposeJoinChannel = domain.getNetworkDomain().joinedChannelAtAll().subscribe((channel) => {
+        disposer.add(domain.getNetworkDomain().joinedChannelAtAll().subscribe((channel) => {
             const value = channel.getValue();
             const networkId = value.network.id;
             this.joinChannel(networkId, value);
-        });
+        }));
 
-        this._disposePartFromChannel = domain.getNetworkDomain().partedChannelAtAll().subscribe((channel) => {
+        disposer.add(domain.getNetworkDomain().partedChannelAtAll().subscribe((channel) => {
             this.removeChannel(channel.getId());
-        });
+        }));
 
         element.addEventListener('click', this);
     }
@@ -146,7 +142,7 @@ export default class SidebarViewController implements EventListenerObject {
     }
 
     closeChannel(channelId: number, target: HTMLElement): void {
-        const channelWrap = this.domain.networkSet.getChannelById(channelId);
+        const channelWrap = this._domain.networkSet.getChannelById(channelId);
         if (channelWrap.isNone) {
             return;
         }

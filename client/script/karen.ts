@@ -39,7 +39,7 @@ import * as React from 'react';
 import * as Rx from 'rx';
 import SettingActionCreator from './intent/action/SettingActionCreator';
 import SettingStore from './output/viewmodel/SettingStore';
-import SidebarViewController from './output/view/SidebarViewController';
+import {SidebarViewController} from './output/view/SidebarViewController';
 import {SocketIoDriver} from './adapter/SocketIoDriver';
 import {Some, None, Option} from 'option-t';
 import {ToggleItem} from './output/view/ToggleItem';
