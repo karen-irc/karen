@@ -23,18 +23,18 @@
  * THE SOFTWARE.
  */
 
-import CookieDriver from '../../adapter/CookieDriver';
 import ConnectSettingViewController from './ConnectSettingViewController';
 import SignInViewController from './SignInViewController';
+import CookieDriver from '../../adapter/CookieDriver';
 import {SocketIoDriver} from '../../adapter/SocketIoDriver';
 
 const CONNECT_INSERTION_POINT_ID = '#js-insertion-point-connect';
 
 export default class MainViewController {
 
-    _element: Element;
-    _signin: SignInViewController;
-    _connect :ConnectSettingViewController;
+    private _element: Element;
+    private _signin: SignInViewController;
+    private _connect :ConnectSettingViewController;
 
     constructor(element: Element, cookie: CookieDriver, socket: SocketIoDriver) {
         this._element = element;
