@@ -27,18 +27,20 @@
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react.d.ts" />
 
-import AppActionCreator from '../../intent/action/AppActionCreator';
-import Channel from '../../domain/Channel';
-import {ChannelItem} from './ChannelItem';
-import CommandTypeMod from '../../domain/CommandType';
-import {DomainState} from '../../domain/DomainState';
-import MessageActionCreator from '../../intent/action/MessageActionCreator';
-import {MessageGateway} from '../../adapter/MessageGateway';
-import Network from '../../domain/Network';
-import {NetworkDomain} from '../../domain/NetworkDomain';
-import {NetworkItemList} from './NetworkItemList';
 import * as React from 'react';
 import * as Rx from 'rx';
+
+import {ChannelItem} from './ChannelItem';
+import {NetworkItemList} from './NetworkItemList';
+
+import {MessageGateway} from '../../adapter/MessageGateway';
+import Channel from '../../domain/Channel';
+import CommandTypeMod from '../../domain/CommandType';
+import {DomainState} from '../../domain/DomainState';
+import Network from '../../domain/Network';
+import {NetworkDomain} from '../../domain/NetworkDomain';
+import AppActionCreator from '../../intent/action/AppActionCreator';
+import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
 const CommandType = CommandTypeMod.type;
