@@ -66,6 +66,11 @@ export default class SidebarViewController implements EventListenerObject {
         });
 
         this._disposeInitialRenderNetworks = domain.getNetworkDomain().initialState().subscribe((data) => {
+            if (data.domain.length === 0) {
+                this.showEmptinesse();
+                return;
+            }
+
             const networks = data.domain.map(function(domain){
                 return domain.getValue();
             });
