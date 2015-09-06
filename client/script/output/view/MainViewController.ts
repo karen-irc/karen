@@ -23,21 +23,65 @@
  * THE SOFTWARE.
  */
 
-import CookieDriver from '../../adapter/CookieDriver';
+/// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
+
+import * as Rx from 'rx';
+
 import ConnectSettingViewController from './ConnectSettingViewController';
+import {MessageContentViewController} from './MessageContentViewController';
 import SignInViewController from './SignInViewController';
+
+import CookieDriver from '../../adapter/CookieDriver';
 import {SocketIoDriver} from '../../adapter/SocketIoDriver';
+import {DomainState} from '../../domain/DomainState';
+import {ChannelDomain} from '../../domain/ChannelDomain';
+import UIActionCreator from '../../intent/action/UIActionCreator';
 
 const CONNECT_INSERTION_POINT_ID = '#js-insertion-point-connect';
 
 export default class MainViewController {
 
-    _element: Element;
-    _signin: SignInViewController;
-    _connect :ConnectSettingViewController;
+    private _element: Element;
+    private _channelMap: Map<number, MessageContentViewController>;
+    private _disposer: Rx.IDisposable;
 
-    constructor(element: Element, cookie: CookieDriver, socket: SocketIoDriver) {
+    private _chatContentArea: Element;
+    private _signin: SignInViewController;
+    private _connect :ConnectSettingViewController;
+
+    constructor(domain: DomainState, element: Element, cookie: CookieDriver, socket: SocketIoDriver) {
         this._element = element;
+        this._channelMap = new Map();
+
+        const disposer = new Rx.CompositeDisposable();
+        this._disposer = disposer;
+        this._chatContentArea = element.querySelector('#chat');
+
+        const networkDomain = domain.getNetworkDomain();
+        disposer.add(networkDomain.joinedChannelAtAll().subscribe((channelDomain) => {
+            const id = channelDomain.getId();
+            const view = new MessageContentViewController(channelDomain);
+            this._channelMap.set(id, view);
+
+            this._chatContentArea.appendChild(view.getElement());
+ 
+            UIActionCreator.showLatestInChannel(id);
+        }));
+
+        disposer.add(networkDomain.partedChannelAtAll().subscribe((channelDomain) => {
+            const id = channelDomain.getId();
+            const view = this._channelMap.get(id);
+            if (view === undefined) {
+                throw new Error('should find some item');
+            }
+
+            this._channelMap.delete(id);
+
+            const element = view.getElement();
+            element.parentNode.removeChild(element);
+
+            view.dispose();
+        }));
 
         this._signin = new SignInViewController(element.querySelector('#sign-in'), cookie, socket);
 

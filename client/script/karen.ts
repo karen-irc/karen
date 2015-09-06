@@ -19,7 +19,7 @@ import AppViewController from './output/view/AppViewController';
 import AudioDriver from './adapter/AudioDriver';
 import AuthRepository from './adapter/AuthRepository';
 import Channel from './domain/Channel';
-import {ChatWindowItem, ChatWindowList} from './output/view/ChatWindowItem';
+import {ChatWindowList} from './output/view/ChatWindowItem';
 import CommandTypeMod from './domain/CommandType';
 import ConfigRepository from './adapter/ConfigRepository';
 import CookieDriver from './adapter/CookieDriver';
@@ -45,7 +45,6 @@ import {Some, None, Option} from 'option-t';
 import {ToggleItem} from './output/view/ToggleItem';
 import UIActionCreator from './intent/action/UIActionCreator';
 import User from './domain/User';
-import {UserList} from './output/view/UserList';
 import WindowPresenter from './output/WindowPresenter';
 
 declare const momoent: any;
@@ -75,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const globalState = new DomainState(messageGateway);
     const appWindow = new WindowPresenter(globalState);
     const appView = new AppViewController(document.getElementById('viewport'));
-    const windows = new MainViewController(document.getElementById('windows'), cookie, socket);
+    const windows = new MainViewController(globalState, document.getElementById('windows'), cookie, socket);
     const inputBox = new InputBoxViewController(globalState, document.getElementById('js-form'));
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarViewController(globalState, document.getElementById('sidebar'), messageGateway);
@@ -164,16 +163,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         socket.emit('open', state.id);
     });
 
-    globalState.getNetworkDomain().joinedChannelAtAll().subscribe(function(domain){
-        const channel = domain.getValue();
-        const view = React.createElement(ChatWindowItem, {
-            channel: channel,
-        });
-        const html = React.renderToStaticMarkup(view);
-        chat.append(html);
-        UIActionCreator.showLatestInChannel(channel.id);
-    });
-
     const messageRenderedSubject = new Rx.Subject<{ target: string; message: any; }>();
 
     messageGateway.recieveMessage().subscribe(function(data) {
@@ -204,27 +193,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             target: target,
             message: data.message,
         });
-
-        if (!chan.hasClass('channel')) {
-            return;
-        }
-
-        var type: string = data.message.type;
-        if (type === 'message' || type === 'action') {
-            const channel = globalState.networkSet.getChannelById(channelId);
-            const nicks: Option<Array<User>> = channel.map(function(channel){
-                return channel.getUserList();
-            });
-
-            if (nicks.isSome) {
-                var find = nicks.unwrap().map(function(i: User): string {
-                    return i.nickname;
-                }).indexOf(from);
-                if (find !== -1 && typeof move === 'function') {
-                    move(nicks.unwrap(), find, 0);
-                }
-            }
-        }
     });
 
     socket.more().subscribe(function(data) {
@@ -273,19 +241,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    globalState.getNetworkDomain().partedChannelAtAll().subscribe(function(domain){
-        const id = domain.getId();
-        $('#js-chan-' + id).remove();
-        var highest = -1;
-        chat.find('.chan').each(function() {
-            var self: JQuery = $(this);
-            var z = parseInt(self.css('z-index'), 10);
-            if (z > highest) {
-                highest = z;
-            }
-        });
-    });
-
     socket.toggle().subscribe(function(data) {
         var toggle = $('#toggle-' + data.id);
         const view = React.createElement(ToggleItem, {
@@ -306,24 +261,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             }
             break;
         }
-    });
-
-    messageGateway.setTopic().subscribe(function(data) {
-        const channel = document.getElementById('js-chan-' + data.channelId);
-        const topicElement = channel.querySelector('.js-topic');
-        if (!topicElement) {
-            return;
-        }
-
-        topicElement.textContent = data.topic;
-    });
-
-    messageGateway.updateUserList().subscribe(function(data){
-        const node = chat.find('#js-chan-' + data.channelId).find('.js-users').get(0);
-        const view = React.createElement(UserList, {
-            list: data.list,
-        });
-        React.render(view, node);
     });
 
     var options = config.get();
