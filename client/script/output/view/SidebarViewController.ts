@@ -75,8 +75,6 @@ export class SidebarViewController implements EventListenerObject {
             this.renderNetworks(networks);
         }));
 
-        // This should be scheduled on the next event loop
-        // bacause to wait to complete other tasks.
         disposer.add(domain.getSelectedChannel().subscribe((channelId) => {
             this.selectChannel(channelId);
         }));
