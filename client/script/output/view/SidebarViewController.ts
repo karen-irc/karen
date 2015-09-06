@@ -45,19 +45,19 @@ const CommandType = CommandTypeMod.type;
 
 export class SidebarViewController implements EventListenerObject {
 
-    _element: Element;
-    domain: DomainState;
-    _disposeSignout: Rx.IDisposable;
-    _disposeInitialRenderNetworks: Rx.IDisposable;
-    _disposeSelectChannel: Rx.IDisposable;
-    _disposeAddedNetwork: Rx.IDisposable;
-    _disposeDeletedNetwork: Rx.IDisposable;
-    _disposeJoinChannel: Rx.IDisposable;
-    _disposePartFromChannel: Rx.IDisposable;
+    private _element: Element;
+    private _domain: DomainState;
+    private _disposeSignout: Rx.IDisposable;
+    private _disposeInitialRenderNetworks: Rx.IDisposable;
+    private _disposeSelectChannel: Rx.IDisposable;
+    private _disposeAddedNetwork: Rx.IDisposable;
+    private _disposeDeletedNetwork: Rx.IDisposable;
+    private _disposeJoinChannel: Rx.IDisposable;
+    private _disposePartFromChannel: Rx.IDisposable;
 
     constructor(domain: DomainState, element: Element, gateway: MessageGateway) {
         this._element = element;
-        this.domain = domain;
+        this._domain = domain;
 
         this._disposeSignout = AppActionCreator.getDispatcher().signout.subscribe(() => {
             this.clearAllNetworks();
@@ -145,7 +145,7 @@ export class SidebarViewController implements EventListenerObject {
     }
 
     closeChannel(channelId: number, target: HTMLElement): void {
-        const channelWrap = this.domain.networkSet.getChannelById(channelId);
+        const channelWrap = this._domain.networkSet.getChannelById(channelId);
         if (channelWrap.isNone) {
             return;
         }
