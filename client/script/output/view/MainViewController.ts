@@ -27,6 +27,7 @@ import ConnectSettingViewController from './ConnectSettingViewController';
 import SignInViewController from './SignInViewController';
 import CookieDriver from '../../adapter/CookieDriver';
 import {SocketIoDriver} from '../../adapter/SocketIoDriver';
+import {DomainState} from '../../domain/DomainState';
 
 const CONNECT_INSERTION_POINT_ID = '#js-insertion-point-connect';
 
@@ -36,7 +37,7 @@ export default class MainViewController {
     private _signin: SignInViewController;
     private _connect :ConnectSettingViewController;
 
-    constructor(element: Element, cookie: CookieDriver, socket: SocketIoDriver) {
+    constructor(domain: DomainState, element: Element, cookie: CookieDriver, socket: SocketIoDriver) {
         this._element = element;
 
         this._signin = new SignInViewController(element.querySelector('#sign-in'), cookie, socket);
