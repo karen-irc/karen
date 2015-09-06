@@ -39,6 +39,7 @@ export class MessageContentViewController {
 
     private _element: Element;
     private _userElement: Element;
+    private _topicElement: Element;
 
     private _disposer: Rx.IDisposable;
 
@@ -46,12 +47,17 @@ export class MessageContentViewController {
         const fragment: Node = <Node>createChannelFragment(domain);
         this._element = <Element>fragment.firstChild;
         this._userElement = this._element.querySelector('.js-users');
+        this._topicElement = this._element.querySelector('.js-topic');
 
         const disposer: Rx.CompositeDisposable = new Rx.CompositeDisposable();
         this._disposer = disposer;
 
         disposer.add(domain.updatedUserList().subscribe((list: Array<User>) => {
             this._updateUserList(list);
+        }));
+
+        disposer.add(domain.updatedTopic().subscribe((topic: string) => {
+            this._updateTopic(topic);
         }));
     }
 
@@ -70,6 +76,10 @@ export class MessageContentViewController {
             list: list,
         });
         React.render(view, this._userElement);
+    }
+
+    private _updateTopic(topic: string): void {
+        this._topicElement.textContent = topic;
     }
 }
 

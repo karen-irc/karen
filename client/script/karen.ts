@@ -284,16 +284,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    messageGateway.setTopic().subscribe(function(data) {
-        const channel = document.getElementById('js-chan-' + data.channelId);
-        const topicElement = channel.querySelector('.js-topic');
-        if (!topicElement) {
-            return;
-        }
-
-        topicElement.textContent = data.topic;
-    });
-
     var options = config.get();
 
     settingStore.subscribe(Rx.Observer.create(function (option: any) { // FIXME
