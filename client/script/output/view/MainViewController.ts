@@ -101,15 +101,6 @@ export default class MainViewController {
             }
 
             UIActionCreator.setQuitConfirmDialog();
-
-            // Select the first tab of the connected network.
-            const first = channelList[0];
-            if (!first) {
-                return;
-            }
-
-            const id = first.getId();
-            UIActionCreator.selectChannel(id);
         }));
 
         this._signin = new SignInViewController(element.querySelector('#sign-in'), cookie, socket);
