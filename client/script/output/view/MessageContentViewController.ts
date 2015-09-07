@@ -29,7 +29,6 @@
 import * as React from 'react';
 import * as Rx from 'rx';
 
-import {ChatWindowItem} from './ChatWindowItem';
 import {MessageItem} from './MessageItem';
 import {UserList} from './UserList';
 
@@ -49,11 +48,10 @@ export class MessageContentViewController {
 
     private _disposer: Rx.IDisposable;
 
-    constructor(domain: ChannelDomain) {
+    constructor(domain: ChannelDomain, element: Element) {
         this._channelId = domain.getId();
 
-        const fragment: Node = <Node>createChannelFragment(domain);
-        this._element = <Element>fragment.firstChild;
+        this._element = element;
         this._userElement = this._element.querySelector('.js-users');
         this._topicElement = this._element.querySelector('.js-topic');
         this._messageArea = this._element.querySelector('.chat');
@@ -105,17 +103,6 @@ export class MessageContentViewController {
             this._messageArea.scrollTop = this._messageArea.scrollHeight;
         }
     }
-}
-
-function createChannelFragment(domain: ChannelDomain): DocumentFragment {
-    const reactTree = React.createElement(ChatWindowItem, {
-        channel: domain.getValue(),
-    });
-    const html = React.renderToStaticMarkup(reactTree);
-
-    const range = document.createRange();
-    const fragment = range.createContextualFragment(html);
-    return fragment;
 }
 
 function createMessageFragment(message: Message): DocumentFragment {

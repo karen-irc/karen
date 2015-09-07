@@ -201,21 +201,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     globalState.getNetworkDomain().addedNetwork().subscribe(function(domain){
-        const network = domain.getValue();
-        const channelList = network.getChannelList();
-
-        const view = React.createElement(ChatWindowList, {
-            list: channelList,
-        });
-        const html = React.renderToStaticMarkup(view);
-        chat.append(html);
-
-        UIActionCreator.setQuitConfirmDialog();
-
-        // Select the first tab of the connected network.
-        const id = channelList[0].id;
-        UIActionCreator.selectChannel(id);
-
         sortable();
     });
 
