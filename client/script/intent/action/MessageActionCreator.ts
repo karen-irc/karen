@@ -78,6 +78,13 @@ class MessageActionCreator {
             list,
         });
     }
+
+    queryWhoIs(channelId: number, user: string): void {
+        this._dispatcher.queryWhoIs.onNext({
+            channelId,
+            user,
+        });
+    }
 }
 
 export default new MessageActionCreator();

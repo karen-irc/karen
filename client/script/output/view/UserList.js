@@ -27,6 +27,8 @@
 import * as React from 'react';
 import User from '../../domain/User';
 
+import MessageActionCreator from '../../intent/action/MessageActionCreator';
+
 const lookupModeClassName = function (mode) {
     switch (mode) {
         case '~':
@@ -88,9 +90,10 @@ export class UserList extends React.Component {
             }
         });
 
+        const channelId = this.props.channelId;
         const list = Object.keys(modeMap).map(function(key) {
             const userList = modeMap[key];
-            return <UserGroup key={key} mode={key} list={userList} />;
+            return <UserGroup key={key} mode={key} list={userList} channelId={channelId}/>;
         });
 
         return (
@@ -113,6 +116,7 @@ export class UserList extends React.Component {
     }
 }
 UserList.propTypes = {
+    channelId: React.PropTypes.number.isRequired,
     list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(User)).isRequired,
 };
 
@@ -123,9 +127,10 @@ class UserGroup extends React.Component {
     }
 
     render() {
+        const channelId = this.props.channelId;
         const mode = this.props.mode;
         const list = this.props.list.map(function(item){
-            return <UserItem key={item.name} user={item} />;
+            return <UserItem key={item.name} user={item} channelId={channelId}/>;
         });
 
         return (
@@ -136,6 +141,7 @@ class UserGroup extends React.Component {
     }
 }
 UserGroup.propTypes = {
+    channelId: React.PropTypes.number.isRequired,
     mode: React.PropTypes.string.isRequired,
     list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(User)).isRequired,
 };
@@ -144,6 +150,8 @@ class UserItem extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.onClick = this.onClick.bind(this);
     }
 
     render() {
@@ -154,7 +162,8 @@ class UserItem extends React.Component {
 
         return (
             <button className='user'
-                    style={style}>
+                    style={style}
+                    onClick={this.onClick}>
                     {user.mode}
                     {user.name}
             </button>
@@ -169,7 +178,18 @@ class UserItem extends React.Component {
 
         return !isSameMode || !isSameName;
     }
+
+    onClick(event) {
+        const channelId = this.props.channelId;
+        const user = this.props.user.name;
+        if (user.indexOf('#') !== -1) {
+            return;
+        }
+
+        MessageActionCreator.queryWhoIs(channelId, user);
+    }
 }
 UserItem.propTypes = {
+    channelId: React.PropTypes.number.isRequired,
     user: React.PropTypes.instanceOf(User).isRequired,
 };

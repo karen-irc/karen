@@ -46,6 +46,7 @@ export default class ChatCommandDispatcher {
     setTopic: Rx.Subject<Topic>;
     setNickname: Rx.Subject<{ id: number, nickname: string }>;
     updateUserList: Rx.Subject<{ channelId: number, list: Array<User> }>;
+    queryWhoIs: Rx.Subject<{ channelId: number; user: string; }>;
 
     constructor() {
         this.sendCommand = new Rx.Subject<Command>();
@@ -57,5 +58,7 @@ export default class ChatCommandDispatcher {
         this.setNickname = new Rx.Subject<{ id: number, nickname: string }>();
 
         this.updateUserList = new Rx.Subject<{ channelId: number, list: Array<User> }>();
+
+        this.queryWhoIs = new Rx.Subject<{ channelId: number; user: string; }>();
     }
 }

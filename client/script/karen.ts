@@ -356,15 +356,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         auth.removeToken();
     });
 
-    chat.on('click', '.user', function() {
-        var user = $(this).text().trim().replace(/[+%@~&]/, '');
-        if (user.indexOf('#') !== -1) {
-            return;
-        }
-        var text = CommandType.WHOIS + ' ' + user;
+    MessageActionCreator.getDispatcher().queryWhoIs.subscribe(function({ channelId, user }){
+        const query = CommandType.WHOIS + ' ' + user;
         socket.emit('input', {
-            target: chat.data('id'),
-            text: text
+            target: channelId,
+            text: query,
         });
     });
 

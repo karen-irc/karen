@@ -86,6 +86,7 @@ export class MessageContentViewController {
     private _updateUserList(list: Array<User>): void {
         const view = React.createElement(UserList, {
             list: list,
+            channelId: this._channelId,
         });
         React.render(view, this._userElement);
     }
