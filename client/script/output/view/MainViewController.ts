@@ -24,9 +24,12 @@
  */
 
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
+/// <reference path="../../../../tsd/third_party/react/react.d.ts" />
 
+import * as React from 'react';
 import * as Rx from 'rx';
 
+import {ChatWindowItem, ChatWindowList} from './ChatWindowItem';
 import ConnectSettingViewController from './ConnectSettingViewController';
 import {MessageContentViewController} from './MessageContentViewController';
 import SignInViewController from './SignInViewController';
@@ -34,10 +37,19 @@ import SignInViewController from './SignInViewController';
 import CookieDriver from '../../adapter/CookieDriver';
 import {SocketIoDriver} from '../../adapter/SocketIoDriver';
 import {DomainState} from '../../domain/DomainState';
+import Channel from '../../domain/Channel';
 import {ChannelDomain} from '../../domain/ChannelDomain';
+import {NetworkDomain} from '../../domain/NetworkDomain';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
 const CONNECT_INSERTION_POINT_ID = '#js-insertion-point-connect';
+
+function arrayFlatMap<T, U>(target: Array<T>, fn: {(value: T): Array<U>}) : Array<U> {
+    return target.reduce(function (result : Array<U>, element : T) {
+        const mapped : Array<U> = fn(element);
+        return result.concat(mapped);
+    }, []);
+}
 
 export default class MainViewController {
 
@@ -59,12 +71,13 @@ export default class MainViewController {
 
         const networkDomain = domain.getNetworkDomain();
         disposer.add(networkDomain.joinedChannelAtAll().subscribe((channelDomain) => {
+            const fragment: Node = <Node>createChannelFragment(channelDomain);
+            const subtree = element = <Element>fragment.firstChild;
+            const view = new MessageContentViewController(channelDomain, subtree);
             const id = channelDomain.getId();
-            const view = new MessageContentViewController(channelDomain);
             this._channelMap.set(id, view);
+            this._chatContentArea.appendChild(subtree);
 
-            this._chatContentArea.appendChild(view.getElement());
- 
             UIActionCreator.showLatestInChannel(id);
         }));
 
@@ -83,8 +96,63 @@ export default class MainViewController {
             view.dispose();
         }));
 
+        disposer.add(networkDomain.addedNetwork().subscribe((domain: NetworkDomain) => {
+            const channelList = domain.getChannelDomainList();
+            this._renderChannelList(channelList.map((v) => v.getValue()));
+
+            for (const channel of channelList) {
+                const id = channel.getId();
+                const dom = document.getElementById('js-chan-' + String(id));
+                const view = new MessageContentViewController(channel, dom);
+                this._channelMap.set(id, view);
+            }
+
+            UIActionCreator.setQuitConfirmDialog();
+        }));
+
+        disposer.add(networkDomain.initialState().subscribe((initState) => {
+            if (initState.domain.length === 0) {
+                return;
+            }
+
+            const channels: Array<Channel> = arrayFlatMap(initState.domain, function(domain: NetworkDomain){
+                const network = domain.getValue();
+                return network.getChannelList();
+            });
+
+            this._renderChannelList(channels);
+        }));
+
         this._signin = new SignInViewController(element.querySelector('#sign-in'), cookie, socket);
 
         this._connect = new ConnectSettingViewController( element.querySelector(CONNECT_INSERTION_POINT_ID), socket);
     }
+
+    private _renderChannelList(list: Array<Channel>): void {
+        const fragment = createChannelWindowListFragment(list);
+        this._chatContentArea.appendChild(fragment);
+        UIActionCreator.setQuitConfirmDialog();
+    }
+}
+
+function createChannelFragment(domain: ChannelDomain): DocumentFragment {
+    const reactTree = React.createElement(ChatWindowItem, {
+        channel: domain.getValue(),
+    });
+    const html = React.renderToStaticMarkup(reactTree);
+
+    const range = document.createRange();
+    const fragment = range.createContextualFragment(html);
+    return fragment;
+}
+
+function createChannelWindowListFragment(list: Array<Channel>): DocumentFragment {
+    const reactTree = React.createElement(ChatWindowList, {
+        list: list,
+    });
+    const html = React.renderToStaticMarkup(reactTree);
+
+    const range = document.createRange();
+    const fragment = range.createContextualFragment(html);
+    return fragment;
 }

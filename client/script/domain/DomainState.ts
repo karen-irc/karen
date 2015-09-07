@@ -31,6 +31,7 @@ import * as Rx from 'rx';
 
 import NetworkSet from './NetworkSet';
 import {NetworkSetDomain} from './NetworkSetDomain';
+import {NetworkDomain} from './NetworkDomain';
 
 import {MessageGateway} from '../adapter/MessageGateway';
 import UIActionCreator from '../intent/action/UIActionCreator';
@@ -129,6 +130,19 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
         return tab;
     });
 
+    const addedNetwork = set.addedNetwork().map(function(domain: NetworkDomain){
+        const channelList = domain.getValue().getChannelList();
+
+        // Select the first tab of the connected network.
+        const first = channelList[0];
+        if (!first) {
+            return;
+        }
+
+        const tab = new SelectedTab(CurrentTabType.CHANNEL, first.id);
+        return tab;
+    });
+
     const removedNetwork = set.removedNetwork().withLatestFrom(set.getNetworkList(), function(_, list) {
         let tab: SelectedTab = null;
         if (list.length === 0) {
@@ -176,6 +190,7 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
         .merge(selectedSettings)
         .merge(addedChannel)
         .merge(removedChannel)
+        .merge(addedNetwork)
         .merge(removedNetwork)
         .merge(shouldShowConnectSetting)
         .merge(initial);

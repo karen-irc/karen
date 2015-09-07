@@ -19,7 +19,6 @@ import AppViewController from './output/view/AppViewController';
 import AudioDriver from './adapter/AudioDriver';
 import AuthRepository from './adapter/AuthRepository';
 import Channel from './domain/Channel';
-import {ChatWindowList} from './output/view/ChatWindowItem';
 import CommandTypeMod from './domain/CommandType';
 import ConfigRepository from './adapter/ConfigRepository';
 import CookieDriver from './adapter/CookieDriver';
@@ -60,13 +59,6 @@ const notify = new NotificationPresenter(config);
 const auth = new AuthRepository(cookie);
 
 const settingStore = new SettingStore(config);
-
-function arrayFlatMap<T, U>(target: Array<T>, fn: {(value: T): Array<U>}) : Array<U> {
-    return target.reduce(function (result : Array<U>, element : T) {
-        const mapped : Array<U> = fn(element);
-        return result.concat(mapped);
-    }, []);
-}
 
 document.addEventListener('DOMContentLoaded', function onLoad() {
     document.removeEventListener('DOMContentLoaded', onLoad);
@@ -131,20 +123,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     globalState.getNetworkDomain().initialState().subscribe(function(data) {
-        if (data.domain.length !== 0) {
-            const channels: Array<Channel> = arrayFlatMap(data.domain, function(networkDomain){
-                const network = networkDomain.getValue();
-                return network.getChannelList();
-            });
-
-            const view = React.createElement(ChatWindowList, {
-                list: channels,
-            });
-            const html = React.renderToStaticMarkup(view);
-            chat.html(html);
-
-            UIActionCreator.setQuitConfirmDialog();
-        }
 
         if (data.token) {
             auth.setToken(data.token);
@@ -166,26 +144,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     messageGateway.recieveMessage().subscribe(function(data) {
         const channelId = data.channelId;
         var target = '#js-chan-' + channelId;
-        if (data.message.type === 'error') {
-            target = String(globalState.currentTab.channelId.unwrap());
-        }
-
-        var chan: JQuery = chat.find(target);
-        var from: string = data.message.from;
-
-        const channelBox = chan.find('.chat').get(0);
-        const shouldBottom = channelBox && isScrollBottom(channelBox);
-
-        const view = React.createElement(MessageItem, {
-            message: data.message,
-        });
-        const html = React.renderToStaticMarkup(view);
-
-        chan.find('.messages').append(html);
-
-        if (shouldBottom) {
-            UIActionCreator.showLatestInChannel(channelId);
-        }
 
         const msg = data.message;
 
@@ -221,21 +179,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     globalState.getNetworkDomain().addedNetwork().subscribe(function(domain){
-        const network = domain.getValue();
-        const channelList = network.getChannelList();
-
-        const view = React.createElement(ChatWindowList, {
-            list: channelList,
-        });
-        const html = React.renderToStaticMarkup(view);
-        chat.append(html);
-
-        UIActionCreator.setQuitConfirmDialog();
-
-        // Select the first tab of the connected network.
-        const id = channelList[0].id;
-        UIActionCreator.selectChannel(id);
-
         sortable();
     });
 

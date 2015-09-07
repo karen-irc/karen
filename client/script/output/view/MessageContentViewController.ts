@@ -29,25 +29,33 @@
 import * as React from 'react';
 import * as Rx from 'rx';
 
-import {ChatWindowItem} from './ChatWindowItem';
+import {MessageItem} from './MessageItem';
 import {UserList} from './UserList';
 
 import {ChannelDomain} from '../../domain/ChannelDomain';
+import Message from '../../domain/Message';
 import User from '../../domain/User';
+import UIActionCreator from '../../intent/action/UIActionCreator';
 
 export class MessageContentViewController {
 
+    private _channelId: number;
     private _element: Element;
     private _userElement: Element;
     private _topicElement: Element;
+    private _messageArea: Element;
+    private _messageContainer: Element;
 
     private _disposer: Rx.IDisposable;
 
-    constructor(domain: ChannelDomain) {
-        const fragment: Node = <Node>createChannelFragment(domain);
-        this._element = <Element>fragment.firstChild;
+    constructor(domain: ChannelDomain, element: Element) {
+        this._channelId = domain.getId();
+
+        this._element = element;
         this._userElement = this._element.querySelector('.js-users');
         this._topicElement = this._element.querySelector('.js-topic');
+        this._messageArea = this._element.querySelector('.chat');
+        this._messageContainer = this._element.querySelector('.messages');
 
         const disposer: Rx.CompositeDisposable = new Rx.CompositeDisposable();
         this._disposer = disposer;
@@ -58,6 +66,10 @@ export class MessageContentViewController {
 
         disposer.add(domain.updatedTopic().subscribe((topic: string) => {
             this._updateTopic(topic);
+        }));
+
+        disposer.add(domain.recievedMessage().subscribe((message: Message) => {
+            this._renderMessage(message);
         }));
     }
 
@@ -81,15 +93,30 @@ export class MessageContentViewController {
     private _updateTopic(topic: string): void {
         this._topicElement.textContent = topic;
     }
+
+    private _renderMessage(message: Message): void {
+        const shouldBottom = isScrollBottom(this._messageArea);
+        const fragment = createMessageFragment(message);
+        this._messageContainer.appendChild(fragment);
+
+        if (shouldBottom) {
+            this._messageArea.scrollTop = this._messageArea.scrollHeight;
+        }
+    }
 }
 
-function createChannelFragment(domain: ChannelDomain): DocumentFragment {
-    const reactTree = React.createElement(ChatWindowItem, {
-        channel: domain.getValue(),
+function createMessageFragment(message: Message): DocumentFragment {
+    const reactTree = React.createElement(MessageItem, {
+        message: message,
     });
     const html = React.renderToStaticMarkup(reactTree);
 
     const range = document.createRange();
     const fragment = range.createContextualFragment(html);
     return fragment;
+}
+
+function isScrollBottom(target: Element): boolean {
+    const isBottom = ((target.scrollTop | 0) + (target.clientHeight | 0) + 1) >= (target.scrollHeight | 0);
+    return isBottom;
 }
