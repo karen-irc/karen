@@ -497,15 +497,4 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             $(inputBox.textInput).css('padding-left', width);
         }
     }
-
-    function move(array: Array<User>, oldIndex: number, newIndex: number) {
-        if (newIndex >= array.length) {
-            var k = newIndex - array.length;
-            while ((k--) + 1) {
-                this.push(undefined);
-            }
-        }
-        array.splice(newIndex, 0, array.splice(oldIndex, 1)[0]);
-        return array;
-    }
 });
