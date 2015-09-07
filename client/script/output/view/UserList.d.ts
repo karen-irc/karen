@@ -30,6 +30,7 @@ import User from '../../domain/User';
 
 interface UserListProps {
     key?: any;
+    channelId: number;
     list: Array<User>;
 }
 

@@ -356,15 +356,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         auth.removeToken();
     });
 
-    chat.on('click', '.user', function() {
-        var user = $(this).text().trim().replace(/[+%@~&]/, '');
-        if (user.indexOf('#') !== -1) {
-            return;
-        }
-        var text = CommandType.WHOIS + ' ' + user;
+    MessageActionCreator.getDispatcher().queryWhoIs.subscribe(function({ channelId, user }){
+        const query = CommandType.WHOIS + ' ' + user;
         socket.emit('input', {
-            target: chat.data('id'),
-            text: text
+            target: channelId,
+            text: query,
         });
     });
 
@@ -496,16 +492,5 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             width += 31;
             $(inputBox.textInput).css('padding-left', width);
         }
-    }
-
-    function move(array: Array<User>, oldIndex: number, newIndex: number) {
-        if (newIndex >= array.length) {
-            var k = newIndex - array.length;
-            while ((k--) + 1) {
-                this.push(undefined);
-            }
-        }
-        array.splice(newIndex, 0, array.splice(oldIndex, 1)[0]);
-        return array;
     }
 });
