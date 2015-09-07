@@ -131,15 +131,8 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
     });
 
     const addedNetwork = set.addedNetwork().map(function(domain: NetworkDomain){
-        const channelList = domain.getValue().getChannelList();
-
-        // Select the first tab of the connected network.
-        const first = channelList[0];
-        if (!first) {
-            return;
-        }
-
-        const tab = new SelectedTab(CurrentTabType.CHANNEL, first.id);
+        const id = domain.getValue().getLobbyId();
+        const tab = new SelectedTab(CurrentTabType.CHANNEL, id);
         return tab;
     });
 
