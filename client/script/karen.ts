@@ -19,7 +19,6 @@ import AppViewController from './output/view/AppViewController';
 import AudioDriver from './adapter/AudioDriver';
 import AuthRepository from './adapter/AuthRepository';
 import Channel from './domain/Channel';
-import {ChatWindowList} from './output/view/ChatWindowItem';
 import CommandTypeMod from './domain/CommandType';
 import ConfigRepository from './adapter/ConfigRepository';
 import CookieDriver from './adapter/CookieDriver';
@@ -60,13 +59,6 @@ const notify = new NotificationPresenter(config);
 const auth = new AuthRepository(cookie);
 
 const settingStore = new SettingStore(config);
-
-function arrayFlatMap<T, U>(target: Array<T>, fn: {(value: T): Array<U>}) : Array<U> {
-    return target.reduce(function (result : Array<U>, element : T) {
-        const mapped : Array<U> = fn(element);
-        return result.concat(mapped);
-    }, []);
-}
 
 document.addEventListener('DOMContentLoaded', function onLoad() {
     document.removeEventListener('DOMContentLoaded', onLoad);
@@ -131,20 +123,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     globalState.getNetworkDomain().initialState().subscribe(function(data) {
-        if (data.domain.length !== 0) {
-            const channels: Array<Channel> = arrayFlatMap(data.domain, function(networkDomain){
-                const network = networkDomain.getValue();
-                return network.getChannelList();
-            });
-
-            const view = React.createElement(ChatWindowList, {
-                list: channels,
-            });
-            const html = React.renderToStaticMarkup(view);
-            chat.html(html);
-
-            UIActionCreator.setQuitConfirmDialog();
-        }
 
         if (data.token) {
             auth.setToken(data.token);

@@ -44,6 +44,13 @@ import UIActionCreator from '../../intent/action/UIActionCreator';
 
 const CONNECT_INSERTION_POINT_ID = '#js-insertion-point-connect';
 
+function arrayFlatMap<T, U>(target: Array<T>, fn: {(value: T): Array<U>}) : Array<U> {
+    return target.reduce(function (result : Array<U>, element : T) {
+        const mapped : Array<U> = fn(element);
+        return result.concat(mapped);
+    }, []);
+}
+
 export default class MainViewController {
 
     private _element: Element;
@@ -91,8 +98,8 @@ export default class MainViewController {
 
         disposer.add(networkDomain.addedNetwork().subscribe((domain: NetworkDomain) => {
             const channelList = domain.getChannelDomainList();
-            const fragment = createChannelWindowListFragment(channelList.map((v) => v.getValue()));
-            this._chatContentArea.appendChild(fragment);
+            this._renderChannelList(channelList.map((v) => v.getValue()));
+
             for (const channel of channelList) {
                 const id = channel.getId();
                 const dom = document.getElementById('js-chan-' + String(id));
@@ -103,9 +110,28 @@ export default class MainViewController {
             UIActionCreator.setQuitConfirmDialog();
         }));
 
+        disposer.add(networkDomain.initialState().subscribe((initState) => {
+            if (initState.domain.length === 0) {
+                return;
+            }
+
+            const channels: Array<Channel> = arrayFlatMap(initState.domain, function(domain: NetworkDomain){
+                const network = domain.getValue();
+                return network.getChannelList();
+            });
+
+            this._renderChannelList(channels);
+        }));
+
         this._signin = new SignInViewController(element.querySelector('#sign-in'), cookie, socket);
 
         this._connect = new ConnectSettingViewController( element.querySelector(CONNECT_INSERTION_POINT_ID), socket);
+    }
+
+    private _renderChannelList(list: Array<Channel>): void {
+        const fragment = createChannelWindowListFragment(list);
+        this._chatContentArea.appendChild(fragment);
+        UIActionCreator.setQuitConfirmDialog();
     }
 }
 
