@@ -29,19 +29,38 @@
 import {Option, Some, None} from 'option-t';
 import * as Rx from 'rx';
 
+import MessageActionCreator from '../intent/action/MessageActionCreator';
 import Channel from '../domain/Channel';
+import CommandTypeMod from '../domain/CommandType';
+import {SelectedTab} from '../domain/DomainState'
 import Message from '../domain/Message';
 import Network from '../domain/Network';
+import User from '../domain/User';
 
 import {SocketIoDriver} from './SocketIoDriver';
-import User from '../domain/User';
+
+const CommandType = CommandTypeMod.type;
 
 export class MessageGateway {
 
-    _socket: SocketIoDriver;
+    private _socket: SocketIoDriver;
+    private _disposer: Rx.IDisposable;
 
     constructor(socket: SocketIoDriver) {
         this._socket = socket;
+
+        const disposer = new Rx.CompositeDisposable();
+        this._disposer = disposer;
+
+        const messageDispatcher = MessageActionCreator.getDispatcher();
+
+        disposer.add(messageDispatcher.sendCommand.subscribe(({ channelId, text }) => {
+            this._sendCommand(channelId, text);
+        }));
+
+        disposer.add(messageDispatcher.queryWhoIs.subscribe(({ channelId, user }) => {
+            this._queryWhoIs(channelId, user);
+        }));
     }
 
     showConnectSetting(): Rx.Observable<void> {
@@ -140,6 +159,25 @@ export class MessageGateway {
         return this._socket.quit().map(function(data) {
             const id = <number>data.network;
             return id;
+        });
+    }
+
+    saveCurrentTab(currentTab: SelectedTab): void {
+        this._socket.emit('open', currentTab.id);
+    }
+
+    private _sendCommand(channelId: number, command: string): void {
+        this._socket.emit('input', {
+            target: channelId,
+            text: command,
+        });
+    }
+
+    private _queryWhoIs(channelId: number, who: string): void {
+        const query = CommandType.WHOIS + ' ' + who;
+        this._socket.emit('input', {
+            target: channelId,
+            text: query,
         });
     }
 }

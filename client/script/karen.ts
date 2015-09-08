@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     globalState.getCurrentTab().subscribe(function(state){
         chat.data('id', state.id);
-        socket.emit('open', state.id);
+        messageGateway.saveCurrentTab(state)
     });
 
     messageGateway.recieveMessage().subscribe(function(data) {
@@ -259,20 +259,12 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         chat.find('.active .show-more').addClass('show');
     });
 
-    MessageActionCreator.getDispatcher().sendCommand.subscribe(function(data){
-        socket.emit('input', {
-            target: data.channelId,
-            text: data.text,
-        });
-    });
-
     window.addEventListener('focus', function () {
         var chan = chat.find('.active');
         if (screen.width > 768 && chan.hasClass('chan')) {
             UIActionCreator.focusInputBox();
         }
     });
-
 
     const shouldShowLatestInChannel = UIActionCreator.getDispatcher().showLatestInChannel.debounce(100)
         .merge(globalState.getSelectedChannel());
@@ -357,14 +349,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     AppActionCreator.getDispatcher().signout.subscribe(function(){
         auth.removeToken();
-    });
-
-    MessageActionCreator.getDispatcher().queryWhoIs.subscribe(function({ channelId, user }){
-        const query = CommandType.WHOIS + ' ' + user;
-        socket.emit('input', {
-            target: channelId,
-            text: query,
-        });
     });
 
     chat.on('click', '.close', function() {
