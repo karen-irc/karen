@@ -259,20 +259,12 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         chat.find('.active .show-more').addClass('show');
     });
 
-    MessageActionCreator.getDispatcher().sendCommand.subscribe(function(data){
-        socket.emit('input', {
-            target: data.channelId,
-            text: data.text,
-        });
-    });
-
     window.addEventListener('focus', function () {
         var chan = chat.find('.active');
         if (screen.width > 768 && chan.hasClass('chan')) {
             UIActionCreator.focusInputBox();
         }
     });
-
 
     const shouldShowLatestInChannel = UIActionCreator.getDispatcher().showLatestInChannel.debounce(100)
         .merge(globalState.getSelectedChannel());

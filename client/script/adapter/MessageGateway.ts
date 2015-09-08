@@ -29,19 +29,28 @@
 import {Option, Some, None} from 'option-t';
 import * as Rx from 'rx';
 
+import MessageActionCreator from '../intent/action/MessageActionCreator';
 import Channel from '../domain/Channel';
 import Message from '../domain/Message';
 import Network from '../domain/Network';
+import User from '../domain/User';
 
 import {SocketIoDriver} from './SocketIoDriver';
-import User from '../domain/User';
 
 export class MessageGateway {
 
-    _socket: SocketIoDriver;
+    private _socket: SocketIoDriver;
+    private _disposer: Rx.IDisposable;
 
     constructor(socket: SocketIoDriver) {
         this._socket = socket;
+
+        const disposer = new Rx.CompositeDisposable();
+        this._disposer = disposer;
+
+        disposer.add(MessageActionCreator.getDispatcher().sendCommand.subscribe(({channelId, text}) => {
+            this._sendCommand(channelId, text);
+        }));
     }
 
     showConnectSetting(): Rx.Observable<void> {
@@ -140,6 +149,13 @@ export class MessageGateway {
         return this._socket.quit().map(function(data) {
             const id = <number>data.network;
             return id;
+        });
+    }
+
+    private _sendCommand(channelId: number, command: string): void {
+        this._socket.emit('input', {
+            target: channelId,
+            text: command,
         });
     }
 }
