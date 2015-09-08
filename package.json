@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "preferGlobal": true,
   "engines": {
-    "iojs": "3.x"
+    "node": "^4.0.0"
   },
   "bin": {
     "karen": "index.js"
