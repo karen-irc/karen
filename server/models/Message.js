@@ -22,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import assign from 'object-assign';
 import moment from 'moment';
 import MessageType from './MessageType';
 
@@ -63,7 +62,7 @@ export default class Message {
      *  @param  {?} attr
      */
     constructor(channel, attr) {
-        const data = assign({
+        const data = Object.assign({
             type: MessageType.MESSAGE,
             id: id++,
             text: '',
@@ -106,7 +105,7 @@ export default class Message {
     }
 
     toJSON() {
-        const clone = assign({}, this);
+        const clone = Object.assign({}, this);
         clone.channel = undefined;
         return clone;
     }

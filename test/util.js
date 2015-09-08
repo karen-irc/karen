@@ -1,4 +1,3 @@
-var assign = require('object-assign');
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var express = require('express');
@@ -14,7 +13,7 @@ util.inherits(MockClient, EventEmitter);
 
 MockClient.prototype.createMessage = function(opts) {
 
-  var message = assign({
+  var message = Object.assign({
     message: 'dummy message',
     from: 'test-user',
     to: 'test-channel'
