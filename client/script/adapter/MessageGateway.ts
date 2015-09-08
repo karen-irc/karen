@@ -31,6 +31,7 @@ import * as Rx from 'rx';
 
 import MessageActionCreator from '../intent/action/MessageActionCreator';
 import Channel from '../domain/Channel';
+import {SelectedTab} from '../domain/DomainState'
 import Message from '../domain/Message';
 import Network from '../domain/Network';
 import User from '../domain/User';
@@ -150,6 +151,10 @@ export class MessageGateway {
             const id = <number>data.network;
             return id;
         });
+    }
+
+    saveCurrentTab(currentTab: SelectedTab): void {
+        this._socket.emit('open', currentTab.id);
     }
 
     private _sendCommand(channelId: number, command: string): void {

@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     globalState.getCurrentTab().subscribe(function(state){
         chat.data('id', state.id);
-        socket.emit('open', state.id);
+        messageGateway.saveCurrentTab(state)
     });
 
     messageGateway.recieveMessage().subscribe(function(data) {
