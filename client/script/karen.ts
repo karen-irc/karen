@@ -7,12 +7,18 @@
 /// <reference path="../../tsd/third_party/jquery/jquery.d.ts" />
 /// <reference path="../../tsd/third_party/jqueryui/jqueryui.d.ts" />
 /// <reference path="../../tsd/third_party/react/react.d.ts" />
+/// <reference path="../../tsd/react.d.ts" />
 
 // babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
 import arrayFrom from 'core-js/library/fn/array/from';
+
+import {Some, None, Option} from 'option-t';
+import * as React from 'react';
+import * as ReactDOMServer from 'react-dom/server';
+import * as Rx from 'rx';
 
 import AppActionCreator from './intent/action/AppActionCreator';
 import AppViewController from './output/view/AppViewController';
@@ -34,13 +40,10 @@ import Network from './domain/Network';
 import NetworkSet from './domain/NetworkSet';
 import NotificationActionCreator from './intent/action/NotificationActionCreator';
 import NotificationPresenter from './output/NotificationPresenter';
-import * as React from 'react';
-import * as Rx from 'rx';
 import SettingActionCreator from './intent/action/SettingActionCreator';
 import SettingStore from './output/viewmodel/SettingStore';
 import {SidebarViewController} from './output/view/SidebarViewController';
 import {SocketIoDriver} from './adapter/SocketIoDriver';
-import {Some, None, Option} from 'option-t';
 import {ToggleItem} from './output/view/ToggleItem';
 import UIActionCreator from './intent/action/UIActionCreator';
 import User from './domain/User';
@@ -166,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         const view = React.createElement(MessageList, {
             list: data.messages,
         });
-        const html = React.renderToStaticMarkup(view);
+        const html = ReactDOMServer.renderToStaticMarkup(view);
 
         var chan = chat
             .find('#js-chan-' + target)
@@ -197,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         const view = React.createElement(ToggleItem, {
             item: data,
         });
-        const html = React.renderToStaticMarkup(view);
+        const html = ReactDOMServer.renderToStaticMarkup(view);
         toggle.parent().after(html);
         switch (data.type) {
         case 'link':

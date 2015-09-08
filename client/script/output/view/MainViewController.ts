@@ -25,8 +25,10 @@
 
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react.d.ts" />
+/// <reference path="../../../../tsd/react.d.ts" />
 
 import * as React from 'react';
+import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rx';
 
 import {ChatWindowItem, ChatWindowList} from './ChatWindowItem';
@@ -139,7 +141,7 @@ function createChannelFragment(domain: ChannelDomain): DocumentFragment {
     const reactTree = React.createElement(ChatWindowItem, {
         channel: domain.getValue(),
     });
-    const html = React.renderToStaticMarkup(reactTree);
+    const html = ReactDOMServer.renderToStaticMarkup(reactTree);
 
     const range = document.createRange();
     const fragment = range.createContextualFragment(html);
@@ -150,7 +152,7 @@ function createChannelWindowListFragment(list: Array<Channel>): DocumentFragment
     const reactTree = React.createElement(ChatWindowList, {
         list: list,
     });
-    const html = React.renderToStaticMarkup(reactTree);
+    const html = ReactDOMServer.renderToStaticMarkup(reactTree);
 
     const range = document.createRange();
     const fragment = range.createContextualFragment(html);

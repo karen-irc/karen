@@ -26,8 +26,10 @@
 
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react.d.ts" />
+/// <reference path="../../../../tsd/react.d.ts" />
 
 import * as React from 'react';
+import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rx';
 
 import {ChannelItem} from './ChannelItem';
@@ -209,7 +211,7 @@ export class SidebarViewController implements EventListenerObject {
         const view = React.createElement(NetworkItemList, {
             list: networks,
         });
-        const html = React.renderToStaticMarkup(view);
+        const html = ReactDOMServer.renderToStaticMarkup(view);
 
         element.innerHTML = html;
     }
@@ -219,7 +221,7 @@ export class SidebarViewController implements EventListenerObject {
         const view = React.createElement(NetworkItemList, {
             list: networks,
         });
-        const html = React.renderToStaticMarkup(view);
+        const html = ReactDOMServer.renderToStaticMarkup(view);
 
         element.innerHTML = element.innerHTML + html;
     }
@@ -228,7 +230,7 @@ export class SidebarViewController implements EventListenerObject {
         const view = React.createElement(ChannelItem, {
             channel: channel,
         });
-        const html = React.renderToStaticMarkup(view);
+        const html = ReactDOMServer.renderToStaticMarkup(view);
 
         network.innerHTML = network.innerHTML + html;
     }

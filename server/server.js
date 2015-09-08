@@ -15,6 +15,7 @@ import { KarenAppIndex as IndexTemplate } from './view/Index';
 import ConfigDriver from './adapter/ConfigDriver';
 import Package from './adapter/Package';
 import * as React from 'react';
+import * as ReactDOMServer from 'react-dom/server';
 
 let server = null;
 let config = {};
@@ -107,7 +108,7 @@ function index(req, res, next) {
     const view = React.createElement(IndexTemplate, {
         data: data,
     });
-    const html = '<!DOCTYPE html>' + React.renderToStaticMarkup(view);
+    const html = '<!DOCTYPE html>' + ReactDOMServer.renderToStaticMarkup(view);
     res.end(html);
 }
 

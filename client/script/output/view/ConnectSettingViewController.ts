@@ -26,7 +26,10 @@
 
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
+/// <reference path="../../../../tsd/react.d.ts"/>
 
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import * as Rx from 'rx';
 
 import {ConnectionActionCreator} from '../../intent/action/ConnectionActionCreator';
@@ -36,7 +39,6 @@ import {ConnectionValue} from '../../domain/value/ConnectionSettings';
 import {SocketIoDriver} from '../../adapter/SocketIoDriver';
 
 import {ConnectSettingWindow} from './ConnectSettingWindow';
-import * as React from 'react';
 
 export default class ConnectSettingViewController {
 
@@ -97,7 +99,7 @@ export default class ConnectSettingViewController {
             action: this._action,
             data: data,
         });
-        React.render(view, this._element);
+        ReactDOM.render(view, this._element);
     }
 
     dispose(): void {
