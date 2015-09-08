@@ -1,4 +1,3 @@
-import 'core-js/fn/array/find';
 import assign from 'object-assign';
 import {Some, None} from 'option-t';
 import ChannelType from './models/ChannelType';

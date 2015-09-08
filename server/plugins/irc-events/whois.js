@@ -1,4 +1,3 @@
-import 'core-js/fn/array/find';
 import Channel from '../../models/Channel';
 import ChannelType from '../../models/ChannelType';
 import Message from '../../models/Message';

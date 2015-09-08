@@ -22,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import 'core-js/fn/array/find';
 import assign from 'object-assign';
 import ChannelType from './ChannelType';
 
