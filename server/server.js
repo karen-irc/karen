@@ -2,7 +2,6 @@
 
 require('babelify/polyfill');
 
-import assign from 'object-assign';
 import bcrypt from 'bcrypt-nodejs';
 import compression from 'compression';
 import Client from './Client';
@@ -26,7 +25,7 @@ const manager = new ClientManager();
 
 export default function(options) {
     config = ConfigDriver.getConfig();
-    config = assign(config, options);
+    config = Object.assign(config, options);
 
     const app = express();
     app.use(compression());
@@ -99,8 +98,8 @@ function index(req, res, next) {
         return next();
     }
 
-    let data = assign({}, Package.getPackage());
-    data = assign(data, config);
+    let data = Object.assign({}, Package.getPackage());
+    data = Object.assign(data, config);
     res.setHeader('Content-Type', 'text/html');
     res.setHeader('Content-Security-Policy', cspDirectiveStr);
     res.writeHead(200);

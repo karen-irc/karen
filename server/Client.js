@@ -1,5 +1,4 @@
 import 'core-js/fn/array/find';
-import assign from 'object-assign';
 import {Some, None} from 'option-t';
 import ChannelType from './models/ChannelType';
 import crypto from 'crypto';
@@ -53,7 +52,7 @@ const inputs = [
 
 export default class Client {
     constructor(sockets, name, config) {
-        assign(this, {
+        Object.assign(this, {
             config: config,
             id: id++,
             name: name,

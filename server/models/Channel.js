@@ -23,7 +23,6 @@
  * THE SOFTWARE.
  */
 import 'core-js/fn/array/find';
-import assign from 'object-assign';
 import ChannelType from './ChannelType';
 
 const MODES = [
@@ -44,7 +43,7 @@ export default class Channal {
      *  @param  {?} attr
      */
     constructor(network, attr) {
-        const data = assign({
+        const data = Object.assign({
             id: id++,
             messages: [],
             name: '',
@@ -135,7 +134,7 @@ export default class Channal {
      *  @return {Channal}
      */
     toJSON() {
-        const clone = assign({}, this);
+        const clone = Object.assign({}, this);
         clone.messages = clone.messages.slice(-100);
         clone.network = undefined;
         return clone;

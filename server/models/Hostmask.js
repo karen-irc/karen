@@ -23,8 +23,6 @@
  * THE SOFTWARE.
  */
 
-import assign from 'object-assign';
-
 export default class Hostmask {
 
     /**
@@ -32,7 +30,7 @@ export default class Hostmask {
      *  @param  {?} attr
      */
     constructor(attr) {
-        const data = assign({
+        const data = Object.assign({
             nick: '',
             username: '',
             hostname: '',
