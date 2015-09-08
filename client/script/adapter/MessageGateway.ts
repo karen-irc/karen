@@ -31,12 +31,15 @@ import * as Rx from 'rx';
 
 import MessageActionCreator from '../intent/action/MessageActionCreator';
 import Channel from '../domain/Channel';
+import CommandTypeMod from '../domain/CommandType';
 import {SelectedTab} from '../domain/DomainState'
 import Message from '../domain/Message';
 import Network from '../domain/Network';
 import User from '../domain/User';
 
 import {SocketIoDriver} from './SocketIoDriver';
+
+const CommandType = CommandTypeMod.type;
 
 export class MessageGateway {
 
@@ -49,8 +52,14 @@ export class MessageGateway {
         const disposer = new Rx.CompositeDisposable();
         this._disposer = disposer;
 
-        disposer.add(MessageActionCreator.getDispatcher().sendCommand.subscribe(({channelId, text}) => {
+        const messageDispatcher = MessageActionCreator.getDispatcher();
+
+        disposer.add(messageDispatcher.sendCommand.subscribe(({ channelId, text }) => {
             this._sendCommand(channelId, text);
+        }));
+
+        disposer.add(messageDispatcher.queryWhoIs.subscribe(({ channelId, user }) => {
+            this._queryWhoIs(channelId, user);
         }));
     }
 
@@ -161,6 +170,14 @@ export class MessageGateway {
         this._socket.emit('input', {
             target: channelId,
             text: command,
+        });
+    }
+
+    private _queryWhoIs(channelId: number, who: string): void {
+        const query = CommandType.WHOIS + ' ' + who;
+        this._socket.emit('input', {
+            target: channelId,
+            text: query,
         });
     }
 }

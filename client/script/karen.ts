@@ -351,14 +351,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         auth.removeToken();
     });
 
-    MessageActionCreator.getDispatcher().queryWhoIs.subscribe(function({ channelId, user }){
-        const query = CommandType.WHOIS + ' ' + user;
-        socket.emit('input', {
-            target: channelId,
-            text: query,
-        });
-    });
-
     chat.on('click', '.close', function() {
         var id = $(this)
             .closest('.chan')
