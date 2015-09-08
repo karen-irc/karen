@@ -25,8 +25,11 @@
 
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react.d.ts" />
+/// <reference path="../../../../tsd/react.d.ts" />
 
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rx';
 
 import {MessageItem} from './MessageItem';
@@ -88,7 +91,7 @@ export class MessageContentViewController {
             list: list,
             channelId: this._channelId,
         });
-        React.render(view, this._userElement);
+        ReactDOM.render(view, this._userElement);
     }
 
     private _updateTopic(topic: string): void {
@@ -110,7 +113,7 @@ function createMessageFragment(message: Message): DocumentFragment {
     const reactTree = React.createElement(MessageItem, {
         message: message,
     });
-    const html = React.renderToStaticMarkup(reactTree);
+    const html = ReactDOMServer.renderToStaticMarkup(reactTree);
 
     const range = document.createRange();
     const fragment = range.createContextualFragment(html);
