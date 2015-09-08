@@ -15,7 +15,7 @@
   },
   "scripts": {
     "prestart": "gulp default",
-    "start": "iojs index",
+    "start": "node index",
     "test": "npm run lint && npm run unit-test",
     "lint": "gulp jslint",
     "unit-test": "mocha test/**/*.js",

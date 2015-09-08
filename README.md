@@ -15,7 +15,7 @@ For example, we modified an IRC twitter gateway (atig) to add twitter profile ic
 
 ## Supported Environments
 
-- io.js
+- Node.js
 
 
 ## License
