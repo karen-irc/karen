@@ -1,5 +1,3 @@
-import 'core-js/fn/array/find';
-
 /**
  *  @this   Client
  *
