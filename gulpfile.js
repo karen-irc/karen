@@ -150,6 +150,7 @@ gulp.task('__babel:server', ['clean:server'], function () {
         .pipe(babel({
             // For Node.js v4~, we need not some transforms:
             blacklist: [
+                'es6.arrowFunctions',
                 'es6.blockScoping',
                 'es6.classes',
                 'es6.constants',
