@@ -73,7 +73,7 @@ export default class Channel {
         return this.getUnread();
     }
 
-    get messages(): Array<Message> {
+    messages(): Array<Message> {
         return this._messageBuffer;
     }
 
