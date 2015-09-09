@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         const network = globalState.networkSet.getById(id);
         network.expect('network should be there').nickname = nick;
         if (globalState.currentTab.channelId.isSome) {
-            setNick(nick);
+            inputBox.setNickname(nick);
         }
     });
 
@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         });
         if (network.isSome) {
             const nickname = network.unwrap().nickname;
-            setNick(nickname);
+            inputBox.setNickname(nickname);
         }
 
         if (screen.width > 768 && chan.hasClass('chan')) {
@@ -469,15 +469,5 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
                 );
             }
         });
-    }
-
-    function setNick(nick: string): void {
-        var width = $('#js-nick')
-            .html(nick + ':')
-            .width();
-        if (width) {
-            width += 31;
-            $(inputBox.textInput).css('padding-left', width);
-        }
     }
 });

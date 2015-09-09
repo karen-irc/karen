@@ -34,17 +34,16 @@ export class InputForm extends React.Component {
     render() {
         return (
             <form id='js-form' className='input-form' action=''>
-                <div className='inner'>
-                    <button className='submit' type='submit'>
-                        Send
-                    </button>
-                    <div className='input'>
-                        <label htmlFor='js-input'
-                               id='js-nick' className='input-form__nick'></label>
+                <div className='input-form__inner'>
+                    <label className='input-form__input-container'>
+                        <span id='js-nick' className='input-form__nick'></span>
                         <input id='js-input'
                                className='input-form__input'
                                autoComplete='off'/>
-                    </div>
+                    </label>
+                    <button type='submit' className='input-form__submit'>
+                        {'Send'}
+                    </button>
                 </div>
             </form>
         );
