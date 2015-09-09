@@ -1,4 +1,3 @@
-import 'core-js/fn/array/find';
 import User from '../../models/User';
 
 /**

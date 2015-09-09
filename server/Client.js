@@ -1,4 +1,3 @@
-import 'core-js/fn/array/find';
 import {Some, None} from 'option-t';
 import ChannelType from './models/ChannelType';
 import crypto from 'crypto';

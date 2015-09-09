@@ -1,5 +1,3 @@
-import 'core-js/fn/array/find';
-
 export default function(network, chan, cmd, args) {
     if (cmd !== 'ns' && cmd !== 'cs' && cmd !== 'hs') {
         return;
