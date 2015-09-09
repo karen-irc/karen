@@ -31,6 +31,7 @@ const childProcess = require('child_process');
 const del = require('del');
 const gulp = require('gulp');
 const path = require('path');
+const postcss = require('gulp-postcss');
 const source = require('vinyl-source-stream');
 const uglify = require('gulp-uglifyjs');
 
@@ -120,7 +121,12 @@ gulp.task('__browserify', ['__clean:client:js', '__cp_client:js', '__typescript'
         .pipe(gulp.dest(DIST_CLIENT_JS));
 });
 
-
+gulp.task('__postcss', ['__clean:client:css'], function () {
+    const processors = [];
+    return gulp.src('./client/css/style.css')
+        .pipe(postcss(processors))
+        .pipe(gulp.dest(DIST_CLIENT_CSS));
+});
 
 gulp.task('jslint', function (callback) {
     const src = [
@@ -185,9 +191,10 @@ gulp.task('clean:server', function () {
 
 gulp.task('__build:server', ['__babel:server']);
 gulp.task('__build:client:js', ['__uglify', '__browserify']);
+gulp.task('__build:client:css', ['__postcss']);
 
 gulp.task('build:server', ['jslint', '__build:server']);
-gulp.task('build:client', ['jslint', '__build:client:js']);
+gulp.task('build:client', ['jslint', '__build:client:js', '__build:client:css']);
 gulp.task('build', ['jslint', '__build:client:js', '__build:server']);
 gulp.task('clean:client', ['__clean:client:js', '__clean:client:css']);
 gulp.task('clean', ['clean:client', 'clean:server']);
