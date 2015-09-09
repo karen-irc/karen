@@ -37,10 +37,10 @@ import {Option} from 'option-t';
 
 export default class WindowPresenter implements EventListenerObject {
 
-    _domain: DomainState;
-    _disposeReload: Rx.IDisposable;
-    _disposeFocus: Rx.IDisposable;
-    _disposeQuitConfirmDialog: Rx.IDisposable;
+    private _domain: DomainState;
+    private _disposeReload: Rx.IDisposable;
+    private _disposeFocus: Rx.IDisposable;
+    private _disposeQuitConfirmDialog: Rx.IDisposable;
 
     constructor(domain: DomainState) {
         this._domain = domain;
@@ -91,7 +91,7 @@ export default class WindowPresenter implements EventListenerObject {
         this._disposeQuitConfirmDialog = null;
     }
 
-    _onBeforeUnload(aEvent: Event): string {
+    private _onBeforeUnload(aEvent: Event): string {
         // This function is called on `beforeunload` event,
         // we cannnot call window.confirm, alert, prompt during the event.
         // Thus we need to use classical way to show a modal prompt.
