@@ -38,7 +38,7 @@ export default class Channel {
     private _userList: Array<User>;
     private _unread: number;
     private _messageBuffer: Array<Message>;
-    network: Network;
+    private _network: Network;
 
     constructor(raw: any, network: Network = null) {
         this.id = raw.id;
@@ -66,7 +66,7 @@ export default class Channel {
         }
 
         this._messageBuffer = messages;
-        this.network = network;
+        this._network = network;
     }
 
     unread(): number {
@@ -81,8 +81,12 @@ export default class Channel {
         return this._userList;
     }
 
+    getNetwork(): Network {
+        return this._network;
+    }
+
     bindToNetwork(network: Network): void {
-        this.network = network;
+        this._network = network;
     }
 
     updateTopic(topic: string): void {

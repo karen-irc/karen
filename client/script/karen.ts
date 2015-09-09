@@ -312,8 +312,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
         document.title = title;
 
-        const network = channel.map(function(channel){
-            return channel.network;
+        const network = channel.map(function(channel: Channel){
+            return channel.getNetwork();
         }).orElse(function() {
             return globalState.networkSet.getById(id);
         });
