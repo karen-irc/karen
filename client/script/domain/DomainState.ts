@@ -29,6 +29,7 @@
 import {Some, None, Option} from 'option-t';
 import * as Rx from 'rx';
 
+import {ChannelDomain} from './ChannelDomain';
 import NetworkSet from './NetworkSet';
 import {NetworkSetDomain} from './NetworkSetDomain';
 import {NetworkDomain} from './NetworkDomain';
@@ -121,8 +122,8 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
         return tab;
     });
 
-    const removedChannel = set.partedChannelAtAll().map(function(channel){
-        const parentNetwork = channel.getValue().network;
+    const removedChannel = set.partedChannelAtAll().map(function(channel: ChannelDomain){
+        const parentNetwork = channel.getValue().getNetwork();
         const nextId = parentNetwork.getLobbyId();
 
         // FIXME: This should be passed Option<T>

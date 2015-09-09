@@ -35,10 +35,10 @@ export default class Channel {
     name: string;
     topic: string;
     type: string;
-    _userList: Array<User>;
-    _unread: number;
-    _messageBuffer: Array<Message>;
-    network: Network;
+    private _userList: Array<User>;
+    private _unread: number;
+    private _messageBuffer: Array<Message>;
+    private _network: Network;
 
     constructor(raw: any, network: Network = null) {
         this.id = raw.id;
@@ -66,27 +66,27 @@ export default class Channel {
         }
 
         this._messageBuffer = messages;
-        this.network = network;
+        this._network = network;
     }
 
-    get unread(): number {
-        return this.getUnread();
-    }
-
-    get messages(): Array<Message> {
-        return this._messageBuffer;
-    }
-
-    getUnread(): number {
+    unread(): number {
         return this._unread;
     }
 
-    getUserList(): Array<User> {
+    messages(): Array<Message> {
+        return this._messageBuffer;
+    }
+
+    userList(): Array<User> {
         return this._userList;
     }
 
+    getNetwork(): Network {
+        return this._network;
+    }
+
     bindToNetwork(network: Network): void {
-        this.network = network;
+        this._network = network;
     }
 
     updateTopic(topic: string): void {

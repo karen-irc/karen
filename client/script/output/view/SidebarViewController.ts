@@ -37,6 +37,7 @@ import {NetworkItemList} from './NetworkItemList';
 
 import {MessageGateway} from '../../adapter/MessageGateway';
 import Channel from '../../domain/Channel';
+import {ChannelDomain} from '../../domain/ChannelDomain';
 import CommandTypeMod from '../../domain/CommandType';
 import {DomainState} from '../../domain/DomainState';
 import Message from '../../domain/Message';
@@ -92,13 +93,13 @@ export class SidebarViewController implements EventListenerObject {
             this.deleteNetwork(network);
         }));
 
-        disposer.add(domain.getNetworkDomain().joinedChannelAtAll().subscribe((channel) => {
+        disposer.add(domain.getNetworkDomain().joinedChannelAtAll().subscribe((channel: ChannelDomain) => {
             const value = channel.getValue();
-            const networkId = value.network.id;
+            const networkId = value.getNetwork().id;
             this.joinChannel(networkId, value);
         }));
 
-        disposer.add(domain.getNetworkDomain().partedChannelAtAll().subscribe((channel) => {
+        disposer.add(domain.getNetworkDomain().partedChannelAtAll().subscribe((channel: ChannelDomain) => {
             this.removeChannel(channel.getId());
         }));
 

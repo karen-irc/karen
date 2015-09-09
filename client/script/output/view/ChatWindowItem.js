@@ -91,13 +91,13 @@ export class ChatWindowItem extends React.Component {
                 </div>
 
                 <div className='chat'>
-                    <div className={'show-more ' + ((channel.messages.length > 100) ? 'show' : '')}>
+                    <div className={'show-more ' + ((channel.messages().length > 100) ? 'show' : '')}>
                         <button className='show-more-button' data-id={channel.id}>
                             Show more
                         </button>
                     </div>
                     <div className='messages'>
-                        <MessageList list={channel.messages}/>
+                        <MessageList list={channel.messages()}/>
                     </div>
                 </div>
                 <aside className='sidebar'>
