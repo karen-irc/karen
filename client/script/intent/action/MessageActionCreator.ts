@@ -43,7 +43,11 @@ class MessageActionCreator {
     }
 
     inputCommand(channelId: number, command: string): void {
-        if ( command.startsWith(CommandType.CLEAR) ) {
+        const isClearCommand = (typeof command.startsWith === 'function') ?
+            command.startsWith(CommandType.CLEAR) :
+            (command.indexOf(CommandType.CLEAR) === 0);
+
+        if (isClearCommand) {
             this._dispatcher.clearMessage.onNext(undefined);
             return;
         }

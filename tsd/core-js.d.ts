@@ -23,10 +23,17 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../node_modules/typescript/lib/lib.es6.d.ts" />
+
 declare module 'core-js/library/fn/array/from' {
     export default function arrayFromFn<T>(v: Iterable<T>): Array<T>;
 }
 
 declare module 'core-js/library/fn/array/find-index' {
     export default function arrayFindIndexFn<T>(target: any, predicate: (value: T) => boolean, thisArg?: any): number;
+}
+
+// For Safari ~8
+declare module 'core-js/library/fn/map' {
+    export default Map;
 }

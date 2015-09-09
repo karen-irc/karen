@@ -26,12 +26,10 @@
 /// <reference path="../../../node_modules/option-t/option-t.d.ts" />
 /// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../node_modules/typescript/lib/lib.es6.d.ts" />
-/// <reference path="../../../tsd/core-js.d.ts" />
 
 // babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
-import arrayFrom from 'core-js/library/fn/array/from'
 
 import {Some, None, Option} from 'option-t';
 import * as Rx from 'rx';
@@ -137,7 +135,12 @@ export class NetworkDomain {
     }
 
     getChannelDomainList(): Array<ChannelDomain> {
-        return arrayFrom(this._channels.values());
+        // for Safari 8, we cannot use `Map.prototype.values()`.
+        const buffer: Array<ChannelDomain> = [];
+        this._channels.forEach(function(domain: ChannelDomain){
+            buffer.push(domain);
+        });
+        return buffer;
     }
 
     updatedNickname(): Rx.Observable<string> {
