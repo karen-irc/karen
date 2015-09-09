@@ -83,7 +83,7 @@ gulp.task('__uglify', ['__clean:client:js'], function () {
         .pipe(gulp.dest(DIST_CLIENT_JS));
 });
 
-gulp.task('__cp_client:js', ['__clean:client:js'], function () {
+gulp.task('__cp:client:js', ['__clean:client:js'], function () {
     return gulp.src('./client/script/**/*.js')
         .pipe(gulp.dest(DIST_CLIENT_OBJ));
 });
@@ -100,7 +100,7 @@ gulp.task('__typescript', ['__clean:client:js'], function (callback) {
     tsc.on('exit', callback);
 });
 
-gulp.task('__browserify', ['__clean:client:js', '__cp_client:js', '__typescript'], function () {
+gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'], function () {
     const ENTRY_POINT = [
         path.resolve(DIST_CLIENT_OBJ, './karen.js'),
     ];
