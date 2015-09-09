@@ -1,7 +1,5 @@
 /*eslint-disable block-scoped-var */
 
-require('babelify/polyfill');
-
 import bcrypt from 'bcrypt-nodejs';
 import compression from 'compression';
 import Client from './Client';
