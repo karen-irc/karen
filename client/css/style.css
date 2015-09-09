@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,700");
 @font-face {
     font-family: FontAwesome;
-    src: url("fonts/fontawesome.svg") format("svg"), url("fonts/fontawesome.woff") format("woff");
+    src: url("../../css/fonts/fontawesome.svg") format("svg"), url("../../css/fonts/fontawesome.woff") format("woff");
 }
 html,
 body {
@@ -246,7 +246,7 @@ button {
     margin-right: 5px;
     transition: all .2s;
     border-radius: 3px;
-    background: no-repeat url('../img/close-button.svg');
+    background: no-repeat url('../../img/close-button.svg');
     background-position: 5px 6px;
     background-size: 50%;
     opacity: 0;
