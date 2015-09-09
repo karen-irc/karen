@@ -47,7 +47,7 @@ import {SocketIoDriver} from './adapter/SocketIoDriver';
 import {ToggleItem} from './output/view/ToggleItem';
 import UIActionCreator from './intent/action/UIActionCreator';
 import User from './domain/User';
-import WindowPresenter from './output/WindowPresenter';
+import {WindowPresenter} from './output/WindowPresenter';
 
 declare const momoent: any;
 
@@ -257,13 +257,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     MessageActionCreator.getDispatcher().clearMessage.subscribe(function() {
         chat.find('.active .messages').empty();
         chat.find('.active .show-more').addClass('show');
-    });
-
-    window.addEventListener('focus', function () {
-        var chan = chat.find('.active');
-        if (screen.width > 768 && chan.hasClass('chan')) {
-            UIActionCreator.focusInputBox();
-        }
     });
 
     const shouldShowLatestInChannel = UIActionCreator.getDispatcher().showLatestInChannel.debounce(100)

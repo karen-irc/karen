@@ -31,71 +31,88 @@ import * as Rx from 'rx';
 import arrayFindIndex from 'core-js/library/fn/array/find-index';
 import AppActionCreator from '../intent/action/AppActionCreator';
 import Channel from '../domain/Channel';
-import {DomainState} from '../domain/DomainState';
+import {DomainState, SelectedTab} from '../domain/DomainState';
 import UIActionCreator from '../intent/action/UIActionCreator';
 import {Option} from 'option-t';
 
-export default class WindowPresenter implements EventListenerObject {
+export class WindowPresenter implements EventListenerObject {
 
-    _domain: DomainState;
-    _disposeReload: Rx.IDisposable;
-    _disposeFocus: Rx.IDisposable;
-    _disposeQuitConfirmDialog: Rx.IDisposable;
+    private _domain: DomainState;
+    private _disposer: Rx.CompositeDisposable;
+
+    private _currenTab: SelectedTab;
 
     constructor(domain: DomainState) {
         this._domain = domain;
+        this._disposer = new Rx.CompositeDisposable();
 
-        this._disposeReload = AppActionCreator.getDispatcher().reload.subscribe(function () {
+        this._disposer.add(AppActionCreator.getDispatcher().reload.subscribe(function () {
             window.onbeforeunload = null;
 
             location.reload();
-        });
+        }));
 
-        this._disposeFocus = UIActionCreator.getDispatcher().focusWindow.subscribe(function(){
+        this._disposer.add(UIActionCreator.getDispatcher().focusWindow.subscribe(function(){
             window.focus();
-        });
+        }));
 
-        this._disposeQuitConfirmDialog = UIActionCreator.getDispatcher().setQuitConfirmDialog.subscribe(() => {
+        this._disposer.add(UIActionCreator.getDispatcher().setQuitConfirmDialog.subscribe(() => {
             if (document.body.classList.contains('public')) {
                 window.onbeforeunload = this._onBeforeUnload;
             }
-        });
+        }));
+
+        this._currenTab = null;
+        this._disposer.add(domain.getCurrentTab().subscribe((tab) => {
+            this._currenTab = tab;
+        }));
+
         window.document.documentElement.addEventListener('keydown', this);
         window.addEventListener('resize', this);
+        window.addEventListener('focus', this);
     }
 
     handleEvent(event: Event): void {
         switch (event.type) {
             case 'resize':
-                this._domain.currentTab.channelId.map(function(channelId){
-                    UIActionCreator.showLatestInChannel(channelId);
-                });
+                this.onResize(<UIEvent>event);
                 break;
             case 'keydown':
                 this.onKeydown(<KeyboardEvent>event);
                 break
+            case 'focus':
+                this.onFocus(<FocusEvent>event);
+                break;
         }
     }
 
     destroy(): void {
+        window.removeEventListener('focus', this);
         window.removeEventListener('resize', this);
         window.document.documentElement.removeEventListener('keydown', this);
 
-        this._disposeReload.dispose();
-        this._disposeFocus.dispose();
-        this._disposeQuitConfirmDialog.dispose();
+        this._disposer.dispose();
 
+        this._currenTab = null;
+        this._disposer = null;
         this._domain = null;
-        this._disposeReload = null;
-        this._disposeFocus = null;
-        this._disposeQuitConfirmDialog = null;
     }
 
-    _onBeforeUnload(aEvent: Event): string {
+    private _onBeforeUnload(aEvent: Event): string {
         // This function is called on `beforeunload` event,
         // we cannnot call window.confirm, alert, prompt during the event.
         // Thus we need to use classical way to show a modal prompt.
         return 'Are you sure you want to navigate away from this page?';
+    }
+
+    onResize(event: UIEvent): void {
+        if (this._currenTab === null) {
+            return;
+        }
+
+        this._currenTab.channelId.map(function(channelId: number){
+            UIActionCreator.showLatestInChannel(channelId);
+        });
     }
 
     onKeydown(event: KeyboardEvent): void {
@@ -157,5 +174,13 @@ export default class WindowPresenter implements EventListenerObject {
                 break;
             }
         }
+    }
+
+    onFocus(event: FocusEvent): void {
+        if (this._currenTab.channelId.isNone && window.screen.width < 767) {
+            return;
+        }
+
+        UIActionCreator.focusInputBox();
     }
 }
