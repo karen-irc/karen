@@ -102,10 +102,8 @@ button {
 #viewport {
     height: 100%;
     transition: all .4s;
-    -webkit-transform: translateZ(0);
-            transform: translateZ(0);
-    -webkit-perspective: 1000;
-            perspective: 1000;
+    transform: translateZ(0);
+    perspective: 1000;
 }
 #viewport .lt,
 #viewport .rt {
@@ -128,8 +126,7 @@ button {
     margin: 6px -12px 0 12px;
 }
 #viewport.rt #chat .sidebar {
-    -webkit-transform: translate3d(180px, 0, 0);
-            transform: translate3d(180px, 0, 0);
+    transform: translate3d(180px, 0, 0);
 }
 #sidebar {
     bottom: 52px;
@@ -475,10 +472,8 @@ button {
     right: 0;
     width: 180px;
     transition: all .4s;
-    -webkit-transform: translateZ(0);
-            transform: translateZ(0);
-    -webkit-perspective: 1000;
-            perspective: 1000;
+    transform: translateZ(0);
+    perspective: 1000;
 }
 #chat .lobby .chat,
 #chat .query .chat {
@@ -833,20 +828,15 @@ button {
     background: #eee;
 }
 .input-form .input-form__inner {
-    display: -webkit-flex; /* for Safari ~8 */
     display: flex;
-    -webkit-flex-direction: row; /* for Safari ~8 */
     flex-direction: row;
     height: 34px;
     margin: 6px 0 7px;
     font: 12px Consolas, Menlo, Monaco, "Lucida Console", "DejaVu Sans Mono", "Courier New", monospace;
 }
 .input-form .input-form__input-container {
-    display: -webkit-flex; /* for Safari ~8 */
     display: flex;
-    -webkit-flex-direction: row; /* for Safari ~8 */
     flex-direction: row;
-    -webkit-flex-basis: 100%; /* for Safari ~8 */
     flex-basis: 100%;
     height: 100%;
 }
@@ -861,13 +851,9 @@ button {
     height: 24px;
     padding: 0 9px;
     border-radius: 1px;
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
+    user-select: none;
 }
 .input-form .input-form__input {
-    -webkit-flex-basis: 100%; /* for Safari ~8 */
     flex-basis: 100%;
     border: 1px solid #ddd;
     font: inherit;
@@ -947,12 +933,10 @@ button {
         margin-top: 60px !important;
     }
     #viewport.lt {
-        -webkit-transform: translate3d(220px, 0, 0);
-                transform: translate3d(220px, 0, 0);
+        transform: translate3d(220px, 0, 0);
     }
     #viewport.rt #chat .sidebar {
-        -webkit-transform: translate3d(-180px, 0, 0);
-                transform: translate3d(-180px, 0, 0);
+        transform: translate3d(-180px, 0, 0);
     }
     #sidebar {
         left: -220px;
