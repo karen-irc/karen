@@ -93,7 +93,7 @@ gulp.task('__typescript', ['clean:client'], function (callback) {
         cwd: path.relative(__dirname, ''),
         stdio: 'inherit',
     };
-    const tsc = childProcess.spawn('iojs', args, option);
+    const tsc = childProcess.spawn('node', args, option);
     tsc.on('exit', callback);
 });
 
@@ -141,15 +141,16 @@ gulp.task('jslint', function (callback) {
         stdio: 'inherit',
     };
 
-    const eslint = childProcess.spawn('iojs', args, option);
+    const eslint = childProcess.spawn('node', args, option);
     eslint.on('exit', callback);
 });
 
 gulp.task('__babel:server', ['clean:server'], function () {
     return gulp.src(SERVER_SRC)
         .pipe(babel({
-            // For io.js, we need not some transforms:
+            // For Node.js v4~, we need not some transforms:
             blacklist: [
+                'es6.arrowFunctions',
                 'es6.blockScoping',
                 'es6.classes',
                 'es6.constants',
