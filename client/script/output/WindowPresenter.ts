@@ -38,28 +38,28 @@ import {Option} from 'option-t';
 export class WindowPresenter implements EventListenerObject {
 
     private _domain: DomainState;
-    private _disposeReload: Rx.IDisposable;
-    private _disposeFocus: Rx.IDisposable;
-    private _disposeQuitConfirmDialog: Rx.IDisposable;
+    private _disposer: Rx.CompositeDisposable;
 
     constructor(domain: DomainState) {
         this._domain = domain;
+        this._disposer = new Rx.CompositeDisposable();
 
-        this._disposeReload = AppActionCreator.getDispatcher().reload.subscribe(function () {
+        this._disposer.add(AppActionCreator.getDispatcher().reload.subscribe(function () {
             window.onbeforeunload = null;
 
             location.reload();
-        });
+        }));
 
-        this._disposeFocus = UIActionCreator.getDispatcher().focusWindow.subscribe(function(){
+        this._disposer.add(UIActionCreator.getDispatcher().focusWindow.subscribe(function(){
             window.focus();
-        });
+        }));
 
-        this._disposeQuitConfirmDialog = UIActionCreator.getDispatcher().setQuitConfirmDialog.subscribe(() => {
+        this._disposer.add(UIActionCreator.getDispatcher().setQuitConfirmDialog.subscribe(() => {
             if (document.body.classList.contains('public')) {
                 window.onbeforeunload = this._onBeforeUnload;
             }
-        });
+        }));
+
         window.document.documentElement.addEventListener('keydown', this);
         window.addEventListener('resize', this);
     }
@@ -81,14 +81,9 @@ export class WindowPresenter implements EventListenerObject {
         window.removeEventListener('resize', this);
         window.document.documentElement.removeEventListener('keydown', this);
 
-        this._disposeReload.dispose();
-        this._disposeFocus.dispose();
-        this._disposeQuitConfirmDialog.dispose();
-
+        this._disposer.dispose();
+        this._disposer = null;
         this._domain = null;
-        this._disposeReload = null;
-        this._disposeFocus = null;
-        this._disposeQuitConfirmDialog = null;
     }
 
     private _onBeforeUnload(aEvent: Event): string {
