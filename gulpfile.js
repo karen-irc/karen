@@ -36,7 +36,7 @@ const uglify = require('gulp-uglifyjs');
 
 const isRelease = process.env.NODE_ENV === 'production';
 
-const CLIENT_SRC = [
+const CLIENT_SRC_JS = [
     'client/js/libs/jquery.js',
     'client/js/libs/jquery/**/*.js',
     'client/js/libs/moment.js',
@@ -54,6 +54,7 @@ const DIST_SERVER = './dist/server/';
 const DIST_CLIENT = './dist/client/';
 const DIST_CLIENT_OBJ = path.resolve(DIST_CLIENT, './__obj/');
 const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
+const DIST_CLIENT_CSS = path.resolve(DIST_CLIENT, './css/');
 const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
 
 /**
@@ -72,20 +73,20 @@ const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
  */
 
 
-gulp.task('__uglify', ['clean:client'], function () {
-    return gulp.src(CLIENT_SRC)
+gulp.task('__uglify', ['__clean:client:js'], function () {
+    return gulp.src(CLIENT_SRC_JS)
         .pipe(uglify('libs.min.js', {
             compress: false,
         }))
         .pipe(gulp.dest(DIST_CLIENT_JS));
 });
 
-gulp.task('__cp_client', ['clean:client'], function () {
+gulp.task('__cp_client:js', ['__clean:client:js'], function () {
     return gulp.src('./client/script/**/*.js')
         .pipe(gulp.dest(DIST_CLIENT_OBJ));
 });
 
-gulp.task('__typescript', ['clean:client'], function (callback) {
+gulp.task('__typescript', ['__clean:client:js'], function (callback) {
     const args = [
         path.resolve(NPM_MOD_DIR, './typescript', './bin', './tsc'),
     ];
@@ -97,7 +98,7 @@ gulp.task('__typescript', ['clean:client'], function (callback) {
     tsc.on('exit', callback);
 });
 
-gulp.task('__browserify', ['clean:client', '__cp_client', '__typescript'], function () {
+gulp.task('__browserify', ['__clean:client:js', '__cp_client:js', '__typescript'], function () {
     const ENTRY_POINT = [
         path.resolve(DIST_CLIENT_OBJ, './karen.js'),
     ];
@@ -163,15 +164,19 @@ gulp.task('__babel:server', ['clean:server'], function () {
         .pipe(gulp.dest(DIST_SERVER));
 });
 
-gulp.task('clean:client', function () {
+gulp.task('__clean:client:js', function () {
     const deleter = function (dir) {
         return del(path.join(dir, '**', '*.*'));
     };
 
     const obj = deleter(DIST_CLIENT_OBJ);
-    const dist = deleter(DIST_CLIENT);
+    const dist = deleter(DIST_CLIENT_JS);
 
     return Promise.all([obj, dist]);
+});
+
+gulp.task('__clean:client:css', function () {
+    return del(path.join(DIST_CLIENT_CSS, '**', '*.*'));
 });
 
 gulp.task('clean:server', function () {
@@ -179,10 +184,11 @@ gulp.task('clean:server', function () {
 });
 
 gulp.task('__build:server', ['__babel:server']);
-gulp.task('__build:client', ['__uglify', '__browserify']);
+gulp.task('__build:client:js', ['__uglify', '__browserify']);
 
 gulp.task('build:server', ['jslint', '__build:server']);
-gulp.task('build:client', ['jslint', '__build:client']);
-gulp.task('build', ['jslint', '__build:client', '__build:server']);
+gulp.task('build:client', ['jslint', '__build:client:js']);
+gulp.task('build', ['jslint', '__build:client:js', '__build:server']);
+gulp.task('clean:client', ['__clean:client:js', '__clean:client:css']);
 gulp.task('clean', ['clean:client', 'clean:server']);
 gulp.task('default', ['build']);
