@@ -824,38 +824,28 @@ button {
     line-height: 1.8;
 }
 .input-form {
-    background: #e4eaee;
-    background: #eee;
-    border-top: 1px solid #cfdae1;
-    border-top: 1px solid #ddd;
-    bottom: 0;
     height: 48px;
-    left: 0;
+    border-top: 1px solid #ddd;
     position: absolute;
+    left: 0;
     right: 0px;
+    bottom: 0;
+    background: #eee;
 }
-.input-form .inner {
-    bottom: 7px;
-    left: 7px;
-    position: absolute;
-    right: 7px;
-    top: 6px;
-}
-.input-form .input {
-    font: 12px Consolas, Menlo, Monaco, "Lucida Console", "DejaVu Sans Mono", "Courier New", monospace;
-    left: 0;
+.input-form .input-form__inner {
+    display: flex;
+    flex-direction: row;
     height: 34px;
-    margin-right: 64px;
-    position: relative;
+    margin: 6px 0 7px;
+    font: 12px Consolas, Menlo, Monaco, "Lucida Console", "DejaVu Sans Mono", "Courier New", monospace;
 }
 .input-form .input-form__nick {
-    box-sizing: content-box;
     background: #f6f6f6;
+    border: 1px solid #cfdae1;
     color: #666;
-    position: absolute;
     font: inherit;
     font-size: 11px;
-    margin: 5px;
+    margin: 5px 3px;
     line-height: 26px;
     height: 24px;
     padding: 0 9px;
@@ -866,7 +856,7 @@ button {
             user-select: none;
 }
 .input-form .input-form__input {
-    border: 1px solid #cfdae1;
+    flex-basis: 100%;
     border: 1px solid #ddd;
     font: inherit;
     border-radius: 2px;
@@ -874,9 +864,8 @@ button {
     outline: none;
     padding: 0 10px;
     -webkit-appearance: none;
-    width: 100%;
 }
-.input-form .submit {
+.input-form .input-form__submit {
     background: #f4f4f4;
     background-image: linear-gradient(#f4f4f4, #ececec);
     border: 1px solid #d7d7d7;
@@ -884,11 +873,10 @@ button {
     border-radius: 2px;
     font: 12px Lato, sans-serif;
     color: #555;
-    height: 34px;
-    position: absolute;
-    right: 0;
-    transition: opacity .3s;
     width: 58px;
+    height: 34px;
+    margin: 0 3px;
+    transition: opacity .3s;
 }
 
 

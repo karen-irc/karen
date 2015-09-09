@@ -121,11 +121,5 @@ export default class InputBoxViewController {
     setNickname(nickname: string): void {
         const target = this._nickElement;
         target.textContent = nickname + ':';
-        const widthPx = window.getComputedStyle(target).width;
-        if (!!widthPx) {
-            const width = parseInt(widthPx.slice(0, -2), 10);
-            const px = String(width + 31) + 'px';
-            this._textInput.style.paddingLeft = px;
-        }
     }
 }
