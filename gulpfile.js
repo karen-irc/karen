@@ -24,6 +24,7 @@
  */
 'use strict';
 
+const autoprefixer = require('autoprefixer');
 const babel = require('gulp-babel');
 const babelify = require('babelify');
 const browserify = require('browserify');
@@ -122,7 +123,12 @@ gulp.task('__browserify', ['__clean:client:js', '__cp_client:js', '__typescript'
 });
 
 gulp.task('__postcss', ['__clean:client:css'], function () {
-    const processors = [];
+    const processors = [
+        autoprefixer({
+            browsers: ['last 1 versions'],
+            remove: false,
+        }),
+    ];
     return gulp.src('./client/css/style.css')
         .pipe(postcss(processors))
         .pipe(gulp.dest(DIST_CLIENT_CSS));
