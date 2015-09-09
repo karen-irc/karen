@@ -32,10 +32,10 @@ import UIActionCreator from '../../intent/action/UIActionCreator';
 
 export default class InputBoxViewController {
 
-    _element: Element;
-    _domain: DomainState;
-    _textInput: HTMLInputElement;
-    _disposeFocus: Rx.IDisposable;
+    private _element: Element;
+    private _domain: DomainState;
+    private _textInput: HTMLInputElement;
+    private _disposeFocus: Rx.IDisposable;
 
     constructor(domain: DomainState, element: Element) {
         this._element = element;
@@ -43,13 +43,13 @@ export default class InputBoxViewController {
         this._textInput = <HTMLInputElement>element.querySelector('#js-input');
 
         this._disposeFocus = UIActionCreator.getDispatcher().focusInputBox.subscribe(() => {
-            this.focusInput();
+            this._focusInput();
         });
 
         this._init();
     }
 
-    _init(): void {
+    private _init(): void {
         this._element.addEventListener('submit', this);
         this._textInput.addEventListener('keydown', this);
     }
@@ -84,7 +84,7 @@ export default class InputBoxViewController {
         input.readOnly = false;
     }
 
-    focusInput(): void {
+    private _focusInput(): void {
         this._textInput.focus();
     }
 
