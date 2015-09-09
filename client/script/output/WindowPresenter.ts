@@ -31,7 +31,7 @@ import * as Rx from 'rx';
 import arrayFindIndex from 'core-js/library/fn/array/find-index';
 import AppActionCreator from '../intent/action/AppActionCreator';
 import Channel from '../domain/Channel';
-import {DomainState} from '../domain/DomainState';
+import {DomainState, SelectedTab} from '../domain/DomainState';
 import UIActionCreator from '../intent/action/UIActionCreator';
 import {Option} from 'option-t';
 
@@ -39,6 +39,8 @@ export class WindowPresenter implements EventListenerObject {
 
     private _domain: DomainState;
     private _disposer: Rx.CompositeDisposable;
+
+    private _currenTab: SelectedTab;
 
     constructor(domain: DomainState) {
         this._domain = domain;
@@ -60,8 +62,14 @@ export class WindowPresenter implements EventListenerObject {
             }
         }));
 
+        this._currenTab = null;
+        this._disposer.add(domain.getCurrentTab().subscribe((tab) => {
+            this._currenTab = tab;
+        }));
+
         window.document.documentElement.addEventListener('keydown', this);
         window.addEventListener('resize', this);
+        window.addEventListener('focus', this);
     }
 
     handleEvent(event: Event): void {
@@ -74,14 +82,20 @@ export class WindowPresenter implements EventListenerObject {
             case 'keydown':
                 this.onKeydown(<KeyboardEvent>event);
                 break
+            case 'focus':
+                this.onFocus(<FocusEvent>event);
+                break;
         }
     }
 
     destroy(): void {
+        window.removeEventListener('focus', this);
         window.removeEventListener('resize', this);
         window.document.documentElement.removeEventListener('keydown', this);
 
         this._disposer.dispose();
+
+        this._currenTab = null;
         this._disposer = null;
         this._domain = null;
     }
@@ -152,5 +166,13 @@ export class WindowPresenter implements EventListenerObject {
                 break;
             }
         }
+    }
+
+    onFocus(event: FocusEvent): void {
+        if (this._currenTab.channelId.isNone && window.screen.width > 768) {
+            return;
+        }
+
+        UIActionCreator.focusInputBox();
     }
 }

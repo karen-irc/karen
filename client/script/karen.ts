@@ -259,13 +259,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         chat.find('.active .show-more').addClass('show');
     });
 
-    window.addEventListener('focus', function () {
-        var chan = chat.find('.active');
-        if (screen.width > 768 && chan.hasClass('chan')) {
-            UIActionCreator.focusInputBox();
-        }
-    });
-
     const shouldShowLatestInChannel = UIActionCreator.getDispatcher().showLatestInChannel.debounce(100)
         .merge(globalState.getSelectedChannel());
     shouldShowLatestInChannel.subscribe(function(channelId){
