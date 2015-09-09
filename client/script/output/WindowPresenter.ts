@@ -35,7 +35,7 @@ import {DomainState} from '../domain/DomainState';
 import UIActionCreator from '../intent/action/UIActionCreator';
 import {Option} from 'option-t';
 
-export default class WindowPresenter implements EventListenerObject {
+export class WindowPresenter implements EventListenerObject {
 
     private _domain: DomainState;
     private _disposeReload: Rx.IDisposable;

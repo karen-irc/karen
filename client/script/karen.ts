@@ -47,7 +47,7 @@ import {SocketIoDriver} from './adapter/SocketIoDriver';
 import {ToggleItem} from './output/view/ToggleItem';
 import UIActionCreator from './intent/action/UIActionCreator';
 import User from './domain/User';
-import WindowPresenter from './output/WindowPresenter';
+import {WindowPresenter} from './output/WindowPresenter';
 
 declare const momoent: any;
 
