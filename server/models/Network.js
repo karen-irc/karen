@@ -23,7 +23,6 @@
  * THE SOFTWARE.
  */
 
-import assign from 'object-assign';
 import Channel from './Channel';
 import ChannelType from './ChannelType';
 
@@ -62,7 +61,7 @@ export default class Network {
      *  @param  {?} attr
      */
     constructor(attr) {
-        const data = assign({
+        const data = Object.assign({
             name: '',
             host: '',
             port: 6667,
@@ -158,7 +157,7 @@ export default class Network {
      */
     toJSON() {
         const nickname = (!!this.irc ? this.irc.me : '');
-        const json = assign({nick: nickname}, this);
+        const json = Object.assign({nick: nickname}, this);
         json.irc = undefined;
         json.password = undefined;
         return json;

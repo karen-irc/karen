@@ -23,8 +23,6 @@
  * THE SOFTWARE.
  */
 
-import assign from 'object-assign';
-
 export default class User {
 
     /**
@@ -32,7 +30,7 @@ export default class User {
      *  @param  {?} attr
      */
     constructor(attr) {
-        const data = assign({
+        const data = Object.assign({
             mode: '',
             name: '',
         }, attr);
