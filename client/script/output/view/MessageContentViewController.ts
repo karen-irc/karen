@@ -116,6 +116,7 @@ function createMessageFragment(message: Message): DocumentFragment {
     const html = ReactDOMServer.renderToStaticMarkup(reactTree);
 
     const range = document.createRange();
+    range.selectNode(document.body);
     const fragment = range.createContextualFragment(html);
     return fragment;
 }
