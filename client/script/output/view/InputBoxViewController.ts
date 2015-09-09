@@ -35,12 +35,14 @@ export default class InputBoxViewController {
     private _element: Element;
     private _domain: DomainState;
     private _textInput: HTMLInputElement;
+    private _nickElement: HTMLElement;
     private _disposeFocus: Rx.IDisposable;
 
     constructor(domain: DomainState, element: Element) {
         this._element = element;
         this._domain = domain;
         this._textInput = <HTMLInputElement>element.querySelector('#js-input');
+        this._nickElement = <HTMLElement>element.querySelector('#js-nick');
 
         this._disposeFocus = UIActionCreator.getDispatcher().focusInputBox.subscribe(() => {
             this._focusInput();
@@ -114,5 +116,16 @@ export default class InputBoxViewController {
 
         event.preventDefault();
         MessageActionCreator.clear();
+    }
+
+    setNickname(nickname: string): void {
+        const target = this._nickElement;
+        target.textContent = nickname + ':';
+        const widthPx = window.getComputedStyle(target).width;
+        if (!!widthPx) {
+            const width = parseInt(widthPx.slice(0, -2), 10);
+            const px = String(width + 31) + 'px';
+            this._textInput.style.paddingLeft = px;
+        }
     }
 }
