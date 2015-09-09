@@ -35,9 +35,9 @@ export default class Channel {
     name: string;
     topic: string;
     type: string;
-    _userList: Array<User>;
-    _unread: number;
-    _messageBuffer: Array<Message>;
+    private _userList: Array<User>;
+    private _unread: number;
+    private _messageBuffer: Array<Message>;
     network: Network;
 
     constructor(raw: any, network: Network = null) {
