@@ -29,8 +29,8 @@
 // babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
+import Map from 'core-js/library/fn/map';
 
-import arrayFrom from 'core-js/library/fn/array/from';
 import Channel from './Channel';
 import Network from './Network';
 import * as Rx from 'rx';
