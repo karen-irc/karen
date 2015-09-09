@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             return channel;
         });
         const users: Option<Array<User>> = channel.map(function(channel){
-            return channel.getUserList();
+            return channel.userList();
         });
 
         if (users.isSome) {

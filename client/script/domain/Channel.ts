@@ -77,7 +77,7 @@ export default class Channel {
         return this._messageBuffer;
     }
 
-    getUserList(): Array<User> {
+    userList(): Array<User> {
         return this._userList;
     }
 
