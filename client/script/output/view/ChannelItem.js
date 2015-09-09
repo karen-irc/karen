@@ -35,6 +35,7 @@ export class ChannelItem extends React.Component {
     render() {
         const channel = this.props.channel;
         const id = String(channel.id);
+        const unreadCount = channel.unread();
 
         return (
             <div data-id={id}
@@ -42,8 +43,8 @@ export class ChannelItem extends React.Component {
                  data-title={channel.name}
                  className={'js-sidebar-channel chan ' + channel.type}>
                 <span className='badge'
-                      data-count={String(channel.unread)}>
-                    {(channel.unread > 0) ? String(channel.unread) : ''}
+                      data-count={String(unreadCount)}>
+                    {(unreadCount > 0) ? String(unreadCount) : ''}
                 </span>
                 <span className='close'></span>
                 <span className='name'>{channel.name}</span>

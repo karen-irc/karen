@@ -69,16 +69,12 @@ export default class Channel {
         this.network = network;
     }
 
-    get unread(): number {
-        return this.getUnread();
+    unread(): number {
+        return this._unread;
     }
 
     messages(): Array<Message> {
         return this._messageBuffer;
-    }
-
-    getUnread(): number {
-        return this._unread;
     }
 
     getUserList(): Array<User> {
