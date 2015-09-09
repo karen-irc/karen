@@ -75,9 +75,7 @@ export class WindowPresenter implements EventListenerObject {
     handleEvent(event: Event): void {
         switch (event.type) {
             case 'resize':
-                this._domain.currentTab.channelId.map(function(channelId){
-                    UIActionCreator.showLatestInChannel(channelId);
-                });
+                this.onResize(<UIEvent>event);
                 break;
             case 'keydown':
                 this.onKeydown(<KeyboardEvent>event);
@@ -105,6 +103,16 @@ export class WindowPresenter implements EventListenerObject {
         // we cannnot call window.confirm, alert, prompt during the event.
         // Thus we need to use classical way to show a modal prompt.
         return 'Are you sure you want to navigate away from this page?';
+    }
+
+    onResize(event: UIEvent): void {
+        if (this._currenTab === null) {
+            return;
+        }
+
+        this._currenTab.channelId.map(function(channelId: number){
+            UIActionCreator.showLatestInChannel(channelId);
+        });
     }
 
     onKeydown(event: KeyboardEvent): void {
@@ -169,7 +177,7 @@ export class WindowPresenter implements EventListenerObject {
     }
 
     onFocus(event: FocusEvent): void {
-        if (this._currenTab.channelId.isNone && window.screen.width > 768) {
+        if (this._currenTab.channelId.isNone && window.screen.width < 767) {
             return;
         }
 
