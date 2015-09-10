@@ -98,8 +98,8 @@ button {
 #viewport {
     perspective: 1000;
     height: 100%;
-    transform: translateZ(0);
     transition: all .4s;
+    will-change: transform;
 }
 #viewport .lt,
 #viewport .rt {
@@ -465,10 +465,11 @@ button {
     right: 0;
     bottom: 0;
     width: 180px;
-    transform: translateZ(0);
+
     transition: all .4s;
     border-left: 1px solid #e7e7e7;
     background: #fff;
+    will-change: transform;
 }
 #chat .lobby .chat,
 #chat .query .chat {
