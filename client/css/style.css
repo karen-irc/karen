@@ -834,6 +834,8 @@ button {
     height: 100%;
 }
 .input-form .input-form__nick {
+    display: flex;
+    align-self: center;
     height: 24px;
     margin: 3px;
     padding: 0 9px;
@@ -843,8 +845,10 @@ button {
     color: #666;
     font: inherit;
     font-size: 11px;
-    line-height: 26px;
     user-select: none;
+}
+.input-form .input-form__nick .input-form__nick-holder {
+    align-self: center;
 }
 .input-form .input-form__input {
     -webkit-appearance: none;

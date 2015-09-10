@@ -36,7 +36,9 @@ export class InputForm extends React.Component {
             <form id='js-form' className='input-form' action=''>
                 <div className='input-form__inner'>
                     <label className='input-form__input-container'>
-                        <span id='js-nick' className='input-form__nick'></span>
+                        <span className='input-form__nick'>
+                            <span id='js-nick' className='input-form__nick-holder'></span>
+                        </span>
                         <input id='js-input'
                                className='input-form__input'
                                autoComplete='off'/>
