@@ -33,7 +33,7 @@ type CookieOptions = {
     domain?: string;
     expires?: any;
     secure?: boolean;
-}
+};
 
 export default class CookieDriver {
 
