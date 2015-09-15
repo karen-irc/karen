@@ -67,6 +67,7 @@
 
         // Node.js
         "no-process-exit": 0,
+        "global-require": 0, // FIXME: we need refactor a plugin system to enable this.
 
         // Stylistic Issues
         "indent": [2, 4, {
@@ -122,7 +123,7 @@
         "react/jsx-max-props-per-line": 0,
         "react/jsx-no-duplicate-props": 2,
         "react/jsx-no-literals": 0,
-        "react/jsx-quotes": [1, "single", "avoid-escape"],
+        "react/jsx-quotes": [1, "single", "avoid-escape"], // see also. http://eslint.org/docs/rules/jsx-quotes
         "react/jsx-no-undef": 2,
         "react/jsx-sort-props": 0,
         "react/jsx-sort-prop-types": 0,
