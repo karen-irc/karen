@@ -201,7 +201,7 @@ gulp.task('__build:client:css', ['__postcss']);
 
 gulp.task('build:server', ['jslint', '__build:server']);
 gulp.task('build:client', ['jslint', '__build:client:js', '__build:client:css']);
-gulp.task('build', ['jslint', '__build:client:js', '__build:server']);
+gulp.task('build', ['build:server', 'build:client']);
 gulp.task('clean:client', ['__clean:client:js', '__clean:client:css']);
 gulp.task('clean', ['clean:client', 'clean:server']);
 gulp.task('default', ['build']);
