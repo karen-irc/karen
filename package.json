@@ -78,7 +78,7 @@
     "gulp-uglifyjs": "^0.6.1",
     "mocha": "^2.2.4",
     "tsd": "^0.6.0-beta.5",
-    "typescript": "1.6.0-dev.20150908",
+    "typescript": "1.7.0-dev.20150916",
     "vinyl-source-stream": "^1.1.0"
   }
 }
