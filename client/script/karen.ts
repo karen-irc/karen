@@ -3,7 +3,6 @@
 /// <reference path="../../tsd/core-js.d.ts" />
 /// <reference path="../../tsd/extends.d.ts" />
 /// <reference path="../../node_modules/rx/ts/rx.all.es6.d.ts" />
-/// <reference path="../../node_modules/option-t/option-t.d.ts" />
 /// <reference path="../../tsd/third_party/jquery/jquery.d.ts" />
 /// <reference path="../../tsd/third_party/jqueryui/jqueryui.d.ts" />
 /// <reference path="../../tsd/third_party/react/react.d.ts" />
