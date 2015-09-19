@@ -34,3 +34,8 @@ export interface Message {
     self: boolean;
     userImage?: string;
 }
+
+export interface RecievedMessage {
+    channelId: number;
+    message: Message;
+}

@@ -32,7 +32,7 @@ import MessageActionCreator from '../intent/action/MessageActionCreator';
 import Channel from '../domain/Channel';
 import CommandTypeMod from '../domain/CommandType';
 import {SelectedTab} from '../domain/DomainState'
-import {Message} from '../domain/Message';
+import {Message, RecievedMessage} from '../domain/Message';
 import Network from '../domain/Network';
 import User from '../domain/User';
 
@@ -128,7 +128,7 @@ export class MessageGateway {
         });
     }
 
-    recieveMessage(): Rx.Observable<{ channelId: number; message: Message;}> {
+    recieveMessage(): Rx.Observable<RecievedMessage> {
         return this._socket.message().map(function(data){
             return {
                 channelId: data.chan,
