@@ -103,7 +103,7 @@ export class SidebarViewController implements EventListenerObject {
             this.removeChannel(channel.getId());
         }));
 
-        disposer.add(domain.getNetworkDomain().recieveNotableMessage().subscribe((data) => {
+        disposer.add(domain.getNetworkDomain().recievedNotableMessage().subscribe((data) => {
             const targetId = data.targetId;
             const message = data.message;
             this._highlightTab(targetId, message);

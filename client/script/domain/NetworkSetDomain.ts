@@ -160,7 +160,7 @@ export class NetworkSetDomain {
         return this._partedChannel;
     }
 
-    recieveNotableMessage(): Rx.Observable<{ targetId: number; message: Message; }> {
+    recievedNotableMessage(): Rx.Observable<{ targetId: number; message: Message; }> {
         return this._notableMsgDispatcher;
     }
 }
