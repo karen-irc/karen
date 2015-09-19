@@ -40,7 +40,7 @@ import Channel from '../../domain/Channel';
 import {ChannelDomain} from '../../domain/ChannelDomain';
 import CommandTypeMod from '../../domain/CommandType';
 import {DomainState} from '../../domain/DomainState';
-import {Message} from '../../domain/Message';
+import {Message, RecievedMessage} from '../../domain/Message';
 import Network from '../../domain/Network';
 import {NetworkDomain} from '../../domain/NetworkDomain';
 import AppActionCreator from '../../intent/action/AppActionCreator';
@@ -103,8 +103,8 @@ export class SidebarViewController implements EventListenerObject {
             this.removeChannel(channel.getId());
         }));
 
-        disposer.add(domain.getNetworkDomain().recievedNotableMessage().subscribe((data) => {
-            const targetId = data.targetId;
+        disposer.add(domain.getNetworkDomain().recievedNotableMessage().subscribe((data: RecievedMessage) => {
+            const targetId = data.channelId;
             const message = data.message;
             this._highlightTab(targetId, message);
         }));

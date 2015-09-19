@@ -35,7 +35,7 @@ import * as Rx from 'rx';
 
 import Channel from './Channel';
 import {ChannelDomain} from './ChannelDomain';
-import {Message} from './Message';
+import {Message, RecievedMessage} from './Message';
 import Network from './Network';
 
 import {MessageGateway} from '../adapter/MessageGateway';
@@ -51,7 +51,7 @@ export class NetworkDomain {
 
     private _joinedUpdater: Rx.Subject<ChannelDomain>;
     private _partedUpdater: Rx.Subject<ChannelDomain>;
-    private _notableMsgDispatcher: Rx.Subject<{ targetId: number; message: Message; }>;
+    private _notableMsgDispatcher: Rx.Subject<RecievedMessage>;
 
     private _subscribed: Rx.CompositeDisposable;
 
@@ -59,7 +59,7 @@ export class NetworkDomain {
                 data: Network,
                 joinedUpdater: Rx.Subject<ChannelDomain>,
                 partedUpdater: Rx.Subject<ChannelDomain>,
-                notableMsgDispatcher: Rx.Subject<{ targetId: number; message: Message; }>) {
+                notableMsgDispatcher: Rx.Subject<RecievedMessage>) {
 
         this._channels = new Map();
         for (const channel of data.getChannelList()) {

@@ -28,7 +28,7 @@
 import * as Rx from 'rx';
 
 import Channel from './Channel';
-import {Message} from './Message';
+import {Message, RecievedMessage} from './Message';
 import User from './User';
 
 import {MessageGateway} from '../adapter/MessageGateway';
@@ -45,13 +45,13 @@ export class ChannelDomain {
     private _topic: Rx.Observable<string>;
     private _userList: Rx.Observable<Array<User>>;
     private _message: Rx.Observable<Message>;
-    private _notableMessage: Rx.Observable<{ targetId: number; message: Message }>;
+    private _notableMessage: Rx.Observable<RecievedMessage>;
 
-    private _notableDispatcher: Rx.Subject<{ targetId: number; message: Message }>;
+    private _notableDispatcher: Rx.Subject<RecievedMessage>;
 
     private _ignitionDisposable: Rx.IDisposable;
 
-    constructor(gateway: MessageGateway, data: Channel, notableDispatcher: Rx.Subject<{ targetId: number; message: Message }>) {
+    constructor(gateway: MessageGateway, data: Channel, notableDispatcher: Rx.Subject<RecievedMessage>) {
         this._data = data;
 
         const filterFn = (data: { channelId: number }) => {
@@ -79,7 +79,7 @@ export class ChannelDomain {
             return !nonNotableMessage.has(message.type);
         }).map((msg: Message) => {
             return {
-                targetId: this.getId(),
+                channelId: this.getId(),
                 message: msg,
             };
         }).share();

@@ -36,7 +36,7 @@ import {Some, None, Option} from 'option-t';
 import * as Rx from 'rx';
 
 import Channel from './Channel';
-import {Message} from './Message';
+import {Message, RecievedMessage} from './Message';
 import Network from './Network';
 import NetworkSet from './NetworkSet';
 import {ChannelDomain} from './ChannelDomain';
@@ -56,7 +56,7 @@ export class NetworkSetDomain {
 
     private _joinedChannel: Rx.Subject<ChannelDomain>;
     private _partedChannel: Rx.Subject<ChannelDomain>;
-    private _notableMsgDispatcher: Rx.Subject<{ targetId: number; message: Message; }>;
+    private _notableMsgDispatcher: Rx.Subject<RecievedMessage>;
 
     private _list: Rx.Observable<Array<NetworkDomain>>;
     private _initialState: Rx.Observable<InitState>;
@@ -70,7 +70,7 @@ export class NetworkSetDomain {
 
         this._joinedChannel = new Rx.Subject<ChannelDomain>();
         this._partedChannel = new Rx.Subject<ChannelDomain>();
-        this._notableMsgDispatcher = new Rx.Subject<{ targetId: number; message: Message; }>();
+        this._notableMsgDispatcher = new Rx.Subject<RecievedMessage>();
 
         this._list = gateway.invokeInit().map((data) => {
             return data.networks.map((item) => {
@@ -160,7 +160,7 @@ export class NetworkSetDomain {
         return this._partedChannel;
     }
 
-    recievedNotableMessage(): Rx.Observable<{ targetId: number; message: Message; }> {
+    recievedNotableMessage(): Rx.Observable<RecievedMessage> {
         return this._notableMsgDispatcher;
     }
 }
