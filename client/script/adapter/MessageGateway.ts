@@ -32,7 +32,7 @@ import MessageActionCreator from '../intent/action/MessageActionCreator';
 import Channel from '../domain/Channel';
 import CommandTypeMod from '../domain/CommandType';
 import {SelectedTab} from '../domain/DomainState'
-import Message from '../domain/Message';
+import {Message} from '../domain/Message';
 import Network from '../domain/Network';
 import User from '../domain/User';
 

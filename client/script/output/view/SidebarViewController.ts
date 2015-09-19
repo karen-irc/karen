@@ -40,7 +40,7 @@ import Channel from '../../domain/Channel';
 import {ChannelDomain} from '../../domain/ChannelDomain';
 import CommandTypeMod from '../../domain/CommandType';
 import {DomainState} from '../../domain/DomainState';
-import Message from '../../domain/Message';
+import {Message} from '../../domain/Message';
 import Network from '../../domain/Network';
 import {NetworkDomain} from '../../domain/NetworkDomain';
 import AppActionCreator from '../../intent/action/AppActionCreator';

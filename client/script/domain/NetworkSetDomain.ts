@@ -36,7 +36,7 @@ import {Some, None, Option} from 'option-t';
 import * as Rx from 'rx';
 
 import Channel from './Channel';
-import Message from './Message';
+import {Message} from './Message';
 import Network from './Network';
 import NetworkSet from './NetworkSet';
 import {ChannelDomain} from './ChannelDomain';

@@ -26,7 +26,8 @@
 /// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
 import * as Rx from 'rx';
-import Message from './Message';
+
+import {Message} from './Message';
 import Network from './Network';
 import User from './User';
 

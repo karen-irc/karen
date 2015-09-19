@@ -35,7 +35,7 @@ import * as Rx from 'rx';
 
 import Channel from './Channel';
 import {ChannelDomain} from './ChannelDomain';
-import Message from './Message';
+import {Message} from './Message';
 import Network from './Network';
 
 import {MessageGateway} from '../adapter/MessageGateway';

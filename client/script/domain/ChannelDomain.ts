@@ -28,7 +28,7 @@
 import * as Rx from 'rx';
 
 import Channel from './Channel';
-import Message from './Message';
+import {Message} from './Message';
 import User from './User';
 
 import {MessageGateway} from '../adapter/MessageGateway';
