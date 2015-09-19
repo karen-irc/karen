@@ -35,7 +35,7 @@ import * as Rx from 'rx';
 
 import Channel from './Channel';
 import {ChannelDomain} from './ChannelDomain';
-import Message from './Message';
+import {Message, RecievedMessage} from './Message';
 import Network from './Network';
 
 import {MessageGateway} from '../adapter/MessageGateway';
@@ -51,7 +51,8 @@ export class NetworkDomain {
 
     private _joinedUpdater: Rx.Subject<ChannelDomain>;
     private _partedUpdater: Rx.Subject<ChannelDomain>;
-    private _notableMsgDispatcher: Rx.Subject<{ targetId: number; message: Message; }>;
+    private _notableMsgDispatcher: Rx.Subject<RecievedMessage>;
+    private _notifiableMsgDispatcher: Rx.Subject<RecievedMessage>;
 
     private _subscribed: Rx.CompositeDisposable;
 
@@ -59,11 +60,15 @@ export class NetworkDomain {
                 data: Network,
                 joinedUpdater: Rx.Subject<ChannelDomain>,
                 partedUpdater: Rx.Subject<ChannelDomain>,
-                notableMsgDispatcher: Rx.Subject<{ targetId: number; message: Message; }>) {
+                notableMsgDispatcher: Rx.Subject<RecievedMessage>,
+                notifiableMsgDispatcher: Rx.Subject<RecievedMessage>) {
 
         this._channels = new Map();
         for (const channel of data.getChannelList()) {
-            const domain = new ChannelDomain(gateway, channel, notableMsgDispatcher);
+            const domain = new ChannelDomain(gateway,
+                                             channel,
+                                             notableMsgDispatcher,
+                                             notifiableMsgDispatcher);
             this._channels.set(domain.getId(), domain);
         }
 
@@ -71,6 +76,7 @@ export class NetworkDomain {
         this._joinedUpdater = joinedUpdater;
         this._partedUpdater = partedUpdater;
         this._notableMsgDispatcher = notableMsgDispatcher;
+        this._notifiableMsgDispatcher = notifiableMsgDispatcher;
 
         this._nickname = gateway.setNickname().filter((data) => {
             return data.networkId === this._data.id;
@@ -84,7 +90,10 @@ export class NetworkDomain {
             return data.networkId === this._data.id;
         }).map((data) => {
             const channel = data.channel;
-            const domain = new ChannelDomain(gateway, channel, this._notableMsgDispatcher);
+            const domain = new ChannelDomain(gateway,
+                                             channel,
+                                             this._notableMsgDispatcher,
+                                             this._notifiableMsgDispatcher);
             return domain;
         }).do((channel) => {
             this._channels.set(channel.getId(), channel);

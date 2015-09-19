@@ -37,7 +37,6 @@ import {MessageGateway} from './adapter/MessageGateway';
 import {MessageItem, MessageList} from './output/view/MessageItem';
 import Network from './domain/Network';
 import NetworkSet from './domain/NetworkSet';
-import NotificationActionCreator from './intent/action/NotificationActionCreator';
 import NotificationPresenter from './output/NotificationPresenter';
 import SettingActionCreator from './intent/action/SettingActionCreator';
 import SettingStore from './output/viewmodel/SettingStore';
@@ -141,26 +140,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     globalState.getCurrentTab().subscribe(function(state){
         chat.data('id', state.id);
         messageGateway.saveCurrentTab(state)
-    });
-
-    messageGateway.recieveMessage().subscribe(function(data) {
-        const channelId = data.channelId;
-        var target = '#js-chan-' + channelId;
-
-        const msg = data.message;
-
-        var button = sidebar.find('.chan[data-target="' + target + '"]');
-        var isQuery = button.hasClass('query');
-        var type = msg.type;
-        var highlight = type.indexOf('highlight') !== -1;
-        if (highlight || isQuery) {
-            if (!document.hasFocus() || !$(target).hasClass('active')) {
-                NotificationActionCreator.showNotification(parseInt(target, 10), {
-                    from: msg.from,
-                    text: msg.text.trim(),
-                });
-            }
-        }
     });
 
     socket.more().subscribe(function(data) {

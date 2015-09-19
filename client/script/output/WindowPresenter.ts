@@ -31,6 +31,8 @@ import arrayFindIndex from 'core-js/library/fn/array/find-index';
 import AppActionCreator from '../intent/action/AppActionCreator';
 import Channel from '../domain/Channel';
 import {DomainState, SelectedTab} from '../domain/DomainState';
+import {RecievedMessage} from '../domain/Message';
+import NotificationActionCreator from '../intent/action/NotificationActionCreator';
 import UIActionCreator from '../intent/action/UIActionCreator';
 import {Option} from 'option-t';
 
@@ -64,6 +66,18 @@ export class WindowPresenter implements EventListenerObject {
         this._currenTab = null;
         this._disposer.add(domain.getCurrentTab().subscribe((tab) => {
             this._currenTab = tab;
+        }));
+
+        this._disposer.add(domain.recievedNotifiableMessage().subscribe(function(data: RecievedMessage): void {
+            if (document.hasFocus()) {
+                return;
+            }
+
+            const message = data.message;
+            NotificationActionCreator.showNotification(data.channelId, {
+                from: message.from,
+                text: message.text.trim(),
+            });
         }));
 
         window.document.documentElement.addEventListener('keydown', this);

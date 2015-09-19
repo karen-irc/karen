@@ -29,6 +29,7 @@ import {Some, None, Option} from 'option-t';
 import * as Rx from 'rx';
 
 import {ChannelDomain} from './ChannelDomain';
+import {RecievedMessage} from './Message';
 import NetworkSet from './NetworkSet';
 import {NetworkSetDomain} from './NetworkSetDomain';
 import {NetworkDomain} from './NetworkDomain';
@@ -67,6 +68,7 @@ export class DomainState {
     private _networkSet: NetworkSetDomain;
     private _latestCurrentTab: SelectedTab;
     private _currentTab: Rx.Observable<SelectedTab>;
+    private _notifiableMessage: Rx.Observable<RecievedMessage>;
 
     constructor(gateway: MessageGateway) {
         this._networkSet = new NetworkSetDomain(gateway);
@@ -77,6 +79,20 @@ export class DomainState {
         this._currentTab = selectTab(gateway, UIActionCreator.getDispatcher(), this._networkSet).do((state) => {
             this._latestCurrentTab = state;
         }).observeOn(Rx.Scheduler.default).share();
+
+        this._notifiableMessage = this._networkSet.recievedNotifiableMessage()
+            .withLatestFrom(this._currentTab, function (data, current): RecievedMessage {
+                const isSameChannel: boolean = current.channelId.mapOr(false, function (current: number) {
+                    return data.channelId === current;
+                });
+                if (isSameChannel) {
+                    return null;
+                }
+
+                return data;
+            }).filter(function (data) {
+                return data !== null;
+            }).share();
     }
 
     /**
@@ -112,6 +128,10 @@ export class DomainState {
 
     getNetworkDomain(): NetworkSetDomain {
         return this._networkSet;
+    }
+
+    recievedNotifiableMessage(): Rx.Observable<RecievedMessage> {
+        return this._notifiableMessage;
     }
 }
 

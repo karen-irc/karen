@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-interface Message {
+export interface Message {
     id: number;
     mode: string;
     type: string;
@@ -35,4 +35,7 @@ interface Message {
     userImage?: string;
 }
 
-export default Message;
+export interface RecievedMessage {
+    channelId: number;
+    message: Message;
+}
