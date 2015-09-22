@@ -115,7 +115,7 @@ export default class Client {
                 return { network, chan };
             }
         }
-        return false;
+        return null;
     }
 
     connect(args) {
