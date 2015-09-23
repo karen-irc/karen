@@ -53,7 +53,6 @@
     "express": "^4.9.5",
     "mkdirp": "^0.5.0",
     "moment": "~2.10.3",
-    "object-assign": "^4.0.1",
     "option-t": "^0.14.1",
     "react": "^0.14.0-beta3",
     "react-dom": "^0.14.0-beta3",
