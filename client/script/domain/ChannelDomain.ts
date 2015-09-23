@@ -33,11 +33,7 @@ import User from './User';
 
 import {MessageGateway} from '../adapter/MessageGateway';
 
-// FIXME: for Safari 8
-const nonNotableMessage = new Set<string>();
-['join', 'part', 'quit', 'nick', 'mode'].forEach(function(type){
-    nonNotableMessage.add(type);
-});
+const nonNotableMessage: Set<string> = new Set(['join', 'part', 'quit', 'nick', 'mode']);
 
 export class ChannelDomain {
 
