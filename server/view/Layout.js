@@ -25,21 +25,14 @@
 
 import * as React from 'react';
 
-export class Layout extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div id='wrap'>
-                <div id='viewport'>
-                    {this.props.children}
-                </div>
+export function Layout(props) {
+    return (
+        <div id='wrap'>
+            <div id='viewport'>
+                {this.props.children}
             </div>
-        );
-    }
+        </div>
+    );
 }
 Layout.propTypes = {
     // This is an opaque data structure.
