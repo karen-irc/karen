@@ -143,11 +143,7 @@ export class NetworkDomain {
     }
 
     getChannelDomainList(): Array<ChannelDomain> {
-        // for Safari 8, we cannot use `Map.prototype.values()`.
-        const buffer: Array<ChannelDomain> = [];
-        this._channels.forEach(function(domain: ChannelDomain){
-            buffer.push(domain);
-        });
+        const buffer: Array<ChannelDomain> = Array.from(this._channels.values());
         return buffer;
     }
 
