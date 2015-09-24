@@ -24,7 +24,6 @@
  */
 
 /// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
-/// <reference path="../../../tsd/core-js.d.ts" />
 
 // babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
 import 'core-js/modules/es6.array.iterator';
