@@ -23,10 +23,6 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../tsd/object-assign.d.ts" />
-
-import assign from 'object-assign';
-
 export default class Setting {
 
     badge: boolean;
@@ -42,7 +38,7 @@ export default class Setting {
     quit: boolean;
 
     constructor(raw: any) {
-        const data = assign({
+        const data = Object.assign({
             badge: false,
             colors: false,
             join: true,
