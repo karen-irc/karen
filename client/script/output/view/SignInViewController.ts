@@ -68,7 +68,7 @@ export default class SignInViewController implements EventListenerObject {
         // XXX: By DOM spec (https://dom.spec.whatwg.org/#interface-nodelist),
         // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
         // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
-        const list: any = target.querySelectorAll('input');
+        const list = target.querySelectorAll('input');
         for (let element of Array.from(list)) {
             const input = <HTMLInputElement>element;
             // If we find the element which has no value,
@@ -90,7 +90,7 @@ export default class SignInViewController implements EventListenerObject {
         // XXX: By DOM spec (https://dom.spec.whatwg.org/#interface-nodelist),
         // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
         // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
-        const list: any = target.querySelectorAll('.btn');
+        const list = target.querySelectorAll('.btn');
         for (let element of Array.from(list)) {
             (<Element>element).setAttribute('disabled', 'true');
         }
