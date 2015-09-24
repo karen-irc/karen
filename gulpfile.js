@@ -111,8 +111,16 @@ gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'
         extensions: ['.jsx'],
     };
 
+    let babelOptions = [];
+    if (isRelease) {
+        babelOptions = babelOptions.concat([
+            'optimisation.react.constantElements',
+            'optimisation.react.inlineElements',
+        ]);
+    }
+
     const babel = babelify.configure({
-        optional: [],
+        optional: babelOptions,
     });
 
     return browserify(ENTRY_POINT, option)
@@ -159,8 +167,18 @@ gulp.task('jslint', function (callback) {
 });
 
 gulp.task('__babel:server', ['clean:server'], function () {
+    let babelOptions = [];
+    if (isRelease) {
+        babelOptions = babelOptions.concat([
+            'optimisation.react.constantElements',
+            'optimisation.react.inlineElements',
+        ]);
+    }
+
     return gulp.src(SERVER_SRC)
         .pipe(babel({
+            optional: babelOptions,
+
             // For Node.js v4~, we need not some transforms:
             blacklist: [
                 'es6.arrowFunctions',
