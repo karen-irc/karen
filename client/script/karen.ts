@@ -12,8 +12,6 @@
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
-import arrayFrom from 'core-js/library/fn/array/from';
-
 import {Some, None, Option} from 'option-t';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';

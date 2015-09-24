@@ -24,14 +24,12 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../tsd/core-js.d.ts" />
 /// <reference path="../../../../tsd/third_party/jquery/jquery.d.ts" />
 
 // babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/es6/symbol';
 
-import arrayFrom from 'core-js/library/fn/array/from';
 import CookieDriver from '../../adapter/CookieDriver';
 import {SocketIoDriver} from '../../adapter/SocketIoDriver';
 
@@ -71,7 +69,7 @@ export default class SignInViewController implements EventListenerObject {
         // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
         // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
         const list: any = target.querySelectorAll('input');
-        for (let element of arrayFrom(list)) {
+        for (let element of Array.from(list)) {
             const input = <HTMLInputElement>element;
             // If we find the element which has no value,
             // we stop iteration & focus it.
@@ -93,7 +91,7 @@ export default class SignInViewController implements EventListenerObject {
         // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
         // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
         const list: any = target.querySelectorAll('.btn');
-        for (let element of arrayFrom(list)) {
+        for (let element of Array.from(list)) {
             (<Element>element).setAttribute('disabled', 'true');
         }
 
