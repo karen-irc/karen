@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+import * as React from 'react';
+
 export function Sidebar() {
     return (
         <aside id='sidebar'>
