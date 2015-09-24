@@ -23,11 +23,10 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../tsd/core-js.d.ts" />
 /// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
 import * as Rx from 'rx';
-import arrayFindIndex from 'core-js/library/fn/array/find-index';
+
 import AppActionCreator from '../intent/action/AppActionCreator';
 import Channel from '../domain/Channel';
 import {DomainState, SelectedTab} from '../domain/DomainState';
@@ -157,7 +156,7 @@ export class WindowPresenter implements EventListenerObject {
     handleShortcut(key: string): void {
         const channelList: Array<Channel> = this._domain.networkSet.getChannelList();
         const currentIndex: Option<number> = this._domain.currentTab.channelId.map(function(currentId: number) {
-            return arrayFindIndex(channelList, function(channel: Channel){
+            return channelList.findIndex(function(channel: Channel){
                 return channel.id === currentId;
             });
         });
