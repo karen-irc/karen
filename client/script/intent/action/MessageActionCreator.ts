@@ -48,7 +48,7 @@ class MessageActionCreator {
             (command.indexOf(CommandType.CLEAR) === 0);
 
         if (isClearCommand) {
-            this._dispatcher.clearMessage.onNext(undefined);
+            this.clear(channelId);
             return;
         }
 
@@ -58,8 +58,8 @@ class MessageActionCreator {
         });
     }
 
-    clear(): void {
-        this._dispatcher.clearMessage.onNext(undefined);
+    clear(channelId: number): void {
+        this._dispatcher.clearMessage.onNext(channelId);
     }
 
     setTopic(channelId: string, topic: string): void {

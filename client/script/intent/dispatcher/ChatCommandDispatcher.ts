@@ -42,7 +42,7 @@ type Topic = {
 export default class ChatCommandDispatcher {
 
     sendCommand: Rx.Subject<Command>
-    clearMessage: Rx.Subject<void>;
+    clearMessage: Rx.Subject<number>;
     setTopic: Rx.Subject<Topic>;
     setNickname: Rx.Subject<{ id: number, nickname: string }>;
     updateUserList: Rx.Subject<{ channelId: number, list: Array<User> }>;
@@ -51,7 +51,7 @@ export default class ChatCommandDispatcher {
     constructor() {
         this.sendCommand = new Rx.Subject<Command>();
 
-        this.clearMessage = new Rx.Subject<void>();
+        this.clearMessage = new Rx.Subject<number>();
 
         this.setTopic = new Rx.Subject<Topic>();
 
