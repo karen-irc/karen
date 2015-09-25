@@ -34,18 +34,25 @@ export default class InputBoxViewController {
 
     private _element: Element;
     private _domain: DomainState;
+    private _currentChannelId: number;
     private _textInput: HTMLInputElement;
     private _nickElement: HTMLElement;
     private _disposeFocus: Rx.IDisposable;
+    private _disposeSelect: Rx.IDisposable;
 
     constructor(domain: DomainState, element: Element) {
         this._element = element;
         this._domain = domain;
+        this._currentChannelId = -1;
         this._textInput = <HTMLInputElement>element.querySelector('#js-input');
         this._nickElement = <HTMLElement>element.querySelector('#js-nick');
 
         this._disposeFocus = UIActionCreator.getDispatcher().focusInputBox.subscribe(() => {
             this._focusInput();
+        });
+
+        this._disposeSelect = domain.getSelectedChannel().subscribe((id: number) => {
+            this._currentChannelId;
         });
 
         this._init();
@@ -115,7 +122,7 @@ export default class InputBoxViewController {
         }
 
         event.preventDefault();
-        MessageActionCreator.clear();
+        MessageActionCreator.clear(this._currentChannelId);
     }
 
     setNickname(nickname: string): void {

@@ -229,11 +229,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     // FIXME: Move to InputBoxViewController
     $(inputBox.textInput).tab(complete, {hint: false});
 
-    MessageActionCreator.getDispatcher().clearMessage.subscribe(function() {
-        chat.find('.active .messages').empty();
-        chat.find('.active .show-more').addClass('show');
-    });
-
     const shouldShowLatestInChannel = UIActionCreator.getDispatcher().showLatestInChannel.debounce(100)
         .merge(globalState.getSelectedChannel());
     shouldShowLatestInChannel.subscribe(function(channelId){

@@ -38,6 +38,7 @@ import {UserList} from './UserList';
 import {ChannelDomain} from '../../domain/ChannelDomain';
 import {Message} from '../../domain/Message';
 import User from '../../domain/User';
+import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
 export class MessageContentViewController {
@@ -48,6 +49,7 @@ export class MessageContentViewController {
     private _topicElement: Element;
     private _messageArea: Element;
     private _messageContainer: Element;
+    private _showMore: Element;
 
     private _disposer: Rx.IDisposable;
 
@@ -59,6 +61,7 @@ export class MessageContentViewController {
         this._topicElement = this._element.querySelector('.js-topic');
         this._messageArea = this._element.querySelector('.chat');
         this._messageContainer = this._element.querySelector('.messages');
+        this._showMore = this._element.querySelector('.show-more');
 
         const disposer: Rx.CompositeDisposable = new Rx.CompositeDisposable();
         this._disposer = disposer;
@@ -73,6 +76,16 @@ export class MessageContentViewController {
 
         disposer.add(domain.recievedMessage().subscribe((message: Message) => {
             this._renderMessage(message);
+        }));
+
+        disposer.add(MessageActionCreator.getDispatcher().clearMessage.subscribe((id: number) => {
+            if (this._channelId !== id) {
+                return;
+            }
+
+            // FIXME: this should be scheduled on `requestAnimationFrame`.
+            this._clearMessages();
+            this._showMoreButton();
         }));
     }
 
@@ -106,6 +119,16 @@ export class MessageContentViewController {
         if (shouldBottom) {
             this._messageArea.scrollTop = this._messageArea.scrollHeight;
         }
+    }
+
+    private _clearMessages(): void {
+        const range = document.createRange();
+        range.selectNodeContents(this._messageContainer);
+        range.deleteContents();
+    }
+
+    private _showMoreButton(): void {
+        this._showMore.classList.add('show');
     }
 }
 
