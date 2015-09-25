@@ -29,7 +29,7 @@ export function Layout(props) {
     return (
         <div id='wrap'>
             <div id='viewport'>
-                {this.props.children}
+                {props.children}
             </div>
         </div>
     );
