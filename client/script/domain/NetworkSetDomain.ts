@@ -26,10 +26,6 @@
 /// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../node_modules/typescript/lib/lib.es6.d.ts" />
 
-// babel's `es6.forOf` transform uses `Symbol` and 'Array[Symbol.iterator]'.
-import 'core-js/modules/es6.array.iterator';
-import 'core-js/es6/symbol';
-
 import {Some, None, Option} from 'option-t';
 import * as Rx from 'rx';
 
