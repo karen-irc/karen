@@ -129,6 +129,12 @@ gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'
         .pipe(gulp.dest(DIST_CLIENT_JS));
 });
 
+gulp.task('__cp:client:css', ['__clean:client:css'], function () {
+    const src = path.resolve(NPM_MOD_DIR, './bootstrap/dist/css/bootstrap.css');
+    return gulp.src(src)
+        .pipe(gulp.dest(DIST_CLIENT_CSS));
+});
+
 gulp.task('__postcss', ['__clean:client:css'], function () {
     const processors = [
         autoprefixer({
@@ -214,7 +220,7 @@ gulp.task('clean:server', function () {
 
 gulp.task('__build:server', ['__babel:server']);
 gulp.task('__build:client:js', ['__uglify', '__browserify']);
-gulp.task('__build:client:css', ['__postcss']);
+gulp.task('__build:client:css', ['__postcss', '__cp:client:css']);
 
 gulp.task('build:server', ['jslint', '__build:server']);
 gulp.task('build:client', ['jslint', '__build:client:js', '__build:client:css']);
