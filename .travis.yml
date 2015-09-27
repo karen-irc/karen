@@ -7,7 +7,7 @@ before_script:
   - ./index.js init
 
 node_js:
-  - "4"
+  - "4.1"
 
 notifications:
   email: false
