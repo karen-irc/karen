@@ -20,6 +20,7 @@ For example, we modified an IRC twitter gateway (atig) to add twitter profile ic
 ## Development
 
 - [dokidokivisual commit bot](http://cq-dokidokivisual.rhcloud.com/queue/karen)
+  - This is [the forked version](https://github.com/karen-irc/homu) of [homu](https://github.com/barosl/homu).
 
 
 ## License
