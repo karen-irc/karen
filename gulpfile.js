@@ -38,10 +38,17 @@ const uglify = require('gulp-uglifyjs');
 
 const isRelease = process.env.NODE_ENV === 'production';
 
+const DIST_SERVER = './dist/server/';
+const DIST_CLIENT = './dist/client/';
+const DIST_CLIENT_OBJ = path.resolve(DIST_CLIENT, './__obj/');
+const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
+const DIST_CLIENT_CSS = path.resolve(DIST_CLIENT, './css/');
+const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
+
 const CLIENT_SRC_JS = [
     'client/js/libs/jquery.js',
     'client/js/libs/jquery/**/*.js',
-    'client/js/libs/moment.js',
+    path.resolve(NPM_MOD_DIR, './moment/moment.js'),
     'client/js/libs/stringcolor.js',
     'client/js/libs/parse.js',
     'client/js/libs/uri.js',
@@ -50,14 +57,6 @@ const CLIENT_SRC_JS = [
 const SERVER_SRC = [
     './server/**/*.js'
 ];
-
-
-const DIST_SERVER = './dist/server/';
-const DIST_CLIENT = './dist/client/';
-const DIST_CLIENT_OBJ = path.resolve(DIST_CLIENT, './__obj/');
-const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
-const DIST_CLIENT_CSS = path.resolve(DIST_CLIENT, './css/');
-const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
 
 /**
  *  # The rules of task name
