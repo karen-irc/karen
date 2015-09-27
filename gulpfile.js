@@ -130,7 +130,8 @@ gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'
 });
 
 gulp.task('__cp:client:css', ['__clean:client:css'], function () {
-    return gulp.src('./client/css/bootstrap.css')
+    const src = path.resolve(NPM_MOD_DIR, './bootstrap/dist/css/bootstrap.css');
+    return gulp.src(src)
         .pipe(gulp.dest(DIST_CLIENT_CSS));
 });
 
