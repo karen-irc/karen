@@ -91,10 +91,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             return;
         }
         login.find('.btn').prop('disabled', false);
-        var token: string = auth.getToken();
-        if (token) {
+        var token: Option<string> = auth.getToken();
+        if (token.isSome) {
             auth.removeToken();
-            socket.emit('auth', {token: token});
+            socket.emit('auth', {token: token.unwrap()});
         }
         if (body.hasClass('signed-out')) {
             var error = login.find('.error');
@@ -102,14 +102,14 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
                 error.hide();
             });
         }
-        if (!token) {
+        if (token.isNone) {
             body.addClass('signed-out');
         }
         var input: JQuery = login.find('input[name=\'user\']');
         if (input.val() === '') {
-            input.val(auth.getUser() || '');
+            input.val(auth.getUser().unwrapOr(''));
         }
-        if (token) {
+        if (token.isSome) {
             return;
         }
 

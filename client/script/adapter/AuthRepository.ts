@@ -24,6 +24,8 @@
  * THE SOFTWARE.
  */
 
+import {Option} from 'option-t';
+
 import CookieDriver from './CookieDriver';
 
 declare const moment: any;
@@ -40,17 +42,11 @@ export default class AuthRepository {
         this._cookie = cookie;
     }
 
-    /**
-     *  FIXME: the returned value should `Maybe<T>`.
-     */
-    getUser(): string {
+    getUser(): Option<string> {
         return this._cookie.get(KEY_USER);
     }
 
-    /**
-     *  FIXME: the returned value should `Maybe<T>`.
-     */
-    getToken(): string {
+    getToken(): Option<string> {
         return this._cookie.get(KEY_TOKEN);
     }
 

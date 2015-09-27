@@ -26,6 +26,7 @@
 /// <reference path="../../../tsd/cookies.d.ts" />
 
 import cookies from 'cookies-js';
+import {Option, Some, None} from 'option-t';
 
 // from https://github.com/ScottHamper/Cookies/blob/master/src/cookies.d.ts
 type CookieOptions = {
@@ -46,15 +47,23 @@ export default class CookieDriver {
         this._cookie = cookies;
     }
 
-    get(key: string): any {
+    get(key: string): Option<any> {
         const value: string = this._cookie.get(key);
+
+        // By https://github.com/ScottHamper/Cookies/blob/a2b58c5a6f8/src/cookies.js#L41
+        if (value === undefined) {
+            return new None<any>();
+        }
+
         let result: any = null;
         try {
             result = JSON.parse(value);
         }
-        catch (e) {}
+        catch (e) {
+            return new None<any>();
+        }
 
-        return result;
+        return new Some<any>(result);
     }
 
     set(key: string, value: any, option: CookieOptions = {}): void {
