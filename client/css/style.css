@@ -238,6 +238,7 @@ button {
     display: none;
 }
 #sidebar .close {
+    will-change: opacity;
     position: absolute;
     right: 0;
     width: 18px;
@@ -254,6 +255,9 @@ button {
 #sidebar .close:hover {
     background-color: rgba(0, 0, 0, .1);
     opacity: .7 !important;
+}
+#sidebar .close.js-closing {
+    opacity: .4;
 }
 #sidebar .tse-scrollbar {
     top: 2px;

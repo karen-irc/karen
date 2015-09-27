@@ -170,8 +170,7 @@ export class SidebarViewController implements EventListenerObject {
         }
         MessageActionCreator.inputCommand(channelId, command);
 
-        // FIXME: This visual state should be written in css.
-        target.style.opacity = '0.4';
+        target.classList.add('js-closing');
     }
 
     clearAllNetworks(): void {
