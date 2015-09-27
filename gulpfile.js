@@ -55,7 +55,7 @@ const CLIENT_SRC_JS = [
 ];
 
 const SERVER_SRC = [
-    './server/**/*.js'
+    './server/**/*.@(js|jsx)'
 ];
 
 /**
@@ -83,7 +83,7 @@ gulp.task('__uglify', ['__clean:client:js'], function () {
 });
 
 gulp.task('__cp:client:js', ['__clean:client:js'], function () {
-    return gulp.src('./client/script/**/*.js')
+    return gulp.src('./client/script/**/*.@(js|jsx)')
         .pipe(gulp.dest(DIST_CLIENT_OBJ));
 });
 
@@ -153,7 +153,7 @@ gulp.task('jslint', function (callback) {
 
     const args = [
         bin,
-        '--ext', '.js',
+        '--ext', '.js,.jsx',
     ].concat(src);
 
     const option = {
