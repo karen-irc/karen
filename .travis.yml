@@ -11,7 +11,7 @@ node_js:
 
 notifications:
   email: false
-  webhooks: http://utatane.softether.net:10800/travis
+  webhooks: http://cq-dokidokivisual.rhcloud.com/travis
 
 # blacklist
 branches:
