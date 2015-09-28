@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-import UIActionDispatcher from '../dispatcher/UIActionDispatcher';
+import {UIActionDispatcher} from '../dispatcher/UIActionDispatcher';
 
 class UIActionCreator {
 

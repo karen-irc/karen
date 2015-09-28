@@ -36,7 +36,7 @@ import {NetworkDomain} from './NetworkDomain';
 
 import {MessageGateway} from '../adapter/MessageGateway';
 import UIActionCreator from '../intent/action/UIActionCreator';
-import UIActionDispatcher from '../intent/dispatcher/UIActionDispatcher';
+import {UIActionDispatcher} from '../intent/dispatcher/UIActionDispatcher';
 
 export const enum CurrentTabType {
     SETTING = 0,

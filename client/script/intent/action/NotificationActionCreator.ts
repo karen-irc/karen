@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-import NotificationDispatcher from '../dispatcher/NotificationDispatcher';
+import {NotificationDispatcher} from '../dispatcher/NotificationDispatcher';
 
 class NotificationActionCreator {
 

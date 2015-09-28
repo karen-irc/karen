@@ -40,7 +40,7 @@ type Topic = {
     topic: string;
 };
 
-export default class ChatCommandDispatcher {
+export class ChatCommandDispatcher {
 
     sendCommand: Rx.Subject<Command>
     clearMessage: Rx.Subject<number>;

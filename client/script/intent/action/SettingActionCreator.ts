@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-import SettingActionDispatcher from '../dispatcher/SettingActionDispatcher';
+import {SettingActionDispatcher} from '../dispatcher/SettingActionDispatcher';
 
 class SettingActionCreator {
 

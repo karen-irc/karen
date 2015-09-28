@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-import AppActionDispatcher from '../dispatcher/AppActionDispatcher';
+import {AppActionDispatcher} from '../dispatcher/AppActionDispatcher';
 import {Network} from '../../domain/Network';
 
 class AppActionCreator {
