@@ -27,7 +27,7 @@ import NotificationDispatcher from '../dispatcher/NotificationDispatcher';
 
 class NotificationActionCreator {
 
-    _dispatcher: NotificationDispatcher;
+    private _dispatcher: NotificationDispatcher;
 
     constructor() {
         this._dispatcher = new NotificationDispatcher();

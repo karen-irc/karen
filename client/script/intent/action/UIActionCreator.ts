@@ -27,7 +27,7 @@ import UIActionDispatcher from '../dispatcher/UIActionDispatcher';
 
 class UIActionCreator {
 
-    _dispatcher: UIActionDispatcher;
+    private _dispatcher: UIActionDispatcher;
 
     constructor() {
         this._dispatcher = new UIActionDispatcher();

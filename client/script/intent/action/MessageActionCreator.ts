@@ -30,7 +30,7 @@ import {User} from '../../domain/User';
 
 class MessageActionCreator {
 
-    _dispatcher: ChatCommandDispatcher;
+    private _dispatcher: ChatCommandDispatcher;
 
     constructor() {
         this._dispatcher = new ChatCommandDispatcher();

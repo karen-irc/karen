@@ -28,7 +28,7 @@ import {Network} from '../../domain/Network';
 
 class AppActionCreator {
 
-    _dispatcher: AppActionDispatcher;
+    private _dispatcher: AppActionDispatcher;
 
     constructor() {
         this._dispatcher = new AppActionDispatcher();
