@@ -25,7 +25,7 @@
 
 import ClientSocketDriver from './ClientSocketDriver';
 import io from 'socket.io';
-import Rx from 'rx';
+import * as Rx from 'rx';
 
 export default class SocketIoServerDriver {
 

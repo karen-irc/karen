@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-import Rx from 'rx';
+import * as Rx from 'rx';
 
 export default class ClientSocketDriver {
 
