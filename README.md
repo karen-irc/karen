@@ -1,6 +1,8 @@
 # karen
 
 [![Build Status](https://travis-ci.org/karen-irc/karen.svg?branch=master)](https://travis-ci.org/karen-irc/karen)
+[![Dependency Status](https://david-dm.org/karen-irc/karen.svg)](https://david-dm.org/karen-irc/karen)
+[![devDependency Status](https://david-dm.org/karen-irc/karen/dev-status.svg)](https://david-dm.org/karen-irc/karen#info=devDependencies)
 
 karen is a [shout](https://github.com/erming/shout)-fork just for highly personal use.
 
