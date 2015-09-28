@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     }));
 
-    UIActionCreator.getDispatcher().toggleLeftPane.subscribe(function (shouldOpen) {
+    UIActionCreator.dispatcher().toggleLeftPane.subscribe(function (shouldOpen) {
         if (shouldOpen) {
             chat.find('.chat').each(function(i, element) {
                 element.addEventListener('click', function onClick(aEvent) {
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     // FIXME: Move to InputBoxViewController
     $(inputBox.textInput).tab(complete, {hint: false});
 
-    const shouldShowLatestInChannel = UIActionCreator.getDispatcher().showLatestInChannel.debounce(100)
+    const shouldShowLatestInChannel = UIActionCreator.dispatcher().showLatestInChannel.debounce(100)
         .merge(globalState.getSelectedChannel());
     shouldShowLatestInChannel.subscribe(function(channelId){
         const targetChanel = document.getElementById('js-chan-' + String(channelId));
@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         document.title = title;
     });
 
-    AppActionCreator.getDispatcher().signout.subscribe(function(){
+    AppActionCreator.dispatcher().signout.subscribe(function(){
         auth.removeToken();
     });
 

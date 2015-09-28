@@ -45,7 +45,7 @@ export class NotificationPresenter {
     _disposeshowNotification: Rx.IDisposable;
 
     constructor(config: ConfigRepository) {
-        const dispatcher = NotificationActionCreator.getDispatcher();
+        const dispatcher = NotificationActionCreator.dispatcher();
 
         this._audio = new AudioDriver('/audio/pop.ogg');
 

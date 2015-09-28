@@ -49,7 +49,7 @@ export class MessageGateway {
         const disposer = new Rx.CompositeDisposable();
         this._disposer = disposer;
 
-        const messageDispatcher = MessageActionCreator.getDispatcher();
+        const messageDispatcher = MessageActionCreator.dispatcher();
 
         disposer.add(messageDispatcher.sendCommand.subscribe(({ channelId, text }) => {
             this._sendCommand(channelId, text);

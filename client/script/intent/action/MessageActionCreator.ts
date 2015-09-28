@@ -36,7 +36,7 @@ class MessageActionCreator {
         this._dispatcher = new ChatCommandDispatcher();
     }
 
-    getDispatcher(): ChatCommandDispatcher {
+    dispatcher(): ChatCommandDispatcher {
         return this._dispatcher;
     }
 

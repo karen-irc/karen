@@ -60,7 +60,7 @@ export class SidebarViewController implements EventListenerObject {
         const disposer = new Rx.CompositeDisposable();
         this._eventDisposer = disposer;
 
-        disposer.add(AppActionCreator.getDispatcher().signout.subscribe(() => {
+        disposer.add(AppActionCreator.dispatcher().signout.subscribe(() => {
             this.clearAllNetworks();
             this.showEmptinesse();
         }));

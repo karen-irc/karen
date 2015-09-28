@@ -34,7 +34,7 @@ class AppActionCreator {
         this._dispatcher = new AppActionDispatcher();
     }
 
-    getDispatcher(): AppActionDispatcher {
+    dispatcher(): AppActionDispatcher {
         return this._dispatcher;
     }
 

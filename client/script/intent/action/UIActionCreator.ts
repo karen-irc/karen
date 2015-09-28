@@ -33,7 +33,7 @@ class UIActionCreator {
         this._dispatcher = new UIActionDispatcher();
     }
 
-    getDispatcher(): UIActionDispatcher {
+    dispatcher(): UIActionDispatcher {
         return this._dispatcher;
     }
 

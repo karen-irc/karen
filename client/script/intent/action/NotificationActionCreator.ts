@@ -33,7 +33,7 @@ class NotificationActionCreator {
         this._dispatcher = new NotificationDispatcher();
     }
 
-    getDispatcher(): NotificationDispatcher {
+    dispatcher(): NotificationDispatcher {
         return this._dispatcher;
     }
 

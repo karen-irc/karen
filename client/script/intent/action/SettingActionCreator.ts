@@ -33,7 +33,7 @@ class SettingActionCreator {
         this._dispatcher = new SettingActionDispatcher();
     }
 
-    getDispatcher(): SettingActionDispatcher {
+    dispatcher(): SettingActionDispatcher {
         return this._dispatcher;
     }
 
