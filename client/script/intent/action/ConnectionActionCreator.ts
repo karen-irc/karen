@@ -28,13 +28,13 @@ import {ConnectionActionDispatcher} from '../dispatcher/ConnectionActionDispatch
 
 export class ConnectionActionCreator {
 
-    _dispatcher: ConnectionActionDispatcher;
+    private _dispatcher: ConnectionActionDispatcher;
 
     constructor() {
         this._dispatcher = new ConnectionActionDispatcher();
     }
 
-    getDispatcher(): ConnectionActionDispatcher {
+    dispatcher(): ConnectionActionDispatcher {
         return this._dispatcher;
     }
 

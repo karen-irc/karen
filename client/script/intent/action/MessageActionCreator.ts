@@ -24,19 +24,19 @@
  */
 
 import {Channel} from '../../domain/Channel';
-import ChatCommandDispatcher from '../dispatcher/ChatCommandDispatcher';
+import {ChatCommandDispatcher} from '../dispatcher/ChatCommandDispatcher';
 import {CommandType} from '../../domain/CommandType';
 import {User} from '../../domain/User';
 
 class MessageActionCreator {
 
-    _dispatcher: ChatCommandDispatcher;
+    private _dispatcher: ChatCommandDispatcher;
 
     constructor() {
         this._dispatcher = new ChatCommandDispatcher();
     }
 
-    getDispatcher(): ChatCommandDispatcher {
+    dispatcher(): ChatCommandDispatcher {
         return this._dispatcher;
     }
 

@@ -29,7 +29,7 @@ import * as Rx from 'rx';
 
 type SettingId = string;
 
-export default class UIActionDispatcher {
+export class UIActionDispatcher {
 
     toggleLeftPane: Rx.Subject<boolean>;
     toggleRightPane: Rx.Subject<boolean>;

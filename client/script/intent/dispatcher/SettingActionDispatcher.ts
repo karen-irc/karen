@@ -27,7 +27,7 @@
 
 import * as Rx from 'rx';
 
-export default class SettingActionDispatcher {
+export class SettingActionDispatcher {
 
     setOption: Rx.Subject<{ name: string, value: any}>;
 

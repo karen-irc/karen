@@ -78,7 +78,7 @@ export class MessageContentViewController {
             this._renderMessage(message);
         }));
 
-        disposer.add(MessageActionCreator.getDispatcher().clearMessage.subscribe((id: number) => {
+        disposer.add(MessageActionCreator.dispatcher().clearMessage.subscribe((id: number) => {
             if (this._channelId !== id) {
                 return;
             }

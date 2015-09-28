@@ -39,7 +39,7 @@ export class AppViewController implements EventListenerObject {
     constructor(element: Element) {
         this._element = element;
 
-        const uiDispatcher = UIActionCreator.getDispatcher();
+        const uiDispatcher = UIActionCreator.dispatcher();
 
         this._toggleLeftPane = uiDispatcher.toggleLeftPane.subscribe((shouldOpen) => {
             const className = 'lt';

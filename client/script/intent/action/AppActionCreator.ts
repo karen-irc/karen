@@ -23,18 +23,18 @@
  * THE SOFTWARE.
  */
 
-import AppActionDispatcher from '../dispatcher/AppActionDispatcher';
+import {AppActionDispatcher} from '../dispatcher/AppActionDispatcher';
 import {Network} from '../../domain/Network';
 
 class AppActionCreator {
 
-    _dispatcher: AppActionDispatcher;
+    private _dispatcher: AppActionDispatcher;
 
     constructor() {
         this._dispatcher = new AppActionDispatcher();
     }
 
-    getDispatcher(): AppActionDispatcher {
+    dispatcher(): AppActionDispatcher {
         return this._dispatcher;
     }
 

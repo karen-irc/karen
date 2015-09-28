@@ -62,7 +62,7 @@ export class SettingStore {
             observer.onCompleted();
         });
 
-        this._disposeUpdate = SettingActionCreator.getDispatcher().setOption.subscribe((data) => {
+        this._disposeUpdate = SettingActionCreator.dispatcher().setOption.subscribe((data) => {
             this.update(data.name, data.value);
         });
     }

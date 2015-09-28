@@ -46,17 +46,17 @@ export class WindowPresenter implements EventListenerObject {
         this._domain = domain;
         this._disposer = new Rx.CompositeDisposable();
 
-        this._disposer.add(AppActionCreator.getDispatcher().reload.subscribe(function () {
+        this._disposer.add(AppActionCreator.dispatcher().reload.subscribe(function () {
             window.onbeforeunload = null;
 
             location.reload();
         }));
 
-        this._disposer.add(UIActionCreator.getDispatcher().focusWindow.subscribe(function(){
+        this._disposer.add(UIActionCreator.dispatcher().focusWindow.subscribe(function(){
             window.focus();
         }));
 
-        this._disposer.add(UIActionCreator.getDispatcher().setQuitConfirmDialog.subscribe(() => {
+        this._disposer.add(UIActionCreator.dispatcher().setQuitConfirmDialog.subscribe(() => {
             if (document.body.classList.contains('public')) {
                 window.onbeforeunload = this._onBeforeUnload;
             }

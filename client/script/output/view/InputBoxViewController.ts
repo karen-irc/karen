@@ -48,7 +48,7 @@ export class InputBoxViewController {
         this._textInput = <HTMLInputElement>element.querySelector('#js-input');
         this._nickElement = <HTMLElement>element.querySelector('#js-nick');
 
-        this._disposeFocus = UIActionCreator.getDispatcher().focusInputBox.subscribe(() => {
+        this._disposeFocus = UIActionCreator.dispatcher().focusInputBox.subscribe(() => {
             this._focusInput();
         });
 

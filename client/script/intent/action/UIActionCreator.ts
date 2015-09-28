@@ -23,17 +23,17 @@
  * THE SOFTWARE.
  */
 
-import UIActionDispatcher from '../dispatcher/UIActionDispatcher';
+import {UIActionDispatcher} from '../dispatcher/UIActionDispatcher';
 
 class UIActionCreator {
 
-    _dispatcher: UIActionDispatcher;
+    private _dispatcher: UIActionDispatcher;
 
     constructor() {
         this._dispatcher = new UIActionDispatcher();
     }
 
-    getDispatcher(): UIActionDispatcher {
+    dispatcher(): UIActionDispatcher {
         return this._dispatcher;
     }
 

@@ -58,11 +58,11 @@ export class FooterViewController implements EventListenerObject {
 
         this._lastSelectedElement = null;
 
-        this._disposableSignIn = UIActionCreator.getDispatcher().showSignIn.subscribe(() => {
+        this._disposableSignIn = UIActionCreator.dispatcher().showSignIn.subscribe(() => {
             this.selectElement(this._lastSelectedElement, this._signinElement);
         });
 
-        this._disposableSignout = AppActionCreator.getDispatcher().signout.subscribe(() => {
+        this._disposableSignout = AppActionCreator.dispatcher().signout.subscribe(() => {
             this.selectElement(this._lastSelectedElement, this._signoutElement);
         });
 

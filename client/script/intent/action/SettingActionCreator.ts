@@ -23,17 +23,17 @@
  * THE SOFTWARE.
  */
 
-import SettingActionDispatcher from '../dispatcher/SettingActionDispatcher';
+import {SettingActionDispatcher} from '../dispatcher/SettingActionDispatcher';
 
 class SettingActionCreator {
 
-    _dispatcher: SettingActionDispatcher;
+    private _dispatcher: SettingActionDispatcher;
 
     constructor() {
         this._dispatcher = new SettingActionDispatcher();
     }
 
-    getDispatcher(): SettingActionDispatcher {
+    dispatcher(): SettingActionDispatcher {
         return this._dispatcher;
     }
 

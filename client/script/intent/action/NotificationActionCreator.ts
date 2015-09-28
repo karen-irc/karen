@@ -23,17 +23,17 @@
  * THE SOFTWARE.
  */
 
-import NotificationDispatcher from '../dispatcher/NotificationDispatcher';
+import {NotificationDispatcher} from '../dispatcher/NotificationDispatcher';
 
 class NotificationActionCreator {
 
-    _dispatcher: NotificationDispatcher;
+    private _dispatcher: NotificationDispatcher;
 
     constructor() {
         this._dispatcher = new NotificationDispatcher();
     }
 
-    getDispatcher(): NotificationDispatcher {
+    dispatcher(): NotificationDispatcher {
         return this._dispatcher;
     }
 

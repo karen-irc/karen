@@ -59,7 +59,7 @@ export class ConnectSettingViewController {
         const action = new ConnectionActionCreator();
         this._action = action;
 
-        const store = new ConnectionStore(action.getDispatcher());
+        const store = new ConnectionStore(action.dispatcher());
 
         const observer: Rx.Observer<ConnectionValue> = Rx.Observer.create((data: ConnectionValue) => {
             this.render(data);
@@ -87,7 +87,7 @@ export class ConnectSettingViewController {
         });
         this._disposable.add(initSocket);
 
-        const tryConnect = action.getDispatcher().tryConnect.asObservable().subscribeOnNext(function(value){
+        const tryConnect = action.dispatcher().tryConnect.asObservable().subscribeOnNext(function(value){
             const prop = value.toJSON();
             socket.emit('conn', prop);
         });
