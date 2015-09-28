@@ -4,7 +4,7 @@ import Client from './Client';
 import mkdirp from 'mkdirp';
 import ConfigDriver from './adapter/ConfigDriver';
 import moment from 'moment';
-import Rx from 'rx';
+import * as Rx from 'rx';
 
 /**
  *  @template   T
