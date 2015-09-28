@@ -27,10 +27,10 @@
 
 import * as Rx from 'rx';
 
-import Channel from './Channel';
+import {Channel} from './Channel';
 import {Some, None, Option} from 'option-t';
 
-export default class Network {
+export class Network {
     id: number;
     nickname: string;
     _channelList: Array<Channel>;

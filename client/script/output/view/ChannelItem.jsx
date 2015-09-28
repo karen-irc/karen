@@ -23,8 +23,9 @@
  * THE SOFTWARE.
  */
 
-import Channel from '../../domain/Channel';
 import * as React from 'react';
+
+import {Channel} from '../../domain/Channel';
 
 export class ChannelItem extends React.Component {
 

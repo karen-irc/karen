@@ -26,7 +26,7 @@
 /// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
 
 import {ComponentClass} from 'react';
-import User from '../../domain/User';
+import {User} from '../../domain/User';
 
 interface UserListProps {
     key?: any;

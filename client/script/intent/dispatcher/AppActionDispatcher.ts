@@ -25,8 +25,9 @@
 
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
-import Network from '../../domain/Network';
 import * as Rx from 'rx';
+
+import {Network} from '../../domain/Network';
 
 export default class AppActionDispatcher {
     reload: Rx.Subject<void>;

@@ -25,15 +25,15 @@
 
 /// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
+import {Option} from 'option-t';
 import * as Rx from 'rx';
 
 import AppActionCreator from '../intent/action/AppActionCreator';
-import Channel from '../domain/Channel';
+import {Channel} from '../domain/Channel';
 import {DomainState, SelectedTab} from '../domain/DomainState';
 import {RecievedMessage} from '../domain/Message';
 import NotificationActionCreator from '../intent/action/NotificationActionCreator';
 import UIActionCreator from '../intent/action/UIActionCreator';
-import {Option} from 'option-t';
 
 export class WindowPresenter implements EventListenerObject {
 

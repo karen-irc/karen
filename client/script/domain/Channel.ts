@@ -28,10 +28,10 @@
 import * as Rx from 'rx';
 
 import {Message} from './Message';
-import Network from './Network';
-import User from './User';
+import {Network} from './Network';
+import {User} from './User';
 
-export default class Channel {
+export class Channel {
     id: number;
     name: string;
     topic: string;

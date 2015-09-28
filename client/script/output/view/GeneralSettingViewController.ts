@@ -25,12 +25,13 @@
 
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
-import NotificationActionCreator from '../../intent/action/NotificationActionCreator';
 import * as Rx from 'rx';
-import SettingActionCreator from '../../intent/action/SettingActionCreator';
-import SettingStore from '../viewmodel/SettingStore';
 
-export default class GeneralSettingViewController implements EventListenerObject {
+import NotificationActionCreator from '../../intent/action/NotificationActionCreator';
+import SettingActionCreator from '../../intent/action/SettingActionCreator';
+import {SettingStore} from '../viewmodel/SettingStore';
+
+export class GeneralSettingViewController implements EventListenerObject {
 
     _element: Element;
     _playElement: Element;

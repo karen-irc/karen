@@ -29,16 +29,14 @@ import {Option, Some, None} from 'option-t';
 import * as Rx from 'rx';
 
 import MessageActionCreator from '../intent/action/MessageActionCreator';
-import Channel from '../domain/Channel';
-import CommandTypeMod from '../domain/CommandType';
+import {Channel} from '../domain/Channel';
+import {CommandType} from '../domain/CommandType';
 import {SelectedTab} from '../domain/DomainState'
 import {Message, RecievedMessage} from '../domain/Message';
-import Network from '../domain/Network';
-import User from '../domain/User';
+import {Network} from '../domain/Network';
+import {User} from '../domain/User';
 
 import {SocketIoDriver} from './SocketIoDriver';
-
-const CommandType = CommandTypeMod.type;
 
 export class MessageGateway {
 

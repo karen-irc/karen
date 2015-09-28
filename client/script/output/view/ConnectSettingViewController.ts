@@ -40,7 +40,7 @@ import {SocketIoDriver} from '../../adapter/SocketIoDriver';
 
 import {ConnectSettingWindow} from './ConnectSettingWindow';
 
-export default class ConnectSettingViewController {
+export class ConnectSettingViewController {
 
     private _element: Element;
     private _socket: SocketIoDriver;

@@ -24,7 +24,7 @@
  */
 
 /** @enum {string}  */
-const CommandType = Object.freeze({
+export const CommandType = Object.freeze({
     CLEAR: '/clear',
     CLOSE: '/close',
     CONNECT: '/connect',
@@ -53,11 +53,7 @@ const CommandType = Object.freeze({
     WHOIS: '/whois',
 });
 
-const list: Array<string> = Object.keys(CommandType).map(function(name: string): string {
+export const CommandList: Array<string> = Object.keys(CommandType).map(function(name: string): string {
     return CommandType[name];
 });
-
-export default {
-    type: CommandType,
-    list: Object.freeze(list),
-};
+Object.freeze(CommandList);

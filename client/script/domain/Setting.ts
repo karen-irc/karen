@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-export default class Setting {
+export class Setting {
 
     badge: boolean;
     colors: boolean;

@@ -28,7 +28,7 @@
 import * as Rx from 'rx';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
-export default class AppViewController implements EventListenerObject {
+export class AppViewController implements EventListenerObject {
 
     _element: Element;
     _toggleLeftPane: Rx.IDisposable;

@@ -25,17 +25,18 @@
 
 /// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
-import AudioDriver from '../adapter/AudioDriver';
-import ConfigRepository from '../adapter/ConfigRepository';
-import NotificationActionCreator from '../intent/action/NotificationActionCreator';
 import * as Rx from 'rx';
+
+import {AudioDriver} from '../adapter/AudioDriver';
+import {ConfigRepository} from '../adapter/ConfigRepository';
+import NotificationActionCreator from '../intent/action/NotificationActionCreator';
 import UIActionCreator from '../intent/action/UIActionCreator';
 
 declare const Notification: any;
 
 const ICON_URL = '/img/logo-64.png';
 
-export default class NotificationPresenter {
+export class NotificationPresenter {
 
     _audio: AudioDriver;
     _config: ConfigRepository;

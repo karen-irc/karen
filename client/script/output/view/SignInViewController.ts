@@ -26,14 +26,14 @@
 
 /// <reference path="../../../../tsd/third_party/jquery/jquery.d.ts" />
 
-import CookieDriver from '../../adapter/CookieDriver';
+import {CookieDriver} from '../../adapter/CookieDriver';
 import {SocketIoDriver} from '../../adapter/SocketIoDriver';
 
 declare const moment: any;
 
 const EVENT_NAME = 'auth';
 
-export default class SignInViewController implements EventListenerObject {
+export class SignInViewController implements EventListenerObject {
 
     _element: Element;
     _cookie: CookieDriver;

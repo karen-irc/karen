@@ -25,8 +25,8 @@
 
 /// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
-import Channel from './Channel';
-import Network from './Network';
+import {Channel} from './Channel';
+import {Network} from './Network';
 import * as Rx from 'rx';
 
 import {Some, None, Option} from 'option-t';
@@ -35,7 +35,7 @@ import {Some, None, Option} from 'option-t';
  *  This object is based on the assumption that
  *  `Network.id` will be unique while the runtime.
  */
-export default class NetworkSet {
+export class NetworkSet {
     _idMap: Map<number, Network>;
 
     constructor(raw: Array<Network>) {

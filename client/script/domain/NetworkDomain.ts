@@ -29,10 +29,10 @@
 import {Some, None, Option} from 'option-t';
 import * as Rx from 'rx';
 
-import Channel from './Channel';
+import {Channel} from './Channel';
 import {ChannelDomain} from './ChannelDomain';
 import {Message, RecievedMessage} from './Message';
-import Network from './Network';
+import {Network} from './Network';
 
 import {MessageGateway} from '../adapter/MessageGateway';
 

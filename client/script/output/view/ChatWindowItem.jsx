@@ -25,7 +25,8 @@
  */
 
 import * as React from 'react';
-import Channel from '../../domain/Channel';
+
+import {Channel} from '../../domain/Channel';
 import {MessageList} from './MessageItem';
 
 export class ChatWindowList extends React.Component {

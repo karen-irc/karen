@@ -25,9 +25,10 @@
 
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
-import ConfigRepository from '../../adapter/ConfigRepository';
 import * as Rx from 'rx';
-import Setting from '../../domain/Setting';
+
+import {ConfigRepository} from '../../adapter/ConfigRepository';
+import {Setting} from '../../domain/Setting';
 import SettingActionCreator from '../../intent/action/SettingActionCreator';
 
 type SetValue = {
@@ -35,7 +36,7 @@ type SetValue = {
     value: any;
 };
 
-export default class SettingStore {
+export class SettingStore {
 
     _subject: Rx.Subject<SetValue>;
     _repository: ConfigRepository;

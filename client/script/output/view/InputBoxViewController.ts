@@ -25,12 +25,13 @@
 
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
+import * as Rx from 'rx';
+
 import {DomainState} from '../../domain/DomainState';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
-import * as Rx from 'rx';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
-export default class InputBoxViewController {
+export class InputBoxViewController {
 
     private _element: Element;
     private _domain: DomainState;
