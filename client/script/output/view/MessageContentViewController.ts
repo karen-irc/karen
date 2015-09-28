@@ -37,7 +37,7 @@ import {UserList} from './UserList';
 
 import {ChannelDomain} from '../../domain/ChannelDomain';
 import {Message} from '../../domain/Message';
-import User from '../../domain/User';
+import {User} from '../../domain/User';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 

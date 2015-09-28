@@ -36,7 +36,7 @@ type CookieOptions = {
     secure?: boolean;
 };
 
-export default class CookieDriver {
+export class CookieDriver {
 
     _cookie: any; // Cookies
 

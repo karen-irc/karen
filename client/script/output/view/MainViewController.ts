@@ -32,14 +32,14 @@ import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rx';
 
 import {ChatWindowItem, ChatWindowList} from './ChatWindowItem';
-import ConnectSettingViewController from './ConnectSettingViewController';
+import {ConnectSettingViewController} from './ConnectSettingViewController';
 import {MessageContentViewController} from './MessageContentViewController';
-import SignInViewController from './SignInViewController';
+import {SignInViewController} from './SignInViewController';
 
-import CookieDriver from '../../adapter/CookieDriver';
+import {CookieDriver} from '../../adapter/CookieDriver';
 import {SocketIoDriver} from '../../adapter/SocketIoDriver';
 import {DomainState} from '../../domain/DomainState';
-import Channel from '../../domain/Channel';
+import {Channel} from '../../domain/Channel';
 import {ChannelDomain} from '../../domain/ChannelDomain';
 import {NetworkDomain} from '../../domain/NetworkDomain';
 import UIActionCreator from '../../intent/action/UIActionCreator';
@@ -53,7 +53,7 @@ function arrayFlatMap<T, U>(target: Array<T>, fn: {(value: T): Array<U>}) : Arra
     }, []);
 }
 
-export default class MainViewController {
+export class MainViewController {
 
     private _element: Element;
     private _channelMap: Map<number, MessageContentViewController>;

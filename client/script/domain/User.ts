@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-export default class User {
+export class User {
 
     nickname: string;
     permission: string;

@@ -24,14 +24,14 @@
  * THE SOFTWARE.
  */
 
-import CookieDriver from './CookieDriver';
-import Setting from '../domain/Setting';
+import {CookieDriver} from './CookieDriver';
+import {Setting} from '../domain/Setting';
 
 declare const moment: any;
 
 const KEY_SETTING = 'settings';
 
-export default class ConfigRepository {
+export class ConfigRepository {
 
     _cookie: CookieDriver;
 

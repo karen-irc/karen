@@ -23,12 +23,10 @@
  * THE SOFTWARE.
  */
 
-import Channel from '../../domain/Channel';
+import {Channel} from '../../domain/Channel';
 import ChatCommandDispatcher from '../dispatcher/ChatCommandDispatcher';
-import CommandTypeMod from '../../domain/CommandType';
-import User from '../../domain/User';
-
-const CommandType = CommandTypeMod.type;
+import {CommandType} from '../../domain/CommandType';
+import {User} from '../../domain/User';
 
 class MessageActionCreator {
 

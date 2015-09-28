@@ -30,7 +30,7 @@ import * as Rx from 'rx';
 
 import {ChannelDomain} from './ChannelDomain';
 import {RecievedMessage} from './Message';
-import NetworkSet from './NetworkSet';
+import {NetworkSet} from './NetworkSet';
 import {NetworkSetDomain} from './NetworkSetDomain';
 import {NetworkDomain} from './NetworkDomain';
 

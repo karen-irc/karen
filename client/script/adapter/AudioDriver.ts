@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-export default class AudioDriver {
+export class AudioDriver {
     _audio: HTMLAudioElement;
 
     constructor(path: string) {

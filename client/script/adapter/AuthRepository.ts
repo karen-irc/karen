@@ -26,14 +26,14 @@
 
 import {Option} from 'option-t';
 
-import CookieDriver from './CookieDriver';
+import {CookieDriver} from './CookieDriver';
 
 declare const moment: any;
 
 const KEY_TOKEN = 'token';
 const KEY_USER = 'user';
 
-export default class AuthRepository {
+export class AuthRepository {
 
     _cookie: CookieDriver;
 

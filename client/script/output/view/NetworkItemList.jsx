@@ -23,9 +23,10 @@
  * THE SOFTWARE.
  */
 
-import {ChannelItem} from './ChannelItem';
-import Network from '../../domain/Network';
 import * as React from 'react';
+
+import {ChannelItem} from './ChannelItem';
+import {Network} from '../../domain/Network';
 
 export class NetworkItemList extends React.Component {
 

@@ -25,14 +25,15 @@
 
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
+import * as Rx from 'rx';
+
 import AppActionCreator from '../../intent/action/AppActionCreator';
 import {MessageGateway} from '../../adapter/MessageGateway';
 import UIActionCreator from '../../intent/action/UIActionCreator';
-import * as Rx from 'rx';
 
 import {DomainState} from '../../domain/DomainState';
 
-export default class FooterViewController implements EventListenerObject {
+export class FooterViewController implements EventListenerObject {
 
     _element: Element;
     _signinElement: HTMLElement;

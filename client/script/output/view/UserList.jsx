@@ -25,7 +25,7 @@
  */
 
 import * as React from 'react';
-import User from '../../domain/User';
+import {User} from '../../domain/User';
 
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 

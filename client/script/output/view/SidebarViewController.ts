@@ -36,18 +36,16 @@ import {ChannelItem} from './ChannelItem';
 import {NetworkItemList} from './NetworkItemList';
 
 import {MessageGateway} from '../../adapter/MessageGateway';
-import Channel from '../../domain/Channel';
+import {Channel} from '../../domain/Channel';
 import {ChannelDomain} from '../../domain/ChannelDomain';
-import CommandTypeMod from '../../domain/CommandType';
+import {CommandType} from '../../domain/CommandType';
 import {DomainState} from '../../domain/DomainState';
 import {Message, RecievedMessage} from '../../domain/Message';
-import Network from '../../domain/Network';
+import {Network} from '../../domain/Network';
 import {NetworkDomain} from '../../domain/NetworkDomain';
 import AppActionCreator from '../../intent/action/AppActionCreator';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
-
-const CommandType = CommandTypeMod.type;
 
 export class SidebarViewController implements EventListenerObject {
 
