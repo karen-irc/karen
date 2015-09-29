@@ -26,12 +26,11 @@
 /// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../node_modules/typescript/lib/lib.es6.d.ts" />
 
-import {Some, None, Option} from 'option-t';
+import {Some, None} from 'option-t';
 import * as Rx from 'rx';
 
-import {Channel} from './Channel';
 import {ChannelDomain} from './ChannelDomain';
-import {Message, RecievedMessage} from './Message';
+import {RecievedMessage} from './Message';
 import {Network} from './Network';
 
 import {MessageGateway} from '../adapter/MessageGateway';

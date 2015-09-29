@@ -23,7 +23,6 @@
  * THE SOFTWARE.
  */
 
-import {Channel} from '../../domain/Channel';
 import {ChatCommandDispatcher} from '../dispatcher/ChatCommandDispatcher';
 import {CommandType} from '../../domain/CommandType';
 import {User} from '../../domain/User';

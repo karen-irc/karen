@@ -27,8 +27,6 @@
 
 import * as Rx from 'rx';
 
-import {Network} from '../../domain/Network';
-
 export class AppActionDispatcher {
     reload: Rx.Subject<void>;
     signout: Rx.Subject<void>;

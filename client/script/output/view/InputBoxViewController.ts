@@ -53,7 +53,7 @@ export class InputBoxViewController {
         });
 
         this._disposeSelect = domain.getSelectedChannel().subscribe((id: number) => {
-            this._currentChannelId;
+            this._currentChannelId = id;
         });
 
         this._init();

@@ -29,9 +29,7 @@
 import {Some, None, Option} from 'option-t';
 import * as Rx from 'rx';
 
-import {Channel} from './Channel';
-import {Message, RecievedMessage} from './Message';
-import {Network} from './Network';
+import {RecievedMessage} from './Message';
 import {NetworkSet} from './NetworkSet';
 import {ChannelDomain} from './ChannelDomain';
 import {NetworkDomain} from './NetworkDomain';
@@ -99,7 +97,7 @@ export class NetworkSetDomain {
             this.legacy.add(network.getValue()); // for legacy model.
             list.push(network);
             return [network, list];
-        }).map(function([network, _]){
+        }).map(function([network,]){
             return network;
         }).share();
 

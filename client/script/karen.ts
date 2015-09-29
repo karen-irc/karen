@@ -7,31 +7,26 @@
 /// <reference path="../../tsd/third_party/react/react.d.ts" />
 /// <reference path="../../tsd/react.d.ts" />
 
-import {Some, None, Option} from 'option-t';
+import {Option} from 'option-t';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rx';
 
 import AppActionCreator from './intent/action/AppActionCreator';
 import {AppViewController} from './output/view/AppViewController';
-import {AudioDriver} from './adapter/AudioDriver';
 import {AuthRepository} from './adapter/AuthRepository';
 import {Channel} from './domain/Channel';
-import {CommandType, CommandList} from './domain/CommandType';
+import {CommandList} from './domain/CommandType';
 import {ConfigRepository} from './adapter/ConfigRepository';
 import {CookieDriver} from './adapter/CookieDriver';
-import {DomainState, SelectedTab, CurrentTabType} from './domain/DomainState';
+import {DomainState} from './domain/DomainState';
 import {FooterViewController} from './output/view/FooterViewController';
 import {GeneralSettingViewController} from './output/view/GeneralSettingViewController';
 import {InputBoxViewController} from './output/view/InputBoxViewController';
 import {MainViewController} from './output/view/MainViewController';
-import MessageActionCreator from './intent/action/MessageActionCreator';
 import {MessageGateway} from './adapter/MessageGateway';
-import {MessageItem, MessageList} from './output/view/MessageItem';
-import {Network} from './domain/Network';
-import {NetworkSet} from './domain/NetworkSet';
+import {MessageList} from './output/view/MessageItem';
 import {NotificationPresenter} from './output/NotificationPresenter';
-import SettingActionCreator from './intent/action/SettingActionCreator';
 import {SettingStore} from './output/viewmodel/SettingStore';
 import {SidebarViewController} from './output/view/SidebarViewController';
 import {SocketIoDriver} from './adapter/SocketIoDriver';
