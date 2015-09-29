@@ -27,7 +27,6 @@
 
 import * as Rx from 'rx';
 
-import {Channel} from '../../domain/Channel';
 import {User} from '../../domain/User';
 
 type Command = {

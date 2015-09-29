@@ -23,11 +23,8 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
-
 import {Channel} from './Channel';
 import {Network} from './Network';
-import * as Rx from 'rx';
 
 import {Some, None, Option} from 'option-t';
 
