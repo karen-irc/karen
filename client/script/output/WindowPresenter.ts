@@ -35,6 +35,8 @@ import {RecievedMessage} from '../domain/Message';
 import NotificationActionCreator from '../intent/action/NotificationActionCreator';
 import UIActionCreator from '../intent/action/UIActionCreator';
 
+const BASE_TITLE = 'karen';
+
 export class WindowPresenter implements EventListenerObject {
 
     private _domain: DomainState;
@@ -77,6 +79,16 @@ export class WindowPresenter implements EventListenerObject {
                 from: message.from,
                 text: message.text.trim(),
             });
+        }))
+
+        this._disposer.add(domain.getSelectedChannel().subscribe((id: number) => {
+            const current: Option<Channel> = domain.networkSet.getChannelById(id);
+            const title = current.unwrap().name;
+            this.onCurrentTabChanged(title);
+        }));
+
+        this._disposer.add(domain.getSelectedSetting().subscribe((id: string) => {
+            this.onCurrentTabChanged(id);
         }));
 
         window.document.documentElement.addEventListener('keydown', this);
@@ -194,5 +206,10 @@ export class WindowPresenter implements EventListenerObject {
         }
 
         UIActionCreator.focusInputBox();
+    }
+
+    onCurrentTabChanged(currentName: string): void {
+        const title = BASE_TITLE + ' - ' + currentName;
+        window.document.title = title;
     }
 }
