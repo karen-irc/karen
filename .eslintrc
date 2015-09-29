@@ -117,6 +117,7 @@
         // ESLint-plugin-React
         // https://github.com/yannickcr/eslint-plugin-react
         "react/display-name": 0, // JSX transpiler creates displayName automatically.
+        "react/forbid-prop-types": 0,
         "react/jsx-boolean-value": [2, "always"], // Force boolean attribute explicitly.
         "react/jsx-closing-bracket-location": 0,
         "react/jsx-curly-spacing": 1,
@@ -132,6 +133,7 @@
         "react/no-danger": 1,
         "react/no-did-mount-set-state": [1, "allow-in-func"],
         "react/no-did-update-set-state": 1,
+        "react/no-direct-mutation-state": 1,
         "react/no-multi-comp": 0,
         "react/no-set-state": 0,
         "react/no-unknown-property": 2,
