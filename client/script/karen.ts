@@ -256,13 +256,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             .end();
 
         const channel = globalState.networkSet.getChannelById(id);
-        const baseTitle = 'karen';
-        const title = channel.mapOr(baseTitle, function(channel){
-            return channel.name + ' — ' + baseTitle;
-        });
-
-        document.title = title;
-
         const network = channel.map(function(channel: Channel){
             return channel.getNetwork();
         }).orElse(function() {
@@ -290,12 +283,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             .css('z-index', top++)
             .find('.chat')
             .end();
-
-        var title = 'karen';
-        if (chan.data('title')) {
-            title = chan.data('title') + ' — ' + title;
-        }
-        document.title = title;
     });
 
     AppActionCreator.dispatcher().signout.subscribe(function(){
