@@ -69,7 +69,7 @@
     "browserify": "^11.0.0",
     "del": "^2.0.0",
     "eslint": "^1.4.1",
-    "eslint-plugin-react": "^3.4.0",
+    "eslint-plugin-react": "^3.5.0",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
     "gulp-postcss": "^6.0.0",
