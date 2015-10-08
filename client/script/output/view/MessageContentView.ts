@@ -93,6 +93,18 @@ export class MessageContentView {
             this._clearMessages();
             this._showMoreButton();
         }));
+
+       disposer.add(Rx.Observable.interval(10 * 1000).subscribe(() => {
+           const target = this._element;
+           const children = Array.from(target.childNodes).slice(0, -100);
+           for (const element of children) {
+               element.parentNode.removeChild(element);
+           }
+
+           if (children.length) {
+               this._showMoreButton();
+           }
+       }));
     }
 
     dispose(): void {
