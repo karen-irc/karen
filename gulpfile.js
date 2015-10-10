@@ -29,6 +29,7 @@ const babel = require('gulp-babel');
 const babelify = require('babelify');
 const browserify = require('browserify');
 const del = require('del');
+const glob = require('glob');
 const gulp = require('gulp');
 const path = require('path');
 const postcss = require('gulp-postcss');
@@ -163,6 +164,38 @@ gulp.task('__eslint', function () {
     return spawnChildProcess('node', args, option);
 });
 
+gulp.task('__tslint', function () {
+    const SRC = './@(client|server)/**/*.@(ts|tsx)';
+
+    const files = new Promise(function(resolve, reject){
+        glob(SRC, {}, function (err, matched) {
+            if (!!err) {
+                reject(err);
+            }
+            else {
+                resolve(matched);
+            }
+        });
+    });
+
+    const process = files.then(function(src) {
+        const bin = path.resolve(NPM_MOD_DIR, './tslint', './bin', './tslint-cli.js');
+
+        const args = [
+            bin,
+        ].concat(src);
+
+        const option = {
+            cwd: path.relative(__dirname, ''),
+            stdio: 'inherit',
+        };
+
+        return spawnChildProcess('node', args, option);
+    });
+
+    return process;
+});
+
 gulp.task('__babel:server', ['clean:server'], function () {
     let babelOptions = [];
     if (isRelease) {
@@ -214,7 +247,7 @@ gulp.task('__build:server', ['__babel:server']);
 gulp.task('__build:client:js', ['__uglify', '__browserify']);
 gulp.task('__build:client:css', ['__postcss']);
 
-gulp.task('jslint', ['__eslint']);
+gulp.task('jslint', ['__eslint', '__tslint']);
 gulp.task('build:server', ['jslint', '__build:server']);
 gulp.task('build:client', ['jslint', '__build:client:js', '__build:client:css']);
 gulp.task('build', ['build:server', 'build:client']);

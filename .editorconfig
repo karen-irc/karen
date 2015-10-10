@@ -15,6 +15,6 @@ indent_size = 4
 indent_style = space
 indent_size = 2
 
-[{.eslintrc}]
+[{.eslintrc,tslint.json}]
 indent_style = space
 indent_size = 4
