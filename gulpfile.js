@@ -29,7 +29,7 @@ const babel = require('gulp-babel');
 const babelify = require('babelify');
 const browserify = require('browserify');
 const del = require('del');
-const glob = require('glob');
+const glob = require('./utils/glob');
 const gulp = require('gulp');
 const path = require('path');
 const postcss = require('gulp-postcss');
@@ -165,25 +165,17 @@ gulp.task('__eslint', function () {
 });
 
 gulp.task('__tslint', function () {
-    const SRC = './@(client|server)/**/*.@(ts|tsx)';
+    const SRC = [
+        './client/**/*.@(ts|tsx)',
+        './server/**/*.@(ts|tsx)',
+    ];
 
-    const files = new Promise(function(resolve, reject){
-        glob(SRC, {}, function (err, matched) {
-            if (!!err) {
-                reject(err);
-            }
-            else {
-                resolve(matched);
-            }
-        });
-    });
-
-    const process = files.then(function(src) {
+    return glob.resolveGlobList(SRC).then(function(list){
         const bin = path.resolve(NPM_MOD_DIR, './tslint', './bin', './tslint-cli.js');
 
         const args = [
             bin,
-        ].concat(src);
+        ].concat(list);
 
         const option = {
             cwd: path.relative(__dirname, ''),
@@ -192,8 +184,6 @@ gulp.task('__tslint', function () {
 
         return spawnChildProcess('node', args, option);
     });
-
-    return process;
 });
 
 gulp.task('__babel:server', ['clean:server'], function () {
