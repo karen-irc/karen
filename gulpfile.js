@@ -28,12 +28,12 @@ const autoprefixer = require('autoprefixer');
 const babel = require('gulp-babel');
 const babelify = require('babelify');
 const browserify = require('browserify');
-const childProcess = require('child_process');
 const del = require('del');
 const gulp = require('gulp');
 const path = require('path');
 const postcss = require('gulp-postcss');
 const source = require('vinyl-source-stream');
+const spawnChildProcess = require('./utils/spawn');
 const uglify = require('gulp-uglifyjs');
 
 const isRelease = process.env.NODE_ENV === 'production';
@@ -87,7 +87,7 @@ gulp.task('__cp:client:js', ['__clean:client:js'], function () {
         .pipe(gulp.dest(DIST_CLIENT_OBJ));
 });
 
-gulp.task('__typescript', ['__clean:client:js'], function (callback) {
+gulp.task('__typescript', ['__clean:client:js'], function () {
     const args = [
         path.resolve(NPM_MOD_DIR, './typescript', './bin', './tsc'),
     ];
@@ -95,8 +95,7 @@ gulp.task('__typescript', ['__clean:client:js'], function (callback) {
         cwd: path.relative(__dirname, ''),
         stdio: 'inherit',
     };
-    const tsc = childProcess.spawn('node', args, option);
-    tsc.on('exit', callback);
+    return spawnChildProcess('node', args, option);
 });
 
 gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'], function () {
@@ -141,7 +140,7 @@ gulp.task('__postcss', ['__clean:client:css'], function () {
         .pipe(gulp.dest(DIST_CLIENT_CSS));
 });
 
-gulp.task('__eslint', function (callback) {
+gulp.task('__eslint', function () {
     const src = [
         './gulpfile.js',
         './client/script/',
@@ -161,8 +160,7 @@ gulp.task('__eslint', function (callback) {
         stdio: 'inherit',
     };
 
-    const eslint = childProcess.spawn('node', args, option);
-    eslint.on('exit', callback);
+    return spawnChildProcess('node', args, option);
 });
 
 gulp.task('__babel:server', ['clean:server'], function () {
