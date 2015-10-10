@@ -52,7 +52,7 @@ const CLIENT_SRC_JS = [
     path.resolve(NPM_MOD_DIR, './moment/moment.js'),
     'client/js/libs/stringcolor.js',
     'client/js/libs/parse.js',
-    'client/js/libs/uri.js',
+    path.resolve(NPM_MOD_DIR, './urijs/src/URI.js'),
 ];
 
 const SERVER_SRC = [
