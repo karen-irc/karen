@@ -141,7 +141,7 @@ gulp.task('__postcss', ['__clean:client:css'], function () {
         .pipe(gulp.dest(DIST_CLIENT_CSS));
 });
 
-gulp.task('jslint', function (callback) {
+gulp.task('__eslint', function (callback) {
     const src = [
         './gulpfile.js',
         './client/script/',
@@ -216,6 +216,7 @@ gulp.task('__build:server', ['__babel:server']);
 gulp.task('__build:client:js', ['__uglify', '__browserify']);
 gulp.task('__build:client:css', ['__postcss']);
 
+gulp.task('jslint', ['__eslint']);
 gulp.task('build:server', ['jslint', '__build:server']);
 gulp.task('build:client', ['jslint', '__build:client:js', '__build:client:css']);
 gulp.task('build', ['build:server', 'build:client']);
