@@ -64,9 +64,9 @@ export class UIActionDispatcher {
         this.showLatestInChannel = new Rx.Subject<number>();
 
         this.showSomeSettings = Rx.Observable.merge<SettingId>([
-            this.showSignIn.asObservable().map(function() { return 'sign-in' }),
-            this.showConnectSetting.asObservable().map(function() { return 'connect' }),
-            this.showGeneralSetting.asObservable().map(function() { return 'settings' }),
+            this.showSignIn.asObservable().map(function() { return 'sign-in'; }),
+            this.showConnectSetting.asObservable().map(function() { return 'connect'; }),
+            this.showGeneralSetting.asObservable().map(function() { return 'settings'; }),
         ]);
     }
 }

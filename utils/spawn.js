@@ -23,42 +23,33 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
+'use strict';
 
-import * as Rx from 'rx';
+const childProcess = require('child_process');
 
-import {User} from '../../domain/User';
+/**
+ *  Spawn a child process.
+ *
+ *  @param  {string}    bin
+ *      the same as the 1st argument of `child_process.spwan()`.
+ *  @param  {Array}     args
+ *      the same as the 2nd argument of `child_process.spwan()`.
+ *  @param  {Object}    option
+ *      the same as the 3rd argument of `child_process.spwan()`.
+ *
+ *  @return {Promise}
+ */
+function spawnChildProcess(bin, args, option) {
+    const spawned = new Promise(function(resolve, reject){
+        const process = childProcess.spawn(bin, args, option);
 
-type Command = {
-    channelId: number;
-    text: string;
-};
+        process.on('exit', function(signal) {
+            const fn = (signal === 0) ? resolve : reject;
+            fn(signal);
+        });
+    });
 
-type Topic = {
-    id: string;
-    topic: string;
-};
-
-export class ChatCommandDispatcher {
-
-    sendCommand: Rx.Subject<Command>;
-    clearMessage: Rx.Subject<number>;
-    setTopic: Rx.Subject<Topic>;
-    setNickname: Rx.Subject<{ id: number, nickname: string }>;
-    updateUserList: Rx.Subject<{ channelId: number, list: Array<User> }>;
-    queryWhoIs: Rx.Subject<{ channelId: number; user: string; }>;
-
-    constructor() {
-        this.sendCommand = new Rx.Subject<Command>();
-
-        this.clearMessage = new Rx.Subject<number>();
-
-        this.setTopic = new Rx.Subject<Topic>();
-
-        this.setNickname = new Rx.Subject<{ id: number, nickname: string }>();
-
-        this.updateUserList = new Rx.Subject<{ channelId: number, list: Array<User> }>();
-
-        this.queryWhoIs = new Rx.Subject<{ channelId: number; user: string; }>();
-    }
+    return spawned;
 }
+
+module.exports = spawnChildProcess;

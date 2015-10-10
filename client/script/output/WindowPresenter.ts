@@ -79,7 +79,7 @@ export class WindowPresenter implements EventListenerObject {
                 from: message.from,
                 text: message.text.trim(),
             });
-        }))
+        }));
 
         this._disposer.add(domain.getSelectedChannel().subscribe((id: number) => {
             const current: Option<Channel> = domain.networkSet.getChannelById(id);
@@ -103,7 +103,7 @@ export class WindowPresenter implements EventListenerObject {
                 break;
             case 'keydown':
                 this.onKeydown(<KeyboardEvent>event);
-                break
+                break;
             case 'focus':
                 this.onFocus(<FocusEvent>event);
                 break;
@@ -180,23 +180,25 @@ export class WindowPresenter implements EventListenerObject {
         const index = currentIndex.unwrap();
         const length = channelList.length;
         switch (key) {
-            case 'ArrowUp': {
-                // Loop
-                const target = (length + (index - 1 + length)) % length;
-                const id = channelList[target].id;
-                event.preventDefault();
-                UIActionCreator.selectChannel(id);
+            case 'ArrowUp':
+                {
+                    // Loop
+                    const target = (length + (index - 1 + length)) % length;
+                    const id = channelList[target].id;
+                    event.preventDefault();
+                    UIActionCreator.selectChannel(id);
+                }
                 break;
-            }
 
-            case 'ArrowDown': {
-                // Loop
-                const target = (length + (index + 1 + length)) % length;
-                const id = channelList[target].id;
-                event.preventDefault();
-                UIActionCreator.selectChannel(id);
+            case 'ArrowDown':
+                {
+                    // Loop
+                    const target = (length + (index + 1 + length)) % length;
+                    const id = channelList[target].id;
+                    event.preventDefault();
+                    UIActionCreator.selectChannel(id);
+                }
                 break;
-            }
         }
     }
 

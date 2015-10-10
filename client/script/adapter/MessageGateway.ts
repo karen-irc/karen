@@ -31,7 +31,7 @@ import * as Rx from 'rx';
 import MessageActionCreator from '../intent/action/MessageActionCreator';
 import {Channel} from '../domain/Channel';
 import {CommandType} from '../domain/CommandType';
-import {SelectedTab} from '../domain/DomainState'
+import {SelectedTab} from '../domain/DomainState';
 import {RecievedMessage} from '../domain/Message';
 import {Network} from '../domain/Network';
 import {User} from '../domain/User';

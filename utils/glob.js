@@ -23,42 +23,48 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
+'use strict';
 
-import * as Rx from 'rx';
+const glob = require('glob');
 
-import {User} from '../../domain/User';
-
-type Command = {
-    channelId: number;
-    text: string;
-};
-
-type Topic = {
-    id: string;
-    topic: string;
-};
-
-export class ChatCommandDispatcher {
-
-    sendCommand: Rx.Subject<Command>;
-    clearMessage: Rx.Subject<number>;
-    setTopic: Rx.Subject<Topic>;
-    setNickname: Rx.Subject<{ id: number, nickname: string }>;
-    updateUserList: Rx.Subject<{ channelId: number, list: Array<User> }>;
-    queryWhoIs: Rx.Subject<{ channelId: number; user: string; }>;
-
-    constructor() {
-        this.sendCommand = new Rx.Subject<Command>();
-
-        this.clearMessage = new Rx.Subject<number>();
-
-        this.setTopic = new Rx.Subject<Topic>();
-
-        this.setNickname = new Rx.Subject<{ id: number, nickname: string }>();
-
-        this.updateUserList = new Rx.Subject<{ channelId: number, list: Array<User> }>();
-
-        this.queryWhoIs = new Rx.Subject<{ channelId: number; user: string; }>();
+/**
+ *  @param  {Array<string>} srcList
+ *      The array which includes a glob pattern string.
+ *  @param  {Object=}  options
+ *      The `glob`'s `options` argument.
+ *  @return {Promise<Array<string>>}
+ *      The array which includes a resolved file path string.
+ */
+function resolveGlobList(srcList, options) {
+    if (!Array.isArray(srcList)) {
+        throw new TypeError('resolveGlobList: the argument should be `Array<string>`.');
     }
-}
+
+    /** @type   {Array<Promise<Array<string>>>} */
+    const srcs = srcList.map(function(pattern){
+        return new Promise(function (resolve, reject) {
+            glob(pattern, options, function (err, files){
+                if (!!err) {
+                    reject(err);
+                    return;
+                }
+
+                resolve(files);
+            });
+        });
+    });
+
+    /** @type   {Promise<Array<string>>}    */
+    const fileList = Promise.all(srcs).then(function(args){
+        const list = args.reduce(function(a, b) {
+            return a.concat(b);
+        }, []);
+        return list;
+    });
+
+    return fileList;
+};
+
+module.exports = {
+    resolveGlobList,
+};

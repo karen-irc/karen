@@ -30,12 +30,12 @@ import {Network} from '../../domain/Network';
 
 interface NetworkItemListProps {
     key?: any;
-    list: Array<Network>,
+    list: Array<Network>;
 }
 
 interface NetworkItemProps {
     key?: any;
-    network: Network,
+    network: Network;
 }
 
 export var NetworkItemList: ComponentClass<NetworkItemListProps>;

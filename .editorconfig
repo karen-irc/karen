@@ -14,3 +14,11 @@ indent_size = 4
 [{package.json,.travis.yml}]
 indent_style = space
 indent_size = 2
+
+[{.eslintrc,tslint.json}]
+indent_style = space
+indent_size = 4
+
+[{tsconfig.json,jsconfig.json}]
+indent_style = space
+indent_size = 4

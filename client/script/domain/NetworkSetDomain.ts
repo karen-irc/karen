@@ -105,7 +105,7 @@ export class NetworkSetDomain {
             const target = list.find(function(domain){
                 return domain.getId() === networkId;
             });
-            if (target == undefined) {
+            if (target === undefined) {
                 return new None<NetworkDomain>();
             }
 
@@ -152,7 +152,7 @@ export class NetworkSetDomain {
                 return Rx.Observable.never<NetworkDomain>();
             }, function(v){
                 return Rx.Observable.just(v);
-            })
+            });
         });
     }
 
