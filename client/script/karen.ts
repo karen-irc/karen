@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const sidebarView = new SidebarViewController(globalState, document.getElementById('sidebar'), messageGateway);
     const footer = new FooterViewController(globalState, messageGateway, document.getElementById('footer'));
 
-    var sidebar = $('#sidebar');
-    var chat = $('#chat');
+    const sidebar = $('#sidebar');
+    const chat = $('#chat');
 
     if (navigator.standalone) {
         document.documentElement.classList.add('web-app-mode');
@@ -76,20 +76,20 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     socket.auth().subscribe(function(data: any) {
-        var body: JQuery = $('body');
-        var login: JQuery = $('#sign-in');
+        const body: JQuery = $('body');
+        const login: JQuery = $('#sign-in');
         if (!login.length) {
             AppActionCreator.reload();
             return;
         }
         login.find('.btn').prop('disabled', false);
-        var token: Option<string> = auth.getToken();
+        const token: Option<string> = auth.getToken();
         if (token.isSome) {
             auth.removeToken();
             socket.emit('auth', {token: token.unwrap()});
         }
         if (body.hasClass('signed-out')) {
-            var error = login.find('.error');
+            const error = login.find('.error');
             error.show().closest('form').one('submit', function() {
                 error.hide();
             });
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (token.isNone) {
             body.addClass('signed-out');
         }
-        var input: JQuery = login.find('input[name=\'user\']');
+        const input: JQuery = login.find('input[name=\'user\']');
         if (input.val() === '') {
             input.val(auth.getUser().unwrapOr(''));
         }
@@ -124,17 +124,17 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     globalState.getCurrentTab().subscribe(function(state){
         chat.data('id', state.id);
-        messageGateway.saveCurrentTab(state)
+        messageGateway.saveCurrentTab(state);
     });
 
     socket.more().subscribe(function(data) {
-        var target = data.chan;
+        const target = data.chan;
         const view = React.createElement(MessageList, {
             list: data.messages,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
 
-        var chan = chat
+        const chan = chat
             .find('#js-chan-' + target)
             .find('.messages')
             .prepend(html)
@@ -158,8 +158,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
+    const options = config.get();
+
     socket.toggle().subscribe(function(data) {
-        var toggle = $('#toggle-' + data.id);
+        const toggle = $('#toggle-' + data.id);
         const view = React.createElement(ToggleItem, {
             item: data,
         });
@@ -179,8 +181,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             break;
         }
     });
-
-    var options = config.get();
 
     settingStore.subscribe(Rx.Observer.create(function (option: any) { // FIXME
         const name = option.name;
@@ -243,13 +243,13 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         return isBottom;
     }
 
-    var top = 1;
+    let top = 1;
     globalState.getSelectedChannel().subscribe(function(id){
         const target = '#js-chan-' + String(id);
         UIActionCreator.toggleLeftPane(false);
         $('#windows .active').removeClass('active');
 
-        var chan = $(target)
+        const chan = $(target)
             .addClass('active')
             .css('z-index', top++)
             .find('.chat')
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         UIActionCreator.toggleLeftPane(false);
         $('#windows .active').removeClass('active');
 
-        var chan = $(target)
+        const chan = $(target)
             .addClass('active')
             .trigger('show')
             .css('z-index', top++)
@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     chat.on('click', '.close', function() {
-        var id = $(this)
+        const id = $(this)
             .closest('.chan')
             .data('id');
         sidebar.find('.chan[data-id=\'' + id + '\']')
@@ -299,8 +299,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     chat.on('click', '.show-more-button', function() {
-        var self = $(this);
-        var count = self.parent().next('.messages').children().length;
+        const self = $(this);
+        const count = self.parent().next('.messages').children().length;
         socket.emit('more', {
             target: self.data('id'),
             count: count
@@ -308,12 +308,12 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     chat.on('click', '.toggle-button', function() {
-        var self = $(this);
-        var chat = self.closest('.chat').get(0);
-        var bottom = isScrollBottom(chat);
-        var content = self.parent().next('.toggle-content');
+        const self = $(this);
+        const chat = self.closest('.chat').get(0);
+        const bottom = isScrollBottom(chat);
+        const content = self.parent().next('.toggle-content');
         if (bottom && !content.hasClass('show')) {
-            var img = content.find('img');
+            const img = content.find('img');
             if (img.length !== 0 && !img.width()) {
                 img.on('load', function() {
                     chat.scrollTop = chat.scrollHeight;
@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     setInterval(function() {
         chat.find('.chan:not(.active)').each(function() {
-            var chan = $(this);
+            const chan = $(this);
             if (chan.find('.messages').children().slice(0, -100).remove().length) {
                 chan.find('.show-more').addClass('show');
             }
@@ -370,9 +370,9 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             placeholder: 'network-placeholder',
             forcePlaceholderSize: true,
             update: function() {
-                var order: Array<string> = [];
+                const order: Array<string> = [];
                 sidebar.find('.network').each(function() {
-                    var id: string = <any>$(this).data('id');
+                    const id: string = <any>$(this).data('id');
                     order.push(id);
                 });
                 socket.emit(
@@ -392,10 +392,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             placeholder: 'chan-placeholder',
             forcePlaceholderSize: true,
             update: function(e, ui) {
-                var order: Array<string> = [];
-                var network = ui.item.parent();
+                const order: Array<string> = [];
+                const network = ui.item.parent();
                 network.find('.chan').each(function() {
-                    var id: string = <any>$(this).data('id');
+                    const id: string = <any>$(this).data('id');
                     order.push(id);
                 });
                 socket.emit(

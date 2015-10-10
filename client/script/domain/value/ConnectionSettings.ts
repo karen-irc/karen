@@ -70,7 +70,7 @@ export class ConnectionValue {
                 canConnect: boolean) {
         this.network = network;
         this.personal = personal;
-        this.canConnect = canConnect
+        this.canConnect = canConnect;
 
         Object.seal(this);
     }

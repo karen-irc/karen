@@ -74,7 +74,7 @@ export class GeneralSettingViewController implements EventListenerObject {
         SettingActionCreator.setOption(name, value);
 
         if (value && target.getAttribute('id') === 'badge') {
-            NotificationActionCreator.requestPermission()
+            NotificationActionCreator.requestPermission();
         }
     }
 

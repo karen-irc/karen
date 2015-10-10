@@ -41,7 +41,7 @@ type Topic = {
 
 export class ChatCommandDispatcher {
 
-    sendCommand: Rx.Subject<Command>
+    sendCommand: Rx.Subject<Command>;
     clearMessage: Rx.Subject<number>;
     setTopic: Rx.Subject<Topic>;
     setNickname: Rx.Subject<{ id: number, nickname: string }>;
