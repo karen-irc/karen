@@ -27,63 +27,85 @@
 
 import * as Rx from 'rx';
 
+import {MessageGateway} from '../../adapter/MessageGateway';
 import {ConnectionActionDispatcher} from '../../intent/dispatcher/ConnectionActionDispatcher';
 import {ConnectionValue, NetworkValue, PersonalValue} from '../../domain/value/ConnectionSettings';
 
 export class ConnectionStore {
 
     private _state: Rx.Observable<ConnectionValue>;
+    private _init: Rx.IDisposable;
+    private _tryConnect: Rx.IDisposable;
 
-    constructor(intent: ConnectionActionDispatcher) {
-        const networkName = intent.setNetworkName.asObservable();
-        const serverURL = intent.setServerURL.asObservable();
-        const serverPort = intent.setServerPort.asObservable();
-        const serverPass = intent.setServerPass.asObservable();
-        const useTLS = intent.shouldUseTLS.asObservable().startWith(true);
-
-        const nickname = intent.setNickName.asObservable();
-        const username = intent.setUserName.asObservable();
-        const realname = intent.setRealName.asObservable();
-        const channel = intent.setChannel.asObservable();
-
+    constructor(intent: ConnectionActionDispatcher, gateway: MessageGateway) {
         const network = Rx.Observable.combineLatest(
-            networkName,
-            serverURL,
-            serverPort,
-            serverPass,
-            useTLS,
+            intent.setNetworkName,
+            intent.setServerURL,
+            intent.setServerPort,
+            intent.setServerPass,
+            intent.shouldUseTLS.startWith(true),
             function (name, url, port, pass, useTLS) {
                 const value = new NetworkValue(name, url, port, pass, useTLS);
                 return value;
             }
         );
 
-        const name = Rx.Observable.combineLatest([
-            nickname,
-            username,
-            realname,
-            channel,
+        const personal = Rx.Observable.combineLatest([
+            intent.setNickName,
+            intent.setUserName,
+            intent.setRealName,
+            intent.setChannel,
         ], function (nick, user, real, channel) {
             const value = new PersonalValue(nick, user, real, channel);
             return value;
         });
 
         const canConnect = Rx.Observable.combineLatest(
-            serverURL,
-            serverPort,
-            nickname,
-            function (url, port, nick) {
-                return url !== '' && nick !== '';
+            network,
+            personal,
+            function (network, personal) {
+                return (network.url !== '') &&
+                       (String(network.port) !== '') &&
+                       (personal.nickname !== '');
             }
         ).startWith(false);
 
-        this._state = Rx.Observable.combineLatest(network, name, canConnect, function(network, name, canConnect) {
-            const value = new ConnectionValue(network, name, canConnect);
+        this._state = canConnect.withLatestFrom(network, personal, function (canConnect, network, personal) {
+            const value = new ConnectionValue(network, personal, canConnect);
             return value;
+        });
+
+        // FIXME: this should be a part of observable chain.
+        this._init = gateway.initialConnectionPreset().subscribeOnNext(function(tuple){
+            const [network, personal]: [NetworkValue, PersonalValue] = tuple;
+
+            intent.setNetworkName.onNext(network.name);
+            intent.setServerURL.onNext(network.url);
+            intent.setServerPort.onNext(network.port);
+            intent.setServerPass.onNext(network.pass);
+            intent.shouldUseTLS.onNext(network.useTLS);
+
+            intent.setNickName.onNext(personal.nickname);
+            intent.setUserName.onNext(personal.username);
+            intent.setRealName.onNext(personal.realname);
+            intent.setChannel.onNext(personal.channel);
+        });
+
+        this._tryConnect = intent.tryConnect.subscribeOnNext(function(value){
+            gateway.tryConnect(value);
         });
     }
 
     subscribe(observer: Rx.Observer<ConnectionValue>): Rx.IDisposable {
         return this._state.subscribe(observer);
+    }
+
+    dispose(): void {
+        this._init.dispose();
+        this._tryConnect.dispose();
+
+        this._state = null;
+        this._init = null;
+        this._tryConnect = null;
     }
 }

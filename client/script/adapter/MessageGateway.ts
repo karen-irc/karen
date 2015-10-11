@@ -31,6 +31,11 @@ import * as Rx from 'rx';
 import MessageActionCreator from '../intent/action/MessageActionCreator';
 import {Channel} from '../domain/Channel';
 import {CommandType} from '../domain/CommandType';
+import {
+    ConnectionValue,
+    NetworkValue as NetworkConnectionValue,
+    PersonalValue as PersonalConnectionValue
+} from '../domain/value/ConnectionSettings';
 import {SelectedTab} from '../domain/DomainState';
 import {RecievedMessage} from '../domain/Message';
 import {Network} from '../domain/Network';
@@ -60,6 +65,10 @@ export class MessageGateway {
         }));
     }
 
+    socket(): SocketIoDriver {
+        return this._socket;
+    }
+
     showConnectSetting(): Rx.Observable<void> {
         return this._socket.init().filter(function(data){
             return (data.networks.length === 0);
@@ -67,7 +76,7 @@ export class MessageGateway {
     }
 
     invokeInit(): Rx.Observable<{ networks: Array<Network>; token: string; active: Option<number|string>; }> {
-        return this._socket.init().map(function(data){
+        return this._socket.init().map(function(data: any){
             const list = (data.networks.length !== 0) ?
                 (<Array<any>>data.networks).map(function(item){
                     return new Network(item);
@@ -77,6 +86,18 @@ export class MessageGateway {
                 token: data.token,
                 active: data.active.is_some ? new Some(data.active) : new None<number>(),
             };
+        });
+    }
+
+    initialConnectionPreset(): Rx.Observable<[NetworkConnectionValue, PersonalConnectionValue]> {
+        return this._socket.init().map(function(data: any) {
+            const preset: Array<any> = data.connections;
+
+            const first: any = preset[0];
+            const network = new NetworkConnectionValue(first.name, first.host, first.port,
+                                                       first.passward, first.tls);
+            const personal = new PersonalConnectionValue(first.nick, first.username, first.realname, first.join);
+            return <[NetworkConnectionValue, PersonalConnectionValue]>[network, personal];
         });
     }
 
@@ -161,6 +182,11 @@ export class MessageGateway {
 
     saveCurrentTab(currentTab: SelectedTab): void {
         this._socket.emit('open', currentTab.id);
+    }
+
+    tryConnect(setting: ConnectionValue): void {
+        const prop = setting.toJSON();
+        this._socket.emit('conn', prop);
     }
 
     private _sendCommand(channelId: number, command: string): void {
