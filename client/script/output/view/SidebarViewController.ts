@@ -32,7 +32,7 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rx';
 
-import {ChannelItem} from './ChannelItem';
+import {SidebarChannelItem} from './SidebarChannelItem';
 import {NetworkItemList} from './NetworkItemList';
 
 import {MessageGateway} from '../../adapter/MessageGateway';
@@ -230,7 +230,7 @@ export class SidebarViewController implements EventListenerObject {
     }
 
     appendChannel(network: HTMLElement, channel: Channel): void {
-        const view = React.createElement(ChannelItem, {
+        const view = React.createElement(SidebarChannelItem, {
             channel: channel,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);

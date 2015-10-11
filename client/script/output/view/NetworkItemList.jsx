@@ -25,7 +25,7 @@
 
 import * as React from 'react';
 
-import {ChannelItem} from './ChannelItem';
+import {SidebarChannelItem} from './SidebarChannelItem';
 import {Network} from '../../domain/Network';
 
 export class NetworkItemList extends React.Component {
@@ -63,8 +63,8 @@ export class NetworkItem extends React.Component {
 
         const channels = network.getChannelList().map(function(channel){
             return (
-                <ChannelItem key={String(channel.id)}
-                             channel={channel} />
+                <SidebarChannelItem key={String(channel.id)}
+                                    channel={channel} />
             );
         });
 
