@@ -34,7 +34,7 @@ import * as Rx from 'rx';
 import {ChatWindowItem, ChatWindowList} from './ChatWindowItem';
 import {ConnectSettingView} from './ConnectSettingView';
 import {MessageContentView} from './MessageContentView';
-import {SignInViewController} from './SignInViewController';
+import {SignInView} from './SignInView';
 
 import {CookieDriver} from '../../adapter/CookieDriver';
 import {SocketIoDriver} from '../../adapter/SocketIoDriver';
@@ -60,7 +60,7 @@ export class MainContentAreaView {
     private _disposer: Rx.IDisposable;
 
     private _chatContentArea: Element;
-    private _signin: SignInViewController;
+    private _signin: SignInView;
     private _connect :ConnectSettingView;
 
     constructor(domain: DomainState, element: Element, cookie: CookieDriver, socket: SocketIoDriver) {
@@ -125,7 +125,7 @@ export class MainContentAreaView {
             this._renderChannelList(channels);
         }));
 
-        this._signin = new SignInViewController(element.querySelector('#sign-in'), cookie, socket);
+        this._signin = new SignInView(element.querySelector('#sign-in'), cookie, socket);
 
         this._connect = new ConnectSettingView( element.querySelector(CONNECT_INSERTION_POINT_ID), socket);
     }
