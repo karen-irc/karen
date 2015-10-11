@@ -107,6 +107,11 @@ export class SidebarViewController implements EventListenerObject {
             this._highlightTab(targetId, message);
         }));
 
+        disposer.add(UIActionCreator.dispatcher().tryCloseChannel.subscribe((channelId: number) => {
+            const sidebarItem = this._element.querySelector('.js-sidebar-channel[data-id="' + String(channelId) + '"]');
+            this.closeChannel(channelId, <HTMLElement>sidebarItem);
+        }));
+
         element.addEventListener('click', this);
     }
 

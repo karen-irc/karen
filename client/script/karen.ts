@@ -289,15 +289,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         auth.removeToken();
     });
 
-    chat.on('click', '.close', function() {
-        const id = $(this)
-            .closest('.chan')
-            .data('id');
-        sidebar.find('.chan[data-id=\'' + id + '\']')
-            .find('.close')
-            .click();
-    });
-
     chat.on('click', '.show-more-button', function() {
         const self = $(this);
         const count = self.parent().next('.messages').children().length;

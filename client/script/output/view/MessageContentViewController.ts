@@ -39,6 +39,7 @@ import {ChannelDomain} from '../../domain/ChannelDomain';
 import {Message} from '../../domain/Message';
 import {User} from '../../domain/User';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
+import UIActionCreator from '../../intent/action/UIActionCreator';
 
 export class MessageContentViewController {
 
@@ -49,6 +50,7 @@ export class MessageContentViewController {
     private _messageArea: Element;
     private _messageContainer: Element;
     private _showMore: Element;
+    private _closeButton: Element;
 
     private _disposer: Rx.IDisposable;
 
@@ -61,6 +63,7 @@ export class MessageContentViewController {
         this._messageArea = this._element.querySelector('.chat');
         this._messageContainer = this._element.querySelector('.messages');
         this._showMore = this._element.querySelector('.show-more');
+        this._closeButton = this._element.querySelector('.js-chatwindow-close');
 
         const disposer: Rx.CompositeDisposable = new Rx.CompositeDisposable();
         this._disposer = disposer;
@@ -75,6 +78,10 @@ export class MessageContentViewController {
 
         disposer.add(domain.recievedMessage().subscribe((message: Message) => {
             this._renderMessage(message);
+        }));
+
+        disposer.add(Rx.Observable.fromEvent(this._closeButton, 'click').subscribe(() => {
+            UIActionCreator.tryCloseChannel(this._channelId);
         }));
 
         disposer.add(MessageActionCreator.dispatcher().clearMessage.subscribe((id: number) => {
