@@ -20,7 +20,7 @@ import {CommandList} from './domain/CommandType';
 import {ConfigRepository} from './adapter/ConfigRepository';
 import {CookieDriver} from './adapter/CookieDriver';
 import {DomainState} from './domain/DomainState';
-import {FooterViewController} from './output/view/FooterViewController';
+import {SidebarFooterView} from './output/view/SidebarFooterView';
 import {GeneralSettingViewController} from './output/view/GeneralSettingViewController';
 import {InputBoxViewController} from './output/view/InputBoxViewController';
 import {MainViewController} from './output/view/MainViewController';
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const inputBox = new InputBoxViewController(globalState, document.getElementById('js-form'));
     const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarViewController(globalState, document.getElementById('sidebar'), messageGateway);
-    const footer = new FooterViewController(globalState, messageGateway, document.getElementById('footer'));
+    const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'));
 
     const sidebar = $('#sidebar');
     const chat = $('#chat');
