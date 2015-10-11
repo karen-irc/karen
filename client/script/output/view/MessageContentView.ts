@@ -41,7 +41,7 @@ import {User} from '../../domain/User';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
-export class MessageContentViewController {
+export class MessageContentView {
 
     private _channelId: number;
     private _element: Element;

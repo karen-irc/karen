@@ -33,7 +33,7 @@ import * as Rx from 'rx';
 
 import {ChatWindowItem, ChatWindowList} from './ChatWindowItem';
 import {ConnectSettingView} from './ConnectSettingView';
-import {MessageContentViewController} from './MessageContentViewController';
+import {MessageContentView} from './MessageContentView';
 import {SignInViewController} from './SignInViewController';
 
 import {CookieDriver} from '../../adapter/CookieDriver';
@@ -56,7 +56,7 @@ function arrayFlatMap<T, U>(target: Array<T>, fn: {(value: T): Array<U>}) : Arra
 export class MainViewController {
 
     private _element: Element;
-    private _channelMap: Map<number, MessageContentViewController>;
+    private _channelMap: Map<number, MessageContentView>;
     private _disposer: Rx.IDisposable;
 
     private _chatContentArea: Element;
@@ -75,7 +75,7 @@ export class MainViewController {
         disposer.add(networkDomain.joinedChannelAtAll().subscribe((channelDomain) => {
             const fragment: Node = <Node>createChannelFragment(channelDomain);
             const subtree = element = <Element>fragment.firstChild;
-            const view = new MessageContentViewController(channelDomain, subtree);
+            const view = new MessageContentView(channelDomain, subtree);
             const id = channelDomain.getId();
             this._channelMap.set(id, view);
             this._chatContentArea.appendChild(subtree);
@@ -105,7 +105,7 @@ export class MainViewController {
             for (const channel of channelList) {
                 const id = channel.getId();
                 const dom = document.getElementById('js-chan-' + String(id));
-                const view = new MessageContentViewController(channel, dom);
+                const view = new MessageContentView(channel, dom);
                 this._channelMap.set(id, view);
             }
 
