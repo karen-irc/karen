@@ -154,10 +154,10 @@ export class WindowPresenter implements EventListenerObject {
             const keyCode = event.keyCode;
             switch (keyCode) {
                 case 38:
-                    key = "ArrowUp";
+                    key = 'ArrowUp';
                     break;
                 case 40:
-                    key = "ArrowDown";
+                    key = 'ArrowDown';
                     break;
             }
         }
