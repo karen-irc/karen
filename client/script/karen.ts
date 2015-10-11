@@ -23,7 +23,7 @@ import {DomainState} from './domain/DomainState';
 import {SidebarFooterView} from './output/view/SidebarFooterView';
 import {GeneralSettingView} from './output/view/GeneralSettingView';
 import {InputBoxView} from './output/view/InputBoxView';
-import {MainViewController} from './output/view/MainViewController';
+import {MainContentAreaView} from './output/view/MainContentAreaView';
 import {MessageGateway} from './adapter/MessageGateway';
 import {MessageList} from './output/view/MessageItem';
 import {NotificationPresenter} from './output/NotificationPresenter';
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const globalState = new DomainState(messageGateway);
     const appWindow = new WindowPresenter(globalState);
     const appView = new AppViewController(document.getElementById('viewport'));
-    const windows = new MainViewController(globalState, document.getElementById('windows'), cookie, socket);
+    const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, socket);
     const inputBox = new InputBoxView(globalState, document.getElementById('js-form'));
     const settings = new GeneralSettingView(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarViewController(globalState, document.getElementById('sidebar'), messageGateway);

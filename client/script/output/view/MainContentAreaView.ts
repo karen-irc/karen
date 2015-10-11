@@ -53,7 +53,7 @@ function arrayFlatMap<T, U>(target: Array<T>, fn: {(value: T): Array<U>}) : Arra
     }, []);
 }
 
-export class MainViewController {
+export class MainContentAreaView {
 
     private _element: Element;
     private _channelMap: Map<number, MessageContentView>;
