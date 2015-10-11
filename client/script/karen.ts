@@ -28,7 +28,7 @@ import {MessageGateway} from './adapter/MessageGateway';
 import {MessageList} from './output/view/MessageItem';
 import {NotificationPresenter} from './output/NotificationPresenter';
 import {SettingStore} from './output/viewmodel/SettingStore';
-import {SidebarViewController} from './output/view/SidebarViewController';
+import {SidebarView} from './output/view/SidebarView';
 import {SocketIoDriver} from './adapter/SocketIoDriver';
 import {ToggleItem} from './output/view/ToggleItem';
 import UIActionCreator from './intent/action/UIActionCreator';
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, socket);
     const inputBox = new InputBoxView(globalState, document.getElementById('js-form'));
     const settings = new GeneralSettingView(document.getElementById('settings'), settingStore);
-    const sidebarView = new SidebarViewController(globalState, document.getElementById('sidebar'), messageGateway);
+    const sidebarView = new SidebarView(globalState, document.getElementById('sidebar'), messageGateway);
     const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'));
 
     const sidebar = $('#sidebar');

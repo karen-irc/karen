@@ -47,7 +47,7 @@ import AppActionCreator from '../../intent/action/AppActionCreator';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
-export class SidebarViewController implements EventListenerObject {
+export class SidebarView implements EventListenerObject {
 
     private _element: Element;
     private _domain: DomainState;
