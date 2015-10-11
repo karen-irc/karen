@@ -28,7 +28,7 @@ import * as React from 'react';
 import {SidebarChannelItem} from './SidebarChannelItem';
 import {Network} from '../../domain/Network';
 
-export class NetworkItemList extends React.Component {
+export class SidebarNetworkItemList extends React.Component {
 
     constructor(props) {
         super(props);
@@ -37,8 +37,8 @@ export class NetworkItemList extends React.Component {
     render() {
         const list = this.props.list.map(function(network){
             return (
-                <NetworkItem key={String(network.id)}
-                             network={network} />
+                <SidebarNetworkItem key={String(network.id)}
+                                    network={network} />
             );
         });
 
@@ -47,11 +47,11 @@ export class NetworkItemList extends React.Component {
         );
     }
 }
-NetworkItemList.propTypes = {
+SidebarNetworkItemList.propTypes = {
     list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Network)).isRequired,
 };
 
-export class NetworkItem extends React.Component {
+export class SidebarNetworkItem extends React.Component {
 
     constructor(props) {
         super(props);
@@ -78,6 +78,6 @@ export class NetworkItem extends React.Component {
         );
     }
 }
-NetworkItem.propTypes = {
+SidebarNetworkItem.propTypes = {
     network: React.PropTypes.instanceOf(Network).isRequired,
 };

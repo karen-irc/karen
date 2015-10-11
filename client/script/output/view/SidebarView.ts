@@ -33,7 +33,7 @@ import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rx';
 
 import {SidebarChannelItem} from './SidebarChannelItem';
-import {NetworkItemList} from './NetworkItemList';
+import {SidebarNetworkItemList} from './SidebarNetworkItemList';
 
 import {MessageGateway} from '../../adapter/MessageGateway';
 import {Channel} from '../../domain/Channel';
@@ -211,7 +211,7 @@ export class SidebarView implements EventListenerObject {
 
     renderNetworks(networks: Array<Network>): void {
         const element = <HTMLElement>this._element.querySelector('.networks');
-        const view = React.createElement(NetworkItemList, {
+        const view = React.createElement(SidebarNetworkItemList, {
             list: networks,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
@@ -221,7 +221,7 @@ export class SidebarView implements EventListenerObject {
 
     appendNetworks(networks: Array<Network>): void {
         const element = <HTMLElement>this._element.querySelector('.networks');
-        const view = React.createElement(NetworkItemList, {
+        const view = React.createElement(SidebarNetworkItemList, {
             list: networks,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
