@@ -32,7 +32,7 @@ import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rx';
 
 import {ChatWindowItem, ChatWindowList} from './ChatWindowItem';
-import {ConnectSettingViewController} from './ConnectSettingViewController';
+import {ConnectSettingView} from './ConnectSettingView';
 import {MessageContentViewController} from './MessageContentViewController';
 import {SignInViewController} from './SignInViewController';
 
@@ -61,7 +61,7 @@ export class MainViewController {
 
     private _chatContentArea: Element;
     private _signin: SignInViewController;
-    private _connect :ConnectSettingViewController;
+    private _connect :ConnectSettingView;
 
     constructor(domain: DomainState, element: Element, cookie: CookieDriver, socket: SocketIoDriver) {
         this._element = element;
@@ -127,7 +127,7 @@ export class MainViewController {
 
         this._signin = new SignInViewController(element.querySelector('#sign-in'), cookie, socket);
 
-        this._connect = new ConnectSettingViewController( element.querySelector(CONNECT_INSERTION_POINT_ID), socket);
+        this._connect = new ConnectSettingView( element.querySelector(CONNECT_INSERTION_POINT_ID), socket);
     }
 
     private _renderChannelList(list: Array<Channel>): void {
