@@ -13,7 +13,7 @@ import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rx';
 
 import AppActionCreator from './intent/action/AppActionCreator';
-import {AppViewController} from './output/view/AppViewController';
+import {AppView} from './output/view/AppView';
 import {AuthRepository} from './adapter/AuthRepository';
 import {Channel} from './domain/Channel';
 import {CommandList} from './domain/CommandType';
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     const globalState = new DomainState(messageGateway);
     const appWindow = new WindowPresenter(globalState);
-    const appView = new AppViewController(document.getElementById('viewport'));
+    const appView = new AppView(document.getElementById('viewport'));
     const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, socket);
     const inputBox = new InputBoxView(globalState, document.getElementById('js-form'));
     const settings = new GeneralSettingView(document.getElementById('settings'), settingStore);
