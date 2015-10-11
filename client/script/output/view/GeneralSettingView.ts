@@ -31,7 +31,7 @@ import NotificationActionCreator from '../../intent/action/NotificationActionCre
 import SettingActionCreator from '../../intent/action/SettingActionCreator';
 import {SettingStore} from '../viewmodel/SettingStore';
 
-export class GeneralSettingViewController implements EventListenerObject {
+export class GeneralSettingView implements EventListenerObject {
 
     _element: Element;
     _playElement: Element;
