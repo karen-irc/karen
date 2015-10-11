@@ -76,6 +76,10 @@ class UIActionCreator {
     showLatestInChannel(channelId: number): void {
         this._dispatcher.showLatestInChannel.onNext(channelId);
     }
+
+    tryCloseChannel(channelId: number): void {
+        this._dispatcher.tryCloseChannel.onNext(channelId);
+    }
 }
 
 export default new UIActionCreator();

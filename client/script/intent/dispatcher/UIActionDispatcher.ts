@@ -42,6 +42,7 @@ export class UIActionDispatcher {
     showSignIn: Rx.Subject<void>;
 
     showLatestInChannel: Rx.Subject<number>;
+    tryCloseChannel: Rx.Subject<number>;
 
     showSomeSettings: Rx.Observable<SettingId>;
 
@@ -62,6 +63,7 @@ export class UIActionDispatcher {
         this.showSignIn = new Rx.Subject<void>();
 
         this.showLatestInChannel = new Rx.Subject<number>();
+        this.tryCloseChannel = new Rx.Subject<number>();
 
         this.showSomeSettings = Rx.Observable.merge<SettingId>([
             this.showSignIn.asObservable().map(function() { return 'sign-in'; }),

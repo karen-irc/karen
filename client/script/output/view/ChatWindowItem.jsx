@@ -83,7 +83,7 @@ export class ChatWindowItem extends React.Component {
                     <button className='lt'></button>
                     <button className='rt'></button>
                     <div className='right'>
-                        <button className='button close'>
+                        <button className='button close js-chatwindow-close'>
                             {close}
                         </button>
                     </div>
