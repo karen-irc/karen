@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const globalState = new DomainState(messageGateway);
     const appWindow = new WindowPresenter(globalState);
     const appView = new AppView(document.getElementById('viewport'));
-    const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, socket);
+    const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, messageGateway);
     const inputBox = new InputBoxView(globalState, document.getElementById('js-form'));
     const settings = new GeneralSettingView(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarView(globalState, document.getElementById('sidebar'), messageGateway);

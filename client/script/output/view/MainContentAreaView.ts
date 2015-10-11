@@ -32,12 +32,12 @@ import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rx';
 
 import {ChatWindowItem, ChatWindowList} from './ChatWindowItem';
-import {ConnectSettingView} from './ConnectSettingView';
+import {ConnectSettingContext} from '../context/ConnectSettingContext';
 import {MessageContentView} from './MessageContentView';
 import {SignInView} from './SignInView';
 
 import {CookieDriver} from '../../adapter/CookieDriver';
-import {SocketIoDriver} from '../../adapter/SocketIoDriver';
+import {MessageGateway} from '../../adapter/MessageGateway';
 import {DomainState} from '../../domain/DomainState';
 import {Channel} from '../../domain/Channel';
 import {ChannelDomain} from '../../domain/ChannelDomain';
@@ -61,9 +61,9 @@ export class MainContentAreaView {
 
     private _chatContentArea: Element;
     private _signin: SignInView;
-    private _connect :ConnectSettingView;
+    private _connect: ConnectSettingContext;
 
-    constructor(domain: DomainState, element: Element, cookie: CookieDriver, socket: SocketIoDriver) {
+    constructor(domain: DomainState, element: Element, cookie: CookieDriver, gateway: MessageGateway) {
         this._element = element;
         this._channelMap = new Map();
 
@@ -125,9 +125,9 @@ export class MainContentAreaView {
             this._renderChannelList(channels);
         }));
 
-        this._signin = new SignInView(element.querySelector('#sign-in'), cookie, socket);
+        this._signin = new SignInView(element.querySelector('#sign-in'), cookie, gateway.socket());
 
-        this._connect = new ConnectSettingView( element.querySelector(CONNECT_INSERTION_POINT_ID), socket);
+        this._connect = new ConnectSettingContext( element.querySelector(CONNECT_INSERTION_POINT_ID), gateway);
     }
 
     private _renderChannelList(list: Array<Channel>): void {

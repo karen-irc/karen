@@ -32,80 +32,53 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as Rx from 'rx';
 
+import {ConnectSettingWindow} from '../view/ConnectSettingWindow';
+
+import {MessageGateway} from '../../adapter/MessageGateway';
 import {ConnectionActionCreator} from '../../intent/action/ConnectionActionCreator';
 import {ConnectionStore} from '../viewmodel/ConnectionStore';
 import {ConnectionValue} from '../../domain/value/ConnectionSettings';
 
-import {SocketIoDriver} from '../../adapter/SocketIoDriver';
+export class ConnectSettingContext {
 
-import {ConnectSettingWindow} from './ConnectSettingWindow';
-
-export class ConnectSettingView {
-
-    private _element: Element;
-    private _socket: SocketIoDriver;
+    private _mountpoint: Element;
 
     private _action: ConnectionActionCreator;
-    private _disposable: Rx.CompositeDisposable;
+    private _store: ConnectionStore;
+    private _viewDisposer: Rx.IDisposable;
 
-    constructor(element: Element, socket: SocketIoDriver) {
-        if (!element || !socket) {
+    constructor(mountpoint: Element, gateway: MessageGateway) {
+        if (!mountpoint || !gateway) {
             throw new Error();
         }
 
-        this._element = element;
-        this._socket = socket;
+        this._mountpoint = mountpoint;
+        this._action = new ConnectionActionCreator();
+        this._store = new ConnectionStore(this._action.dispatcher(), gateway);
 
-        const action = new ConnectionActionCreator();
-        this._action = action;
-
-        const store = new ConnectionStore(action.dispatcher());
-
-        const observer: Rx.Observer<ConnectionValue> = Rx.Observer.create((data: ConnectionValue) => {
-            this.render(data);
-        }, ()=> {}, () => {
-            React.unmountComponentAtNode(this._element);
-        });
-        this._disposable = new Rx.CompositeDisposable();
-        this._disposable.add( store.subscribe(observer) );
-
-        const initSocket = socket.init().map<Array<any>>(function(data) {
-            return data.connections;
-        }).subscribeOnNext((data) => {
-            const first = data[0];
-
-            action.setNetworkName(first.name);
-            action.setServerURL(first.host);
-            action.setServerPort(first.port);
-            action.setServerPass(first.passward);
-            action.shouldUseTLS(first.tls);
-
-            action.setNickName(first.nick);
-            action.setUserName(first.username);
-            action.setRealName(first.realname);
-            action.setChannel(first.join);
-        });
-        this._disposable.add(initSocket);
-
-        const tryConnect = action.dispatcher().tryConnect.asObservable().subscribeOnNext(function(value){
-            const prop = value.toJSON();
-            socket.emit('conn', prop);
-        });
-        this._disposable.add(tryConnect);
+        this._viewDisposer = this._mount();
     }
 
-    render(data: ConnectionValue) {
+    dispose(): void {
+        this._viewDisposer.dispose();
+        this._store.dispose();
+        this._action.dispose();
+    }
+
+    private _mount(): Rx.IDisposable {
+        const observer: Rx.Observer<ConnectionValue> = Rx.Observer.create((data: ConnectionValue) => {
+            this._render(data);
+        }, ()=> {}, () => {
+            React.unmountComponentAtNode(this._mountpoint);
+        });
+        return this._store.subscribe(observer);
+    }
+
+    private _render(data: ConnectionValue) {
         const view = React.createElement(ConnectSettingWindow, {
             action: this._action,
             data: data,
         });
-        ReactDOM.render(view, this._element);
-    }
-
-    dispose(): void {
-        this._disposable.dispose();
-
-        this._element = null;
-        this._socket = null;
+        ReactDOM.render(view, this._mountpoint);
     }
 }
