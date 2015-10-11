@@ -13,22 +13,22 @@ import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rx';
 
 import AppActionCreator from './intent/action/AppActionCreator';
-import {AppViewController} from './output/view/AppViewController';
+import {AppView} from './output/view/AppView';
 import {AuthRepository} from './adapter/AuthRepository';
 import {Channel} from './domain/Channel';
 import {CommandList} from './domain/CommandType';
 import {ConfigRepository} from './adapter/ConfigRepository';
 import {CookieDriver} from './adapter/CookieDriver';
 import {DomainState} from './domain/DomainState';
-import {FooterViewController} from './output/view/FooterViewController';
-import {GeneralSettingViewController} from './output/view/GeneralSettingViewController';
-import {InputBoxViewController} from './output/view/InputBoxViewController';
-import {MainViewController} from './output/view/MainViewController';
+import {SidebarFooterView} from './output/view/SidebarFooterView';
+import {GeneralSettingView} from './output/view/GeneralSettingView';
+import {InputBoxView} from './output/view/InputBoxView';
+import {MainContentAreaView} from './output/view/MainContentAreaView';
 import {MessageGateway} from './adapter/MessageGateway';
 import {MessageList} from './output/view/MessageItem';
 import {NotificationPresenter} from './output/NotificationPresenter';
 import {SettingStore} from './output/viewmodel/SettingStore';
-import {SidebarViewController} from './output/view/SidebarViewController';
+import {SidebarView} from './output/view/SidebarView';
 import {SocketIoDriver} from './adapter/SocketIoDriver';
 import {ToggleItem} from './output/view/ToggleItem';
 import UIActionCreator from './intent/action/UIActionCreator';
@@ -51,12 +51,12 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     const globalState = new DomainState(messageGateway);
     const appWindow = new WindowPresenter(globalState);
-    const appView = new AppViewController(document.getElementById('viewport'));
-    const windows = new MainViewController(globalState, document.getElementById('windows'), cookie, socket);
-    const inputBox = new InputBoxViewController(globalState, document.getElementById('js-form'));
-    const settings = new GeneralSettingViewController(document.getElementById('settings'), settingStore);
-    const sidebarView = new SidebarViewController(globalState, document.getElementById('sidebar'), messageGateway);
-    const footer = new FooterViewController(globalState, messageGateway, document.getElementById('footer'));
+    const appView = new AppView(document.getElementById('viewport'));
+    const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, socket);
+    const inputBox = new InputBoxView(globalState, document.getElementById('js-form'));
+    const settings = new GeneralSettingView(document.getElementById('settings'), settingStore);
+    const sidebarView = new SidebarView(globalState, document.getElementById('sidebar'), messageGateway);
+    const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'));
 
     const sidebar = $('#sidebar');
     const chat = $('#chat');

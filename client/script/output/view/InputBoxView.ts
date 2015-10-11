@@ -31,7 +31,7 @@ import {DomainState} from '../../domain/DomainState';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
-export class InputBoxViewController {
+export class InputBoxView {
 
     private _element: Element;
     private _domain: DomainState;

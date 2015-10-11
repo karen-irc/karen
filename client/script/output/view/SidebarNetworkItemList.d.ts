@@ -28,15 +28,15 @@
 import {ComponentClass} from 'react';
 import {Network} from '../../domain/Network';
 
-interface NetworkItemListProps {
+interface SidebarNetworkItemListProps {
     key?: any;
     list: Array<Network>;
 }
 
-interface NetworkItemProps {
+interface SidebarNetworkItemProps {
     key?: any;
     network: Network;
 }
 
-export var NetworkItemList: ComponentClass<NetworkItemListProps>;
-export var NetworkItem: ComponentClass<NetworkItemProps>;
+export const SidebarNetworkItemList: ComponentClass<SidebarNetworkItemListProps>;
+export const SidebarNetworkItem: ComponentClass<SidebarNetworkItemProps>;

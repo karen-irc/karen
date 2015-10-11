@@ -32,9 +32,9 @@ import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rx';
 
 import {ChatWindowItem, ChatWindowList} from './ChatWindowItem';
-import {ConnectSettingViewController} from './ConnectSettingViewController';
-import {MessageContentViewController} from './MessageContentViewController';
-import {SignInViewController} from './SignInViewController';
+import {ConnectSettingView} from './ConnectSettingView';
+import {MessageContentView} from './MessageContentView';
+import {SignInView} from './SignInView';
 
 import {CookieDriver} from '../../adapter/CookieDriver';
 import {SocketIoDriver} from '../../adapter/SocketIoDriver';
@@ -53,15 +53,15 @@ function arrayFlatMap<T, U>(target: Array<T>, fn: {(value: T): Array<U>}) : Arra
     }, []);
 }
 
-export class MainViewController {
+export class MainContentAreaView {
 
     private _element: Element;
-    private _channelMap: Map<number, MessageContentViewController>;
+    private _channelMap: Map<number, MessageContentView>;
     private _disposer: Rx.IDisposable;
 
     private _chatContentArea: Element;
-    private _signin: SignInViewController;
-    private _connect :ConnectSettingViewController;
+    private _signin: SignInView;
+    private _connect :ConnectSettingView;
 
     constructor(domain: DomainState, element: Element, cookie: CookieDriver, socket: SocketIoDriver) {
         this._element = element;
@@ -75,7 +75,7 @@ export class MainViewController {
         disposer.add(networkDomain.joinedChannelAtAll().subscribe((channelDomain) => {
             const fragment: Node = <Node>createChannelFragment(channelDomain);
             const subtree = element = <Element>fragment.firstChild;
-            const view = new MessageContentViewController(channelDomain, subtree);
+            const view = new MessageContentView(channelDomain, subtree);
             const id = channelDomain.getId();
             this._channelMap.set(id, view);
             this._chatContentArea.appendChild(subtree);
@@ -105,7 +105,7 @@ export class MainViewController {
             for (const channel of channelList) {
                 const id = channel.getId();
                 const dom = document.getElementById('js-chan-' + String(id));
-                const view = new MessageContentViewController(channel, dom);
+                const view = new MessageContentView(channel, dom);
                 this._channelMap.set(id, view);
             }
 
@@ -125,9 +125,9 @@ export class MainViewController {
             this._renderChannelList(channels);
         }));
 
-        this._signin = new SignInViewController(element.querySelector('#sign-in'), cookie, socket);
+        this._signin = new SignInView(element.querySelector('#sign-in'), cookie, socket);
 
-        this._connect = new ConnectSettingViewController( element.querySelector(CONNECT_INSERTION_POINT_ID), socket);
+        this._connect = new ConnectSettingView( element.querySelector(CONNECT_INSERTION_POINT_ID), socket);
     }
 
     private _renderChannelList(list: Array<Channel>): void {

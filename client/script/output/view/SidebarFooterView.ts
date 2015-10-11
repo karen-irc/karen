@@ -33,7 +33,7 @@ import UIActionCreator from '../../intent/action/UIActionCreator';
 
 import {DomainState} from '../../domain/DomainState';
 
-export class FooterViewController implements EventListenerObject {
+export class SidebarFooterView implements EventListenerObject {
 
     _element: Element;
     _signinElement: HTMLElement;

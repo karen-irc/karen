@@ -32,8 +32,8 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rx';
 
-import {ChannelItem} from './ChannelItem';
-import {NetworkItemList} from './NetworkItemList';
+import {SidebarChannelItem} from './SidebarChannelItem';
+import {SidebarNetworkItemList} from './SidebarNetworkItemList';
 
 import {MessageGateway} from '../../adapter/MessageGateway';
 import {Channel} from '../../domain/Channel';
@@ -47,7 +47,7 @@ import AppActionCreator from '../../intent/action/AppActionCreator';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
-export class SidebarViewController implements EventListenerObject {
+export class SidebarView implements EventListenerObject {
 
     private _element: Element;
     private _domain: DomainState;
@@ -211,7 +211,7 @@ export class SidebarViewController implements EventListenerObject {
 
     renderNetworks(networks: Array<Network>): void {
         const element = <HTMLElement>this._element.querySelector('.networks');
-        const view = React.createElement(NetworkItemList, {
+        const view = React.createElement(SidebarNetworkItemList, {
             list: networks,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
@@ -221,7 +221,7 @@ export class SidebarViewController implements EventListenerObject {
 
     appendNetworks(networks: Array<Network>): void {
         const element = <HTMLElement>this._element.querySelector('.networks');
-        const view = React.createElement(NetworkItemList, {
+        const view = React.createElement(SidebarNetworkItemList, {
             list: networks,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
@@ -230,7 +230,7 @@ export class SidebarViewController implements EventListenerObject {
     }
 
     appendChannel(network: HTMLElement, channel: Channel): void {
-        const view = React.createElement(ChannelItem, {
+        const view = React.createElement(SidebarChannelItem, {
             channel: channel,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);

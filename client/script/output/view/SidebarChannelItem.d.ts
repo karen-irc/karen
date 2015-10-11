@@ -28,9 +28,9 @@
 import {ComponentClass} from 'react';
 import {Channel} from '../../domain/Channel';
 
-interface ChannelItemProps {
+interface SidebarChannelItemProps {
     key?: any;
     channel: Channel;
 }
 
-export var ChannelItem: ComponentClass<ChannelItemProps>;
+export const SidebarChannelItem: ComponentClass<SidebarChannelItemProps>;

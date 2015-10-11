@@ -33,7 +33,7 @@ declare const moment: any;
 
 const EVENT_NAME = 'auth';
 
-export class SignInViewController implements EventListenerObject {
+export class SignInView implements EventListenerObject {
 
     _element: Element;
     _cookie: CookieDriver;

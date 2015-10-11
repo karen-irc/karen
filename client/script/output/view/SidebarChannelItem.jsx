@@ -27,7 +27,7 @@ import * as React from 'react';
 
 import {Channel} from '../../domain/Channel';
 
-export class ChannelItem extends React.Component {
+export class SidebarChannelItem extends React.Component {
 
     constructor(props) {
         super(props);
@@ -54,6 +54,6 @@ export class ChannelItem extends React.Component {
     }
 }
 
-ChannelItem.propTypes = {
+SidebarChannelItem.propTypes = {
     channel: React.PropTypes.instanceOf(Channel).isRequired,
 };
