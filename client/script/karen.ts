@@ -22,7 +22,7 @@ import {CookieDriver} from './adapter/CookieDriver';
 import {DomainState} from './domain/DomainState';
 import {SidebarFooterView} from './output/view/SidebarFooterView';
 import {GeneralSettingView} from './output/view/GeneralSettingView';
-import {InputBoxViewController} from './output/view/InputBoxViewController';
+import {InputBoxView} from './output/view/InputBoxView';
 import {MainViewController} from './output/view/MainViewController';
 import {MessageGateway} from './adapter/MessageGateway';
 import {MessageList} from './output/view/MessageItem';
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const appWindow = new WindowPresenter(globalState);
     const appView = new AppViewController(document.getElementById('viewport'));
     const windows = new MainViewController(globalState, document.getElementById('windows'), cookie, socket);
-    const inputBox = new InputBoxViewController(globalState, document.getElementById('js-form'));
+    const inputBox = new InputBoxView(globalState, document.getElementById('js-form'));
     const settings = new GeneralSettingView(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarViewController(globalState, document.getElementById('sidebar'), messageGateway);
     const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'));
