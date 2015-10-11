@@ -3,6 +3,7 @@
         "class-name": true,
         "curly": true,
         "indent": [true, "spaces"],
+        "member-ordering": [true, "variables-before-functions"],
         "no-arg": true,
         "no-constructor-vars": true,
         "no-duplicate-key": true,
