@@ -46,6 +46,7 @@ export class NetworkSetDomain {
 
     legacy: NetworkSet;
 
+    private _updateNick: Rx.Subject<{ networkId: number; nick: string; }>;
     private _joinedChannel: Rx.Subject<ChannelDomain>;
     private _partedChannel: Rx.Subject<ChannelDomain>;
     private _notableMsgDispatcher: Rx.Subject<RecievedMessage>;
@@ -61,6 +62,7 @@ export class NetworkSetDomain {
     constructor(gateway: MessageGateway) {
         this.legacy = new NetworkSet([]);
 
+        this._updateNick = new Rx.Subject<{ networkId: number; nick: string; }>();
         this._joinedChannel = new Rx.Subject<ChannelDomain>();
         this._partedChannel = new Rx.Subject<ChannelDomain>();
         this._notableMsgDispatcher = new Rx.Subject<RecievedMessage>();
@@ -70,6 +72,7 @@ export class NetworkSetDomain {
             return data.networks.map((item) => {
                 return new NetworkDomain(gateway,
                                          item,
+                                         this._updateNick,
                                          this._joinedChannel,
                                          this._partedChannel,
                                          this._notableMsgDispatcher,
@@ -88,6 +91,7 @@ export class NetworkSetDomain {
         this._addedNetwork = gateway.addNetwork().map((network) => {
             const domain = new NetworkDomain(gateway,
                                              network,
+                                             this._updateNick,
                                              this._joinedChannel,
                                              this._partedChannel,
                                              this._notableMsgDispatcher,
@@ -170,5 +174,9 @@ export class NetworkSetDomain {
 
     recievedNotifiableMessage(): Rx.Observable<RecievedMessage> {
         return this._notifiableMsgDispatcher;
+    }
+
+    updatedNickname(): Rx.Observable<{ networkId: number; nick: string; }> {
+        return this._updateNick;
     }
 }

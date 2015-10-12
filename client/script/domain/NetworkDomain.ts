@@ -44,6 +44,7 @@ export class NetworkDomain {
     private _joinedChannel: Rx.Observable<ChannelDomain>;
     private _partedChannel: Rx.Observable<ChannelDomain>;
 
+    private _nickUpdater: Rx.Subject<{ networkId: number; nick: string; }>;
     private _joinedUpdater: Rx.Subject<ChannelDomain>;
     private _partedUpdater: Rx.Subject<ChannelDomain>;
     private _notableMsgDispatcher: Rx.Subject<RecievedMessage>;
@@ -53,6 +54,7 @@ export class NetworkDomain {
 
     constructor(gateway: MessageGateway,
                 data: Network,
+                nicknameUpdater: Rx.Subject<{ networkId: number; nick: string; }>,
                 joinedUpdater: Rx.Subject<ChannelDomain>,
                 partedUpdater: Rx.Subject<ChannelDomain>,
                 notableMsgDispatcher: Rx.Subject<RecievedMessage>,
@@ -68,6 +70,7 @@ export class NetworkDomain {
         }
 
         this._data = data;
+        this._nickUpdater = nicknameUpdater;
         this._joinedUpdater = joinedUpdater;
         this._partedUpdater = partedUpdater;
         this._notableMsgDispatcher = notableMsgDispatcher;
@@ -109,6 +112,12 @@ export class NetworkDomain {
         }).share();
 
         this._subscribed = new Rx.CompositeDisposable();
+        this._subscribed.add(this._nickname.subscribe((nickname: string) => {
+            this._nickUpdater.onNext({
+                networkId: this._data.id,
+                nick: nickname,
+            });
+        }));
         this._subscribed.add(this._joinedChannel.subscribe((channel) => {
             this._joinedUpdater.onNext(channel);
         }));
