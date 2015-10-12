@@ -28,6 +28,7 @@
 import * as Rx from 'rx';
 
 import {DomainState} from '../../domain/DomainState';
+import {Channel} from '../../domain/Channel';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
@@ -35,15 +36,18 @@ export class InputBoxView {
 
     private _element: Element;
     private _domain: DomainState;
+    private _currentNetworkId: number;
     private _currentChannelId: number;
     private _textInput: HTMLInputElement;
     private _nickElement: HTMLElement;
     private _disposeFocus: Rx.IDisposable;
     private _disposeSelect: Rx.IDisposable;
+    private _disposeNetwork: Rx.IDisposable;
 
     constructor(domain: DomainState, element: Element) {
         this._element = element;
         this._domain = domain;
+        this._currentNetworkId = -1;
         this._currentChannelId = -1;
         this._textInput = <HTMLInputElement>element.querySelector('#js-input');
         this._nickElement = <HTMLElement>element.querySelector('#js-nick');
@@ -53,7 +57,21 @@ export class InputBoxView {
         });
 
         this._disposeSelect = domain.getSelectedChannel().subscribe((id: number) => {
+            const channel = this._domain.networkSet.getChannelById(id);
+            const networkId = channel.map(function(channel: Channel){
+                return channel.getNetwork().id;
+            }).unwrap();
+
+            this._currentNetworkId = networkId;
             this._currentChannelId = id;
+        });
+
+        this._disposeNetwork = domain.getNetworkDomain().updatedNickname().subscribe((data) => {
+            if (this._currentNetworkId !== data.networkId) {
+                return;
+            }
+
+            this.setNickname(data.nick);
         });
 
         this._init();

@@ -148,16 +148,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         sortable();
     });
 
-    messageGateway.setNickname().subscribe(function (data) {
-        const id = data.networkId;
-        const nick = data.nickname;
-        const network = globalState.networkSet.getById(id);
-        network.expect('network should be there').nickname = nick;
-        if (globalState.currentTab.channelId.isSome) {
-            inputBox.setNickname(nick);
-        }
-    });
-
     const options = config.get();
 
     socket.toggle().subscribe(function(data) {
