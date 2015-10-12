@@ -317,15 +317,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    setInterval(function() {
-        chat.find('.chan:not(.active)').each(function() {
-            const chan = $(this);
-            if (chan.find('.messages').children().slice(0, -100).remove().length) {
-                chan.find('.show-more').addClass('show');
-            }
-        });
-    }, 1000 * 10);
-
     function complete(word: string) {
         const words: Array<string> = CommandList.map(function(item){
             return item.toLowerCase();
