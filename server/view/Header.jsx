@@ -34,6 +34,7 @@ export function Header({ theme }) {
             <meta name='apple-mobile-web-app-capable' content='yes'/>
             <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'/>
             <meta name='mobile-web-app-capable' content='yes'/>
+            <meta name='referrer' content='no-referrer'/>
 
             <title>karen</title>
 
