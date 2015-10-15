@@ -31,9 +31,6 @@ export function Header({ theme }) {
             <meta charSet='utf-8'/>
             <meta name='viewport' content='width=device-width, user-scalable=no'/>
             <meta httpEquiv='X-UA-Compatible' content='IE=edge'/>
-            <meta name='apple-mobile-web-app-capable' content='yes'/>
-            <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'/>
-            <meta name='mobile-web-app-capable' content='yes'/>
             <meta name='referrer' content='no-referrer'/>
 
             <title>karen</title>
