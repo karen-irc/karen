@@ -238,6 +238,7 @@ gulp.task('__build:client:js', ['__uglify', '__browserify']);
 gulp.task('__build:client:css', ['__postcss']);
 
 gulp.task('jslint', ['__eslint', '__tslint']);
+gulp.task('tsc', ['__typescript']);
 gulp.task('build:server', ['jslint', '__build:server']);
 gulp.task('build:client', ['jslint', '__build:client:js', '__build:client:css']);
 gulp.task('build', ['build:server', 'build:client']);
