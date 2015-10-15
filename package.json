@@ -79,7 +79,7 @@
     "mocha": "^2.2.4",
     "tsd": "^0.6.0-beta.5",
     "tslint": "^2.6.0-dev.2",
-    "typescript": "1.7.0-dev.20151006",
+    "typescript": "1.7.0-dev.20151014",
     "vinyl-source-stream": "^1.1.0"
   }
 }
