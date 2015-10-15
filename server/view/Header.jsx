@@ -30,7 +30,6 @@ export function Header({ theme }) {
         <head>
             <meta charSet='utf-8'/>
             <meta name='viewport' content='width=device-width, user-scalable=no'/>
-            <meta httpEquiv='X-UA-Compatible' content='IE=edge'/>
             <meta name='referrer' content='no-referrer'/>
 
             <title>karen</title>
