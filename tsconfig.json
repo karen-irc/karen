@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "jsx": "preserve",
+        "module": "es6",
         "moduleResolution": "node",
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true,
