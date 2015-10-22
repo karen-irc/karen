@@ -67,7 +67,7 @@
   "devDependencies": {
     "autoprefixer": "^6.0.3",
     "babel-core": "^5.8.25",
-    "babelify": "^6.3.0",
+    "babelify": "^6.4.0",
     "browserify": "^11.2.0",
     "del": "^2.0.2",
     "eslint": "^1.7.1",
@@ -80,7 +80,7 @@
     "mocha": "^2.3.3",
     "tsd": "^0.6.5",
     "tslint": "^2.6.0-dev.2",
-    "typescript": "1.8.0-dev.20151017",
+    "typescript": "1.8.0-dev.20151021",
     "vinyl-source-stream": "^1.1.0"
   }
 }
