@@ -134,8 +134,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
 
-        const chan = chat.find('#js-chan-' + target);
-        (<HTMLElement>chan.find('.messages').get(0)).insertAdjacentHTML('afterbegin', html);
+        const chan = chat
+            .find('#js-chan-' + target)
+            .find('.messages')
+            .prepend(html)
+            .end();
         if (data.messages.length !== 100) {
             chan.find('.show-more').removeClass('show');
         }
@@ -153,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             item: data,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
-        toggle.get(0).parentElement.insertAdjacentHTML('afterend', html);
+        toggle.parent().after(html);
         switch (data.type) {
         case 'link':
             if (options.links) {
