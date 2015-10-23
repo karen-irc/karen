@@ -233,7 +233,7 @@ export class SidebarView implements EventListenerObject {
             channel: channel,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
-        network.insertAdjacentHTML('afterbegin', html);
+        network.insertAdjacentHTML('afterend', html); // TODO!!!!!
     }
 
     selectChannel(id: number): void {
