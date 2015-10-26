@@ -122,6 +122,7 @@ gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'
         optional: babelOptions,
         blacklist: [
             'es6.arrowFunctions',
+            'es6.forOf',
             'es6.templateLiterals',
         ],
     });
