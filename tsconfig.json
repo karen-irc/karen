@@ -1,14 +1,14 @@
 {
     "compilerOptions": {
         "jsx": "preserve",
-        "module": "es6",
+        "module": "es2015",
         "moduleResolution": "node",
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true,
         "removeComments": false,
         "preserveConstEnums": true,
         "outDir": "./dist/client/__obj/",
-        "target": "ES6",
+        "target": "ES2015",
         "sourceMap": true
     },
     "files": [
