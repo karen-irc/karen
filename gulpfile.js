@@ -121,6 +121,7 @@ gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'
     const babel = babelify.configure({
         optional: babelOptions,
         blacklist: [
+            'es6.forOf',
             'es6.templateLiterals',
         ],
     });
