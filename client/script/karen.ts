@@ -133,7 +133,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             list: data.messages,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
-
         const chan = chat.find('#js-chan-' + target);
         (<HTMLElement>chan.find('.messages').get(0)).insertAdjacentHTML('afterbegin', html);
         if (data.messages.length !== 100) {

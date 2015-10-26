@@ -225,8 +225,7 @@ export class SidebarView implements EventListenerObject {
             list: networks,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
-
-        element.insertAdjacentHTML('afterend', html);
+        element.insertAdjacentHTML('afterbegin', html);
     }
 
     appendChannel(network: HTMLElement, channel: Channel): void {
@@ -234,7 +233,8 @@ export class SidebarView implements EventListenerObject {
             channel: channel,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
-        network.insertAdjacentHTML('afterend', html);
+        const insertionPoint = network.lastElementChild;
+        (<HTMLElement>insertionPoint).insertAdjacentHTML('afterend', html);
     }
 
     selectChannel(id: number): void {
