@@ -110,7 +110,9 @@ gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'
         extensions: ['.jsx'],
     };
 
-    let babelOptions = [];
+    let babelOptions = [
+        'utility.inlineEnvironmentVariables',
+    ];
     if (isRelease) {
         babelOptions = babelOptions.concat([
             'optimisation.react.constantElements',
