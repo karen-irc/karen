@@ -36,7 +36,6 @@ declare module ExtendedExistedInterface {
 }
 
 interface Navigator {
-    standalone: boolean;
 }
 
 interface JQuery {
