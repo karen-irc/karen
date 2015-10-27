@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     globalState.getCurrentTab().subscribe(function(state){
-        chat.data('id', state.id);
+        chat.get(0).setAttribute('data-js-id', String(state.id));
         messageGateway.saveCurrentTab(state);
     });
 
@@ -277,9 +277,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     chat.on('click', '.show-more-button', function() {
         const self = $(this);
+        const id = chat.get(0).setAttribute('data-js-id');
         const count = self.parent().next('.messages').children().length;
         socket.emit('more', {
-            target: self.data('id'),
+            target: id,
             count: count
         });
     });
