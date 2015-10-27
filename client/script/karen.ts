@@ -61,10 +61,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const sidebar = $('#sidebar');
     const chat = $('#chat');
 
-    if (navigator.standalone) {
-        document.documentElement.classList.add('web-app-mode');
-    }
-
     socket.error().subscribe(function(e: any) {
         /*eslint-disable no-console*/
         console.log(e);
