@@ -56,6 +56,12 @@ export class MessageGateway {
 
         const messageDispatcher = MessageActionCreator.dispatcher();
 
+        disposer.add(socket.error().subscribe(function (e: any) {
+            /*eslint-disable no-console*/
+            console.log(e);
+            /*eslint-enable*/
+        }));
+
         disposer.add(messageDispatcher.sendCommand.subscribe(({ channelId, text }) => {
             this._sendCommand(channelId, text);
         }));

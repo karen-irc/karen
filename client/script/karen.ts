@@ -61,12 +61,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const sidebar = $('#sidebar');
     const chat = $('#chat');
 
-    socket.error().subscribe(function(e: any) {
-        /*eslint-disable no-console*/
-        console.log(e);
-        /*eslint-enable*/
-    });
-
     messageGateway.disconnected().subscribe(function(){
         AppActionCreator.reload();
     });
