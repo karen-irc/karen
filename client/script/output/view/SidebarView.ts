@@ -254,8 +254,7 @@ export class SidebarView implements EventListenerObject {
         const badge = target.querySelector('.badge');
         if (!!badge) {
             badge.classList.remove('highlight');
-            // FIXME:
-            $(badge).data('count', '');
+            badge.setAttribute('data-count', '');
             badge.textContent = '';
         }
     }
@@ -282,7 +281,8 @@ export class SidebarView implements EventListenerObject {
         }
 
         const rawCount = badge.getAttribute('data-count');
-        const count = (parseInt(rawCount, 10)) + 1;
+        const parsed = parseInt(rawCount, 10);
+        const count = (Number.isNaN(parsed) ? 0 : parsed) + 1;
         badge.setAttribute('data-count', String(count));
         badge.textContent = (count > 999) ? (count / 1000).toFixed(1) + 'k' : String(count);
 
