@@ -265,25 +265,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         auth.removeToken();
     });
 
-    chat.on('click', '.toggle-button', function() {
-        const self = $(this);
-        const chat = self.closest('.chat').get(0);
-        const bottom = isScrollBottom(chat);
-        const content = self.parent().next('.toggle-content');
-        if (bottom && !content.hasClass('show')) {
-            const img = content.find('img');
-            if (img.length !== 0 && !img.width()) {
-                img.on('load', function() {
-                    chat.scrollTop = chat.scrollHeight;
-                });
-            }
-        }
-        content.toggleClass('show');
-        if (bottom) {
-            chat.scrollTop = chat.scrollHeight;
-        }
-    });
-
     function complete(word: string) {
         const words: Array<string> = CommandList.map(function(item){
             return item.toLowerCase();

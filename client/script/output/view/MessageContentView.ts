@@ -90,6 +90,18 @@ export class MessageContentView {
             this._fetchHiddenLog();
         }));
 
+        disposer.add(Rx.Observable.fromEvent(this._messageArea, 'click').subscribe((event: Event) => {
+            const target = <Element>event.target;
+            if (target.classList.contains('toggle-button')) {
+                this._toggleInlineContentContainer(target);
+                UIActionCreator.toggleInlineImage();
+            }
+        }));
+
+        disposer.add(UIActionCreator.dispatcher().toggleInlineImage.subscribe(() => {
+            this._scrollToBottom();
+        }));
+
         disposer.add(MessageActionCreator.dispatcher().clearMessage.subscribe((id: number) => {
             if (this._channelId !== id) {
                 return;
@@ -136,13 +148,9 @@ export class MessageContentView {
     }
 
     private _renderMessage(message: Message): void {
-        const shouldBottom = isScrollBottom(this._messageArea);
         const fragment = createMessageFragment(message);
         this._messageContainer.appendChild(fragment);
-
-        if (shouldBottom) {
-            this._messageArea.scrollTop = this._messageArea.scrollHeight;
-        }
+        this._scrollToBottom();
     }
 
     private _clearMessages(): void {
@@ -158,6 +166,18 @@ export class MessageContentView {
     private _fetchHiddenLog(): void {
         const LENGTH = 100; // This value is same as the number of max display messages.
         MessageActionCreator.fetchHiddenLog(this._channelId, LENGTH);
+    }
+
+    private _scrollToBottom(): void {
+        const shouldBottom = isScrollBottom(this._messageArea);
+        if (shouldBottom) {
+            this._messageArea.scrollTop = this._messageArea.scrollHeight;
+        }
+    }
+
+    private _toggleInlineContentContainer(element: Element): void {
+        const container = element.parentNode.nextSibling;
+        (<Element>container).classList.toggle('show');
     }
 }
 
