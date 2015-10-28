@@ -50,6 +50,7 @@ export class MessageContentView {
     private _messageArea: Element;
     private _messageContainer: Element;
     private _showMore: Element;
+    private _showMoreButtonElement: Element;
     private _closeButton: Element;
 
     private _disposer: Rx.IDisposable;
@@ -63,6 +64,7 @@ export class MessageContentView {
         this._messageArea = this._element.querySelector('.chat');
         this._messageContainer = this._element.querySelector('.messages');
         this._showMore = this._element.querySelector('.show-more');
+        this._showMoreButtonElement = this._element.querySelector('.show-more-button');
         this._closeButton = this._element.querySelector('.js-chatwindow-close');
 
         const disposer: Rx.CompositeDisposable = new Rx.CompositeDisposable();
@@ -82,6 +84,22 @@ export class MessageContentView {
 
         disposer.add(Rx.Observable.fromEvent(this._closeButton, 'click').subscribe(() => {
             UIActionCreator.tryCloseChannel(this._channelId);
+        }));
+
+        disposer.add(Rx.Observable.fromEvent(this._showMoreButtonElement, 'click').subscribe(() => {
+            this._fetchHiddenLog();
+        }));
+
+        disposer.add(Rx.Observable.fromEvent(this._messageArea, 'click').subscribe((event: Event) => {
+            const target = <Element>event.target;
+            if (target.classList.contains('toggle-button')) {
+                this._toggleInlineContentContainer(target);
+                UIActionCreator.toggleInlineImage();
+            }
+        }));
+
+        disposer.add(UIActionCreator.dispatcher().toggleInlineImage.subscribe(() => {
+            this._scrollToBottom();
         }));
 
         disposer.add(MessageActionCreator.dispatcher().clearMessage.subscribe((id: number) => {
@@ -130,13 +148,9 @@ export class MessageContentView {
     }
 
     private _renderMessage(message: Message): void {
-        const shouldBottom = isScrollBottom(this._messageArea);
         const fragment = createMessageFragment(message);
         this._messageContainer.appendChild(fragment);
-
-        if (shouldBottom) {
-            this._messageArea.scrollTop = this._messageArea.scrollHeight;
-        }
+        this._scrollToBottom();
     }
 
     private _clearMessages(): void {
@@ -147,6 +161,23 @@ export class MessageContentView {
 
     private _showMoreButton(): void {
         this._showMore.classList.add('show');
+    }
+
+    private _fetchHiddenLog(): void {
+        const LENGTH = 100; // This value is same as the number of max display messages.
+        MessageActionCreator.fetchHiddenLog(this._channelId, LENGTH);
+    }
+
+    private _scrollToBottom(): void {
+        const shouldBottom = isScrollBottom(this._messageArea);
+        if (shouldBottom) {
+            this._messageArea.scrollTop = this._messageArea.scrollHeight;
+        }
+    }
+
+    private _toggleInlineContentContainer(element: Element): void {
+        const container = element.parentNode.nextSibling;
+        (<Element>container).classList.toggle('show');
     }
 }
 

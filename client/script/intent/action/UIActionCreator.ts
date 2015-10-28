@@ -80,6 +80,10 @@ class UIActionCreator {
     tryCloseChannel(channelId: number): void {
         this._dispatcher.tryCloseChannel.onNext(channelId);
     }
+
+    toggleInlineImage(): void {
+        this._dispatcher.toggleInlineImage.onNext(undefined);
+    }
 }
 
 export default new UIActionCreator();

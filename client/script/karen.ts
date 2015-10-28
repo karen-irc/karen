@@ -265,35 +265,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         auth.removeToken();
     });
 
-    chat.on('click', '.show-more-button', function() {
-        const self = $(this);
-        const id = chat.get(0).setAttribute('data-js-id');
-        const count = self.parent().next('.messages').children().length;
-        socket.emit('more', {
-            target: id,
-            count: count
-        });
-    });
-
-    chat.on('click', '.toggle-button', function() {
-        const self = $(this);
-        const chat = self.closest('.chat').get(0);
-        const bottom = isScrollBottom(chat);
-        const content = self.parent().next('.toggle-content');
-        if (bottom && !content.hasClass('show')) {
-            const img = content.find('img');
-            if (img.length !== 0 && !img.width()) {
-                img.on('load', function() {
-                    chat.scrollTop = chat.scrollHeight;
-                });
-            }
-        }
-        content.toggleClass('show');
-        if (bottom) {
-            chat.scrollTop = chat.scrollHeight;
-        }
-    });
-
     function complete(word: string) {
         const words: Array<string> = CommandList.map(function(item){
             return item.toLowerCase();

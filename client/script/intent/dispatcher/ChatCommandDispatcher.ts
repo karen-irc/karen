@@ -47,6 +47,7 @@ export class ChatCommandDispatcher {
     setNickname: Rx.Subject<{ id: number, nickname: string }>;
     updateUserList: Rx.Subject<{ channelId: number, list: Array<User> }>;
     queryWhoIs: Rx.Subject<{ channelId: number; user: string; }>;
+    fetchHiddenLog: Rx.Subject<{ channelId: number; length: number; }>;
 
     constructor() {
         this.sendCommand = new Rx.Subject<Command>();
@@ -60,5 +61,6 @@ export class ChatCommandDispatcher {
         this.updateUserList = new Rx.Subject<{ channelId: number, list: Array<User> }>();
 
         this.queryWhoIs = new Rx.Subject<{ channelId: number; user: string; }>();
+        this.fetchHiddenLog = new Rx.Subject<{ channelId: number; length: number; }>();
     }
 }

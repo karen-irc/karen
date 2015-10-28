@@ -69,6 +69,10 @@ export class MessageGateway {
         disposer.add(messageDispatcher.queryWhoIs.subscribe(({ channelId, user }) => {
             this._queryWhoIs(channelId, user);
         }));
+
+        disposer.add(messageDispatcher.fetchHiddenLog.subscribe(({ channelId, length, }) => {
+            this._fetchHiddenLog(channelId, length);
+        }));
     }
 
     socket(): SocketIoDriver {
@@ -207,6 +211,13 @@ export class MessageGateway {
         this._socket.emit('input', {
             target: channelId,
             text: query,
+        });
+    }
+
+    private _fetchHiddenLog(channelId: number, length: number): void {
+        this._socket.emit('more', {
+            target: channelId,
+            count: length,
         });
     }
 }
