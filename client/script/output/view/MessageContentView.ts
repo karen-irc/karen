@@ -50,6 +50,7 @@ export class MessageContentView {
     private _messageArea: Element;
     private _messageContainer: Element;
     private _showMore: Element;
+    private _showMoreButtonElement: Element;
     private _closeButton: Element;
 
     private _disposer: Rx.IDisposable;
@@ -63,6 +64,7 @@ export class MessageContentView {
         this._messageArea = this._element.querySelector('.chat');
         this._messageContainer = this._element.querySelector('.messages');
         this._showMore = this._element.querySelector('.show-more');
+        this._showMoreButtonElement = this._element.querySelector('.show-more-button');
         this._closeButton = this._element.querySelector('.js-chatwindow-close');
 
         const disposer: Rx.CompositeDisposable = new Rx.CompositeDisposable();
@@ -82,6 +84,10 @@ export class MessageContentView {
 
         disposer.add(Rx.Observable.fromEvent(this._closeButton, 'click').subscribe(() => {
             UIActionCreator.tryCloseChannel(this._channelId);
+        }));
+
+        disposer.add(Rx.Observable.fromEvent(this._showMoreButtonElement, 'click').subscribe(() => {
+            this._fetchHiddenLog();
         }));
 
         disposer.add(MessageActionCreator.dispatcher().clearMessage.subscribe((id: number) => {
@@ -147,6 +153,11 @@ export class MessageContentView {
 
     private _showMoreButton(): void {
         this._showMore.classList.add('show');
+    }
+
+    private _fetchHiddenLog(): void {
+        const LENGTH = 100; // This value is same as the number of max display messages.
+        MessageActionCreator.fetchHiddenLog(this._channelId, LENGTH);
     }
 }
 

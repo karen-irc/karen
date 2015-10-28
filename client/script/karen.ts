@@ -265,16 +265,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         auth.removeToken();
     });
 
-    chat.on('click', '.show-more-button', function() {
-        const self = $(this);
-        const id = chat.get(0).setAttribute('data-js-id');
-        const count = self.parent().next('.messages').children().length;
-        socket.emit('more', {
-            target: id,
-            count: count
-        });
-    });
-
     chat.on('click', '.toggle-button', function() {
         const self = $(this);
         const chat = self.closest('.chat').get(0);

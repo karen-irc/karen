@@ -86,6 +86,13 @@ class MessageActionCreator {
             user,
         });
     }
+
+    fetchHiddenLog(channelId: number, length: number): void {
+        this._dispatcher.fetchHiddenLog.onNext({
+            channelId,
+            length,
+        });
+    }
 }
 
 export default new MessageActionCreator();
