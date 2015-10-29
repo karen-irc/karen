@@ -68,7 +68,7 @@
     "autoprefixer": "^6.0.3",
     "babel-core": "^5.8.32",
     "babelify": "^6.4.0",
-    "browserify": "^12.0.0",
+    "browserify": "^12.0.1",
     "del": "^2.0.2",
     "eslint": "^1.7.1",
     "eslint-plugin-react": "^3.6.3",
