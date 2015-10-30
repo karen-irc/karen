@@ -110,22 +110,34 @@ gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'
         extensions: ['.jsx'],
     };
 
-    let babelOptions = [
-        'utility.inlineEnvironmentVariables',
+    const babelPresets = [
+        'es2015',
+        'react',
+    ];
+
+    let babelPlugins = [
+        'transform-inline-environment-variables',
+        'transform-node-env-inline',
     ];
     if (isRelease) {
-        babelOptions = babelOptions.concat([
-            'optimisation.react.constantElements',
-            'optimisation.react.inlineElements',
+        babelPlugins = babelPlugins.concat([
+            'transform-react-constant-elements',
+            'transform-react-inline-elements',
         ]);
     }
 
     const babel = babelify.configure({
-        optional: babelOptions,
-        blacklist: [
-            'es6.forOf',
-            'es6.templateLiterals',
-        ],
+        presets: babelPresets,
+        plugins: babelPlugins,
+
+        // FIXME:
+        // For our target browsers, we need not some transforms.
+        // But after babel v6~, all transform paths are opt-in.
+        // We need to construct whitelist to exclude needless ones.
+        // blacklist: [
+        //     'es6.forOf',
+        //     'es6.templateLiterals',
+        // ],
     });
 
     return browserify(ENTRY_POINT, option)
@@ -193,29 +205,39 @@ gulp.task('__tslint', function () {
 });
 
 gulp.task('__babel:server', ['clean:server'], function () {
-    let babelOptions = [];
+    const babelPresets = [
+        'es2015',
+        'react',
+    ];
+
+    let babelPlugins = [];
     if (isRelease) {
-        babelOptions = babelOptions.concat([
-            'optimisation.react.constantElements',
-            'optimisation.react.inlineElements',
+        babelPlugins = babelPlugins.concat([
+            'transform-react-constant-elements',
+            'transform-react-inline-elements',
         ]);
     }
 
     return gulp.src(SERVER_SRC)
         .pipe(babel({
-            optional: babelOptions,
-
-            // For Node.js v4~, we need not some transforms:
-            blacklist: [
-                'es6.arrowFunctions',
-                'es6.blockScoping',
-                'es6.classes',
-                'es6.constants',
-                'es6.forOf',
-                'es6.properties.shorthand',
-                'es6.templateLiterals',
-            ],
+            presets: babelPresets,
+            plugins: babelPlugins,
             sourceMaps: false,
+
+            // FIXME:
+            // For Node.js v4~, we need not some transforms.
+            // But after babel v6~, all transform paths are opt-in.
+            // We need to construct whitelist to exclude needless ones.
+            //
+            // blacklist: [
+            //     'es6.arrowFunctions',
+            //     'es6.blockScoping',
+            //     'es6.classes',
+            //     'es6.constants',
+            //     'es6.forOf',
+            //     'es6.properties.shorthand',
+            //     'es6.templateLiterals',
+            // ],
         }))
         .pipe(gulp.dest(DIST_SERVER));
 });
