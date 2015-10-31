@@ -80,7 +80,7 @@
     "mocha": "^2.3.3",
     "tsd": "^0.6.5",
     "tslint": "^2.6.0-dev.2",
-    "typescript": "1.8.0-dev.20151027",
+    "typescript": "1.8.0-dev.20151031",
     "vinyl-source-stream": "^1.1.0"
   }
 }
