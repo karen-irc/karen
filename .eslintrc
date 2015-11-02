@@ -11,7 +11,8 @@
         "objectLiteralComputedProperties": true,
         "objectLiteralDuplicateProperties": true,
         "objectLiteralShorthandMethods": true,
-        "objectLiteralShorthandProperties": true
+        "objectLiteralShorthandProperties": true,
+        "spread": true
     },
 
     "env": {
