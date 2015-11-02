@@ -95,6 +95,7 @@
         "spaced-comment": 0,
 
         // ECMAScript 6
+        "arrow-body-style": [1, "as-needed"],
         "arrow-parens": 1,
         "arrow-spacing": [1, {
             "before": true,
