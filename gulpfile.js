@@ -206,11 +206,17 @@ gulp.task('__tslint', function () {
 
 gulp.task('__babel:server', ['clean:server'], function () {
     const babelPresets = [
-        'es2015',
         'react',
     ];
 
-    let babelPlugins = [];
+    let babelPlugins = [
+        // For Node.js v5~, we need not some transforms.
+        'transform-es2015-destructuring',
+        'transform-es2015-modules-commonjs',
+        'transform-es2015-parameters',
+        'transform-es2015-sticky-regex',
+        'transform-es2015-unicode-regex',
+    ];
     if (isRelease) {
         babelPlugins = babelPlugins.concat([
             'transform-react-constant-elements',
@@ -223,21 +229,6 @@ gulp.task('__babel:server', ['clean:server'], function () {
             presets: babelPresets,
             plugins: babelPlugins,
             sourceMaps: false,
-
-            // FIXME:
-            // For Node.js v4~, we need not some transforms.
-            // But after babel v6~, all transform paths are opt-in.
-            // We need to construct whitelist to exclude needless ones.
-            //
-            // blacklist: [
-            //     'es6.arrowFunctions',
-            //     'es6.blockScoping',
-            //     'es6.classes',
-            //     'es6.constants',
-            //     'es6.forOf',
-            //     'es6.properties.shorthand',
-            //     'es6.templateLiterals',
-            // ],
         }))
         .pipe(gulp.dest(DIST_SERVER));
 });
