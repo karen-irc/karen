@@ -206,7 +206,6 @@ gulp.task('__tslint', function () {
 
 gulp.task('__babel:server', ['clean:server'], function () {
     const babelPresets = [
-        'react',
     ];
 
     let babelPlugins = [
@@ -216,6 +215,10 @@ gulp.task('__babel:server', ['clean:server'], function () {
         'transform-es2015-parameters',
         'transform-es2015-sticky-regex',
         'transform-es2015-unicode-regex',
+
+        // for React
+        'syntax-jsx',
+        'transform-react-jsx',
     ];
     if (isRelease) {
         babelPlugins = babelPlugins.concat([
