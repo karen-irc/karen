@@ -32,6 +32,17 @@ export class ConnectSettingWindow extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.onChangeSetNetworkName.bind(this);
+        this.onChangeSetServerURL.bind(this);
+        this.onChangeSetServerPort.bind(this);
+        this.onChangeSetServerPass.bind(this);
+        this.onChangeUseTLS.bind(this);
+        this.onChangeSetNickName.bind(this);
+        this.onChangeSetUserName.bind(this);
+        this.onChangeSetRealName.bind(this);
+        this.onChangeSetChannel.bind(this);
+        this.onSubmit.bind(this);
     }
 
     render() {
@@ -49,7 +60,7 @@ export class ConnectSettingWindow extends React.Component {
                 <div className='header'>
                     <button className='lt'></button>
                 </div>
-                <form className='container' action='' onSubmit={this.onSubmit.bind(this)}>
+                <form className='container' action='' onSubmit={this.onSubmit}>
                     <div className='row'>
                         <div className='col-sm-12'>
                             <h1 className='title'>Connect</h1>
@@ -66,7 +77,7 @@ export class ConnectSettingWindow extends React.Component {
                                    name='name'
                                    disabled={isConnecting}
                                    value={server.name}
-                                   onChange={this.onChangeSetNetworkName.bind(this)} />
+                                   onChange={this.onChangeSetNetworkName} />
                         </div>
                         <div className='col-sm-3'>
                             <label>Server</label>
@@ -77,7 +88,7 @@ export class ConnectSettingWindow extends React.Component {
                                    name='host'
                                    disabled={isConnecting}
                                    value={server.url}
-                                   onChange={this.onChangeSetServerURL.bind(this)} />
+                                   onChange={this.onChangeSetServerURL} />
                         </div>
                         <div className='col-sm-3 col-xs-4'>
                             <div className='port'>
@@ -86,7 +97,7 @@ export class ConnectSettingWindow extends React.Component {
                                        name='port'
                                        disabled={isConnecting}
                                        value={server.port}
-                                       onChange={this.onChangeSetServerPort.bind(this)} />
+                                       onChange={this.onChangeSetServerPort} />
                             </div>
                         </div>
                         <div className='clearfix'></div>
@@ -99,7 +110,7 @@ export class ConnectSettingWindow extends React.Component {
                                    name='password'
                                    disabled={isConnecting}
                                    value={server.pass}
-                                   onChange={this.onChangeSetServerPass.bind(this)} />
+                                   onChange={this.onChangeSetServerPass} />
                         </div>
                         <div className='col-sm-3'></div>
                         <div className='col-sm-9'>
@@ -108,7 +119,7 @@ export class ConnectSettingWindow extends React.Component {
                                        name='tls'
                                        disabled={isConnecting}
                                        checked={server.useTLS}
-                                       onChange={this.onChangeUseTLS.bind(this)} />
+                                       onChange={this.onChangeUseTLS} />
                                 Enable TLS/SSL
                             </label>
                         </div>
@@ -125,7 +136,7 @@ export class ConnectSettingWindow extends React.Component {
                                    name='nick'
                                    disabled={isConnecting}
                                    value={user.nickname}
-                                   onChange={this.onChangeSetNickName.bind(this)} />
+                                   onChange={this.onChangeSetNickName} />
                         </div>
                         <div className='clearfix'></div>
                         <div className='col-sm-3'>
@@ -137,7 +148,7 @@ export class ConnectSettingWindow extends React.Component {
                                    name='username'
                                    disabled={isConnecting}
                                    value={username}
-                                   onChange={this.onChangeSetUserName.bind(this)} />
+                                   onChange={this.onChangeSetUserName} />
                         </div>
                         <div className='clearfix'></div>
                         <div className='col-sm-3'>
@@ -149,7 +160,7 @@ export class ConnectSettingWindow extends React.Component {
                                    name='realname'
                                    disabled={isConnecting}
                                    value={user.realname}
-                                   onChange={this.onChangeSetRealName.bind(this)} />
+                                   onChange={this.onChangeSetRealName} />
                         </div>
                         <div className='col-sm-3'>
                             <label>Channels</label>
@@ -160,7 +171,7 @@ export class ConnectSettingWindow extends React.Component {
                                    name='join'
                                    disabled={isConnecting}
                                    value={user.channel}
-                                   onChange={this.onChangeSetChannel.bind(this)} />
+                                   onChange={this.onChangeSetChannel} />
                         </div>
                         <div className='col-sm-3 clearfix'></div>
                         <div className='col-sm-9'>

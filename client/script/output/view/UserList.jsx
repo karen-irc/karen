@@ -55,9 +55,12 @@ export class UserList extends React.Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             searchText: '',
         };
+
+        this.onChangeSearch.bind(this);
     }
 
     render() {
@@ -69,7 +72,7 @@ export class UserList extends React.Component {
             count = (
                 <div className='count'>
                     <input className='search'
-                           onChange={this.onChangeSearch.bind(this)}
+                           onChange={this.onChangeSearch}
                            value={this.state.searchText}
                            placeholder={placeholder}/>
                 </div>
