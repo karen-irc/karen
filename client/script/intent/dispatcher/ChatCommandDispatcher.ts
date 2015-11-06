@@ -28,6 +28,7 @@
 import * as Rx from 'rx';
 
 import {ChannelId} from '../../domain/ChannelDomain';
+import {NetworkId} from '../../domain/NetworkDomain';
 import {User} from '../../domain/User';
 
 type Command = {
@@ -45,7 +46,7 @@ export class ChatCommandDispatcher {
     sendCommand: Rx.Subject<Command>;
     clearMessage: Rx.Subject<ChannelId>;
     setTopic: Rx.Subject<Topic>;
-    setNickname: Rx.Subject<{ id: number, nickname: string }>;
+    setNickname: Rx.Subject<{ id: NetworkId, nickname: string }>;
     updateUserList: Rx.Subject<{ channelId: ChannelId, list: Array<User> }>;
     queryWhoIs: Rx.Subject<{ channelId: ChannelId; user: string; }>;
     fetchHiddenLog: Rx.Subject<{ channelId: ChannelId; length: number; }>;
@@ -57,7 +58,7 @@ export class ChatCommandDispatcher {
 
         this.setTopic = new Rx.Subject<Topic>();
 
-        this.setNickname = new Rx.Subject<{ id: number, nickname: string }>();
+        this.setNickname = new Rx.Subject<{ id: NetworkId, nickname: string }>();
 
         this.updateUserList = new Rx.Subject<{ channelId: ChannelId, list: Array<User> }>();
 

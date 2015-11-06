@@ -40,6 +40,7 @@ import {
 import {SelectedTab} from '../domain/DomainState';
 import {RecievedMessage} from '../domain/Message';
 import {Network} from '../domain/Network';
+import {NetworkId} from '../domain/NetworkDomain';
 import {User} from '../domain/User';
 
 import {SocketIoDriver} from './SocketIoDriver';
@@ -126,7 +127,7 @@ export class MessageGateway {
         });
     }
 
-    setNickname(): Rx.Observable<{ networkId: number, nickname: string }> {
+    setNickname(): Rx.Observable<{ networkId: NetworkId, nickname: string }> {
         return this._socket.nickname().map(function(data) {
             return {
                 networkId: data.network,
@@ -167,7 +168,7 @@ export class MessageGateway {
         });
     }
 
-    joinChannel(): Rx.Observable<{networkId: number; channel: Channel}> {
+    joinChannel(): Rx.Observable<{networkId: NetworkId; channel: Channel}> {
         return this._socket.join().map(function(data){
             const networkId = data.network;
             const channel = new Channel(data.chan);
@@ -184,9 +185,9 @@ export class MessageGateway {
         });
     }
 
-    quitNetwork(): Rx.Observable<number> {
+    quitNetwork(): Rx.Observable<NetworkId> {
         return this._socket.quit().map(function(data) {
-            const id = <number>data.network;
+            const id = <NetworkId>data.network;
             return id;
         });
     }

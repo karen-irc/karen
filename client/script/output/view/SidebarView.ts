@@ -42,7 +42,7 @@ import {CommandType} from '../../domain/CommandType';
 import {DomainState} from '../../domain/DomainState';
 import {Message, RecievedMessage} from '../../domain/Message';
 import {Network} from '../../domain/Network';
-import {NetworkDomain} from '../../domain/NetworkDomain';
+import {NetworkDomain, NetworkId} from '../../domain/NetworkDomain';
 import AppActionCreator from '../../intent/action/AppActionCreator';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
@@ -145,7 +145,7 @@ export class SidebarView implements EventListenerObject {
         }
     }
 
-    joinChannel(networkId: number, channel: Channel): void {
+    joinChannel(networkId: NetworkId, channel: Channel): void {
         const network = this._element.querySelector('#network-' + String(networkId));
         if (!network) {
             throw new Error();

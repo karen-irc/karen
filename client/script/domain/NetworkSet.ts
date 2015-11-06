@@ -23,21 +23,22 @@
  * THE SOFTWARE.
  */
 
+import {Some, None, Option} from 'option-t';
+
 import {Channel} from './Channel';
 import {ChannelId} from './ChannelDomain';
 import {Network} from './Network';
-
-import {Some, None, Option} from 'option-t';
+import {NetworkId} from './NetworkDomain';
 
 /**
  *  This object is based on the assumption that
  *  `Network.id` will be unique while the runtime.
  */
 export class NetworkSet {
-    _idMap: Map<number, Network>;
+    _idMap: Map<NetworkId, Network>;
 
     constructor(raw: Array<Network>) {
-        this._idMap = new Map<number, Network>();
+        this._idMap = new Map<NetworkId, Network>();
 
         raw.forEach((item) => {
             this._idMap.set(item.id, item);
@@ -52,7 +53,7 @@ export class NetworkSet {
         this._idMap.set(item.id, item);
     }
 
-    getById(id: number): Option<Network> {
+    getById(id: NetworkId): Option<Network> {
         const result = this._idMap.get(id);
         if (result === undefined) {
             return new None<Network>();

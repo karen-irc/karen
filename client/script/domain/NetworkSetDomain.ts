@@ -32,7 +32,7 @@ import * as Rx from 'rx';
 import {RecievedMessage} from './Message';
 import {NetworkSet} from './NetworkSet';
 import {ChannelDomain, ChannelId} from './ChannelDomain';
-import {NetworkDomain} from './NetworkDomain';
+import {NetworkDomain, NetworkId} from './NetworkDomain';
 
 import {MessageGateway} from '../adapter/MessageGateway';
 
@@ -46,7 +46,7 @@ export class NetworkSetDomain {
 
     legacy: NetworkSet;
 
-    private _updateNick: Rx.Subject<{ networkId: number; nick: string; }>;
+    private _updateNick: Rx.Subject<{ networkId: NetworkId; nick: string; }>;
     private _joinedChannel: Rx.Subject<ChannelDomain>;
     private _partedChannel: Rx.Subject<ChannelDomain>;
     private _notableMsgDispatcher: Rx.Subject<RecievedMessage>;
@@ -62,7 +62,7 @@ export class NetworkSetDomain {
     constructor(gateway: MessageGateway) {
         this.legacy = new NetworkSet([]);
 
-        this._updateNick = new Rx.Subject<{ networkId: number; nick: string; }>();
+        this._updateNick = new Rx.Subject<{ networkId: NetworkId; nick: string; }>();
         this._joinedChannel = new Rx.Subject<ChannelDomain>();
         this._partedChannel = new Rx.Subject<ChannelDomain>();
         this._notableMsgDispatcher = new Rx.Subject<RecievedMessage>();
@@ -176,7 +176,7 @@ export class NetworkSetDomain {
         return this._notifiableMsgDispatcher;
     }
 
-    updatedNickname(): Rx.Observable<{ networkId: number; nick: string; }> {
+    updatedNickname(): Rx.Observable<{ networkId: NetworkId; nick: string; }> {
         return this._updateNick;
     }
 }

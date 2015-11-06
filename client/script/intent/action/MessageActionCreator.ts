@@ -26,6 +26,7 @@
 import {ChatCommandDispatcher} from '../dispatcher/ChatCommandDispatcher';
 import {ChannelId} from '../../domain/ChannelDomain';
 import {CommandType} from '../../domain/CommandType';
+import {NetworkId} from '../../domain/NetworkDomain';
 import {User} from '../../domain/User';
 
 class MessageActionCreator {
@@ -67,7 +68,7 @@ class MessageActionCreator {
         });
     }
 
-    setNickname(networkId: number, nickname: string): void {
+    setNickname(networkId: NetworkId, nickname: string): void {
         this._dispatcher.setNickname.onNext({
             id: networkId,
             nickname: nickname,

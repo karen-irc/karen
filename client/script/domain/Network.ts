@@ -27,9 +27,10 @@ import {Some, None, Option} from 'option-t';
 
 import {Channel} from './Channel';
 import {ChannelId} from './ChannelDomain';
+import {NetworkId} from './NetworkDomain';
 
 export class Network {
-    id: number;
+    id: NetworkId;
     nickname: string;
     _channelList: Array<Channel>;
 
