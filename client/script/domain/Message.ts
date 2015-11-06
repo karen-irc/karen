@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+import {ChannelId} from './ChannelDomain';
+
 export interface Message {
     id: number;
     mode: string;
@@ -36,6 +38,6 @@ export interface Message {
 }
 
 export interface RecievedMessage {
-    channelId: number;
+    channelId: ChannelId;
     message: Message;
 }

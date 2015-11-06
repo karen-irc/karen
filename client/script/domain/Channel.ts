@@ -23,12 +23,13 @@
  * THE SOFTWARE.
  */
 
+import {ChannelId} from './ChannelDomain';
 import {Message} from './Message';
 import {Network} from './Network';
 import {User} from './User';
 
 export class Channel {
-    id: number;
+    id: ChannelId;
     name: string;
     topic: string;
     type: string;

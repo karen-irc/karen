@@ -26,8 +26,10 @@
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 import * as Rx from 'rx';
 
+import {ChannelId} from '../../domain/ChannelDomain';
+
 type NotificationValue = {
-    channelId: number,
+    channelId: ChannelId,
     from: string,
     text: string,
 };

@@ -25,6 +25,8 @@
 
 import {UIActionDispatcher} from '../dispatcher/UIActionDispatcher';
 
+import {ChannelId} from '../../domain/ChannelDomain';
+
 class UIActionCreator {
 
     private _dispatcher: UIActionDispatcher;
@@ -53,7 +55,7 @@ class UIActionCreator {
         this._dispatcher.focusWindow.onNext(undefined);
     }
 
-    selectChannel(id: number): void {
+    selectChannel(id: ChannelId): void {
         this._dispatcher.selectChannel.onNext(id);
     }
 
@@ -73,11 +75,11 @@ class UIActionCreator {
         this._dispatcher.showSignIn.onNext(undefined);
     }
 
-    showLatestInChannel(channelId: number): void {
+    showLatestInChannel(channelId: ChannelId): void {
         this._dispatcher.showLatestInChannel.onNext(channelId);
     }
 
-    tryCloseChannel(channelId: number): void {
+    tryCloseChannel(channelId: ChannelId): void {
         this._dispatcher.tryCloseChannel.onNext(channelId);
     }
 

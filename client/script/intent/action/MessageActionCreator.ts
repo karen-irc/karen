@@ -24,7 +24,9 @@
  */
 
 import {ChatCommandDispatcher} from '../dispatcher/ChatCommandDispatcher';
+import {ChannelId} from '../../domain/ChannelDomain';
 import {CommandType} from '../../domain/CommandType';
+import {NetworkId} from '../../domain/NetworkDomain';
 import {User} from '../../domain/User';
 
 class MessageActionCreator {
@@ -39,7 +41,7 @@ class MessageActionCreator {
         return this._dispatcher;
     }
 
-    inputCommand(channelId: number, command: string): void {
+    inputCommand(channelId: ChannelId, command: string): void {
         const isClearCommand = (typeof command.startsWith === 'function') ?
             command.startsWith(CommandType.CLEAR) :
             (command.indexOf(CommandType.CLEAR) === 0);
@@ -55,39 +57,39 @@ class MessageActionCreator {
         });
     }
 
-    clear(channelId: number): void {
+    clear(channelId: ChannelId): void {
         this._dispatcher.clearMessage.onNext(channelId);
     }
 
-    setTopic(channelId: string, topic: string): void {
+    setTopic(channelId: ChannelId, topic: string): void {
         this._dispatcher.setTopic.onNext({
             id: channelId,
             topic: topic,
         });
     }
 
-    setNickname(networkId: number, nickname: string): void {
+    setNickname(networkId: NetworkId, nickname: string): void {
         this._dispatcher.setNickname.onNext({
             id: networkId,
             nickname: nickname,
         });
     }
 
-    updateUserList(channelId: number, list: Array<User>): void {
+    updateUserList(channelId: ChannelId, list: Array<User>): void {
         this._dispatcher.updateUserList.onNext({
             channelId,
             list,
         });
     }
 
-    queryWhoIs(channelId: number, user: string): void {
+    queryWhoIs(channelId: ChannelId, user: string): void {
         this._dispatcher.queryWhoIs.onNext({
             channelId,
             user,
         });
     }
 
-    fetchHiddenLog(channelId: number, length: number): void {
+    fetchHiddenLog(channelId: ChannelId, length: number): void {
         this._dispatcher.fetchHiddenLog.onNext({
             channelId,
             length,

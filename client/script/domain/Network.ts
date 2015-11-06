@@ -23,11 +23,14 @@
  * THE SOFTWARE.
  */
 
-import {Channel} from './Channel';
 import {Some, None, Option} from 'option-t';
 
+import {Channel} from './Channel';
+import {ChannelId} from './ChannelDomain';
+import {NetworkId} from './NetworkDomain';
+
 export class Network {
-    id: number;
+    id: NetworkId;
     nickname: string;
     _channelList: Array<Channel>;
 
@@ -44,7 +47,7 @@ export class Network {
         this._channelList = channelList;
     }
 
-    getLobbyId(): number {
+    getLobbyId(): ChannelId {
         for (const channel of this._channelList) {
             if (channel.type === 'lobby') {
                 return channel.id;
@@ -58,7 +61,7 @@ export class Network {
         return this._channelList;
     }
 
-    getChannelById(channelId: number): Option<Channel> {
+    getChannelById(channelId: ChannelId): Option<Channel> {
         let result = new None<Channel>();
         for (const channel of this._channelList) {
             // XXX: babel transforms this for-of to try-catch-finally.

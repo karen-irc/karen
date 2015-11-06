@@ -29,22 +29,24 @@
 import {Some, None} from 'option-t';
 import * as Rx from 'rx';
 
-import {ChannelDomain} from './ChannelDomain';
+import {ChannelDomain, ChannelId} from './ChannelDomain';
 import {RecievedMessage} from './Message';
 import {Network} from './Network';
 
 import {MessageGateway} from '../adapter/MessageGateway';
 
+export type NetworkId = number;
+
 export class NetworkDomain {
 
-    private _channels: Map<number, ChannelDomain>;
+    private _channels: Map<ChannelId, ChannelDomain>;
 
     private _data: Network;
     private _nickname: Rx.Observable<string>;
     private _joinedChannel: Rx.Observable<ChannelDomain>;
     private _partedChannel: Rx.Observable<ChannelDomain>;
 
-    private _nickUpdater: Rx.Subject<{ networkId: number; nick: string; }>;
+    private _nickUpdater: Rx.Subject<{ networkId: NetworkId; nick: string; }>;
     private _joinedUpdater: Rx.Subject<ChannelDomain>;
     private _partedUpdater: Rx.Subject<ChannelDomain>;
     private _notableMsgDispatcher: Rx.Subject<RecievedMessage>;
@@ -54,7 +56,7 @@ export class NetworkDomain {
 
     constructor(gateway: MessageGateway,
                 data: Network,
-                nicknameUpdater: Rx.Subject<{ networkId: number; nick: string; }>,
+                nicknameUpdater: Rx.Subject<{ networkId: NetworkId; nick: string; }>,
                 joinedUpdater: Rx.Subject<ChannelDomain>,
                 partedUpdater: Rx.Subject<ChannelDomain>,
                 notableMsgDispatcher: Rx.Subject<RecievedMessage>,

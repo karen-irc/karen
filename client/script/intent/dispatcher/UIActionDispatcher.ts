@@ -27,6 +27,8 @@
 
 import * as Rx from 'rx';
 
+import {ChannelId} from '../../domain/ChannelDomain';
+
 type SettingId = string;
 
 export class UIActionDispatcher {
@@ -35,14 +37,14 @@ export class UIActionDispatcher {
     toggleRightPane: Rx.Subject<boolean>;
     focusInputBox: Rx.Subject<void>;
     focusWindow: Rx.Subject<void>;
-    selectChannel: Rx.Subject<number>;
+    selectChannel: Rx.Subject<ChannelId>;
     setQuitConfirmDialog: Rx.Subject<void>;
     showConnectSetting: Rx.Subject<void>;
     showGeneralSetting: Rx.Subject<void>;
     showSignIn: Rx.Subject<void>;
 
-    showLatestInChannel: Rx.Subject<number>;
-    tryCloseChannel: Rx.Subject<number>;
+    showLatestInChannel: Rx.Subject<ChannelId>;
+    tryCloseChannel: Rx.Subject<ChannelId>;
     toggleInlineImage: Rx.Subject<void>;
 
     showSomeSettings: Rx.Observable<SettingId>;
@@ -54,7 +56,7 @@ export class UIActionDispatcher {
         this.focusInputBox = new Rx.Subject<void>();
         this.focusWindow = new Rx.Subject<void>();
 
-        this.selectChannel = new Rx.Subject<number>();
+        this.selectChannel = new Rx.Subject<ChannelId>();
 
         this.setQuitConfirmDialog = new Rx.Subject<void>();
 
@@ -63,8 +65,8 @@ export class UIActionDispatcher {
 
         this.showSignIn = new Rx.Subject<void>();
 
-        this.showLatestInChannel = new Rx.Subject<number>();
-        this.tryCloseChannel = new Rx.Subject<number>();
+        this.showLatestInChannel = new Rx.Subject<ChannelId>();
+        this.tryCloseChannel = new Rx.Subject<ChannelId>();
         this.toggleInlineImage = new Rx.Subject<void>();
 
         this.showSomeSettings = Rx.Observable.merge<SettingId>([

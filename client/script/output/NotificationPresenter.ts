@@ -29,6 +29,7 @@ import * as Rx from 'rx';
 
 import {AudioDriver} from '../adapter/AudioDriver';
 import {ConfigRepository} from '../adapter/ConfigRepository';
+import {ChannelId} from '../domain/ChannelDomain';
 import NotificationActionCreator from '../intent/action/NotificationActionCreator';
 import UIActionCreator from '../intent/action/UIActionCreator';
 
@@ -85,7 +86,7 @@ export class NotificationPresenter {
         }
     }
 
-    showNotification(channelId: number, from: string, text: string): void {
+    showNotification(channelId: ChannelId, from: string, text: string): void {
         const settings = this._config.get();
         if (settings.notification) {
             // FIXME: should call in `NotificationActionCreator.showNotification()`

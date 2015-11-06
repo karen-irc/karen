@@ -30,6 +30,7 @@ import * as Rx from 'rx';
 
 import MessageActionCreator from '../intent/action/MessageActionCreator';
 import {Channel} from '../domain/Channel';
+import {ChannelId} from '../domain/ChannelDomain';
 import {CommandType} from '../domain/CommandType';
 import {
     ConnectionValue,
@@ -39,6 +40,7 @@ import {
 import {SelectedTab} from '../domain/DomainState';
 import {RecievedMessage} from '../domain/Message';
 import {Network} from '../domain/Network';
+import {NetworkId} from '../domain/NetworkDomain';
 import {User} from '../domain/User';
 
 import {SocketIoDriver} from './SocketIoDriver';
@@ -85,7 +87,7 @@ export class MessageGateway {
         });
     }
 
-    invokeInit(): Rx.Observable<{ networks: Array<Network>; token: string; active: Option<number|string>; }> {
+    invokeInit(): Rx.Observable<{ networks: Array<Network>; token: string; active: Option<ChannelId|string>; }> {
         return this._socket.init().map(function(data: any){
             const list = (data.networks.length !== 0) ?
                 (<Array<any>>data.networks).map(function(item){
@@ -94,7 +96,7 @@ export class MessageGateway {
             return {
                 networks: list,
                 token: data.token,
-                active: data.active.is_some ? new Some(data.active) : new None<number>(),
+                active: data.active.is_some ? new Some(data.active) : new None<ChannelId>(),
             };
         });
     }
@@ -125,7 +127,7 @@ export class MessageGateway {
         });
     }
 
-    setNickname(): Rx.Observable<{ networkId: number, nickname: string }> {
+    setNickname(): Rx.Observable<{ networkId: NetworkId, nickname: string }> {
         return this._socket.nickname().map(function(data) {
             return {
                 networkId: data.network,
@@ -134,7 +136,7 @@ export class MessageGateway {
         });
     }
 
-    updateUserList(): Rx.Observable<{ channelId: number, list: Array<User>}> {
+    updateUserList(): Rx.Observable<{ channelId: ChannelId, list: Array<User>}> {
         return this._socket.users().map(function(data){
             const channelId = data.chan;
             const users = data.users.map(function(item: any){
@@ -148,7 +150,7 @@ export class MessageGateway {
         });
     }
 
-    setTopic(): Rx.Observable<{ channelId: number, topic: string }> {
+    setTopic(): Rx.Observable<{ channelId: ChannelId, topic: string }> {
         return this._socket.topic().map(function(data) {
             return {
                 channelId: data.chan,
@@ -166,7 +168,7 @@ export class MessageGateway {
         });
     }
 
-    joinChannel(): Rx.Observable<{networkId: number; channel: Channel}> {
+    joinChannel(): Rx.Observable<{networkId: NetworkId; channel: Channel}> {
         return this._socket.join().map(function(data){
             const networkId = data.network;
             const channel = new Channel(data.chan);
@@ -177,15 +179,15 @@ export class MessageGateway {
         });
     }
 
-    partFromChannel(): Rx.Observable<number> { // channelId
+    partFromChannel(): Rx.Observable<ChannelId> { // channelId
         return this._socket.part().map(function(data){
-            return <number>data.chan;
+            return <ChannelId>data.chan;
         });
     }
 
-    quitNetwork(): Rx.Observable<number> {
+    quitNetwork(): Rx.Observable<NetworkId> {
         return this._socket.quit().map(function(data) {
-            const id = <number>data.network;
+            const id = <NetworkId>data.network;
             return id;
         });
     }
@@ -199,14 +201,14 @@ export class MessageGateway {
         this._socket.emit('conn', prop);
     }
 
-    private _sendCommand(channelId: number, command: string): void {
+    private _sendCommand(channelId: ChannelId, command: string): void {
         this._socket.emit('input', {
             target: channelId,
             text: command,
         });
     }
 
-    private _queryWhoIs(channelId: number, who: string): void {
+    private _queryWhoIs(channelId: ChannelId, who: string): void {
         const query = CommandType.WHOIS + ' ' + who;
         this._socket.emit('input', {
             target: channelId,
@@ -214,7 +216,7 @@ export class MessageGateway {
         });
     }
 
-    private _fetchHiddenLog(channelId: number, length: number): void {
+    private _fetchHiddenLog(channelId: ChannelId, length: number): void {
         this._socket.emit('more', {
             target: channelId,
             count: length,

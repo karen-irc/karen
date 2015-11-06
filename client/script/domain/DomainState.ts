@@ -28,7 +28,7 @@
 import {Some, None, Option} from 'option-t';
 import * as Rx from 'rx';
 
-import {ChannelDomain} from './ChannelDomain';
+import {ChannelDomain, ChannelId} from './ChannelDomain';
 import {RecievedMessage} from './Message';
 import {NetworkSet} from './NetworkSet';
 import {NetworkSetDomain} from './NetworkSetDomain';
@@ -46,20 +46,20 @@ export const enum CurrentTabType {
 export class SelectedTab {
 
     type: CurrentTabType;
-    id: string|number;
+    id: string|ChannelId;
 
-    constructor(type: CurrentTabType, id: string|number) {
+    constructor(type: CurrentTabType, id: string|ChannelId) {
         this.type = type;
         this.id = id;
     }
 
-    get channelId(): Option<number> {
+    get channelId(): Option<ChannelId> {
         if (this.type === CurrentTabType.SETTING) {
-            return new None<number>();
+            return new None<ChannelId>();
         }
 
         const id = parseInt(<any>this.id, 10);
-        return new Some<number>(id);
+        return new Some<ChannelId>(id);
     }
 }
 
@@ -82,7 +82,7 @@ export class DomainState {
 
         this._notifiableMessage = this._networkSet.recievedNotifiableMessage()
             .withLatestFrom(this._currentTab, function (data, current): RecievedMessage {
-                const isSameChannel: boolean = current.channelId.mapOr(false, function (current: number) {
+                const isSameChannel: boolean = current.channelId.mapOr(false, function (current: ChannelId) {
                     return data.channelId === current;
                 });
                 if (isSameChannel) {
@@ -110,7 +110,7 @@ export class DomainState {
         return this._currentTab;
     }
 
-    getSelectedChannel(): Rx.Observable<number> {
+    getSelectedChannel(): Rx.Observable<ChannelId> {
         return this.getCurrentTab().filter(function(state){
             return state.channelId.isSome;
         }).map(function(state){

@@ -29,6 +29,7 @@ import * as Rx from 'rx';
 
 import {DomainState} from '../../domain/DomainState';
 import {Channel} from '../../domain/Channel';
+import {ChannelId} from '../../domain/ChannelDomain';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
@@ -37,7 +38,7 @@ export class InputBoxView {
     private _element: Element;
     private _domain: DomainState;
     private _currentNetworkId: number;
-    private _currentChannelId: number;
+    private _currentChannelId: ChannelId;
     private _textInput: HTMLInputElement;
     private _nickElement: HTMLElement;
     private _disposeFocus: Rx.IDisposable;
@@ -56,7 +57,7 @@ export class InputBoxView {
             this._focusInput();
         });
 
-        this._disposeSelect = domain.getSelectedChannel().subscribe((id: number) => {
+        this._disposeSelect = domain.getSelectedChannel().subscribe((id: ChannelId) => {
             const channel = this._domain.networkSet.getChannelById(id);
             const networkId = channel.map(function(channel: Channel){
                 return channel.getNetwork().id;

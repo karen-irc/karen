@@ -37,12 +37,12 @@ import {SidebarNetworkItemList} from './SidebarNetworkItemList';
 
 import {MessageGateway} from '../../adapter/MessageGateway';
 import {Channel} from '../../domain/Channel';
-import {ChannelDomain} from '../../domain/ChannelDomain';
+import {ChannelDomain, ChannelId} from '../../domain/ChannelDomain';
 import {CommandType} from '../../domain/CommandType';
 import {DomainState} from '../../domain/DomainState';
 import {Message, RecievedMessage} from '../../domain/Message';
 import {Network} from '../../domain/Network';
-import {NetworkDomain} from '../../domain/NetworkDomain';
+import {NetworkDomain, NetworkId} from '../../domain/NetworkDomain';
 import AppActionCreator from '../../intent/action/AppActionCreator';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
@@ -145,7 +145,7 @@ export class SidebarView implements EventListenerObject {
         }
     }
 
-    joinChannel(networkId: number, channel: Channel): void {
+    joinChannel(networkId: NetworkId, channel: Channel): void {
         const network = this._element.querySelector('#network-' + String(networkId));
         if (!network) {
             throw new Error();
@@ -154,7 +154,7 @@ export class SidebarView implements EventListenerObject {
         this.appendChannel(<HTMLElement>network, channel);
     }
 
-    closeChannel(channelId: number, target: HTMLElement): void {
+    closeChannel(channelId: ChannelId, target: HTMLElement): void {
         const channelWrap = this._domain.networkSet.getChannelById(channelId);
         if (channelWrap.isNone) {
             return;
@@ -237,7 +237,7 @@ export class SidebarView implements EventListenerObject {
         (<HTMLElement>insertionPoint).insertAdjacentHTML('afterend', html);
     }
 
-    selectChannel(id: number): void {
+    selectChannel(id: ChannelId): void {
         const active = this._element.querySelector('.active');
         if (!!active) {
             active.classList.remove('active');
@@ -259,12 +259,12 @@ export class SidebarView implements EventListenerObject {
         }
     }
 
-    removeChannel(id: number): void {
+    removeChannel(id: ChannelId): void {
         const element = this._element.querySelector('.js-sidebar-channel[data-id=\'' + String(id) + '\']');
         element.parentNode.removeChild(element);
     }
 
-    private _highlightTab(targetId: number, message: Message): void {
+    private _highlightTab(targetId: ChannelId, message: Message): void {
         const target = this._element.querySelector('.chan[data-target=\'#js-chan-' + String(targetId) + '\']');
         if (!target) {
             return;
