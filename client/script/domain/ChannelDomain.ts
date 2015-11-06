@@ -33,6 +33,8 @@ import {User} from './User';
 
 import {MessageGateway} from '../adapter/MessageGateway';
 
+export type ChannelId = number;
+
 const nonNotableMessage: Set<string> = new Set(['join', 'part', 'quit', 'nick', 'mode']);
 
 export class ChannelDomain {
@@ -55,7 +57,7 @@ export class ChannelDomain {
                 notifiableMsgDispatcher: Rx.Subject<RecievedMessage>) {
         this._data = data;
 
-        const filterFn = (data: { channelId: number }) => {
+        const filterFn = (data: { channelId: ChannelId }) => {
             return data.channelId === this._data.id;
         };
 
@@ -126,7 +128,7 @@ export class ChannelDomain {
         this._notableDispatcher = null;
     }
 
-    getId(): number {
+    getId(): ChannelId {
         return this._data.id;
     }
 

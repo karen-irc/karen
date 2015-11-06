@@ -40,7 +40,7 @@ import {CookieDriver} from '../../adapter/CookieDriver';
 import {MessageGateway} from '../../adapter/MessageGateway';
 import {DomainState} from '../../domain/DomainState';
 import {Channel} from '../../domain/Channel';
-import {ChannelDomain} from '../../domain/ChannelDomain';
+import {ChannelDomain, ChannelId} from '../../domain/ChannelDomain';
 import {NetworkDomain} from '../../domain/NetworkDomain';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
@@ -56,7 +56,7 @@ function arrayFlatMap<T, U>(target: Array<T>, fn: {(value: T): Array<U>}) : Arra
 export class MainContentAreaView {
 
     private _element: Element;
-    private _channelMap: Map<number, MessageContentView>;
+    private _channelMap: Map<ChannelId, MessageContentView>;
     private _disposer: Rx.IDisposable;
 
     private _chatContentArea: Element;

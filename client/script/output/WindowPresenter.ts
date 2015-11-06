@@ -30,6 +30,7 @@ import * as Rx from 'rx';
 
 import AppActionCreator from '../intent/action/AppActionCreator';
 import {Channel} from '../domain/Channel';
+import {ChannelId} from '../domain/ChannelDomain';
 import {DomainState, SelectedTab} from '../domain/DomainState';
 import {RecievedMessage} from '../domain/Message';
 import NotificationActionCreator from '../intent/action/NotificationActionCreator';
@@ -81,7 +82,7 @@ export class WindowPresenter implements EventListenerObject {
             });
         }));
 
-        this._disposer.add(domain.getSelectedChannel().subscribe((id: number) => {
+        this._disposer.add(domain.getSelectedChannel().subscribe((id: ChannelId) => {
             const current: Option<Channel> = domain.networkSet.getChannelById(id);
             const title = current.unwrap().name;
             this.onCurrentTabChanged(title);
@@ -134,7 +135,7 @@ export class WindowPresenter implements EventListenerObject {
             return;
         }
 
-        this._currenTab.channelId.map(function(channelId: number){
+        this._currenTab.channelId.map(function(channelId: ChannelId){
             UIActionCreator.showLatestInChannel(channelId);
         });
     }
@@ -167,7 +168,7 @@ export class WindowPresenter implements EventListenerObject {
 
     handleShortcut(key: string): void {
         const channelList: Array<Channel> = this._domain.networkSet.getChannelList();
-        const currentIndex: Option<number> = this._domain.currentTab.channelId.map(function(currentId: number) {
+        const currentIndex: Option<ChannelId> = this._domain.currentTab.channelId.map(function(currentId: ChannelId) {
             return channelList.findIndex(function(channel: Channel){
                 return channel.id === currentId;
             });

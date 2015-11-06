@@ -25,6 +25,8 @@
 
 import {NotificationDispatcher} from '../dispatcher/NotificationDispatcher';
 
+import {ChannelId} from '../../domain/ChannelDomain';
+
 class NotificationActionCreator {
 
     private _dispatcher: NotificationDispatcher;
@@ -45,7 +47,7 @@ class NotificationActionCreator {
         this._dispatcher.requestPermission.onNext(undefined);
     }
 
-    showNotification(channelId: number, message: { from: string, text: string}): void {
+    showNotification(channelId: ChannelId, message: { from: string, text: string}): void {
         this._dispatcher.showNotification.onNext({
             channelId: channelId,
             from: message.from,

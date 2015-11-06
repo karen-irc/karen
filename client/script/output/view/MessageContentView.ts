@@ -35,7 +35,7 @@ import * as Rx from 'rx';
 import {MessageItem} from './MessageItem';
 import {UserList} from './UserList';
 
-import {ChannelDomain} from '../../domain/ChannelDomain';
+import {ChannelDomain, ChannelId} from '../../domain/ChannelDomain';
 import {Message} from '../../domain/Message';
 import {User} from '../../domain/User';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
@@ -43,7 +43,7 @@ import UIActionCreator from '../../intent/action/UIActionCreator';
 
 export class MessageContentView {
 
-    private _channelId: number;
+    private _channelId: ChannelId;
     private _element: Element;
     private _userElement: Element;
     private _topicElement: Element;
@@ -102,7 +102,7 @@ export class MessageContentView {
             this._scrollToBottom();
         }));
 
-        disposer.add(MessageActionCreator.dispatcher().clearMessage.subscribe((id: number) => {
+        disposer.add(MessageActionCreator.dispatcher().clearMessage.subscribe((id: ChannelId) => {
             if (this._channelId !== id) {
                 return;
             }

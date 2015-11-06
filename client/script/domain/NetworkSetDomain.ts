@@ -31,7 +31,7 @@ import * as Rx from 'rx';
 
 import {RecievedMessage} from './Message';
 import {NetworkSet} from './NetworkSet';
-import {ChannelDomain} from './ChannelDomain';
+import {ChannelDomain, ChannelId} from './ChannelDomain';
 import {NetworkDomain} from './NetworkDomain';
 
 import {MessageGateway} from '../adapter/MessageGateway';
@@ -39,7 +39,7 @@ import {MessageGateway} from '../adapter/MessageGateway';
 interface InitState {
     domain: Array<NetworkDomain>;
     token: string;
-    active: Option<number|string>;
+    active: Option<ChannelId|string>;
 }
 
 export class NetworkSetDomain {

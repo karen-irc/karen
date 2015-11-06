@@ -29,7 +29,7 @@
 import {Some, None} from 'option-t';
 import * as Rx from 'rx';
 
-import {ChannelDomain} from './ChannelDomain';
+import {ChannelDomain, ChannelId} from './ChannelDomain';
 import {RecievedMessage} from './Message';
 import {Network} from './Network';
 
@@ -37,7 +37,7 @@ import {MessageGateway} from '../adapter/MessageGateway';
 
 export class NetworkDomain {
 
-    private _channels: Map<number, ChannelDomain>;
+    private _channels: Map<ChannelId, ChannelDomain>;
 
     private _data: Network;
     private _nickname: Rx.Observable<string>;
