@@ -45,6 +45,7 @@
         "curly": 2,
         "no-alert": 1,
         "no-caller": 1,
+        "no-case-declarations": 2,
         "no-div-regex": 2,
         "no-empty-pattern": 2,
         "no-eq-null": 2,
