@@ -110,22 +110,48 @@ gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'
         extensions: ['.jsx'],
     };
 
-    let babelOptions = [
-        'utility.inlineEnvironmentVariables',
+    const babelPresets = [
+    ];
+
+    let babelPlugins = [
+        // For our target browsers, we need not some transforms.
+        'transform-es2015-arrow-functions',
+        'transform-es2015-block-scoped-functions',
+        'transform-es2015-block-scoping',
+        'transform-es2015-classes',
+        'transform-es2015-computed-properties',
+        'transform-es2015-constants',
+        'transform-es2015-destructuring',
+        'transform-es2015-function-name',
+        'transform-es2015-literals',
+        'transform-es2015-modules-commonjs',
+        'transform-es2015-object-super',
+        'transform-es2015-parameters',
+        'transform-es2015-shorthand-properties',
+        'transform-es2015-spread',
+        'transform-es2015-sticky-regex',
+        'transform-es2015-typeof-symbol',
+        'transform-es2015-unicode-regex',
+        'transform-regenerator',
+
+        // for React
+        'syntax-jsx',
+        'transform-react-jsx',
+
+        // some utilitis
+        'transform-inline-environment-variables',
+        'transform-node-env-inline',
     ];
     if (isRelease) {
-        babelOptions = babelOptions.concat([
-            'optimisation.react.constantElements',
-            'optimisation.react.inlineElements',
+        babelPlugins = babelPlugins.concat([
+            'transform-react-constant-elements',
+            'transform-react-inline-elements',
         ]);
     }
 
     const babel = babelify.configure({
-        optional: babelOptions,
-        blacklist: [
-            'es6.forOf',
-            'es6.templateLiterals',
-        ],
+        presets: babelPresets,
+        plugins: babelPlugins,
     });
 
     return browserify(ENTRY_POINT, option)
@@ -193,28 +219,32 @@ gulp.task('__tslint', function () {
 });
 
 gulp.task('__babel:server', ['clean:server'], function () {
-    let babelOptions = [];
+    const babelPresets = [
+    ];
+
+    let babelPlugins = [
+        // For Node.js v5~, we need not some transforms.
+        'transform-es2015-destructuring',
+        'transform-es2015-modules-commonjs',
+        'transform-es2015-parameters',
+        'transform-es2015-sticky-regex',
+        'transform-es2015-unicode-regex',
+
+        // for React
+        'syntax-jsx',
+        'transform-react-jsx',
+    ];
     if (isRelease) {
-        babelOptions = babelOptions.concat([
-            'optimisation.react.constantElements',
-            'optimisation.react.inlineElements',
+        babelPlugins = babelPlugins.concat([
+            'transform-react-constant-elements',
+            'transform-react-inline-elements',
         ]);
     }
 
     return gulp.src(SERVER_SRC)
         .pipe(babel({
-            optional: babelOptions,
-
-            // For Node.js v4~, we need not some transforms:
-            blacklist: [
-                'es6.arrowFunctions',
-                'es6.blockScoping',
-                'es6.classes',
-                'es6.constants',
-                'es6.forOf',
-                'es6.properties.shorthand',
-                'es6.templateLiterals',
-            ],
+            presets: babelPresets,
+            plugins: babelPlugins,
             sourceMaps: false,
         }))
         .pipe(gulp.dest(DIST_SERVER));

@@ -183,7 +183,7 @@ export default class Client {
         });
 
         events.forEach((plugin) => {
-            const pluginPath = './plugins/irc-events/' + plugin;
+            const pluginPath = path.resolve('./plugins/irc-events/', plugin + '.js');
             require(pluginPath).apply(this, [
                 irc,
                 network
@@ -229,7 +229,7 @@ export default class Client {
         inputs.forEach((plugin) => {
             let pluginPath = '';
             try {
-                pluginPath = './plugins/inputs/' + plugin;
+                pluginPath = path.resolve('./plugins/inputs/', plugin + '.js');
                 const fn = require(pluginPath);
                 fn.apply(this, [
                     target.network,
