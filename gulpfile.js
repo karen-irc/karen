@@ -111,11 +111,34 @@ gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'
     };
 
     const babelPresets = [
-        'es2015',
-        'react',
     ];
 
     let babelPlugins = [
+        // For our target browsers, we need not some transforms.
+        'transform-es2015-arrow-functions',
+        'transform-es2015-block-scoped-functions',
+        'transform-es2015-block-scoping',
+        'transform-es2015-classes',
+        'transform-es2015-computed-properties',
+        'transform-es2015-constants',
+        'transform-es2015-destructuring',
+        'transform-es2015-function-name',
+        'transform-es2015-literals',
+        'transform-es2015-modules-commonjs',
+        'transform-es2015-object-super',
+        'transform-es2015-parameters',
+        'transform-es2015-shorthand-properties',
+        'transform-es2015-spread',
+        'transform-es2015-sticky-regex',
+        'transform-es2015-typeof-symbol',
+        'transform-es2015-unicode-regex',
+        'transform-regenerator',
+
+        // for React
+        'syntax-jsx',
+        'transform-react-jsx',
+
+        // some utilitis
         'transform-inline-environment-variables',
         'transform-node-env-inline',
     ];
@@ -129,15 +152,6 @@ gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'
     const babel = babelify.configure({
         presets: babelPresets,
         plugins: babelPlugins,
-
-        // FIXME:
-        // For our target browsers, we need not some transforms.
-        // But after babel v6~, all transform paths are opt-in.
-        // We need to construct whitelist to exclude needless ones.
-        // blacklist: [
-        //     'es6.forOf',
-        //     'es6.templateLiterals',
-        // ],
     });
 
     return browserify(ENTRY_POINT, option)
