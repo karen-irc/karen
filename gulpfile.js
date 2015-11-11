@@ -148,6 +148,11 @@ gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'
             'transform-react-inline-elements',
         ]);
     }
+    else {
+        babelPlugins = babelPlugins.concat([
+            'transform-react-jsx-source',
+        ]);
+    }
 
     const babel = babelify.configure({
         presets: babelPresets,
@@ -238,6 +243,11 @@ gulp.task('__babel:server', ['clean:server'], function () {
         babelPlugins = babelPlugins.concat([
             'transform-react-constant-elements',
             'transform-react-inline-elements',
+        ]);
+    }
+    else {
+        babelPlugins = babelPlugins.concat([
+            'transform-react-jsx-source',
         ]);
     }
 
