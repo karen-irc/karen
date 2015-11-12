@@ -11,7 +11,22 @@
         "target": "ES2015",
         "sourceMap": true
     },
-    "files": [
-        "./client/script/karen.ts"
+
+    // Exclude a specified directry or specified TypeScript file (.ts, .tsx)
+    "exclude": [
+        ".git",
+        "client/audio",
+        "client/css",
+        "client/img",
+        "client/js",
+        "client/themes",
+        "defaults",
+        "dist",
+        "node_modules",
+        "server",
+        "test",
+        "tools",
+        "tsd",
+        "utils"
     ]
 }
