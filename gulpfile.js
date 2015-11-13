@@ -120,7 +120,7 @@ gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'
         'transform-es2015-block-scoping',
         'transform-es2015-classes',
         'transform-es2015-computed-properties',
-        'transform-es2015-constants',
+        'check-es2015-constants',
         'transform-es2015-destructuring',
         'transform-es2015-function-name',
         'transform-es2015-literals',
