@@ -33,16 +33,16 @@ export class ConnectSettingWindow extends React.Component {
     constructor(props) {
         super(props);
 
-        this.onChangeSetNetworkName.bind(this);
-        this.onChangeSetServerURL.bind(this);
-        this.onChangeSetServerPort.bind(this);
-        this.onChangeSetServerPass.bind(this);
-        this.onChangeUseTLS.bind(this);
-        this.onChangeSetNickName.bind(this);
-        this.onChangeSetUserName.bind(this);
-        this.onChangeSetRealName.bind(this);
-        this.onChangeSetChannel.bind(this);
-        this.onSubmit.bind(this);
+        this.onChangeSetNetworkName = this.onChangeSetNetworkName.bind(this);
+        this.onChangeSetServerURL = this.onChangeSetServerURL.bind(this);
+        this.onChangeSetServerPort = this.onChangeSetServerPort.bind(this);
+        this.onChangeSetServerPass = this.onChangeSetServerPass.bind(this);
+        this.onChangeUseTLS = this.onChangeUseTLS.bind(this);
+        this.onChangeSetNickName = this.onChangeSetNickName.bind(this);
+        this.onChangeSetUserName = this.onChangeSetUserName.bind(this);
+        this.onChangeSetRealName = this.onChangeSetRealName.bind(this);
+        this.onChangeSetChannel = this.onChangeSetChannel.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     render() {
