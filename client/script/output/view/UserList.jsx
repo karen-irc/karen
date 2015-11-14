@@ -60,7 +60,7 @@ export class UserList extends React.Component {
             searchText: '',
         };
 
-        this.onChangeSearch.bind(this);
+        this.onChangeSearch = this.onChangeSearch.bind(this);
     }
 
     render() {
