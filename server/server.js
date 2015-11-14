@@ -8,6 +8,7 @@ import SocketIoServerDriver from './adapter/SocketIoServerDriver';
 import express from 'express';
 import fs from 'fs';
 import http from 'http';
+import https from 'https';
 import { KarenAppIndex as IndexTemplate } from './view/Index';
 import ConfigDriver from './adapter/ConfigDriver';
 import Package from './adapter/Package';
@@ -33,18 +34,18 @@ export default function(options) {
 
     app.enable('trust proxy');
 
-    const https = config.https || {};
-    const protocol = https.enable ? 'https' : 'http';
+    const httpsOptions = config.https || {};
+    const protocol = httpsOptions.enable ? 'https' : 'http';
     const port = config.port;
     const host = config.host;
     const transports = config.transports || ['websocket', 'polling'];
 
-    if (!https.enable){
+    if (!httpsOptions.enable){
         server = http.createServer(app).listen(port, host);
     } else {
-        server = http.createServer({
-            key: fs.readFileSync(https.key),
-            cert: fs.readFileSync(https.certificate)
+        server = https.createServer({
+            key: fs.readFileSync(httpsOptions.key),
+            cert: fs.readFileSync(httpsOptions.certificate)
         }, app).listen(port, host);
     }
 
