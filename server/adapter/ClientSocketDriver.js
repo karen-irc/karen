@@ -55,7 +55,7 @@ export default class ClientSocketDriver {
             this._socket.on(topic, callback);
 
             return Rx.Disposable.create(() => {
-                this._socket.off(topic, callback);
+                this._socket.removeListener(topic, callback);
             });
         });
     }
@@ -72,7 +72,7 @@ export default class ClientSocketDriver {
             this._socket.on(topic, callback);
 
             return Rx.Disposable.create(() => {
-                this._socket.off(topic, callback);
+                this._socket.removeListener(topic, callback);
             });
         });
     }
@@ -89,7 +89,7 @@ export default class ClientSocketDriver {
             this._socket.on(topic, callback);
 
             return Rx.Disposable.create(() => {
-                this._socket.off(topic, callback);
+                this._socket.removeListener(topic, callback);
             });
         });
     }
@@ -106,7 +106,7 @@ export default class ClientSocketDriver {
             this._socket.on(topic, callback);
 
             return Rx.Disposable.create(() => {
-                this._socket.off(topic, callback);
+                this._socket.removeListener(topic, callback);
             });
         });
     }
@@ -123,7 +123,7 @@ export default class ClientSocketDriver {
             this._socket.on(topic, callback);
 
             return Rx.Disposable.create(() => {
-                this._socket.off(topic, callback);
+                this._socket.removeListener(topic, callback);
             });
         });
     }
@@ -140,7 +140,7 @@ export default class ClientSocketDriver {
             this._socket.on(topic, callback);
 
             return Rx.Disposable.create(() => {
-                this._socket.off(topic, callback);
+                this._socket.removeListener(topic, callback);
             });
         });
     }
@@ -157,7 +157,7 @@ export default class ClientSocketDriver {
             this._socket.on(topic, callback);
 
             return Rx.Disposable.create(() => {
-                this._socket.off(topic, callback);
+                this._socket.removeListener(topic, callback);
             });
         });
     }

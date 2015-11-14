@@ -11,43 +11,10 @@ import Network from './models/Network';
 import slate from 'slate-irc';
 import tls from 'tls';
 import ConfigDriver from './adapter/ConfigDriver';
+import {inputPluginList} from './plugins/inputs/index';
+import {eventPluginList} from './plugins/irc-events/index';
 
 let id = 0;
-const events = [
-    'ctcp',
-    'error',
-    'join',
-    'kick',
-    'mode',
-    'motd',
-    'message',
-    'link',
-    'names',
-    'nick',
-    'notice',
-    'part',
-    'quit',
-    'topic',
-    'welcome',
-    'whois'
-];
-const inputs = [
-    'action',
-    'connect',
-    'invite',
-    'join',
-    'kick',
-    'mode',
-    'msg',
-    'nick',
-    'notice',
-    'part',
-    'quit',
-    'raw',
-    'services',
-    'topic',
-    'whois'
-];
 
 export default class Client {
     constructor(sockets, name, config) {
@@ -182,9 +149,8 @@ export default class Client {
             network: network
         });
 
-        events.forEach((plugin) => {
-            const pluginPath = path.resolve('./plugins/irc-events/', plugin + '.js');
-            require(pluginPath).apply(this, [
+        eventPluginList.forEach((plugin) => {
+            plugin.apply(this, [
                 irc,
                 network
             ]);
@@ -226,19 +192,16 @@ export default class Client {
         }
         const args = text.split(' ');
         const cmd = args.shift().replace('/', '').toLowerCase();
-        inputs.forEach((plugin) => {
-            let pluginPath = '';
+        inputPluginList.forEach((plugin) => {
             try {
-                pluginPath = path.resolve('./plugins/inputs/', plugin + '.js');
-                const fn = require(pluginPath);
-                fn.apply(this, [
+                plugin.apply(this, [
                     target.network,
                     target.chan,
                     cmd,
                     args
                 ]);
             } catch (e) {
-                console.log(pluginPath + ': ' + e);
+                console.error(e);
             }
         });
     }
