@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'));
     /* tslint:enable */
 
-    const sidebar = $('#sidebar');
     const chat = $('#chat');
 
     messageGateway.disconnected().subscribe(function(){
@@ -112,8 +111,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
         const signinButtom = document.getElementById('sign-in');
         signinButtom.parentNode.removeChild(signinButtom);
-
-        sortable();
     });
 
     globalState.getCurrentTab().subscribe(function(state){
@@ -132,10 +129,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (data.messages.length !== 100) {
             chan.find('.show-more').removeClass('show');
         }
-    });
-
-    globalState.getNetworkDomain().addedNetwork().subscribe(function(domain){
-        sortable();
     });
 
     const options = config.get();
@@ -291,55 +284,5 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         return words.filter(function(word: string, item: string){
             return item.indexOf(word) === 0;
         }.bind(null, word.toLowerCase()));
-    }
-
-    function sortable() {
-        sidebar.sortable({
-            axis: 'y',
-            containment: 'parent',
-            cursor: 'grabbing',
-            distance: 12,
-            items: '.network',
-            handle: '.lobby',
-            placeholder: 'network-placeholder',
-            forcePlaceholderSize: true,
-            update: function() {
-                const order: Array<string> = [];
-                sidebar.find('.network').each(function() {
-                    const id: string = <any>$(this).data('id');
-                    order.push(id);
-                });
-                socket.emit(
-                    'sort', {
-                        type: 'networks',
-                        order: order
-                    }
-                );
-            }
-        });
-        sidebar.find('.network').sortable({
-            axis: 'y',
-            containment: 'parent',
-            cursor: 'grabbing',
-            distance: 12,
-            items: '.chan:not(.lobby)',
-            placeholder: 'chan-placeholder',
-            forcePlaceholderSize: true,
-            update: function(e, ui) {
-                const order: Array<string> = [];
-                const network = ui.item.parent();
-                network.find('.chan').each(function() {
-                    const id: string = <any>$(this).data('id');
-                    order.push(id);
-                });
-                socket.emit(
-                    'sort', {
-                        type: 'channels',
-                        target: network.data('id'),
-                        order: order
-                    }
-                );
-            }
-        });
     }
 });
