@@ -11,9 +11,6 @@
     "jquery/jquery.d.ts": {
       "commit": "2d4c4679bc2b509f27435a4f9da5e2de11258571"
     },
-    "jqueryui/jqueryui.d.ts": {
-      "commit": "2d4c4679bc2b509f27435a4f9da5e2de11258571"
-    },
     "react/react.d.ts": {
       "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
     },
