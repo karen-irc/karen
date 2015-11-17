@@ -84,7 +84,7 @@
     "gulp-babel": "^6.1.0",
     "gulp-postcss": "^6.0.1",
     "gulp-uglifyjs": "^0.6.2",
-    "mocha": "^2.3.3",
+    "mocha": "^2.3.4",
     "tsd": "^0.6.5",
     "tslint": "^2.5.1",
     "typescript": "1.8.0-dev.20151114",
