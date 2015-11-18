@@ -10,3 +10,7 @@ npm-debug.log
 
 dist/
 tsd/third_party/tsd.d.ts
+
+
+# Visual Studio Code
+.vscode/
