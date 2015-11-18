@@ -26,7 +26,7 @@
 
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
-/// <reference path="../../../../tsd/react.d.ts"/>
+/// <reference path="../../../../tsd/third_party/react/react-dom.d.ts" />
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -69,7 +69,7 @@ export class ConnectSettingContext {
         const observer: Rx.Observer<ConnectionValue> = Rx.Observer.create((data: ConnectionValue) => {
             this._render(data);
         }, ()=> {}, () => {
-            React.unmountComponentAtNode(this._mountpoint);
+            ReactDOM.unmountComponentAtNode(this._mountpoint);
         });
         return this._store.subscribe(observer);
     }

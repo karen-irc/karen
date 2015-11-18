@@ -5,7 +5,7 @@
 /// <reference path="../../tsd/third_party/jquery/jquery.d.ts" />
 /// <reference path="../../tsd/third_party/jqueryui/jqueryui.d.ts" />
 /// <reference path="../../tsd/third_party/react/react.d.ts" />
-/// <reference path="../../tsd/react.d.ts" />
+/// <reference path="../../tsd/third_party/react/react-dom.d.ts" />
 
 import {Option} from 'option-t';
 import * as React from 'react';
