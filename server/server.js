@@ -2,18 +2,21 @@
 
 import bcrypt from 'bcrypt-nodejs';
 import compression from 'compression';
-import Client from './Client';
-import ClientManager from './ClientManager';
-import SocketIoServerDriver from './adapter/SocketIoServerDriver';
 import express from 'express';
 import fs from 'fs';
 import http from 'http';
-import https from 'https';
-import { KarenAppIndex as IndexTemplate } from './view/Index';
-import ConfigDriver from './adapter/ConfigDriver';
-import Package from './adapter/Package';
+import spdy from 'spdy';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
+
+import SocketIoServerDriver from './adapter/SocketIoServerDriver';
+import ConfigDriver from './adapter/ConfigDriver';
+import Package from './adapter/Package';
+import { KarenAppIndex as IndexTemplate } from './view/Index';
+
+import Client from './Client';
+import ClientManager from './ClientManager';
+
 
 let server = null;
 let config = {};
@@ -43,7 +46,7 @@ export default function(options) {
     if (!httpsOptions.enable){
         server = http.createServer(app).listen(port, host);
     } else {
-        server = https.createServer({
+        server = spdy.createServer({
             key: fs.readFileSync(httpsOptions.key),
             cert: fs.readFileSync(httpsOptions.certificate)
         }, app).listen(port, host);
