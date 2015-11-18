@@ -25,7 +25,7 @@
 
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react.d.ts" />
-/// <reference path="../../../../tsd/react.d.ts" />
+/// <reference path="../../../../tsd/third_party/react/react-dom.d.ts" />
 
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
