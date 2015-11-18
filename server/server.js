@@ -5,7 +5,7 @@ import compression from 'compression';
 import express from 'express';
 import fs from 'fs';
 import http from 'http';
-import https from 'https';
+import spdy from 'spdy';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 
@@ -46,7 +46,7 @@ export default function(options) {
     if (!httpsOptions.enable){
         server = http.createServer(app).listen(port, host);
     } else {
-        server = https.createServer({
+        server = spdy.createServer({
             key: fs.readFileSync(httpsOptions.key),
             cert: fs.readFileSync(httpsOptions.certificate)
         }, app).listen(port, host);
