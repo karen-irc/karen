@@ -104,6 +104,7 @@ function index(req, res, next) {
     data = Object.assign(data, config);
     res.setHeader('Content-Type', 'text/html');
     res.setHeader('Content-Security-Policy', cspDirectiveStr);
+    res.setHeader('X-Frame-Options', 'DENY');
     res.writeHead(200);
 
     const view = React.createElement(IndexTemplate, {
