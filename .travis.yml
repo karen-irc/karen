@@ -12,7 +12,7 @@ before_script:
   - ./index.js init
 
 node_js:
-  - "5.0"
+  - "5.1"
 
 notifications:
   email: false
