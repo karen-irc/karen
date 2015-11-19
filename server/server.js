@@ -30,6 +30,7 @@ export default function(options) {
     config = Object.assign(config, options);
 
     const app = express();
+    app.all('*', applyNoSniffHeader);
     app.use(compression());
     app.use(index);
     app.use('/dist', express.static('dist/client'));
@@ -75,6 +76,13 @@ export default function(options) {
             manager.autoload();
         }
     }
+}
+
+// for browsers which use content type sniffing like IE.
+function applyNoSniffHeader(req, res, next) {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+
+    next();
 }
 
 const cspDirective = new Map([
