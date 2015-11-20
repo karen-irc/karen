@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+import {OptionBase} from 'option-t';
 import * as React from 'react';
 
 import {SidebarChannelItem} from './SidebarChannelItem';
@@ -35,10 +36,12 @@ export class SidebarNetworkItemList extends React.Component {
     }
 
     render() {
+        const selectedId = this.props.selectedId;
         const list = this.props.list.map(function(network){
             return (
                 <SidebarNetworkItem key={String(network.id)}
-                                    network={network} />
+                                    network={network}
+                                    selectedId={selectedId}/>
             );
         });
 
@@ -49,6 +52,7 @@ export class SidebarNetworkItemList extends React.Component {
 }
 SidebarNetworkItemList.propTypes = {
     list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Network)).isRequired,
+    selectedId: React.PropTypes.instanceOf(OptionBase).isRequired,
 };
 
 export class SidebarNetworkItem extends React.Component {
@@ -59,12 +63,18 @@ export class SidebarNetworkItem extends React.Component {
 
     render() {
         const network = this.props.network;
+        const selectedId = this.props.selectedId;
         const id = String(network.id);
 
         const channels = network.getChannelList().map(function(channel){
+            const isSelected = selectedId.mapOr(false, function (id) {
+                const isSelected = (channel.id === id);
+                return isSelected;
+            });
             return (
                 <SidebarChannelItem key={String(channel.id)}
-                                    channel={channel} />
+                                    channel={channel}
+                                    isSelected={isSelected}/>
             );
         });
 
@@ -80,4 +90,5 @@ export class SidebarNetworkItem extends React.Component {
 }
 SidebarNetworkItem.propTypes = {
     network: React.PropTypes.instanceOf(Network).isRequired,
+    selectedId: React.PropTypes.instanceOf(OptionBase).isRequired,
 };
