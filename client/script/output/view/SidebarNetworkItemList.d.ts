@@ -35,6 +35,7 @@ interface SidebarNetworkItemListProps {
     key?: any;
     list: Array<Network>;
     selectedId: Option<ChannelId>;
+    notableChannelSet: Set<ChannelId>;
 }
 
 interface SidebarNetworkItemProps {
