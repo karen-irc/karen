@@ -30,6 +30,7 @@ import * as Rx from 'rx';
 
 import {ChannelId} from '../../domain/ChannelDomain';
 import {DomainState} from '../../domain/DomainState';
+import {RecievedMessage, Message} from '../../domain/Message';
 import {Network} from '../../domain/Network';
 import {NetworkDomain} from '../../domain/NetworkDomain';
 
@@ -37,10 +38,14 @@ export class SidebarViewState {
 
     private _list: Array<Network>;
     private _currentId: Option<ChannelId>;
+    private _notableChannelSet: Set<ChannelId>;
 
-    constructor(list: Array<Network>, currentId: Option<ChannelId>) {
+    constructor(list: Array<Network>,
+                currentId: Option<ChannelId>,
+                notableChannelSet: Set<ChannelId>) {
         this._list = list;
         this._currentId = currentId;
+        this._notableChannelSet = notableChannelSet;
     }
 
     list(): Array<Network> {
@@ -50,13 +55,20 @@ export class SidebarViewState {
     currentId(): Option<ChannelId> {
         return this._currentId;
     }
+
+    notableChannelSet(): Set<ChannelId> {
+        return this._notableChannelSet;
+    }
 }
 
 export class SidebarStore {
 
     private _updater: Rx.Subject<void>;
     private _disposer: Rx.IDisposable;
+
     private _networkSet: Set<Network>;
+    private _notableChannelSet: Set<ChannelId>;
+
     private _state: Rx.Observable<SidebarViewState>;
 
     constructor(domain: DomainState) {
@@ -66,29 +78,44 @@ export class SidebarStore {
         this._disposer = disposer;
 
         this._networkSet = new Set<Network>();
+        this._notableChannelSet = new Set<ChannelId>();
 
-        disposer.add(domain.getNetworkDomain().addedNetwork().subscribe((network: NetworkDomain) => {
+        const networkDomain = domain.getNetworkDomain();
+        disposer.add(networkDomain.addedNetwork().subscribe((network: NetworkDomain) => {
             const value = network.getValue();
             this._addNetwork(value);
         }));
 
-        disposer.add(domain.getNetworkDomain().removedNetwork().subscribe((network: NetworkDomain) => {
+        disposer.add(networkDomain.removedNetwork().subscribe((network: NetworkDomain) => {
             const value = network.getValue();
             this._removedNetwork(value);
         }));
 
-        disposer.add(domain.getNetworkDomain().joinedChannelAtAll().subscribe((_) => {
+        disposer.add(networkDomain.joinedChannelAtAll().subscribe((_) => {
             this._updater.onNext(undefined);
         }));
 
-        disposer.add(domain.getNetworkDomain().partedChannelAtAll().subscribe((_) => {
+        disposer.add(networkDomain.partedChannelAtAll().subscribe((_) => {
             this._updater.onNext(undefined);
         }));
 
-        const currentId: Rx.Observable<Option<ChannelId>> = domain.getCurrentTab().map((v) => v.channelId);
+        disposer.add(networkDomain.recievedNotableMessage().subscribe((message: RecievedMessage) => {
+            this._highlightChannel(message);
+        }));
+
+        const currentId: Rx.Observable<Option<ChannelId>> =
+            domain.getCurrentTab().map((v) => v.channelId).do((channelId: Option<ChannelId>) => {
+                if (channelId.isSome) {
+                    const id = channelId.unwrap();
+                    this._notableChannelSet.delete(id);
+                }
+            });
+
         this._state = currentId.combineLatest(this._updater, (selectedId) => {
             const array = Array.from(this._networkSet);
-            const state = new SidebarViewState(array, selectedId);
+            const state = new SidebarViewState(array,
+                                               selectedId,
+                                               this._notableChannelSet);
             return state;
         });
     }
@@ -117,4 +144,28 @@ export class SidebarStore {
         this._networkSet.delete(network);
         this._updater.onNext(undefined);
     }
+
+    private _highlightChannel(message: RecievedMessage): void {
+        const markedAsNotable = this._markAsNotable(message.channelId, message.message);
+        if (markedAsNotable) {
+            this._updater.onNext(undefined);
+        }
+    }
+
+    private _markAsNotable(channelId: ChannelId, message: Message): boolean {
+        const isNotable = isNotableMessage(message);
+        if (isNotable) {
+            this._notableChannelSet.add(channelId);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
+function isNotableMessage(message: Message): boolean {
+    const shouldHighlight = (message.type.indexOf('highlight') !== -1);
+    const isQuery = (message.type.indexOf('query') !== -1);
+    return shouldHighlight || isQuery;
 }
