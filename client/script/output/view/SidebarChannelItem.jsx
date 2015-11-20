@@ -35,6 +35,7 @@ export class SidebarChannelItem extends React.Component {
 
     render() {
         const channel = this.props.channel;
+        const isSelected = this.props.isSelected;
         const id = String(channel.id);
         const unreadCount = channel.unread();
 
@@ -42,7 +43,7 @@ export class SidebarChannelItem extends React.Component {
             <div data-id={id}
                  data-target={'#js-chan-' + id}
                  data-title={channel.name}
-                 className={'js-sidebar-channel chan ' + channel.type}>
+                 className={'js-sidebar-channel chan ' + channel.type + ' ' + (isSelected ? 'active' : '')}>
                 <span className='badge'
                       data-count={String(unreadCount)}>
                     {(unreadCount > 0) ? String(unreadCount) : ''}
@@ -56,4 +57,5 @@ export class SidebarChannelItem extends React.Component {
 
 SidebarChannelItem.propTypes = {
     channel: React.PropTypes.instanceOf(Channel).isRequired,
+    isSelected: React.PropTypes.bool.isRequired,
 };
