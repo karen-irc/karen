@@ -74,6 +74,7 @@ export class SidebarContext {
         const view = React.createElement(SidebarNetworkItemList, {
             list: data.list(),
             selectedId: data.currentId(),
+            notableChannelSet: data.notableChannelSet(),
         });
         ReactDOM.render(view, this._mountpoint);
     }

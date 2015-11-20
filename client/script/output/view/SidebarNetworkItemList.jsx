@@ -36,12 +36,15 @@ export class SidebarNetworkItemList extends React.Component {
     }
 
     render() {
-        const selectedId = this.props.selectedId;
-        const list = this.props.list.map(function(network){
+        const props = this.props;
+        const selectedId = props.selectedId;
+        const notableChannelSet = props.notableChannelSet;
+        const list = props.list.map(function(network){
             return (
                 <SidebarNetworkItem key={String(network.id)}
                                     network={network}
-                                    selectedId={selectedId}/>
+                                    selectedId={selectedId}
+                                    notableChannelSet={notableChannelSet}/>
             );
         });
 
@@ -53,6 +56,7 @@ export class SidebarNetworkItemList extends React.Component {
 SidebarNetworkItemList.propTypes = {
     list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Network)).isRequired,
     selectedId: React.PropTypes.instanceOf(OptionBase).isRequired,
+    notableChannelSet: React.PropTypes.instanceOf(Set).isRequired,
 };
 
 export class SidebarNetworkItem extends React.Component {
@@ -62,19 +66,23 @@ export class SidebarNetworkItem extends React.Component {
     }
 
     render() {
-        const network = this.props.network;
-        const selectedId = this.props.selectedId;
+        const props = this.props;
+        const network = props.network;
+        const selectedId = props.selectedId;
         const id = String(network.id);
+        const notableChannelSet = props.notableChannelSet;
 
         const channels = network.getChannelList().map(function(channel){
             const isSelected = selectedId.mapOr(false, function (id) {
                 const isSelected = (channel.id === id);
                 return isSelected;
             });
+            const isNotable = notableChannelSet.has(channel.id);
             return (
                 <SidebarChannelItem key={String(channel.id)}
                                     channel={channel}
-                                    isSelected={isSelected}/>
+                                    isSelected={isSelected}
+                                    isNotable={isNotable}/>
             );
         });
 
@@ -91,4 +99,5 @@ export class SidebarNetworkItem extends React.Component {
 SidebarNetworkItem.propTypes = {
     network: React.PropTypes.instanceOf(Network).isRequired,
     selectedId: React.PropTypes.instanceOf(OptionBase).isRequired,
+    notableChannelSet: React.PropTypes.instanceOf(Set).isRequired,
 };
