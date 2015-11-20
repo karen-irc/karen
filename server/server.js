@@ -30,6 +30,8 @@ export default function(options) {
     config = Object.assign(config, options);
 
     const app = express();
+    app.set('x-powered-by', false);
+    app.use(applyGenericSecurityHeader);
     app.use(compression());
     app.use(index);
     app.use('/dist', express.static('dist/client'));
@@ -75,6 +77,16 @@ export default function(options) {
             manager.autoload();
         }
     }
+}
+
+const STRICT_TRANSPORT_SECURITY_EXPIRE_TIME = String(60 * 24 * 365 * 1000);
+
+function applyGenericSecurityHeader(req, res, next) {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('Strict-Transport-Security', 'max-age=' + STRICT_TRANSPORT_SECURITY_EXPIRE_TIME + ';');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+
+    next();
 }
 
 const cspDirective = new Map([
