@@ -26,8 +26,8 @@ import {MainContentAreaView} from './output/view/MainContentAreaView';
 import {MessageGateway} from './adapter/MessageGateway';
 import {MessageList} from './output/view/MessageItem';
 import {NotificationPresenter} from './output/NotificationPresenter';
+import {SidebarContext} from './output/context/SidebarContext';
 import {SettingStore} from './output/viewmodel/SettingStore';
-import {SidebarView} from './output/view/SidebarView';
 import {SocketIoDriver} from './adapter/SocketIoDriver';
 import {ToggleItem} from './output/view/ToggleItem';
 import UIActionCreator from './intent/action/UIActionCreator';
@@ -35,6 +35,9 @@ import {User} from './domain/User';
 import {WindowPresenter} from './output/WindowPresenter';
 
 declare const momoent: any;
+declare const process: {
+    env: any;
+};
 
 const socket = new SocketIoDriver();
 const messageGateway = new MessageGateway(socket);
@@ -57,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, messageGateway);
     const inputBox = new InputBoxView(globalState, document.getElementById('js-form'));
     const settings = new GeneralSettingView(document.getElementById('settings'), settingStore);
-    const sidebarView = new SidebarView(globalState, document.getElementById('sidebar'), messageGateway);
+    const sidebarView = new SidebarContext(document.querySelector('#sidebar .networks'), globalState);
     const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'));
     /* tslint:enable */
 

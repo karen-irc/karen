@@ -26,34 +26,79 @@
 import * as React from 'react';
 
 import {Channel} from '../../domain/Channel';
+import {CommandType} from '../../domain/CommandType';
+
+import MessageActionCreator from '../../intent/action/MessageActionCreator';
+import UIActionCreator from '../../intent/action/UIActionCreator';
 
 export class SidebarChannelItem extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            isClosing: false,
+        };
+
+        this.onClickSelect = this.onClickSelect.bind(this);
+        this.onClickClose = this.onClickClose.bind(this);
     }
 
     render() {
         const channel = this.props.channel;
+        const isSelected = this.props.isSelected;
         const id = String(channel.id);
         const unreadCount = channel.unread();
+        const isClosing = this.state.isClosing;
 
+        const classValue = [];
         return (
             <div data-id={id}
                  data-target={'#js-chan-' + id}
                  data-title={channel.name}
-                 className={'js-sidebar-channel chan ' + channel.type}>
+                 className={'js-sidebar-channel chan ' + channel.type + (isSelected ? ' active' : '') + (isClosing ? ' js-closing' : '')}
+                 onClick={this.onClickSelect}>
                 <span className='badge'
                       data-count={String(unreadCount)}>
                     {(unreadCount > 0) ? String(unreadCount) : ''}
                 </span>
-                <span className='close'></span>
+                <span className='close' onClick={this.onClickClose}></span>
                 <span className='name'>{channel.name}</span>
             </div>
         );
     }
-}
 
+    onClickSelect(event) {
+        event.preventDefault();
+
+        const channel = this.props.channel;
+        const channelId = channel.id;
+        UIActionCreator.selectChannel(channelId);
+    }
+
+    // FIXME: this part should be in a domain logic layer.
+    onClickClose(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const channel = this.props.channel;
+        const channelType = channel.type;
+        const isLobby = (channelType === 'lobby');
+        const command = isLobby ? CommandType.QUIT : CommandType.CLOSE;
+        if (isLobby) {
+            /*eslint-disable no-alert*/
+            if (!window.confirm('Disconnect from ' + channel.name + '?')) {
+                return;
+            }
+            /*eslint-enable*/
+        }
+        MessageActionCreator.inputCommand(channel.id, command);
+
+        this.setState({
+            isClosing: true,
+        });
+    }
+}
 SidebarChannelItem.propTypes = {
     channel: React.PropTypes.instanceOf(Channel).isRequired,
+    isSelected: React.PropTypes.bool.isRequired,
 };
