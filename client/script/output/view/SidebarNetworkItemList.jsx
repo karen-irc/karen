@@ -84,12 +84,13 @@ export class SidebarNetworkItem extends React.Component {
             });
             const isNotable = notableChannelSet.has(channelId);
             const unreadCount = unreadCountMap.get(channelId);
+            //XXX: `unreadCount === undefined` handling should be fixed in view model layer.
             return (
                 <SidebarChannelItem key={String(channelId)}
                                     channel={channel}
                                     isSelected={isSelected}
                                     isNotable={isNotable}
-                                    unreadCount={unreadCount}/>
+                                    unreadCount={(unreadCount === undefined) ? 0 : unreadCount}/>
             );
         });
 
