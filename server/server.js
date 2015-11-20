@@ -31,7 +31,7 @@ export default function(options) {
 
     const app = express();
     app.set('x-powered-by', false);
-    app.all('*', applyGenericSecurityHeader);
+    app.use(applyGenericSecurityHeader);
     app.use(compression());
     app.use(index);
     app.use('/dist', express.static('dist/client'));
