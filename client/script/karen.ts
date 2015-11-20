@@ -41,7 +41,9 @@ const socket = new SocketIoDriver();
 const messageGateway = new MessageGateway(socket);
 const cookie = new CookieDriver();
 const config = new ConfigRepository(cookie);
+/* tslint:disable no-unused-variable */
 const notify = new NotificationPresenter(config);
+/* tslint:enable */
 const auth = new AuthRepository(cookie);
 
 const settingStore = new SettingStore(config);
@@ -50,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     document.removeEventListener('DOMContentLoaded', onLoad);
 
     const globalState = new DomainState(messageGateway);
+    /* tslint:disable no-unused-variable */
     const appWindow = new WindowPresenter(globalState);
     const appView = new AppView(document.getElementById('viewport'));
     const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, messageGateway);
@@ -57,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const settings = new GeneralSettingView(document.getElementById('settings'), settingStore);
     const sidebarView = new SidebarView(globalState, document.getElementById('sidebar'), messageGateway);
     const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'));
+    /* tslint:enable */
 
     const sidebar = $('#sidebar');
     const chat = $('#chat');
@@ -253,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         UIActionCreator.toggleLeftPane(false);
         $('#windows .active').removeClass('active');
 
-        const chan = $(target)
+        $(target)
             .addClass('active')
             .trigger('show')
             .css('z-index', top++)

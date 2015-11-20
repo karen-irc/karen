@@ -87,7 +87,7 @@
     "gulp-uglifyjs": "^0.6.2",
     "mocha": "^2.3.4",
     "tsd": "^0.6.5",
-    "tslint": "^2.5.1",
+    "tslint": "next",
     "typescript": "1.8.0-dev.20151114",
     "vinyl-source-stream": "^1.1.0"
   }
