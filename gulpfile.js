@@ -208,7 +208,7 @@ gulp.task('__tslint', function () {
     ];
 
     return glob.resolveGlobList(SRC).then(function(list){
-        const bin = path.resolve(NPM_MOD_DIR, './tslint', './bin', './tslint-cli.js');
+        const bin = path.resolve(NPM_MOD_DIR, './tslint', './lib', './tslint-cli.js');
 
         const args = [
             bin,
