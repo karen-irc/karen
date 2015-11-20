@@ -30,6 +30,7 @@ export default function(options) {
     config = Object.assign(config, options);
 
     const app = express();
+    app.set('x-powered-by', false);
     app.all('*', applyGenericSecurityHeader);
     app.use(compression());
     app.use(index);
