@@ -75,6 +75,7 @@ export class SidebarContext {
             list: data.list(),
             selectedId: data.currentId(),
             notableChannelSet: data.notableChannelSet(),
+            unreadCountMap: data.unreadCountMap(),
         });
         ReactDOM.render(view, this._mountpoint);
     }

@@ -48,8 +48,15 @@ export class SidebarChannelItem extends React.Component {
         const channel = props.channel;
         const isSelected = props.isSelected;
         const id = String(channel.id);
-        const unreadCount = channel.unread();
         const isNotable = props.isNotable && !isSelected;
+        const unreadCount = props.unreadCount;
+        let unreadLabel = '';
+        if (!isSelected && unreadCount > 0) {
+            unreadLabel = (unreadCount > 999) ?
+                (unreadCount / 1000).toFixed(1) + 'k' :
+                String(unreadCount);
+        }
+
         const isClosing = this.state.isClosing;
 
         const classValue = [];
@@ -61,7 +68,7 @@ export class SidebarChannelItem extends React.Component {
                  onClick={this.onClickSelect}>
                 <span className={'badge' + (isNotable ? ' highlight' : '')}
                       data-count={String(unreadCount)}>
-                    {(unreadCount > 0) ? String(unreadCount) : ''}
+                    {unreadLabel}
                 </span>
                 <span className='close' onClick={this.onClickClose}></span>
                 <span className='name'>{channel.name}</span>
@@ -104,4 +111,5 @@ SidebarChannelItem.propTypes = {
     channel: React.PropTypes.instanceOf(Channel).isRequired,
     isSelected: React.PropTypes.bool.isRequired,
     isNotable: React.PropTypes.bool.isRequired,
+    unreadCount: React.PropTypes.number.isRequired,
 };
