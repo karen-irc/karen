@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, messageGateway);
     const inputBox = new InputBoxView(globalState, document.getElementById('js-form'));
     const settings = new GeneralSettingView(document.getElementById('settings'), settingStore);
-    const sidebarView = new SidebarContext(document.querySelector('#sidebar .networks'), globalState);
+    const sidebarView = new SidebarContext(document.getElementById('sidebar'), globalState);
     const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'));
     /* tslint:enable */
 

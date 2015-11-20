@@ -23,10 +23,41 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../../../tsd/third_party/react/react.d.ts" />
+
 import * as React from 'react';
 
-export function Sidebar() {
+import {SidebarViewState} from '../viewmodel/SidebarStore';
+
+import {SidebarNetworkItemList} from './SidebarNetworkItemList';
+
+export function Sidebar({model: model}) {
+    const list = model.list();
+    let view = null;
+    if (list.length > 0) {
+        view = (
+            <div className='networks'>
+                <SidebarNetworkItemList list={list}
+                                        selectedId={model.currentId()}
+                                        notableChannelSet={model.notableChannelSet()}
+                                        unreadCountMap={model.unreadCountMap()}/>
+            </div>
+        );
+    }
+    else {
+        view = (
+            <div className='empty'>
+                {'You\'re not connected to any networks yet.'}
+            </div>
+        );
+    }
+
     return (
-        <aside id='sidebar'></aside>
+        <div className='tse-content'>
+            {view}
+        </div>
     );
 }
+Sidebar.propTypes = {
+    model: React.PropTypes.instanceOf(SidebarViewState).isRequired,
+};

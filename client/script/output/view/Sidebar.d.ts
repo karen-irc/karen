@@ -23,10 +23,15 @@
  * THE SOFTWARE.
  */
 
-import * as React from 'react';
+/// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
 
-export function Sidebar() {
-    return (
-        <aside id='sidebar'></aside>
-    );
+import {StatelessComponent} from 'react';
+
+import {SidebarViewState} from '../viewmodel/SidebarStore';
+
+interface SidebarProps {
+    key?: any;
+    model: SidebarViewState;
 }
+
+export const Sidebar: StatelessComponent<SidebarProps>;
