@@ -27,10 +27,14 @@ import * as React from 'react';
 
 import {Channel} from '../../domain/Channel';
 
+import UIActionCreator from '../../intent/action/UIActionCreator';
+
 export class SidebarChannelItem extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.onClickSelect = this.onClickSelect.bind(this);
     }
 
     render() {
@@ -43,18 +47,26 @@ export class SidebarChannelItem extends React.Component {
             <div data-id={id}
                  data-target={'#js-chan-' + id}
                  data-title={channel.name}
-                 className={'js-sidebar-channel chan ' + channel.type + ' ' + (isSelected ? 'active' : '')}>
+                 className={'js-sidebar-channel chan ' + channel.type + ' ' + (isSelected ? 'active' : '')}
+                 onClick={this.onClickSelect}>
                 <span className='badge'
                       data-count={String(unreadCount)}>
                     {(unreadCount > 0) ? String(unreadCount) : ''}
                 </span>
-                <span className='close'></span>
+                <span className='close' onClick={this.onClickClose}></span>
                 <span className='name'>{channel.name}</span>
             </div>
         );
     }
-}
 
+    onClickSelect(event) {
+        event.preventDefault();
+
+        const channel = this.props.channel;
+        const channelId = channel.id;
+        UIActionCreator.selectChannel(channelId);
+    }
+}
 SidebarChannelItem.propTypes = {
     channel: React.PropTypes.instanceOf(Channel).isRequired,
     isSelected: React.PropTypes.bool.isRequired,
