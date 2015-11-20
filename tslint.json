@@ -14,6 +14,7 @@
         "no-switch-case-fall-through": true,
         "no-trailing-whitespace": true,
         "no-unreachable": true,
+        "no-unused-variable": [true, "react"],
         "no-use-before-declare": true,
         "no-var-keyword": true,
         "no-var-requires": true,
