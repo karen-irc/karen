@@ -39,12 +39,14 @@ export class SidebarNetworkItemList extends React.Component {
         const props = this.props;
         const selectedId = props.selectedId;
         const notableChannelSet = props.notableChannelSet;
+        const unreadCountMap = props.unreadCountMap;
         const list = props.list.map(function(network){
             return (
                 <SidebarNetworkItem key={String(network.id)}
                                     network={network}
                                     selectedId={selectedId}
-                                    notableChannelSet={notableChannelSet}/>
+                                    notableChannelSet={notableChannelSet}
+                                    unreadCountMap={unreadCountMap}/>
             );
         });
 
@@ -57,6 +59,7 @@ SidebarNetworkItemList.propTypes = {
     list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Network)).isRequired,
     selectedId: React.PropTypes.instanceOf(OptionBase).isRequired,
     notableChannelSet: React.PropTypes.instanceOf(Set).isRequired,
+    unreadCountMap: React.PropTypes.instanceOf(Map).isRequired,
 };
 
 export class SidebarNetworkItem extends React.Component {
@@ -71,18 +74,22 @@ export class SidebarNetworkItem extends React.Component {
         const selectedId = props.selectedId;
         const id = String(network.id);
         const notableChannelSet = props.notableChannelSet;
+        const unreadCountMap = props.unreadCountMap;
 
         const channels = network.getChannelList().map(function(channel){
+            const channelId = channel.id;
             const isSelected = selectedId.mapOr(false, function (id) {
-                const isSelected = (channel.id === id);
+                const isSelected = (channelId === id);
                 return isSelected;
             });
-            const isNotable = notableChannelSet.has(channel.id);
+            const isNotable = notableChannelSet.has(channelId);
+            const unreadCount = unreadCountMap.get(channelId);
             return (
-                <SidebarChannelItem key={String(channel.id)}
+                <SidebarChannelItem key={String(channelId)}
                                     channel={channel}
                                     isSelected={isSelected}
-                                    isNotable={isNotable}/>
+                                    isNotable={isNotable}
+                                    unreadCount={unreadCount}/>
             );
         });
 
@@ -100,4 +107,5 @@ SidebarNetworkItem.propTypes = {
     network: React.PropTypes.instanceOf(Network).isRequired,
     selectedId: React.PropTypes.instanceOf(OptionBase).isRequired,
     notableChannelSet: React.PropTypes.instanceOf(Set).isRequired,
+    unreadCountMap: React.PropTypes.instanceOf(Map).isRequired,
 };

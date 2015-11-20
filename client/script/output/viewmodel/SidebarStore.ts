@@ -25,7 +25,7 @@
 
  /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
-import {Option} from 'option-t';
+import {Option, None} from 'option-t';
 import * as Rx from 'rx';
 
 import {ChannelId} from '../../domain/ChannelDomain';
@@ -39,13 +39,16 @@ export class SidebarViewState {
     private _list: Array<Network>;
     private _currentId: Option<ChannelId>;
     private _notableChannelSet: Set<ChannelId>;
+    private _unreadCountMap: Map<ChannelId, number>;
 
     constructor(list: Array<Network>,
                 currentId: Option<ChannelId>,
-                notableChannelSet: Set<ChannelId>) {
+                notableChannelSet: Set<ChannelId>,
+                unreadCountMap: Map<ChannelId, number>) {
         this._list = list;
         this._currentId = currentId;
         this._notableChannelSet = notableChannelSet;
+        this._unreadCountMap = unreadCountMap;
     }
 
     list(): Array<Network> {
@@ -59,6 +62,10 @@ export class SidebarViewState {
     notableChannelSet(): Set<ChannelId> {
         return this._notableChannelSet;
     }
+
+    unreadCountMap(): Map<ChannelId, number> {
+        return this._unreadCountMap;
+    }
 }
 
 export class SidebarStore {
@@ -66,8 +73,10 @@ export class SidebarStore {
     private _updater: Rx.Subject<void>;
     private _disposer: Rx.IDisposable;
 
+    private _currentId: Option<ChannelId>;
     private _networkSet: Set<Network>;
     private _notableChannelSet: Set<ChannelId>;
+    private _unreadCount: Map<ChannelId, number>;
 
     private _state: Rx.Observable<SidebarViewState>;
 
@@ -77,8 +86,10 @@ export class SidebarStore {
         const disposer = new Rx.CompositeDisposable();
         this._disposer = disposer;
 
+        this._currentId = new None<ChannelId>();
         this._networkSet = new Set<Network>();
         this._notableChannelSet = new Set<ChannelId>();
+        this._unreadCount = new Map<ChannelId, number>();
 
         const networkDomain = domain.getNetworkDomain();
         disposer.add(networkDomain.addedNetwork().subscribe((network: NetworkDomain) => {
@@ -91,11 +102,13 @@ export class SidebarStore {
             this._removedNetwork(value);
         }));
 
-        disposer.add(networkDomain.joinedChannelAtAll().subscribe((_) => {
+        disposer.add(networkDomain.joinedChannelAtAll().subscribe((channel) => {
+            this._unreadCount.set(channel.getId(), channel.getValue().unread());
             this._updater.onNext(undefined);
         }));
 
-        disposer.add(networkDomain.partedChannelAtAll().subscribe((_) => {
+        disposer.add(networkDomain.partedChannelAtAll().subscribe((channel) => {
+            this._unreadCount.delete(channel.getId());
             this._updater.onNext(undefined);
         }));
 
@@ -105,9 +118,11 @@ export class SidebarStore {
 
         const currentId: Rx.Observable<Option<ChannelId>> =
             domain.getCurrentTab().map((v) => v.channelId).do((channelId: Option<ChannelId>) => {
+                this._currentId = channelId;
                 if (channelId.isSome) {
                     const id = channelId.unwrap();
                     this._notableChannelSet.delete(id);
+                    this._unreadCount.set(id, 0);
                 }
             });
 
@@ -115,7 +130,8 @@ export class SidebarStore {
             const array = Array.from(this._networkSet);
             const state = new SidebarViewState(array,
                                                selectedId,
-                                               this._notableChannelSet);
+                                               this._notableChannelSet,
+                                               this._unreadCount);
             return state;
         });
     }
@@ -146,8 +162,10 @@ export class SidebarStore {
     }
 
     private _highlightChannel(message: RecievedMessage): void {
-        const markedAsNotable = this._markAsNotable(message.channelId, message.message);
-        if (markedAsNotable) {
+        const hasUnread: boolean = this._updateUnreadCount(message.channelId);
+        const hasNotable: boolean = this._markAsNotable(message.channelId, message.message);
+
+        if (hasUnread || hasNotable) {
             this._updater.onNext(undefined);
         }
     }
@@ -161,6 +179,24 @@ export class SidebarStore {
         else {
             return false;
         }
+    }
+
+    private _updateUnreadCount(channelId: ChannelId): boolean {
+        const targetIsCurrent: boolean = this._currentId.mapOr(false, function(id){
+            return id === channelId;
+        });
+        if (targetIsCurrent) {
+            return false;
+        }
+
+        const current: number = this._unreadCount.get(channelId);
+        if (current === undefined) {
+            this._unreadCount.set(channelId, 0);
+        }
+
+        const latest = current + 1;
+        this._unreadCount.set(channelId, latest);
+        return true;
     }
 }
 
