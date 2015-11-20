@@ -73,6 +73,7 @@ export class SidebarContext {
     private _render(data: SidebarViewState): void {
         const view = React.createElement(SidebarNetworkItemList, {
             list: data.list(),
+            selectedId: data.currentId(),
         });
         ReactDOM.render(view, this._mountpoint);
     }
