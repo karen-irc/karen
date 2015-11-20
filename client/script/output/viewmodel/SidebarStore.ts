@@ -28,10 +28,10 @@
 import {Option} from 'option-t';
 import * as Rx from 'rx';
 
-import {Network} from '../../domain/Network';
-
 import {ChannelId} from '../../domain/ChannelDomain';
 import {DomainState} from '../../domain/DomainState';
+import {Network} from '../../domain/Network';
+import {NetworkDomain} from '../../domain/NetworkDomain';
 
 export class SidebarViewState {
 
@@ -54,16 +54,41 @@ export class SidebarViewState {
 
 export class SidebarStore {
 
+    private _updater: Rx.Subject<void>;
     private _disposer: Rx.IDisposable;
+    private _networkSet: Set<Network>;
     private _state: Rx.Observable<SidebarViewState>;
 
     constructor(domain: DomainState) {
+        this._updater = new Rx.Subject<void>();
+
         const disposer = new Rx.CompositeDisposable();
         this._disposer = disposer;
 
+        this._networkSet = new Set<Network>();
+
+        disposer.add(domain.getNetworkDomain().addedNetwork().subscribe((network: NetworkDomain) => {
+            const value = network.getValue();
+            this._addNetwork(value);
+        }));
+
+        disposer.add(domain.getNetworkDomain().removedNetwork().subscribe((network: NetworkDomain) => {
+            const value = network.getValue();
+            this._removedNetwork(value);
+        }));
+
+        disposer.add(domain.getNetworkDomain().joinedChannelAtAll().subscribe((_) => {
+            this._updater.onNext(undefined);
+        }));
+
+        disposer.add(domain.getNetworkDomain().partedChannelAtAll().subscribe((_) => {
+            this._updater.onNext(undefined);
+        }));
+
         const currentId: Rx.Observable<Option<ChannelId>> = domain.getCurrentTab().map((v) => v.channelId);
-        this._state = currentId.map(function(id) {
-            const state = new SidebarViewState([], id);
+        this._state = currentId.combineLatest(this._updater, (selectedId) => {
+            const array = Array.from(this._networkSet);
+            const state = new SidebarViewState(array, selectedId);
             return state;
         });
     }
@@ -74,7 +99,22 @@ export class SidebarStore {
 
     dispose(): void {
         this._disposer.dispose();
+        this._updater.dispose();
+        this._networkSet.clear();
+
+        this._updater = null;
+        this._removedNetwork = null;
         this._disposer = null;
         this._state = null;
+    }
+
+    private _addNetwork(network: Network): void {
+        this._networkSet.add(network);
+        this._updater.onNext(undefined);
+    }
+
+    private _removedNetwork(network: Network): void {
+        this._networkSet.delete(network);
+        this._updater.onNext(undefined);
     }
 }
