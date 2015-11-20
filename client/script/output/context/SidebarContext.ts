@@ -31,7 +31,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as Rx from 'rx';
 
-import {SidebarNetworkItemList} from '../view/SidebarNetworkItemList';
+import {Sidebar} from '../view/Sidebar';
 import {SidebarStore, SidebarViewState} from '../viewmodel/SidebarStore';
 
 import {DomainState} from '../../domain/DomainState';
@@ -70,12 +70,9 @@ export class SidebarContext {
         return this._viewmodel.subscribe(observer);
     }
 
-    private _render(data: SidebarViewState): void {
-        const view = React.createElement(SidebarNetworkItemList, {
-            list: data.list(),
-            selectedId: data.currentId(),
-            notableChannelSet: data.notableChannelSet(),
-            unreadCountMap: data.unreadCountMap(),
+    private _render(model: SidebarViewState): void {
+        const view = React.createElement(Sidebar, {
+            model,
         });
         ReactDOM.render(view, this._mountpoint);
     }
