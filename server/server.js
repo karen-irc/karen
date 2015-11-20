@@ -30,7 +30,7 @@ export default function(options) {
     config = Object.assign(config, options);
 
     const app = express();
-    app.all('*', applyNoSniffHeader, applyHSTS, applyXSSProtection);
+    app.all('*', applyGenericSecurityHeader);
     app.use(compression());
     app.use(index);
     app.use('/dist', express.static('dist/client'));
@@ -78,22 +78,13 @@ export default function(options) {
     }
 }
 
-// for browsers which use content type sniffing like IE.
-function applyNoSniffHeader(req, res, next) {
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-
-    next();
-}
-
 const STRICT_TRANSPORT_SECURITY_EXPIRE_TIME = String(60 * 24 * 365 * 1000);
 
-function applyHSTS(req, res, next) {
+function applyGenericSecurityHeader(req, res, next) {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Strict-Transport-Security', 'max-age=' + STRICT_TRANSPORT_SECURITY_EXPIRE_TIME + ';');
-    next();
-}
-
-function applyXSSProtection(req, res, next) {
     res.setHeader('X-XSS-Protection', '1; mode=block');
+
     next();
 }
 
