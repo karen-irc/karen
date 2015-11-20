@@ -31,6 +31,7 @@ import {Channel} from '../../domain/Channel';
 interface SidebarChannelItemProps {
     key?: any;
     channel: Channel;
+    isSelected: boolean;
 }
 
 export const SidebarChannelItem: ComponentClass<SidebarChannelItemProps>;

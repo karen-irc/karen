@@ -25,17 +25,22 @@
 
 /// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
 
+import {Option} from 'option-t';
 import {ComponentClass} from 'react';
+
+import {ChannelId} from '../../domain/ChannelDomain';
 import {Network} from '../../domain/Network';
 
 interface SidebarNetworkItemListProps {
     key?: any;
     list: Array<Network>;
+    selectedId: Option<ChannelId>;
 }
 
 interface SidebarNetworkItemProps {
     key?: any;
     network: Network;
+    selectedId: Option<ChannelId>;
 }
 
 export const SidebarNetworkItemList: ComponentClass<SidebarNetworkItemListProps>;

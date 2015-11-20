@@ -25,7 +25,7 @@
 
  /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
-import {Option, None} from 'option-t';
+import {Option} from 'option-t';
 import * as Rx from 'rx';
 
 import {Network} from '../../domain/Network';
@@ -61,7 +61,11 @@ export class SidebarStore {
         const disposer = new Rx.CompositeDisposable();
         this._disposer = disposer;
 
-        this._state = Rx.Observable.just(new SidebarViewState([], new None<ChannelId>()));
+        const currentId: Rx.Observable<Option<ChannelId>> = domain.getCurrentTab().map((v) => v.channelId);
+        this._state = currentId.map(function(id) {
+            const state = new SidebarViewState([], id);
+            return state;
+        });
     }
 
     subscribe(observer: Rx.Observer<SidebarViewState>): Rx.IDisposable {
