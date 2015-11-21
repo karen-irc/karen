@@ -1,15 +1,18 @@
 {
     "compilerOptions": {
+        "forceConsistentCasingInFileNames": true,
         "jsx": "preserve",
         "module": "es2015",
         "moduleResolution": "node",
         "noImplicitAny": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "removeComments": false,
-        "preserveConstEnums": true,
+        "noImplicitReturns": true,
         "outDir": "./dist/client/__obj/",
-        "target": "ES2015",
-        "sourceMap": true
+        "pretty": true,
+        "preserveConstEnums": true,
+        "removeComments": false,
+        "sourceMap": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "target": "ES2015"
     },
 
     // Exclude a specified directry or specified TypeScript file (.ts, .tsx)
