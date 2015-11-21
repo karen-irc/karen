@@ -6,6 +6,7 @@
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "outDir": "./dist/client/__obj/",
+        "pretty": true,
         "preserveConstEnums": true,
         "removeComments": false,
         "sourceMap": true,
