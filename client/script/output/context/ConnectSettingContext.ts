@@ -67,18 +67,14 @@ export class ConnectSettingContext {
 
     private _mount(): Rx.IDisposable {
         const observer: Rx.Observer<ConnectionValue> = Rx.Observer.create((data: ConnectionValue) => {
-            this._render(data);
+            const view = React.createElement(ConnectSettingWindow, {
+                action: this._action,
+                data: data,
+            });
+            ReactDOM.render(view, this._mountpoint);
         }, ()=> {}, () => {
             ReactDOM.unmountComponentAtNode(this._mountpoint);
         });
         return this._store.subscribe(observer);
-    }
-
-    private _render(data: ConnectionValue) {
-        const view = React.createElement(ConnectSettingWindow, {
-            action: this._action,
-            data: data,
-        });
-        ReactDOM.render(view, this._mountpoint);
     }
 }

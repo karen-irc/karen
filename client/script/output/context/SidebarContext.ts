@@ -62,18 +62,14 @@ export class SidebarContext {
     }
 
     private _mount(): Rx.IDisposable {
-        const observer: Rx.Observer<SidebarViewState> = Rx.Observer.create((data: SidebarViewState) => {
-            this._render(data);
+        const observer: Rx.Observer<SidebarViewState> = Rx.Observer.create((model: SidebarViewState) => {
+            const view = React.createElement(Sidebar, {
+                model,
+            });
+            ReactDOM.render(view, this._mountpoint);
         }, ()=> {}, () => {
             ReactDOM.unmountComponentAtNode(this._mountpoint);
         });
         return this._viewmodel.subscribe(observer);
-    }
-
-    private _render(model: SidebarViewState): void {
-        const view = React.createElement(Sidebar, {
-            model,
-        });
-        ReactDOM.render(view, this._mountpoint);
     }
 }
