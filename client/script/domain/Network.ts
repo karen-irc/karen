@@ -83,7 +83,7 @@ export class Network {
 
     removeChannel(channel: Channel): void {
         const index = this._channelList.indexOf(channel);
-        this._channelList.slice(index, 0);
+        this._channelList.splice(index, 1);
     }
 
     changeNickName(nick: string): void {
