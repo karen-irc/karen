@@ -29,47 +29,39 @@ import * as React from 'react';
 import {SidebarChannelItem} from './SidebarChannelItem';
 import {Network} from '../../domain/Network';
 
-export class SidebarNetworkItem extends React.Component {
+export function SidebarNetworkItem(props) {
+    const network = props.network;
+    const selectedId = props.selectedId;
+    const id = String(network.id);
+    const notableChannelSet = props.notableChannelSet;
+    const unreadCountMap = props.unreadCountMap;
 
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const props = this.props;
-        const network = props.network;
-        const selectedId = props.selectedId;
-        const id = String(network.id);
-        const notableChannelSet = props.notableChannelSet;
-        const unreadCountMap = props.unreadCountMap;
-
-        const channels = network.getChannelList().map(function(channel){
-            const channelId = channel.id;
-            const isSelected = selectedId.mapOr(false, function (id) {
-                const isSelected = (channelId === id);
-                return isSelected;
-            });
-            const isNotable = notableChannelSet.has(channelId);
-            const unreadCount = unreadCountMap.get(channelId);
-            //XXX: `unreadCount === undefined` handling should be fixed in view model layer.
-            return (
-                <SidebarChannelItem key={String(channelId)}
-                                    channel={channel}
-                                    isSelected={isSelected}
-                                    isNotable={isNotable}
-                                    unreadCount={(unreadCount === undefined) ? 0 : unreadCount}/>
-            );
+    const channels = network.getChannelList().map(function(channel){
+        const channelId = channel.id;
+        const isSelected = selectedId.mapOr(false, function (id) {
+            const isSelected = (channelId === id);
+            return isSelected;
         });
-
+        const isNotable = notableChannelSet.has(channelId);
+        const unreadCount = unreadCountMap.get(channelId);
+        //XXX: `unreadCount === undefined` handling should be fixed in view model layer.
         return (
-            <section id={'network-' + id}
-                     className='network'
-                     data-id={id}
-                     data-nick={network.nickname}>
-                {channels}
-            </section>
+            <SidebarChannelItem key={String(channelId)}
+                                channel={channel}
+                                isSelected={isSelected}
+                                isNotable={isNotable}
+                                unreadCount={(unreadCount === undefined) ? 0 : unreadCount}/>
         );
-    }
+    });
+
+    return (
+        <section id={'network-' + id}
+                 className='network'
+                 data-id={id}
+                 data-nick={network.nickname}>
+            {channels}
+        </section>
+    );
 }
 SidebarNetworkItem.propTypes = {
     network: React.PropTypes.instanceOf(Network).isRequired,
