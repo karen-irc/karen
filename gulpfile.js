@@ -25,17 +25,17 @@
 'use strict';
 
 const autoprefixer = require('autoprefixer');
-const babel = require('gulp-babel');
 const babelify = require('babelify');
 const browserify = require('browserify');
 const del = require('del');
-const glob = require('./utils/glob');
 const gulp = require('gulp');
-const path = require('path');
+const babel = require('gulp-babel');
 const postcss = require('gulp-postcss');
-const source = require('vinyl-source-stream');
-const spawnChildProcess = require('./utils/spawn');
 const uglify = require('gulp-uglifyjs');
+const path = require('path');
+const source = require('vinyl-source-stream');
+const glob = require('./tools/glob');
+const spawnChildProcess = require('./tools/spawn');
 
 const isRelease = process.env.NODE_ENV === 'production';
 
