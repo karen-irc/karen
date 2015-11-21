@@ -32,7 +32,6 @@ import {Network} from '../../domain/Network';
 export function SidebarNetworkItem(props) {
     const network = props.network;
     const selectedId = props.selectedId;
-    const id = String(network.id);
     const notableChannelSet = props.notableChannelSet;
     const unreadCountMap = props.unreadCountMap;
 
@@ -55,10 +54,7 @@ export function SidebarNetworkItem(props) {
     });
 
     return (
-        <section id={'network-' + id}
-                 className='network'
-                 data-id={id}
-                 data-nick={network.nickname}>
+        <section className='network'>
             {channels}
         </section>
     );
