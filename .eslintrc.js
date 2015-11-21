@@ -1,7 +1,34 @@
-{
-    // ESLint Configuration Files enables to include comments.
-    // http://eslint.org/docs/configuring/#comments-in-configuration-files
+/**
+ * @license MIT License
+ *
+ * Copyright (c) 2015 Tetsuharu OHZEKI <saneyuki.snyk@gmail.com>
+ * Copyright (c) 2015 Yusuke Suzuki <utatane.tea@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+/*eslint quotes: [2, "double", "avoid-escape"], quote-props: [2, "always"] */
 
+"use strict";
+
+// ESLint Configuration Files enables to include comments.
+// http://eslint.org/docs/configuring/#comments-in-configuration-files
+module.exports = {
     "extends": "eslint:recommended",
 
     "ecmaFeatures": {
@@ -16,7 +43,7 @@
     },
 
     "env": {
-        "node": true,
+        "node": true
     },
 
     "plugins": [
@@ -74,7 +101,7 @@
 
         // Stylistic Issues
         "indent": [2, 4, {
-            "SwitchCase": 1,
+            "SwitchCase": 1
         }],
         "comma-spacing": [2, {
             "before": false,
@@ -134,11 +161,12 @@
         "react/jsx-no-literals": 0,
         "react/jsx-no-undef": 2,
         "react/jsx-sort-props": 0,
-        "react/jsx-sort-prop-types": [0,
-            callbacksLast: true,
-        ],
+        "react/jsx-sort-prop-types": [0, {
+            "callbacksLast": true
+        }],
         "react/jsx-uses-react": 1,
         "react/jsx-uses-vars": 1,
+        "react/jsx-pascal-case": 2,
         "react/no-danger": 1,
         "react/no-did-mount-set-state": [1, "allow-in-func"],
         "react/no-did-update-set-state": [1, "allow-in-func"],
@@ -178,4 +206,4 @@
         }],
         "react/wrap-multilines": 2
     }
-}
+};
