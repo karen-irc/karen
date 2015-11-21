@@ -88,7 +88,7 @@
     "mocha": "^2.3.4",
     "tsd": "^0.6.5",
     "tslint": "next",
-    "typescript": "1.8.0-dev.20151114",
+    "typescript": "1.8.0-dev.20151121",
     "vinyl-source-stream": "^1.1.0"
   }
 }
