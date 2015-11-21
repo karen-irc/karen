@@ -29,7 +29,6 @@
         "server",
         "test",
         "tools",
-        "tsd",
-        "utils"
+        "tsd"
     ]
 }
