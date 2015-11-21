@@ -139,6 +139,7 @@
         ],
         "react/jsx-uses-react": 1,
         "react/jsx-uses-vars": 1,
+        "react/jsx-pascal-case": 2,
         "react/no-danger": 1,
         "react/no-did-mount-set-state": [1, "allow-in-func"],
         "react/no-did-update-set-state": [1, "allow-in-func"],
