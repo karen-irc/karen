@@ -180,6 +180,7 @@ gulp.task('__postcss', ['__clean:client:css'], function () {
 
 gulp.task('__eslint', function () {
     const src = [
+        './.eslintrc.js',
         './gulpfile.js',
         './client/script/',
         './defaults/',
