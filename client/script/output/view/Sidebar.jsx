@@ -29,27 +29,16 @@ import * as React from 'react';
 
 import {SidebarViewState} from '../viewmodel/SidebarStore';
 
-import {SidebarNetworkItemList} from './SidebarNetworkItemList';
+import {SidebarNetworkItem} from './SidebarNetworkItemList';
 
 export function Sidebar({model: model}) {
     const list = model.list();
     let view = null;
     if (list.length > 0) {
-        view = (
-            <div className='networks'>
-                <SidebarNetworkItemList list={list}
-                                        selectedId={model.currentId()}
-                                        notableChannelSet={model.notableChannelSet()}
-                                        unreadCountMap={model.unreadCountMap()}/>
-            </div>
-        );
+        view = <SidebarSomeContent model={model}/>;
     }
     else {
-        view = (
-            <div className='empty'>
-                {'You\'re not connected to any networks yet.'}
-            </div>
-        );
+        view = <SidebarEmptyContent/>;
     }
 
     return (
@@ -61,3 +50,35 @@ export function Sidebar({model: model}) {
 Sidebar.propTypes = {
     model: React.PropTypes.instanceOf(SidebarViewState).isRequired,
 };
+
+function SidebarSomeContent({ model: model }) {
+    const selectedId = model.selectedId;
+    const notableChannelSet = model.notableChannelSet;
+    const unreadCountMap = model.unreadCountMap;
+    const list = model.list.map(function(network){
+        return (
+            <SidebarNetworkItem key={String(network.id)}
+                                network={network}
+                                selectedId={selectedId}
+                                notableChannelSet={notableChannelSet}
+                                unreadCountMap={unreadCountMap}/>
+        );
+    });
+
+    return (
+        <div className='networks'>
+            <div>{list}</div>
+        </div>
+    );
+}
+SidebarSomeContent.propTypes = {
+    model: React.PropTypes.instanceOf(SidebarViewState).isRequired,
+};
+
+function SidebarEmptyContent() {
+    return (
+        <div className='empty'>
+            {'You\'re not connected to any networks yet.'}
+        </div>
+    );
+}

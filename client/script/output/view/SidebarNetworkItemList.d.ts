@@ -31,19 +31,10 @@ import {ComponentClass} from 'react';
 import {ChannelId} from '../../domain/ChannelDomain';
 import {Network} from '../../domain/Network';
 
-interface SidebarNetworkItemListProps {
-    key?: any;
-    list: Array<Network>;
-    selectedId: Option<ChannelId>;
-    notableChannelSet: Set<ChannelId>;
-    unreadCountMap: Map<ChannelId, number>;
-}
-
 interface SidebarNetworkItemProps {
     key?: any;
     network: Network;
     selectedId: Option<ChannelId>;
 }
 
-export const SidebarNetworkItemList: ComponentClass<SidebarNetworkItemListProps>;
 export const SidebarNetworkItem: ComponentClass<SidebarNetworkItemProps>;

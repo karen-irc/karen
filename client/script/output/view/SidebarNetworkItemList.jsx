@@ -29,39 +29,6 @@ import * as React from 'react';
 import {SidebarChannelItem} from './SidebarChannelItem';
 import {Network} from '../../domain/Network';
 
-export class SidebarNetworkItemList extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const props = this.props;
-        const selectedId = props.selectedId;
-        const notableChannelSet = props.notableChannelSet;
-        const unreadCountMap = props.unreadCountMap;
-        const list = props.list.map(function(network){
-            return (
-                <SidebarNetworkItem key={String(network.id)}
-                                    network={network}
-                                    selectedId={selectedId}
-                                    notableChannelSet={notableChannelSet}
-                                    unreadCountMap={unreadCountMap}/>
-            );
-        });
-
-        return (
-            <div>{list}</div>
-        );
-    }
-}
-SidebarNetworkItemList.propTypes = {
-    list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Network)).isRequired,
-    selectedId: React.PropTypes.instanceOf(OptionBase).isRequired,
-    notableChannelSet: React.PropTypes.instanceOf(Set).isRequired,
-    unreadCountMap: React.PropTypes.instanceOf(Map).isRequired,
-};
-
 export class SidebarNetworkItem extends React.Component {
 
     constructor(props) {
