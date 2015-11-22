@@ -143,11 +143,17 @@ export class SidebarStore {
     dispose(): void {
         this._disposer.dispose();
         this._updater.dispose();
+
         this._networkSet.clear();
+        this._notableChannelSet.clear();
+        this._unreadCount.clear();
 
         this._updater = null;
-        this._removedNetwork = null;
         this._disposer = null;
+        this._currentId = null;
+        this._networkSet = null;
+        this._notableChannelSet = null;
+        this._unreadCount = null;
         this._state = null;
     }
 
