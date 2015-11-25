@@ -25,18 +25,18 @@
 
 /// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
 
-import {ComponentClass} from 'react';
-import {Network} from '../../domain/Network';
+import {Option} from 'option-t';
+import {StatelessComponent} from 'react';
 
-interface SidebarNetworkItemListProps {
-    key?: any;
-    list: Array<Network>;
-}
+import {ChannelId} from '../../domain/ChannelDomain';
+import {Network} from '../../domain/Network';
 
 interface SidebarNetworkItemProps {
     key?: any;
     network: Network;
+    selectedId: Option<ChannelId>;
+    notableChannelSet: Set<ChannelId>;
+    unreadCountMap: Map<ChannelId, number>;
 }
 
-export const SidebarNetworkItemList: ComponentClass<SidebarNetworkItemListProps>;
-export const SidebarNetworkItem: ComponentClass<SidebarNetworkItemProps>;
+export const SidebarNetworkItem: StatelessComponent<SidebarNetworkItemProps>;

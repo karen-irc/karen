@@ -1,4 +1,3 @@
-/*global jQuery:true */
 /**
  * @license MIT License
  *
@@ -32,49 +31,45 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as Rx from 'rx';
 
-import {ConnectSettingWindow} from '../view/ConnectSettingWindow';
+import {Sidebar} from '../view/Sidebar';
+import {SidebarStore, SidebarViewState} from '../viewmodel/SidebarStore';
 
-import {MessageGateway} from '../../adapter/MessageGateway';
-import {ConnectionActionCreator} from '../../intent/action/ConnectionActionCreator';
-import {ConnectionStore} from '../viewmodel/ConnectionStore';
-import {ConnectionValue} from '../../domain/value/ConnectionSettings';
+import {DomainState} from '../../domain/DomainState';
 
-export class ConnectSettingContext {
+export class SidebarContext {
 
     private _mountpoint: Element;
-
-    private _action: ConnectionActionCreator;
-    private _store: ConnectionStore;
+    private _viewmodel: SidebarStore;
     private _viewDisposer: Rx.IDisposable;
 
-    constructor(mountpoint: Element, gateway: MessageGateway) {
-        if (!mountpoint || !gateway) {
+    constructor(mountpoint: Element, domain: DomainState) {
+        if (!mountpoint) {
             throw new Error();
         }
 
         this._mountpoint = mountpoint;
-        this._action = new ConnectionActionCreator();
-        this._store = new ConnectionStore(this._action.dispatcher(), gateway);
-
+        this._viewmodel = new SidebarStore(domain);
         this._viewDisposer = this._mount();
     }
 
     dispose(): void {
         this._viewDisposer.dispose();
-        this._store.dispose();
-        this._action.dispose();
+        this._viewmodel.dispose();
+
+        this._viewDisposer = null;
+        this._viewmodel = null;
+        this._mountpoint = null;
     }
 
     private _mount(): Rx.IDisposable {
-        const observer: Rx.Observer<ConnectionValue> = Rx.Observer.create((data: ConnectionValue) => {
-            const view = React.createElement(ConnectSettingWindow, {
-                action: this._action,
-                data: data,
+        const observer: Rx.Observer<SidebarViewState> = Rx.Observer.create((model: SidebarViewState) => {
+            const view = React.createElement(Sidebar, {
+                model,
             });
             ReactDOM.render(view, this._mountpoint);
         }, ()=> {}, () => {
             ReactDOM.unmountComponentAtNode(this._mountpoint);
         });
-        return this._store.subscribe(observer);
+        return this._viewmodel.subscribe(observer);
     }
 }

@@ -23,61 +23,45 @@
  * THE SOFTWARE.
  */
 
+import {OptionBase} from 'option-t';
 import * as React from 'react';
 
 import {SidebarChannelItem} from './SidebarChannelItem';
 import {Network} from '../../domain/Network';
 
-export class SidebarNetworkItemList extends React.Component {
+export function SidebarNetworkItem(props) {
+    const network = props.network;
+    const selectedId = props.selectedId;
+    const notableChannelSet = props.notableChannelSet;
+    const unreadCountMap = props.unreadCountMap;
 
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const list = this.props.list.map(function(network){
-            return (
-                <SidebarNetworkItem key={String(network.id)}
-                                    network={network} />
-            );
+    const channels = network.getChannelList().map(function(channel){
+        const channelId = channel.id;
+        const isSelected = selectedId.mapOr(false, function (id) {
+            const isSelected = (channelId === id);
+            return isSelected;
         });
-
+        const isNotable = notableChannelSet.has(channelId);
+        const unreadCount = unreadCountMap.get(channelId);
+        //XXX: `unreadCount === undefined` handling should be fixed in view model layer.
         return (
-            <div>{list}</div>
+            <SidebarChannelItem key={String(channelId)}
+                                channel={channel}
+                                isSelected={isSelected}
+                                isNotable={isNotable}
+                                unreadCount={(unreadCount === undefined) ? 0 : unreadCount}/>
         );
-    }
-}
-SidebarNetworkItemList.propTypes = {
-    list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Network)).isRequired,
-};
+    });
 
-export class SidebarNetworkItem extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const network = this.props.network;
-        const id = String(network.id);
-
-        const channels = network.getChannelList().map(function(channel){
-            return (
-                <SidebarChannelItem key={String(channel.id)}
-                                    channel={channel} />
-            );
-        });
-
-        return (
-            <section id={'network-' + id}
-                     className='network'
-                     data-id={id}
-                     data-nick={network.nickname}>
-                {channels}
-            </section>
-        );
-    }
+    return (
+        <section className='network'>
+            {channels}
+        </section>
+    );
 }
 SidebarNetworkItem.propTypes = {
     network: React.PropTypes.instanceOf(Network).isRequired,
+    selectedId: React.PropTypes.instanceOf(OptionBase).isRequired,
+    notableChannelSet: React.PropTypes.instanceOf(Set).isRequired,
+    unreadCountMap: React.PropTypes.instanceOf(Map).isRequired,
 };

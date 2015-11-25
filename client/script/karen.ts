@@ -3,7 +3,6 @@
 /// <reference path="../../tsd/extends.d.ts" />
 /// <reference path="../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../tsd/third_party/jquery/jquery.d.ts" />
-/// <reference path="../../tsd/third_party/jqueryui/jqueryui.d.ts" />
 /// <reference path="../../tsd/third_party/react/react.d.ts" />
 /// <reference path="../../tsd/third_party/react/react-dom.d.ts" />
 
@@ -27,8 +26,8 @@ import {MainContentAreaView} from './output/view/MainContentAreaView';
 import {MessageGateway} from './adapter/MessageGateway';
 import {MessageList} from './output/view/MessageItem';
 import {NotificationPresenter} from './output/NotificationPresenter';
+import {SidebarContext} from './output/context/SidebarContext';
 import {SettingStore} from './output/viewmodel/SettingStore';
-import {SidebarView} from './output/view/SidebarView';
 import {SocketIoDriver} from './adapter/SocketIoDriver';
 import {ToggleItem} from './output/view/ToggleItem';
 import UIActionCreator from './intent/action/UIActionCreator';
@@ -36,6 +35,9 @@ import {User} from './domain/User';
 import {WindowPresenter} from './output/WindowPresenter';
 
 declare const momoent: any;
+declare const process: {
+    env: any;
+};
 
 const socket = new SocketIoDriver();
 const messageGateway = new MessageGateway(socket);
@@ -58,11 +60,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, messageGateway);
     const inputBox = new InputBoxView(globalState, document.getElementById('js-form'));
     const settings = new GeneralSettingView(document.getElementById('settings'), settingStore);
-    const sidebarView = new SidebarView(globalState, document.getElementById('sidebar'), messageGateway);
+    const sidebarView = new SidebarContext(document.getElementById('sidebar'), globalState);
     const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'));
     /* tslint:enable */
 
-    const sidebar = $('#sidebar');
     const chat = $('#chat');
 
     messageGateway.disconnected().subscribe(function(){
@@ -112,8 +113,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
         const signinButtom = document.getElementById('sign-in');
         signinButtom.parentNode.removeChild(signinButtom);
-
-        sortable();
     });
 
     globalState.getCurrentTab().subscribe(function(state){
@@ -132,10 +131,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (data.messages.length !== 100) {
             chan.find('.show-more').removeClass('show');
         }
-    });
-
-    globalState.getNetworkDomain().addedNetwork().subscribe(function(domain){
-        sortable();
     });
 
     const options = config.get();
@@ -291,55 +286,5 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         return words.filter(function(word: string, item: string){
             return item.indexOf(word) === 0;
         }.bind(null, word.toLowerCase()));
-    }
-
-    function sortable() {
-        sidebar.sortable({
-            axis: 'y',
-            containment: 'parent',
-            cursor: 'grabbing',
-            distance: 12,
-            items: '.network',
-            handle: '.lobby',
-            placeholder: 'network-placeholder',
-            forcePlaceholderSize: true,
-            update: function() {
-                const order: Array<string> = [];
-                sidebar.find('.network').each(function() {
-                    const id: string = <any>$(this).data('id');
-                    order.push(id);
-                });
-                socket.emit(
-                    'sort', {
-                        type: 'networks',
-                        order: order
-                    }
-                );
-            }
-        });
-        sidebar.find('.network').sortable({
-            axis: 'y',
-            containment: 'parent',
-            cursor: 'grabbing',
-            distance: 12,
-            items: '.chan:not(.lobby)',
-            placeholder: 'chan-placeholder',
-            forcePlaceholderSize: true,
-            update: function(e, ui) {
-                const order: Array<string> = [];
-                const network = ui.item.parent();
-                network.find('.chan').each(function() {
-                    const id: string = <any>$(this).data('id');
-                    order.push(id);
-                });
-                socket.emit(
-                    'sort', {
-                        type: 'channels',
-                        target: network.data('id'),
-                        order: order
-                    }
-                );
-            }
-        });
     }
 });
