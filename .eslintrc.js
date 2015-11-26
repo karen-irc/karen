@@ -163,6 +163,7 @@ module.exports = {
         }],
         'space-after-keywords': 1,
         'space-infix-ops': 1,
+        'space-return-throw-case': 1,
         'space-unary-ops': [2, {
             'words': true,
             'nonwords': false
