@@ -91,6 +91,7 @@ module.exports = {
         'no-implied-eval': 2,
         'no-invalid-this': 1,
         'no-new-func': 1,
+        'no-new-wrappers': 2,
         'no-param-reassign': [1, {
             'props': true
         }],
