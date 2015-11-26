@@ -146,6 +146,7 @@ module.exports = {
         'key-spacing': 0,
         'linebreak-style': [2, 'unix'],
         'new-parens': 2,
+        'new-cap': 1,
         'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
         'no-new-object': 2, // In almost case, we don't have to use `new Object()` without any comments.
         'no-mixed-spaces-and-tabs': 2,
