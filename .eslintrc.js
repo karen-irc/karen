@@ -81,7 +81,7 @@ module.exports = {
         'curly': 2,
         'eqeqeq': 2,
         'no-alert': 1,
-        'no-caller': 1,
+        'no-caller': 2,
         'no-case-declarations': 2,
         'no-div-regex': 2,
         'no-empty-pattern': 2,
