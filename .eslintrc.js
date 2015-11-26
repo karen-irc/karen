@@ -99,6 +99,7 @@ module.exports = {
         'no-unused-expressions': 2,
         'no-useless-call': 1,
         'no-useless-concat': 1,
+        'no-with': 2,
         'radix': 2,
 
         // Strict Mode
