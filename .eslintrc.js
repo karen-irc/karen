@@ -157,6 +157,10 @@ module.exports = {
         'operator-linebreak': [2, 'after'],
         'quotes': [2, 'single', 'avoid-escape'],
         'semi': [2, 'always'],
+        'semi-spacing':[2, {
+            'before': false,
+            'after': true
+        }],
         'space-unary-ops': [2, {
             'words': true,
             'nonwords': false
