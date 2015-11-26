@@ -60,12 +60,12 @@ module.exports = {
         'no-debugger': 1,
         'no-extra-boolean-cast': 0,
         'no-extra-parens': 0,
+        'no-unexpected-multiline': 1,
         'valid-jsdoc': [2, {
             'requireReturn': true,
             'requireParamDescription': false,
             'requireReturnDescription': false
         }],
-        'no-unexpected-multiline': 1,
 
         // Best Practices
         'block-scoped-var': 1,
@@ -97,18 +97,18 @@ module.exports = {
         'no-use-before-define': 0,
 
         // Node.js
-        'no-process-exit': 0,
         'global-require': 0, // FIXME: we need refactor a plugin system to enable this.
+        'no-process-exit': 0,
 
         // Stylistic Issues
-        'indent': [2, 4, {
-            'SwitchCase': 1
-        }],
         'comma-spacing': [2, {
             'before': false,
             'after': true
         }],
         'comma-style': [2, 'last'],
+        'indent': [2, 4, {
+            'SwitchCase': 1
+        }],
         'jsx-quotes': [1, 'prefer-single'],
         'linebreak-style': [2, 'unix'],
         'no-mixed-spaces-and-tabs': 2,
