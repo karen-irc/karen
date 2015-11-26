@@ -77,6 +77,7 @@ module.exports = {
 
         // Best Practices
         'block-scoped-var': 1,
+        'consistent-return': 2,
         'curly': 2,
         'no-alert': 1,
         'no-caller': 1,
