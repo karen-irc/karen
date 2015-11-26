@@ -111,6 +111,7 @@ module.exports = {
 
         // Variables
         'init-declarations': [2, 'always'],
+        'no-delete-var': 2,
         'no-shadow': 0,
         'no-unused-vars': 0,
         'no-use-before-define': 0,
