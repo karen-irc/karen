@@ -79,6 +79,7 @@ module.exports = {
         'block-scoped-var': 1,
         'consistent-return': 2,
         'curly': 2,
+        'eqeqeq': 2,
         'no-alert': 1,
         'no-caller': 1,
         'no-case-declarations': 2,
