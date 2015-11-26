@@ -183,7 +183,7 @@ module.exports = {
         'react/no-did-update-set-state': [1, 'allow-in-func'],
         'react/no-direct-mutation-state': 1,
         'react/no-multi-comp': 0,
-        'react/no-set-state': 0,
+        'react/no-set-state': 0, // FIXME: Enable this rule as a waring
         'react/no-unknown-property': 2,
         'react/prefer-es6-class': 2,
         'react/prop-types': 1,
