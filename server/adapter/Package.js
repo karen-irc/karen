@@ -45,4 +45,8 @@ class Package {
     }
 }
 
-export default new Package(require(path.join(root, 'package.json')));
+/*eslint-disable global-require */
+// XXX: load config file as JS object.
+const config = require(path.join(root, 'package.json'));
+/*eslint-enable */
+export default new Package(config);

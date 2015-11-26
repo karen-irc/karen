@@ -18,7 +18,10 @@ program
             return;
         }
         const file = path.join(ConfigDriver.getHome(), 'users', name + '.json');
+        /*eslint-disable global-require */
+        // XXX: load config file as JS object.
         const user = require(file);
+        /*eslint-enable */
 
         const param = {
             prompt: 'Password: ',

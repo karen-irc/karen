@@ -97,7 +97,7 @@ module.exports = {
         'no-use-before-define': 0,
 
         // Node.js
-        'global-require': 0, // FIXME: we need refactor a plugin system to enable this.
+        'global-require': 2,
         'no-process-exit': 0,
 
         // Stylistic Issues
