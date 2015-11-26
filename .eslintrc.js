@@ -117,6 +117,8 @@ module.exports = {
         }],
         'jsx-quotes': [1, 'prefer-single'],
         'linebreak-style': [2, 'unix'],
+        'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
+        'no-new-object': 2, // In almost case, we don't have to use `new Object()` without any comments.
         'no-mixed-spaces-and-tabs': 2,
         'no-trailing-spaces': 2,
         'no-underscore-dangle': 0,
