@@ -60,6 +60,7 @@ module.exports = {
         'no-console': 0,
         'no-debugger': 1,
         'no-dupe-keys': 2,
+        'no-ex-assign': 2,
         'no-extra-boolean-cast': 0,
         'no-extra-parens': 0,
         'no-unexpected-multiline': 1,
