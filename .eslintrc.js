@@ -73,6 +73,7 @@ module.exports = {
             'requireParamDescription': false,
             'requireReturnDescription': false
         }],
+        'valid-typeof': 2,
 
         // Best Practices
         'block-scoped-var': 1,
