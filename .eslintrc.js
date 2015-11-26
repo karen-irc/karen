@@ -150,6 +150,7 @@ module.exports = {
         'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
         'no-new-object': 2, // In almost case, we don't have to use `new Object()` without any comments.
         'no-mixed-spaces-and-tabs': 2,
+        'no-spaced-func': 2,
         'no-trailing-spaces': 2,
         'no-underscore-dangle': 0,
         'no-unneeded-ternary': 2,
