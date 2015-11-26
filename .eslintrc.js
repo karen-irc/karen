@@ -64,6 +64,7 @@ module.exports = {
         'no-extra-boolean-cast': 0,
         'no-extra-parens': 0,
         'no-extra-semi': 1,
+        'no-func-assign': 2,
         'no-unexpected-multiline': 1,
         'valid-jsdoc': [2, {
             'requireReturn': true,
