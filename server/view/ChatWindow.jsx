@@ -25,7 +25,7 @@
 
 import * as React from 'react';
 
-export function ChatWindow(props) {
+export function ChatWindow() {
     return (
         <div id='chat' className='no-colors'></div>
     );

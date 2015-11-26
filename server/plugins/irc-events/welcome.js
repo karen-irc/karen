@@ -1,5 +1,4 @@
 import Message from '../../models/Message';
-import MessageType from '../../models/MessageType';
 
 /**
  *  @this   Client

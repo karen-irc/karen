@@ -173,7 +173,7 @@ class UserItem extends React.Component {
         );
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps) {
         const user = this.props.user;
         const nextUser = nextProps.user;
         const isSameMode = user.mode === nextUser.mode;
@@ -182,7 +182,7 @@ class UserItem extends React.Component {
         return !isSameMode || !isSameName;
     }
 
-    onClick(event) {
+    onClick() {
         const channelId = this.props.channelId;
         const user = this.props.user.name;
         if (user.indexOf('#') !== -1) {

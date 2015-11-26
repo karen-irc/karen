@@ -3,7 +3,6 @@ import path from 'path';
 import Client from './Client';
 import mkdirp from 'mkdirp';
 import ConfigDriver from './adapter/ConfigDriver';
-import moment from 'moment';
 import * as Rx from 'rx';
 
 /**
@@ -16,7 +15,6 @@ const pluckFromSet = function (set, path) {
     const result = [];
     for (const item of set) {
         if ( item[path] !== undefined ) {
-            const value = item[path];
             result.push(item);
         }
     }

@@ -15,7 +15,6 @@ export default function(network, chan, cmd, args) {
     if (args.length === 0 || args[0] === '') {
         return;
     }
-    const client = this;
     const irc = network.irc;
     let target = '';
     if (cmd === 'msg') {

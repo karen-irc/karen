@@ -59,7 +59,6 @@ export class SidebarChannelItem extends React.Component {
 
         const isClosing = this.state.isClosing;
 
-        const classValue = [];
         return (
             <div data-id={id}
                  data-target={'#js-chan-' + id}

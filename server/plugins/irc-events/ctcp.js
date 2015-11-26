@@ -2,7 +2,7 @@ import Package from '../../adapter/Package';
 
 const pkg = Package.getPackage();
 
-export default function(irc, network) {
+export default function(irc) {
     irc.on('message', function(data) {
         if (data.message.indexOf('\u0001') !== 0) {
             return;

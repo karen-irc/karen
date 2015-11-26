@@ -114,7 +114,7 @@ module.exports = {
         'no-catch-shadow': 2,
         'no-delete-var': 2,
         'no-shadow': 0,
-        'no-unused-vars': 0,
+        'no-unused-vars': 1,
         'no-use-before-define': 0,
 
         // Node.js
