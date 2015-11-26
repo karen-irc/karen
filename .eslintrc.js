@@ -39,6 +39,7 @@ module.exports = {
         'objectLiteralDuplicateProperties': true,
         'objectLiteralShorthandMethods': true,
         'objectLiteralShorthandProperties': true,
+        'templateStrings': true,
         'spread': true
     },
 
