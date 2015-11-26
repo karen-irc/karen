@@ -67,6 +67,7 @@ module.exports = {
         'no-func-assign': 2,
         'no-sparse-arrays': 2,
         'no-unexpected-multiline': 1,
+        'no-unreachable': 1,
         'valid-jsdoc': [2, {
             'requireReturn': true,
             'requireParamDescription': false,
