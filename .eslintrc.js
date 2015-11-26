@@ -161,6 +161,7 @@ module.exports = {
             'before': false,
             'after': true
         }],
+        'space-after-keywords': 1,
         'space-unary-ops': [2, {
             'words': true,
             'nonwords': false

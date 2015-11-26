@@ -53,7 +53,7 @@ const fetch = function fetch(url, cb) {
     let req = null;
     try {
         req = request.get(url);
-    } catch(e) {
+    } catch (e) {
         return;
     }
 
@@ -81,13 +81,13 @@ const fetch = function fetch(url, cb) {
             let type = null;
             try {
                 body = JSON.parse(data);
-            } catch(e) {
+            } catch (e) {
                 body = {};
             }
 
             try {
                 type = req.response.headers['content-type'].split(/ *; */).shift();
-            } catch(e) {
+            } catch (e) {
                 type = {};
             }
             const param = {

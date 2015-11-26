@@ -96,7 +96,7 @@ export default class Client {
 
         if (config.bind) {
             server.localAddress = config.bind;
-            if(args.tls) {
+            if (args.tls) {
                 const socket = net.connect(server);
                 server.socket = socket;
             }
@@ -297,7 +297,7 @@ export default class Client {
     save(force) {
         const config = ConfigDriver.getConfig();
 
-        if(config.public) {
+        if (config.public) {
             return;
         }
 
@@ -324,7 +324,7 @@ export default class Client {
             try {
                 json = JSON.parse(data);
                 json.networks = networks;
-            } catch(e) {
+            } catch (e) {
                 console.log(e);
                 return;
             }
