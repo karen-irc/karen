@@ -130,6 +130,9 @@ module.exports = {
         'no-sync': 1, // Bann to use sync method. FIXME: enable this rules as an error.
 
         // Stylistic Issues
+        'camelcase': [2, {
+            'properties': 'always'
+        }],
         'comma-spacing': [2, {
             'before': false,
             'after': true
