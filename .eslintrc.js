@@ -98,7 +98,13 @@ module.exports = {
 
         // Node.js
         'global-require': 2,
+        'no-mixed-requires': [2, {
+            'grouping': true,
+        }],
+        'no-new-require': 2,
+        'no-path-concat': 2,
         'no-process-exit': 0,
+        'no-sync': 1, // Bann to use sync method. FIXME: enable this rules as an error.
 
         // Stylistic Issues
         'comma-spacing': [2, {
