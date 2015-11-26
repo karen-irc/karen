@@ -99,6 +99,7 @@ module.exports = {
         'no-unused-expressions': 2,
         'no-useless-call': 1,
         'no-useless-concat': 1,
+        'no-proto': 2,
         'no-redeclare': 2,
         'no-return-assign': 2,
         'no-script-url': 2,
