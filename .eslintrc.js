@@ -143,6 +143,7 @@ module.exports = {
             'SwitchCase': 1
         }],
         'jsx-quotes': [1, 'prefer-single'],
+        'key-spacing': 0,
         'linebreak-style': [2, 'unix'],
         'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
         'no-new-object': 2, // In almost case, we don't have to use `new Object()` without any comments.
