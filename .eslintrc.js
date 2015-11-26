@@ -135,6 +135,7 @@ module.exports = {
             'after': true
         }],
         'comma-style': [2, 'last'],
+        'computed-property-spacing': [2, 'never'],
         'indent': [2, 4, {
             'SwitchCase': 1
         }],
