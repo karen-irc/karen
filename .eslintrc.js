@@ -115,6 +115,7 @@ module.exports = {
         'no-delete-var': 2,
         'no-shadow': 0,
         'no-undef-init': 2,
+        'no-undefined': 0,
         'no-unused-vars': 1,
         'no-use-before-define': 0,
 
