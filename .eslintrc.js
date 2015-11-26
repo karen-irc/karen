@@ -162,6 +162,7 @@ module.exports = {
             'after': true
         }],
         'space-after-keywords': 1,
+        'space-infix-ops': 1,
         'space-unary-ops': [2, {
             'words': true,
             'nonwords': false
