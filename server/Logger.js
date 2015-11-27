@@ -8,7 +8,7 @@ function write(user, network, chan, msg) {
     const logsPath = path.join(ConfigDriver.getHome(), 'logs', user, network);
     try {
         mkdirp.sync(logsPath);
-    } catch(e) {
+    } catch (e) {
         console.log(e);
         return;
     }

@@ -39,6 +39,7 @@ module.exports = {
         'objectLiteralDuplicateProperties': true,
         'objectLiteralShorthandMethods': true,
         'objectLiteralShorthandProperties': true,
+        'templateStrings': true,
         'spread': true
     },
 
@@ -58,25 +59,39 @@ module.exports = {
         'no-constant-condition': 1,
         'no-console': 0,
         'no-debugger': 1,
+        'no-dupe-keys': 2,
+        'no-ex-assign': 2,
         'no-extra-boolean-cast': 0,
         'no-extra-parens': 0,
+        'no-extra-semi': 1,
+        'no-func-assign': 2,
+        'no-sparse-arrays': 2,
+        'no-unexpected-multiline': 1,
+        'no-unreachable': 1,
         'valid-jsdoc': [2, {
             'requireReturn': true,
             'requireParamDescription': false,
             'requireReturnDescription': false
         }],
-        'no-unexpected-multiline': 1,
+        'valid-typeof': 2,
 
         // Best Practices
         'block-scoped-var': 1,
+        'consistent-return': 2,
         'curly': 2,
+        'eqeqeq': 2,
         'no-alert': 1,
-        'no-caller': 1,
+        'no-caller': 2,
         'no-case-declarations': 2,
         'no-div-regex': 2,
         'no-empty-pattern': 2,
         'no-eq-null': 2,
+        'no-eval': 2,
+        'no-fallthrough': 2,
+        'no-implied-eval': 2,
         'no-invalid-this': 1,
+        'no-new-func': 1,
+        'no-new-wrappers': 2,
         'no-param-reassign': [1, {
             'props': true
         }],
@@ -84,6 +99,11 @@ module.exports = {
         'no-unused-expressions': 2,
         'no-useless-call': 1,
         'no-useless-concat': 1,
+        'no-proto': 2,
+        'no-redeclare': 2,
+        'no-return-assign': 2,
+        'no-script-url': 2,
+        'no-with': 2,
         'radix': 2,
 
         // Strict Mode
@@ -91,31 +111,62 @@ module.exports = {
 
         // Variables
         'init-declarations': [2, 'always'],
+        'no-catch-shadow': 2,
+        'no-delete-var': 2,
         'no-shadow': 0,
-        'no-unused-vars': 0,
+        'no-undef-init': 2,
+        'no-undefined': 0,
+        'no-unused-vars': [1, {
+            'vars': 'all',
+            'args': 'after-used',
+        }],
         'no-use-before-define': 0,
 
         // Node.js
+        'global-require': 2,
+        'no-mixed-requires': [2, {
+            'grouping': true,
+        }],
+        'no-new-require': 2,
+        'no-path-concat': 2,
         'no-process-exit': 0,
-        'global-require': 0, // FIXME: we need refactor a plugin system to enable this.
+        'no-sync': 1, // Bann to use sync method. FIXME: enable this rules as an error.
 
         // Stylistic Issues
-        'indent': [2, 4, {
-            'SwitchCase': 1
+        'camelcase': [2, {
+            'properties': 'always'
         }],
         'comma-spacing': [2, {
             'before': false,
             'after': true
         }],
         'comma-style': [2, 'last'],
+        'computed-property-spacing': [2, 'never'],
+        'indent': [2, 4, {
+            'SwitchCase': 1
+        }],
         'jsx-quotes': [1, 'prefer-single'],
+        'key-spacing': 0,
         'linebreak-style': [2, 'unix'],
+        'new-parens': 2,
+        'new-cap': 1,
+        'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
+        'no-new-object': 2, // In almost case, we don't have to use `new Object()` without any comments.
         'no-mixed-spaces-and-tabs': 2,
-        'no-unneeded-ternary': 2,
+        'no-spaced-func': 2,
+        'no-trailing-spaces': 2,
         'no-underscore-dangle': 0,
+        'no-unneeded-ternary': 2,
         'operator-linebreak': [2, 'after'],
         'quotes': [2, 'single', 'avoid-escape'],
         'semi': [2, 'always'],
+        'semi-spacing':[2, {
+            'before': false,
+            'after': true
+        }],
+        'space-after-keywords': 1,
+        'space-infix-ops': 1,
+        'space-return-throw-case': 1,
         'space-unary-ops': [2, {
             'words': true,
             'nonwords': false
@@ -172,7 +223,7 @@ module.exports = {
         'react/no-did-update-set-state': [1, 'allow-in-func'],
         'react/no-direct-mutation-state': 1,
         'react/no-multi-comp': 0,
-        'react/no-set-state': 0,
+        'react/no-set-state': 0, // FIXME: Enable this rule as a waring
         'react/no-unknown-property': 2,
         'react/prefer-es6-class': 2,
         'react/prop-types': 1,

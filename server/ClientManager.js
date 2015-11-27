@@ -3,7 +3,6 @@ import path from 'path';
 import Client from './Client';
 import mkdirp from 'mkdirp';
 import ConfigDriver from './adapter/ConfigDriver';
-import moment from 'moment';
 import * as Rx from 'rx';
 
 /**
@@ -16,7 +15,6 @@ const pluckFromSet = function (set, path) {
     const result = [];
     for (const item of set) {
         if ( item[path] !== undefined ) {
-            const value = item[path];
             result.push(item);
         }
     }
@@ -97,14 +95,14 @@ export default class ClientManager {
                 'utf-8'
             );
         }
-        catch(e) {
+        catch (e) {
             console.log(e);
         }
 
         let json = null;
         try {
             json = JSON.parse(raw);
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
 
@@ -137,7 +135,7 @@ export default class ClientManager {
                     users.push(file.replace('.json', ''));
                 }
             });
-        } catch(e) {
+        } catch (e) {
             console.log(e);
             return null;
         }
@@ -170,7 +168,7 @@ export default class ClientManager {
                 JSON.stringify(user, null, '  '),
                 {mode: '0777'}
             );
-        } catch(e) {
+        } catch (e) {
             throw e;
         }
         return true;
@@ -190,7 +188,7 @@ export default class ClientManager {
         try {
             const userPath = path.join(ConfigDriver.getHome(), 'users', name + '.json');
             fs.unlinkSync(userPath);
-        } catch(e) {
+        } catch (e) {
             throw e;
         }
         return true;

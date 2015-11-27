@@ -25,7 +25,7 @@
 
 import * as React from 'react';
 
-export function Footer(props) {
+export function Footer() {
     return (
         <footer id='footer'>
             <button className='icon sign-in'

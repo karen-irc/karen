@@ -1,4 +1,4 @@
-/*global moment:true, stringcolor:true, parseForIRCMessage:true */
+/*global parseForIRCMessage:true */
 /**
  * @license MIT License
  *

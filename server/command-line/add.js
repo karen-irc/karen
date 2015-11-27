@@ -23,7 +23,7 @@ const add = function add(manager, name, password) {
 program
     .command('add <name>')
     .description('Add a new user')
-    .action(function(name, password) {
+    .action(function(name) {
         const usersPath = path.join(ConfigDriver.getHome(), 'users');
         try {
             mkdirp.sync(usersPath);
