@@ -116,7 +116,10 @@ module.exports = {
         'no-shadow': 0,
         'no-undef-init': 2,
         'no-undefined': 0,
-        'no-unused-vars': 1,
+        'no-unused-vars': [1, {
+            'vars': 'all',
+            'args': 'after-used',
+        }],
         'no-use-before-define': 0,
 
         // Node.js
