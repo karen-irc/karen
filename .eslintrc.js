@@ -29,6 +29,8 @@
 // ESLint Configuration Files enables to include comments.
 // http://eslint.org/docs/configuring/#comments-in-configuration-files
 module.exports = {
+
+    // Derive recommended rules to detect bad smells even if eslint added a new recommended one but we forgot to add them to ours.
     'extends': 'eslint:recommended',
 
     'ecmaFeatures': {
