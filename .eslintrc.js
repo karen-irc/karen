@@ -39,8 +39,8 @@ module.exports = {
         'objectLiteralDuplicateProperties': true,
         'objectLiteralShorthandMethods': true,
         'objectLiteralShorthandProperties': true,
+        'spread': true,
         'templateStrings': true,
-        'spread': true
     },
 
     'env': {
@@ -56,8 +56,8 @@ module.exports = {
     'rules': {
         // Possible Errors
         'comma-dangle': [0, 'never'],
-        'no-constant-condition': 1,
         'no-console': 0,
+        'no-constant-condition': 1,
         'no-debugger': 1,
         'no-dupe-keys': 2,
         'no-ex-assign': 2,
@@ -95,11 +95,11 @@ module.exports = {
         'no-param-reassign': [1, {
             'props': true
         }],
+        'no-proto': 2,
         'no-throw-literal': 2,
         'no-unused-expressions': 2,
         'no-useless-call': 1,
         'no-useless-concat': 1,
-        'no-proto': 2,
         'no-redeclare': 2,
         'no-return-assign': 2,
         'no-script-url': 2,
@@ -148,11 +148,11 @@ module.exports = {
         'jsx-quotes': [1, 'prefer-single'],
         'key-spacing': 0,
         'linebreak-style': [2, 'unix'],
-        'new-parens': 2,
         'new-cap': 1,
+        'new-parens': 2,
         'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
-        'no-new-object': 2, // In almost case, we don't have to use `new Object()` without any comments.
         'no-mixed-spaces-and-tabs': 2,
+        'no-new-object': 2, // In almost case, we don't have to use `new Object()` without any comments.
         'no-spaced-func': 2,
         'no-trailing-spaces': 2,
         'no-underscore-dangle': 0,
