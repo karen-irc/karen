@@ -22,11 +22,10 @@ export default function(network, chan, cmd, args) {
         case 'slap':
             slap = 'slaps ' + args[0] + ' around a bit with a large trout';
         /* XXX: fall through */
-        /*eslint-enable */
 
         /* eslint-disable indent */
         case 'me': {
-        /* eslint-enable */
+        /*eslint-enable */
             const client = this;
             const irc = network.irc;
             if (args.length === 0) {
