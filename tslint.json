@@ -6,6 +6,7 @@
         "member-ordering": [true, "variables-before-functions"],
         "no-arg": true,
         "no-conditional-assignment": true,
+        "no-construct": true,
         "no-constructor-vars": true,
         "no-duplicate-key": true,
         "no-duplicate-variable": true,
