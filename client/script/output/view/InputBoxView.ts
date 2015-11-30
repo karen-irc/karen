@@ -56,14 +56,11 @@ export class InputBoxView {
     private _element: Element;
     private _domain: DomainState;
     private _currentNetworkId: number;
-    private _currentChannelId: ChannelId;
     private _currntChannel: Option<Channel>;
 
     private _textInput: HTMLInputElement;
     private _nickElement: HTMLElement;
-    private _disposeFocus: Rx.IDisposable;
-    private _disposeSelect: Rx.IDisposable;
-    private _disposeNetwork: Rx.IDisposable;
+    private _disposer: Rx.IDisposable;
 
     private _inputVal: InputValue;
     private _lastSuggestionCache: Array<string>;
@@ -73,33 +70,35 @@ export class InputBoxView {
         this._element = element;
         this._domain = domain;
         this._currentNetworkId = -1;
-        this._currentChannelId = -1;
         this._currntChannel = new None<Channel>();
         this._textInput = <HTMLInputElement>element.querySelector('#js-input');
         this._nickElement = <HTMLElement>element.querySelector('#js-nick');
 
-        this._disposeFocus = UIActionCreator.dispatcher().focusInputBox.subscribe(() => {
-            this._focusInput();
-        });
+        const disposer = new Rx.CompositeDisposable();
+        this._disposer = disposer;
 
-        this._disposeSelect = domain.getSelectedChannel().subscribe((id: ChannelId) => {
+
+        disposer.add(UIActionCreator.dispatcher().focusInputBox.subscribe(() => {
+            this._focusInput();
+        }));
+
+        disposer.add(domain.getSelectedChannel().subscribe((id: ChannelId) => {
             const channel = this._domain.networkSet.getChannelById(id);
             const networkId = channel.map(function(channel: Channel){
                 return channel.getNetwork().id;
             }).unwrap();
 
             this._currentNetworkId = networkId;
-            this._currentChannelId = id;
             this._currntChannel = channel;
-        });
+        }));
 
-        this._disposeNetwork = domain.getNetworkDomain().updatedNickname().subscribe((data) => {
+        disposer.add(domain.getNetworkDomain().updatedNickname().subscribe((data) => {
             if (this._currentNetworkId !== data.networkId) {
                 return;
             }
 
             this.setNickname(data.nick);
-        });
+        }));
 
         this._inputVal = new InputValue('', new None<number>());
         this._lastSuggestionCache = null;
@@ -218,7 +217,12 @@ export class InputBoxView {
     }
 
     clearLog(): void {
-        MessageActionCreator.clear(this._currentChannelId);
+        if (this._currntChannel.isNone) {
+            return;
+        }
+
+        const channel = this._currntChannel.unwrap();
+        MessageActionCreator.clear(channel.id);
     }
 
     onInput(aEvent: Event): void {
