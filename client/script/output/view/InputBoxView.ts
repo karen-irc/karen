@@ -25,13 +25,31 @@
 
 /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 
+import {Option, Some, None} from 'option-t';
 import * as Rx from 'rx';
 
+import {CommandList} from '../../domain/CommandType';
 import {DomainState} from '../../domain/DomainState';
 import {Channel} from '../../domain/Channel';
 import {ChannelId} from '../../domain/ChannelDomain';
+import {User} from '../../domain/User';
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
+
+const words: Array<string> = CommandList.map(function(item){
+    return item.toLowerCase();
+});
+
+class InputValue {
+
+    actual: string;
+    suggstedIndex: Option<number>;
+
+    constructor(actual: string, suggstedIndex: Option<number>) {
+        this.actual = actual;
+        this.suggstedIndex = suggstedIndex;
+    }
+}
 
 export class InputBoxView {
 
@@ -39,17 +57,24 @@ export class InputBoxView {
     private _domain: DomainState;
     private _currentNetworkId: number;
     private _currentChannelId: ChannelId;
+    private _currntChannel: Option<Channel>;
+
     private _textInput: HTMLInputElement;
     private _nickElement: HTMLElement;
     private _disposeFocus: Rx.IDisposable;
     private _disposeSelect: Rx.IDisposable;
     private _disposeNetwork: Rx.IDisposable;
 
+    private _inputVal: InputValue;
+    private _lastSuggestionCache: Array<string>;
+    private _isSuggestion: boolean;
+
     constructor(domain: DomainState, element: Element) {
         this._element = element;
         this._domain = domain;
         this._currentNetworkId = -1;
         this._currentChannelId = -1;
+        this._currntChannel = new None<Channel>();
         this._textInput = <HTMLInputElement>element.querySelector('#js-input');
         this._nickElement = <HTMLElement>element.querySelector('#js-nick');
 
@@ -65,6 +90,7 @@ export class InputBoxView {
 
             this._currentNetworkId = networkId;
             this._currentChannelId = id;
+            this._currntChannel = channel;
         });
 
         this._disposeNetwork = domain.getNetworkDomain().updatedNickname().subscribe((data) => {
@@ -75,16 +101,17 @@ export class InputBoxView {
             this.setNickname(data.nick);
         });
 
+        this._inputVal = new InputValue('', new None<number>());
+        this._lastSuggestionCache = null;
+        this._isSuggestion = false;
+
         this._init();
     }
 
     private _init(): void {
         this._element.addEventListener('submit', this);
         this._textInput.addEventListener('keydown', this);
-    }
-
-    get textInput(): HTMLInputElement {
-        return this._textInput;
+        this._textInput.addEventListener('input', this);
     }
 
     handleEvent(aEvent: Event): void {
@@ -94,6 +121,9 @@ export class InputBoxView {
                 break;
             case 'keydown':
                 this.onKeydown(<KeyboardEvent>aEvent);
+                break;
+            case 'input':
+                this.onInput(aEvent);
                 break;
         }
     }
@@ -122,31 +152,100 @@ export class InputBoxView {
             return;
         }
 
-        const pressShiftKey = aEvent.shiftKey;
-        const pressCtrlKey = aEvent.ctrlKey;
-        const pressMetaKey = aEvent.metaKey;
-        if (pressCtrlKey || pressMetaKey) {
-            return;
-        }
-
         const keyCode = aEvent.keyCode;
         const key = aEvent.key;
-        const isKeyK = (key === 'k' || keyCode === 75); // DOM_VK_K
-        const isKeyL = (key === 'l' || keyCode === 76); // DOM_VK_L
 
-        const shouldClear = (isKeyL && pressCtrlKey) ||
-                            (isKeyL && pressCtrlKey && pressShiftKey) ||
-                            (isKeyK && pressMetaKey);
-        if (!shouldClear) {
+        const isTabKey = (key === 'Tab' || keyCode === 9); // DOM_VK_TAB
+        if (isTabKey) {
+            aEvent.preventDefault();
+            this.autocomplete();
             return;
         }
+        else {
+            const pressShiftKey = aEvent.shiftKey;
+            const pressCtrlKey = aEvent.ctrlKey;
+            const pressMetaKey = aEvent.metaKey;
+            if (pressCtrlKey || pressMetaKey) {
+                return;
+            }
 
-        event.preventDefault();
-        MessageActionCreator.clear(this._currentChannelId);
+            const isKeyK = (key === 'k' || keyCode === 75); // DOM_VK_K
+            const isKeyL = (key === 'l' || keyCode === 76); // DOM_VK_L
+
+            const shouldClear = (isKeyL && pressCtrlKey) ||
+                                (isKeyL && pressCtrlKey && pressShiftKey) ||
+                                (isKeyK && pressMetaKey);
+            if (!shouldClear) {
+                return;
+            }
+
+            aEvent.preventDefault();
+            this.clearLog();
+        }
     }
 
     setNickname(nickname: string): void {
         const target = this._nickElement;
         target.textContent = nickname + ':';
+    }
+
+    autocomplete(): void {
+        const currentValue = this._inputVal.actual;
+        if (currentValue === '') {
+            return;
+        }
+
+        let index = 0;
+        if (this._lastSuggestionCache === null && this._inputVal.suggstedIndex.isNone) {
+            const suggestion = this._createSuggestion(currentValue);
+            index = 0;
+
+            this._lastSuggestionCache = suggestion;
+        }
+        else {
+            const newly = this._inputVal.suggstedIndex.unwrap() + 1;
+            index = (newly > (this._lastSuggestionCache.length - 1)) ? 0 : newly;
+        }
+
+        if (this._lastSuggestionCache.length === 0) {
+            return;
+        }
+
+        this._inputVal = new InputValue(this._inputVal.actual, new Some(index));
+        this._isSuggestion = true;
+        this._textInput.value = this._lastSuggestionCache[index];
+        this._isSuggestion = false;
+    }
+
+    clearLog(): void {
+        MessageActionCreator.clear(this._currentChannelId);
+    }
+
+    onInput(aEvent: Event): void {
+        if (this._isSuggestion) {
+            return;
+        }
+
+        const current = this._textInput.value;
+        this._inputVal = new InputValue(current, new None<number>());
+        this._lastSuggestionCache = null;
+    }
+
+    private _createSuggestion(value: string): Array<string> {
+        const candidate = [].concat(words);
+        const users: Option<Array<User>> = this._currntChannel.map(function(channel){
+            return channel.userList();
+        });
+
+        if (users.isSome) {
+            for (let user of users.unwrap()) {
+                const n = user.nickname;
+                candidate.push(n.toLowerCase());
+            }
+        }
+
+        return candidate.filter(function(word: string, item: string){
+            return item.indexOf(word) === 0;
+        }.bind(null, value.toLowerCase()));
     }
 }
