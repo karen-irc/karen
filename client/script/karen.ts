@@ -15,7 +15,6 @@ import AppActionCreator from './intent/action/AppActionCreator';
 import {AppView} from './output/view/AppView';
 import {AuthRepository} from './adapter/AuthRepository';
 import {Channel} from './domain/Channel';
-import {CommandList} from './domain/CommandType';
 import {ConfigRepository} from './adapter/ConfigRepository';
 import {CookieDriver} from './adapter/CookieDriver';
 import {DomainState} from './domain/DomainState';
@@ -31,7 +30,6 @@ import {SettingStore} from './output/viewmodel/SettingStore';
 import {SocketIoDriver} from './adapter/SocketIoDriver';
 import {ToggleItem} from './output/view/ToggleItem';
 import UIActionCreator from './intent/action/UIActionCreator';
-import {User} from './domain/User';
 import {WindowPresenter} from './output/WindowPresenter';
 
 declare const momoent: any;
@@ -189,9 +187,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    // FIXME: Move to InputBoxViewController
-    $(inputBox.textInput).tab(complete, {hint: false});
-
     const shouldShowLatestInChannel = UIActionCreator.dispatcher().showLatestInChannel.debounce(100)
         .merge(globalState.getSelectedChannel());
     shouldShowLatestInChannel.subscribe(function(channelId){
@@ -263,28 +258,4 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     AppActionCreator.dispatcher().signout.subscribe(function(){
         auth.removeToken();
     });
-
-    function complete(word: string) {
-        const words: Array<string> = CommandList.map(function(item){
-            return item.toLowerCase();
-        });
-        const channel: Option<Channel> = globalState.currentTab.channelId.flatMap(function(channelId){
-            const channel = globalState.networkSet.getChannelById(channelId);
-            return channel;
-        });
-        const users: Option<Array<User>> = channel.map(function(channel){
-            return channel.userList();
-        });
-
-        if (users.isSome) {
-            for (let user of users.unwrap()) {
-                const n = user.nickname;
-                words.push(n.toLowerCase());
-            }
-        }
-
-        return words.filter(function(word: string, item: string){
-            return item.indexOf(word) === 0;
-        }.bind(null, word.toLowerCase()));
-    }
 });

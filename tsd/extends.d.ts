@@ -37,7 +37,3 @@ declare module ExtendedExistedInterface {
 
 interface Navigator {
 }
-
-interface JQuery {
-    tab: (args: (v: string) => Array<string>, options: any) => JQuery;
-}
