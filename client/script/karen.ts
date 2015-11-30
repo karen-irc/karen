@@ -1,8 +1,7 @@
-/*global $:true, moment: true */
+/*global moment: true */
 
 /// <reference path="../../tsd/extends.d.ts" />
 /// <reference path="../../node_modules/rx/ts/rx.all.es6.d.ts" />
-/// <reference path="../../tsd/third_party/jquery/jquery.d.ts" />
 /// <reference path="../../tsd/third_party/react/react.d.ts" />
 /// <reference path="../../tsd/third_party/react/react-dom.d.ts" />
 
@@ -62,37 +61,42 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'));
     /* tslint:enable */
 
-    const chat = $('#chat');
+    const chat = document.getElementById('chat');
 
     messageGateway.disconnected().subscribe(function(){
         AppActionCreator.reload();
     });
 
     socket.auth().subscribe(function(data: any) {
-        const body: JQuery = $('body');
-        const login: JQuery = $('#sign-in');
-        if (!login.length) {
+        const body: HTMLElement = window.document.body;
+        const login = document.getElementById('sign-in');
+        if (login === null) {
             AppActionCreator.reload();
             return;
         }
-        login.find('.btn').prop('disabled', false);
+        Array.from(login.querySelectorAll('.btn')).forEach(function(element: HTMLInputElement){
+            element.disabled = false;
+        });
         const token: Option<string> = auth.getToken();
         if (token.isSome) {
             auth.removeToken();
             socket.emit('auth', {token: token.unwrap()});
         }
-        if (body.hasClass('signed-out')) {
-            const error = login.find('.error');
-            error.show().closest('form').one('submit', function() {
-                error.hide();
+        if (body.classList.contains('signed-out')) {
+            const error = <HTMLElement>login.querySelector('.error');
+            error.style.display = '';
+            const form = login.querySelector('.container');
+            form.addEventListener('submit', function onSubmit() {
+                form.removeEventListener('submit', onSubmit);
+                error.style.display = 'none';
             });
         }
         if (token.isNone) {
-            body.addClass('signed-out');
+            body.classList.add('signed-out');
         }
-        const input: JQuery = login.find('input[name=\'user\']');
-        if (input.val() === '') {
-            input.val(auth.getUser().unwrapOr(''));
+        const input = <HTMLInputElement>login.querySelector('input[name=\'user\']');
+        if (input.value === '') {
+            input.value = auth.getUser().unwrapOr('');
         }
         if (token.isSome) {
             return;
@@ -102,7 +106,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     globalState.getNetworkDomain().initialState().subscribe(function(data) {
-
         if (data.token) {
             auth.setToken(data.token);
         }
@@ -114,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     globalState.getCurrentTab().subscribe(function(state){
-        chat.get(0).setAttribute('data-js-id', String(state.id));
+        chat.setAttribute('data-js-id', String(state.id));
         messageGateway.saveCurrentTab(state);
     });
 
@@ -124,22 +127,22 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             list: data.messages,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
-        const chan = chat.find('#js-chan-' + target);
-        (<HTMLElement>chan.find('.messages').get(0)).insertAdjacentHTML('afterbegin', html);
+        const chan = document.getElementById('js-chan-' + target);
+        (<HTMLElement>chan.querySelector('.messages')).insertAdjacentHTML('afterbegin', html);
         if (data.messages.length !== 100) {
-            chan.find('.show-more').removeClass('show');
+            chan.querySelector('.show-more').classList.remove('show');
         }
     });
 
     const options = config.get();
 
     socket.toggle().subscribe(function(data) {
-        const toggle = $('#toggle-' + data.id);
+        const toggle = document.getElementById('toggle-' + data.id);
         const view = React.createElement(ToggleItem, {
             item: data,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
-        toggle.get(0).parentElement.insertAdjacentHTML('afterend', html);
+        toggle.parentElement.insertAdjacentHTML('afterend', html);
         switch (data.type) {
         case 'link':
             if (options.links) {
@@ -167,24 +170,41 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             'part',
             'quit',
         ]);
+
+        const classList = chat.classList;
         if (set.has(name)) {
-            chat.toggleClass('hide-' + name, !value);
+            const className = 'hide-' + name;
+            if (!value) {
+                classList.remove(className);
+            }
+            else {
+                classList.add(className);
+            }
         }
 
         if (name === 'colors') {
-            chat.toggleClass('no-colors', !value);
+            if (!value) {
+                classList.remove('no-colors');
+            }
+            else {
+                classList.add('no-colors');
+            }
         }
     }));
 
     UIActionCreator.dispatcher().toggleLeftPane.subscribe(function (shouldOpen) {
-        if (shouldOpen) {
-            chat.find('.chat').each(function(i, element) {
-                element.addEventListener('click', function onClick(aEvent) {
-                    aEvent.currentTarget.removeEventListener('click', onClick);
-                    UIActionCreator.toggleLeftPane(false);
-                });
-            });
+        if (!shouldOpen) {
+            return;
         }
+
+        const nodelist: NodeListOf<Element> = chat.querySelectorAll('.chat');
+        const list: Array<Element> = Array.from(nodelist);
+        list.forEach(function(element: Element){
+            element.addEventListener('click', function onClick(aEvent: Event) {
+                aEvent.currentTarget.removeEventListener('click', onClick);
+                UIActionCreator.toggleLeftPane(false);
+            });
+        });
     });
 
     const shouldShowLatestInChannel = UIActionCreator.dispatcher().showLatestInChannel.debounce(100)
@@ -215,15 +235,15 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     let top = 1;
     globalState.getSelectedChannel().subscribe(function(id){
-        const target = '#js-chan-' + String(id);
+        const target = document.getElementById('js-chan-' + String(id));
         UIActionCreator.toggleLeftPane(false);
-        $('#windows .active').removeClass('active');
+        const active = document.querySelector('#windows .active');
+        if (!!active) {
+            active.classList.remove('active');
+        }
 
-        const chan = $(target)
-            .addClass('active')
-            .css('z-index', top++)
-            .find('.chat')
-            .end();
+        target.classList.add('active');
+        (<HTMLElement>target).style.zIndex = String(top++);
 
         const channel = globalState.networkSet.getChannelById(id);
         const network = channel.map(function(channel: Channel){
@@ -236,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             inputBox.setNickname(nickname);
         }
 
-        if (screen.width > 768 && chan.hasClass('chan')) {
+        if (screen.width > 768 && target.classList.contains('chan')) {
             UIActionCreator.focusInputBox();
         }
     });
@@ -245,14 +265,16 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         const target = document.querySelector('#' + id);
 
         UIActionCreator.toggleLeftPane(false);
-        $('#windows .active').removeClass('active');
+        const active = document.querySelector('#windows .active');
+        if (!!active) {
+            active.classList.remove('active');
+        }
 
-        $(target)
-            .addClass('active')
-            .trigger('show')
-            .css('z-index', top++)
-            .find('.chat')
-            .end();
+        target.classList.add('active');
+        const evt = document.createEvent('CustomEvent');
+        evt.initCustomEvent('show', true, true, null);
+        target.dispatchEvent(evt);
+        (<HTMLElement>target).style.zIndex = String(top++);
     });
 
     AppActionCreator.dispatcher().signout.subscribe(function(){

@@ -1,4 +1,4 @@
-/*global jQuery:true, moment:true */
+/*global moment:true */
 /**
  * @license MIT License
  *
@@ -23,8 +23,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/// <reference path="../../../../tsd/third_party/jquery/jquery.d.ts" />
 
 import {CookieDriver} from '../../adapter/CookieDriver';
 import {SocketIoDriver} from '../../adapter/SocketIoDriver';
@@ -94,9 +92,9 @@ export class SignInView implements EventListenerObject {
         const values: { user: string, [key: string]: any, } = {
             user: '',
         };
-        jQuery(target).serializeArray().forEach(function(obj) {
-            if (obj.value !== '') {
-                values[obj.name] = obj.value;
+        Array.from(target.querySelectorAll('input')).forEach(function(element: HTMLInputElement){
+            if (element.value !== '') {
+                values[element.name] = element.value;
             }
         });
 

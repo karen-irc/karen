@@ -23,8 +23,6 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="./third_party/jquery/jquery.d.ts"/>
-
 /**
  *  This type defenition provide some additional intafaces which extends exist ones.
  *

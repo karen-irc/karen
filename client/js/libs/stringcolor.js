@@ -7,36 +7,6 @@
  *
  * Version 0.2.0
  */
-(function($) {
-	/**
-	 * Generate hex color code from a string.
-	 *
-	 * @param {String} string
-	 */
-	$.stringcolor = function(string) {
-		return "#" + stringcolor(string);
-	};
-
-	/**
-	 * Set one or more CSS properties for the set of matched elements.
-	 *
-	 * @param {String|Array} property
-	 * @param {String} string
-	 */
-	$.fn.stringcolor = function(property, string) {
-		if (!property || !string) {
-			throw new Error("$(selector).string_to_color() takes 2 arguments");
-		}
-		return this.each(function() {
-			var props = [].concat(property);
-			var $this = $(this);
-			$.map(props, function(p) {
-				$this.css(p, $.stringcolor(string));
-			});
-		});
-	};
-})(jQuery);
-
 /*!
  * Name: string_to_color
  * Author: Brandon Corbin [code@icorbin.com]
