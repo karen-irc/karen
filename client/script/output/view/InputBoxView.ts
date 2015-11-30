@@ -61,9 +61,7 @@ export class InputBoxView {
 
     private _textInput: HTMLInputElement;
     private _nickElement: HTMLElement;
-    private _disposeFocus: Rx.IDisposable;
-    private _disposeSelect: Rx.IDisposable;
-    private _disposeNetwork: Rx.IDisposable;
+    private _disposer: Rx.IDisposable;
 
     private _inputVal: InputValue;
     private _lastSuggestionCache: Array<string>;
@@ -78,11 +76,15 @@ export class InputBoxView {
         this._textInput = <HTMLInputElement>element.querySelector('#js-input');
         this._nickElement = <HTMLElement>element.querySelector('#js-nick');
 
-        this._disposeFocus = UIActionCreator.dispatcher().focusInputBox.subscribe(() => {
-            this._focusInput();
-        });
+        const disposer = new Rx.CompositeDisposable();
+        this._disposer = disposer;
 
-        this._disposeSelect = domain.getSelectedChannel().subscribe((id: ChannelId) => {
+
+        disposer.add(UIActionCreator.dispatcher().focusInputBox.subscribe(() => {
+            this._focusInput();
+        }));
+
+        disposer.add(domain.getSelectedChannel().subscribe((id: ChannelId) => {
             const channel = this._domain.networkSet.getChannelById(id);
             const networkId = channel.map(function(channel: Channel){
                 return channel.getNetwork().id;
@@ -91,15 +93,15 @@ export class InputBoxView {
             this._currentNetworkId = networkId;
             this._currentChannelId = id;
             this._currntChannel = channel;
-        });
+        }));
 
-        this._disposeNetwork = domain.getNetworkDomain().updatedNickname().subscribe((data) => {
+        disposer.add(domain.getNetworkDomain().updatedNickname().subscribe((data) => {
             if (this._currentNetworkId !== data.networkId) {
                 return;
             }
 
             this.setNickname(data.nick);
-        });
+        }));
 
         this._inputVal = new InputValue('', new None<number>());
         this._lastSuggestionCache = null;
