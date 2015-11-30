@@ -48,7 +48,6 @@ const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
 
 const CLIENT_SRC_JS = [
     'client/js/libs/jquery.js',
-    'client/js/libs/jquery/**/*.js',
     path.resolve(NPM_MOD_DIR, './moment/moment.js'),
     'client/js/libs/stringcolor.js',
     'client/js/libs/parse.js',
