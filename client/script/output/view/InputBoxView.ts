@@ -56,7 +56,6 @@ export class InputBoxView {
     private _element: Element;
     private _domain: DomainState;
     private _currentNetworkId: number;
-    private _currentChannelId: ChannelId;
     private _currntChannel: Option<Channel>;
 
     private _textInput: HTMLInputElement;
@@ -71,7 +70,6 @@ export class InputBoxView {
         this._element = element;
         this._domain = domain;
         this._currentNetworkId = -1;
-        this._currentChannelId = -1;
         this._currntChannel = new None<Channel>();
         this._textInput = <HTMLInputElement>element.querySelector('#js-input');
         this._nickElement = <HTMLElement>element.querySelector('#js-nick');
@@ -91,7 +89,6 @@ export class InputBoxView {
             }).unwrap();
 
             this._currentNetworkId = networkId;
-            this._currentChannelId = id;
             this._currntChannel = channel;
         }));
 
@@ -220,7 +217,12 @@ export class InputBoxView {
     }
 
     clearLog(): void {
-        MessageActionCreator.clear(this._currentChannelId);
+        if (this._currntChannel.isNone) {
+            return;
+        }
+
+        const channel = this._currntChannel.unwrap();
+        MessageActionCreator.clear(channel.id);
     }
 
     onInput(aEvent: Event): void {
