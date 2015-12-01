@@ -1,4 +1,7 @@
+import os from 'os';
 import path from 'path';
+
+const HOME = path.resolve(os.homedir(), './.karen');
 
 class ConfigDriver {
     constructor(defaultHome) {
@@ -18,7 +21,5 @@ class ConfigDriver {
         this._home = home;
     }
 }
-
-const HOME = (process.env.HOME || process.env.USERPROFILE) + '/.karen';
 
 export default new ConfigDriver(HOME);
