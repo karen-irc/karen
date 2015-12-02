@@ -5,7 +5,7 @@
         "module": "es2015",
         "moduleResolution": "node",
         "noImplicitAny": true,
-        "noImplicitReturns": false, // FIXME: #503 we'd like to enable this option again.
+        "noImplicitReturns": true,
         "outDir": "./dist/client/__obj/",
         "pretty": true,
         "preserveConstEnums": true,
