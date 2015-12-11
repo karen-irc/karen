@@ -77,7 +77,7 @@
     "babel-preset-react": "^6.3.13",
     "babelify": "^7.2.0",
     "browserify": "^12.0.1",
-    "del": "^2.1.0",
+    "del": "^2.2.0",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.11.2",
     "glob": "^6.0.1",
