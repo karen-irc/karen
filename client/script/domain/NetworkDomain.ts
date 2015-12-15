@@ -51,7 +51,7 @@ export class NetworkDomain {
     private _notableMsgDispatcher: Rx.Subject<RecievedMessage>;
     private _notifiableMsgDispatcher: Rx.Subject<RecievedMessage>;
 
-    private _subscribed: Rx.CompositeDisposable;
+    private _subscribed: Rx.Subscription;
 
     constructor(gateway: MessageGateway,
                 data: Network,
@@ -112,18 +112,18 @@ export class NetworkDomain {
             channel.dispose();
         }).share();
 
-        this._subscribed = new Rx.CompositeDisposable();
+        this._subscribed = new Rx.Subscription();
         this._subscribed.add(this._nickname.subscribe((nickname: string) => {
-            this._nickUpdater.onNext({
+            this._nickUpdater.next({
                 networkId: this._data.id,
                 nick: nickname,
             });
         }));
         this._subscribed.add(this._joinedChannel.subscribe((channel) => {
-            this._joinedUpdater.onNext(channel);
+            this._joinedUpdater.next(channel);
         }));
         this._subscribed.add(this._partedChannel.subscribe((channel) => {
-            this._partedUpdater.onNext(channel);
+            this._partedUpdater.next(channel);
         }));
     }
 
@@ -135,7 +135,7 @@ export class NetworkDomain {
 
         this._notableMsgDispatcher = null;
 
-        this._subscribed.dispose();
+        this._subscribed.unsubscribe();
         this._subscribed = null;
     }
 

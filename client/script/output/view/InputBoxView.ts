@@ -58,7 +58,7 @@ export class InputBoxView {
 
     private _textInput: HTMLInputElement;
     private _nickElement: HTMLElement;
-    private _disposer: Rx.IDisposable;
+    private _disposer: Rx.Subscription;
 
     private _inputVal: InputValue;
     private _lastSuggestionCache: Array<string>;
@@ -72,7 +72,7 @@ export class InputBoxView {
         this._textInput = <HTMLInputElement>element.querySelector('#js-input');
         this._nickElement = <HTMLElement>element.querySelector('#js-nick');
 
-        const disposer = new Rx.CompositeDisposable();
+        const disposer = new Rx.Subscription();
         this._disposer = disposer;
 
 

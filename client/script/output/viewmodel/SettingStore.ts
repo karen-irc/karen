@@ -40,7 +40,7 @@ export class SettingStore {
     _repository: ConfigRepository;
     _setting: Setting;
     _initStream: Rx.Observable<SetValue>;
-    _disposeUpdate: Rx.IDisposable;
+    _disposeUpdate: Rx.Subscription;
 
     constructor(config: ConfigRepository) {
         this._subject = new Rx.Subject<SetValue>();
@@ -49,15 +49,15 @@ export class SettingStore {
 
         this._setting = config.get();
 
-        this._initStream = Rx.Observable.create<SetValue>((observer) => {
+        this._initStream = Rx.Observable.create((observer: Rx.Subscriber<SetValue>) => {
             const keys = Object.keys(this._setting);
             for (let key of keys) {
-                observer.onNext({
+                observer.next({
                     name: key,
                     value: this._setting[key],
                 });
             }
-            observer.onCompleted();
+            observer.complete();
         });
 
         this._disposeUpdate = SettingActionCreator.dispatcher().setOption.subscribe((data) => {
@@ -65,7 +65,7 @@ export class SettingStore {
         });
     }
 
-    subscribe(observer: Rx.Observer<SetValue>): Rx.IDisposable {
+    subscribe(observer: Rx.Subscriber<SetValue>): Rx.Subscription {
         return Rx.Observable.merge(
             this._subject,
             this._initStream
@@ -77,7 +77,7 @@ export class SettingStore {
         setting[name] = value;
         this._repository.set(setting);
 
-        this._subject.onNext({
+        this._subject.next({
             name: name,
             value: value,
         });

@@ -44,7 +44,7 @@ export class ConnectSettingContext implements ViewContext {
 
     private _action: ConnectionActionCreator;
     private _store: ConnectionStore;
-    private _viewDisposer: Rx.IDisposable;
+    private _viewDisposer: Rx.Subscription;
 
     constructor(gateway: MessageGateway) {
         if (!gateway) {
@@ -57,7 +57,7 @@ export class ConnectSettingContext implements ViewContext {
     }
 
     private _destroy(): void {
-        this._viewDisposer.dispose();
+        this._viewDisposer.unsubscribe();
         this._store.dispose();
         this._action.dispose();
 
@@ -77,8 +77,8 @@ export class ConnectSettingContext implements ViewContext {
     onResume(mountpoint: Element): void {}
     onSuspend(mountpoint: Element): void {}
 
-    private _mount(mountpoint: Element): Rx.IDisposable {
-        const observer: Rx.Observer<ConnectionValue> = Rx.Observer.create((data: ConnectionValue) => {
+    private _mount(mountpoint: Element): Rx.Subscription {
+        const observer: Rx.Subscriber<ConnectionValue> = Rx.Subscriber.create((data: ConnectionValue) => {
             const view = React.createElement(ConnectSettingWindow, {
                 action: this._action,
                 data: data,

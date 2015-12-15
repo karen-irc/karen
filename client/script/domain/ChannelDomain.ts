@@ -47,7 +47,7 @@ export class ChannelDomain {
     private _notableDispatcher: Rx.Subject<RecievedMessage>;
     private _notifiableMsgDispatcher: Rx.Subject<RecievedMessage>;
 
-    private _ignitionDisposable: Rx.IDisposable;
+    private _ignitionDisposable: Rx.Subscription;
 
     constructor(gateway: MessageGateway,
                 data: Channel,
@@ -108,21 +108,21 @@ export class ChannelDomain {
         this._ignitionDisposable = this._init();
     }
 
-    private _init(): Rx.IDisposable {
-        const d = new Rx.CompositeDisposable();
+    private _init(): Rx.Subscription {
+        const d = new Rx.Subscription();
         d.add(this._topic.subscribe());
         d.add(this._userList.subscribe());
         d.add(this._notableMessage.subscribe((message) => {
-            this._notableDispatcher.onNext(message);
+            this._notableDispatcher.next(message);
         }));
         d.add(this._notifiableMessage.subscribe((message) => {
-            this._notifiableMsgDispatcher.onNext(message);
+            this._notifiableMsgDispatcher.next(message);
         }));
         return d;
     }
 
     dispose(): void {
-        this._ignitionDisposable.dispose();
+        this._ignitionDisposable.unsubscribe();
         this._notableDispatcher = null;
     }
 

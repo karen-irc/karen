@@ -29,8 +29,8 @@ import UIActionCreator from '../../intent/action/UIActionCreator';
 export class AppView implements EventListenerObject {
 
     _element: Element;
-    _toggleLeftPane: Rx.IDisposable;
-    _toggleRightPane: Rx.IDisposable;
+    _toggleLeftPane: Rx.Subscription;
+    _toggleRightPane: Rx.Subscription;
     _isOpenedLeftPane: boolean;
     _isOpenedRightPane: boolean;
 

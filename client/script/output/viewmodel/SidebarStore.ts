@@ -69,7 +69,7 @@ export class SidebarViewState {
 export class SidebarStore {
 
     private _updater: Rx.Subject<void>;
-    private _disposer: Rx.IDisposable;
+    private _disposer: Rx.Subscription;
 
     private _currentId: Option<ChannelId>;
     private _networkSet: Set<Network>;
@@ -81,7 +81,7 @@ export class SidebarStore {
     constructor(domain: DomainState) {
         this._updater = new Rx.Subject<void>();
 
-        const disposer = new Rx.CompositeDisposable();
+        const disposer = new Rx.Subscription();
         this._disposer = disposer;
 
         this._currentId = new None<ChannelId>();
@@ -102,12 +102,12 @@ export class SidebarStore {
 
         disposer.add(networkDomain.joinedChannelAtAll().subscribe((channel) => {
             this._unreadCount.set(channel.getId(), channel.getValue().unread());
-            this._updater.onNext(undefined);
+            this._updater.next(undefined);
         }));
 
         disposer.add(networkDomain.partedChannelAtAll().subscribe((channel) => {
             this._unreadCount.delete(channel.getId());
-            this._updater.onNext(undefined);
+            this._updater.next(undefined);
         }));
 
         disposer.add(networkDomain.recievedNotableMessage().subscribe((message: RecievedMessage) => {
@@ -134,13 +134,13 @@ export class SidebarStore {
         });
     }
 
-    subscribe(observer: Rx.Observer<SidebarViewState>): Rx.IDisposable {
+    subscribe(observer: Rx.Subscriber<SidebarViewState>): Rx.Subscription {
         return this._state.subscribe(observer);
     }
 
     dispose(): void {
-        this._disposer.dispose();
-        this._updater.dispose();
+        this._disposer.unsubscribe();
+        this._updater.unsubscribe();
 
         this._networkSet.clear();
         this._notableChannelSet.clear();
@@ -157,12 +157,12 @@ export class SidebarStore {
 
     private _addNetwork(network: Network): void {
         this._networkSet.add(network);
-        this._updater.onNext(undefined);
+        this._updater.next(undefined);
     }
 
     private _removedNetwork(network: Network): void {
         this._networkSet.delete(network);
-        this._updater.onNext(undefined);
+        this._updater.next(undefined);
     }
 
     private _highlightChannel(message: RecievedMessage): void {
@@ -170,7 +170,7 @@ export class SidebarStore {
         const hasNotable: boolean = this._markAsNotable(message.channelId, message.message);
 
         if (hasUnread || hasNotable) {
-            this._updater.onNext(undefined);
+            this._updater.next(undefined);
         }
     }
 

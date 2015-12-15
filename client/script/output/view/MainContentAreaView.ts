@@ -56,7 +56,7 @@ export class MainContentAreaView {
 
     private _element: Element;
     private _channelMap: Map<ChannelId, MessageContentView>;
-    private _disposer: Rx.IDisposable;
+    private _disposer: Rx.Subscription;
 
     private _chatContentArea: Element;
     private _signin: SignInView;
@@ -66,7 +66,7 @@ export class MainContentAreaView {
         this._element = element;
         this._channelMap = new Map();
 
-        const disposer = new Rx.CompositeDisposable();
+        const disposer = new Rx.Subscription();
         this._disposer = disposer;
         this._chatContentArea = element.querySelector('#chat');
 

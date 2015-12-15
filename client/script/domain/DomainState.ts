@@ -76,7 +76,7 @@ export class DomainState {
         // So this observable should be on the next event loop.
         this._currentTab = selectTab(gateway, UIActionCreator.dispatcher(), this._networkSet).do((state) => {
             this._latestCurrentTab = state;
-        }).observeOn(Rx.Scheduler.default).share();
+        }).observeOn(Rx.Scheduler.asap).share();
 
         this._notifiableMessage = this._networkSet.recievedNotifiableMessage()
             .withLatestFrom(this._currentTab, function (data, current): RecievedMessage {

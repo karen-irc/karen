@@ -33,14 +33,14 @@ export class GeneralSettingView implements EventListenerObject {
 
     _element: Element;
     _playElement: Element;
-    _disposeStore: Rx.IDisposable;
+    _disposeStore: Rx.Subscription;
 
     constructor(element: Element, store: SettingStore) {
         this._element = element;
 
         this._playElement = element.querySelector('#play');
 
-        const observer = Rx.Observer.create((option: { name: string; value: any; }) => {
+        const observer = Rx.Subscriber.create((option: { name: string; value: any; }) => {
             this.updateState(option);
         });
         this._disposeStore = store.subscribe(observer);

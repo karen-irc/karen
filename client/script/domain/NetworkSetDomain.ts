@@ -56,7 +56,7 @@ export class NetworkSetDomain {
     private _addedNetwork: Rx.Observable<NetworkDomain>;
     private _removedNetwork: Rx.Observable<Option<NetworkDomain>>;
 
-    private _ignitionDisposable: Rx.IDisposable;
+    private _ignitionDisposable: Rx.Subscription;
 
     constructor(gateway: MessageGateway) {
         this.legacy = new NetworkSet([]);
@@ -87,7 +87,7 @@ export class NetworkSetDomain {
             };
         }).share();
 
-        this._addedNetwork = gateway.addNetwork().map((network) => {
+        this._addedNetwork = gateway.addNetwork().map<NetworkDomain>((network) => {
             const domain = new NetworkDomain(gateway,
                                              network,
                                              this._updateNick,
@@ -96,7 +96,7 @@ export class NetworkSetDomain {
                                              this._notableMsgDispatcher,
                                              this._notifiableMsgDispatcher);
             return domain;
-        }).combineLatest<Array<NetworkDomain>, [NetworkDomain, Array<NetworkDomain>]>(this._list, (network, list) => {
+        }).combineLatest(this._list, (network: NetworkDomain, list: Array<NetworkDomain>) => {
             this.legacy.add(network.getValue()); // for legacy model.
             list.push(network);
             return [network, list];
@@ -104,7 +104,7 @@ export class NetworkSetDomain {
             return network;
         }).share();
 
-        this._removedNetwork = gateway.quitNetwork().combineLatest(this._list, (networkId, list) => {
+        this._removedNetwork = gateway.quitNetwork().combineLatest(this._list, (networkId: NetworkId, list: Array<NetworkDomain>) => {
             const target = list.find(function(domain){
                 return domain.getId() === networkId;
             });
@@ -123,8 +123,8 @@ export class NetworkSetDomain {
         this._ignitionDisposable = this._init();
     }
 
-    private _init(): Rx.IDisposable {
-        const d = new Rx.CompositeDisposable();
+    private _init(): Rx.Subscription {
+        const d = new Rx.Subscription();
         d.add(this._list.subscribe());
         d.add(this._addedNetwork.subscribe());
         d.add(this._removedNetwork.subscribe());
@@ -132,7 +132,7 @@ export class NetworkSetDomain {
     }
 
     dispose(): void {
-        this._ignitionDisposable.dispose();
+        this._ignitionDisposable.unsubscribe();
     }
 
     initialState(): Rx.Observable<InitState> {
@@ -154,7 +154,7 @@ export class NetworkSetDomain {
             return v.mapOrElse(function(){
                 return Rx.Observable.never<NetworkDomain>();
             }, function(v){
-                return Rx.Observable.just(v);
+                return Rx.Observable.of(v);
             });
         });
     }
