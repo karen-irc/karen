@@ -164,7 +164,9 @@ module.exports = {
         'no-restricted-syntax': [2, 'ObjectPattern', 'ArrayPattern', 'RestElement', 'AssignmentPattern'], // for plain NodeJS
         'no-spaced-func': 2,
         'no-trailing-spaces': 2,
-        'no-underscore-dangle': 0,
+        'no-underscore-dangle': [2, {
+            'allowAfterThis': true, // Enable a `private` property convention.
+        }],
         'no-unneeded-ternary': 2,
         'operator-linebreak': [2, 'after'],
         'quotes': [2, 'single', 'avoid-escape'],
