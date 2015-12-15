@@ -82,6 +82,7 @@ module.exports = {
         'valid-typeof': 2,
 
         // Best Practices
+        'array-callback-return': 1,
         'block-scoped-var': 1,
         'consistent-return': 2,
         'curly': 2,
