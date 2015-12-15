@@ -209,6 +209,7 @@ module.exports = {
         'prefer-rest-params': 1,
         'prefer-spread': 1,
         'require-yield': 2,
+        'yield-star-spacing': [1, 'after'],
 
         // ESLint-plugin-React
         // https://github.com/yannickcr/eslint-plugin-react
