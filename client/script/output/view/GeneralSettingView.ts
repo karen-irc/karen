@@ -23,9 +23,7 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
-
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import NotificationActionCreator from '../../intent/action/NotificationActionCreator';
 import SettingActionCreator from '../../intent/action/SettingActionCreator';

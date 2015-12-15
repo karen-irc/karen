@@ -1,14 +1,13 @@
 /*global moment: true */
 
 /// <reference path="../../tsd/extends.d.ts" />
-/// <reference path="../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../tsd/third_party/react/react.d.ts" />
 /// <reference path="../../tsd/third_party/react/react-dom.d.ts" />
 
 import {Option} from 'option-t';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import AppActionCreator from './intent/action/AppActionCreator';
 import {AppView} from './output/view/AppView';

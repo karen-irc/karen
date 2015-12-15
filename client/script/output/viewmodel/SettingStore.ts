@@ -23,9 +23,7 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
-
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import {ConfigRepository} from '../../adapter/ConfigRepository';
 import {Setting} from '../../domain/Setting';

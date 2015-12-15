@@ -23,13 +23,12 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
 /// <reference path="../../../../tsd/third_party/react/react-dom.d.ts" />
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import {Sidebar} from '../view/Sidebar';
 import {SidebarStore, SidebarViewState} from '../viewmodel/SidebarStore';

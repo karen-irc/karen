@@ -23,9 +23,7 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
-
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import AppActionCreator from '../../intent/action/AppActionCreator';
 import {MessageGateway} from '../../adapter/MessageGateway';

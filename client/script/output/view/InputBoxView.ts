@@ -23,10 +23,8 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
-
 import {Option, Some, None} from 'option-t';
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import {CommandList} from '../../domain/CommandType';
 import {DomainState} from '../../domain/DomainState';

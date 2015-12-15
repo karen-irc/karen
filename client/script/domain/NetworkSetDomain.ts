@@ -23,11 +23,10 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../node_modules/typescript/lib/lib.es6.d.ts" />
 
 import {Some, None, Option} from 'option-t';
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import {RecievedMessage} from './Message';
 import {NetworkSet} from './NetworkSet';
