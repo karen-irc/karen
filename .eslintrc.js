@@ -206,6 +206,7 @@ module.exports = {
         'object-shorthand': 0,
         'prefer-const': 1,
         'prefer-reflect': 1,
+        'prefer-rest-params': 1,
         'prefer-spread': 1,
         'require-yield': 2,
 
