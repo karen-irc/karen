@@ -95,6 +95,7 @@ module.exports = {
         'no-eq-null': 2,
         'no-eval': 2,
         'no-fallthrough': 2,
+        'no-implicit-globals': 2,
         'no-implied-eval': 2,
         'no-invalid-this': 1,
         'no-new-func': 1,
