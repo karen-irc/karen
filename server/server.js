@@ -109,7 +109,8 @@ const cspDirectiveStr = [...cspDirective.entries()].map(function([key, value]){
 
 function index(req, res, next) {
     if (req.url.split('?')[0] !== '/') {
-        return next();
+        next();
+        return;
     }
 
     let data = Object.assign({}, Package.getPackage());

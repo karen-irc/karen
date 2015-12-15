@@ -33,20 +33,9 @@ module.exports = {
     // Derive recommended rules to detect bad smells even if eslint added a new recommended one but we forgot to add them to ours.
     'extends': 'eslint:recommended',
 
-    'ecmaFeatures': {
-        'arrowFunctions': true,
-        'blockBindings': true,
-        'classes': true,
-        'objectLiteralComputedProperties': true,
-        'objectLiteralDuplicateProperties': true,
-        'objectLiteralShorthandMethods': true,
-        'objectLiteralShorthandProperties': true,
-        'spread': true,
-        'templateStrings': true,
-    },
-
     'env': {
-        'node': true
+        'es6': true,
+        'node': true,
     },
 
     'plugins': [
@@ -67,7 +56,9 @@ module.exports = {
         'no-dupe-keys': 2,
         'no-duplicate-case': 2,
         'no-empty-character-class': 2,
-        'no-empty': 2,
+        'no-empty': [2, {
+            'methods': true,
+        }],
         'no-ex-assign': 2,
         'no-extra-boolean-cast': 0,
         'no-extra-parens': 0,
@@ -91,6 +82,7 @@ module.exports = {
         'valid-typeof': 2,
 
         // Best Practices
+        'array-callback-return': 1,
         'block-scoped-var': 1,
         'consistent-return': 2,
         'curly': 2,
@@ -103,6 +95,7 @@ module.exports = {
         'no-eq-null': 2,
         'no-eval': 2,
         'no-fallthrough': 2,
+        'no-implicit-globals': 2,
         'no-implied-eval': 2,
         'no-invalid-this': 1,
         'no-new-func': 1,
@@ -170,9 +163,12 @@ module.exports = {
         'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
         'no-mixed-spaces-and-tabs': 2,
         'no-new-object': 2, // In almost case, we don't have to use `new Object()` without any comments.
+        'no-restricted-syntax': [2, 'ObjectPattern', 'ArrayPattern', 'RestElement', 'AssignmentPattern'], // for plain NodeJS
         'no-spaced-func': 2,
         'no-trailing-spaces': 2,
-        'no-underscore-dangle': 0,
+        'no-underscore-dangle': [2, {
+            'allowAfterThis': true, // Enable a `private` property convention.
+        }],
         'no-unneeded-ternary': 2,
         'operator-linebreak': [2, 'after'],
         'quotes': [2, 'single', 'avoid-escape'],
@@ -211,8 +207,10 @@ module.exports = {
         'object-shorthand': 0,
         'prefer-const': 1,
         'prefer-reflect': 1,
+        'prefer-rest-params': 1,
         'prefer-spread': 1,
         'require-yield': 2,
+        'yield-star-spacing': [1, 'after'],
 
         // ESLint-plugin-React
         // https://github.com/yannickcr/eslint-plugin-react
