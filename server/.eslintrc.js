@@ -30,13 +30,15 @@
 // http://eslint.org/docs/configuring/#comments-in-configuration-files
 module.exports = {
 
-    'ecmaFeatures': {
-        'modules': true,
-        'jsx': true
+    'parserOptions': {
+        'ecmaVersion': 6,
+        'sourceType': 'module',
+        'ecmaFeatures': {
+            'jsx': true
+        },
     },
 
-    'env': {
-        'node': true,
-        'es6': true,
-    }
+    'rules': {
+        'no-restricted-syntax': 0, // Enable all syntax because we compile all code in this dir.
+    },
 };

@@ -33,20 +33,9 @@ module.exports = {
     // Derive recommended rules to detect bad smells even if eslint added a new recommended one but we forgot to add them to ours.
     'extends': 'eslint:recommended',
 
-    'ecmaFeatures': {
-        'arrowFunctions': true,
-        'blockBindings': true,
-        'classes': true,
-        'objectLiteralComputedProperties': true,
-        'objectLiteralDuplicateProperties': true,
-        'objectLiteralShorthandMethods': true,
-        'objectLiteralShorthandProperties': true,
-        'spread': true,
-        'templateStrings': true,
-    },
-
     'env': {
-        'node': true
+        'es6': true,
+        'node': true,
     },
 
     'plugins': [
@@ -170,6 +159,7 @@ module.exports = {
         'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
         'no-mixed-spaces-and-tabs': 2,
         'no-new-object': 2, // In almost case, we don't have to use `new Object()` without any comments.
+        'no-restricted-syntax': [2, 'ObjectPattern', 'ArrayPattern', 'RestElement', 'AssignmentPattern'], // for plain NodeJS
         'no-spaced-func': 2,
         'no-trailing-spaces': 2,
         'no-underscore-dangle': 0,
