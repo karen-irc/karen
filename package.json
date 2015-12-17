@@ -79,7 +79,7 @@
     "browserify": "^12.0.1",
     "del": "^2.2.0",
     "eslint": "2.0.0-alpha-1",
-    "eslint-plugin-react": "^3.11.2",
+    "eslint-plugin-react": "^3.11.3",
     "glob": "^6.0.1",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
