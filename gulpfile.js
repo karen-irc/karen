@@ -180,6 +180,7 @@ gulp.task('__eslint', function () {
     const src = [
         './.eslintrc.js',
         './gulpfile.js',
+        './client/.eslintrc.js',
         './client/script/',
         './defaults/',
         './server/',

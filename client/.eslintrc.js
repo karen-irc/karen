@@ -22,7 +22,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/*eslint quote-props: [2, "always"] */
+/**
+ * XXX:
+ *  We don't have to lint whether this is in strict mode because we don't write some logic in this.
+ */
+/*eslint quote-props: [2, "always"], strict: 0 */
 
 'use strict';
 
@@ -38,7 +42,7 @@ module.exports = {
         },
     },
 
-    "env": {
+    'env': {
         'browser': true,
     },
 
