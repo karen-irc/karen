@@ -238,13 +238,17 @@ module.exports = {
         'react/jsx-uses-vars': 1,
         'react/jsx-pascal-case': 2,
         'react/no-danger': 1,
+        'react/no-deprecated': [1, { // Detect deprected styles
+            'react': '0.14.0',
+        }],
         'react/no-did-mount-set-state': [1, 'allow-in-func'],
         'react/no-did-update-set-state': [1, 'allow-in-func'],
         'react/no-direct-mutation-state': 1,
+        'react/no-is-mounted': 2, // Disallow the deprected style
         'react/no-multi-comp': 0,
         'react/no-set-state': 0, // FIXME: Enable this rule as a waring
         'react/no-unknown-property': 2,
-        'react/prefer-es6-class': 2,
+        'react/prefer-es6-class': [2, 'always'],
         'react/prop-types': 1,
         'react/react-in-jsx-scope': 1,
         'react/require-extension': 0,
