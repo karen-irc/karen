@@ -238,6 +238,9 @@ module.exports = {
         'react/jsx-uses-vars': 1,
         'react/jsx-pascal-case': 2,
         'react/no-danger': 1,
+        'react/no-deprecated': [1, { // Detect deprected styles
+            'react': '0.14.0',
+        }],
         'react/no-did-mount-set-state': [1, 'allow-in-func'],
         'react/no-did-update-set-state': [1, 'allow-in-func'],
         'react/no-direct-mutation-state': 1,
