@@ -244,7 +244,7 @@ module.exports = {
         'react/no-multi-comp': 0,
         'react/no-set-state': 0, // FIXME: Enable this rule as a waring
         'react/no-unknown-property': 2,
-        'react/prefer-es6-class': 2,
+        'react/prefer-es6-class': [2, 'always'],
         'react/prop-types': 1,
         'react/react-in-jsx-scope': 1,
         'react/require-extension': 0,
