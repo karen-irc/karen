@@ -126,6 +126,7 @@ module.exports = {
         'no-undef': 2,
         'no-undef-init': 2,
         'no-undefined': 0,
+        'no-unmodified-loop-condition': 1,
         'no-unused-vars': [1, {
             'vars': 'all',
             'args': 'after-used',
