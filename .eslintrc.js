@@ -198,8 +198,8 @@ module.exports = {
             'before': false,
             'after': true
         }],
-        'no-arrow-condition': 2,
         'no-class-assign': 2,
+        'no-confusing-arrow': 1,
         'no-const-assign': 2,
         'no-dupe-class-members': 2,
         'no-this-before-super': 2,
