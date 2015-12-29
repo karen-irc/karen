@@ -247,6 +247,7 @@ module.exports = {
         'react/no-is-mounted': 2, // Disallow the deprected style
         'react/no-multi-comp': 0,
         'react/no-set-state': 0, // FIXME: Enable this rule as a waring
+        'react/no-string-refs': 2, // Disallow the legacy style
         'react/no-unknown-property': 2,
         'react/prefer-es6-class': [2, 'always'],
         'react/prop-types': 1,
