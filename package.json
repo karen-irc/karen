@@ -67,7 +67,7 @@
     "urijs": "^1.17.0"
   },
   "devDependencies": {
-    "autoprefixer": "^6.2.1",
+    "autoprefixer": "^6.2.3",
     "babel-core": "^6.3.26",
     "babel-plugin-transform-inline-environment-variables": "^6.3.13",
     "babel-plugin-transform-node-env-inline": "^6.3.13",
