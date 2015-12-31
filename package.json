@@ -55,8 +55,8 @@
     "mkdirp": "^0.5.1",
     "moment": "^2.10.6",
     "option-t": "^0.15.0",
-    "react": "^0.14.3",
-    "react-dom": "^0.14.3",
+    "react": "^0.14.5",
+    "react-dom": "^0.14.5",
     "read": "^1.0.7",
     "request": "^2.67.0",
     "rx": "^4.0.7",
@@ -67,7 +67,7 @@
     "urijs": "^1.17.0"
   },
   "devDependencies": {
-    "autoprefixer": "^6.2.1",
+    "autoprefixer": "^6.2.3",
     "babel-core": "^6.3.26",
     "babel-plugin-transform-inline-environment-variables": "^6.3.13",
     "babel-plugin-transform-node-env-inline": "^6.3.13",
@@ -88,7 +88,7 @@
     "mocha": "^2.3.4",
     "tsd": "^0.6.5",
     "tslint": "3.2.1-dev.1",
-    "typescript": "1.8.0-dev.20151224",
+    "typescript": "1.8.0-dev.20151231",
     "vinyl-source-stream": "^1.1.0"
   }
 }
