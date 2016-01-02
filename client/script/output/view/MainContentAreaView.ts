@@ -127,7 +127,8 @@ export class MainContentAreaView {
 
         this._signin = new SignInView(element.querySelector('#sign-in'), cookie, gateway.socket());
 
-        this._connect = new ConnectSettingContext( element.querySelector(CONNECT_INSERTION_POINT_ID), gateway);
+        this._connect = new ConnectSettingContext(gateway);
+        this._connect.onActivate(element.querySelector(CONNECT_INSERTION_POINT_ID));
     }
 
     private _renderChannelList(list: Array<Channel>): void {

@@ -36,39 +36,46 @@ import {SidebarStore, SidebarViewState} from '../viewmodel/SidebarStore';
 
 import {DomainState} from '../../domain/DomainState';
 
-export class SidebarContext {
+import {ViewContext} from './ViewContext';
 
-    private _mountpoint: Element;
+export class SidebarContext implements ViewContext {
+
     private _viewmodel: SidebarStore;
     private _viewDisposer: Rx.IDisposable;
 
-    constructor(mountpoint: Element, domain: DomainState) {
-        if (!mountpoint) {
-            throw new Error();
-        }
-
-        this._mountpoint = mountpoint;
+    constructor(domain: DomainState) {
         this._viewmodel = new SidebarStore(domain);
-        this._viewDisposer = this._mount();
+        this._viewDisposer = null;
     }
 
-    dispose(): void {
+    private _destroy(): void {
         this._viewDisposer.dispose();
         this._viewmodel.dispose();
 
         this._viewDisposer = null;
         this._viewmodel = null;
-        this._mountpoint = null;
     }
 
-    private _mount(): Rx.IDisposable {
+    onActivate(mountpoint: Element): void {
+        this._viewDisposer = this._mount(mountpoint);
+    }
+
+    onDestroy(mountpoint: Element): void {
+        this._destroy();
+    }
+
+    onResume(mountpoint: Element): void {}
+
+    onSuspend(mountpoint: Element): void {}
+
+    private _mount(mountpoint: Element): Rx.IDisposable {
         const observer: Rx.Observer<SidebarViewState> = Rx.Observer.create((model: SidebarViewState) => {
             const view = React.createElement(Sidebar, {
                 model,
             });
-            ReactDOM.render(view, this._mountpoint);
+            ReactDOM.render(view, mountpoint);
         }, ()=> {}, () => {
-            ReactDOM.unmountComponentAtNode(this._mountpoint);
+            ReactDOM.unmountComponentAtNode(mountpoint);
         });
         return this._viewmodel.subscribe(observer);
     }

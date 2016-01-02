@@ -39,41 +39,54 @@ import {ConnectionActionCreator} from '../../intent/action/ConnectionActionCreat
 import {ConnectionStore} from '../viewmodel/ConnectionStore';
 import {ConnectionValue} from '../../domain/value/ConnectionSettings';
 
-export class ConnectSettingContext {
+import {ViewContext} from './ViewContext';
 
-    private _mountpoint: Element;
+export class ConnectSettingContext implements ViewContext {
 
     private _action: ConnectionActionCreator;
     private _store: ConnectionStore;
     private _viewDisposer: Rx.IDisposable;
 
-    constructor(mountpoint: Element, gateway: MessageGateway) {
-        if (!mountpoint || !gateway) {
+    constructor(gateway: MessageGateway) {
+        if (!gateway) {
             throw new Error();
         }
 
-        this._mountpoint = mountpoint;
         this._action = new ConnectionActionCreator();
         this._store = new ConnectionStore(this._action.dispatcher(), gateway);
-
-        this._viewDisposer = this._mount();
+        this._viewDisposer = null;
     }
 
-    dispose(): void {
+    private _destroy(): void {
         this._viewDisposer.dispose();
         this._store.dispose();
         this._action.dispose();
+
+        this._viewDisposer = null;
+        this._store = null;
+        this._action = null;
     }
 
-    private _mount(): Rx.IDisposable {
+    onActivate(mountpoint: Element): void {
+        this._viewDisposer = this._mount(mountpoint);
+    }
+
+    onDestroy(mountpoint: Element): void {
+        this._destroy();
+    }
+
+    onResume(mountpoint: Element): void {}
+    onSuspend(mountpoint: Element): void {}
+
+    private _mount(mountpoint: Element): Rx.IDisposable {
         const observer: Rx.Observer<ConnectionValue> = Rx.Observer.create((data: ConnectionValue) => {
             const view = React.createElement(ConnectSettingWindow, {
                 action: this._action,
                 data: data,
             });
-            ReactDOM.render(view, this._mountpoint);
+            ReactDOM.render(view, mountpoint);
         }, ()=> {}, () => {
-            ReactDOM.unmountComponentAtNode(this._mountpoint);
+            ReactDOM.unmountComponentAtNode(mountpoint);
         });
         return this._store.subscribe(observer);
     }
