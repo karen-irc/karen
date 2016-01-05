@@ -123,13 +123,13 @@ export class GeneralSettingWindow extends React.Component {
                         </div>
                         <div className='col-sm-12'>
                             <label className='opt'>
-                            <input id='badge' type='checkbox' name='badge'/>
+                                <input id='badge' type='checkbox' name='badge'/>
                                 Enable badge
                             </label>
                         </div>
                         <div className='col-sm-12'>
                             <label className='opt'>
-                            <input type='checkbox' name='notification'/>
+                                <input type='checkbox' name='notification'/>
                                 Enable notification sound
                             </label>
                         </div>

@@ -50,6 +50,7 @@
     "commander": "^2.9.0",
     "compression": "^1.6.0",
     "cookies-js": "^1.2.2",
+    "eslint-plugin-react": "^3.14.0",
     "event-stream": "^3.3.2",
     "express": "^4.13.3",
     "mkdirp": "^0.5.1",
