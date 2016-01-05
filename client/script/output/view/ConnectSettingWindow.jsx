@@ -69,8 +69,8 @@ export class ConnectSettingWindow extends React.Component {
                             <h2>Network settings</h2>
                         </div>
                         <div className='col-sm-3'>
-                        <label>Name</label>
-                            </div>
+                            <label>Name</label>
+                        </div>
                         <div className='col-sm-9'>
                             <input className='input'
                                    type='text'

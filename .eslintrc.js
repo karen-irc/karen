@@ -223,6 +223,7 @@ module.exports = {
             'eventHandlerPrefix': 'on', // we need not differ this prefix from `eventHandlerPropPrefix`.
             'eventHandlerPropPrefix': 'on',
         }],
+        'react/jsx-indent': [1, 4],
         'react/jsx-indent-props': 0,
         'react/jsx-key': 1,
         'react/jsx-max-props-per-line': 0,
