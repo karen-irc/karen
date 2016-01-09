@@ -54,7 +54,7 @@
     "event-stream": "^3.3.2",
     "express": "^4.13.3",
     "mkdirp": "^0.5.1",
-    "moment": "^2.11.0",
+    "moment": "^2.11.1",
     "option-t": "^0.15.0",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
