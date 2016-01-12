@@ -192,6 +192,7 @@ gulp.task('__eslint', function () {
     const args = [
         bin,
         '--ext', '.js,.jsx',
+        '--no-ignore',
     ].concat(src);
 
     const option = {
