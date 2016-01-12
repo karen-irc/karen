@@ -153,6 +153,7 @@ module.exports = {
         }],
         'comma-style': [2, 'last'],
         'computed-property-spacing': [2, 'never'],
+        'consistent-this': [2, 'that'],
         'indent': [2, 4, {
             'SwitchCase': 1
         }],

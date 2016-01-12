@@ -1,3 +1,5 @@
+/*eslint-disable consistent-this */
+
 import Channel from '../../models/Channel';
 import ChannelType from '../../models/ChannelType';
 import Message from '../../models/Message';

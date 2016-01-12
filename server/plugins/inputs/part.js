@@ -1,3 +1,5 @@
+/*eslint-disable consistent-this */
+
 /**
  *  @this   Client
  *
