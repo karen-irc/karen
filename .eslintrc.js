@@ -209,6 +209,7 @@ module.exports = {
         'no-dupe-class-members': 2,
         'no-new-symbol': 2,
         'no-this-before-super': 2,
+        'no-useless-constructor': 0,
         'no-var': 1,
         'no-whitespace-before-property': 1,
         'object-shorthand': 0,
