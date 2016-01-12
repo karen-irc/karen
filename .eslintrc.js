@@ -155,6 +155,9 @@ module.exports = {
         'comma-style': [2, 'last'],
         'computed-property-spacing': [2, 'never'],
         'consistent-this': [2, 'that'],
+        'func-style': [1, 'declaration', {
+            'allowArrowFunctions': true,
+        }],
         'indent': [2, 4, {
             'SwitchCase': 1
         }],
