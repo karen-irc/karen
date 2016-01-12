@@ -182,6 +182,7 @@ module.exports = {
             'before': false,
             'after': true
         }],
+        'sort-imports': 1,
         'space-infix-ops': 1,
         'space-return-throw-case': 1,
         'space-unary-ops': [2, {
