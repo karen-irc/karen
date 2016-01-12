@@ -207,6 +207,7 @@ module.exports = {
         'no-confusing-arrow': 1,
         'no-const-assign': 2,
         'no-dupe-class-members': 2,
+        'no-new-symbol': 2,
         'no-this-before-super': 2,
         'no-var': 1,
         'object-shorthand': 0,
