@@ -63,7 +63,7 @@ function resolveGlobList(srcList, options) {
     });
 
     return fileList;
-};
+}
 
 module.exports = {
     resolveGlobList,

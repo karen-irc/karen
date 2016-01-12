@@ -126,6 +126,7 @@ module.exports = {
         'no-undef': 2,
         'no-undef-init': 2,
         'no-undefined': 0,
+        'no-unmodified-loop-condition': 1,
         'no-unused-vars': [1, {
             'vars': 'all',
             'args': 'after-used',
@@ -198,8 +199,8 @@ module.exports = {
             'before': false,
             'after': true
         }],
-        'no-arrow-condition': 2,
         'no-class-assign': 2,
+        'no-confusing-arrow': 1,
         'no-const-assign': 2,
         'no-dupe-class-members': 2,
         'no-this-before-super': 2,

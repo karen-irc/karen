@@ -184,6 +184,7 @@ gulp.task('__eslint', function () {
         './client/script/',
         './defaults/',
         './server/',
+        './tools/',
     ];
 
     const bin = path.resolve(NPM_MOD_DIR, './eslint', './bin', './eslint.js');
