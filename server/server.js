@@ -90,15 +90,15 @@ function applyGenericSecurityHeader(req, res, next) {
 }
 
 const cspDirective = new Map([
-    ['default-src', `'none'`],
-    ['connect-src', `'self' ws: wss:`],
-    ['font-src', `'self' https://fonts.gstatic.com`],
+    ['default-src', '\'none\''],
+    ['connect-src', '\'self\' ws: wss:'],
+    ['font-src', '\'self\' https://fonts.gstatic.com'],
 
     // XXX: karen tries to expand all image which is embedded in a message.
-    ['img-src', `*`],
+    ['img-src', '*'],
 
-    ['media-src', `'self'`],
-    ['script-src', `'self'`],
+    ['media-src', '\'self\''],
+    ['script-src', '\'self\''],
 
     // FIXME: this 'unsafe-inline' should be removed.
     ['style-src', '\'self\' https://fonts.googleapis.com \'unsafe-inline\''],
