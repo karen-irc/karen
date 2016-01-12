@@ -172,6 +172,7 @@ module.exports = {
         'new-parens': 2,
         'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
         'no-mixed-spaces-and-tabs': 2,
+        'no-multiple-empty-lines': 0, // Empty lines somtimes means a section of a program.
         'no-new-object': 2, // In almost case, we don't have to use `new Object()` without any comments.
         'no-restricted-syntax': [2, 'ObjectPattern', 'ArrayPattern', 'RestElement', 'AssignmentPattern'], // for plain NodeJS
         'no-spaced-func': 2,
