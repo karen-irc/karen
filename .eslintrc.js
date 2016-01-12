@@ -168,6 +168,7 @@ module.exports = {
         'new-cap': 1,
         'new-parens': 2,
         'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
+        'no-bitwise': 0,
         'no-mixed-spaces-and-tabs': 2,
         'no-new-object': 2, // In almost case, we don't have to use `new Object()` without any comments.
         'no-restricted-syntax': [2, 'ObjectPattern', 'ArrayPattern', 'RestElement', 'AssignmentPattern'], // for plain NodeJS
