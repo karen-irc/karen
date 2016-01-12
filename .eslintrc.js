@@ -84,6 +84,7 @@ module.exports = {
         // Best Practices
         'array-callback-return': 1,
         'block-scoped-var': 1,
+        'complexity': 0, // check a cyclomatic complexity
         'consistent-return': 2,
         'curly': 2,
         'eqeqeq': 2,
