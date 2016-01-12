@@ -157,6 +157,10 @@ module.exports = {
             'SwitchCase': 1
         }],
         'jsx-quotes': [1, 'prefer-single'],
+        'keyword-spacing': [1, {
+            'before': true,
+            'after': true,
+        }],
         'key-spacing': 0,
         'linebreak-style': [2, 'unix'],
         'new-cap': 1,
@@ -178,7 +182,6 @@ module.exports = {
             'before': false,
             'after': true
         }],
-        'space-after-keywords': 1,
         'space-infix-ops': 1,
         'space-return-throw-case': 1,
         'space-unary-ops': [2, {
