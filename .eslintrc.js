@@ -210,6 +210,7 @@ module.exports = {
         'no-new-symbol': 2,
         'no-this-before-super': 2,
         'no-var': 1,
+        'no-whitespace-before-property': 1,
         'object-shorthand': 0,
         'prefer-const': 1,
         'prefer-reflect': 1,
