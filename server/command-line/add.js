@@ -7,7 +7,7 @@ import mkdirp from 'mkdirp';
 import ConfigDriver from '../adapter/ConfigDriver';
 import read from 'read';
 
-const add = function add(manager, name, password) {
+function add(manager, name, password) {
     console.log('');
     const salt = bcrypt.genSaltSync(8);
     const hash = bcrypt.hashSync(password, salt);
@@ -18,7 +18,7 @@ const add = function add(manager, name, password) {
     console.log('User \'' + name + '\' created:');
     console.log(path.join(ConfigDriver.getHome(), 'users', name + '.json'));
     console.log('');
-};
+}
 
 program
     .command('add <name>')

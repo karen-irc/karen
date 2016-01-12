@@ -29,7 +29,7 @@ import {User} from '../../domain/User';
 
 import MessageActionCreator from '../../intent/action/MessageActionCreator';
 
-const lookupModeClassName = function (mode) {
+function lookupModeClassName(mode) {
     switch (mode) {
         case '~':
             return 'owner';
@@ -49,7 +49,7 @@ const lookupModeClassName = function (mode) {
         default:
             return 'normal';
     }
-};
+}
 
 export class UserList extends React.Component {
 

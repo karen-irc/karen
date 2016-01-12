@@ -155,6 +155,9 @@ module.exports = {
         'comma-style': [2, 'last'],
         'computed-property-spacing': [2, 'never'],
         'consistent-this': [2, 'that'],
+        'func-style': [0, 'declaration', {
+            'allowArrowFunctions': true,
+        }], // XXX: a top level functions should be a declaration, but it would be good to allow both forms of declaration/expression.
         'indent': [2, 4, {
             'SwitchCase': 1
         }],
