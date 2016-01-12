@@ -1,3 +1,5 @@
+/*eslint-disable consistent-this */
+
 import cheerio from 'cheerio';
 import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
