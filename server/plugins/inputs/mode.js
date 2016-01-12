@@ -1,3 +1,5 @@
+/*eslint-disable consistent-this */
+
 export default function(network, chan, cmd, args) {
     if (cmd !== 'mode' && cmd !== 'op' && cmd !== 'voice' && cmd !== 'deop' && cmd !== 'devoice') {
         return;

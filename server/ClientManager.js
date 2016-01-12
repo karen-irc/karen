@@ -11,7 +11,7 @@ import * as Rx from 'rx';
  *  @param  {string}    path
  *  @return {Array<T>}
  */
-const pluckFromSet = function (set, path) {
+function pluckFromSet(set, path) {
     const result = [];
     for (const item of set) {
         if ( item[path] !== undefined ) {
@@ -20,7 +20,7 @@ const pluckFromSet = function (set, path) {
     }
 
     return result;
-};
+}
 
 /**
  *  @template   T
@@ -28,7 +28,7 @@ const pluckFromSet = function (set, path) {
  *  @param  {Array<T>}  b
  *  @return {Array<T>}
  */
-const difference = function (a, b) {
+function difference(a, b) {
     const diff = [];
     const base = new Set(b);
     for (const item of a) {
@@ -38,7 +38,7 @@ const difference = function (a, b) {
     }
 
     return diff;
-};
+}
 
 export default class ClientManager {
 

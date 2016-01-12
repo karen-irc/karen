@@ -31,25 +31,25 @@ import ChannelType from './ChannelType';
  *  @return {string}
  *  @throws {Error}
  */
-const capitalize = function capitalize(str) {
+function capitalize(str) {
     if (typeof str !== 'string') {
         throw new Error();
     }
 
     return str.charAt(0).toUpperCase() + str.slice(1);
-};
+}
 
 /**
  *  @param  {string}    host
  *  @return {string}
  */
-const prettify = function prettify(host) {
+function prettify(host) {
     let name = capitalize(host.split('.')[1]);
     if (!name) {
         name = host;
     }
     return name;
-};
+}
 
 /** @type   {number}    */
 let id = 0;

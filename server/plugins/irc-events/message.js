@@ -1,3 +1,5 @@
+/*eslint-disable consistent-this */
+
 import Channel from '../../models/Channel';
 import Hostmask from '../../models/Hostmask';
 import ChannelType from '../../models/ChannelType';

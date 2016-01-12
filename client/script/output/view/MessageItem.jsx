@@ -50,14 +50,14 @@ MessageList.propTypes = {
     list: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 };
 
-const formatTimeZone = function (time) {
+function formatTimeZone(time) {
     if (!time) {
         return '';
     }
 
     const utc = moment.utc(time, 'HH:mm:ss').toDate();
     return moment(utc).format('HH:mm');
-};
+}
 
 export class MessageItem extends React.Component {
 

@@ -84,6 +84,7 @@ module.exports = {
         // Best Practices
         'array-callback-return': 1,
         'block-scoped-var': 1,
+        'complexity': 0, // check a cyclomatic complexity
         'consistent-return': 2,
         'curly': 2,
         'eqeqeq': 2,
@@ -153,16 +154,26 @@ module.exports = {
         }],
         'comma-style': [2, 'last'],
         'computed-property-spacing': [2, 'never'],
+        'consistent-this': [2, 'that'],
+        'func-style': [0, 'declaration', {
+            'allowArrowFunctions': true,
+        }], // XXX: a top level functions should be a declaration, but it would be good to allow both forms of declaration/expression.
         'indent': [2, 4, {
             'SwitchCase': 1
         }],
         'jsx-quotes': [1, 'prefer-single'],
+        'keyword-spacing': [1, {
+            'before': true,
+            'after': true,
+        }],
         'key-spacing': 0,
         'linebreak-style': [2, 'unix'],
         'new-cap': 1,
         'new-parens': 2,
         'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
+        'no-bitwise': 2, // don't use bitwise operators without some optimizations.
         'no-mixed-spaces-and-tabs': 2,
+        'no-multiple-empty-lines': 0, // Empty lines somtimes means a section of a program.
         'no-new-object': 2, // In almost case, we don't have to use `new Object()` without any comments.
         'no-restricted-syntax': [2, 'ObjectPattern', 'ArrayPattern', 'RestElement', 'AssignmentPattern'], // for plain NodeJS
         'no-spaced-func': 2,
@@ -178,7 +189,7 @@ module.exports = {
             'before': false,
             'after': true
         }],
-        'space-after-keywords': 1,
+        // 'sort-imports': 1, // FIXME: https://github.com/karen-irc/karen/issues/539
         'space-infix-ops': 1,
         'space-return-throw-case': 1,
         'space-unary-ops': [2, {
@@ -203,8 +214,11 @@ module.exports = {
         'no-confusing-arrow': 1,
         'no-const-assign': 2,
         'no-dupe-class-members': 2,
+        'no-new-symbol': 2,
         'no-this-before-super': 2,
+        // 'no-useless-constructor': 2, // FIXME: this rule has the bag which deny to call `super()` in a derived class (ESLint v2b1)
         'no-var': 1,
+        'no-whitespace-before-property': 1,
         'object-shorthand': 0,
         'prefer-const': 1,
         'prefer-reflect': 1,

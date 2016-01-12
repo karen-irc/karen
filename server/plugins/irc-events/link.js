@@ -1,3 +1,5 @@
+/*eslint-disable consistent-this */
+
 import cheerio from 'cheerio';
 import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
@@ -7,7 +9,7 @@ import es from 'event-stream';
 
 process.setMaxListeners(0);
 
-const parse = function parse(msg, url, res, client) {
+function parse(msg, url, res, client) {
     const toggle = msg.toggle = {
         id: msg.id,
         type: '',
@@ -47,9 +49,9 @@ const parse = function parse(msg, url, res, client) {
     }
 
     client.emit('toggle', toggle);
-};
+}
 
-const fetch = function fetch(url, cb) {
+function fetch(url, cb) {
     let req = null;
     try {
         req = request.get(url);
@@ -97,7 +99,7 @@ const fetch = function fetch(url, cb) {
             };
             cb(param);
         }));
-};
+}
 
 /**
  *  @this   Client
