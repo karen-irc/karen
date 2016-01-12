@@ -171,6 +171,7 @@ module.exports = {
         'new-cap': 1,
         'new-parens': 2,
         'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
+        'no-bitwise': 2, // don't use bitwise operators without some optimizations.
         'no-mixed-spaces-and-tabs': 2,
         'no-multiple-empty-lines': 0, // Empty lines somtimes means a section of a program.
         'no-new-object': 2, // In almost case, we don't have to use `new Object()` without any comments.
