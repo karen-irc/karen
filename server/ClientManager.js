@@ -195,7 +195,7 @@ export default class ClientManager {
     }
 
     /**
-     * @return {Rx.IDisposable}
+     * @return {Rx.Subscription}
      */
     autoload() {
         return Rx.Observable.interval(1000).subscribe(() => {

@@ -50,11 +50,11 @@ export default class ClientSocketDriver {
         return Rx.Observable.create((observer) => {
             const topic = 'auth';
             const callback = function (data) {
-                observer.onNext(data);
+                observer.next(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(() => {
+            return new Rx.Subscription(() => {
                 this._socket.removeListener(topic, callback);
             });
         });
@@ -67,11 +67,11 @@ export default class ClientSocketDriver {
         return Rx.Observable.create((observer) => {
             const topic = 'input';
             const callback = function (data) {
-                observer.onNext(data);
+                observer.next(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(() => {
+            return new Rx.Subscription(() => {
                 this._socket.removeListener(topic, callback);
             });
         });
@@ -84,11 +84,11 @@ export default class ClientSocketDriver {
         return Rx.Observable.create((observer) => {
             const topic = 'more';
             const callback = function (data) {
-                observer.onNext(data);
+                observer.next(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(() => {
+            return new Rx.Subscription(() => {
                 this._socket.removeListener(topic, callback);
             });
         });
@@ -101,11 +101,11 @@ export default class ClientSocketDriver {
         return Rx.Observable.create((observer) => {
             const topic = 'conn';
             const callback = function (data) {
-                observer.onNext(data);
+                observer.next(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(() => {
+            return new Rx.Subscription(() => {
                 this._socket.removeListener(topic, callback);
             });
         });
@@ -118,11 +118,11 @@ export default class ClientSocketDriver {
         return Rx.Observable.create((observer) => {
             const topic = 'open';
             const callback = function (data) {
-                observer.onNext(data);
+                observer.next(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(() => {
+            return new Rx.Subscription(() => {
                 this._socket.removeListener(topic, callback);
             });
         });
@@ -135,11 +135,11 @@ export default class ClientSocketDriver {
         return Rx.Observable.create((observer) => {
             const topic = 'sort';
             const callback = function (data) {
-                observer.onNext(data);
+                observer.next(data);
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(() => {
+            return new Rx.Subscription(() => {
                 this._socket.removeListener(topic, callback);
             });
         });
@@ -152,11 +152,11 @@ export default class ClientSocketDriver {
         return Rx.Observable.create((observer) => {
             const topic = 'disconnect';
             const callback = function () {
-                observer.onNext();
+                observer.next();
             };
             this._socket.on(topic, callback);
 
-            return Rx.Disposable.create(() => {
+            return new Rx.Subscription(() => {
                 this._socket.removeListener(topic, callback);
             });
         });
