@@ -24,13 +24,12 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
 /// <reference path="../../../../tsd/third_party/react/react-dom.d.ts" />
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import {ConnectSettingWindow} from '../view/ConnectSettingWindow';
 
@@ -45,7 +44,7 @@ export class ConnectSettingContext implements ViewContext {
 
     private _action: ConnectionActionCreator;
     private _store: ConnectionStore;
-    private _viewDisposer: Rx.IDisposable;
+    private _viewDisposer: Rx.Subscription;
 
     constructor(gateway: MessageGateway) {
         if (!gateway) {
@@ -58,7 +57,7 @@ export class ConnectSettingContext implements ViewContext {
     }
 
     private _destroy(): void {
-        this._viewDisposer.dispose();
+        this._viewDisposer.unsubscribe();
         this._store.dispose();
         this._action.dispose();
 
@@ -78,8 +77,8 @@ export class ConnectSettingContext implements ViewContext {
     onResume(mountpoint: Element): void {}
     onSuspend(mountpoint: Element): void {}
 
-    private _mount(mountpoint: Element): Rx.IDisposable {
-        const observer: Rx.Observer<ConnectionValue> = Rx.Observer.create((data: ConnectionValue) => {
+    private _mount(mountpoint: Element): Rx.Subscription {
+        const observer: Rx.Subscriber<ConnectionValue> = Rx.Subscriber.create((data: ConnectionValue) => {
             const view = React.createElement(ConnectSettingWindow, {
                 action: this._action,
                 data: data,

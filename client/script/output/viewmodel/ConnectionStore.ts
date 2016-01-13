@@ -23,9 +23,7 @@
  * THE SOFTWARE.
  */
 
- /// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
-
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import {MessageGateway} from '../../adapter/MessageGateway';
 import {ConnectionActionDispatcher} from '../../intent/dispatcher/ConnectionActionDispatcher';
@@ -34,28 +32,28 @@ import {ConnectionValue, NetworkValue, PersonalValue} from '../../domain/value/C
 export class ConnectionStore {
 
     private _state: Rx.Observable<ConnectionValue>;
-    private _init: Rx.IDisposable;
-    private _tryConnect: Rx.IDisposable;
+    private _init: Rx.Subscription;
+    private _tryConnect: Rx.Subscription;
 
     constructor(intent: ConnectionActionDispatcher, gateway: MessageGateway) {
-        const network = Rx.Observable.combineLatest(
+        const network: Rx.Observable<NetworkValue> = Rx.Observable.combineLatest(
             intent.setNetworkName,
             intent.setServerURL,
             intent.setServerPort,
             intent.setServerPass,
             intent.shouldUseTLS.startWith(true),
-            function (name, url, port, pass, useTLS) {
+            function (name: string, url: string, port: number, pass: string, useTLS: boolean) {
                 const value = new NetworkValue(name, url, port, pass, useTLS);
                 return value;
             }
         );
 
-        const personal = Rx.Observable.combineLatest([
+        const personal: Rx.Observable<PersonalValue> = Rx.Observable.combineLatest([
             intent.setNickName,
             intent.setUserName,
             intent.setRealName,
             intent.setChannel,
-        ], function (nick, user, real, channel) {
+        ], function (nick: string, user: string, real: string, channel: string) {
             const value = new PersonalValue(nick, user, real, channel);
             return value;
         });
@@ -63,7 +61,7 @@ export class ConnectionStore {
         const canConnect = Rx.Observable.combineLatest(
             network,
             personal,
-            function (network, personal) {
+            function (network: NetworkValue, personal: PersonalValue) {
                 return (network.url !== '') &&
                        (String(network.port) !== '') &&
                        (personal.nickname !== '');
@@ -76,33 +74,33 @@ export class ConnectionStore {
         });
 
         // FIXME: this should be a part of observable chain.
-        this._init = gateway.initialConnectionPreset().subscribeOnNext(function(tuple){
+        this._init = gateway.initialConnectionPreset().subscribe(function(tuple){
             const [network, personal]: [NetworkValue, PersonalValue] = tuple;
 
-            intent.setNetworkName.onNext(network.name);
-            intent.setServerURL.onNext(network.url);
-            intent.setServerPort.onNext(network.port);
-            intent.setServerPass.onNext(network.pass);
-            intent.shouldUseTLS.onNext(network.useTLS);
+            intent.setNetworkName.next(network.name);
+            intent.setServerURL.next(network.url);
+            intent.setServerPort.next(network.port);
+            intent.setServerPass.next(network.pass);
+            intent.shouldUseTLS.next(network.useTLS);
 
-            intent.setNickName.onNext(personal.nickname);
-            intent.setUserName.onNext(personal.username);
-            intent.setRealName.onNext(personal.realname);
-            intent.setChannel.onNext(personal.channel);
+            intent.setNickName.next(personal.nickname);
+            intent.setUserName.next(personal.username);
+            intent.setRealName.next(personal.realname);
+            intent.setChannel.next(personal.channel);
         });
 
-        this._tryConnect = intent.tryConnect.subscribeOnNext(function(value){
+        this._tryConnect = intent.tryConnect.subscribe(function(value: ConnectionValue){
             gateway.tryConnect(value);
         });
     }
 
-    subscribe(observer: Rx.Observer<ConnectionValue>): Rx.IDisposable {
+    subscribe(observer: Rx.Subscriber<ConnectionValue>): Rx.Subscription {
         return this._state.subscribe(observer);
     }
 
     dispose(): void {
-        this._init.dispose();
-        this._tryConnect.dispose();
+        this._init.unsubscribe();
+        this._tryConnect.unsubscribe();
 
         this._state = null;
         this._init = null;

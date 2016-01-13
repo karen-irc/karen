@@ -51,46 +51,46 @@ class MessageActionCreator {
             return;
         }
 
-        this._dispatcher.sendCommand.onNext({
+        this._dispatcher.sendCommand.next({
             channelId: channelId,
             text: command,
         });
     }
 
     clear(channelId: ChannelId): void {
-        this._dispatcher.clearMessage.onNext(channelId);
+        this._dispatcher.clearMessage.next(channelId);
     }
 
     setTopic(channelId: ChannelId, topic: string): void {
-        this._dispatcher.setTopic.onNext({
+        this._dispatcher.setTopic.next({
             id: channelId,
             topic: topic,
         });
     }
 
     setNickname(networkId: NetworkId, nickname: string): void {
-        this._dispatcher.setNickname.onNext({
+        this._dispatcher.setNickname.next({
             id: networkId,
             nickname: nickname,
         });
     }
 
     updateUserList(channelId: ChannelId, list: Array<User>): void {
-        this._dispatcher.updateUserList.onNext({
+        this._dispatcher.updateUserList.next({
             channelId,
             list,
         });
     }
 
     queryWhoIs(channelId: ChannelId, user: string): void {
-        this._dispatcher.queryWhoIs.onNext({
+        this._dispatcher.queryWhoIs.next({
             channelId,
             user,
         });
     }
 
     fetchHiddenLog(channelId: ChannelId, length: number): void {
-        this._dispatcher.fetchHiddenLog.onNext({
+        this._dispatcher.fetchHiddenLog.next({
             channelId,
             length,
         });

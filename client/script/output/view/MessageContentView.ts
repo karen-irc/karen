@@ -23,14 +23,13 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react-dom.d.ts" />
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as ReactDOMServer from 'react-dom/server';
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import {MessageItem} from './MessageItem';
 import {UserList} from './UserList';
@@ -53,7 +52,7 @@ export class MessageContentView {
     private _showMoreButtonElement: Element;
     private _closeButton: Element;
 
-    private _disposer: Rx.IDisposable;
+    private _disposer: Rx.Subscription;
 
     constructor(domain: ChannelDomain, element: Element) {
         this._channelId = domain.getId();
@@ -67,7 +66,7 @@ export class MessageContentView {
         this._showMoreButtonElement = this._element.querySelector('.show-more-button');
         this._closeButton = this._element.querySelector('.js-chatwindow-close');
 
-        const disposer: Rx.CompositeDisposable = new Rx.CompositeDisposable();
+        const disposer = new Rx.Subscription();
         this._disposer = disposer;
 
         disposer.add(domain.updatedUserList().subscribe((list: Array<User>) => {
@@ -126,7 +125,7 @@ export class MessageContentView {
     }
 
     dispose(): void {
-        this._disposer.dispose();
+        this._disposer.unsubscribe();
         this._disposer = null;
         this._element = null;
     }

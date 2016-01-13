@@ -23,10 +23,8 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
-
 import {Option} from 'option-t';
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import AppActionCreator from '../intent/action/AppActionCreator';
 import {Channel} from '../domain/Channel';
@@ -41,13 +39,13 @@ const BASE_TITLE = 'karen';
 export class WindowPresenter implements EventListenerObject {
 
     private _domain: DomainState;
-    private _disposer: Rx.CompositeDisposable;
+    private _disposer: Rx.Subscription;
 
     private _currenTab: SelectedTab;
 
     constructor(domain: DomainState) {
         this._domain = domain;
-        this._disposer = new Rx.CompositeDisposable();
+        this._disposer = new Rx.Subscription();
 
         this._disposer.add(AppActionCreator.dispatcher().reload.subscribe(function () {
             window.onbeforeunload = null;
@@ -116,7 +114,7 @@ export class WindowPresenter implements EventListenerObject {
         window.removeEventListener('resize', this);
         window.document.documentElement.removeEventListener('keydown', this);
 
-        this._disposer.dispose();
+        this._disposer.unsubscribe();
 
         this._currenTab = null;
         this._disposer = null;

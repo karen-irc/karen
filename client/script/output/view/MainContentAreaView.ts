@@ -23,13 +23,12 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react-dom.d.ts" />
 
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import {ChatWindowItem, ChatWindowList} from './ChatWindowItem';
 import {ConnectSettingContext} from '../context/ConnectSettingContext';
@@ -57,7 +56,7 @@ export class MainContentAreaView {
 
     private _element: Element;
     private _channelMap: Map<ChannelId, MessageContentView>;
-    private _disposer: Rx.IDisposable;
+    private _disposer: Rx.Subscription;
 
     private _chatContentArea: Element;
     private _signin: SignInView;
@@ -67,7 +66,7 @@ export class MainContentAreaView {
         this._element = element;
         this._channelMap = new Map();
 
-        const disposer = new Rx.CompositeDisposable();
+        const disposer = new Rx.Subscription();
         this._disposer = disposer;
         this._chatContentArea = element.querySelector('#chat');
 

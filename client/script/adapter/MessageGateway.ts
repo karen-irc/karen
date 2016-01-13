@@ -23,10 +23,8 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
-
 import {Option, Some, None} from 'option-t';
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import MessageActionCreator from '../intent/action/MessageActionCreator';
 import {Channel} from '../domain/Channel';
@@ -48,12 +46,12 @@ import {SocketIoDriver} from './SocketIoDriver';
 export class MessageGateway {
 
     private _socket: SocketIoDriver;
-    private _disposer: Rx.IDisposable;
+    private _disposer: Rx.Subscription;
 
     constructor(socket: SocketIoDriver) {
         this._socket = socket;
 
-        const disposer = new Rx.CompositeDisposable();
+        const disposer = new Rx.Subscription();
         this._disposer = disposer;
 
         const messageDispatcher = MessageActionCreator.dispatcher();
@@ -114,10 +112,11 @@ export class MessageGateway {
     }
 
     disconnected(): Rx.Observable<void> {
-        return Rx.Observable.merge([
+        const args = [
             this._socket.connectError(),
             this._socket.disconnect(),
-        ]);
+        ];
+        return Rx.Observable.merge<void, void>(...args);
     }
 
     addNetwork(): Rx.Observable<Network> {

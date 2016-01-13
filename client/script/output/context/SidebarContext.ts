@@ -23,13 +23,12 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
 /// <reference path="../../../../tsd/third_party/react/react-dom.d.ts" />
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import {Sidebar} from '../view/Sidebar';
 import {SidebarStore, SidebarViewState} from '../viewmodel/SidebarStore';
@@ -41,7 +40,7 @@ import {ViewContext} from './ViewContext';
 export class SidebarContext implements ViewContext {
 
     private _viewmodel: SidebarStore;
-    private _viewDisposer: Rx.IDisposable;
+    private _viewDisposer: Rx.Subscription;
 
     constructor(domain: DomainState) {
         this._viewmodel = new SidebarStore(domain);
@@ -49,7 +48,7 @@ export class SidebarContext implements ViewContext {
     }
 
     private _destroy(): void {
-        this._viewDisposer.dispose();
+        this._viewDisposer.unsubscribe();
         this._viewmodel.dispose();
 
         this._viewDisposer = null;
@@ -68,8 +67,8 @@ export class SidebarContext implements ViewContext {
 
     onSuspend(mountpoint: Element): void {}
 
-    private _mount(mountpoint: Element): Rx.IDisposable {
-        const observer: Rx.Observer<SidebarViewState> = Rx.Observer.create((model: SidebarViewState) => {
+    private _mount(mountpoint: Element): Rx.Subscription {
+        const observer: Rx.Subscriber<SidebarViewState> = Rx.Subscriber.create((model: SidebarViewState) => {
             const view = React.createElement(Sidebar, {
                 model,
             });

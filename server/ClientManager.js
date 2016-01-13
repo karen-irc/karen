@@ -3,7 +3,7 @@ import path from 'path';
 import Client from './Client';
 import mkdirp from 'mkdirp';
 import ConfigDriver from './adapter/ConfigDriver';
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 /**
  *  @template   T
@@ -195,7 +195,7 @@ export default class ClientManager {
     }
 
     /**
-     * @return {Rx.IDisposable}
+     * @return {Rx.Subscription}
      */
     autoload() {
         return Rx.Observable.interval(1000).subscribe(() => {

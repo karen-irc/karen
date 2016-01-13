@@ -38,12 +38,12 @@ class AppActionCreator {
     }
 
     reload(): void {
-        this._dispatcher.reload.onNext(undefined);
+        this._dispatcher.reload.next(undefined);
     }
 
     signout(): void {
-        this._dispatcher.signout.onNext(undefined);
-        this._dispatcher.reload.onNext(undefined);
+        this._dispatcher.signout.next(undefined);
+        this._dispatcher.reload.next(undefined);
     }
 }
 

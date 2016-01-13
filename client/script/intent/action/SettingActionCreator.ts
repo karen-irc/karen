@@ -38,7 +38,7 @@ class SettingActionCreator {
     }
 
     setOption(name: string, value: any): void {
-        this._dispatcher.setOption.onNext({
+        this._dispatcher.setOption.next({
             name: name,
             value: value,
         });

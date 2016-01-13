@@ -23,9 +23,7 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
-
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import AppActionCreator from '../../intent/action/AppActionCreator';
 import {MessageGateway} from '../../adapter/MessageGateway';
@@ -43,11 +41,11 @@ export class SidebarFooterView implements EventListenerObject {
 
     _lastSelectedElement: HTMLElement;
 
-    _disposableSignIn: Rx.IDisposable;
-    _disposableSignout: Rx.IDisposable;
-    _disposableShowConnect: Rx.IDisposable;
-    _disposableShowSetting: Rx.IDisposable;
-    _disposableSelectChannel: Rx.IDisposable;
+    _disposableSignIn: Rx.Subscription;
+    _disposableSignout: Rx.Subscription;
+    _disposableShowConnect: Rx.Subscription;
+    _disposableShowSetting: Rx.Subscription;
+    _disposableSelectChannel: Rx.Subscription;
 
     constructor(domain: DomainState, message: MessageGateway, element: Element) {
         this._element = element;
@@ -88,11 +86,11 @@ export class SidebarFooterView implements EventListenerObject {
     destroy(): void {
         this._element.removeEventListener('click', this);
 
-        this._disposableSignIn.dispose();
-        this._disposableSignout.dispose();
-        this._disposableShowConnect.dispose();
-        this._disposableShowSetting.dispose();
-        this._disposableSelectChannel.dispose();
+        this._disposableSignIn.unsubscribe();
+        this._disposableSignout.unsubscribe();
+        this._disposableShowConnect.unsubscribe();
+        this._disposableShowSetting.unsubscribe();
+        this._disposableSelectChannel.unsubscribe();
 
         this._element = null;
         this._signinElement = null;

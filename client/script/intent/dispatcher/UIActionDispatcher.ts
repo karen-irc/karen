@@ -23,9 +23,7 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../node_modules/rx/ts/rx.all.es6.d.ts" />
-
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import {ChannelId} from '../../domain/ChannelDomain';
 
@@ -69,10 +67,10 @@ export class UIActionDispatcher {
         this.tryCloseChannel = new Rx.Subject<ChannelId>();
         this.toggleInlineImage = new Rx.Subject<void>();
 
-        this.showSomeSettings = Rx.Observable.merge<SettingId>([
-            this.showSignIn.asObservable().map(function() { return 'sign-in'; }),
-            this.showConnectSetting.asObservable().map(function() { return 'connect'; }),
-            this.showGeneralSetting.asObservable().map(function() { return 'settings'; }),
+        this.showSomeSettings = Rx.Observable.merge<SettingId, SettingId>(...[
+            this.showSignIn.map(function() { return 'sign-in'; }),
+            this.showConnectSetting.map(function() { return 'connect'; }),
+            this.showGeneralSetting.map(function() { return 'settings'; }),
         ]);
     }
 }

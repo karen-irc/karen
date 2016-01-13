@@ -23,9 +23,7 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../node_modules/rx/ts/rx.all.es6.d.ts" />
-
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import {AudioDriver} from '../adapter/AudioDriver';
 import {ConfigRepository} from '../adapter/ConfigRepository';
@@ -41,9 +39,9 @@ export class NotificationPresenter {
 
     _audio: AudioDriver;
     _config: ConfigRepository;
-    _disposePlay: Rx.IDisposable;
-    _disposeRequestPermission: Rx.IDisposable;
-    _disposeshowNotification: Rx.IDisposable;
+    _disposePlay: Rx.Subscription;
+    _disposeRequestPermission: Rx.Subscription;
+    _disposeshowNotification: Rx.Subscription;
 
     constructor(config: ConfigRepository) {
         const dispatcher = NotificationActionCreator.dispatcher();
@@ -66,9 +64,9 @@ export class NotificationPresenter {
     }
 
     destroy(): void {
-        this._disposePlay.dispose();
-        this._disposeRequestPermission.dispose();
-        this._disposeshowNotification.dispose();
+        this._disposePlay.unsubscribe();
+        this._disposeRequestPermission.unsubscribe();
+        this._disposeshowNotification.unsubscribe();
 
         this._audio = null;
         this._disposePlay = null;
@@ -105,7 +103,8 @@ export class NotificationPresenter {
                 UIActionCreator.selectChannel(channelId);
             });
 
-            click.amb(timeout).subscribeOnCompleted(function(){
+            const close: Rx.Observable<void> = click.race(timeout);
+            close.subscribe(function(){}, function(){}, function(){
                 notification.close();
                 notification = null;
             });

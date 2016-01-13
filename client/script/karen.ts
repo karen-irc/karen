@@ -1,19 +1,19 @@
 /*global moment: true */
 
 /// <reference path="../../tsd/extends.d.ts" />
-/// <reference path="../../node_modules/rx/ts/rx.all.es6.d.ts" />
 /// <reference path="../../tsd/third_party/react/react.d.ts" />
 /// <reference path="../../tsd/third_party/react/react-dom.d.ts" />
 
 import {Option} from 'option-t';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import AppActionCreator from './intent/action/AppActionCreator';
 import {AppView} from './output/view/AppView';
 import {AuthRepository} from './adapter/AuthRepository';
 import {Channel} from './domain/Channel';
+import {ChannelId} from './domain/ChannelDomain';
 import {ConfigRepository} from './adapter/ConfigRepository';
 import {CookieDriver} from './adapter/CookieDriver';
 import {DomainState} from './domain/DomainState';
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    settingStore.subscribe(Rx.Observer.create(function (option: any) { // FIXME
+    settingStore.subscribe(Rx.Subscriber.create(function (option: any) { // FIXME
         const name = option.name;
         const value = option.value;
 
@@ -208,7 +208,8 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         });
     });
 
-    const shouldShowLatestInChannel = UIActionCreator.dispatcher().showLatestInChannel.debounce(100)
+    const shouldShowLatestInChannel: Rx.Observable<ChannelId> =
+        UIActionCreator.dispatcher().showLatestInChannel.debounceTime(100)
         .merge(globalState.getSelectedChannel());
     shouldShowLatestInChannel.subscribe(function(channelId){
         const targetChanel = document.getElementById('js-chan-' + String(channelId));

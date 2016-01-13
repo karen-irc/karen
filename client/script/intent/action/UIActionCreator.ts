@@ -40,51 +40,51 @@ class UIActionCreator {
     }
 
     toggleLeftPane(shouldOpen: boolean): void {
-        this._dispatcher.toggleLeftPane.onNext(shouldOpen);
+        this._dispatcher.toggleLeftPane.next(shouldOpen);
     }
 
     toggleRightPane(shouldOpen: boolean): void {
-        this._dispatcher.toggleRightPane.onNext(shouldOpen);
+        this._dispatcher.toggleRightPane.next(shouldOpen);
     }
 
     focusInputBox(): void {
-        this._dispatcher.focusInputBox.onNext(undefined);
+        this._dispatcher.focusInputBox.next(undefined);
     }
 
     focusWindow(): void {
-        this._dispatcher.focusWindow.onNext(undefined);
+        this._dispatcher.focusWindow.next(undefined);
     }
 
     selectChannel(id: ChannelId): void {
-        this._dispatcher.selectChannel.onNext(id);
+        this._dispatcher.selectChannel.next(id);
     }
 
     setQuitConfirmDialog(): void {
-        this._dispatcher.setQuitConfirmDialog.onNext(undefined);
+        this._dispatcher.setQuitConfirmDialog.next(undefined);
     }
 
     showConnectSetting(): void {
-        this._dispatcher.showConnectSetting.onNext(undefined);
+        this._dispatcher.showConnectSetting.next(undefined);
     }
 
     showGeneralSetting(): void {
-        this._dispatcher.showGeneralSetting.onNext(undefined);
+        this._dispatcher.showGeneralSetting.next(undefined);
     }
 
     showSignIn(): void {
-        this._dispatcher.showSignIn.onNext(undefined);
+        this._dispatcher.showSignIn.next(undefined);
     }
 
     showLatestInChannel(channelId: ChannelId): void {
-        this._dispatcher.showLatestInChannel.onNext(channelId);
+        this._dispatcher.showLatestInChannel.next(channelId);
     }
 
     tryCloseChannel(channelId: ChannelId): void {
-        this._dispatcher.tryCloseChannel.onNext(channelId);
+        this._dispatcher.tryCloseChannel.next(channelId);
     }
 
     toggleInlineImage(): void {
-        this._dispatcher.toggleInlineImage.onNext(undefined);
+        this._dispatcher.toggleInlineImage.next(undefined);
     }
 }
 
