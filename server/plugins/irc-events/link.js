@@ -68,6 +68,8 @@ function fetch(url, cb) {
             }
         })
         .on('error', function() {})
+        // XXX: Avoid ESLint's mis-checking
+        /*eslint-disable array-callback-return*/
         .pipe(es.map(function(data, next) {
             length += data.length;
             if (length > limit) {
@@ -75,6 +77,7 @@ function fetch(url, cb) {
             }
             next(null, data);
         }))
+        /*eslint-enable */
         .pipe(es.wait(function(err, data) {
             if (err) {
                 return;
