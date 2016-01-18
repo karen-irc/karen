@@ -233,7 +233,10 @@ module.exports = {
         'no-nested-ternary': 2, // http://eslint.org/docs/rules/no-nested-ternary
         'no-new-object': 2, // In almost case, we don't have to use `new Object()` without any comments.
         'no-plusplus': 0,
-        'no-restricted-syntax': [2, 'ObjectPattern', 'ArrayPattern', 'RestElement', 'AssignmentPattern'], // for plain NodeJS
+        'no-restricted-syntax': [2,
+            'ObjectPattern', 'ArrayPattern', 'RestElement', 'AssignmentPattern', // for plain NodeJS
+            'ForInStatement', // We should ban a string reflection style in the environment which ES6 Map is available.
+        ],
         'no-spaced-func': 2,
         'no-ternary': 0, // http://eslint.org/docs/rules/no-ternary
         'no-trailing-spaces': 2,
