@@ -98,7 +98,7 @@ module.exports = {
         'no-case-declarations': 2,
         'no-div-regex': 2,
         'no-empty-pattern': 2,
-        'no-else-return': 1, // http://eslint.org/docs/rules/no-else-return
+        'no-else-return': 0, // http://eslint.org/docs/rules/no-else-return
         'no-empty-label': 2, // http://eslint.org/docs/rules/no-empty-label
         'no-eq-null': 2,
         'no-eval': 2,
