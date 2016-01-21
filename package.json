@@ -48,7 +48,7 @@
     "bcrypt-nodejs": "0.0.3",
     "cheerio": "^0.19.0",
     "commander": "^2.9.0",
-    "compression": "^1.6.0",
+    "compression": "^1.6.1",
     "cookies-js": "^1.2.2",
     "event-stream": "^3.3.2",
     "express": "^4.13.3",
@@ -68,7 +68,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.3.1",
-    "babel-core": "^6.4.0",
+    "babel-core": "^6.4.5",
     "babel-plugin-transform-inline-environment-variables": "^6.3.13",
     "babel-plugin-transform-node-env-inline": "^6.3.13",
     "babel-plugin-transform-react-constant-elements": "^6.4.0",
