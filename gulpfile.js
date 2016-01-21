@@ -38,6 +38,7 @@ const glob = require('./tools/glob');
 const spawnChildProcess = require('./tools/spawn');
 
 const isRelease = process.env.NODE_ENV === 'production';
+const isEnableRize = process.env.ENABLE_RIZE === '1';
 
 const DIST_SERVER = './dist/server/';
 const DIST_CLIENT = './dist/client/';
@@ -74,6 +75,10 @@ const SERVER_SRC = [
 
 
 gulp.task('__uglify', ['__clean:client:js'], function () {
+    if (isEnableRize) {
+        return Promise.resolve();
+    }
+
     return gulp.src(CLIENT_SRC_JS)
         .pipe(uglify('libs.min.js', {
             compress: false,
@@ -81,9 +86,22 @@ gulp.task('__uglify', ['__clean:client:js'], function () {
         .pipe(gulp.dest(DIST_CLIENT_JS));
 });
 
-gulp.task('__cp:client:js', ['__clean:client:js'], function () {
-    return gulp.src('./client/script/**/*.@(js|jsx)')
-        .pipe(gulp.dest(DIST_CLIENT_OBJ));
+gulp.task('__cp:client:js', ['__cp:client:js:rize', '__cp:client:js:classic']);
+gulp.task('__cp:client:js:classic', ['__clean:client:js'], function () {
+    const src = ['./client/script/**/*.@(js|jsx)'];
+    const objDir = path.resolve(DIST_CLIENT_OBJ, './script');
+    return gulp.src(src)
+        .pipe(gulp.dest(objDir));
+});
+gulp.task('__cp:client:js:rize', ['__clean:client:js'], function () {
+    if (!isEnableRize) {
+        return Promise.resolve();
+    }
+
+    const src = ['./client/rize/**/*.@(js|jsx)'];
+    const objDir = path.resolve(DIST_CLIENT_OBJ, './rize');
+    return gulp.src(src)
+        .pipe(gulp.dest(objDir));
 });
 
 gulp.task('__typescript', ['__clean:client:js'], function () {
@@ -98,8 +116,10 @@ gulp.task('__typescript', ['__clean:client:js'], function () {
 });
 
 gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'], function () {
+    const root = isEnableRize ? './rize/index.js' : './script/karen.js';
+
     const ENTRY_POINT = [
-        path.resolve(DIST_CLIENT_OBJ, './karen.js'),
+        path.resolve(DIST_CLIENT_OBJ, root),
     ];
 
     const option = {
@@ -182,6 +202,7 @@ gulp.task('__eslint', function () {
         './gulpfile.js',
         './client/.eslintrc.js',
         './client/script/',
+        './client/rize/',
         './defaults/',
         './server/',
         './tools/',

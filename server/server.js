@@ -17,6 +17,7 @@ import { KarenAppIndex as IndexTemplate } from './view/Index';
 import Client from './Client';
 import ClientManager from './ClientManager';
 
+const isEnableRize = process.env.ENABLE_RIZE === '1';
 
 let server = null;
 let config = {};
@@ -120,9 +121,11 @@ function index(req, res, next) {
     res.setHeader('X-Frame-Options', 'DENY');
     res.writeHead(200);
 
-    const view = React.createElement(IndexTemplate, {
-        data: data,
-    });
+    const view = isEnableRize ?
+        React.createElement('html', null) :
+        React.createElement(IndexTemplate, {
+            data: data,
+        });
     const html = '<!DOCTYPE html>' + ReactDOMServer.renderToStaticMarkup(view);
     res.end(html);
 }
