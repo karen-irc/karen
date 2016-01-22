@@ -30,8 +30,9 @@ const browserify = require('browserify');
 const del = require('del');
 const gulp = require('gulp');
 const babel = require('gulp-babel');
+const concat = require('gulp-concat');
 const postcss = require('gulp-postcss');
-const uglify = require('gulp-uglifyjs');
+const uglify = require('gulp-uglify');
 const path = require('path');
 const source = require('vinyl-source-stream');
 const glob = require('./tools/glob');
@@ -84,8 +85,10 @@ gulp.task('__uglify', ['__clean:client:js'], function () {
     }
 
     return gulp.src(CLIENT_SRC_JS)
-        .pipe(uglify('libs.min.js', {
-            compress: false,
+        .pipe(concat('libs.min.js'))
+        .pipe(uglify({
+            compress: true,
+            preserveComments: 'license',
         }))
         .pipe(gulp.dest(DIST_CLIENT_JS));
 });
