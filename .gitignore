@@ -9,6 +9,7 @@ node_modules/
 npm-debug.log
 
 dist/
+obj/
 tsd/third_party/tsd.d.ts
 
 
