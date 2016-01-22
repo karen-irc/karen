@@ -1,5 +1,5 @@
 /**
- * @license MIT License
+ * MIT License
  *
  * Copyright (c) 2016 Tetsuharu OHZEKI <saneyuki.snyk@gmail.com>
  * Copyright (c) 2016 Yusuke Suzuki <utatane.tea@gmail.com>
@@ -23,26 +23,26 @@
  * THE SOFTWARE.
  */
 
-import {NotificationService} from './adapter/NotificationService';
-import {NotificationAction} from './intent/NotificationAction';
+import * as Rx from 'rxjs';
 
-import {RizeNetworkSetDomain, RizeNetworkSetValue} from './domain/NetworkSetDomain';
+export class RizeNetworkSetDomain {
 
-/**
- *  ReInitialiZEd Client
- */
-export class RizeClient {
-
-    private _notification: NotificationService;
-    private _domain: RizeNetworkSetDomain;
+    private _value: Rx.Observable<RizeNetworkSetValue>;
 
     constructor() {
-        const notifyAction = new NotificationAction();
-        this._notification = new NotificationService(notifyAction.dispatcher());
+        this._value = Rx.Observable.of(new RizeNetworkSetValue()).share();
+    }
 
-        this._domain = new RizeNetworkSetDomain();
-        this._domain.getValue().subscribe((data: RizeNetworkSetValue) => {
-            console.log(data.value);
-        });
+    getValue(): Rx.Observable<RizeNetworkSetValue> {
+        return this._value;
+    }
+}
+
+export class RizeNetworkSetValue {
+
+    value: string;
+
+    constructor() {
+        this.value = 'Thé des Alizés';
     }
 }
