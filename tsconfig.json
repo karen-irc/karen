@@ -28,7 +28,6 @@
         "src/client/js",
         "src/client/themes",
         "src/server",
-        "test",
         "tools",
         "tsd"
     ]
