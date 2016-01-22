@@ -23,8 +23,6 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../node_modules/typescript/lib/lib.es6.d.ts" />
-
 import {Some, None} from 'option-t';
 import * as Rx from 'rxjs';
 

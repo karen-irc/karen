@@ -23,16 +23,55 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
+/// <reference path="../../../../tsd/cookies.d.ts" />
 
-import {ComponentClass} from 'react';
-import {Channel} from '../../domain/Channel';
+import cookies from 'cookies-js';
+import {Option, Some, None} from 'option-t';
 
-interface SidebarChannelItemProps {
-    key?: any;
-    channel: Channel;
-    isSelected: boolean;
-    isNotable: boolean;
+// from https://github.com/ScottHamper/Cookies/blob/master/src/cookies.d.ts
+type CookieOptions = {
+    path?: string;
+    domain?: string;
+    expires?: any;
+    secure?: boolean;
+};
+
+export class CookieDriver {
+
+    _cookie: any; // Cookies
+
+    /**
+     *  @constructor
+     */
+    constructor() {
+        this._cookie = cookies;
+    }
+
+    get(key: string): Option<any> {
+        const value: string = this._cookie.get(key);
+
+        // By https://github.com/ScottHamper/Cookies/blob/a2b58c5a6f8/src/cookies.js#L41
+        if (value === undefined) {
+            return new None<any>();
+        }
+
+        let result: any = null;
+        try {
+            result = JSON.parse(value);
+        }
+        catch (e) {
+            return new None<any>();
+        }
+
+        return new Some<any>(result);
+    }
+
+    set(key: string, value: any, option: CookieOptions = {}): void {
+        const encoded = JSON.stringify(value);
+        this._cookie.set(key, encoded, option);
+    }
+
+    remove(key: string, option: CookieOptions = {}): void {
+        this._cookie.expire(key, option);
+    }
 }
-
-export const SidebarChannelItem: ComponentClass<SidebarChannelItemProps>;

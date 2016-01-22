@@ -23,15 +23,17 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
+/// <reference path="../../../../../tsd/third_party/react/react.d.ts"/>
 
 import {ComponentClass} from 'react';
 
-import {ConnectionActionCreator} from '../../intent/action/ConnectionActionCreator';
-import {ConnectionValue} from '../../domain/value/ConnectionSettings';
+import {ChannelId} from '../../domain/ChannelDomain';
+import {User} from '../../domain/User';
 
-export var ConnectSettingWindow: ComponentClass<{
+interface UserListProps {
     key?: any;
-    action: ConnectionActionCreator;
-    data: ConnectionValue;
-}>;
+    channelId: ChannelId;
+    list: Array<User>;
+}
+
+export var UserList: ComponentClass<UserListProps>;

@@ -23,13 +23,20 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
+/// <reference path="../../../../../tsd/third_party/react/react.d.ts"/>
 
-import {ComponentClass} from 'react';
+import {Option} from 'option-t';
+import {StatelessComponent} from 'react';
 
-interface ToggleItemProps {
+import {ChannelId} from '../../domain/ChannelDomain';
+import {Network} from '../../domain/Network';
+
+interface SidebarNetworkItemProps {
     key?: any;
-    item: any;
+    network: Network;
+    selectedId: Option<ChannelId>;
+    notableChannelSet: Set<ChannelId>;
+    unreadCountMap: Map<ChannelId, number>;
 }
 
-export var ToggleItem: ComponentClass<ToggleItemProps>;
+export const SidebarNetworkItem: StatelessComponent<SidebarNetworkItemProps>;

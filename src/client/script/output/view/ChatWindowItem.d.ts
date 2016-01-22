@@ -23,15 +23,20 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
+/// <reference path="../../../../../tsd/third_party/react/react.d.ts"/>
 
-import {StatelessComponent} from 'react';
+import {ComponentClass} from 'react';
+import {Channel} from '../../domain/Channel';
 
-import {SidebarViewState} from '../viewmodel/SidebarStore';
-
-interface SidebarProps {
+interface ChatWindowListProps {
     key?: any;
-    model: SidebarViewState;
+    list: Array<Channel>;
 }
 
-export const Sidebar: StatelessComponent<SidebarProps>;
+interface ChatWindowItemProps {
+    key?: any;
+    channel: Channel;
+}
+
+export var ChatWindowList: ComponentClass<ChatWindowListProps>;
+export var ChatWindowItem: ComponentClass<ChatWindowItemProps>;
