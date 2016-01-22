@@ -6,7 +6,7 @@
         "moduleResolution": "node",
         "noImplicitAny": true,
         "noImplicitReturns": true,
-        "outDir": "./obj/",
+        "outDir": "./dist/client/__obj/",
         "pretty": true,
         "preserveConstEnums": true,
         "removeComments": false,
