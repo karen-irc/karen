@@ -6,7 +6,7 @@
   "bundle": "tsd/third_party/tsd.d.ts",
   "installed": {
     "socket.io-client/socket.io-client.d.ts": {
-      "commit": "70737c2a2496f7a13c4da63eb00081cad94d19f1"
+      "commit": "4a8a2ed5c35be37a5f1a199a391be21548c81c09"
     },
     "react/react.d.ts": {
       "commit": "4910a7c52a1cf335877ea3b0917eb65117a66637"
