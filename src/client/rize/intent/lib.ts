@@ -1,5 +1,5 @@
 /**
- * @license MIT License
+ * MIT License
  *
  * Copyright (c) 2016 Tetsuharu OHZEKI <saneyuki.snyk@gmail.com>
  * Copyright (c) 2016 Yusuke Suzuki <utatane.tea@gmail.com>
@@ -23,20 +23,6 @@
  * THE SOFTWARE.
  */
 
-import {NotificationService} from './adapter/NotificationService';
-import {NotificationAction} from './intent/NotificationAction';
-
-/**
- *  ReInitialiZEd Client
- */
-export class RizeClient {
-
-    private _notification: NotificationService;
-
-    constructor() {
-        const notifyAction = new NotificationAction();
-        this._notification = new NotificationService(notifyAction.dispatcher());
-
-        console.log('Thé des Alizés');
-    }
+export interface Action<Dispatcher> {
+    dispatcher(): Dispatcher;
 }
