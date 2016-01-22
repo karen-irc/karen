@@ -40,12 +40,15 @@ const spawnChildProcess = require('./tools/spawn');
 const isRelease = process.env.NODE_ENV === 'production';
 const isEnableRize = process.env.ENABLE_RIZE === '1';
 
-const DIST_SERVER = './dist/server/';
-const DIST_CLIENT = './dist/client/';
-const DIST_CLIENT_OBJ = path.resolve(DIST_CLIENT, './__obj/');
+const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
+
+const OBJ_DIR = path.resolve(__dirname, './obj/');
+const DIST_DIR = path.resolve(__dirname, './dist/');
+
+const DIST_SERVER = path.resolve(DIST_DIR, './server/');
+const DIST_CLIENT = path.resolve(DIST_DIR, './client/');
 const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
 const DIST_CLIENT_CSS = path.resolve(DIST_CLIENT, './css/');
-const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
 
 const CLIENT_SRC_JS = [
     path.resolve(NPM_MOD_DIR, './moment/moment.js'),
@@ -89,7 +92,7 @@ gulp.task('__uglify', ['__clean:client:js'], function () {
 gulp.task('__cp:client:js', ['__cp:client:js:rize', '__cp:client:js:classic']);
 gulp.task('__cp:client:js:classic', ['__clean:client:js'], function () {
     const src = ['./client/script/**/*.@(js|jsx)'];
-    const objDir = path.resolve(DIST_CLIENT_OBJ, './script');
+    const objDir = path.resolve(OBJ_DIR, './script');
     return gulp.src(src)
         .pipe(gulp.dest(objDir));
 });
@@ -99,7 +102,7 @@ gulp.task('__cp:client:js:rize', ['__clean:client:js'], function () {
     }
 
     const src = ['./client/rize/**/*.@(js|jsx)'];
-    const objDir = path.resolve(DIST_CLIENT_OBJ, './rize');
+    const objDir = path.resolve(OBJ_DIR, './rize');
     return gulp.src(src)
         .pipe(gulp.dest(objDir));
 });
@@ -119,7 +122,7 @@ gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'
     const root = isEnableRize ? './rize/index.js' : './script/karen.js';
 
     const ENTRY_POINT = [
-        path.resolve(DIST_CLIENT_OBJ, root),
+        path.resolve(OBJ_DIR, root),
     ];
 
     const option = {
@@ -288,7 +291,7 @@ gulp.task('__clean:client:js', function () {
         return del(path.join(dir, '**', '*.*'));
     };
 
-    const obj = deleter(DIST_CLIENT_OBJ);
+    const obj = deleter(OBJ_DIR);
     const dist = deleter(DIST_CLIENT_JS);
 
     return Promise.all([obj, dist]);
