@@ -42,6 +42,7 @@ const isEnableRize = process.env.ENABLE_RIZE === '1';
 
 const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
 
+const SRC_DIR = path.resolve(__dirname, './src/');
 const OBJ_DIR = path.resolve(__dirname, './obj/');
 const DIST_DIR = path.resolve(__dirname, './dist/');
 
@@ -52,13 +53,13 @@ const DIST_CLIENT_CSS = path.resolve(DIST_CLIENT, './css/');
 
 const CLIENT_SRC_JS = [
     path.resolve(NPM_MOD_DIR, './moment/moment.js'),
-    'client/js/libs/stringcolor.js',
-    'client/js/libs/parse.js',
+    'src/client/js/libs/stringcolor.js',
+    'src/client/js/libs/parse.js',
     path.resolve(NPM_MOD_DIR, './urijs/src/URI.js'),
 ];
 
 const SERVER_SRC = [
-    './server/**/*.@(js|jsx)'
+    './src/server/**/*.@(js|jsx)'
 ];
 
 /**
@@ -91,7 +92,7 @@ gulp.task('__uglify', ['__clean:client:js'], function () {
 
 gulp.task('__cp:client:js', ['__cp:client:js:rize', '__cp:client:js:classic']);
 gulp.task('__cp:client:js:classic', ['__clean:client:js'], function () {
-    const src = ['./client/script/**/*.@(js|jsx)'];
+    const src = ['./src/client/script/**/*.@(js|jsx)'];
     const objDir = path.resolve(OBJ_DIR, './script');
     return gulp.src(src)
         .pipe(gulp.dest(objDir));
@@ -101,7 +102,7 @@ gulp.task('__cp:client:js:rize', ['__clean:client:js'], function () {
         return Promise.resolve();
     }
 
-    const src = ['./client/rize/**/*.@(js|jsx)'];
+    const src = ['./src/client/rize/**/*.@(js|jsx)'];
     const objDir = path.resolve(OBJ_DIR, './rize');
     return gulp.src(src)
         .pipe(gulp.dest(objDir));
@@ -194,7 +195,7 @@ gulp.task('__postcss', ['__clean:client:css'], function () {
             remove: false,
         }),
     ];
-    return gulp.src('./client/css/style.css')
+    return gulp.src('./src/client/css/style.css')
         .pipe(postcss(processors))
         .pipe(gulp.dest(DIST_CLIENT_CSS));
 });
@@ -203,11 +204,11 @@ gulp.task('__eslint', function () {
     const src = [
         './.eslintrc.js',
         './gulpfile.js',
-        './client/.eslintrc.js',
-        './client/script/',
-        './client/rize/',
         './defaults/',
-        './server/',
+        './src/client/.eslintrc.js',
+        './src/client/script/',
+        './src/client/rize/',
+        './src/server/',
         './tools/',
     ];
 
@@ -229,8 +230,8 @@ gulp.task('__eslint', function () {
 
 gulp.task('__tslint', function () {
     const SRC = [
-        './client/**/*.@(ts|tsx)',
-        './server/**/*.@(ts|tsx)',
+        './src/client/**/*.@(ts|tsx)',
+        './src/server/**/*.@(ts|tsx)',
     ];
 
     return glob.resolveGlobList(SRC).then(function(list){

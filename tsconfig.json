@@ -18,15 +18,16 @@
     // Exclude a specified directry or specified TypeScript file (.ts, .tsx)
     "exclude": [
         ".git",
-        "client/audio",
-        "client/css",
-        "client/img",
-        "client/js",
-        "client/themes",
         "defaults",
         "dist",
         "node_modules",
-        "server",
+        "obj",
+        "src/client/audio",
+        "src/client/css",
+        "src/client/img",
+        "src/client/js",
+        "src/client/themes",
+        "src/server",
         "test",
         "tools",
         "tsd"

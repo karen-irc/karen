@@ -23,20 +23,15 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
+/// <reference path="../../../../../tsd/third_party/react/react.d.ts"/>
 
-import {ComponentClass} from 'react';
-import {Message} from '../../domain/Message';
+import {StatelessComponent} from 'react';
 
-interface MessageListProps {
+import {SidebarViewState} from '../viewmodel/SidebarStore';
+
+interface SidebarProps {
     key?: any;
-    list: Array<Message>;
+    model: SidebarViewState;
 }
 
-interface MessageItemProps {
-    key?: any;
-    message: Message;
-}
-
-export var MessageList: ComponentClass<MessageListProps>;
-export var MessageItem: ComponentClass<MessageItemProps>;
+export const Sidebar: StatelessComponent<SidebarProps>;

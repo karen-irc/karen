@@ -23,20 +23,16 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
+/// <reference path="../../../../../tsd/third_party/react/react.d.ts"/>
 
-import {Option} from 'option-t';
-import {StatelessComponent} from 'react';
+import {ComponentClass} from 'react';
+import {Channel} from '../../domain/Channel';
 
-import {ChannelId} from '../../domain/ChannelDomain';
-import {Network} from '../../domain/Network';
-
-interface SidebarNetworkItemProps {
+interface SidebarChannelItemProps {
     key?: any;
-    network: Network;
-    selectedId: Option<ChannelId>;
-    notableChannelSet: Set<ChannelId>;
-    unreadCountMap: Map<ChannelId, number>;
+    channel: Channel;
+    isSelected: boolean;
+    isNotable: boolean;
 }
 
-export const SidebarNetworkItem: StatelessComponent<SidebarNetworkItemProps>;
+export const SidebarChannelItem: ComponentClass<SidebarChannelItemProps>;

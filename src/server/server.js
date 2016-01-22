@@ -37,7 +37,7 @@ export default function(options) {
     app.use(compression());
     app.use(index);
     app.use('/dist', express.static('dist/client'));
-    app.use(express.static('client'));
+    app.use(express.static('src/client'));
 
     app.enable('trust proxy');
 

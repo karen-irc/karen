@@ -23,17 +23,13 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../tsd/third_party/react/react.d.ts"/>
+/// <reference path="../../../../../tsd/third_party/react/react.d.ts"/>
 
 import {ComponentClass} from 'react';
 
-import {ChannelId} from '../../domain/ChannelDomain';
-import {User} from '../../domain/User';
-
-interface UserListProps {
+interface ToggleItemProps {
     key?: any;
-    channelId: ChannelId;
-    list: Array<User>;
+    item: any;
 }
 
-export var UserList: ComponentClass<UserListProps>;
+export var ToggleItem: ComponentClass<ToggleItemProps>;
