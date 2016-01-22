@@ -1,5 +1,5 @@
 /**
- * @license MIT License
+ * MIT License
  *
  * Copyright (c) 2016 Tetsuharu OHZEKI <saneyuki.snyk@gmail.com>
  * Copyright (c) 2016 Yusuke Suzuki <utatane.tea@gmail.com>
@@ -23,20 +23,33 @@
  * THE SOFTWARE.
  */
 
-import {NotificationService} from './adapter/NotificationService';
-import {NotificationAction} from './intent/NotificationAction';
+import * as Rx from 'rxjs';
 
-/**
- *  ReInitialiZEd Client
- */
-export class RizeClient {
+import {Action} from './lib';
+import {NotifedTopic, NotificationIntent} from '../adapter/NotificationService';
 
-    private _notification: NotificationService;
+export class NotificationAction implements Action<NotificationDispatcher> {
+
+    private _dispatcher: NotificationDispatcher;
 
     constructor() {
-        const notifyAction = new NotificationAction();
-        this._notification = new NotificationService(notifyAction.dispatcher());
+        this._dispatcher = new NotificationDispatcher();
+    }
 
-        console.log('Thé des Alizés');
+    dispatcher(): NotificationDispatcher {
+        return this._dispatcher;
+    }
+
+    showNotification(topic: NotifedTopic): void {
+        this._dispatcher.showNotification.next(topic);
+    }
+}
+
+export class NotificationDispatcher implements NotificationIntent {
+
+    showNotification: Rx.Subject<NotifedTopic>;
+
+    constructor() {
+        this.showNotification = new Rx.Subject<NotifedTopic>();
     }
 }
