@@ -1,5 +1,5 @@
 /**
- * @license MIT License
+ * MIT License
  *
  * Copyright (c) 2016 Tetsuharu OHZEKI <saneyuki.snyk@gmail.com>
  * Copyright (c) 2016 Yusuke Suzuki <utatane.tea@gmail.com>
@@ -22,38 +22,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+/// <reference path="../../../../../tsd/third_party/react/react.d.ts" />
 
-/// <reference path="../../../tsd/third_party/react/react.d.ts" />
-/// <reference path="../../../tsd/third_party/react/react-dom.d.ts" />
+import {StatelessComponent} from 'react';
 
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import {RizeNetworkSetValue} from '../../domain/NetworkSetDomain';
 
-import {NotificationService} from './adapter/NotificationService';
-import {NotificationAction} from './intent/NotificationAction';
-
-import {RizeNetworkSetDomain, RizeNetworkSetValue} from './domain/NetworkSetDomain';
-import {MainContent} from './output/view/MainContent';
-
-/**
- *  ReInitialiZEd Client
- */
-export class RizeClient {
-
-    private _notification: NotificationService;
-    private _domain: RizeNetworkSetDomain;
-
-    constructor() {
-        const notifyAction = new NotificationAction();
-        this._notification = new NotificationService(notifyAction.dispatcher());
-
-        this._domain = new RizeNetworkSetDomain();
-        const mainArea = document.getElementById('js-main-content');
-        this._domain.getValue().subscribe((data: RizeNetworkSetValue) => {
-            const element = React.createElement(MainContent, {
-                model: data,
-            });
-            ReactDOM.render(element, mainArea);
-        });
-    }
+interface Props {
+    key?: any;
+    model: RizeNetworkSetValue;
 }
+
+export const MainContent: StatelessComponent<Props>;
