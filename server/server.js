@@ -12,7 +12,7 @@ import * as ReactDOMServer from 'react-dom/server';
 import SocketIoServerDriver from './adapter/SocketIoServerDriver';
 import ConfigDriver from './adapter/ConfigDriver';
 import Package from './adapter/Package';
-import { KarenAppIndex as IndexTemplate } from './view/Index';
+import { KarenAppIndex as IndexTemplate } from './view/classic/Index';
 import {RizeIndex} from './view/rize/RizeIndex';
 
 import Client from './Client';
