@@ -88,7 +88,10 @@ export class ChatWindowItem extends React.Component {
                         </button>
                     </div>
                     <span className='title'>{channel.name}</span>
+                    {/*eslint-disable react/no-danger */}
+                    {/* XXX: We should create a some abstract sytax tree to construct a html safely...*/}
                     <span className='topic js-topic' dangerouslySetInnerHTML={topic}/>
+                    {/*eslint-enable */}
                 </div>
 
                 <div className='chat'>
