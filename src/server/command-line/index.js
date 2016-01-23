@@ -1,3 +1,5 @@
+/*eslint-disable no-sync */
+
 import path from 'path';
 import program from 'commander';
 import fs from 'fs';

@@ -100,7 +100,10 @@ export class MessageItem extends React.Component {
             const html = {
                 __html: parseForIRCMessage(message.text),
             };
+            /*eslint-disable react/no-danger */
+            // XXX: We should create a some abstract sytax tree to construct a html safely...
             content = <span dangerouslySetInnerHTML={html} />;
+            /*eslint-enable */
         }
 
         return (

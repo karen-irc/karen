@@ -50,10 +50,13 @@ export default function(options) {
     if (!httpsOptions.enable){
         server = http.createServer(app).listen(port, host);
     } else {
+        /*eslint-disable no-sync*/
+        // We can wait the synchronous call in the start up time.
         server = spdy.createServer({
             key: fs.readFileSync(httpsOptions.key),
             cert: fs.readFileSync(httpsOptions.certificate)
         }, app).listen(port, host);
+        /*eslint-enable */
     }
 
     gateway = new SocketIoServerDriver(server, transports);
@@ -194,28 +197,44 @@ function auth(socketGateway, data) {
         return;
     }
 
-    for (const client of manager.clients) {
-        let success = false;
-        if (data.token) {
-            if (data.token === client.token) {
-                success = true;
+    const tryAll = Array.from(manager.clients).map(function(client){
+        const trying = new Promise(function(resolve, reject){
+            if (!!data.token && data.token === client.token) {
+                resolve(true);
+            } else if (client.config.user === data.user) {
+                bcrypt.compare((data.password || ''), client.config.password, function(err, res) {
+                    if (!!err) {
+                        reject(err);
+                        return;
+                    }
+                    resolve(res);
+                });
             }
-        } else if (client.config.user === data.user) {
-            if (bcrypt.compareSync(data.password || '', client.config.password)) {
-                success = true;
+            else {
+                resolve(false);
             }
-        }
+        });
+        const auth = trying.then(function(isSuccess){
+            if (!isSuccess) {
+                return false;
+            }
+            else {
+                let token = '';
+                if (data.remember || data.token) {
+                    token = client.token;
+                }
+                init(socketGateway, client, token);
+                return true;
+            }
+        });
+        return auth;
+    });
 
-        if (success) {
-            let token = '';
-            if (data.remember || data.token) {
-                token = client.token;
-            }
-            init(socketGateway, client, token);
-            return;
+    Promise.all(tryAll).then(function(result) {
+        const isSuccess = result.some((ok) => ok);
+        if (!isSuccess) {
+            // There are no succeeded clients, use authentication.
+            socketGateway.emitAuth();
         }
-    }
-
-    // There are no succeeded clients, use authentication.
-    socketGateway.emitAuth();
+    });
 }

@@ -90,10 +90,12 @@ export default class ClientManager {
     loadUser(name) {
         let raw = null;
         try {
+            /*eslint-disable no-sync */
             raw = fs.readFileSync(
                 path.join(ConfigDriver.getHome(), 'users', name + '.json'),
                 'utf-8'
             );
+            /*eslint-enable*/
         }
         catch (e) {
             console.log(e);
@@ -125,6 +127,7 @@ export default class ClientManager {
      * @return {Array}
      */
     getUsers() {
+        /*eslint-disable no-sync */
         const users = [];
         const usersPath = path.join(ConfigDriver.getHome(), 'users');
         mkdirp.sync(usersPath);
@@ -140,6 +143,7 @@ export default class ClientManager {
             return null;
         }
         return users;
+        /*eslint-enable*/
     }
 
     /**
@@ -162,12 +166,14 @@ export default class ClientManager {
                 log: false,
                 networks: []
             };
+            /*eslint-disable no-sync */
             mkdirp.sync(usersPath);
             fs.writeFileSync(
                 path.join(usersPath, name + '.json'),
                 JSON.stringify(user, null, '  '),
                 {mode: '0777'}
             );
+            /*eslint-enable*/
         } catch (e) {
             throw e;
         }
@@ -187,7 +193,9 @@ export default class ClientManager {
         }
         try {
             const userPath = path.join(ConfigDriver.getHome(), 'users', name + '.json');
+            /*eslint-disable no-sync */
             fs.unlinkSync(userPath);
+            /*eslint-enable*/
         } catch (e) {
             throw e;
         }
