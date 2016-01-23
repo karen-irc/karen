@@ -36,8 +36,11 @@ export class RizeNetworkSetDomain {
 
     constructor(dispatcher: UIDispatcher) {
         const channel = new Rx.Subject<RizeNetworkValue>();
-        this._domainMap = addNewNetworkDomain(new Map(), channel, dispatcher.addNetwork).publishReplay(1);
-        this._valueMap = addNewNetworkValue(new Map(), channel).publishReplay(1);
+
+        const succeededConnection: Rx.Observable<[NetworkId, ConnectionProgress]> = dispatcher.successConnection
+            .map((id) => [id, ConnectionProgress.Succcess]);
+        this._domainMap = addNewNetworkDomain(new Map(), channel, dispatcher.addNetwork, succeededConnection).publishReplay(1);
+        this._valueMap = updateNetworkValue(new Map(), channel).publishReplay(1);
 
         this._domainMap.connect();
         this._valueMap.connect();
@@ -66,17 +69,19 @@ export class RizeNetworkSetValue<V> {
 }
 
 function addNewNetworkDomain(map: Map<NetworkId, RizeNetworkDomain>,
-                             channel: Rx.Subject<RizeNetworkValue>,
-                             intent: Rx.Observable<string>): Rx.Observable<Map<NetworkId, RizeNetworkDomain>> {
+                             updater: Rx.Subject<RizeNetworkValue>,
+                             intent: Rx.Observable<string>,
+                             updateConnection: Rx.Observable<[NetworkId, ConnectionProgress]>): Rx.Observable<Map<NetworkId, RizeNetworkDomain>> {
     const result = intent.scan<Map<NetworkId, RizeNetworkDomain>>((acc, v) => {
-        const network = new RizeNetworkDomain(acc.size, channel, ConnectionProgress.Loading, v);
+        const id = acc.size;
+        const network = new RizeNetworkDomain(id, updater, updateConnection.startWith([id, ConnectionProgress.Loading]), v);
         acc.set(network.id(), network);
         return acc;
     }, map).startWith(map);
     return result.share();
 }
 
-function addNewNetworkValue(map: Map<NetworkId, RizeNetworkValue>,
+function updateNetworkValue(map: Map<NetworkId, RizeNetworkValue>,
                             adding: Rx.Subject<RizeNetworkValue>): Rx.Observable<Map<NetworkId, RizeNetworkValue>> {
     const src = Rx.Observable.of(map);
     const result = adding.withLatestFrom(src, function (value: RizeNetworkValue, map: Map<NetworkId, RizeNetworkValue>) {
