@@ -201,6 +201,7 @@ module.exports = {
         }], // XXX: a top level functions should be a declaration, but it would be good to allow both forms of declaration/expression.
         'id-length': 0, // http://eslint.org/docs/rules/id-length
         'id-match': 0, // http://eslint.org/docs/rules/id-match
+        'id-blacklist': 0, // http://eslint.org/docs/rules/id-blacklist
         'indent': [2, 4, {
             'SwitchCase': 1
         }],
