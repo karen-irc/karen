@@ -77,7 +77,13 @@ module.exports = {
         'valid-jsdoc': [2, {
             'requireReturn': true,
             'requireParamDescription': false,
-            'requireReturnDescription': false
+            'requireReturnDescription': false,
+            //'preferType': {
+            //    'Boolean': 'boolean',
+            //    'Number': 'number',
+            //    'String': 'string',
+            //    'object': 'Object',
+            //},
         }],
         'valid-typeof': 2,
 
@@ -106,7 +112,12 @@ module.exports = {
         'no-extra-bind': 1, // http://eslint.org/docs/rules/no-extra-bind
         'no-fallthrough': 2,
         'no-floating-decimal': 0, // http://eslint.org/docs/rules/no-floating-decimal
-        'no-implicit-coercion': 0, // http://eslint.org/docs/rules/no-implicit-coercion
+        'no-implicit-coercion': [2, { // http://eslint.org/docs/rules/no-implicit-coercion
+            'boolean': true,
+            'number': true,
+            'string': true,
+            'allow': ['!!', '+'], // Allow only these patterns.
+        }],
         'no-implicit-globals': 2,
         'no-implied-eval': 2,
         'no-invalid-this': 1,
@@ -201,6 +212,7 @@ module.exports = {
         }], // XXX: a top level functions should be a declaration, but it would be good to allow both forms of declaration/expression.
         'id-length': 0, // http://eslint.org/docs/rules/id-length
         'id-match': 0, // http://eslint.org/docs/rules/id-match
+        'id-blacklist': 0, // http://eslint.org/docs/rules/id-blacklist
         'indent': [2, 4, {
             'SwitchCase': 1
         }],
