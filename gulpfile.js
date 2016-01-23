@@ -54,8 +54,8 @@ const DIST_CLIENT_CSS = path.resolve(DIST_CLIENT, './css/');
 
 const CLIENT_SRC_JS = [
     path.resolve(NPM_MOD_DIR, './moment/moment.js'),
-    'src/client/js/libs/stringcolor.js',
-    'src/client/js/libs/parse.js',
+    path.resolve(SRC_DIR, './client/js/libs/stringcolor.js'),
+    path.resolve(SRC_DIR, './client/js/libs/parse.js'),
     path.resolve(NPM_MOD_DIR, './urijs/src/URI.js'),
 ];
 
