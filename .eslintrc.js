@@ -77,7 +77,13 @@ module.exports = {
         'valid-jsdoc': [2, {
             'requireReturn': true,
             'requireParamDescription': false,
-            'requireReturnDescription': false
+            'requireReturnDescription': false,
+            //'preferType': {
+            //    'Boolean': 'boolean',
+            //    'Number': 'number',
+            //    'String': 'string',
+            //    'object': 'Object',
+            //},
         }],
         'valid-typeof': 2,
 
