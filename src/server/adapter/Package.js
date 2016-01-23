@@ -27,9 +27,13 @@
 import fs from 'fs';
 import path from 'path';
 
-// NOTE: Take care the path to the root. This Package.js will be locate at
-// dist/server/adapter/Package.js. So '../../..' is required.
+// NOTE:
+//  * Take care the path to the root. This Package.js will be locate at
+//    dist/server/adapter/Package.js. So '../../..' is required.
+//  * We can wait the synchronous call in the start up time.
+/*eslint-disable no-sync*/
 const root = path.join(path.dirname(fs.realpathSync(__filename)), '../../..');
+/*eslint-enable */
 
 class Package {
     constructor(packageObject) {
