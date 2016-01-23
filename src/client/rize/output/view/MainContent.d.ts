@@ -26,11 +26,14 @@
 
 import {StatelessComponent} from 'react';
 
+import {RizeNetworkValue} from '../../domain/NetworkDomain';
 import {RizeNetworkSetValue} from '../../domain/NetworkSetDomain';
+import {UIAction} from '../../intent/UIAction';
 
 interface Props {
     key?: any;
-    model: RizeNetworkSetValue;
+    action: UIAction;
+    model: RizeNetworkSetValue<RizeNetworkValue>;
 }
 
 export const MainContent: StatelessComponent<Props>;
