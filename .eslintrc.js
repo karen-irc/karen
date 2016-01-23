@@ -106,7 +106,12 @@ module.exports = {
         'no-extra-bind': 1, // http://eslint.org/docs/rules/no-extra-bind
         'no-fallthrough': 2,
         'no-floating-decimal': 0, // http://eslint.org/docs/rules/no-floating-decimal
-        'no-implicit-coercion': 0, // http://eslint.org/docs/rules/no-implicit-coercion
+        'no-implicit-coercion': [2, { // http://eslint.org/docs/rules/no-implicit-coercion
+            'boolean': true,
+            'number': true,
+            'string': true,
+            'allow': ['!!', '+'], // Allow only these patterns.
+        }],
         'no-implicit-globals': 2,
         'no-implied-eval': 2,
         'no-invalid-this': 1,
