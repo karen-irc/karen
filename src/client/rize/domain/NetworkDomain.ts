@@ -32,22 +32,29 @@ export type NetworkId = number;
 export class RizeNetworkDomain {
 
     private _id: NetworkId;
-    private _connectionState: ConnectionProgress;
+    private _connectionState: Rx.Observable<ConnectionProgress>;
     private _name: string;
 
     private _value: Rx.Observable<RizeNetworkValue>;
 
     constructor(id: NetworkId,
                 channel: Rx.Subject<RizeNetworkValue>,
-                connection: ConnectionProgress,
+                connection: Rx.Observable<[NetworkId, ConnectionProgress]>,
                 name: string) {
         this._id = id;
-        this._connectionState = connection;
+        this._connectionState = connection
+            .filter(([id,]) => id === this._id)
+            .map(([, connection]) => connection);
         this._name = name;
 
-        const value = new RizeNetworkValue(id, connection, name);
-        this._value = Rx.Observable.of(value).share();
-        channel.next(value);
+        this._value = this._connectionState.map((connection: ConnectionProgress) => {
+            const value = new RizeNetworkValue(this._id, connection, this._name);
+            return value;
+        });
+
+        this._value.subscribe((value: RizeNetworkValue) => {
+            channel.next(value);
+        });
     }
 
     id(): NetworkId {

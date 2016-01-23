@@ -26,6 +26,7 @@
 
 import * as React from 'react';
 
+import {RizeNetworkValue} from '../../domain/NetworkDomain';
 import {RizeNetworkSetValue} from '../../domain/NetworkSetDomain';
 import {UIAction} from '../../intent/UIAction';
 
@@ -35,7 +36,7 @@ export function MainContent({ action, model, }) {
             <h1>{'Thé des Alizés'}</h1>
             <div style={{ 'display': 'flex', 'flex-direction': 'row', }}>
                 <NetworkAddForm action={action}/>
-                <DumpNetworkSet model={model}/>
+                <DumpNetworkSet action={action} model={model}/>
             </div>
         </div>
     );
@@ -45,14 +46,45 @@ MainContent.propTypes = {
     model: React.PropTypes.instanceOf(RizeNetworkSetValue).isRequired,
 };
 
-function DumpNetworkSet({ model }) {
-    const list = model.list().map((item) => <li key={item.id()}>{JSON.stringify(item)}</li>);
+function DumpNetworkSet({ model, action }) {
+    const list = model.list().map((item) => <DumpNetwork key={item.id()} action={action} model={item} />);
     return (
         <ul>{list}</ul>
     );
 }
 DumpNetworkSet.propTypes = {
+    action: React.PropTypes.instanceOf(UIAction).isRequired,
     model: React.PropTypes.instanceOf(RizeNetworkSetValue).isRequired,
+};
+
+class DumpNetwork extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.onClickSuccessConnection = this.onClickSuccessConnection.bind(this);
+    }
+
+    render() {
+        const model = this.props.model;
+
+        return (
+            <li>
+                <span>{JSON.stringify(model)}</span>
+                <button onClick={this.onClickSuccessConnection}>{'success connection'}</button>
+            </li>
+        );
+    }
+
+    onClickSuccessConnection(event) {
+        event.preventDefault();
+
+        const id = this.props.model.id();
+        this.props.action.successConnection(id);
+    }
+}
+DumpNetwork.propTypes = {
+    action: React.PropTypes.instanceOf(UIAction).isRequired,
+    model: React.PropTypes.instanceOf(RizeNetworkValue).isRequired,
 };
 
 
@@ -63,7 +95,7 @@ class NetworkAddForm extends React.Component {
 
         this._inputAddNetwork = null;
 
-        this.onClick = this.onClick.bind(this);
+        this.onClickAddNetwork = this.onClickAddNetwork.bind(this);
     }
 
     render() {
@@ -78,13 +110,13 @@ class NetworkAddForm extends React.Component {
                         {'network name'}
                         <input type='text' ref={ref}/>
                     </label>
-                    <button type="button" onClick={this.onClick}>{'add network'}</button>
+                    <button type='button' onClick={this.onClickAddNetwork}>{'add network'}</button>
                 </fieldset>
             </form>
         );
     }
 
-    onClick(aEvent) {
+    onClickAddNetwork(aEvent) {
         aEvent.preventDefault();
 
         const element = this._inputAddNetwork;

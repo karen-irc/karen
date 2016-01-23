@@ -25,6 +25,8 @@
 
 import * as Rx from 'rxjs';
 
+import {NetworkId} from '../domain/NetworkDomain';
+
 import {Action} from './lib';
 
 export class UIAction implements Action<UIDispatcher> {
@@ -42,13 +44,19 @@ export class UIAction implements Action<UIDispatcher> {
     addNetwork(name: string): void {
         this._dispatcher.addNetwork.next(name);
     }
+
+    successConnection(id: NetworkId): void {
+        this._dispatcher.successConnection.next(id);
+    }
 }
 
 export class UIDispatcher {
 
     addNetwork: Rx.Subject<string>;
+    successConnection: Rx.Subject<NetworkId>;
 
     constructor() {
         this.addNetwork = new Rx.Subject<string>();
+        this.successConnection = new Rx.Subject<NetworkId>();
     }
 }
