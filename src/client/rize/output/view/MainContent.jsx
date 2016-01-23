@@ -26,12 +26,70 @@
 import * as React from 'react';
 
 import {RizeNetworkSetValue} from '../../domain/NetworkSetDomain';
+import {UIAction} from '../../intent/UIAction';
 
-export function MainContent({ model: model }) {
+export function MainContent({ action, model, }) {
     return (
-        <div>{model.value}</div>
+        <div>
+            <h1>{'Thé des Alizés'}</h1>
+            <div style={{ 'display': 'flex', 'flex-direction': 'row', }}>
+                <NetworkAddForm action={action}/>
+                <DumpNetworkSet model={model}/>
+            </div>
+        </div>
     );
 }
 MainContent.propTypes = {
+    action: React.PropTypes.instanceOf(UIAction).isRequired,
     model: React.PropTypes.instanceOf(RizeNetworkSetValue).isRequired,
+};
+
+function DumpNetworkSet({ model }) {
+    const list = model.list().map((item) => <li key={item.id()}>{JSON.stringify(item)}</li>);
+    return (
+        <ul>{list}</ul>
+    );
+}
+DumpNetworkSet.propTypes = {
+    model: React.PropTypes.instanceOf(RizeNetworkSetValue).isRequired,
+};
+
+
+class NetworkAddForm extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this._inputAddNetwork = null;
+
+        this.onClick = this.onClick.bind(this);
+    }
+
+    render() {
+        const ref = (ref) => {
+            this._inputAddNetwork = ref;
+        };
+        return (
+            <form>
+                <fieldset>
+                    <legend>{'add network'}</legend>
+                    <label>
+                        {'network name'}
+                        <input type='text' ref={ref}/>
+                    </label>
+                    <button type="button" onClick={this.onClick}>{'add network'}</button>
+                </fieldset>
+            </form>
+        );
+    }
+
+    onClick(aEvent) {
+        aEvent.preventDefault();
+
+        const element = this._inputAddNetwork;
+        this.props.action.addNetwork(element.value);
+    }
+}
+NetworkAddForm.propTypes = {
+    action: React.PropTypes.instanceOf(UIAction).isRequired,
 };

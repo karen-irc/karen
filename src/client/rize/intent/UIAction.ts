@@ -1,5 +1,5 @@
 /**
- * @license MIT License
+ * MIT License
  *
  * Copyright (c) 2016 Tetsuharu OHZEKI <saneyuki.snyk@gmail.com>
  * Copyright (c) 2016 Yusuke Suzuki <utatane.tea@gmail.com>
@@ -23,34 +23,32 @@
  * THE SOFTWARE.
  */
 
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import * as Rx from 'rxjs';
 
-import {NotificationService} from './adapter/NotificationService';
-import {NotificationAction} from './intent/NotificationAction';
+import {Action} from './lib';
 
-import {RizeNetworkSetDomain, RizeNetworkSetValue} from './domain/NetworkSetDomain';
-import {MainContent} from './output/view/MainContent';
+export class UIAction implements Action<UIDispatcher> {
 
-/**
- *  ReInitialiZEd Client
- */
-export class RizeClient {
-
-    private _notification: NotificationService;
-    private _domain: RizeNetworkSetDomain;
+    private _dispatcher: UIDispatcher;
 
     constructor() {
-        const notifyAction = new NotificationAction();
-        this._notification = new NotificationService(notifyAction.dispatcher());
+        this._dispatcher = new UIDispatcher();
+    }
 
-        this._domain = new RizeNetworkSetDomain();
-        const mainArea = document.getElementById('js-main-content');
-        this._domain.getValue().subscribe((data: RizeNetworkSetValue) => {
-            const element = React.createElement(MainContent, {
-                model: data,
-            });
-            ReactDOM.render(element, mainArea);
-        });
+    dispatcher(): UIDispatcher {
+        return this._dispatcher;
+    }
+
+    addNetwork(name: string): void {
+        this._dispatcher.addNetwork.next(name);
+    }
+}
+
+export class UIDispatcher {
+
+    addNetwork: Rx.Subject<string>;
+
+    constructor() {
+        this.addNetwork = new Rx.Subject<string>();
     }
 }

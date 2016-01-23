@@ -1,5 +1,5 @@
 /**
- * @license MIT License
+ * MIT License
  *
  * Copyright (c) 2016 Tetsuharu OHZEKI <saneyuki.snyk@gmail.com>
  * Copyright (c) 2016 Yusuke Suzuki <utatane.tea@gmail.com>
@@ -23,5 +23,8 @@
  * THE SOFTWARE.
  */
 
-import {RizeClient} from './Rize';
-(<any>window).gKarenClient = new RizeClient();
+export const enum ConnectionProgress {
+    Loading,
+    Succcess,
+    Fail,
+}
