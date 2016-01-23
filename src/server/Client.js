@@ -150,10 +150,12 @@ export default class Client {
         });
 
         eventPluginList.forEach((plugin) => {
+            /*eslint-disable prefer-reflect */
             plugin.apply(this, [
                 irc,
                 network
             ]);
+            /*eslint-enable */
         });
 
         irc.once('welcome', () => {
@@ -194,12 +196,14 @@ export default class Client {
         const cmd = args.shift().replace('/', '').toLowerCase();
         inputPluginList.forEach((plugin) => {
             try {
+                /*eslint-disable prefer-reflect */
                 plugin.apply(this, [
                     target.network,
                     target.chan,
                     cmd,
                     args
                 ]);
+                /*eslint-enable */
             } catch (e) {
                 console.error(e);
             }
