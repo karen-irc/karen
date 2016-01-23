@@ -1,4 +1,4 @@
-/*eslint-disable consistent-this */
+/*eslint-disable consistent-this,no-param-reassign */
 
 import Message from '../../models/Message';
 import MessageType from '../../models/MessageType';
