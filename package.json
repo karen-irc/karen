@@ -50,7 +50,7 @@
     "compression": "^1.6.1",
     "cookies-js": "^1.2.2",
     "event-stream": "^3.3.2",
-    "express": "^4.13.3",
+    "express": "^4.13.4",
     "mkdirp": "^0.5.1",
     "moment": "^2.11.1",
     "option-t": "^0.15.0",
