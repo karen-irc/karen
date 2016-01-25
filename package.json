@@ -50,7 +50,7 @@
     "compression": "^1.6.1",
     "cookies-js": "^1.2.2",
     "event-stream": "^3.3.2",
-    "express": "^4.13.3",
+    "express": "^4.13.4",
     "mkdirp": "^0.5.1",
     "moment": "^2.11.1",
     "option-t": "^0.15.0",
@@ -62,7 +62,7 @@
     "slate-irc": "karen-irc/slate-irc.git#b12d540fa231b64e4e012c9e29412a2dc448acbe",
     "socket.io": "^1.4.4",
     "socket.io-client": "^1.4.4",
-    "spdy": "^3.1.0",
+    "spdy": "^3.2.0",
     "urijs": "^1.17.0"
   },
   "devDependencies": {
@@ -78,7 +78,7 @@
     "browserify": "^13.0.0",
     "del": "^2.2.0",
     "eslint": "2.0.0-beta.2",
-    "eslint-plugin-react": "^3.15.0",
+    "eslint-plugin-react": "^3.16.1",
     "glob": "^6.0.4",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
@@ -86,8 +86,8 @@
     "gulp-postcss": "^6.0.1",
     "gulp-uglify": "^1.5.1",
     "tsd": "^0.6.5",
-    "tslint": "3.2.2-dev.1",
-    "typescript": "1.8.0-dev.20160117",
+    "tslint": "3.3.0-dev.1",
+    "typescript": "1.8.0-dev.20160124",
     "vinyl-source-stream": "^1.1.0"
   }
 }

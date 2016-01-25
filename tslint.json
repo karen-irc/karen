@@ -20,7 +20,7 @@
         "no-use-before-declare": true,
         "no-var-keyword": true,
         "no-var-requires": true,
-        "quotemark": [true, "single", "avoid-escape"],
+        "quotemark": [true, "single", "jsx-single", "avoid-escape"],
         "radix": true,
         "semicolon": true,
         "triple-equals": true

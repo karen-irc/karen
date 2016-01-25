@@ -325,6 +325,7 @@ module.exports = {
         'react/jsx-boolean-value': [2, 'always'], // Force boolean attribute explicitly.
         'react/jsx-closing-bracket-location': 0,
         'react/jsx-curly-spacing': 1,
+        'react/jsx-equals-spacing': [1, 'never'],
         'react/jsx-handler-names': [2, {
             'eventHandlerPrefix': 'on', // we need not differ this prefix from `eventHandlerPropPrefix`.
             'eventHandlerPropPrefix': 'on',
@@ -333,13 +334,18 @@ module.exports = {
         'react/jsx-indent-props': 0,
         'react/jsx-key': 1,
         'react/jsx-max-props-per-line': 0,
-        'react/jsx-no-bind': 2,
+        'react/jsx-no-bind': [2, {
+            'ignoreRefs': true,
+            'allowArrowFunctions': false,
+            'allowBind': false,
+        }],
         'react/jsx-no-duplicate-props': 2,
         'react/jsx-no-literals': 0,
         'react/jsx-no-undef': 2,
         'react/jsx-sort-props': 0,
         'react/jsx-sort-prop-types': [0, {
-            'callbacksLast': true
+            'callbacksLast': true,
+            'requiredFirst': true,
         }],
         'react/jsx-uses-react': 1,
         'react/jsx-uses-vars': 1,
