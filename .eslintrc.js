@@ -334,7 +334,11 @@ module.exports = {
         'react/jsx-indent-props': 0,
         'react/jsx-key': 1,
         'react/jsx-max-props-per-line': 0,
-        'react/jsx-no-bind': 2,
+        'react/jsx-no-bind': [2, {
+            'ignoreRefs': true,
+            'allowArrowFunctions': false,
+            'allowBind': false,
+        }],
         'react/jsx-no-duplicate-props': 2,
         'react/jsx-no-literals': 0,
         'react/jsx-no-undef': 2,
