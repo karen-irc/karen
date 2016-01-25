@@ -340,7 +340,8 @@ module.exports = {
         'react/jsx-no-undef': 2,
         'react/jsx-sort-props': 0,
         'react/jsx-sort-prop-types': [0, {
-            'callbacksLast': true
+            'callbacksLast': true,
+            'requiredFirst': true,
         }],
         'react/jsx-uses-react': 1,
         'react/jsx-uses-vars': 1,
