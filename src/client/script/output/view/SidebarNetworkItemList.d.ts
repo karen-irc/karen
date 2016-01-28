@@ -23,8 +23,6 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../../tsd/third_party/react/react.d.ts"/>
-
 import {Option} from 'option-t';
 import {StatelessComponent} from 'react';
 

@@ -23,9 +23,6 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../../tsd/third_party/react/react.d.ts" />
-/// <reference path="../../../../../tsd/third_party/react/react-dom.d.ts" />
-
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rxjs';
