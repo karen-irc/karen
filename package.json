@@ -85,7 +85,6 @@
     "gulp-concat": "^2.6.0",
     "gulp-postcss": "^6.0.1",
     "gulp-uglify": "^1.5.1",
-    "tsd": "^0.6.5",
     "tslint": "3.3.0-dev.1",
     "typescript": "1.8.0-dev.20160124",
     "typings": "^0.6.3",
