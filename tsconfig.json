@@ -30,6 +30,7 @@
         "src/server",
         "tools",
         "typings/browser",
-        "typings/browser.d.ts"
+        "typings/browser.d.ts",
+        "typings/main"
     ]
 }
