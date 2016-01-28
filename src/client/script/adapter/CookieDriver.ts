@@ -23,22 +23,12 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../tsd/cookies.d.ts" />
-
-import cookies from 'cookies-js';
+import * as cookies from 'cookies-js';
 import {Option, Some, None} from 'option-t';
-
-// from https://github.com/ScottHamper/Cookies/blob/master/src/cookies.d.ts
-type CookieOptions = {
-    path?: string;
-    domain?: string;
-    expires?: any;
-    secure?: boolean;
-};
 
 export class CookieDriver {
 
-    _cookie: any; // Cookies
+    _cookie: CookiesStatic;
 
     /**
      *  @constructor

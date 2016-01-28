@@ -23,8 +23,6 @@
  * THE SOFTWARE.
  */
 
-/// <reference path="../../../../tsd/third_party/react/react.d.ts" />
-
 import * as React from 'react';
 
 import {SidebarViewState} from '../viewmodel/SidebarStore';

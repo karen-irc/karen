@@ -1,9 +1,10 @@
+// Compiled using typings@0.6.3
+// Source: https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/4a8a2ed5c35be37a5f1a199a391be21548c81c09/react/react-dom.d.ts
 // Type definitions for React v0.14 (react-dom)
 // Project: http://facebook.github.io/react/
 // Definitions by: Asana <https://asana.com>, AssureSign <http://www.assuresign.com>, Microsoft <https://microsoft.com>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
 
-/// <reference path="react.d.ts" />
 
 declare namespace __React {
     namespace __DOM {

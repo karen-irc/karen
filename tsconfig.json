@@ -29,6 +29,7 @@
         "src/client/themes",
         "src/server",
         "tools",
-        "tsd"
+        "typings/browser",
+        "typings/browser.d.ts"
     ]
 }

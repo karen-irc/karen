@@ -1,9 +1,3 @@
-/*global moment: true */
-
-/// <reference path="../../../tsd/extends.d.ts" />
-/// <reference path="../../../tsd/third_party/react/react.d.ts" />
-/// <reference path="../../../tsd/third_party/react/react-dom.d.ts" />
-
 import {Option} from 'option-t';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
