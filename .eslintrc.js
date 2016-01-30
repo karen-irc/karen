@@ -279,7 +279,6 @@ module.exports = {
         'space-before-function-paren': 0, // http://eslint.org/docs/rules/space-before-function-parentheses
         'space-in-parens': 0,
         'space-infix-ops': 1,
-        'space-return-throw-case': 1,
         'space-unary-ops': [2, {
             'words': true,
             'nonwords': false
