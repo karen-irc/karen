@@ -235,7 +235,10 @@ module.exports = {
         'new-parens': 2,
         'newline-after-var': 0, // http://eslint.org/docs/rules/newline-after-var
         'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
-        'no-bitwise': 2, // don't use bitwise operators without some optimizations.
+        'no-bitwise': [2, { // don't use bitwise operators without some optimizations.
+            'allow': [],
+            'int32Hint': true,
+        }],
         'no-continue': 0, // http://eslint.org/docs/rules/no-continue
         'no-inline-comments': 0, // http://eslint.org/docs/rules/no-inline-comments
         'no-lonely-if': 1, // http://eslint.org/docs/rules/no-lonely-if
@@ -258,6 +261,7 @@ module.exports = {
         'no-unneeded-ternary': 2,
         'object-curly-spacing': 0, // http://eslint.org/docs/rules/object-curly-spacing
         'one-var': [2, 'never'], // http://eslint.org/docs/rules/one-var
+        'one-var-declaration-per-line': 1, // http://eslint.org/docs/rules/one-var-declaration-per-line
         'operator-linebreak': [2, 'after'],
         'padded-blocks': 0,
         'quotes': [2, 'single', 'avoid-escape'],
@@ -279,7 +283,6 @@ module.exports = {
         'space-before-function-paren': 0, // http://eslint.org/docs/rules/space-before-function-parentheses
         'space-in-parens': 0,
         'space-infix-ops': 1,
-        'space-return-throw-case': 1,
         'space-unary-ops': [2, {
             'words': true,
             'nonwords': false
