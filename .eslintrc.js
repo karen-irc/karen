@@ -235,7 +235,10 @@ module.exports = {
         'new-parens': 2,
         'newline-after-var': 0, // http://eslint.org/docs/rules/newline-after-var
         'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
-        'no-bitwise': 2, // don't use bitwise operators without some optimizations.
+        'no-bitwise': [2, { // don't use bitwise operators without some optimizations.
+            'allow': [],
+            'int32Hint': true,
+        }],
         'no-continue': 0, // http://eslint.org/docs/rules/no-continue
         'no-inline-comments': 0, // http://eslint.org/docs/rules/no-inline-comments
         'no-lonely-if': 1, // http://eslint.org/docs/rules/no-lonely-if
