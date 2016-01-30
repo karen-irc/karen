@@ -261,6 +261,7 @@ module.exports = {
         'no-unneeded-ternary': 2,
         'object-curly-spacing': 0, // http://eslint.org/docs/rules/object-curly-spacing
         'one-var': [2, 'never'], // http://eslint.org/docs/rules/one-var
+        'one-var-declaration-per-line': 1, // http://eslint.org/docs/rules/one-var-declaration-per-line
         'operator-linebreak': [2, 'after'],
         'padded-blocks': 0,
         'quotes': [2, 'single', 'avoid-escape'],
