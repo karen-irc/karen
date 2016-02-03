@@ -142,6 +142,7 @@ module.exports = {
         'no-redeclare': 2,
         'no-return-assign': 2,
         'no-script-url': 2,
+        'no-self-assign': 2, // http://eslint.org/docs/rules/no-self-assign
         'no-self-compare': 2, //http://eslint.org/docs/rules/no-self-compare
         'no-sequences': 2, // We're not doing a code golf: http://eslint.org/docs/rules/no-sequences
         'no-throw-literal': 2,
