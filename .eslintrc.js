@@ -147,6 +147,7 @@ module.exports = {
         'no-throw-literal': 2,
         'no-unmodified-loop-condition': 1,
         'no-unused-expressions': 2,
+        'no-unused-labels': 2, // http://eslint.org/docs/rules/no-unused-labels
         'no-useless-call': 1,
         'no-useless-concat': 1,
         'no-void': 2, // We live in after ES5 : http://eslint.org/docs/rules/no-void
