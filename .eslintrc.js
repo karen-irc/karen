@@ -105,11 +105,11 @@ module.exports = {
         'no-div-regex': 2,
         'no-empty-pattern': 2,
         'no-else-return': 0, // http://eslint.org/docs/rules/no-else-return
-        'no-empty-label': 2, // http://eslint.org/docs/rules/no-empty-label
         'no-eq-null': 2,
         'no-eval': 2,
         'no-extend-native': 2, // http://eslint.org/docs/rules/no-extend-native
         'no-extra-bind': 1, // http://eslint.org/docs/rules/no-extra-bind
+        'no-extra-label': 1, // http://eslint.org/docs/rules/no-extra-label
         'no-fallthrough': 2,
         'no-floating-decimal': 0, // http://eslint.org/docs/rules/no-floating-decimal
         'no-implicit-coercion': [2, { // http://eslint.org/docs/rules/no-implicit-coercion
@@ -142,11 +142,13 @@ module.exports = {
         'no-redeclare': 2,
         'no-return-assign': 2,
         'no-script-url': 2,
+        'no-self-assign': 2, // http://eslint.org/docs/rules/no-self-assign
         'no-self-compare': 2, //http://eslint.org/docs/rules/no-self-compare
         'no-sequences': 2, // We're not doing a code golf: http://eslint.org/docs/rules/no-sequences
         'no-throw-literal': 2,
         'no-unmodified-loop-condition': 1,
         'no-unused-expressions': 2,
+        'no-unused-labels': 2, // http://eslint.org/docs/rules/no-unused-labels
         'no-useless-call': 1,
         'no-useless-concat': 1,
         'no-void': 2, // We live in after ES5 : http://eslint.org/docs/rules/no-void
@@ -234,6 +236,9 @@ module.exports = {
         'new-cap': 1,
         'new-parens': 2,
         'newline-after-var': 0, // http://eslint.org/docs/rules/newline-after-var
+        'newline-per-chained-call': [0, { // http://eslint.org/docs/rules/newline-per-chained-call
+            'ignoreChainWithDepth': 4, // I don't feel this is a really problem at now...
+        }],
         'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
         'no-bitwise': [2, { // don't use bitwise operators without some optimizations.
             'allow': [],
@@ -319,6 +324,7 @@ module.exports = {
         'prefer-spread': 1,
         'prefer-template': 0,
         'require-yield': 2,
+        'template-curly-spacing': [1, 'never'], // http://eslint.org/docs/rules/template-curly-spacing
         'yield-star-spacing': [1, 'after'],
 
         // ESLint-plugin-React
