@@ -236,6 +236,9 @@ module.exports = {
         'new-cap': 1,
         'new-parens': 2,
         'newline-after-var': 0, // http://eslint.org/docs/rules/newline-after-var
+        'newline-per-chained-call': [0, { // http://eslint.org/docs/rules/newline-per-chained-call
+            'ignoreChainWithDepth': 4, // I don't feel this is a really problem at now...
+        }],
         'no-array-constructor': 2, // In almost case, we don't have to use `new Array()` without any comments.
         'no-bitwise': [2, { // don't use bitwise operators without some optimizations.
             'allow': [],
