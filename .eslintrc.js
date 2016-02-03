@@ -109,6 +109,7 @@ module.exports = {
         'no-eval': 2,
         'no-extend-native': 2, // http://eslint.org/docs/rules/no-extend-native
         'no-extra-bind': 1, // http://eslint.org/docs/rules/no-extra-bind
+        'no-extra-label': 1, // http://eslint.org/docs/rules/no-extra-label
         'no-fallthrough': 2,
         'no-floating-decimal': 0, // http://eslint.org/docs/rules/no-floating-decimal
         'no-implicit-coercion': [2, { // http://eslint.org/docs/rules/no-implicit-coercion
