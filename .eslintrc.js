@@ -319,6 +319,7 @@ module.exports = {
         'prefer-spread': 1,
         'prefer-template': 0,
         'require-yield': 2,
+        'template-curly-spacing': [1, 'never'], // http://eslint.org/docs/rules/template-curly-spacing
         'yield-star-spacing': [1, 'after'],
 
         // ESLint-plugin-React
