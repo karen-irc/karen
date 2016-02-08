@@ -104,6 +104,7 @@ export class SidebarFooterView implements EventListenerObject {
         switch (aEvent.type) {
             case 'click':
                 this.onClick(aEvent);
+                break;
         }
     }
 
