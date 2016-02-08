@@ -84,7 +84,7 @@
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
     "gulp-postcss": "^6.1.0",
-    "gulp-uglify": "^1.5.1",
+    "gulp-uglify": "^1.5.2",
     "tslint": "3.3.0-dev.2",
     "typescript": "1.9.0-dev.20160207",
     "typings": "^0.6.6",
