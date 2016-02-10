@@ -77,17 +77,17 @@
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
     "del": "^2.2.0",
-    "eslint": "2.0.0-rc.0",
+    "eslint": "2.0.0-rc.1",
     "eslint-plugin-react": "^3.16.1",
     "glob": "^6.0.4",
-    "gulp": "^3.9.0",
+    "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
     "gulp-postcss": "^6.1.0",
     "gulp-uglify": "^1.5.2",
-    "tslint": "3.3.0-dev.2",
+    "tslint": "3.4.0-dev.1",
     "typescript": "1.9.0-dev.20160207",
-    "typings": "^0.6.6",
+    "typings": "^0.6.7",
     "vinyl-source-stream": "^1.1.0"
   }
 }
