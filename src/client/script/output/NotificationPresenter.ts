@@ -97,8 +97,8 @@ export class NotificationPresenter {
                 icon: ICON_URL,
             });
 
-            const timeout = Rx.Observable.empty().delay(5 * 1000);
-            const click = Rx.Observable.fromEvent(notification, 'click').take(1).do(function(){
+            const timeout: Rx.Observable<void> = Rx.Observable.empty<void>().delay(5 * 1000);
+            const click: Rx.Observable<void> = Rx.Observable.fromEvent<void>(notification, 'click').take(1).do(function(){
                 UIActionCreator.focusWindow();
                 UIActionCreator.selectChannel(channelId);
             });
