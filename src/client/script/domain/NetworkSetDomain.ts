@@ -94,7 +94,7 @@ export class NetworkSetDomain {
                                              this._notableMsgDispatcher,
                                              this._notifiableMsgDispatcher);
             return domain;
-        }).combineLatest(this._list, (network: NetworkDomain, list: Array<NetworkDomain>) => {
+        }).combineLatest<Array<NetworkDomain>, [NetworkDomain, Array<NetworkDomain>]>(this._list, (network: NetworkDomain, list: Array<NetworkDomain>) => {
             this.legacy.add(network.getValue()); // for legacy model.
             list.push(network);
             return [network, list];
@@ -102,7 +102,8 @@ export class NetworkSetDomain {
             return network;
         }).share();
 
-        this._removedNetwork = gateway.quitNetwork().combineLatest(this._list, (networkId: NetworkId, list: Array<NetworkDomain>) => {
+        this._removedNetwork = gateway.quitNetwork()
+        .combineLatest<Array<NetworkDomain>, Option<NetworkDomain>>(this._list, (networkId: NetworkId, list: Array<NetworkDomain>) => {
             const target = list.find(function(domain){
                 return domain.getId() === networkId;
             });
