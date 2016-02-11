@@ -36,7 +36,7 @@ export class ConnectionStore {
     private _tryConnect: Rx.Subscription;
 
     constructor(intent: ConnectionActionDispatcher, gateway: MessageGateway) {
-        const network: Rx.Observable<NetworkValue> = Rx.Observable.combineLatest(
+        const network: Rx.Observable<NetworkValue> = Rx.Observable.combineLatest<string, string, number, string, boolean, NetworkValue>(
             intent.setNetworkName,
             intent.setServerURL,
             intent.setServerPort,
@@ -48,17 +48,17 @@ export class ConnectionStore {
             }
         );
 
-        const personal: Rx.Observable<PersonalValue> = Rx.Observable.combineLatest([
+        const personal: Rx.Observable<PersonalValue> = Rx.Observable.combineLatest<string, string, string, string, PersonalValue>(
             intent.setNickName,
             intent.setUserName,
             intent.setRealName,
             intent.setChannel,
-        ], function (nick: string, user: string, real: string, channel: string) {
+        function (nick: string, user: string, real: string, channel: string) {
             const value = new PersonalValue(nick, user, real, channel);
             return value;
         });
 
-        const canConnect = Rx.Observable.combineLatest(
+        const canConnect = Rx.Observable.combineLatest<NetworkValue, PersonalValue, boolean>(
             network,
             personal,
             function (network: NetworkValue, personal: PersonalValue) {

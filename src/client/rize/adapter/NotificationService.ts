@@ -25,6 +25,10 @@
 
 import * as Rx from 'rxjs';
 
+interface Notification extends EventTarget {
+    close(): void;
+}
+
 export interface NotifedTopic {
     title: string;
     body: string;
@@ -76,12 +80,12 @@ function requestPermittion(): Rx.Observable<boolean> {
 }
 
 function showNotification(topic: NotifedTopic): Rx.Observable<void> {
-    let notification = new (<any>window).Notification(topic.title, {
+    let notification: Notification = new (<any>window).Notification(topic.title, {
         body: topic.body,
         icon: topic.icon,
     });
-    const timeout = Rx.Observable.empty().delay(5 * 1000);
-    const click = Rx.Observable.fromEvent(<EventTarget>notification, 'click').take(1);
+    const timeout = Rx.Observable.empty<void>().delay(5 * 1000);
+    const click = Rx.Observable.fromEvent<void>(notification, 'click').take(1);
     const close: Rx.Observable<void> = click.race(timeout).do(function(){
         notification.close();
         notification = null;

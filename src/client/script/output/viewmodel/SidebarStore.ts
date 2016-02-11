@@ -124,7 +124,7 @@ export class SidebarStore {
                 }
             });
 
-        this._state = currentId.combineLatest(this._updater, (selectedId) => {
+        this._state = currentId.combineLatest<void, SidebarViewState>(this._updater, (selectedId) => {
             const array = Array.from(this._networkSet);
             const state = new SidebarViewState(array,
                                                selectedId,

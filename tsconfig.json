@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "diagnostics": false,
         "forceConsistentCasingInFileNames": true,
         "jsx": "preserve",
         "module": "es2015",
