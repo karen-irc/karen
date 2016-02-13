@@ -1,5 +1,5 @@
 /**
- * @license MIT License
+ * MIT License
  *
  * Copyright (c) 2016 Tetsuharu OHZEKI <saneyuki.snyk@gmail.com>
  * Copyright (c) 2016 Yusuke Suzuki <utatane.tea@gmail.com>
@@ -23,26 +23,43 @@
  * THE SOFTWARE.
  */
 
-import {NotificationService} from './adapter/NotificationService';
-import {NotificationAction} from './intent/NotificationAction';
+import * as Rx from 'rxjs';
 
-import {RizeNetworkSetDomain, RizeNetworkSetValue} from './domain/NetworkSetDomain';
+export type NetworkId = number;
 
-/**
- *  ReInitialiZEd Client
- */
-export class RizeClient {
+export class RizeNetworkDomain {
 
-    private _notification: NotificationService;
-    private _domain: RizeNetworkSetDomain;
+    private _id: NetworkId;
+    private _nickname: string;
 
-    constructor() {
-        const notifyAction = new NotificationAction();
-        this._notification = new NotificationService(notifyAction.dispatcher());
+    private _value: Rx.Observable<RizeNetworkValue>;
 
-        this._domain = new RizeNetworkSetDomain();
-        this._domain.getValue().subscribe((data: RizeNetworkSetValue) => {
-            console.log(data.value);
-        });
+    constructor(id: NetworkId, nickname: string) {
+        this._id = id;
+        this._nickname = nickname;
+
+        this._value = Rx.Observable.of(new RizeNetworkValue(id, nickname)).share();
+    }
+
+    getValue(): Rx.Observable<RizeNetworkValue> {
+        return this._value;
+    }
+}
+
+export class RizeNetworkValue {
+    private _id: NetworkId;
+    private _nickname: string;
+
+    constructor(id: NetworkId, nickname: string) {
+        this._id = id;
+        this._nickname = nickname;
+    }
+
+    id(): NetworkId {
+        return this._id;
+    }
+
+    nickname(): string {
+        return this._nickname;
     }
 }

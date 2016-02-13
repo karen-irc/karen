@@ -1,5 +1,5 @@
 /**
- * @license MIT License
+ * MIT License
  *
  * Copyright (c) 2016 Tetsuharu OHZEKI <saneyuki.snyk@gmail.com>
  * Copyright (c) 2016 Yusuke Suzuki <utatane.tea@gmail.com>
@@ -23,26 +23,50 @@
  * THE SOFTWARE.
  */
 
-import {NotificationService} from './adapter/NotificationService';
-import {NotificationAction} from './intent/NotificationAction';
+import * as Rx from 'rxjs';
 
-import {RizeNetworkSetDomain, RizeNetworkSetValue} from './domain/NetworkSetDomain';
+export type ChannelId = number;
 
-/**
- *  ReInitialiZEd Client
- */
-export class RizeClient {
+export const enum ChannelType {
+    Channel,
+    Lobby,
+    Query,
+}
 
-    private _notification: NotificationService;
-    private _domain: RizeNetworkSetDomain;
+export class RizeChannelDomain {
 
-    constructor() {
-        const notifyAction = new NotificationAction();
-        this._notification = new NotificationService(notifyAction.dispatcher());
+    private _id: ChannelId;
+    private _type: ChannelType;
+    private _value: Rx.Observable<RizeChannelValue>;
 
-        this._domain = new RizeNetworkSetDomain();
-        this._domain.getValue().subscribe((data: RizeNetworkSetValue) => {
-            console.log(data.value);
-        });
+    constructor(id: ChannelId,
+                type: ChannelType) {
+        this._id = id;
+        this._type = type;
+        this._value = Rx.Observable.of(new RizeChannelValue(id, type)).share();
+    }
+
+    getValue(): Rx.Observable<RizeChannelValue> {
+        return this._value;
+    }
+}
+
+export class RizeChannelValue {
+
+    private _id: ChannelId;
+    private _type: ChannelType;
+
+    constructor(id: ChannelId,
+                type: ChannelType) {
+        this._id = id;
+        this._type = type;
+    }
+
+    id(): ChannelId {
+        return this._id;
+    }
+
+    type(): ChannelType {
+        return this._type;
     }
 }
