@@ -23,8 +23,17 @@
  * THE SOFTWARE.
  */
 
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import {animationFrame} from 'rxjs/scheduler/animationFrame';
+
 import {NotificationService} from './adapter/NotificationService';
 import {NotificationAction} from './intent/NotificationAction';
+
+import {UIAction} from './intent/UIAction';
+
+import {RizeNetworkSetDomain} from './domain/NetworkSetDomain';
+import {MainContent} from './output/view/MainContent';
 
 /**
  *  ReInitialiZEd Client
@@ -32,11 +41,22 @@ import {NotificationAction} from './intent/NotificationAction';
 export class RizeClient {
 
     private _notification: NotificationService;
+    private _domain: RizeNetworkSetDomain;
 
     constructor() {
         const notifyAction = new NotificationAction();
         this._notification = new NotificationService(notifyAction.dispatcher());
 
-        console.log('Thé des Alizés');
+
+        const uiAction = new UIAction();
+        this._domain = new RizeNetworkSetDomain(uiAction.dispatcher());
+        const mainArea = document.getElementById('js-main-content');
+        this._domain.valueMap().observeOn(animationFrame).subscribe((data) => {
+            const element = React.createElement(MainContent, {
+                model: data,
+                action: uiAction,
+            });
+            ReactDOM.render(element, mainArea);
+        });
     }
 }

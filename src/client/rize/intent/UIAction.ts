@@ -1,5 +1,5 @@
 /**
- * @license MIT License
+ * MIT License
  *
  * Copyright (c) 2016 Tetsuharu OHZEKI <saneyuki.snyk@gmail.com>
  * Copyright (c) 2016 Yusuke Suzuki <utatane.tea@gmail.com>
@@ -23,5 +23,40 @@
  * THE SOFTWARE.
  */
 
-import {RizeClient} from './Rize';
-(<any>window).gKarenClient = new RizeClient();
+import * as Rx from 'rxjs';
+
+import {NetworkId} from '../domain/NetworkDomain';
+
+import {Action} from './lib';
+
+export class UIAction implements Action<UIDispatcher> {
+
+    private _dispatcher: UIDispatcher;
+
+    constructor() {
+        this._dispatcher = new UIDispatcher();
+    }
+
+    dispatcher(): UIDispatcher {
+        return this._dispatcher;
+    }
+
+    addNetwork(name: string): void {
+        this._dispatcher.addNetwork.next(name);
+    }
+
+    successConnection(id: NetworkId): void {
+        this._dispatcher.successConnection.next(id);
+    }
+}
+
+export class UIDispatcher {
+
+    addNetwork: Rx.Subject<string>;
+    successConnection: Rx.Subject<NetworkId>;
+
+    constructor() {
+        this.addNetwork = new Rx.Subject<string>();
+        this.successConnection = new Rx.Subject<NetworkId>();
+    }
+}

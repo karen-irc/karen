@@ -1,5 +1,5 @@
 /**
- * @license MIT License
+ * MIT License
  *
  * Copyright (c) 2016 Tetsuharu OHZEKI <saneyuki.snyk@gmail.com>
  * Copyright (c) 2016 Yusuke Suzuki <utatane.tea@gmail.com>
@@ -23,5 +23,16 @@
  * THE SOFTWARE.
  */
 
-import {RizeClient} from './Rize';
-(<any>window).gKarenClient = new RizeClient();
+import {StatelessComponent} from 'react';
+
+import {RizeNetworkValue} from '../../domain/NetworkDomain';
+import {RizeNetworkSetValue} from '../../domain/NetworkSetDomain';
+import {UIAction} from '../../intent/UIAction';
+
+interface Props {
+    key?: any;
+    action: UIAction;
+    model: RizeNetworkSetValue<RizeNetworkValue>;
+}
+
+export const MainContent: StatelessComponent<Props>;
