@@ -67,6 +67,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
+    "babel-cli": "^6.5.1",
     "babel-core": "^6.5.2",
     "babel-plugin-transform-inline-environment-variables": "^6.5.0",
     "babel-plugin-transform-node-env-inline": "^6.5.0",
@@ -81,7 +82,6 @@
     "eslint-plugin-react": "^3.16.1",
     "glob": "^7.0.0",
     "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
     "gulp-postcss": "^6.1.0",
     "gulp-uglify": "^1.5.2",

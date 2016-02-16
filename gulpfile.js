@@ -29,7 +29,6 @@ const babelify = require('babelify');
 const browserify = require('browserify');
 const del = require('del');
 const gulp = require('gulp');
-const babel = require('gulp-babel');
 const concat = require('gulp-concat');
 const postcss = require('gulp-postcss');
 const uglify = require('gulp-uglify');
@@ -47,6 +46,8 @@ const SRC_DIR = path.resolve(__dirname, './src/');
 const OBJ_DIR = path.resolve(__dirname, './obj/');
 const DIST_DIR = path.resolve(__dirname, './dist/');
 
+const SRC_SERVER = path.resolve(SRC_DIR, './server');
+
 const DIST_SERVER = path.resolve(DIST_DIR, './server/');
 const DIST_CLIENT = path.resolve(DIST_DIR, './client/');
 const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
@@ -57,10 +58,6 @@ const CLIENT_SRC_JS = [
     path.resolve(SRC_DIR, './client/js/libs/stringcolor.js'),
     path.resolve(SRC_DIR, './client/js/libs/parse.js'),
     path.resolve(NPM_MOD_DIR, './urijs/src/URI.js'),
-];
-
-const SERVER_SRC = [
-    './src/server/**/*.@(js|jsx)'
 ];
 
 /**
@@ -281,13 +278,24 @@ gulp.task('__babel:server', ['clean:server'], function () {
         ]);
     }
 
-    return gulp.src(SERVER_SRC)
-        .pipe(babel({
-            presets: babelPresets,
-            plugins: babelPlugins,
-            sourceMaps: false,
-        }))
-        .pipe(gulp.dest(DIST_SERVER));
+    const bin = path.resolve(NPM_MOD_DIR, './babel-cli', './bin', './babel.js');
+
+    const args = [
+        bin,
+        SRC_SERVER,
+        '--presets', babelPresets.join(','),
+        '--plugins', babelPlugins.join(','),
+        '--source-maps', 'inline',
+        '--extensions', '.js,.jsx',
+        '--out-dir', DIST_SERVER,
+    ];
+
+    const option = {
+        cwd: path.relative(__dirname, ''),
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('node', args, option);
 });
 
 gulp.task('__clean:client:js', function () {
