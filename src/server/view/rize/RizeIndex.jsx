@@ -31,7 +31,9 @@ export function RizeIndex() {
     return (
         <html>
             <RizeHeader/>
-            <body></body>
+            <body>
+                <div id='js-mountpoint-app'/>
+            </body>
         </html>
     );
 }
