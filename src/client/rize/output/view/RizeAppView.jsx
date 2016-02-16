@@ -1,5 +1,5 @@
 /**
- * @license MIT License
+ * MIT License
  *
  * Copyright (c) 2016 Tetsuharu OHZEKI <saneyuki.snyk@gmail.com>
  * Copyright (c) 2016 Yusuke Suzuki <utatane.tea@gmail.com>
@@ -23,35 +23,14 @@
  * THE SOFTWARE.
  */
 
+/// <reference path='../../../../../typings/main.d.ts'/>
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 
-import {NotificationService} from './adapter/NotificationService';
-import {NotificationAction} from './intent/NotificationAction';
-
-import {RizeNetworkSetDomain, RizeNetworkSetValue} from './domain/NetworkSetDomain';
-
-import {RizeAppView} from './output/view/RizeAppView';
-
-/**
- *  ReInitialiZEd Client
- */
-export class RizeClient {
-
-    private _notification: NotificationService;
-    private _domain: RizeNetworkSetDomain;
-
-    constructor() {
-        const notifyAction = new NotificationAction();
-        this._notification = new NotificationService(notifyAction.dispatcher());
-
-        this._domain = new RizeNetworkSetDomain();
-        this._domain.getValue().subscribe((data: RizeNetworkSetValue) => {
-            console.log(data.value);
-        });
-
-        const view = React.createElement(RizeAppView, null);
-        const mountpoint = document.getElementById('js-mountpoint-app');
-        ReactDOM.render(view, mountpoint);
-    }
+export function RizeAppView() {
+    return (
+        <div>
+            {'Thé des Alizés'}
+        </div>
+    );
 }
+RizeAppView.propTypes = {};
