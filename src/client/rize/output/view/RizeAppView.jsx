@@ -25,11 +25,12 @@
 
 /// <reference path='../../../../../typings/main.d.ts'/>
 import * as React from 'react';
+import Button from 'react-bootstrap/lib/Button';
 
 export function RizeAppView() {
     return (
         <div>
-            {'Thé des Alizés'}
+            <Button>{'Thé des Alizés'}</Button>
         </div>
     );
 }

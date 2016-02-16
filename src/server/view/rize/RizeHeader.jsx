@@ -31,6 +31,7 @@ export function RizeHeader() {
             <meta charSet='utf-8'/>
             <meta name='viewport' content='width=device-width, user-scalable=no'/>
             <meta name='referrer' content='no-referrer'/>
+            <link rel='stylesheet' media='all' href='/dist/css/bootstrap.css'/>
 
             <title>{'Project Rize'}</title>
 
