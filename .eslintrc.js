@@ -56,9 +56,7 @@ module.exports = {
         'no-dupe-keys': 2,
         'no-duplicate-case': 2,
         'no-empty-character-class': 2,
-        'no-empty': [2, {
-            'methods': true,
-        }],
+        'no-empty': 2,
         'no-ex-assign': 2,
         'no-extra-boolean-cast': 0,
         'no-extra-parens': 0,
@@ -105,6 +103,7 @@ module.exports = {
         'no-div-regex': 2,
         'no-empty-pattern': 2,
         'no-else-return': 0, // http://eslint.org/docs/rules/no-else-return
+        'no-empty-function': 1, // http://eslint.org/docs/rules/no-empty-function
         'no-eq-null': 2,
         'no-eval': 2,
         'no-extend-native': 2, // http://eslint.org/docs/rules/no-extend-native
