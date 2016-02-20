@@ -54,7 +54,7 @@ export class SettingStore {
             for (let key of keys) {
                 observer.next({
                     name: key,
-                    value: this._setting[key],
+                    value: (<any>this._setting)[key],
                 });
             }
             observer.complete();
@@ -74,7 +74,7 @@ export class SettingStore {
 
     update(name: string, value: any): void {
         const setting = this._setting;
-        setting[name] = value;
+        (<any>setting)[name] = value;
         this._repository.set(setting);
 
         this._subject.next({

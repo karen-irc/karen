@@ -14,7 +14,7 @@
         "preserveConstEnums": true,
         "removeComments": false,
         "sourceMap": true,
-        "suppressImplicitAnyIndexErrors": true,
+        "suppressImplicitAnyIndexErrors": false,
         "target": "ES2015"
     },
 
