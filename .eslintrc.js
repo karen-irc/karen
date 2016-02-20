@@ -350,14 +350,11 @@ module.exports = {
         'react/jsx-no-duplicate-props': 2,
         'react/jsx-no-literals': 0,
         'react/jsx-no-undef': 2,
+        'react/jsx-pascal-case': 2,
         'react/jsx-sort-props': 0,
-        'react/jsx-sort-prop-types': [0, {
-            'callbacksLast': true,
-            'requiredFirst': true,
-        }],
+        'react/jsx-space-before-closing': 0, // I don't this is a serious problem.
         'react/jsx-uses-react': 1,
         'react/jsx-uses-vars': 1,
-        'react/jsx-pascal-case': 2,
         'react/no-danger': 1,
         'react/no-deprecated': [1, { // Detect deprected styles
             'react': '0.14.0',
@@ -399,6 +396,10 @@ module.exports = {
                     '/^render.+$/'
                 ]
             }
+        }],
+        'react/sort-prop-types': [0, {
+            'callbacksLast': true,
+            'requiredFirst': true,
         }],
         'react/wrap-multilines': 2
     }
