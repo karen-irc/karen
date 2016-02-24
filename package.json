@@ -86,7 +86,7 @@
     "gulp-postcss": "^6.1.0",
     "gulp-uglify": "^1.5.3",
     "tslint": "3.4.0-dev.2",
-    "typescript": "1.9.0-dev.20160222",
+    "typescript": "1.9.0-dev.20160223",
     "typings": "^0.6.8",
     "vinyl-source-stream": "^1.1.0"
   }
