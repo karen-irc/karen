@@ -36,6 +36,10 @@
  *
  *      - You have an ownership of the view content area under the given mount point.
  *      - You can render something to the mount point if you are called.
+ *
+ *  XXX:
+ *  - If we would like to do some async operation when switching a view area,
+ *    we would need to return `Promise<T>` to ensure the completed timing of such operation.
  */
 export interface ViewContext {
     onActivate(mountpoint: Element): void;
