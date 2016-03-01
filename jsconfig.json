@@ -1,9 +1,7 @@
 {
-    "compilerOptions": {
-        "target": "ES6"
-    },
     "exclude": [
         "dist",
-        "node_modules"
+        "node_modules",
+        "obj"
     ]
 }
