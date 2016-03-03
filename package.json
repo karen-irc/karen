@@ -87,7 +87,7 @@
     "gulp-uglify": "^1.5.3",
     "tslint": "3.5.0-dev.1",
     "typescript": "1.9.0-dev.20160303",
-    "typings": "^0.6.8",
+    "typings": "^0.6.9",
     "vinyl-source-stream": "^1.1.0"
   }
 }
