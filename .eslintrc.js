@@ -55,8 +55,8 @@ module.exports = {
         'no-dupe-args': 2,
         'no-dupe-keys': 2,
         'no-duplicate-case': 2,
-        'no-empty-character-class': 2,
         'no-empty': 2,
+        'no-empty-character-class': 2,
         'no-ex-assign': 2,
         'no-extra-boolean-cast': 0,
         'no-extra-parens': 0,
@@ -101,9 +101,9 @@ module.exports = {
         'no-caller': 2,
         'no-case-declarations': 2,
         'no-div-regex': 2,
+        'no-empty-function': 1, // http://eslint.org/docs/rules/no-empty-function
         'no-empty-pattern': 2,
         'no-else-return': 0, // http://eslint.org/docs/rules/no-else-return
-        'no-empty-function': 1, // http://eslint.org/docs/rules/no-empty-function
         'no-eq-null': 2,
         'no-eval': 2,
         'no-extend-native': 2, // http://eslint.org/docs/rules/no-extend-native
@@ -124,7 +124,13 @@ module.exports = {
         'no-labels': 2, // Using a label is a rare case
         'no-lone-blocks': 1, // http://eslint.org/docs/rules/no-lone-blocks
         'no-loop-func': 2, // http://eslint.org/docs/rules/no-loop-func
-        // FIXME: 'no-magic-numbers': 1, // FIXME: https://github.com/karen-irc/karen/issues/428
+        // 'no-magic-numbers': [1, { // FIXME: https://github.com/karen-irc/karen/issues/428
+        //     'ignore': [],
+        //     'ignoreArrayIndexes': false,
+        //     'ignoreJSXNumbers': false,
+        //     'enforceConst': false,
+        //     'detectObjects': false,
+        // },
         'no-multi-spaces': 1, // http://eslint.org/docs/rules/no-multi-spaces
         'no-multi-str': 0, // http://eslint.org/docs/rules/no-multi-str
         'no-native-reassign': 2, // http://eslint.org/docs/rules/no-native-reassign
@@ -166,6 +172,9 @@ module.exports = {
         'no-catch-shadow': 2,
         'no-delete-var': 2,
         'no-label-var': 2,
+        'no-restricted-globals': [2,
+            // We don't have any global variables which we'd like to ban yet. http://eslint.org/docs/rules/no-restricted-globals
+        ],
         'no-shadow': 0,
         'no-shadow-restricted-names': 2,
         'no-undef': 2,
@@ -235,6 +244,7 @@ module.exports = {
         'new-cap': 1,
         'new-parens': 2,
         'newline-after-var': 0, // http://eslint.org/docs/rules/newline-after-var
+        'newline-before-return': 0, // This is just miscellaneous stylistic issue.
         'newline-per-chained-call': [0, { // http://eslint.org/docs/rules/newline-per-chained-call
             'ignoreChainWithDepth': 4, // I don't feel this is a really problem at now...
         }],
