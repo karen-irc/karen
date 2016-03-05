@@ -67,8 +67,9 @@ function fetch(url, cb) {
                 res.req.abort();
             }
         })
-        // eslint-disable-line no-empty-function
+        /*eslint-disable no-empty-function */
         .on('error', function() {})
+        /*eslint-enable */
         // XXX: Avoid ESLint's mis-checking
         /*eslint-disable array-callback-return*/
         .pipe(es.map(function(data, next) {
