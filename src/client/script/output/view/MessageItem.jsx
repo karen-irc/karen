@@ -28,23 +28,16 @@
 import * as React from 'react';
 import {ToggleItem} from './ToggleItem';
 
-export class MessageList extends React.Component {
+export function MessageList(props) {
+    const list = props.list.map(function(item){
+        return <MessageItem key={item.id} message={item}/>;
+    });
 
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const list = this.props.list.map(function(item){
-            return <MessageItem key={item.id} message={item}/>;
-        });
-
-        return (
-            <div>
-                {list}
-            </div>
-        );
-    }
+    return (
+        <div>
+            {list}
+        </div>
+    );
 }
 MessageList.propTypes = {
     list: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
@@ -59,70 +52,60 @@ function formatTimeZone(time) {
     return moment(utc).format('HH:mm');
 }
 
-export class MessageItem extends React.Component {
+export function MessageItem({ message }) {
+    let from = null;
+    if (message.from !== '') {
+        const userImage = (message.userImage === null) ? null :
+            <img src={message.userImage} className='user-image'/>;
+        const style = {
+            color: '#' + stringcolor(message.from)
+        };
 
-    constructor(props) {
-        super(props);
+        from = (
+            <button className='user' style={style}>
+                {message.mode}
+                {message.from}
+                {userImage}
+            </button>
+        );
     }
 
-    render() {
-        const message = this.props.message;
-
-        let from = null;
-        if (message.from !== '') {
-            const userImage = (message.userImage === null) ? null :
-                <img src={message.userImage} className='user-image'/>;
-            const style = {
-                color: '#' + stringcolor(message.from)
-            };
-
-            from = (
-                <button className='user' style={style}>
-                    {message.mode}
-                    {message.from}
-                    {userImage}
-                </button>
-            );
-        }
-
-        let content = null;
-        if (message.type === 'toggle') {
-            content = (
-                <div>
-                    <div className='force-newline'>
-                        <button id={'toggle-' + String(message.id)} className='toggle-button'>···</button>
-                    </div>
-                    {!!message.toggle ? <ToggleItem item={message.toggle}/> : null}
+    let content = null;
+    if (message.type === 'toggle') {
+        content = (
+            <div>
+                <div className='force-newline'>
+                    <button id={'toggle-' + String(message.id)} className='toggle-button'>···</button>
                 </div>
-            );
-        }
-        else {
-            const html = {
-                __html: parseForIRCMessage(message.text),
-            };
-            /*eslint-disable react/no-danger */
-            // XXX: We should create a some abstract sytax tree to construct a html safely...
-            content = <span dangerouslySetInnerHTML={html} />;
-            /*eslint-enable */
-        }
-
-        return (
-            <div className={'msg ' + message.type + (message.self ? 'self' : '')}>
-                <span className='time'>
-                    {formatTimeZone(message.time)}
-                </span>
-                <span className='from'>
-                    {from}
-                </span>
-                <span className='text'>
-                    <em className='type'>{message.type}</em>
-                    {content}
-                </span>
+                {!!message.toggle ? <ToggleItem item={message.toggle}/> : null}
             </div>
         );
     }
-}
+    else {
+        const html = {
+            __html: parseForIRCMessage(message.text),
+        };
+        /*eslint-disable react/no-danger */
+        // XXX: We should create a some abstract sytax tree to construct a html safely...
+        content = <span dangerouslySetInnerHTML={html} />;
+        /*eslint-enable */
+    }
 
+    return (
+        <div className={'msg ' + message.type + (message.self ? 'self' : '')}>
+            <span className='time'>
+                {formatTimeZone(message.time)}
+            </span>
+            <span className='from'>
+                {from}
+            </span>
+            <span className='text'>
+                <em className='type'>{message.type}</em>
+                {content}
+            </span>
+        </div>
+    );
+}
 MessageItem.propTypes = {
     message: React.PropTypes.object.isRequired,
 };

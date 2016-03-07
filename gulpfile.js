@@ -67,6 +67,8 @@ const CLIENT_SRC_JS = [
     path.resolve(NPM_MOD_DIR, './urijs/src/URI.js'),
 ];
 
+const CWD = path.relative(__dirname, '');
+
 /**
  *  # The rules of task name
  *
@@ -109,8 +111,7 @@ gulp.task('__cp:client:js:rize', ['__clean:client:js'], function () {
 });
 
 gulp.task('__typescript', ['__clean:client:js'], function () {
-    const cwd = path.relative(__dirname, '');
-    return compileTypeScript(cwd, NPM_MOD_DIR);
+    return compileTypeScript(CWD, NPM_MOD_DIR);
 });
 
 gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'], function () {
@@ -136,22 +137,19 @@ gulp.task('__eslint', function () {
         './src/server/',
         './tools/',
     ];
-    const cwd = path.relative(__dirname, '');
-    return runESLint(cwd, NPM_MOD_DIR, src);
+    return runESLint(CWD, NPM_MOD_DIR, src);
 });
 
 gulp.task('__tslint', function () {
-    const cwd = path.relative(__dirname, '');
     const SRC = [
         './src/client/**/*.@(ts|tsx)',
         './src/server/**/*.@(ts|tsx)',
     ];
-    return runTSLint(cwd, NPM_MOD_DIR, SRC);
+    return runTSLint(CWD, NPM_MOD_DIR, SRC);
 });
 
 gulp.task('__babel:server', ['clean:server'], function () {
-    const cwd = path.relative(__dirname, '');
-    return compileScriptForServer(cwd, NPM_MOD_DIR, SRC_SERVER, DIST_SERVER, isRelease);
+    return compileScriptForServer(CWD, NPM_MOD_DIR, SRC_SERVER, DIST_SERVER, isRelease);
 });
 
 gulp.task('__clean:client:js', function () {
