@@ -29,90 +29,73 @@ import * as React from 'react';
 import {Channel} from '../../domain/Channel';
 import {MessageList} from './MessageItem';
 
-export class ChatWindowList extends React.Component {
+export function ChatWindowList(props) {
+    const list = props.list.map(function(item){
+        return <ChatWindowItem key={item.id} channel={item}/>;
+    });
 
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const list = this.props.list.map(function(item){
-            return <ChatWindowItem key={item.id} channel={item}/>;
-        });
-
-        return (
-            <div>{list}</div>
-        );
-    }
+    return (
+        <div>{list}</div>
+    );
 }
 ChatWindowList.propTypes = {
     list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Channel)).isRequired,
 };
 
-export class ChatWindowItem extends React.Component {
-
-    constructor(props) {
-        super(props);
+export function ChatWindowItem({ channel }){
+    let close = '';
+    if (channel.type === 'lobby') {
+        close = 'Disconnect';
+    }
+    else if (channel.type === 'query') {
+        close = 'Close';
+    }
+    else {
+        close = 'Leave';
     }
 
-    render() {
-        const channel = this.props.channel;
+    const topic = {
+        __html: parseForIRCMessage(channel.topic),
+    };
 
-        let close = '';
-        if (channel.type === 'lobby') {
-            close = 'Disconnect';
-        }
-        else if (channel.type === 'query') {
-            close = 'Close';
-        }
-        else {
-            close = 'Leave';
-        }
-
-        const topic = {
-            __html: parseForIRCMessage(channel.topic),
-        };
-
-        return (
-            <div id={'js-chan-' + String(channel.id)}
-                 data-title={channel.title}
-                 data-id={String(channel.id)}
-                 data-type={channel.type}
-                 className={'chan ' + channel.type}>
-                <div className='header'>
-                    <button className='lt'></button>
-                    <button className='rt'></button>
-                    <div className='right'>
-                        <button className='button close js-chatwindow-close'>
-                            {close}
-                        </button>
-                    </div>
-                    <span className='title'>{channel.name}</span>
-                    {/*eslint-disable react/no-danger */}
-                    {/* XXX: We should create a some abstract sytax tree to construct a html safely...*/}
-                    <span className='topic js-topic' dangerouslySetInnerHTML={topic}/>
-                    {/*eslint-enable */}
+    return (
+        <div id={'js-chan-' + String(channel.id)}
+             data-title={channel.title}
+             data-id={String(channel.id)}
+             data-type={channel.type}
+             className={'chan ' + channel.type}>
+            <div className='header'>
+                <button className='lt'></button>
+                <button className='rt'></button>
+                <div className='right'>
+                    <button className='button close js-chatwindow-close'>
+                        {close}
+                    </button>
                 </div>
-
-                <div className='chat'>
-                    <div className={'show-more ' + ((channel.messages().length > 100) ? 'show' : '')}>
-                        <button className='show-more-button' data-id={channel.id}>
-                            Show more
-                        </button>
-                    </div>
-                    <div className='messages'>
-                        <MessageList list={channel.messages()}/>
-                    </div>
-                </div>
-                <aside className='sidebar'>
-                    <div className='js-users'>
-                    </div>
-                </aside>
+                <span className='title'>{channel.name}</span>
+                {/*eslint-disable react/no-danger */}
+                {/* XXX: We should create a some abstract sytax tree to construct a html safely...*/}
+                <span className='topic js-topic' dangerouslySetInnerHTML={topic}/>
+                {/*eslint-enable */}
             </div>
-        );
-    }
-}
 
+            <div className='chat'>
+                <div className={'show-more ' + ((channel.messages().length > 100) ? 'show' : '')}>
+                    <button className='show-more-button' data-id={channel.id}>
+                        Show more
+                    </button>
+                </div>
+                <div className='messages'>
+                    <MessageList list={channel.messages()}/>
+                </div>
+            </div>
+            <aside className='sidebar'>
+                <div className='js-users'>
+                </div>
+            </aside>
+        </div>
+    );
+}
 ChatWindowItem.propTypes = {
     channel: React.PropTypes.instanceOf(Channel).isRequired,
 };

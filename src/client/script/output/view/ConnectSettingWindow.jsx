@@ -28,6 +28,7 @@ import * as React from 'react';
 import {ConnectionActionCreator} from '../../intent/action/ConnectionActionCreator';
 import {ConnectionValue} from '../../domain/value/ConnectionSettings';
 
+/*eslint-disable react/prefer-stateless-function */
 export class ConnectSettingWindow extends React.Component {
 
     constructor(props) {
@@ -244,3 +245,4 @@ ConnectSettingWindow.propTypes = {
     action: React.PropTypes.instanceOf(ConnectionActionCreator).isRequired,
     data: React.PropTypes.instanceOf(ConnectionValue).isRequired,
 };
+/*eslint-enable */

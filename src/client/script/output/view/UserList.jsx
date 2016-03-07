@@ -123,25 +123,16 @@ UserList.propTypes = {
     list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(User)).isRequired,
 };
 
-class UserGroup extends React.Component {
+function UserGroup({ channelId, mode, list }) {
+    const domlist = list.map(function(item){
+        return <UserItem key={item.name} user={item} channelId={channelId}/>;
+    });
 
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const channelId = this.props.channelId;
-        const mode = this.props.mode;
-        const list = this.props.list.map(function(item){
-            return <UserItem key={item.name} user={item} channelId={channelId}/>;
-        });
-
-        return (
-            <div className={'user-mode ' + lookupModeClassName(mode)}>
-                {list}
-            </div>
-        );
-    }
+    return (
+        <div className={'user-mode ' + lookupModeClassName(mode)}>
+            {domlist}
+        </div>
+    );
 }
 UserGroup.propTypes = {
     channelId: React.PropTypes.number.isRequired,

@@ -378,6 +378,7 @@ module.exports = {
         'react/no-string-refs': 2, // Disallow the legacy style
         'react/no-unknown-property': 2,
         'react/prefer-es6-class': [2, 'always'],
+        'react/prefer-stateless-function': 1,
         'react/prop-types': 1,
         'react/react-in-jsx-scope': 1,
         'react/require-extension': 0,
