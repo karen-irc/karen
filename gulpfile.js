@@ -31,11 +31,11 @@ const path = require('path');
 const copyMod = require('./tools/build/cp');
 const doCopy = copyMod.doCopy;
 
-const jsMod = require('./tools/build/js');
-const compileTypeScript = jsMod.compileTypeScript;
-const buildLegacyLib = jsMod.buildLegacyLib;
-const runLinkerForClient = jsMod.runLinkerForClient;
-const compileScriptForServer = jsMod.compileScriptForServer;
+const scriptMod = require('./tools/build/script');
+const compileTypeScript = scriptMod.compileTypeScript;
+const buildLegacyLib = scriptMod.buildLegacyLib;
+const runLinkerForClient = scriptMod.runLinkerForClient;
+const compileScriptForServer = scriptMod.compileScriptForServer;
 
 const lintMod = require('./tools/build/lint');
 const runESLint = lintMod.runESLint;
