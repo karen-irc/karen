@@ -1,8 +1,11 @@
 {
+  "name": "karen",
+  "version": false,
+  "dependencies": {},
   "ambientDependencies": {
     "cookies-js": "npm:cookies-js",
-    "react": "github:DefinitelyTyped/DefinitelyTyped/react/react.d.ts#4a8a2ed5c35be37a5f1a199a391be21548c81c09",
-    "react-dom": "github:DefinitelyTyped/DefinitelyTyped/react/react-dom.d.ts#4a8a2ed5c35be37a5f1a199a391be21548c81c09",
-    "socket.io-client": "github:DefinitelyTyped/DefinitelyTyped/socket.io-client/socket.io-client.d.ts#4a8a2ed5c35be37a5f1a199a391be21548c81c09"
+    "react": "registry:dt/react#0.14.0+20160302224448",
+    "react-dom": "registry:dt/react-dom#0.0.0+20151118193745",
+    "socket.io-client": "registry:dt/socket.io-client#1.4.4+20160117210256"
   }
 }
