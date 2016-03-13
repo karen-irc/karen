@@ -68,7 +68,7 @@
   "devDependencies": {
     "autoprefixer": "^6.3.3",
     "babel-cli": "^6.6.5",
-    "babel-core": "^6.7.0",
+    "babel-core": "^6.7.2",
     "babel-plugin-transform-inline-environment-variables": "^6.5.0",
     "babel-plugin-transform-node-env-inline": "^6.5.0",
     "babel-plugin-transform-react-constant-elements": "^6.5.0",
@@ -78,16 +78,16 @@
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
     "del": "^2.2.0",
-    "eslint": "^2.3.0",
-    "eslint-plugin-react": "^4.2.0",
+    "eslint": "^2.4.0",
+    "eslint-plugin-react": "^4.2.1",
     "glob": "^7.0.3",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
     "gulp-postcss": "^6.1.0",
     "gulp-uglify": "^1.5.3",
-    "tslint": "3.5.0-dev.1",
+    "tslint": "3.6.0-dev.1",
     "typescript": "1.9.0-dev.20160310",
-    "typings": "^0.7.7",
+    "typings": "^0.7.8",
     "vinyl-source-stream": "^1.1.0"
   }
 }
