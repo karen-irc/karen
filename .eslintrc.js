@@ -317,7 +317,9 @@ module.exports = {
             'after': true
         }],
         'no-class-assign': 2,
-        'no-confusing-arrow': 1,
+        'no-confusing-arrow': [1, {
+            'allowParens': true,
+        }],
         'no-const-assign': 2,
         'no-dupe-class-members': 2,
         'no-new-symbol': 2,
