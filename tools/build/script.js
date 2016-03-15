@@ -95,7 +95,6 @@ function runLinkerForClient(entryPoint, distDir, binName, isRelease) {
         'check-es2015-constants',
         'transform-es2015-destructuring',
         'transform-es2015-function-name',
-        'transform-es2015-literals',
         'transform-es2015-modules-commonjs',
         'transform-es2015-object-super',
         'transform-es2015-parameters',
