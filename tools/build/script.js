@@ -98,7 +98,6 @@ function runLinkerForClient(entryPoint, distDir, binName, isRelease) {
         'transform-es2015-modules-commonjs',
         'transform-es2015-object-super',
         'transform-es2015-parameters',
-        'transform-es2015-shorthand-properties',
         'transform-es2015-spread',
         'transform-es2015-sticky-regex',
         'transform-es2015-unicode-regex',
