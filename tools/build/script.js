@@ -102,7 +102,6 @@ function runLinkerForClient(entryPoint, distDir, binName, isRelease) {
         'transform-es2015-shorthand-properties',
         'transform-es2015-spread',
         'transform-es2015-sticky-regex',
-        'transform-es2015-typeof-symbol',
         'transform-es2015-unicode-regex',
         'transform-regenerator',
 
