@@ -39,6 +39,7 @@ module.exports = {
     },
 
     'plugins': [
+        'node',
         'react' // for React/JSX
     ],
 
@@ -337,6 +338,15 @@ module.exports = {
         'require-yield': 2,
         'template-curly-spacing': [1, 'never'], // http://eslint.org/docs/rules/template-curly-spacing
         'yield-star-spacing': [1, 'after'],
+
+        // eslint-plugin-node
+        // https://github.com/mysticatea/eslint-plugin-node
+        'node/no-missing-import': 0, // we cannot use module syntax in node yet.
+        'node/no-missing-require': 2,
+        'node/no-unpublished-import': 0, // we'd like to check in devDependencies, but this cannot check them.
+        'node/no-unpublished-require': 0, // we'd like to check in devDependencies, but this cannot check them.
+        'node/no-unsupported-features': 0, // we cover this by 'no-restricted-syntax'.
+        'node/shebang': 0,
 
         // ESLint-plugin-React
         // https://github.com/yannickcr/eslint-plugin-react
