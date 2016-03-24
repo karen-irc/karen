@@ -4,8 +4,8 @@
   "dependencies": {},
   "ambientDependencies": {
     "cookies-js": "npm:cookies-js",
-    "react": "registry:dt/react#0.14.0+20160302224448",
-    "react-dom": "registry:dt/react-dom#0.0.0+20151118193745",
-    "socket.io-client": "registry:dt/socket.io-client#1.4.4+20160117210256"
+    "react": "registry:dt/react#0.14.0+20160319053454",
+    "react-dom": "registry:dt/react-dom#0.14.0+20160316155526",
+    "socket.io-client": "registry:dt/socket.io-client#1.4.4+20160317120654"
   }
 }
