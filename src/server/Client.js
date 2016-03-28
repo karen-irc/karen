@@ -180,7 +180,7 @@ export default class Client {
         irc.once('pong', () => {
             let join = (args.join || '');
             if (join) {
-                join = join.replace(/\,/g, ' ').split(/\s+/g);
+                join = join.replace(/,/g, ' ').split(/\s+/g);
                 irc.join(join);
             }
         });

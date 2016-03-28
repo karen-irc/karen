@@ -154,6 +154,7 @@ module.exports = {
         'no-unused-labels': 2, // http://eslint.org/docs/rules/no-unused-labels
         'no-useless-call': 1,
         'no-useless-concat': 1,
+        'no-useless-escape': 1, // http://eslint.org/docs/rules/no-useless-escape
         'no-void': 2, // We live in after ES5 : http://eslint.org/docs/rules/no-void
         'no-warning-comments': 0, // We need not always enable this : http://eslint.org/docs/rules/no-warning-comments
         'no-with': 2,
