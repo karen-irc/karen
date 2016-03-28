@@ -15,7 +15,7 @@ program
         try {
             fs.mkdirSync(test);
             fs.rmdirSync(test);
-        } catch (e) {
+        } catch (_e) {
             console.log('');
             console.log('You have no permissions to delete from ' + usersPath);
             console.log('Try running the command as sudo.');

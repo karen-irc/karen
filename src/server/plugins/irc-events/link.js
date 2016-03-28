@@ -55,7 +55,7 @@ function fetch(url, cb) {
     let req = null;
     try {
         req = request.get(url);
-    } catch (e) {
+    } catch (_e) {
         return;
     }
 
@@ -88,13 +88,13 @@ function fetch(url, cb) {
             let type = null;
             try {
                 body = JSON.parse(data);
-            } catch (e) {
+            } catch (_e) {
                 body = {};
             }
 
             try {
                 type = req.response.headers['content-type'].split(/ *; */).shift();
-            } catch (e) {
+            } catch (_e) {
                 type = {};
             }
             const param = {

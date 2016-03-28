@@ -154,6 +154,7 @@ module.exports = {
         'no-unused-labels': 2, // http://eslint.org/docs/rules/no-unused-labels
         'no-useless-call': 1,
         'no-useless-concat': 1,
+        'no-useless-escape': 1, // http://eslint.org/docs/rules/no-useless-escape
         'no-void': 2, // We live in after ES5 : http://eslint.org/docs/rules/no-void
         'no-warning-comments': 0, // We need not always enable this : http://eslint.org/docs/rules/no-warning-comments
         'no-with': 2,
@@ -181,6 +182,8 @@ module.exports = {
         'no-unused-vars': [1, {
             'vars': 'all',
             'args': 'after-used',
+            'caughtErrors': 'all',
+            'caughtErrorsIgnorePattern': '^_',
         }],
         'no-use-before-define': 0,
 
@@ -239,6 +242,9 @@ module.exports = {
         'max-nested-callback': 0, // http://eslint.org/docs/rules/max-nested-callbacks
         'max-params': 0, // http://eslint.org/docs/rules/max-params
         'max-statements': 0, // http://eslint.org/docs/rules/max-statements
+        'max-statements-per-line': [1, { // http://eslint.org/docs/rules/max-statements-per-line
+            'max': 1, // In almost case, We don't write 2~ statements in per line.
+        }],
         'new-cap': 1,
         'new-parens': 2,
         'newline-after-var': 0, // http://eslint.org/docs/rules/newline-after-var
@@ -320,6 +326,7 @@ module.exports = {
         }],
         'no-const-assign': 2,
         'no-dupe-class-members': 2,
+        'no-duplicate-imports': 1, // http://eslint.org/docs/rules/no-duplicate-imports
         'no-new-symbol': 2,
         'no-this-before-super': 2,
         // 'no-useless-constructor': 2, // FIXME: this rule has the bag which deny to call `super()` in a derived class (ESLint v2b1)
