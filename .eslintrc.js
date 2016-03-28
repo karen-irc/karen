@@ -182,6 +182,8 @@ module.exports = {
         'no-unused-vars': [1, {
             'vars': 'all',
             'args': 'after-used',
+            'caughtErrors': 'all',
+            'caughtErrorsIgnorePattern': '^_',
         }],
         'no-use-before-define': 0,
 
