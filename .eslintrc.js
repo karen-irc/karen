@@ -240,6 +240,9 @@ module.exports = {
         'max-nested-callback': 0, // http://eslint.org/docs/rules/max-nested-callbacks
         'max-params': 0, // http://eslint.org/docs/rules/max-params
         'max-statements': 0, // http://eslint.org/docs/rules/max-statements
+        'max-statements-per-line': [1, { // http://eslint.org/docs/rules/max-statements-per-line
+            'max': 1, // In almost case, We don't write 2~ statements in per line.
+        }],
         'new-cap': 1,
         'new-parens': 2,
         'newline-after-var': 0, // http://eslint.org/docs/rules/newline-after-var
