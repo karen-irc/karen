@@ -29,7 +29,7 @@ program
         const usersPath = path.join(ConfigDriver.getHome(), 'users');
         try {
             mkdirp.sync(usersPath);
-        } catch (e) {
+        } catch (_e) {
             console.log('');
             console.log('Could not create ' + usersPath);
             console.log('Try running the command as sudo.');
@@ -40,7 +40,7 @@ program
             const test = path.join(usersPath, '.test');
             fs.mkdirSync(test);
             fs.rmdirSync(test);
-        } catch (e) {
+        } catch (_e) {
             console.log('');
             console.log('You have no permissions to write to ' + usersPath);
             console.log('Try running the command as sudo.');
