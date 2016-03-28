@@ -324,6 +324,7 @@ module.exports = {
         }],
         'no-const-assign': 2,
         'no-dupe-class-members': 2,
+        'no-duplicate-imports': 1, // http://eslint.org/docs/rules/no-duplicate-imports
         'no-new-symbol': 2,
         'no-this-before-super': 2,
         // 'no-useless-constructor': 2, // FIXME: this rule has the bag which deny to call `super()` in a derived class (ESLint v2b1)
