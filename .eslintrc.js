@@ -334,7 +334,9 @@ module.exports = {
         'no-whitespace-before-property': 1,
         'object-shorthand': 0,
         'prefer-arrow-callback': 0,
-        'prefer-const': 1,
+        'prefer-const': [1, {
+            'destructuring': 'any',
+        }],
         'prefer-reflect': 1,
         'prefer-rest-params': 1,
         'prefer-spread': 1,
