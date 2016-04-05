@@ -4,6 +4,7 @@
         "curly": true,
         "indent": [true, "spaces"],
         "member-ordering": [true, "variables-before-functions"],
+        "no-angle-bracket-type-assertion": false,
         "no-arg": true,
         "no-conditional-assignment": true,
         "no-construct": true,
