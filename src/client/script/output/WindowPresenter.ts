@@ -98,13 +98,13 @@ export class WindowPresenter implements EventListenerObject {
     handleEvent(event: Event): void {
         switch (event.type) {
             case 'resize':
-                this.onResize(<UIEvent>event);
+                this.onResize(event as UIEvent);
                 break;
             case 'keydown':
-                this.onKeydown(<KeyboardEvent>event);
+                this.onKeydown(event as KeyboardEvent);
                 break;
             case 'focus':
-                this.onFocus(<FocusEvent>event);
+                this.onFocus(event as FocusEvent);
                 break;
         }
     }
