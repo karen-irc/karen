@@ -88,7 +88,7 @@ export class MessageGateway {
     invokeInit(): Rx.Observable<{ networks: Array<Network>; token: string; active: Option<ChannelId|string>; }> {
         return this._socket.init().map(function(data: any){
             const list = (data.networks.length !== 0) ?
-                (<Array<any>>data.networks).map(function(item){
+                (data.networks as Array<any>).map(function(item){
                     return new Network(item);
                 }) : [];
             return {
@@ -107,7 +107,7 @@ export class MessageGateway {
             const network = new NetworkConnectionValue(first.name, first.host, first.port,
                                                        first.passward, first.tls);
             const personal = new PersonalConnectionValue(first.nick, first.username, first.realname, first.join);
-            return <[NetworkConnectionValue, PersonalConnectionValue]>[network, personal];
+            return [network, personal] as [NetworkConnectionValue, PersonalConnectionValue];
         });
     }
 
@@ -180,13 +180,13 @@ export class MessageGateway {
 
     partFromChannel(): Rx.Observable<ChannelId> { // channelId
         return this._socket.part().map(function(data){
-            return <ChannelId>data.chan;
+            return data.chan as ChannelId;
         });
     }
 
     quitNetwork(): Rx.Observable<NetworkId> {
         return this._socket.quit().map(function(data) {
-            const id = <NetworkId>data.network;
+            const id = data.network as NetworkId;
             return id;
         });
     }

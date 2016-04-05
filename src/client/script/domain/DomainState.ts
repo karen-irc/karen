@@ -56,7 +56,7 @@ export class SelectedTab {
             return new None<ChannelId>();
         }
 
-        const id = parseInt(<any>this.id, 10);
+        const id = parseInt(this.id as any, 10);
         return new Some<ChannelId>(id);
     }
 }
@@ -120,7 +120,7 @@ export class DomainState {
         return this.getCurrentTab().filter(function(state){
             return state.type === CurrentTabType.SETTING;
         }).map(function(state){
-            return <string>state.id;
+            return state.id as string;
         });
     }
 

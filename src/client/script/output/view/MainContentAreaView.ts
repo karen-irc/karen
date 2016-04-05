@@ -69,8 +69,8 @@ export class MainContentAreaView {
 
         const networkDomain = domain.getNetworkDomain();
         disposer.add(networkDomain.joinedChannelAtAll().subscribe((channelDomain) => {
-            const fragment: Node = <Node>createChannelFragment(channelDomain);
-            const subtree = element = <Element>fragment.firstChild;
+            const fragment: Node = createChannelFragment(channelDomain) as Node;
+            const subtree = element = fragment.firstChild as Element;
             const view = new MessageContentView(channelDomain, subtree);
             const id = channelDomain.getId();
             this._channelMap.set(id, view);

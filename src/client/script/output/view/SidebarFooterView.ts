@@ -49,10 +49,10 @@ export class SidebarFooterView implements EventListenerObject {
 
     constructor(domain: DomainState, message: MessageGateway, element: Element) {
         this._element = element;
-        this._signinElement = <HTMLElement>element.querySelector('.sign-in');
-        this._signoutElement = <HTMLElement>element.querySelector('.sign-out');
-        this._connectElement = <HTMLElement>element.querySelector('.connect');
-        this._settingElement = <HTMLElement>element.querySelector('.settings');
+        this._signinElement = element.querySelector('.sign-in') as HTMLElement;
+        this._signoutElement = element.querySelector('.sign-out') as HTMLElement;
+        this._connectElement = element.querySelector('.connect') as HTMLElement;
+        this._settingElement = element.querySelector('.settings') as HTMLElement;
 
         this._lastSelectedElement = null;
 
@@ -109,7 +109,7 @@ export class SidebarFooterView implements EventListenerObject {
     }
 
     onClick(aEvent: Event): void {
-        const target = <Element>aEvent.target;
+        const target = aEvent.target as Element;
         if (target.localName !== 'button') {
             return;
         }

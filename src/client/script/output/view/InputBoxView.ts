@@ -69,8 +69,8 @@ export class InputBoxView {
         this._domain = domain;
         this._currentNetworkId = -1;
         this._currntChannel = new None<Channel>();
-        this._textInput = <HTMLInputElement>element.querySelector('#js-input');
-        this._nickElement = <HTMLElement>element.querySelector('#js-nick');
+        this._textInput = element.querySelector('#js-input') as HTMLInputElement;
+        this._nickElement = element.querySelector('#js-nick') as HTMLElement;
 
         const disposer = new Rx.Subscription();
         this._disposer = disposer;
@@ -117,7 +117,7 @@ export class InputBoxView {
                 this.onSubmit(aEvent);
                 break;
             case 'keydown':
-                this.onKeydown(<KeyboardEvent>aEvent);
+                this.onKeydown(aEvent as KeyboardEvent);
                 break;
             case 'input':
                 this.onInput(aEvent);
