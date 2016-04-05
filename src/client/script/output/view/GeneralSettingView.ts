@@ -61,13 +61,13 @@ export class GeneralSettingView implements EventListenerObject {
     }
 
     onChange(aEvent: Event): void {
-        const target = <Element>aEvent.target;
+        const target = aEvent.target as Element;
         if (target.localName !== 'input') {
             return;
         }
 
         const name = target.getAttribute('name');
-        const value = (<HTMLInputElement>target).checked;
+        const value = (target as HTMLInputElement).checked;
 
         SettingActionCreator.setOption(name, value);
 
@@ -81,7 +81,7 @@ export class GeneralSettingView implements EventListenerObject {
     }
 
     updateState(option: { name: string, value: any}): void {
-        const input = <HTMLInputElement>this._element.querySelector('input[name=' + option.name + ']');
+        const input = this._element.querySelector('input[name=' + option.name + ']') as HTMLInputElement;
         if (!input) {
             return;
         }

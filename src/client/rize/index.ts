@@ -24,4 +24,4 @@
  */
 
 import {RizeClient} from './rize';
-(<any>window).gKarenClient = new RizeClient();
+(window as any).gKarenClient = new RizeClient();

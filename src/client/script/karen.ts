@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             socket.emit('auth', {token: token.unwrap()});
         }
         if (body.classList.contains('signed-out')) {
-            const error = <HTMLElement>login.querySelector('.error');
+            const error = login.querySelector('.error') as HTMLElement;
             error.style.display = '';
             const form = login.querySelector('.container');
             form.addEventListener('submit', function onSubmit() {
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (token.isNone) {
             body.classList.add('signed-out');
         }
-        const input = <HTMLInputElement>login.querySelector('input[name=\'user\']');
+        const input = login.querySelector('input[name=\'user\']') as HTMLInputElement;
         if (input.value === '') {
             input.value = auth.getUser().unwrapOr('');
         }
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
         const chan = document.getElementById('js-chan-' + target);
-        (<HTMLElement>chan.querySelector('.messages')).insertAdjacentHTML('afterbegin', html);
+        (chan.querySelector('.messages') as HTMLElement).insertAdjacentHTML('afterbegin', html);
         if (data.messages.length !== 100) {
             chan.querySelector('.show-more').classList.remove('show');
         }
@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
 
         target.classList.add('active');
-        (<HTMLElement>target).style.zIndex = String(top++);
+        (target as HTMLElement).style.zIndex = String(top++);
 
         const channel = globalState.networkSet.getChannelById(id);
         const network = channel.map(function(channel: Channel){
@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         const evt = document.createEvent('CustomEvent');
         evt.initCustomEvent('show', true, true, null);
         target.dispatchEvent(evt);
-        (<HTMLElement>target).style.zIndex = String(top++);
+        (target as HTMLElement).style.zIndex = String(top++);
     });
 
     AppActionCreator.dispatcher().signout.subscribe(function(){

@@ -58,13 +58,13 @@ export class SignInView implements EventListenerObject {
     }
 
     onShow(aEvent: Event): void {
-        const target = <Element>aEvent.currentTarget;
+        const target = aEvent.currentTarget as Element;
         // XXX: By DOM spec (https://dom.spec.whatwg.org/#interface-nodelist),
         // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
         // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
         const list = target.querySelectorAll('input');
         for (let element of Array.from(list)) {
-            const input = <HTMLInputElement>element;
+            const input = element as HTMLInputElement;
             // If we find the element which has no value,
             // we stop iteration & focus it.
             if (input.value === '') {
@@ -75,7 +75,7 @@ export class SignInView implements EventListenerObject {
     }
 
     onSubmit(aEvent: Event): void {
-        const target = <Element>aEvent.target;
+        const target = aEvent.target as Element;
         if (target.localName !== 'form') {
             return;
         }
@@ -86,7 +86,7 @@ export class SignInView implements EventListenerObject {
         // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
         const list = target.querySelectorAll('.btn');
         for (let element of Array.from(list)) {
-            (<Element>element).setAttribute('disabled', 'true');
+            (element as Element).setAttribute('disabled', 'true');
         }
 
         const values: { user: string, [key: string]: any, } = {

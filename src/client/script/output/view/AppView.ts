@@ -81,7 +81,7 @@ export class AppView implements EventListenerObject {
     }
 
     onClick(aEvent: Event): void {
-        const target = <Element>aEvent.target;
+        const target = aEvent.target as Element;
         if (!(target.localName === 'button')) {
             return;
         }

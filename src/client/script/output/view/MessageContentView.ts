@@ -87,7 +87,7 @@ export class MessageContentView {
         }));
 
         disposer.add(Rx.Observable.fromEvent(this._messageArea, 'click').subscribe((event: Event) => {
-            const target = <Element>event.target;
+            const target = event.target as Element;
             if (target.classList.contains('toggle-button')) {
                 this._toggleInlineContentContainer(target);
                 UIActionCreator.toggleInlineImage();
@@ -173,7 +173,7 @@ export class MessageContentView {
 
     private _toggleInlineContentContainer(element: Element): void {
         const container = element.parentNode.nextSibling;
-        (<Element>container).classList.toggle('show');
+        (container as Element).classList.toggle('show');
     }
 }
 
