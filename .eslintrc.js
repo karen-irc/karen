@@ -400,6 +400,7 @@ module.exports = {
         'react/prop-types': 1,
         'react/react-in-jsx-scope': 1,
         'react/require-extension': 0,
+        'react/require-render-return': 2,
         'react/self-closing-comp': 2,
         'react/sort-comp': [1, {
             'order': [
