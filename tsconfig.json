@@ -8,6 +8,7 @@
         "noFallthroughCasesInSwitch": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
+        "noImplicitThis": true,
         "noImplicitUseStrict": false,
         "outDir": "./obj/",
         "pretty": true,
