@@ -58,7 +58,7 @@
     "react-dom": "^15.0.1",
     "read": "^1.0.7",
     "request": "^2.70.0",
-    "rxjs": "5.0.0-beta.5",
+    "rxjs": "5.0.0-beta.6",
     "slate-irc": "karen-irc/slate-irc.git#b12d540fa231b64e4e012c9e29412a2dc448acbe",
     "socket.io": "^1.4.5",
     "socket.io-client": "^1.4.5",
@@ -68,7 +68,7 @@
   "devDependencies": {
     "autoprefixer": "^6.3.6",
     "babel-cli": "^6.7.5",
-    "babel-core": "^6.7.5",
+    "babel-core": "^6.7.6",
     "babel-plugin-transform-inline-environment-variables": "^6.5.0",
     "babel-plugin-transform-node-env-inline": "^6.5.0",
     "babel-plugin-transform-react-constant-elements": "^6.5.0",
@@ -86,8 +86,8 @@
     "gulp-concat": "^2.6.0",
     "gulp-postcss": "^6.1.0",
     "gulp-uglify": "^1.5.3",
-    "tslint": "3.7.0-dev.1",
-    "typescript": "1.9.0-dev.20160401",
+    "tslint": "3.7.0-dev.4",
+    "typescript": "1.9.0-dev.20160413",
     "typings": "^0.7.12",
     "vinyl-source-stream": "^1.1.0"
   }
