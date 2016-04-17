@@ -32,7 +32,7 @@ let id = 0;
  *  @param  {Message} message
  *  @return {?string}
  */
-function findUserImage (channel, message) {
+function findUserImage(channel, message) {
     if (!channel) {
         return null;
     }

@@ -109,7 +109,9 @@ module.exports = {
         'no-extend-native': 2, // http://eslint.org/docs/rules/no-extend-native
         'no-extra-bind': 1, // http://eslint.org/docs/rules/no-extra-bind
         'no-extra-label': 1, // http://eslint.org/docs/rules/no-extra-label
-        'no-fallthrough': 2,
+        'no-fallthrough': [2, {
+            'commentPattern': '/falls?\s?through/i',
+        }],
         'no-floating-decimal': 0, // http://eslint.org/docs/rules/no-floating-decimal
         'no-implicit-coercion': [2, { // http://eslint.org/docs/rules/no-implicit-coercion
             'boolean': true,
@@ -285,7 +287,7 @@ module.exports = {
         'operator-linebreak': [2, 'after'],
         'padded-blocks': 0,
         'quotes': [2, 'single', {
-            'avoidEscape': true,
+            'avoid-escape': true,
             'allowTemplateLiterals': true,
         }],
         'require-jsdoc': [0, {
