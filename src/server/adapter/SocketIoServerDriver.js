@@ -34,7 +34,7 @@ export default class SocketIoServerDriver {
      *  @param  {http.Server}   server
      *  @param  {Array<string>} transports
      */
-    constructor (server, transports) {
+    constructor(server, transports) {
         /** @type   {SocketIO.Server}   */
         this._server = io(server, {
             transports,

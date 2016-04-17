@@ -31,7 +31,7 @@ export default class ClientSocketDriver {
      *  @constructor
      *  @param  {SocketIO.Socket}   socket
      */
-    constructor (socket) {
+    constructor(socket) {
         /** @type   {SocketIO.Socket}   */
         this._socket = socket;
     }
