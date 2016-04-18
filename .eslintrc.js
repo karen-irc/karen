@@ -304,7 +304,7 @@ module.exports = {
             'after': true
         }],
         'sort-vars': 0,
-        // 'sort-imports': 1, // FIXME: https://github.com/karen-irc/karen/issues/539
+        'sort-imports': 0,
         'space-before-blocks': 0, // http://eslint.org/docs/rules/space-before-blocks
         'space-before-function-paren': [1, { // http://eslint.org/docs/rules/space-before-function-parentheses
             'anonymous': 'ignore',
