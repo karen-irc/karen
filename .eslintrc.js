@@ -374,6 +374,7 @@ module.exports = {
         'react/jsx-boolean-value': [2, 'always'], // Force boolean attribute explicitly.
         'react/jsx-closing-bracket-location': 0,
         'react/jsx-curly-spacing': 1,
+        'react/jsx-first-prop-new-line': [1, 'never'],
         'react/jsx-equals-spacing': [1, 'never'],
         'react/jsx-handler-names': [2, {
             'eventHandlerPrefix': 'on', // we need not differ this prefix from `eventHandlerPropPrefix`.
