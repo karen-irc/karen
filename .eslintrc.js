@@ -187,7 +187,10 @@ module.exports = {
             'caughtErrors': 'all',
             'caughtErrorsIgnorePattern': '^_',
         }],
-        'no-use-before-define': 0,
+        'no-use-before-define': [2, {
+            'functions': false, //  Function declarations are hoisted.
+            'classes': true, // Class declarations are not hoisted. We should warn it.
+        }],
 
         // Node.js
         'callback-return': 0, // http://eslint.org/docs/rules/callback-return
