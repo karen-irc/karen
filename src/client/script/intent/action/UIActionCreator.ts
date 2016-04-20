@@ -43,10 +43,6 @@ class UIActionCreator {
         this._dispatcher.toggleLeftPane.next(shouldOpen);
     }
 
-    toggleRightPane(shouldOpen: boolean): void {
-        this._dispatcher.toggleRightPane.next(shouldOpen);
-    }
-
     focusInputBox(): void {
         this._dispatcher.focusInputBox.next(undefined);
     }

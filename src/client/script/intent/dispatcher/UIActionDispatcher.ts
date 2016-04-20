@@ -32,7 +32,6 @@ type SettingId = string;
 export class UIActionDispatcher {
 
     toggleLeftPane: Rx.Subject<boolean>;
-    toggleRightPane: Rx.Subject<boolean>;
     focusInputBox: Rx.Subject<void>;
     focusWindow: Rx.Subject<void>;
     selectChannel: Rx.Subject<ChannelId>;
@@ -49,7 +48,6 @@ export class UIActionDispatcher {
 
     constructor() {
         this.toggleLeftPane = new Rx.Subject<boolean>();
-        this.toggleRightPane = new Rx.Subject<boolean>();
 
         this.focusInputBox = new Rx.Subject<void>();
         this.focusWindow = new Rx.Subject<void>();

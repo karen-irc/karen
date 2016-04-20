@@ -24,75 +24,96 @@
  */
 
 import * as Rx from 'rxjs';
+
+import {ReactiveProperty} from '../../lib/ReactiveProperty';
+
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
-export class AppView implements EventListenerObject {
+class AppViewModel {
 
-    _element: Element;
-    _toggleLeftPane: Rx.Subscription;
-    _toggleRightPane: Rx.Subscription;
-    _isOpenedLeftPane: boolean;
-    _isOpenedRightPane: boolean;
+    readonly isOpenedLeftPane: ReactiveProperty<boolean>;
+    readonly isOpenedRightPane: ReactiveProperty<boolean>;
+
+    constructor() {
+        this.isOpenedLeftPane = new ReactiveProperty(false);
+        this.isOpenedRightPane = new ReactiveProperty(false);
+    }
+
+    destroy(): void {
+        this.isOpenedLeftPane.unsubscribe();
+        this.isOpenedRightPane.unsubscribe();
+    }
+}
+
+export class AppView {
+
+    private _element: Element;
+    private _vm: AppViewModel;
+    private _disposer: Rx.Subscription;
 
     constructor(element: Element) {
         this._element = element;
+        this._vm = new AppViewModel();
 
-        const uiDispatcher = UIActionCreator.dispatcher();
+        const disposer = new Rx.Subscription();
+        this._disposer = disposer;
 
-        this._toggleLeftPane = uiDispatcher.toggleLeftPane.subscribe((shouldOpen) => {
-            const className = 'lt';
-            const classList = this._element.classList;
-            if (shouldOpen) {
-                this._isOpenedLeftPane = true;
-                classList.add(className);
-            }
-            else {
-                this._isOpenedLeftPane = false;
-                classList.remove(className);
-            }
-        });
+        disposer.add(this._toggleLeftPane());
+        disposer.add(this._toggleRightPane());
+        disposer.add(this._handleClickEvent());
 
-        this._toggleRightPane = uiDispatcher.toggleRightPane.subscribe((shouldOpen) => {
+        this._vm.isOpenedLeftPane.setValue(element.classList.contains('lt'));
+        this._vm.isOpenedRightPane.setValue(element.classList.contains('rt'));
+    }
+
+    destroy(): void {
+        this._element = null;
+        this._vm.destroy();
+        this._disposer.unsubscribe();
+    }
+
+    private _toggleLeftPane(): Rx.Subscription {
+        return this._vm.isOpenedLeftPane.asObservable()
+            .merge(UIActionCreator.dispatcher().toggleLeftPane)
+            .distinctUntilChanged()
+            .subscribe((shouldOpen: boolean) => {
+                const className = 'lt';
+                const classList = this._element.classList;
+                if (shouldOpen) {
+                    classList.add(className);
+                }
+                else {
+                    classList.remove(className);
+                }
+            });
+    }
+
+    private _toggleRightPane(): Rx.Subscription {
+        return this._vm.isOpenedRightPane.asObservable().subscribe((shouldOpen: boolean) => {
             const className = 'rt';
             const classList = this._element.classList;
             if (shouldOpen) {
-                this._isOpenedRightPane = true;
                 classList.add(className);
             }
             else {
-                this._isOpenedRightPane = false;
                 classList.remove(className);
             }
         });
-
-        this._isOpenedLeftPane = element.classList.contains('rt');
-
-        this._isOpenedRightPane = element.classList.contains('rt');
-
-        element.addEventListener('click', this);
     }
 
-    handleEvent(aEvent: Event): void {
-        switch (aEvent.type) {
-            case 'click':
-                this.onClick(aEvent);
-                break;
-        }
-    }
-
-    onClick(aEvent: Event): void {
-        const target = aEvent.target as Element;
-        if (!(target.localName === 'button')) {
-            return;
-        }
-
-        if (target.classList.contains('lt')) {
-            const shouldOpen = !this._isOpenedLeftPane;
-            UIActionCreator.toggleLeftPane(shouldOpen);
-        }
-        else if (target.classList.contains('rt')) {
-            const shouldOpen = !this._isOpenedRightPane;
-            UIActionCreator.toggleRightPane(shouldOpen);
-        }
+    private _handleClickEvent(): Rx.Subscription {
+        return Rx.Observable.fromEvent<Element>(this._element, 'click', (event: UIEvent) => event.target as Element)
+            .filter((target: Element): boolean => (target.localName === 'button'))
+            .subscribe((target: Element) => {
+                if (target.classList.contains('lt')) {
+                    const shouldOpen: boolean = !this._vm.isOpenedLeftPane.value();
+                    this._vm.isOpenedLeftPane.setValue(shouldOpen);
+                    UIActionCreator.toggleLeftPane(shouldOpen);
+                }
+                else if (target.classList.contains('rt')) {
+                    const shouldOpen: boolean = !this._vm.isOpenedRightPane.value();
+                    this._vm.isOpenedRightPane.setValue(shouldOpen);
+                }
+            });
     }
 }
