@@ -12,6 +12,7 @@
         "no-duplicate-key": true,
         "no-duplicate-variable": true,
         "no-eval": true,
+        "no-invalid-this": true,
         "no-require-imports": true,
         "no-string-literal": true,
         "no-switch-case-fall-through": true,
@@ -27,6 +28,7 @@
         "triple-equals": [true, {
             "allow-null-check": false,
             "allow-undefined-check": false
-        }]
+        }],
+        "use-isnan": 2
     }
 }
