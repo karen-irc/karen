@@ -87,21 +87,21 @@ const CWD = path.relative(__dirname, '');
 
 // clean up
 gulp.task('__clean:client:js:obj', function () {
-    return del(path.join(OBJ_CLIENT, '**', '*.*'));
+    return del(OBJ_CLIENT);
 });
 gulp.task('__clean:client:js:dist', function () {
-    return del(path.join(DIST_CLIENT_JS, '**', '*.*'));
+    return del(DIST_CLIENT_JS);
 });
 
 gulp.task('__clean:client:css:dist', function () {
-    return del(path.join(DIST_CLIENT_CSS, '**', '*.*'));
+    return del(DIST_CLIENT_CSS);
 });
 
 gulp.task('__clean:server:obj', function () {
-    return del(path.join(OBJ_SERVER, '**', '*.*'));
+    return del(OBJ_SERVER);
 });
 gulp.task('__clean:server:dist', function () {
-    return del(path.join(DIST_SERVER, '**', '*.*'));
+    return del(DIST_SERVER);
 });
 
 // make obj/
