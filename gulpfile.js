@@ -127,7 +127,7 @@ gulp.task('__typescript', ['__clean:client:js'], function () {
 });
 
 // make dist/
-gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'], function () {
+gulp.task('__link:client:js', ['__clean:client:js', '__cp:client:js', '__typescript'], function () {
     const root = isEnableRize ?
         './rize/index.js' : './script/karen.js';
     const ENTRY_POINT = path.resolve(OBJ_DIR, root);
@@ -177,7 +177,7 @@ gulp.task('__uglify', ['__clean:client:js'], function () {
 });
 
 gulp.task('__build:server', ['__babel:server']);
-gulp.task('__build:client:js', ['__uglify', '__browserify']);
+gulp.task('__build:client:js', ['__uglify', '__link:client:js']);
 gulp.task('__build:client:css', ['__postcss']);
 
 // public target
