@@ -149,6 +149,7 @@ gulp.task('__eslint', function () {
         './src/client/script/',
         './src/client/rize/',
         './src/server/',
+        './src/server/.eslintrc.js',
         './tools/',
     ];
     return runESLint(CWD, NPM_MOD_DIR, src);
