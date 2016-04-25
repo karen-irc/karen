@@ -53,7 +53,8 @@ const SRC_DIR = path.resolve(__dirname, './src/');
 const OBJ_DIR = path.resolve(__dirname, './obj/');
 const DIST_DIR = path.resolve(__dirname, './dist/');
 
-const SRC_SERVER = path.resolve(SRC_DIR, './server');
+const OBJ_CLIENT = path.resolve(OBJ_DIR, './client/');
+const OBJ_SERVER = path.resolve(OBJ_DIR, './server/');
 
 const DIST_SERVER = path.resolve(DIST_DIR, './server/');
 const DIST_CLIENT = path.resolve(DIST_DIR, './client/');
@@ -84,48 +85,65 @@ const CWD = path.relative(__dirname, '');
  *  - MUST name `__taskname`.
  */
 
-gulp.task('__uglify', ['__clean:client:js'], function () {
-    if (isEnableRize) {
-        return Promise.resolve();
-    }
-    else {
-        return buildLegacyLib(CLIENT_SRC_JS, DIST_CLIENT_JS, 'libs.min.js');
-    }
+// clean up
+gulp.task('__clean:client:js:obj', function () {
+    return del(OBJ_CLIENT);
+});
+gulp.task('__clean:client:js:dist', function () {
+    return del(DIST_CLIENT_JS);
 });
 
-gulp.task('__cp:client:js', ['__cp:client:js:rize', '__cp:client:js:classic']);
-gulp.task('__cp:client:js:classic', ['__clean:client:js'], function () {
+gulp.task('__clean:client:css:dist', function () {
+    return del(DIST_CLIENT_CSS);
+});
+
+gulp.task('__clean:server:obj', function () {
+    return del(OBJ_SERVER);
+});
+gulp.task('__clean:server:dist', function () {
+    return del(DIST_SERVER);
+});
+
+// make obj/
+gulp.task('__cp:client:js:obj', ['__cp:client:js::obj:rize', '__cp:client:js:obj:classic']);
+gulp.task('__cp:client:js:obj:classic', ['__clean:client:js:obj'], function () {
     const src = ['./src/client/script/**/*.@(js|jsx)'];
-    const objDir = path.resolve(OBJ_DIR, './script');
+    const objDir = path.resolve(OBJ_CLIENT, './script');
     return doCopy(src, objDir);
 });
-gulp.task('__cp:client:js:rize', ['__clean:client:js'], function () {
+gulp.task('__cp:client:js::obj:rize', ['__clean:client:js:obj'], function () {
     if (!isEnableRize) {
         return Promise.resolve();
     }
     else {
         const src = ['./src/client/rize/**/*.@(js|jsx)'];
-        const objDir = path.resolve(OBJ_DIR, './rize');
+        const objDir = path.resolve(OBJ_CLIENT, './rize');
         return doCopy(src, objDir);
     }
 });
+gulp.task('__cp:server:js:obj', ['__clean:server:obj'], function () {
+    const src = ['./src/server/**/*.@(js|jsx)'];
+    return doCopy(src, OBJ_SERVER);
+});
 
-gulp.task('__typescript', ['__clean:client:js'], function () {
+gulp.task('__typescript', ['__clean:client:js:obj'], function () {
     return compileTypeScript(CWD, NPM_MOD_DIR);
 });
 
-gulp.task('__browserify', ['__clean:client:js', '__cp:client:js', '__typescript'], function () {
+// make dist/
+gulp.task('__link:client:js', ['__clean:client:js:dist', '__cp:client:js:obj', '__typescript'], function () {
     const root = isEnableRize ?
         './rize/index.js' : './script/karen.js';
-    const ENTRY_POINT = path.resolve(OBJ_DIR, root);
+    const ENTRY_POINT = path.resolve(OBJ_CLIENT, root);
 
     return runLinkerForClient(ENTRY_POINT, DIST_CLIENT_JS, 'karen.js', isRelease);
 });
 
-gulp.task('__postcss', ['__clean:client:css'], function () {
-    return buildCSS('./src/client/css/style.css', DIST_CLIENT_CSS);
+gulp.task('__babel:server', ['__clean:server:dist', '__cp:server:js:obj'], function () {
+    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, DIST_SERVER, isRelease);
 });
 
+// lint
 gulp.task('__eslint', function () {
     const src = [
         './.eslintrc.js',
@@ -135,6 +153,7 @@ gulp.task('__eslint', function () {
         './src/client/script/',
         './src/client/rize/',
         './src/server/',
+        './src/server/.eslintrc.js',
         './tools/',
     ];
     return runESLint(CWD, NPM_MOD_DIR, src);
@@ -148,38 +167,31 @@ gulp.task('__tslint', function () {
     return runTSLint(CWD, NPM_MOD_DIR, SRC);
 });
 
-gulp.task('__babel:server', ['clean:server'], function () {
-    return compileScriptForServer(CWD, NPM_MOD_DIR, SRC_SERVER, DIST_SERVER, isRelease);
+// others
+gulp.task('__postcss', ['__clean:client:css:dist'], function () {
+    return buildCSS('./src/client/css/style.css', DIST_CLIENT_CSS);
 });
 
-gulp.task('__clean:client:js', function () {
-    const deleter = function (dir) {
-        return del(path.join(dir, '**', '*.*'));
-    };
-
-    const obj = deleter(OBJ_DIR);
-    const dist = deleter(DIST_CLIENT_JS);
-
-    return Promise.all([obj, dist]);
-});
-
-gulp.task('__clean:client:css', function () {
-    return del(path.join(DIST_CLIENT_CSS, '**', '*.*'));
-});
-
-gulp.task('clean:server', function () {
-    return del(path.join(DIST_SERVER, '**', '*.*'));
+gulp.task('__uglify', ['__clean:client:js:dist'], function () {
+    if (isEnableRize) {
+        return Promise.resolve();
+    }
+    else {
+        return buildLegacyLib(CLIENT_SRC_JS, DIST_CLIENT_JS, 'libs.min.js');
+    }
 });
 
 gulp.task('__build:server', ['__babel:server']);
-gulp.task('__build:client:js', ['__uglify', '__browserify']);
+gulp.task('__build:client:js', ['__uglify', '__link:client:js']);
 gulp.task('__build:client:css', ['__postcss']);
 
+// public target
 gulp.task('jslint', ['__eslint', '__tslint']);
 gulp.task('tsc', ['__typescript']);
 gulp.task('build:server', ['jslint', '__build:server']);
 gulp.task('build:client', ['jslint', '__build:client:js', '__build:client:css']);
 gulp.task('build', ['build:server', 'build:client']);
-gulp.task('clean:client', ['__clean:client:js', '__clean:client:css']);
+gulp.task('clean:server', ['__clean:server:obj', '__clean:server:dist']);
+gulp.task('clean:client', ['__clean:client:js:obj', '__clean:client:js:dist', '__clean:client:css:dist']);
 gulp.task('clean', ['clean:client', 'clean:server']);
 gulp.task('default', ['build']);

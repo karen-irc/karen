@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/*eslint quote-props: [2, "always"] */
+/*eslint quote-props: [2, "always"], strict: 0 */
 
 'use strict';
 
