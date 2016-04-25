@@ -101,7 +101,10 @@ gulp.task('__clean:client:css', function () {
     return del(path.join(DIST_CLIENT_CSS, '**', '*.*'));
 });
 
-gulp.task('clean:server', function () {
+gulp.task('__clean:server:obj', function () {
+    return del(path.join(OBJ_SERVER, '**', '*.*'));
+});
+gulp.task('__clean:server:dist', function () {
     return del(path.join(DIST_SERVER, '**', '*.*'));
 });
 
@@ -122,7 +125,7 @@ gulp.task('__cp:client:js:rize', ['__clean:client:js'], function () {
         return doCopy(src, objDir);
     }
 });
-gulp.task('__cp:server:js', ['clean:server'], function () {
+gulp.task('__cp:server:js', ['__clean:server:obj'], function () {
     const src = ['./src/server/**/*.@(js|jsx)'];
     return doCopy(src, OBJ_SERVER);
 });
@@ -140,7 +143,7 @@ gulp.task('__link:client:js', ['__clean:client:js', '__cp:client:js', '__typescr
     return runLinkerForClient(ENTRY_POINT, DIST_CLIENT_JS, 'karen.js', isRelease);
 });
 
-gulp.task('__babel:server', ['__cp:server:js'], function () {
+gulp.task('__babel:server', ['__clean:server:dist', '__cp:server:js'], function () {
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, DIST_SERVER, isRelease);
 });
 
@@ -192,6 +195,7 @@ gulp.task('tsc', ['__typescript']);
 gulp.task('build:server', ['jslint', '__build:server']);
 gulp.task('build:client', ['jslint', '__build:client:js', '__build:client:css']);
 gulp.task('build', ['build:server', 'build:client']);
+gulp.task('clean:server', ['__clean:server:obj', '__clean:server:dist']);
 gulp.task('clean:client', ['__clean:client:js', '__clean:client:css']);
 gulp.task('clean', ['clean:client', 'clean:server']);
 gulp.task('default', ['build']);
