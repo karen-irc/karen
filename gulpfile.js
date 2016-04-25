@@ -53,7 +53,8 @@ const SRC_DIR = path.resolve(__dirname, './src/');
 const OBJ_DIR = path.resolve(__dirname, './obj/');
 const DIST_DIR = path.resolve(__dirname, './dist/');
 
-const SRC_SERVER = path.resolve(SRC_DIR, './server');
+const OBJ_CLIENT = path.resolve(OBJ_DIR, './client/');
+const OBJ_SERVER = path.resolve(OBJ_DIR, './server/');
 
 const DIST_SERVER = path.resolve(DIST_DIR, './server/');
 const DIST_CLIENT = path.resolve(DIST_DIR, './client/');
@@ -90,7 +91,7 @@ gulp.task('__clean:client:js', function () {
         return del(path.join(dir, '**', '*.*'));
     };
 
-    const obj = deleter(OBJ_DIR);
+    const obj = deleter(OBJ_CLIENT);
     const dist = deleter(DIST_CLIENT_JS);
 
     return Promise.all([obj, dist]);
@@ -108,7 +109,7 @@ gulp.task('clean:server', function () {
 gulp.task('__cp:client:js', ['__cp:client:js:rize', '__cp:client:js:classic']);
 gulp.task('__cp:client:js:classic', ['__clean:client:js'], function () {
     const src = ['./src/client/script/**/*.@(js|jsx)'];
-    const objDir = path.resolve(OBJ_DIR, './script');
+    const objDir = path.resolve(OBJ_CLIENT, './script');
     return doCopy(src, objDir);
 });
 gulp.task('__cp:client:js:rize', ['__clean:client:js'], function () {
@@ -117,9 +118,13 @@ gulp.task('__cp:client:js:rize', ['__clean:client:js'], function () {
     }
     else {
         const src = ['./src/client/rize/**/*.@(js|jsx)'];
-        const objDir = path.resolve(OBJ_DIR, './rize');
+        const objDir = path.resolve(OBJ_CLIENT, './rize');
         return doCopy(src, objDir);
     }
+});
+gulp.task('__cp:server:js', ['clean:server'], function () {
+    const src = ['./src/server/**/*.@(js|jsx)'];
+    return doCopy(src, OBJ_SERVER);
 });
 
 gulp.task('__typescript', ['__clean:client:js'], function () {
@@ -130,13 +135,13 @@ gulp.task('__typescript', ['__clean:client:js'], function () {
 gulp.task('__link:client:js', ['__clean:client:js', '__cp:client:js', '__typescript'], function () {
     const root = isEnableRize ?
         './rize/index.js' : './script/karen.js';
-    const ENTRY_POINT = path.resolve(OBJ_DIR, root);
+    const ENTRY_POINT = path.resolve(OBJ_CLIENT, root);
 
     return runLinkerForClient(ENTRY_POINT, DIST_CLIENT_JS, 'karen.js', isRelease);
 });
 
-gulp.task('__babel:server', ['clean:server'], function () {
-    return compileScriptForServer(CWD, NPM_MOD_DIR, SRC_SERVER, DIST_SERVER, isRelease);
+gulp.task('__babel:server', ['__cp:server:js'], function () {
+    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, DIST_SERVER, isRelease);
 });
 
 // lint

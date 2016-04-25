@@ -10,7 +10,7 @@
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "noImplicitUseStrict": false,
-        "outDir": "./obj/",
+        "outDir": "./obj/client/",
         "pretty": true,
         "preserveConstEnums": true,
         "removeComments": false,
