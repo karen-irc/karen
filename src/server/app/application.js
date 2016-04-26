@@ -30,6 +30,7 @@ import express from 'express';
 import * as http from 'http';
 import * as spdy from 'spdy';
 
+import {ClientConnectionRepository} from '../repository/ClientConnectionRepository';
 import ConfigDriver from '../adapter/ConfigDriver';
 import {SocketIoServerDriver} from '../adapter/SocketIoServerDriver';
 
@@ -44,6 +45,8 @@ export class KarenServer {
 
     constructor(options) {
         const config = ConfigDriver.getConfig();
+
+        this._connectionRepo = new ClientConnectionRepository();
 
         this._config = Object.assign(config, options);
         this._express = createExpress(this._config);
