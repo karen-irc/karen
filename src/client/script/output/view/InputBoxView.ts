@@ -61,7 +61,7 @@ export class InputBoxView {
     private _disposer: Rx.Subscription;
 
     private _inputVal: InputValue;
-    private _lastSuggestionCache: Array<string>;
+    private _lastSuggestionCache: Array<string> | undefined;
     private _isSuggestion: boolean;
 
     constructor(domain: DomainState, element: Element) {
@@ -99,7 +99,7 @@ export class InputBoxView {
         }));
 
         this._inputVal = new InputValue('', new None<number>());
-        this._lastSuggestionCache = null;
+        this._lastSuggestionCache = undefined;
         this._isSuggestion = false;
 
         this._init();
@@ -201,16 +201,16 @@ export class InputBoxView {
         }
         else {
             const newly = this._inputVal.suggstedIndex.unwrap() + 1;
-            index = (newly > (this._lastSuggestionCache.length - 1)) ? 0 : newly;
+            index = (newly > (this._lastSuggestionCache!.length - 1)) ? 0 : newly;
         }
 
-        if (this._lastSuggestionCache.length === 0) {
+        if (this._lastSuggestionCache!.length === 0) {
             return;
         }
 
         this._inputVal = new InputValue(this._inputVal.actual, new Some(index));
         this._isSuggestion = true;
-        this._textInput.value = this._lastSuggestionCache[index];
+        this._textInput.value = this._lastSuggestionCache![index];
         this._isSuggestion = false;
     }
 
@@ -230,7 +230,7 @@ export class InputBoxView {
 
         const current = this._textInput.value;
         this._inputVal = new InputValue(current, new None<number>());
-        this._lastSuggestionCache = null;
+        this._lastSuggestionCache = undefined;
     }
 
     private _createSuggestion(value: string): Array<string> {

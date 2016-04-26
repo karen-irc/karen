@@ -64,13 +64,13 @@ export class SelectedTab {
 export class DomainState {
 
     private _networkSet: NetworkSetDomain;
-    private _latestCurrentTab: SelectedTab;
+    private _latestCurrentTab: SelectedTab | void;
     private _currentTab: Rx.Observable<SelectedTab>;
     private _notifiableMessage: Rx.Observable<RecievedMessage>;
 
     constructor(gateway: MessageGateway) {
         this._networkSet = new NetworkSetDomain(gateway);
-        this._latestCurrentTab = null;
+        this._latestCurrentTab = undefined;
 
         // In most of case, a rendering operation is depend on the source of `selectTab()`.
         // So this observable should be on the next event loop.
@@ -79,18 +79,18 @@ export class DomainState {
         }).observeOn(Rx.Scheduler.asap).share();
 
         this._notifiableMessage = this._networkSet.recievedNotifiableMessage()
-            .withLatestFrom(this._currentTab, function (data, current): RecievedMessage {
+            .withLatestFrom(this._currentTab, function (data, current): RecievedMessage | void {
                 const isSameChannel: boolean = current.channelId.mapOr(false, function (current: ChannelId) {
                     return data.channelId === current;
                 });
                 if (isSameChannel) {
-                    return null;
+                    return undefined;
                 }
 
                 return data;
             }).filter(function (data) {
-                return data !== null;
-            }).share();
+                return data !== undefined;
+            }).map((data) => data!).share();
     }
 
     /**
@@ -100,7 +100,7 @@ export class DomainState {
         return this._networkSet.legacy;
     }
 
-    get currentTab(): SelectedTab {
+    get currentTab(): SelectedTab | void {
         return this._latestCurrentTab;
     }
 
@@ -155,7 +155,7 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
     });
 
     const removedNetwork = set.removedNetwork().withLatestFrom(set.getNetworkList(), function(_, list) {
-        let tab: SelectedTab = null;
+        let tab: SelectedTab;
         if (list.length === 0) {
             tab = new SelectedTab(CurrentTabType.SETTING, 'connect');
         }
@@ -183,7 +183,7 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
     });
 
     const initial = set.initialState().map(function(data){
-        let tab: SelectedTab = null;
+        let tab: SelectedTab;
 
         const idIsSetting = data.active.mapOr(true, function(id){
             return (typeof id !== 'number');

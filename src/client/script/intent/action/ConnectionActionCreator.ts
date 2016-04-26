@@ -35,7 +35,7 @@ export class ConnectionActionCreator {
     }
 
     dispose(): void {
-        this._dispatcher = null;
+        (this as any)._dispatcher = undefined;
     }
 
     dispatcher(): ConnectionActionDispatcher {

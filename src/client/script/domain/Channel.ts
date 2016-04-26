@@ -36,9 +36,9 @@ export class Channel {
     private _userList: Array<User>;
     private _unread: number;
     private _messageBuffer: Array<Message>;
-    private _network: Network;
+    private _network: Network | void;
 
-    constructor(raw: any, network: Network = null) {
+    constructor(raw: any, network: Network | void = undefined) {
         this.id = raw.id;
 
         this.name = raw.name;
@@ -55,12 +55,9 @@ export class Channel {
 
         this._unread = raw.unread;
 
-        let messages: Array<Message> = null;
+        let messages: Array<Message> = [];
         if (Array.isArray(raw.messages)) {
             messages = raw.messages;
-        }
-        else {
-            messages = [];
         }
 
         this._messageBuffer = messages;
@@ -79,7 +76,7 @@ export class Channel {
         return this._userList;
     }
 
-    getNetwork(): Network {
+    getNetwork(): Network | void {
         return this._network;
     }
 

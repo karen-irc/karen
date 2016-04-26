@@ -24,7 +24,7 @@
  */
 
 export class AudioDriver {
-    _audio: HTMLAudioElement;
+    private _audio: HTMLAudioElement | void;
 
     constructor(path: string) {
         const audio = new Audio();
@@ -32,6 +32,10 @@ export class AudioDriver {
 
         /** @type   {Audio} */
         this._audio = audio;
+    }
+
+    destroy(): void {
+        this._audio = undefined;
     }
 
     play(): void {

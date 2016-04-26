@@ -36,19 +36,16 @@ import {ViewContext} from './ViewContext';
 export class SidebarContext implements ViewContext {
 
     private _viewmodel: SidebarStore;
-    private _viewDisposer: Rx.Subscription;
+    private _viewDisposer: Rx.Subscription | void;
 
     constructor(domain: DomainState) {
         this._viewmodel = new SidebarStore(domain);
-        this._viewDisposer = null;
+        this._viewDisposer = undefined;
     }
 
     private _destroy(): void {
         this._viewDisposer.unsubscribe();
         this._viewmodel.dispose();
-
-        this._viewDisposer = null;
-        this._viewmodel = null;
     }
 
     onActivate(mountpoint: Element): void {

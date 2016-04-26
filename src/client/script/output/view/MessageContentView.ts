@@ -123,8 +123,6 @@ export class MessageContentView {
 
     dispose(): void {
         this._disposer.unsubscribe();
-        this._disposer = null;
-        this._element = null;
     }
 
     getElement(): Element {

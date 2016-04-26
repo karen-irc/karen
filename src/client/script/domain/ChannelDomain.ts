@@ -123,7 +123,6 @@ export class ChannelDomain {
 
     dispose(): void {
         this._ignitionDisposable.unsubscribe();
-        this._notableDispatcher = null;
     }
 
     getId(): ChannelId {

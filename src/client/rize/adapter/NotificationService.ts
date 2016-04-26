@@ -80,15 +80,15 @@ function requestPermittion(): Rx.Observable<boolean> {
 }
 
 function showNotification(topic: NotifedTopic): Rx.Observable<void> {
-    let notification: Notification = new (window as any).Notification(topic.title, {
+    let notification: Notification | void = new (window as any).Notification(topic.title, {
         body: topic.body,
         icon: topic.icon,
     });
     const timeout = Rx.Observable.empty<void>().delay(5 * 1000);
-    const click = Rx.Observable.fromEvent<void>(notification, 'click').take(1);
+    const click = Rx.Observable.fromEvent<void>(notification!, 'click').take(1);
     const close: Rx.Observable<void> = click.race(timeout).do(function(){
         notification.close();
-        notification = null;
+        notification = undefined;
     });
     return close.share();
 }

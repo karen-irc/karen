@@ -126,15 +126,7 @@ export class NetworkDomain {
     }
 
     dispose(): void {
-        this._data = null;
-        this._nickname = null;
-        this._joinedChannel = null;
-        this._partedChannel = null;
-
-        this._notableMsgDispatcher = null;
-
         this._subscribed.unsubscribe();
-        this._subscribed = null;
     }
 
     getId(): number {
