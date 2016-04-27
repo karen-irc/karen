@@ -149,12 +149,8 @@ function compileScriptForServer(cwd, npmModDir, srcDir, distDir, isRelease) {
     ];
 
     let babelPlugins = [
-        // For Node.js v5~, we need not some transforms.
-        'transform-es2015-destructuring',
+        // For Node.js v6~, we need not some transforms.
         'transform-es2015-modules-commonjs',
-        'transform-es2015-parameters',
-        'transform-es2015-sticky-regex',
-        'transform-es2015-unicode-regex',
 
         // for React
         'syntax-jsx',
