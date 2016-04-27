@@ -272,7 +272,6 @@ module.exports = {
         'no-new-object': 2, // In almost case, we don't have to use `new Object()` without any comments.
         'no-plusplus': 0,
         'no-restricted-syntax': [2,
-            'ObjectPattern', 'ArrayPattern', 'RestElement', 'AssignmentPattern', // for plain NodeJS
             'ForInStatement', // We should ban a string reflection style in the environment which ES6 Map is available.
         ],
         'no-spaced-func': 2,
