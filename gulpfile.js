@@ -28,21 +28,18 @@ const del = require('del');
 const gulp = require('gulp');
 const path = require('path');
 
-const copyMod = require('./tools/build/cp');
-const doCopy = copyMod.doCopy;
+const { doCopy } = require('./tools/build/cp');
 
-const scriptMod = require('./tools/build/script');
-const compileTypeScript = scriptMod.compileTypeScript;
-const buildLegacyLib = scriptMod.buildLegacyLib;
-const runLinkerForClient = scriptMod.runLinkerForClient;
-const compileScriptForServer = scriptMod.compileScriptForServer;
+const {
+    compileTypeScript,
+    buildLegacyLib,
+    runLinkerForClient,
+    compileScriptForServer,
+} = require('./tools/build/script');
 
-const lintMod = require('./tools/build/lint');
-const runESLint = lintMod.runESLint;
-const runTSLint = lintMod.runTSLint;
+const { runESLint, runTSLint, } = require('./tools/build/lint');
 
-const styleMod = require('./tools/build/style');
-const buildCSS = styleMod.buildCSS;
+const {buildCSS} = require('./tools/build/style');
 
 const isRelease = process.env.NODE_ENV === 'production';
 const isEnableRize = process.env.ENABLE_RIZE === '1';

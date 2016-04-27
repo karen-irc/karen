@@ -32,7 +32,7 @@ const uglify = require('gulp-uglify');
 const path = require('path');
 const source = require('vinyl-source-stream');
 
-const spawnChildProcess = require('../spawn');
+const { spawnChildProcess } = require('../spawn');
 
 /**
  *  @param  {string}    srcDir

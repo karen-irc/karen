@@ -52,4 +52,6 @@ function spawnChildProcess(bin, args, option) {
     return spawned;
 }
 
-module.exports = spawnChildProcess;
+module.exports = {
+    spawnChildProcess,
+};
