@@ -45,8 +45,6 @@ module.exports = {
     },
 
     'rules': {
-        'no-restricted-syntax': 0, // Enable all syntax because we compile all code in this dir.
-
         // eslint-plugin-node
         // https://github.com/mysticatea/eslint-plugin-node
         'node/no-missing-import': 2,

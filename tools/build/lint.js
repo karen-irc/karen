@@ -27,7 +27,7 @@
 const path = require('path');
 
 const glob = require('../glob');
-const spawnChildProcess = require('../spawn');
+const { spawnChildProcess } = require('../spawn');
 
 /**
  *  @param  {string}    cwd

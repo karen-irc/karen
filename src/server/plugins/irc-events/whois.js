@@ -46,6 +46,7 @@ export default function(irc, network) {
             server: 'using'
         };
 
+        /*eslint-disable no-restricted-syntax */
         for (const k in data) {
             const key = prefix[k];
             if (!key || data[k].toString() === '') {
@@ -63,5 +64,6 @@ export default function(irc, network) {
                 msg: msg
             });
         }
+        /*eslint-enable*/
     });
 }

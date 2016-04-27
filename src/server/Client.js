@@ -282,12 +282,14 @@ export default class Client {
     quit() {
         const sockets = this.sockets.sockets;
         const room = sockets.adapter.rooms[this.id] || [];
+        /*eslint-disable no-restricted-syntax */
         for (const user in room) {
             const socket = sockets.adapter.nsp.connected[user];
             if (socket) {
                 socket.disconnect();
             }
         }
+        /*eslint-enable*/
         this.networks.forEach((network) => {
             const irc = network.irc;
             if (network.connected) {

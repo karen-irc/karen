@@ -10,7 +10,7 @@ before_script:
   - ./index.js init
 
 node_js:
-  - "5"
+  - "6"
 
 notifications:
   email: false

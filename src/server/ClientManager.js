@@ -78,9 +78,11 @@ export default class ClientManager {
      */
     loadUsers() {
         const users = this.getUsers();
+        /*eslint-disable no-restricted-syntax */
         for (const i in users) {
             this.loadUser(users[i]);
         }
+        /*eslint-enable*/
     }
 
     /**
