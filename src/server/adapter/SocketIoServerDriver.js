@@ -23,9 +23,10 @@
  * THE SOFTWARE.
  */
 
-import ClientSocketDriver from './ClientSocketDriver';
 import io from 'socket.io';
 import * as Rx from 'rxjs';
+
+import ClientSocketDriver from './ClientSocketDriver';
 
 export default class SocketIoServerDriver {
 
@@ -53,11 +54,9 @@ export default class SocketIoServerDriver {
      *  @return {Rx.Observable<ClientSocketDriver>}
      */
     connect() {
-        return Rx.Observable.create((observer) => {
-            this._server.on('connect', (socket) => {
-                const gateway = new ClientSocketDriver(socket);
-                observer.next(gateway);
-            });
+        return Rx.Observable.fromEvent(this._server, 'connect', function (socket) {
+            const gateway = new ClientSocketDriver(socket);
+            return gateway;
         });
     }
 }
