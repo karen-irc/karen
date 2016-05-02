@@ -54,9 +54,11 @@ export class SocketIoServerDriver {
      *  @return {Rx.Observable<ClientSocketDriver>}
      */
     connect() {
-        return Rx.Observable.fromEvent(this._server, 'connect', function (socket) {
-            const gateway = new ClientSocketDriver(socket);
-            return gateway;
+        return Rx.Observable.create((observer) => {
+            this._server.on('connect', (socket) => {
+                const gateway = new ClientSocketDriver(socket);
+                observer.next(gateway);
+            });
         });
     }
 }
