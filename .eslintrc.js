@@ -71,6 +71,7 @@ module.exports = {
         'no-sparse-arrays': 2,
         'no-unexpected-multiline': 1,
         'no-unreachable': 1,
+        'no-unsafe-finally': 2,
         'use-isnan': 2,
         'valid-jsdoc': [2, {
             'requireReturn': true,
@@ -339,6 +340,7 @@ module.exports = {
         'no-duplicate-imports': 1, // http://eslint.org/docs/rules/no-duplicate-imports
         'no-new-symbol': 2,
         'no-this-before-super': 2,
+        'no-useless-computed-key': 1,
         // 'no-useless-constructor': 2, // FIXME: this rule has the bag which deny to call `super()` in a derived class (ESLint v2b1)
         'no-var': 1,
         'no-whitespace-before-property': 1,
