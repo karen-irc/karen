@@ -9,7 +9,7 @@ import spdy from 'spdy';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 
-import SocketIoServerDriver from './adapter/SocketIoServerDriver';
+import {SocketIoServerDriver} from './adapter/SocketIoServerDriver';
 import ConfigDriver from './adapter/ConfigDriver';
 import Package from './adapter/Package';
 import { KarenAppIndex as IndexTemplate } from './view/classic/Index';

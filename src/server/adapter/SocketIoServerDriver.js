@@ -26,9 +26,9 @@
 import io from 'socket.io';
 import * as Rx from 'rxjs';
 
-import ClientSocketDriver from './ClientSocketDriver';
+import {ClientSocketDriver} from './ClientSocketDriver';
 
-export default class SocketIoServerDriver {
+export class SocketIoServerDriver {
 
     /**
      *  @constructor
