@@ -15,11 +15,14 @@
     "url": "https://github.com/karen-irc/karen.git"
   },
   "scripts": {
-    "prestart": "gulp default",
+    "prestart": "gulp build",
     "start": "node index",
+
+    "clean": "gulp clean",
+
     "test": "npm run lint",
     "lint": "gulp jslint",
-    "clean": "gulp clean",
+
     "tsc": "gulp tsc",
     "gulp": "gulp"
   },

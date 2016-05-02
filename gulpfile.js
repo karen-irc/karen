@@ -191,4 +191,3 @@ gulp.task('build', ['build:server', 'build:client']);
 gulp.task('clean:server', ['__clean:server:obj', '__clean:server:dist']);
 gulp.task('clean:client', ['__clean:client:js:obj', '__clean:client:js:dist', '__clean:client:css:dist']);
 gulp.task('clean', ['clean:client', 'clean:server']);
-gulp.task('default', ['build']);
