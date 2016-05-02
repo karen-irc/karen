@@ -1,6 +1,6 @@
 /*eslint-disable no-sync */
 
-import ClientManager from '../ClientManager';
+import {ClientManager} from '../ClientManager';
 import fs from 'fs';
 import path from 'path';
 import program from 'commander';

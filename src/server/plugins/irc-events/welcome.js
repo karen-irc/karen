@@ -1,6 +1,6 @@
 /*eslint-disable consistent-this,no-param-reassign */
 
-import Message from '../../models/Message';
+import {Message} from '../../models/Message';
 
 /**
  *  @this   Client

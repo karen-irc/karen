@@ -23,7 +23,8 @@
  * THE SOFTWARE.
  */
 import moment from 'moment';
-import MessageType from './MessageType';
+
+import {MessageType} from './MessageType';
 
 let id = 0;
 
@@ -54,7 +55,7 @@ function findUserImage(channel, message) {
     return hostmask.hostname;
 }
 
-export default class Message {
+export class Message {
 
     /**
      *  @constructor

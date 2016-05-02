@@ -1,8 +1,8 @@
 /*eslint-disable consistent-this,no-param-reassign */
 
 import cheerio from 'cheerio';
-import Message from '../../models/Message';
-import MessageType from '../../models/MessageType';
+import {Message} from '../../models/Message';
+import {MessageType} from '../../models/MessageType';
 import request from 'request';
 import ConfigDriver from '../../adapter/ConfigDriver';
 import es from 'event-stream';

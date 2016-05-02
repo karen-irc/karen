@@ -25,7 +25,7 @@
 
 import * as Rx from 'rxjs';
 
-export default class ClientSocketDriver {
+export class ClientSocketDriver {
 
     /**
      *  @constructor

@@ -1,6 +1,6 @@
 /*eslint-disable consistent-this */
 
-import User from '../../models/User';
+import {User} from '../../models/User';
 
 /**
  *  @this   Client

@@ -1,4 +1,4 @@
-import ClientManager from '../ClientManager';
+import {ClientManager} from '../ClientManager';
 import program from 'commander';
 import karen from '../server';
 import ConfigDriver from '../adapter/ConfigDriver';
