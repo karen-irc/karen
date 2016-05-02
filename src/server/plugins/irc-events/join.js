@@ -1,9 +1,9 @@
 /*eslint-disable consistent-this */
 
-import Channel from '../../models/Channel';
-import Message from '../../models/Message';
-import MessageType from '../../models/MessageType';
-import User from '../../models/User';
+import {Channel} from '../../models/Channel';
+import {Message} from '../../models/Message';
+import {MessageType} from '../../models/MessageType';
+import {User} from '../../models/User';
 
 /**
  *  @this   Client

@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import ChannelType from './ChannelType';
+import {ChannelType} from './ChannelType';
 
 const MODES = [
     '~',
@@ -34,7 +34,7 @@ const MODES = [
 
 let id = 0;
 
-export default class Channal {
+export class Channal {
 
     /**
      *  @constructor

@@ -23,8 +23,8 @@
  * THE SOFTWARE.
  */
 
-import Channel from './Channel';
-import ChannelType from './ChannelType';
+import {Channel} from './Channel';
+import {ChannelType} from './ChannelType';
 
 /**
  *  @param  {string}    str
@@ -54,7 +54,7 @@ function prettify(host) {
 /** @type   {number}    */
 let id = 0;
 
-export default class Network {
+export class Network {
 
     /**
      *  @constructor

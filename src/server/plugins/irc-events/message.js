@@ -1,10 +1,10 @@
 /*eslint-disable consistent-this */
 
-import Channel from '../../models/Channel';
-import Hostmask from '../../models/Hostmask';
-import ChannelType from '../../models/ChannelType';
-import Message from '../../models/Message';
-import MessageType from '../../models/MessageType';
+import {Channel} from '../../models/Channel';
+import {Hostmask} from '../../models/Hostmask';
+import {ChannelType} from '../../models/ChannelType';
+import {Message} from '../../models/Message';
+import {MessageType} from '../../models/MessageType';
 
 /**
  *  @this   Client

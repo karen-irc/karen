@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-export default class Hostmask {
+export class Hostmask {
 
     /**
      *  @constructor

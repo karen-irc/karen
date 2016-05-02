@@ -1,13 +1,13 @@
 import {Some, None} from 'option-t';
-import ChannelType from './models/ChannelType';
+import {ChannelType} from './models/ChannelType';
 import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
 import * as Logger from './Logger';
 import net from 'net';
-import Message from './models/Message';
-import MessageType from './models/MessageType';
-import Network from './models/Network';
+import {Message} from './models/Message';
+import {MessageType} from './models/MessageType';
+import {Network} from './models/Network';
 import slate from 'slate-irc';
 import tls from 'tls';
 import ConfigDriver from './adapter/ConfigDriver';
