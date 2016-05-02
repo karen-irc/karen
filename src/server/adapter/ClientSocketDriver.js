@@ -47,119 +47,49 @@ export default class ClientSocketDriver {
      *  @return {Rx.Observable<?>}
      */
     auth() {
-        return Rx.Observable.create((observer) => {
-            const topic = 'auth';
-            const callback = function (data) {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.removeListener(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'auth');
     }
 
     /**
      *  @return {Rx.Observable<?>}
      */
     input() {
-        return Rx.Observable.create((observer) => {
-            const topic = 'input';
-            const callback = function (data) {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.removeListener(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'input');
     }
 
     /**
      *  @return {Rx.Observable<?>}
      */
     more() {
-        return Rx.Observable.create((observer) => {
-            const topic = 'more';
-            const callback = function (data) {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.removeListener(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'more');
     }
 
     /**
      *  @return {Rx.Observable<?>}
      */
     connect() {
-        return Rx.Observable.create((observer) => {
-            const topic = 'conn';
-            const callback = function (data) {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.removeListener(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'conn');
     }
 
     /**
      *  @return {Rx.Observable<?>}
      */
     open() {
-        return Rx.Observable.create((observer) => {
-            const topic = 'open';
-            const callback = function (data) {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.removeListener(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'open');
     }
 
     /**
      *  @return {Rx.Observable<?>}
      */
     sort() {
-        return Rx.Observable.create((observer) => {
-            const topic = 'sort';
-            const callback = function (data) {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.removeListener(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'sort');
     }
 
     /**
      *  @return {Rx.Observable<void>}
      */
     disconnect() {
-        return Rx.Observable.create((observer) => {
-            const topic = 'disconnect';
-            const callback = function () {
-                observer.next();
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.removeListener(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'disconnect');
     }
 
     /**
