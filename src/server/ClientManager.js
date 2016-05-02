@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import Client from './Client';
+import {Client} from './Client';
 import mkdirp from 'mkdirp';
 import ConfigDriver from './adapter/ConfigDriver';
 import * as Rx from 'rxjs';
@@ -40,7 +40,7 @@ function difference(a, b) {
     return diff;
 }
 
-export default class ClientManager {
+export class ClientManager {
 
     /**
      *  @constructor

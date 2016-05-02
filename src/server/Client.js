@@ -3,7 +3,7 @@ import ChannelType from './models/ChannelType';
 import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
-import Logger from './Logger';
+import * as Logger from './Logger';
 import net from 'net';
 import Message from './models/Message';
 import MessageType from './models/MessageType';
@@ -16,7 +16,7 @@ import {eventPluginList} from './plugins/irc-events/index';
 
 let id = 0;
 
-export default class Client {
+export class Client {
     constructor(sockets, name, config) {
         Object.assign(this, {
             config: config,

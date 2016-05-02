@@ -4,7 +4,7 @@ import mkdirp from 'mkdirp';
 import moment from 'moment';
 import ConfigDriver from './adapter/ConfigDriver';
 
-function write(user, network, chan, msg) {
+export function write(user, network, chan, msg) {
     const logsPath = path.join(ConfigDriver.getHome(), 'logs', user, network);
     try {
         mkdirp.sync(logsPath);
@@ -44,7 +44,3 @@ function write(user, network, chan, msg) {
         }
     );
 }
-
-export default {
-    write
-};

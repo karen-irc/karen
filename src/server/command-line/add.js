@@ -1,6 +1,6 @@
 /*eslint-disable no-sync */
 
-import ClientManager from '../ClientManager';
+import {ClientManager} from '../ClientManager';
 import bcrypt from 'bcrypt-nodejs';
 import fs from 'fs';
 import path from 'path';
