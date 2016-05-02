@@ -34,7 +34,7 @@ const MODES = [
 
 let id = 0;
 
-export class Channal {
+export class Channel {
 
     /**
      *  @constructor
