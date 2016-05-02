@@ -28,214 +28,70 @@ import * as Rx from 'rxjs';
 
 export class SocketIoDriver {
 
-    _socket: SocketIOClient.Socket;
+    private _socket: SocketIOClient.Socket;
 
     constructor() {
         this._socket = io.connect();
     }
 
     error(): Rx.Observable<any> {
-        return new Rx.Observable((observer: Rx.Subscriber<any>) => {
-            const topic = 'error';
-            const callback = (e: any) => {
-                observer.error(e);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.off(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'error');
     }
 
     connectError(): Rx.Observable<void> {
-        return Rx.Observable.create((observer: Rx.Observer<any>) => {
-            const topic = 'connect_error';
-            const callback = () => {
-                observer.next(undefined);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.off(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent<void>(this._socket, 'connect_error');
     }
 
     disconnect(): Rx.Observable<void> {
-        return Rx.Observable.create((observer: Rx.Observer<any>) => {
-            const topic = 'disconnect';
-            const callback = () => {
-                observer.next(undefined);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.off(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent<void>(this._socket, 'disconnect');
     }
 
     auth(): Rx.Observable<any> {
-        return Rx.Observable.create((observer: Rx.Observer<any>) => {
-            const topic = 'auth';
-            const callback = (data: any) => {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.off(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'auth');
     }
 
     init(): Rx.Observable<any> {
-        return Rx.Observable.create((observer: Rx.Observer<any>) => {
-            const topic = 'init';
-            const callback = (data: any) => {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.off(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'init');
     }
 
     join(): Rx.Observable<any> {
-        return Rx.Observable.create((observer: Rx.Observer<any>) => {
-            const topic = 'join';
-            const callback = (data: any) => {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.off(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'join');
     }
 
     message(): Rx.Observable<any> {
-        return Rx.Observable.create((observer: Rx.Observer<any>) => {
-            const topic = 'msg';
-            const callback = (data: any) => {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.off(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'msg');
     }
 
     more(): Rx.Observable<any> {
-        return Rx.Observable.create((observer: Rx.Observer<any>) => {
-            const topic = 'more';
-            const callback = (data: any) => {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.off(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'more');
     }
 
     network(): Rx.Observable<any> {
-        return Rx.Observable.create((observer: Rx.Observer<any>) => {
-            const topic = 'network';
-            const callback = (data: any) => {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.off(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'network');
     }
 
     nickname(): Rx.Observable<any> {
-        return Rx.Observable.create((observer: Rx.Observer<any>) => {
-            const topic = 'nick';
-            const callback = (data: any) => {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.off(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'nick');
     }
 
     part(): Rx.Observable<any> {
-        return Rx.Observable.create((observer: Rx.Observer<any>) => {
-            this._socket.on('part', (data: any) => {
-                observer.next(data);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'part');
     }
 
     quit(): Rx.Observable<any> {
-        return Rx.Observable.create((observer: Rx.Observer<any>) => {
-            const topic = 'quit';
-            const callback = (data: any) => {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.off(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'quit');
     }
 
     toggle(): Rx.Observable<any> {
-        return Rx.Observable.create((observer: Rx.Observer<any>) => {
-            const topic = 'toggle';
-            const callback = (data: any) => {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.off(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'toggle');
     }
 
     topic(): Rx.Observable<any> {
-        return Rx.Observable.create((observer: Rx.Observer<any>) => {
-            const topic = 'topic';
-            const callback = (data: any) => {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.off(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'topic');
     }
 
     users(): Rx.Observable<any> {
-        return Rx.Observable.create((observer: Rx.Observer<any>) => {
-            const topic = 'users';
-            const callback = (data: any) => {
-                observer.next(data);
-            };
-            this._socket.on(topic, callback);
-
-            return new Rx.Subscription(() => {
-                this._socket.off(topic, callback);
-            });
-        });
+        return Rx.Observable.fromEvent(this._socket, 'users');
     }
 
     emit(name: string, obj: any): void {
