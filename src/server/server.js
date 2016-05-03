@@ -12,6 +12,9 @@ import * as ReactDOMServer from 'react-dom/server';
 import {SocketIoServerDriver} from './adapter/SocketIoServerDriver';
 import ConfigDriver from './adapter/ConfigDriver';
 import Package from './adapter/Package';
+
+import {applyGenericSecurityHeader, applyHtmlSecurtyHeader} from './app/security';
+
 import { KarenAppIndex as IndexTemplate } from './view/classic/Index';
 import {RizeIndex} from './view/rize/RizeIndex';
 
@@ -84,34 +87,6 @@ export default function(options) {
     }
 }
 
-const STRICT_TRANSPORT_SECURITY_EXPIRE_TIME = String(60 * 24 * 365 * 1000);
-
-function applyGenericSecurityHeader(req, res, next) {
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.setHeader('Strict-Transport-Security', 'max-age=' + STRICT_TRANSPORT_SECURITY_EXPIRE_TIME + ';');
-    res.setHeader('X-XSS-Protection', '1; mode=block');
-
-    next();
-}
-
-const cspDirective = new Map([
-    ['default-src', '\'none\''],
-    ['connect-src', '\'self\' ws: wss:'],
-    ['font-src', '\'self\' https://fonts.gstatic.com'],
-
-    // XXX: karen tries to expand all image which is embedded in a message.
-    ['img-src', '*'],
-
-    ['media-src', '\'self\''],
-    ['script-src', '\'self\''],
-
-    // FIXME: this 'unsafe-inline' should be removed.
-    ['style-src', '\'self\' https://fonts.googleapis.com \'unsafe-inline\''],
-]);
-const cspDirectiveStr = [...cspDirective.entries()].map(function([key, value]){
-    return key + ' ' + value + ';';
-}).join(' ');
-
 function index(req, res, next) {
     if (req.url.split('?')[0] !== '/') {
         next();
@@ -121,8 +96,7 @@ function index(req, res, next) {
     let data = Object.assign({}, Package.getPackage());
     data = Object.assign(data, config);
     res.setHeader('Content-Type', 'text/html');
-    res.setHeader('Content-Security-Policy', cspDirectiveStr);
-    res.setHeader('X-Frame-Options', 'DENY');
+    applyHtmlSecurtyHeader(req, res);
     res.writeHead(200);
 
     const view = isEnableRize ?
