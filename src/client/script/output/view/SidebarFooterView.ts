@@ -39,7 +39,7 @@ export class SidebarFooterView implements EventListenerObject {
     _connectElement: HTMLElement;
     _settingElement: HTMLElement;
 
-    _lastSelectedElement: HTMLElement;
+    _lastSelectedElement: HTMLElement | void;
 
     _disposableSignIn: Rx.Subscription;
     _disposableSignout: Rx.Subscription;
@@ -54,30 +54,30 @@ export class SidebarFooterView implements EventListenerObject {
         this._connectElement = element.querySelector('.connect') as HTMLElement;
         this._settingElement = element.querySelector('.settings') as HTMLElement;
 
-        this._lastSelectedElement = null;
+        this._lastSelectedElement = undefined;
 
         this._disposableSignIn = UIActionCreator.dispatcher().showSignIn.subscribe(() => {
-            this.selectElement(this._lastSelectedElement, this._signinElement);
+            this.selectElement(this._lastSelectedElement!, this._signinElement);
         });
 
         this._disposableSignout = AppActionCreator.dispatcher().signout.subscribe(() => {
-            this.selectElement(this._lastSelectedElement, this._signoutElement);
+            this.selectElement(this._lastSelectedElement!, this._signoutElement);
         });
 
         this._disposableShowConnect = domain.getSelectedSetting().filter(function(id){
             return (id === 'connect');
         }).subscribe(() => {
-            this.selectElement(this._lastSelectedElement, this._connectElement);
+            this.selectElement(this._lastSelectedElement!, this._connectElement);
         });
 
         this._disposableShowSetting = domain.getSelectedSetting().filter(function(id){
             return (id === 'settings');
         }).subscribe(() => {
-            this.selectElement(this._lastSelectedElement, this._settingElement);
+            this.selectElement(this._lastSelectedElement!, this._settingElement);
         });
 
         this._disposableSelectChannel = domain.getSelectedChannel().subscribe(() => {
-            this.selectElement(this._lastSelectedElement, null);
+            this.selectElement(this._lastSelectedElement!, undefined);
         });
 
         element.addEventListener('click', this);
@@ -91,13 +91,6 @@ export class SidebarFooterView implements EventListenerObject {
         this._disposableShowConnect.unsubscribe();
         this._disposableShowSetting.unsubscribe();
         this._disposableSelectChannel.unsubscribe();
-
-        this._element = null;
-        this._signinElement = null;
-        this._signoutElement = null;
-        this._connectElement = null;
-        this._settingElement = null;
-        this._lastSelectedElement = null;
     }
 
     handleEvent(aEvent: Event): void {
@@ -128,12 +121,12 @@ export class SidebarFooterView implements EventListenerObject {
         }
     }
 
-    selectElement(last: HTMLElement, current: HTMLElement): void {
-        if (last !== null) {
+    selectElement(last: HTMLElement, current: HTMLElement | void): void {
+        if (last !== undefined) {
             this.deactivate(last);
         }
 
-        if (current !== null) {
+        if (current !== undefined) {
             this.activate(current);
         }
 

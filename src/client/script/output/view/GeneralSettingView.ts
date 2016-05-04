@@ -69,7 +69,7 @@ export class GeneralSettingView implements EventListenerObject {
         const name = target.getAttribute('name');
         const value = (target as HTMLInputElement).checked;
 
-        SettingActionCreator.setOption(name, value);
+        SettingActionCreator.setOption(name!, value);
 
         if (value && target.getAttribute('id') === 'badge') {
             NotificationActionCreator.requestPermission();

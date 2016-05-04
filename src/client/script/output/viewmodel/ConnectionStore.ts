@@ -101,9 +101,5 @@ export class ConnectionStore {
     dispose(): void {
         this._init.unsubscribe();
         this._tryConnect.unsubscribe();
-
-        this._state = null;
-        this._init = null;
-        this._tryConnect = null;
     }
 }

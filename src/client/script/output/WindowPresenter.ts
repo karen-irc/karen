@@ -41,14 +41,14 @@ export class WindowPresenter implements EventListenerObject {
     private _domain: DomainState;
     private _disposer: Rx.Subscription;
 
-    private _currenTab: SelectedTab;
+    private _currenTab: SelectedTab | void;
 
     constructor(domain: DomainState) {
         this._domain = domain;
         this._disposer = new Rx.Subscription();
 
         this._disposer.add(AppActionCreator.dispatcher().reload.subscribe(function () {
-            window.onbeforeunload = null;
+            (window as any).onbeforeunload = null;
 
             location.reload();
         }));
@@ -63,7 +63,7 @@ export class WindowPresenter implements EventListenerObject {
             }
         }));
 
-        this._currenTab = null;
+        this._currenTab = undefined;
         this._disposer.add(domain.getCurrentTab().subscribe((tab) => {
             this._currenTab = tab;
         }));
@@ -115,10 +115,6 @@ export class WindowPresenter implements EventListenerObject {
         window.document.documentElement.removeEventListener('keydown', this);
 
         this._disposer.unsubscribe();
-
-        this._currenTab = null;
-        this._disposer = null;
-        this._domain = null;
     }
 
     private _onBeforeUnload(aEvent: Event): string {
@@ -166,10 +162,16 @@ export class WindowPresenter implements EventListenerObject {
 
     handleShortcut(key: string): void {
         const channelList: Array<Channel> = this._domain.networkSet.getChannelList();
-        const currentIndex: Option<ChannelId> = this._domain.currentTab.channelId.map(function(currentId: ChannelId) {
-            return channelList.findIndex(function(channel: Channel){
+        const currentIndex: Option<ChannelId> = this._domain.currentTab.channelId.map(function(currentId: ChannelId): number {
+            const result = channelList.findIndex(function(channel: Channel){
                 return channel.id === currentId;
             });
+            if (result === undefined) {
+                throw new Error('should not be undefined');
+            }
+            else {
+                return result;
+            }
         });
 
         if (currentIndex.isNone) {

@@ -47,7 +47,7 @@ class AppViewModel {
 
 export class AppView {
 
-    private _element: Element;
+    private _element: Element | void;
     private _vm: AppViewModel;
     private _disposer: Rx.Subscription;
 
@@ -67,7 +67,7 @@ export class AppView {
     }
 
     destroy(): void {
-        this._element = null;
+        this._element = undefined;
         this._vm.destroy();
         this._disposer.unsubscribe();
     }
@@ -102,7 +102,7 @@ export class AppView {
     }
 
     private _handleClickEvent(): Rx.Subscription {
-        return Rx.Observable.fromEvent<Element>(this._element, 'click', (event: UIEvent) => event.target as Element)
+        return Rx.Observable.fromEvent<Element>(this._element!, 'click', (event: UIEvent) => event.target as Element)
             .filter((target: Element): boolean => (target.localName === 'button'))
             .subscribe((target: Element) => {
                 if (target.classList.contains('lt')) {

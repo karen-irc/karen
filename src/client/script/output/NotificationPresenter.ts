@@ -68,10 +68,7 @@ export class NotificationPresenter {
         this._disposeRequestPermission.unsubscribe();
         this._disposeshowNotification.unsubscribe();
 
-        this._audio = null;
-        this._disposePlay = null;
-        this._disposeRequestPermission = null;
-        this._disposeshowNotification = null;
+        this._audio.destroy();
     }
 
     playSound(): void {

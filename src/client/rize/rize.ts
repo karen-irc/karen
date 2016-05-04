@@ -50,7 +50,7 @@ export class RizeClient {
             console.log(data.value);
         });
 
-        const view = React.createElement(RizeAppView, null);
+        const view = React.createElement(RizeAppView, undefined);
         const mountpoint = document.getElementById('js-mountpoint-app');
         ReactDOM.render(view, mountpoint);
     }

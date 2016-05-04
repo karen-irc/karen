@@ -40,7 +40,7 @@ export class ConnectSettingContext implements ViewContext {
 
     private _action: ConnectionActionCreator;
     private _store: ConnectionStore;
-    private _viewDisposer: Rx.Subscription;
+    private _viewDisposer: Rx.Subscription | undefined;
 
     constructor(gateway: MessageGateway) {
         if (!gateway) {
@@ -49,17 +49,13 @@ export class ConnectSettingContext implements ViewContext {
 
         this._action = new ConnectionActionCreator();
         this._store = new ConnectionStore(this._action.dispatcher(), gateway);
-        this._viewDisposer = null;
+        this._viewDisposer = undefined;
     }
 
     private _destroy(): void {
-        this._viewDisposer.unsubscribe();
+        this._viewDisposer!.unsubscribe();
         this._store.dispose();
         this._action.dispose();
-
-        this._viewDisposer = null;
-        this._store = null;
-        this._action = null;
     }
 
     onActivate(mountpoint: Element): void {
