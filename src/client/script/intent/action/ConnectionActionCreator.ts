@@ -42,42 +42,6 @@ export class ConnectionActionCreator {
         return this._dispatcher;
     }
 
-    setNetworkName(name: string): void {
-        this._dispatcher.setNetworkName.next(name);
-    }
-
-    setServerURL(url: string): void {
-        this._dispatcher.setServerURL.next(url);
-    }
-
-    setServerPort(port: number): void {
-        this._dispatcher.setServerPort.next(port);
-    }
-
-    setServerPass(pass: string): void {
-        this._dispatcher.setServerPass.next(pass);
-    }
-
-    shouldUseTLS(shouldUse: boolean): void {
-        this._dispatcher.shouldUseTLS.next(shouldUse);
-    }
-
-    setNickName(nick: string): void {
-        this._dispatcher.setNickName.next(nick);
-    }
-
-    setUserName(user: string): void {
-        this._dispatcher.setUserName.next(user);
-    }
-
-    setRealName(name: string): void {
-        this._dispatcher.setRealName.next(name);
-    }
-
-    setChannel(text: string): void {
-        this._dispatcher.setChannel.next(text);
-    }
-
     tryConnect(param: ConnectionValue): void {
         this._dispatcher.tryConnect.next(param);
     }

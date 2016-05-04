@@ -27,8 +27,8 @@ import * as React from 'react';
 
 import {ConnectionActionCreator} from '../../intent/action/ConnectionActionCreator';
 import {ConnectionValue} from '../../domain/value/ConnectionSettings';
+import {ConnectionSettingViewModel} from '../viewmodel/ConnectionStore';
 
-/*eslint-disable react/prefer-stateless-function */
 export class ConnectSettingWindow extends React.Component {
 
     constructor(props) {
@@ -190,48 +190,48 @@ export class ConnectSettingWindow extends React.Component {
 
     onChangeSetNetworkName(event) {
         const value = event.target.value;
-        this.props.action.setNetworkName(value);
+        this.props.viewmodel.networkName().setValue(value);
     }
 
     onChangeSetServerURL(event) {
         const value = event.target.value;
-        this.props.action.setServerURL(value);
+        this.props.viewmodel.serverUrl().setValue(value);
     }
 
     onChangeSetServerPort(event) {
         const value = event.target.value;
         const port = parseInt(value, 10);
-        this.props.action.setServerPort(port);
+        this.props.viewmodel.serverPort().setValue(port);
     }
 
     onChangeSetServerPass(event) {
         const value = event.target.value;
-        this.props.action.setServerPass(value);
+        this.props.viewmodel.serverPass().setValue(value);
     }
 
     onChangeUseTLS(event) {
         const isChecked = event.target.checked;
-        this.props.action.shouldUseTLS(isChecked);
+        this.props.viewmodel.useTLS().setValue(isChecked);
     }
 
     onChangeSetNickName(event) {
         const value = event.target.value;
-        this.props.action.setNickName(value);
+        this.props.viewmodel.nickname().setValue(value);
     }
 
     onChangeSetUserName(event) {
         const value = event.target.value;
-        this.props.action.setUserName(value);
+        this.props.viewmodel.username().setValue(value);
     }
 
     onChangeSetRealName(event) {
         const value = event.target.value;
-        this.props.action.setRealName(value);
+        this.props.viewmodel.realname().setValue(value);
     }
 
     onChangeSetChannel(event) {
         const value = event.target.value;
-        this.props.action.setChannel(value);
+        this.props.viewmodel.channel().setValue(value);
     }
 
     onSubmit(event) {
@@ -242,7 +242,7 @@ export class ConnectSettingWindow extends React.Component {
     }
 }
 ConnectSettingWindow.propTypes = {
+    viewmodel: React.PropTypes.instanceOf(ConnectionSettingViewModel).isRequired,
     action: React.PropTypes.instanceOf(ConnectionActionCreator).isRequired,
     data: React.PropTypes.instanceOf(ConnectionValue).isRequired,
 };
-/*eslint-enable */

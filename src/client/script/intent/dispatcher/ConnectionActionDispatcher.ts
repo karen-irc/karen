@@ -28,32 +28,9 @@ import * as Rx from 'rxjs';
 import {ConnectionValue} from '../../domain/value/ConnectionSettings';
 
 export class ConnectionActionDispatcher {
-
-    setNetworkName: Rx.Subject<string>;
-    setServerURL: Rx.Subject<string>;
-    setServerPort: Rx.Subject<number>;
-    setServerPass: Rx.Subject<string>;
-    shouldUseTLS: Rx.Subject<boolean>;
-
-    setNickName: Rx.Subject<string>;
-    setUserName: Rx.Subject<string>;
-    setRealName: Rx.Subject<string>;
-    setChannel: Rx.Subject<string>;
-
     tryConnect: Rx.Subject<ConnectionValue>;
 
     constructor() {
-        this.setNetworkName = new Rx.Subject<string>();
-        this.setServerURL = new Rx.Subject<string>();
-        this.setServerPort = new Rx.Subject<number>();
-        this.setServerPass = new Rx.Subject<string>();
-        this.shouldUseTLS = new Rx.Subject<boolean>();
-
-        this.setNickName = new Rx.Subject<string>();
-        this.setUserName = new Rx.Subject<string>();
-        this.setRealName = new Rx.Subject<string>();
-        this.setChannel = new Rx.Subject<string>();
-
         this.tryConnect = new Rx.Subject<ConnectionValue>();
 
         Object.seal(this);

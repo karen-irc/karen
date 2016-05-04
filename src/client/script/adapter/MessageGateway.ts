@@ -105,7 +105,7 @@ export class MessageGateway {
 
             const first: any = preset[0];
             const network = new NetworkConnectionValue(first.name, first.host, first.port,
-                                                       first.passward, first.tls);
+                                                       first.password, first.tls);
             const personal = new PersonalConnectionValue(first.nick, first.username, first.realname, first.join);
             return [network, personal] as [NetworkConnectionValue, PersonalConnectionValue];
         });
