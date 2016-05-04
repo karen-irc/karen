@@ -22,6 +22,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+import expressSession from 'express-session';
+
 const STRICT_TRANSPORT_SECURITY_EXPIRE_TIME = String(60 * 24 * 365 * 1000);
 
 export function applyGenericSecurityHeader(req, res, next) {
@@ -53,4 +55,23 @@ const cspDirectiveStr = [...cspDirective.entries()].map(function([key, value]){
 export function applyHtmlSecurtyHeader(req, res) {
     res.setHeader('Content-Security-Policy', cspDirectiveStr);
     res.setHeader('X-Frame-Options', 'DENY');
+}
+
+export function setSessionMiddleware(express, config) {
+    express.enable('trust proxy');
+
+    const httpsOptions = config.https || {};
+    const sessionOption = {
+        cookie: {
+            path: '/',
+            httpOnly: true,
+            secure: !!httpsOptions.enable,
+            maxAge: null,
+        },
+        secret: String(Date.now() * Math.random),
+        resave: false,
+        name: 'karen.sessionid',
+        saveUninitialized: config.public,
+    };
+    express.use(expressSession(sessionOption));
 }
