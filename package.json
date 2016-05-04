@@ -17,16 +17,12 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "node index.js",
-
     "clean": "gulp clean",
-
     "build": "gulp build",
     "build_client": "gulp build:client",
     "build_server": "gulp build:server",
-
     "test": "npm run lint",
     "lint": "gulp jslint",
-
     "tsc": "gulp tsc",
     "gulp": "gulp"
   },
@@ -59,6 +55,7 @@
     "cookies-js": "^1.2.2",
     "event-stream": "^3.3.2",
     "express": "^4.13.4",
+    "express-session": "^1.13.0",
     "mkdirp": "^0.5.1",
     "moment": "^2.13.0",
     "option-t": "^0.18.3",

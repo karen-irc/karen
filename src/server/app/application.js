@@ -38,7 +38,7 @@ import {confirmAuth, initializeConnection} from '../route/socketio';
 
 import {ClientManager} from '../ClientManager';
 
-import {applyGenericSecurityHeader} from './security';
+import {applyGenericSecurityHeader, setSessionMiddleware} from './security';
 
 export class KarenServer {
 
@@ -46,7 +46,7 @@ export class KarenServer {
         const config = ConfigDriver.getConfig();
 
         this._config = Object.assign(config, options);
-        this._express = createExpress();
+        this._express = createExpress(this._config);
         this._server = createServer(this._express, this._config);
         this._socketIo = createSocketIo(this._server, this._config);
         this._manager = new ClientManager();
@@ -102,12 +102,14 @@ export class KarenServer {
     }
 }
 
-function createExpress() {
+function createExpress(config) {
     const app = express();
     app.set('x-powered-by', false);
     app.use(applyGenericSecurityHeader);
     app.use(compression());
-    app.enable('trust proxy');
+
+    setSessionMiddleware(app, config);
+
     return app;
 }
 
