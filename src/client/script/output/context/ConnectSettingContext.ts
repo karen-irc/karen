@@ -34,7 +34,7 @@ import {ConnectionActionCreator} from '../../intent/action/ConnectionActionCreat
 import {ConnectionStore} from '../viewmodel/ConnectionStore';
 import {ConnectionValue} from '../../domain/value/ConnectionSettings';
 
-import {ViewContext} from './ViewContext';
+import {ViewContext} from '../../lib/ViewContext';
 
 export class ConnectSettingContext implements ViewContext {
 
