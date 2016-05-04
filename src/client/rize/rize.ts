@@ -23,15 +23,11 @@
  * THE SOFTWARE.
  */
 
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 
 import {NotificationService} from './adapter/NotificationService';
 import {NotificationAction} from './intent/NotificationAction';
 
-import {RizeNetworkSetDomain, RizeNetworkSetValue} from './domain/NetworkSetDomain';
-
-import {RizeAppView} from './output/view/RizeAppView';
+import {ApplicationContext} from './context/ApplicationContext';
 
 /**
  *  ReInitialiZEd Client
@@ -39,19 +35,12 @@ import {RizeAppView} from './output/view/RizeAppView';
 export class RizeClient {
 
     private _notification: NotificationService;
-    private _domain: RizeNetworkSetDomain;
 
     constructor() {
         const notifyAction = new NotificationAction();
         this._notification = new NotificationService(notifyAction.dispatcher());
 
-        this._domain = new RizeNetworkSetDomain();
-        this._domain.getValue().subscribe((data: RizeNetworkSetValue) => {
-            console.log(data.value);
-        });
-
-        const view = React.createElement(RizeAppView, undefined);
-        const mountpoint = document.getElementById('js-mountpoint-app');
-        ReactDOM.render(view, mountpoint);
+        const appCtx = new ApplicationContext();
+        appCtx.onActivate(document.getElementById('js-mountpoint-app'));
     }
 }

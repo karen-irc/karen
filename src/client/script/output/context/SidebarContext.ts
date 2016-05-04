@@ -31,7 +31,7 @@ import {SidebarStore, SidebarViewState} from '../viewmodel/SidebarStore';
 
 import {DomainState} from '../../domain/DomainState';
 
-import {ViewContext} from './ViewContext';
+import {ViewContext} from '../../lib/ViewContext';
 
 export class SidebarContext implements ViewContext {
 
