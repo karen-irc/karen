@@ -25,23 +25,81 @@
 
 import * as Rx from 'rxjs';
 
+import {ReactiveProperty} from '../../lib/ReactiveProperty';
+
 import {MessageGateway} from '../../adapter/MessageGateway';
 import {ConnectionActionDispatcher} from '../../intent/dispatcher/ConnectionActionDispatcher';
 import {ConnectionValue, NetworkValue, PersonalValue} from '../../domain/value/ConnectionSettings';
 
-export class ConnectionStore {
+export class ConnectionSettingViewModel {
 
-    private _state: Rx.Observable<ConnectionValue>;
-    private _init: Rx.Subscription;
-    private _tryConnect: Rx.Subscription;
+    private _networkName: ReactiveProperty<string>;
+    private _serverUrl: ReactiveProperty<string>;
+    private _serverPort: ReactiveProperty<number>;
+    private _serverPass: ReactiveProperty<string>;
+    private _useTLS: ReactiveProperty<boolean>;
 
-    constructor(intent: ConnectionActionDispatcher, gateway: MessageGateway) {
+    private _nickName: ReactiveProperty<string>;
+    private _userName: ReactiveProperty<string>;
+    private _realName: ReactiveProperty<string>;
+    private _channel: ReactiveProperty<string>;
+
+    constructor() {
+        this._networkName = new ReactiveProperty('');
+        this._serverUrl = new ReactiveProperty('');
+        this._serverPort = new ReactiveProperty(0);
+        this._serverPass = new ReactiveProperty('');
+        this._useTLS = new ReactiveProperty(true);
+
+        this._nickName = new ReactiveProperty('');
+        this._userName = new ReactiveProperty('');
+        this._realName = new ReactiveProperty('');
+        this._channel = new ReactiveProperty('');
+    }
+
+    networkName(): ReactiveProperty<string> {
+        return this._networkName;
+    }
+
+    serverUrl(): ReactiveProperty<string> {
+        return this._serverUrl;
+    }
+
+    serverPort(): ReactiveProperty<number> {
+        return this._serverPort;
+    }
+
+    serverPass(): ReactiveProperty<string> {
+        return this._serverPass;
+    }
+
+    useTLS(): ReactiveProperty<boolean> {
+        return this._useTLS;
+    }
+
+    nickname(): ReactiveProperty<string> {
+        return this._nickName;
+    }
+
+    username(): ReactiveProperty<string> {
+        return this._userName;
+    }
+
+    realname(): ReactiveProperty<string> {
+        return this._realName;
+    }
+
+    channel(): ReactiveProperty<string> {
+        return this._channel;
+    }
+
+    asObservable(): Rx.Observable<ConnectionValue> {
         const network: Rx.Observable<NetworkValue> = Rx.Observable.combineLatest<string, string, number, string, boolean, NetworkValue>(
-            intent.setNetworkName,
-            intent.setServerURL,
-            intent.setServerPort,
-            intent.setServerPass,
-            intent.shouldUseTLS.startWith(true),
+            this._networkName.asObservable(),
+            this._serverUrl.asObservable(),
+            this._serverPort.asObservable(),
+            this._serverPass.asObservable(),
+            this._useTLS.asObservable(),
             function (name: string, url: string, port: number, pass: string, useTLS: boolean) {
                 const value = new NetworkValue(name, url, port, pass, useTLS);
                 return value;
@@ -49,14 +107,14 @@ export class ConnectionStore {
         );
 
         const personal: Rx.Observable<PersonalValue> = Rx.Observable.combineLatest<string, string, string, string, PersonalValue>(
-            intent.setNickName,
-            intent.setUserName,
-            intent.setRealName,
-            intent.setChannel,
-        function (nick: string, user: string, real: string, channel: string) {
-            const value = new PersonalValue(nick, user, real, channel);
-            return value;
-        });
+            this._nickName.asObservable(),
+            this._userName.asObservable(),
+            this._realName.asObservable(),
+            this._channel.asObservable(),
+            function (nick: string, user: string, real: string, channel: string) {
+                const value = new PersonalValue(nick, user, real, channel);
+                return value;
+            });
 
         const canConnect = Rx.Observable.combineLatest<NetworkValue, PersonalValue, boolean>(
             network,
@@ -65,28 +123,40 @@ export class ConnectionStore {
                 return (network.url !== '') &&
                        (String(network.port) !== '') &&
                        (personal.nickname !== '');
-            }
-        ).startWith(false);
+            }).startWith(false);
 
-        this._state = canConnect.withLatestFrom(network, personal, function (canConnect, network, personal) {
+        const state = canConnect.withLatestFrom(network, personal, function (canConnect, network, personal) {
             const value = new ConnectionValue(network, personal, canConnect);
             return value;
         });
 
+        return state;
+    }
+}
+
+export class ConnectionStore {
+
+    private _vm: ConnectionSettingViewModel;
+    private _init: Rx.Subscription;
+    private _tryConnect: Rx.Subscription;
+
+    constructor(intent: ConnectionActionDispatcher, gateway: MessageGateway) {
+        this._vm = new ConnectionSettingViewModel();
+
         // FIXME: this should be a part of observable chain.
-        this._init = gateway.initialConnectionPreset().subscribe(function(tuple){
+        this._init = gateway.initialConnectionPreset().subscribe((tuple) => {
             const [network, personal]: [NetworkValue, PersonalValue] = tuple;
 
-            intent.setNetworkName.next(network.name);
-            intent.setServerURL.next(network.url);
-            intent.setServerPort.next(network.port);
-            intent.setServerPass.next(network.pass);
-            intent.shouldUseTLS.next(network.useTLS);
+            this._vm.networkName().setValue(network.name);
+            this._vm.serverUrl().setValue(network.url);
+            this._vm.serverPort().setValue(network.port);
+            this._vm.serverPass().setValue(network.pass);
+            this._vm.useTLS().setValue(network.useTLS);
 
-            intent.setNickName.next(personal.nickname);
-            intent.setUserName.next(personal.username);
-            intent.setRealName.next(personal.realname);
-            intent.setChannel.next(personal.channel);
+            this._vm.nickname().setValue(personal.nickname);
+            this._vm.username().setValue(personal.username);
+            this._vm.realname().setValue(personal.realname);
+            this._vm.channel().setValue(personal.channel);
         });
 
         this._tryConnect = intent.tryConnect.subscribe(function(value: ConnectionValue){
@@ -94,8 +164,12 @@ export class ConnectionStore {
         });
     }
 
+    viewmodel(): ConnectionSettingViewModel {
+        return this._vm;
+    }
+
     subscribe(observer: Rx.Subscriber<ConnectionValue>): Rx.Subscription {
-        return this._state.subscribe(observer);
+        return this._vm.asObservable().subscribe(observer);
     }
 
     dispose(): void {
