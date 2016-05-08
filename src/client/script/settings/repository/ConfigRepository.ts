@@ -1,3 +1,4 @@
+/*global moment: true */
 /**
  * @license MIT License
  *
@@ -23,26 +24,30 @@
  * THE SOFTWARE.
  */
 
-import {ConnectionValue} from '../../domain/value/ConnectionSettings';
-import {ConnectionActionDispatcher} from '../dispatcher/ConnectionActionDispatcher';
+import {CookieDriver} from '../../adapter/CookieDriver';
+import {Setting} from '../domain/value/Setting';
 
-export class ConnectionActionCreator {
+declare const moment: any;
 
-    private _dispatcher: ConnectionActionDispatcher;
+const KEY_SETTING = 'settings';
 
-    constructor() {
-        this._dispatcher = new ConnectionActionDispatcher();
+export class ConfigRepository {
+
+    _cookie: CookieDriver;
+
+    constructor(cookie: CookieDriver) {
+        this._cookie = cookie;
     }
 
-    dispose(): void {
-        (this as any)._dispatcher = undefined;
+    get(): Setting {
+        const raw = this._cookie.get(KEY_SETTING);
+        const settings = new Setting(raw);
+        return settings;
     }
 
-    dispatcher(): ConnectionActionDispatcher {
-        return this._dispatcher;
-    }
-
-    tryConnect(param: ConnectionValue): void {
-        this._dispatcher.tryConnect.next(param);
+    set(settings: Setting): void {
+        this._cookie.set(KEY_SETTING, settings, {
+            expires: moment().add(365, 'days').toDate(),
+        });
     }
 }

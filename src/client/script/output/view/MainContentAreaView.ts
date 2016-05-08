@@ -28,9 +28,9 @@ import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rxjs';
 
 import {ChatWindowItem, ChatWindowList} from './ChatWindowItem';
-import {ConnectSettingContext} from '../context/ConnectSettingContext';
+import {ConnectSettingContext} from '../../settings/context/ConnectSettingContext';
 import {MessageContentView} from './MessageContentView';
-import {SignInView} from './SignInView';
+import {SignInView} from '../../settings/view/SignInView';
 
 import {CookieDriver} from '../../adapter/CookieDriver';
 import {MessageGateway} from '../../adapter/MessageGateway';

@@ -28,8 +28,8 @@ import * as Rx from 'rxjs';
 import {ReactiveProperty} from '../../lib/ReactiveProperty';
 
 import {MessageGateway} from '../../adapter/MessageGateway';
-import {ConnectionActionDispatcher} from '../../intent/dispatcher/ConnectionActionDispatcher';
-import {ConnectionValue, NetworkValue, PersonalValue} from '../../domain/value/ConnectionSettings';
+import {ConnectionActionDispatcher} from '../intent/ConnectionSettingIntent';
+import {ConnectionValue, NetworkValue, PersonalValue} from '../domain/value/ConnectionSettings';
 
 export class ConnectionSettingViewModel {
 

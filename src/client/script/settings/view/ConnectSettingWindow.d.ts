@@ -1,4 +1,3 @@
-/*global moment: true */
 /**
  * @license MIT License
  *
@@ -23,31 +22,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+import {ComponentClass} from 'react';
 
-import {CookieDriver} from './CookieDriver';
-import {Setting} from '../domain/Setting';
+import {ConnectionActionCreator} from '../intent/ConnectionSettingIntent';
+import {ConnectionValue} from '../domain/value/ConnectionSettings';
 
-declare const moment: any;
+import {ConnectionSettingViewModel} from '../viewmodel/ConnectionStore';
 
-const KEY_SETTING = 'settings';
-
-export class ConfigRepository {
-
-    _cookie: CookieDriver;
-
-    constructor(cookie: CookieDriver) {
-        this._cookie = cookie;
-    }
-
-    get(): Setting {
-        const raw = this._cookie.get(KEY_SETTING);
-        const settings = new Setting(raw);
-        return settings;
-    }
-
-    set(settings: Setting): void {
-        this._cookie.set(KEY_SETTING, settings, {
-            expires: moment().add(365, 'days').toDate(),
-        });
-    }
-}
+export var ConnectSettingWindow: ComponentClass<{
+    key?: any;
+    viewmodel: ConnectionSettingViewModel;
+    action: ConnectionActionCreator;
+    data: ConnectionValue;
+}>;

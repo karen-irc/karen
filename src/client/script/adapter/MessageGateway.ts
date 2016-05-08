@@ -34,7 +34,7 @@ import {
     ConnectionValue,
     NetworkValue as NetworkConnectionValue,
     PersonalValue as PersonalConnectionValue
-} from '../domain/value/ConnectionSettings';
+} from '../settings/domain/value/ConnectionSettings';
 import {SelectedTab} from '../domain/DomainState';
 import {RecievedMessage} from '../domain/Message';
 import {Network} from '../domain/Network';

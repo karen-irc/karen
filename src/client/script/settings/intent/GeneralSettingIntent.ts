@@ -22,16 +22,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import {ComponentClass} from 'react';
+import * as Rx from 'rxjs';
 
-import {ConnectionActionCreator} from '../../intent/action/ConnectionActionCreator';
-import {ConnectionValue} from '../../domain/value/ConnectionSettings';
+class SettingActionCreator {
 
-import {ConnectionSettingViewModel} from '../viewmodel/ConnectionStore';
+    private _dispatcher: SettingActionDispatcher;
 
-export var ConnectSettingWindow: ComponentClass<{
-    key?: any;
-    viewmodel: ConnectionSettingViewModel;
-    action: ConnectionActionCreator;
-    data: ConnectionValue;
-}>;
+    constructor() {
+        this._dispatcher = new SettingActionDispatcher();
+    }
+
+    dispatcher(): SettingActionDispatcher {
+        return this._dispatcher;
+    }
+
+    setOption(name: string, value: any): void {
+        this._dispatcher.setOption.next({
+            name: name,
+            value: value,
+        });
+    }
+}
+
+export class SettingActionDispatcher {
+
+    setOption: Rx.Subject<{ name: string, value: any}>;
+
+    constructor() {
+        this.setOption = new Rx.Subject<{ name: string, value: any}>();
+    }
+}
+
+export default new SettingActionCreator();

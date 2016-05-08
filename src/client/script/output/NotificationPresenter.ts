@@ -26,7 +26,7 @@
 import * as Rx from 'rxjs';
 
 import {AudioDriver} from '../adapter/AudioDriver';
-import {ConfigRepository} from '../adapter/ConfigRepository';
+import {ConfigRepository} from '../settings/repository/ConfigRepository';
 import {ChannelId} from '../domain/ChannelDomain';
 import NotificationActionCreator from '../intent/action/NotificationActionCreator';
 import UIActionCreator from '../intent/action/UIActionCreator';

@@ -25,8 +25,8 @@
 
 import * as React from 'react';
 
-import {ConnectionActionCreator} from '../../intent/action/ConnectionActionCreator';
-import {ConnectionValue} from '../../domain/value/ConnectionSettings';
+import {ConnectionActionCreator} from '../intent/GeneralSettingIntent';
+import {ConnectionValue} from '../domain/value/ConnectionSettings';
 import {ConnectionSettingViewModel} from '../viewmodel/ConnectionStore';
 
 export class ConnectSettingWindow extends React.Component {
