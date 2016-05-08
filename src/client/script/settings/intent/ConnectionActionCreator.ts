@@ -23,26 +23,26 @@
  * THE SOFTWARE.
  */
 
-import {SettingActionDispatcher} from '../dispatcher/SettingActionDispatcher';
+import {ConnectionValue} from '../domain/value/ConnectionSettings';
+import {ConnectionActionDispatcher} from './ConnectionActionDispatcher';
 
-class SettingActionCreator {
+export class ConnectionActionCreator {
 
-    private _dispatcher: SettingActionDispatcher;
+    private _dispatcher: ConnectionActionDispatcher;
 
     constructor() {
-        this._dispatcher = new SettingActionDispatcher();
+        this._dispatcher = new ConnectionActionDispatcher();
     }
 
-    dispatcher(): SettingActionDispatcher {
+    dispose(): void {
+        (this as any)._dispatcher = undefined;
+    }
+
+    dispatcher(): ConnectionActionDispatcher {
         return this._dispatcher;
     }
 
-    setOption(name: string, value: any): void {
-        this._dispatcher.setOption.next({
-            name: name,
-            value: value,
-        });
+    tryConnect(param: ConnectionValue): void {
+        this._dispatcher.tryConnect.next(param);
     }
 }
-
-export default new SettingActionCreator();

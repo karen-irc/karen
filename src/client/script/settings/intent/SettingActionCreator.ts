@@ -23,16 +23,26 @@
  * THE SOFTWARE.
  */
 
-import * as Rx from 'rxjs';
+import {SettingActionDispatcher} from './SettingActionDispatcher';
 
-import {ConnectionValue} from '../../domain/value/ConnectionSettings';
+class SettingActionCreator {
 
-export class ConnectionActionDispatcher {
-    tryConnect: Rx.Subject<ConnectionValue>;
+    private _dispatcher: SettingActionDispatcher;
 
     constructor() {
-        this.tryConnect = new Rx.Subject<ConnectionValue>();
+        this._dispatcher = new SettingActionDispatcher();
+    }
 
-        Object.seal(this);
+    dispatcher(): SettingActionDispatcher {
+        return this._dispatcher;
+    }
+
+    setOption(name: string, value: any): void {
+        this._dispatcher.setOption.next({
+            name: name,
+            value: value,
+        });
     }
 }
+
+export default new SettingActionCreator();

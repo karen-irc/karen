@@ -24,8 +24,8 @@
  * THE SOFTWARE.
  */
 
-import {CookieDriver} from './CookieDriver';
-import {Setting} from '../domain/Setting';
+import {CookieDriver} from '../../adapter/CookieDriver';
+import {Setting} from '../domain/value/Setting';
 
 declare const moment: any;
 
