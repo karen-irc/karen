@@ -24,7 +24,7 @@
  */
 import {ComponentClass} from 'react';
 
-import {ConnectionActionCreator} from '../intent/ConnectionActionCreator';
+import {ConnectionActionCreator} from '../intent/ConnectionSettingIntent';
 import {ConnectionValue} from '../domain/value/ConnectionSettings';
 
 import {ConnectionSettingViewModel} from '../viewmodel/ConnectionStore';

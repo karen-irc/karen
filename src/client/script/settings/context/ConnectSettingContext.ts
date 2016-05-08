@@ -30,7 +30,7 @@ import * as Rx from 'rxjs';
 import {ConnectSettingWindow} from '../view/ConnectSettingWindow';
 
 import {MessageGateway} from '../../adapter/MessageGateway';
-import {ConnectionActionCreator} from '../intent/ConnectionActionCreator';
+import {ConnectionActionCreator} from '../intent/ConnectionSettingIntent';
 import {ConnectionStore} from '../viewmodel/ConnectionStore';
 import {ConnectionValue} from '../domain/value/ConnectionSettings';
 

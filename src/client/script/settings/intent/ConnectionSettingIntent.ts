@@ -27,6 +27,27 @@ import * as Rx from 'rxjs';
 
 import {ConnectionValue} from '../domain/value/ConnectionSettings';
 
+export class ConnectionActionCreator {
+
+    private _dispatcher: ConnectionActionDispatcher;
+
+    constructor() {
+        this._dispatcher = new ConnectionActionDispatcher();
+    }
+
+    dispose(): void {
+        (this as any)._dispatcher = undefined;
+    }
+
+    dispatcher(): ConnectionActionDispatcher {
+        return this._dispatcher;
+    }
+
+    tryConnect(param: ConnectionValue): void {
+        this._dispatcher.tryConnect.next(param);
+    }
+}
+
 export class ConnectionActionDispatcher {
     tryConnect: Rx.Subject<ConnectionValue>;
 

@@ -26,7 +26,7 @@
 import * as Rx from 'rxjs';
 
 import NotificationActionCreator from '../../intent/action/NotificationActionCreator';
-import SettingActionCreator from '../intent/SettingActionCreator';
+import SettingActionCreator from '../intent/GeneralSettingIntent';
 import {SettingStore} from '../viewmodel/SettingStore';
 
 export class GeneralSettingView implements EventListenerObject {

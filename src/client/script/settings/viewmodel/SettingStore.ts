@@ -27,7 +27,7 @@ import * as Rx from 'rxjs';
 
 import {ConfigRepository} from '../repository/ConfigRepository';
 import {Setting} from '../domain/value/Setting';
-import SettingActionCreator from '../intent/SettingActionCreator';
+import SettingActionCreator from '../intent/GeneralSettingIntent';
 
 type SetValue = {
     name: string;
