@@ -29,7 +29,7 @@ export function ToggleItem({ item }) {
     let content = null;
     if (item.type === 'image') {
         content = (
-            <a href={item.link} target='_blank'>
+            <a href={item.link} target='_blank' rel='noopener noreferrer'>
                 <img src={item.link} />
             </a>
         );
@@ -40,7 +40,7 @@ export function ToggleItem({ item }) {
             <img src={item.thumb} className='thumb'/>;
 
         content = (
-            <a href={item.link} target='_blank'>
+            <a href={item.link} target='_blank' rel='noopener noreferrer'>
                 {thumb}
                 <div className='head'>
                     {item.head}
