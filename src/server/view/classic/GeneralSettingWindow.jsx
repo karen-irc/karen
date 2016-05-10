@@ -140,7 +140,11 @@ export function GeneralSettingWindow({ prefetch, version, }) {
                             {'You\'re currently running version '}
                             <small>{version}</small>
                             <br/>
-                            <a href='https://github.com/karen-irc/karen/' target='_blank'>{'Check for updates'}</a>
+                            <a href='https://github.com/karen-irc/karen/'
+                               target='_blank'
+                               rel='noopener noreferrer'>
+                                {'Check for updates'}
+                            </a>
                         </p>
                     </div>
                 </div>
