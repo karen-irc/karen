@@ -25,7 +25,7 @@
 
 import * as React from 'react';
 
-import {ConnectionActionCreator} from '../intent/GeneralSettingIntent';
+import {ConnectionActionCreator} from '../intent/ConnectionSettingIntent';
 import {ConnectionValue} from '../domain/value/ConnectionSettings';
 import {ConnectionSettingViewModel} from '../viewmodel/ConnectionStore';
 

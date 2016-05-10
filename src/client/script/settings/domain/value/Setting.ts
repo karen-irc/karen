@@ -75,3 +75,26 @@ export class Setting {
         this.quit = data.quit;
     }
 }
+
+export interface MessageSetting {
+    showJoin: boolean;
+    showPart: boolean;
+    showMode: boolean;
+    showMotd: boolean;
+    showNickChange: boolean;
+    showQuit: boolean;
+}
+
+export interface VisualSetting {
+    enableNickColorful: boolean;
+}
+
+export interface LinkContentSetting {
+    autoExpandThumbnail: boolean;
+    autoExpandLinks: boolean;
+}
+
+export interface NotificationSetting {
+    badge: boolean;
+    notification: boolean;
+}

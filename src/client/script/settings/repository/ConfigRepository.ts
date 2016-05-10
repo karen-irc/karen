@@ -23,6 +23,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+import * as Rx from 'rxjs';
+
 
 import {CookieDriver} from '../../adapter/CookieDriver';
 import {Setting} from '../domain/value/Setting';
@@ -33,10 +35,12 @@ const KEY_SETTING = 'settings';
 
 export class ConfigRepository {
 
-    _cookie: CookieDriver;
+    private _cookie: CookieDriver;
+    private _subject: Rx.Subject<Setting>;
 
     constructor(cookie: CookieDriver) {
         this._cookie = cookie;
+        this._subject = new Rx.Subject<Setting>();
     }
 
     get(): Setting {
@@ -49,5 +53,10 @@ export class ConfigRepository {
         this._cookie.set(KEY_SETTING, settings, {
             expires: moment().add(365, 'days').toDate(),
         });
+        this._subject.next(settings);
+    }
+
+    asObservable(): Rx.Observable<Setting> {
+        return this._subject;
     }
 }
