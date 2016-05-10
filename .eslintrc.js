@@ -392,8 +392,12 @@ module.exports = {
         }],
         'react/jsx-no-duplicate-props': 2,
         'react/jsx-no-literals': 0,
+        'react/jsx-no-target-blank': 1, // In our usecase, we would not need `window.opener` or the referrer.
         'react/jsx-no-undef': 2,
-        'react/jsx-pascal-case': 2,
+        'react/jsx-pascal-case': [2, {
+            'allowAllCaps': false,
+            'ignore': [],
+        }],
         'react/jsx-sort-props': 0,
         'react/jsx-space-before-closing': 0, // I don't this is a serious problem.
         'react/jsx-uses-react': 1,
