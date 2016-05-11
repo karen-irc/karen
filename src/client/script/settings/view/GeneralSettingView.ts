@@ -25,37 +25,62 @@
 
 import * as Rx from 'rxjs';
 
-import NotificationActionCreator from '../../intent/action/NotificationActionCreator';
-import SettingActionCreator from '../intent/GeneralSettingIntent';
-import {SettingStore} from '../viewmodel/SettingStore';
+import {ReactiveProperty} from '../../lib/ReactiveProperty';
+import {GeneralSettingViewModel} from '../viewmodel/GeneralSettingViewModel';
 
 export class GeneralSettingView implements EventListenerObject {
 
-    _element: Element;
-    _playElement: Element;
-    _disposeStore: Rx.Subscription;
+    private _viewmodel: GeneralSettingViewModel;
+    private _element: Element | void;
+    private _disposer: Rx.Subscription;
+    private _propMap: Map<string, ReactiveProperty<boolean>>;
 
-    constructor(element: Element, store: SettingStore) {
+    constructor(element: Element, viewmodel: GeneralSettingViewModel) {
+        this._viewmodel = viewmodel;
         this._element = element;
 
-        this._playElement = element.querySelector('#play');
+        const disposer = new Rx.Subscription();
+        this._disposer = disposer;
 
-        const observer = Rx.Subscriber.create((option: { name: string; value: any; }) => {
-            this.updateState(option);
+        const playElement = element.querySelector('#play');
+        disposer.add(Rx.Observable.fromEvent<Event>(playElement, 'click').subscribe(() => {
+            viewmodel.playSound();
+        }));
+
+        this._propMap = new Map([
+            ['thumbnails', viewmodel.link().autoExpandThumbnail()],
+            ['links', viewmodel.link().autoExpandLinks()],
+            ['join', viewmodel.message().showJoin()],
+            ['motd', viewmodel.message().showMotd()],
+            ['part', viewmodel.message().showPart()],
+            ['nick', viewmodel.message().showNickChange()],
+            ['mode', viewmodel.message().showMode()],
+            ['quit', viewmodel.message().showQuit()],
+            ['colors', viewmodel.visual().enableNickColorful()],
+            ['badge', viewmodel.notification().showBadge()],
+            ['notification', viewmodel.notification().showNotification()],
+        ]);
+
+        this._propMap.forEach((value: ReactiveProperty<boolean>, name: string) => {
+            const domUpdater = toObservable(value).subscribe((isEnabled: boolean) => {
+                this._updateState(name, isEnabled);
+            });
+            disposer.add(domUpdater);
         });
-        this._disposeStore = store.subscribe(observer);
 
         element.addEventListener('change', this);
-        this._playElement.addEventListener('click', this);
+    }
+
+    destroy(): void {
+        this._disposer.unsubscribe();
+        this._element.removeEventListener('change', this);
+        this._element = undefined;
     }
 
     handleEvent(aEvent: Event): void {
         switch (aEvent.type) {
             case 'change':
                 this.onChange(aEvent);
-                break;
-            case 'click':
-                this.onClick(aEvent);
                 break;
         }
     }
@@ -67,25 +92,29 @@ export class GeneralSettingView implements EventListenerObject {
         }
 
         const name = target.getAttribute('name');
-        const value = (target as HTMLInputElement).checked;
-
-        SettingActionCreator.setOption(name!, value);
-
-        if (value && target.getAttribute('id') === 'badge') {
-            NotificationActionCreator.requestPermission();
+        const value: boolean = (target as HTMLInputElement).checked;
+        if (name === null) {
+            throw new Error('unreachable');
         }
+
+        const prop: ReactiveProperty<boolean> | void = this._propMap.get(name);
+        if (prop === undefined) {
+            throw new Error('unreachable');
+        }
+        prop.setValue(value);
     }
 
-    onClick(aEvent: Event): void {
-        NotificationActionCreator.playSound();
-    }
-
-    updateState(option: { name: string, value: any}): void {
-        const input = this._element.querySelector('input[name=' + option.name + ']') as HTMLInputElement;
+    private _updateState(name: string, value: boolean): void {
+        const input = this._element.querySelector('input[name=' + name + ']') as HTMLInputElement;
         if (!input) {
             return;
         }
 
-        input.checked = option.value;
+        input.checked = value;
     }
+}
+
+
+function toObservable<T>(src: ReactiveProperty<T>): Rx.Observable<T> {
+    return src.asObservable().distinctUntilChanged();
 }

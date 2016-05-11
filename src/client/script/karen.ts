@@ -12,14 +12,13 @@ import {ConfigRepository} from './settings/repository/ConfigRepository';
 import {CookieDriver} from './adapter/CookieDriver';
 import {DomainState} from './domain/DomainState';
 import {SidebarFooterView} from './output/view/SidebarFooterView';
-import {GeneralSettingView} from './settings/view/GeneralSettingView';
+import {GeneralSettingContext} from './settings/context/GeneralSettingContext';
 import {InputBoxView} from './output/view/InputBoxView';
 import {MainContentAreaView} from './output/view/MainContentAreaView';
 import {MessageGateway} from './adapter/MessageGateway';
 import {MessageList} from './output/view/MessageItem';
 import {NotificationPresenter} from './output/NotificationPresenter';
 import {SidebarContext} from './output/context/SidebarContext';
-import {SettingStore} from './settings/viewmodel/SettingStore';
 import {SocketIoDriver} from './adapter/SocketIoDriver';
 import {ToggleItem} from './output/view/ToggleItem';
 import UIActionCreator from './intent/action/UIActionCreator';
@@ -39,8 +38,6 @@ const notify = new NotificationPresenter(config);
 /* tslint:enable */
 const auth = new AuthRepository(cookie);
 
-const settingStore = new SettingStore(config);
-
 document.addEventListener('DOMContentLoaded', function onLoad() {
     document.removeEventListener('DOMContentLoaded', onLoad);
 
@@ -50,11 +47,12 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const appView = new AppView(document.getElementById('viewport'));
     const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, messageGateway);
     const inputBox = new InputBoxView(globalState, document.getElementById('js-form'));
-    const settings = new GeneralSettingView(document.getElementById('settings'), settingStore);
+    const settings = new GeneralSettingContext(config);
     const sidebarView = new SidebarContext(globalState);
     sidebarView.onActivate(document.getElementById('sidebar'));
     const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'));
     /* tslint:enable */
+    settings.onActivate(document.getElementById('settings'));
 
     const chat = document.getElementById('chat');
 
@@ -153,21 +151,16 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    settingStore.subscribe(Rx.Subscriber.create(function (option: any) { // FIXME
-        const name = option.name;
-        const value = option.value;
-
-        const set = new Set([
-            'join',
-            'mode',
-            'motd',
-            'nick',
-            'part',
-            'quit',
-        ]);
-
+    config.asObservable().subscribe((settings) => { // FIXME
         const classList = chat.classList;
-        if (set.has(name)) {
+        [
+            ['join', settings.join],
+            ['mode', settings.mode],
+            ['motd', settings.motd],
+            ['nick', settings.nick],
+            ['part', settings.part],
+            ['quit', settings.quit],
+        ].forEach(([name, value]: [string, boolean]) => {
             const className = 'hide-' + name;
             if (!value) {
                 classList.remove(className);
@@ -175,17 +168,15 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             else {
                 classList.add(className);
             }
-        }
+        });
 
-        if (name === 'colors') {
-            if (!value) {
-                classList.remove('no-colors');
-            }
-            else {
-                classList.add('no-colors');
-            }
+        if (!settings.colors) {
+            classList.remove('no-colors');
         }
-    }));
+        else {
+            classList.add('no-colors');
+        }
+    });
 
     UIActionCreator.dispatcher().toggleLeftPane.subscribe(function (shouldOpen) {
         if (!shouldOpen) {
