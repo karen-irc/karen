@@ -59,6 +59,7 @@ module.exports = {
         'no-extra-boolean-cast': 0,
         'no-extra-parens': [0, 'all', {
             'nestedBinaryExpressions': false,
+            'returnAssign': false,
         }],
         'no-extra-semi': 1,
         'no-func-assign': 2,
@@ -283,6 +284,7 @@ module.exports = {
         }],
         'no-unneeded-ternary': 2,
         'object-curly-spacing': 0, // http://eslint.org/docs/rules/object-curly-spacing
+        'object-property-newline': 0, // I feel this is a trivial problem.
         'one-var': [2, 'never'], // http://eslint.org/docs/rules/one-var
         'one-var-declaration-per-line': 1, // http://eslint.org/docs/rules/one-var-declaration-per-line
         'operator-linebreak': [2, 'after'],
@@ -350,6 +352,7 @@ module.exports = {
         }],
         'prefer-const': [1, {
             'destructuring': 'any',
+            'ignoreReadBeforeAssign': false,
         }],
         'prefer-reflect': 1,
         'prefer-rest-params': 1,
