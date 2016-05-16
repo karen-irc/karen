@@ -24,14 +24,12 @@
  */
 'use strict';
 
-const babelify = require('babelify');
-const browserify = require('browserify');
 const gulp = require('gulp');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 const path = require('path');
-const source = require('vinyl-source-stream');
 
+const { getSuffixedCommandName } = require('../platform');
 const { spawnChildProcess } = require('../spawn');
 
 /**
@@ -68,71 +66,25 @@ function compileTypeScript(cwd, nodeModDir) {
 }
 
 /**
+ *  @param  {string}    cwd
+ *  @param  {string}    nodeModDir
  *  @param  {string}    entryPoint
  *  @param  {string}    distDir
- *  @param  {string}    binName
- *  @param  {boolean}   isRelease
  *
  *  @returns    {NodeJS.ReadableStream}
  */
-function runLinkerForClient(entryPoint, distDir, binName, isRelease) {
+function runLinkerForClient(cwd, nodeModDir, entryPoint, distDir) {
+    const bin = path.resolve(nodeModDir, './.bin', getSuffixedCommandName('./webpack'));
+    const args = [];
     const option = {
-        insertGlobals: false,
-        debug: !isRelease,
-        extensions: ['.jsx'],
+        cwd,
+        stdio: 'inherit',
+        env: Object.assign(process.env, {
+            KAREN_ENTRY_POINT: entryPoint,
+            KAREN_CLIENT_DIST_DIR: distDir,
+        }),
     };
-
-    const babelPresets = [
-    ];
-
-    let babelPlugins = [
-        // For our target browsers, we need not some transforms.
-        'transform-es2015-arrow-functions',
-        'transform-es2015-block-scoped-functions',
-        'transform-es2015-block-scoping',
-        'transform-es2015-classes',
-        'transform-es2015-computed-properties',
-        'check-es2015-constants',
-        'transform-es2015-destructuring',
-        'transform-es2015-function-name',
-        'transform-es2015-modules-commonjs',
-        'transform-es2015-object-super',
-        'transform-es2015-parameters',
-        'transform-es2015-spread',
-        'transform-es2015-sticky-regex',
-        'transform-es2015-unicode-regex',
-        'transform-regenerator',
-
-        // for React
-        'syntax-jsx',
-        'transform-react-jsx',
-
-        // some utilitis
-        'transform-inline-environment-variables',
-        'transform-node-env-inline',
-    ];
-    if (isRelease) {
-        babelPlugins = babelPlugins.concat([
-            'transform-react-constant-elements',
-            'transform-react-inline-elements',
-        ]);
-    }
-    else {
-        babelPlugins = babelPlugins.concat([
-            'transform-react-jsx-source',
-        ]);
-    }
-
-    const babel = babelify.configure({
-        presets: babelPresets,
-        plugins: babelPlugins,
-    });
-
-    return browserify(entryPoint, option)
-        .transform(babel)
-        .bundle()
-        .pipe(source(binName))
-        .pipe(gulp.dest(distDir));
+    return spawnChildProcess(bin, args, option);
 }
 
 
