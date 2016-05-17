@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/// <reference path='../../../typings/main.d.ts'/>
+/// <reference path='../../../typings/index.d.ts'/>
 
 import compression from 'compression';
 import * as fs from 'fs';
