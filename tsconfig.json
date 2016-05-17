@@ -34,8 +34,6 @@
         "src/client/themes",
         "src/server",
         "tools",
-        "typings/browser",
-        "typings/browser.d.ts",
-        "typings/main"
+        "typings/globals"
     ]
 }
