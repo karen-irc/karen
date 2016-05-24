@@ -7,19 +7,12 @@ root = true
 end_of_line = lf
 charset = utf-8
 insert_final_newline = true
+trim_trailing_whitespace=true
 
-[*.{js,ts,jsx,tsx,html,css}]
+[*.{js,ts,jsx,tsx,html,css,json}]
 indent_style = space
 indent_size = 4
 
 [{package.json,.travis.yml}]
 indent_style = space
 indent_size = 2
-
-[tslint.json]
-indent_style = space
-indent_size = 4
-
-[{tsconfig.json,jsconfig.json}]
-indent_style = space
-indent_size = 4
