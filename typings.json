@@ -3,7 +3,7 @@
   "version": false,
   "dependencies": {},
   "globalDependencies": {
-    "node": "registry:dt/node#6.0.0+20160514165920",
+    "node": "registry:dt/node#6.0.0+20160524002506",
     "react": "registry:dt/react#0.14.0+20160423065914",
     "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
     "socket.io-client": "registry:dt/socket.io-client#1.4.4+20160317120654"
