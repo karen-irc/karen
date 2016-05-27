@@ -47,9 +47,9 @@ const isEnableRize = process.env.ENABLE_RIZE === '1';
 const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
 
 const SRC_DIR = path.resolve(__dirname, './src/');
-const OBJ_DIR = path.resolve(__dirname, './obj/');
-const DIST_DIR = path.resolve(__dirname, './dist/');
-const TEST_CACHE_DIR = path.resolve(__dirname, './test_cache/');
+const OBJ_DIR = path.resolve(__dirname, './__obj/');
+const DIST_DIR = path.resolve(__dirname, './__dist/');
+const TEST_CACHE_DIR = path.resolve(__dirname, './__test_cache/');
 
 const OBJ_CLIENT = path.resolve(OBJ_DIR, './client/');
 const OBJ_SERVER = path.resolve(OBJ_DIR, './server/');

@@ -22,7 +22,7 @@
     "build_client": "gulp build:client",
     "build_server": "gulp build:server",
     "pretest": "gulp test",
-    "test": "mocha ./test_cache/client/script/test_manifest.js",
+    "test": "mocha ./__test_cache/client/script/test_manifest.js",
     "lint": "gulp jslint",
     "tsc": "gulp tsc",
     "gulp": "gulp"

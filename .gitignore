@@ -8,9 +8,9 @@ Desktop.ini
 node_modules/
 npm-debug.log
 
-dist/
-obj/
-test_cache/
+__dist/
+__obj/
+__test_cache/
 
 # Visual Studio Code
 .vscode/
