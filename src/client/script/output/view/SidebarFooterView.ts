@@ -25,13 +25,16 @@
 
 import * as Rx from 'rxjs';
 
-import AppActionCreator from '../../intent/action/AppActionCreator';
+import {AppActionCreator} from '../../intent/action/AppActionCreator';
 import {MessageGateway} from '../../adapter/MessageGateway';
-import UIActionCreator from '../../intent/action/UIActionCreator';
+import {UIActionCreator} from '../../intent/action/UIActionCreator';
 
 import {DomainState} from '../../domain/DomainState';
 
 export class SidebarFooterView implements EventListenerObject {
+
+    _appAction: AppActionCreator;
+    _uiAction: UIActionCreator;
 
     _element: Element;
     _signinElement: HTMLElement;
@@ -47,7 +50,9 @@ export class SidebarFooterView implements EventListenerObject {
     _disposableShowSetting: Rx.Subscription;
     _disposableSelectChannel: Rx.Subscription;
 
-    constructor(domain: DomainState, message: MessageGateway, element: Element) {
+    constructor(domain: DomainState, message: MessageGateway, element: Element, appAction: AppActionCreator, uiAction: UIActionCreator) {
+        this._appAction = appAction;
+        this._uiAction = uiAction;
         this._element = element;
         this._signinElement = element.querySelector('.sign-in') as HTMLElement;
         this._signoutElement = element.querySelector('.sign-out') as HTMLElement;
@@ -56,11 +61,11 @@ export class SidebarFooterView implements EventListenerObject {
 
         this._lastSelectedElement = undefined;
 
-        this._disposableSignIn = UIActionCreator.dispatcher().showSignIn.subscribe(() => {
+        this._disposableSignIn = uiAction.dispatcher().showSignIn.subscribe(() => {
             this.selectElement(this._lastSelectedElement!, this._signinElement);
         });
 
-        this._disposableSignout = AppActionCreator.dispatcher().signout.subscribe(() => {
+        this._disposableSignout = this._appAction.dispatcher().signout.subscribe(() => {
             this.selectElement(this._lastSelectedElement!, this._signoutElement);
         });
 
@@ -108,16 +113,16 @@ export class SidebarFooterView implements EventListenerObject {
         }
 
         if (target === this._connectElement) {
-            UIActionCreator.showConnectSetting();
+            this._uiAction.showConnectSetting();
         }
         else if (target === this._settingElement) {
-            UIActionCreator.showGeneralSetting();
+            this._uiAction.showGeneralSetting();
         }
         else if (target === this._signoutElement) {
-            AppActionCreator.signout();
+            this._appAction.signout();
         }
         else if (target === this._signinElement) {
-            UIActionCreator.showSignIn();
+            this._uiAction.showSignIn();
         }
     }
 

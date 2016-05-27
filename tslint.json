@@ -10,7 +10,7 @@
         "no-conditional-assignment": true,
         "no-construct": true,
         "no-constructor-vars": true,
-        "no-default-export": false,
+        "no-default-export": true,
         "no-duplicate-key": true,
         "no-duplicate-variable": true,
         "no-eval": true,

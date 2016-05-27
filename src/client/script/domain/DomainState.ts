@@ -33,7 +33,7 @@ import {NetworkSetDomain} from './NetworkSetDomain';
 import {NetworkDomain} from './NetworkDomain';
 
 import {MessageGateway} from '../adapter/MessageGateway';
-import UIActionCreator from '../intent/action/UIActionCreator';
+import {UIActionCreator} from '../intent/action/UIActionCreator';
 import {UIActionDispatcher} from '../intent/dispatcher/UIActionDispatcher';
 
 export const enum CurrentTabType {
@@ -68,13 +68,13 @@ export class DomainState {
     private _currentTab: Rx.Observable<SelectedTab>;
     private _notifiableMessage: Rx.Observable<RecievedMessage>;
 
-    constructor(gateway: MessageGateway) {
+    constructor(gateway: MessageGateway, uiAction: UIActionCreator) {
         this._networkSet = new NetworkSetDomain(gateway);
         this._latestCurrentTab = undefined;
 
         // In most of case, a rendering operation is depend on the source of `selectTab()`.
         // So this observable should be on the next event loop.
-        this._currentTab = selectTab(gateway, UIActionCreator.dispatcher(), this._networkSet).do((state) => {
+        this._currentTab = selectTab(gateway, uiAction.dispatcher(), this._networkSet).do((state) => {
             this._latestCurrentTab = state;
         }).observeOn(Rx.Scheduler.asap).share();
 

@@ -26,6 +26,9 @@
 import {Option, None} from 'option-t';
 import * as Rx from 'rxjs';
 
+import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
+import {UIActionCreator} from '../../intent/action/UIActionCreator';
+
 import {ChannelId} from '../../domain/ChannelDomain';
 import {DomainState} from '../../domain/DomainState';
 import {RecievedMessage, Message} from '../../domain/Message';
@@ -38,15 +41,21 @@ export class SidebarViewState {
     private _currentId: Option<ChannelId>;
     private _notableChannelSet: Set<ChannelId>;
     private _unreadCountMap: Map<ChannelId, number>;
+    private _msgAction: MessageActionCreator;
+    private _uiAction: UIActionCreator;
 
     constructor(list: Array<Network>,
                 currentId: Option<ChannelId>,
                 notableChannelSet: Set<ChannelId>,
-                unreadCountMap: Map<ChannelId, number>) {
+                unreadCountMap: Map<ChannelId, number>,
+                msgAction: MessageActionCreator,
+                uiAction: UIActionCreator) {
         this._list = list;
         this._currentId = currentId;
         this._notableChannelSet = notableChannelSet;
         this._unreadCountMap = unreadCountMap;
+        this._msgAction = msgAction;
+        this._uiAction = uiAction;
     }
 
     list(): Array<Network> {
@@ -64,6 +73,14 @@ export class SidebarViewState {
     unreadCountMap(): Map<ChannelId, number> {
         return this._unreadCountMap;
     }
+
+    msgAction(): MessageActionCreator {
+        return this._msgAction;
+    }
+
+    uiAction(): UIActionCreator {
+        return this._uiAction;
+    }
 }
 
 export class SidebarStore {
@@ -78,7 +95,7 @@ export class SidebarStore {
 
     private _state: Rx.Observable<SidebarViewState>;
 
-    constructor(domain: DomainState) {
+    constructor(domain: DomainState, msgAction: MessageActionCreator, uiAction: UIActionCreator) {
         this._updater = new Rx.Subject<void>();
 
         const disposer = new Rx.Subscription();
@@ -129,7 +146,9 @@ export class SidebarStore {
             const state = new SidebarViewState(array,
                                                selectedId,
                                                this._notableChannelSet,
-                                               this._unreadCount);
+                                               this._unreadCount,
+                                               msgAction,
+                                               uiAction);
             return state;
         });
     }

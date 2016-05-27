@@ -25,7 +25,7 @@
 
 import {AppActionDispatcher} from '../dispatcher/AppActionDispatcher';
 
-class AppActionCreator {
+export class AppActionCreator {
 
     private _dispatcher: AppActionDispatcher;
 
@@ -46,5 +46,3 @@ class AppActionCreator {
         this._dispatcher.reload.next(undefined);
     }
 }
-
-export default new AppActionCreator();

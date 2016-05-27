@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rxjs';
 
-import AppActionCreator from './intent/action/AppActionCreator';
+import {AppActionCreator} from './intent/action/AppActionCreator';
 import {AppView} from './output/view/AppView';
 import {AuthRepository} from './adapter/AuthRepository';
 import {Channel} from './domain/Channel';
@@ -15,13 +15,15 @@ import {SidebarFooterView} from './output/view/SidebarFooterView';
 import {GeneralSettingContext} from './settings/context/GeneralSettingContext';
 import {InputBoxView} from './output/view/InputBoxView';
 import {MainContentAreaView} from './output/view/MainContentAreaView';
+import {MessageActionCreator} from './intent/action/MessageActionCreator';
 import {MessageGateway} from './adapter/MessageGateway';
 import {MessageList} from './output/view/MessageItem';
+import {NotificationActionCreator} from './intent/action/NotificationActionCreator';
 import {NotificationPresenter} from './output/NotificationPresenter';
 import {SidebarContext} from './output/context/SidebarContext';
 import {SocketIoDriver} from './adapter/SocketIoDriver';
 import {ToggleItem} from './output/view/ToggleItem';
-import UIActionCreator from './intent/action/UIActionCreator';
+import {UIActionCreator} from './intent/action/UIActionCreator';
 import {WindowPresenter} from './output/WindowPresenter';
 
 declare const momoent: any;
@@ -29,42 +31,47 @@ declare const process: {
     env: any;
 };
 
+const appAction = new AppActionCreator();
+const messageAction = new MessageActionCreator();
+const notifyAction = new NotificationActionCreator();
+const uiAction = new UIActionCreator();
+
 const socket = new SocketIoDriver();
-const messageGateway = new MessageGateway(socket);
+const messageGateway = new MessageGateway(socket, messageAction);
 const cookie = new CookieDriver();
 const config = new ConfigRepository(cookie);
 /* tslint:disable no-unused-variable */
-const notify = new NotificationPresenter(config);
+const notify = new NotificationPresenter(config, notifyAction, uiAction);
 /* tslint:enable */
 const auth = new AuthRepository(cookie);
 
 document.addEventListener('DOMContentLoaded', function onLoad() {
     document.removeEventListener('DOMContentLoaded', onLoad);
 
-    const globalState = new DomainState(messageGateway);
+    const globalState = new DomainState(messageGateway, uiAction);
     /* tslint:disable no-unused-variable */
-    const appWindow = new WindowPresenter(globalState);
-    const appView = new AppView(document.getElementById('viewport'));
-    const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, messageGateway);
-    const inputBox = new InputBoxView(globalState, document.getElementById('js-form'));
-    const settings = new GeneralSettingContext(config);
-    const sidebarView = new SidebarContext(globalState);
+    const appWindow = new WindowPresenter(globalState, appAction, notifyAction, uiAction);
+    const appView = new AppView(document.getElementById('viewport'), uiAction);
+    const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, messageGateway, messageAction, uiAction);
+    const inputBox = new InputBoxView(globalState, document.getElementById('js-form'), messageAction, uiAction);
+    const settings = new GeneralSettingContext(config, notifyAction);
+    const sidebarView = new SidebarContext(globalState, messageAction, uiAction);
     sidebarView.onActivate(document.getElementById('sidebar'));
-    const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'));
+    const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'), appAction, uiAction);
     /* tslint:enable */
     settings.onActivate(document.getElementById('settings'));
 
     const chat = document.getElementById('chat');
 
     messageGateway.disconnected().subscribe(function(){
-        AppActionCreator.reload();
+        appAction.reload();
     });
 
     socket.auth().subscribe(function(data: any) {
         const body: HTMLElement = window.document.body;
         const login = document.getElementById('sign-in');
         if (login === null) {
-            AppActionCreator.reload();
+            appAction.reload();
             return;
         }
         Array.from(login.querySelectorAll('.btn')).forEach(function(element: HTMLInputElement){
@@ -95,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             return;
         }
 
-        UIActionCreator.showSignIn();
+        uiAction.showSignIn();
     });
 
     globalState.getNetworkDomain().initialState().subscribe(function(data) {
@@ -178,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    UIActionCreator.dispatcher().toggleLeftPane.subscribe(function (shouldOpen) {
+    uiAction.dispatcher().toggleLeftPane.subscribe(function (shouldOpen) {
         if (!shouldOpen) {
             return;
         }
@@ -188,13 +195,13 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         list.forEach(function(element: Element){
             element.addEventListener('click', function onClick(aEvent: Event) {
                 aEvent.currentTarget.removeEventListener('click', onClick);
-                UIActionCreator.toggleLeftPane(false);
+                uiAction.toggleLeftPane(false);
             });
         });
     });
 
     const shouldShowLatestInChannel: Rx.Observable<ChannelId> =
-        UIActionCreator.dispatcher().showLatestInChannel.debounceTime(100)
+        uiAction.dispatcher().showLatestInChannel.debounceTime(100)
         .merge(globalState.getSelectedChannel());
     shouldShowLatestInChannel.subscribe(function(channelId){
         const targetChanel = document.getElementById('js-chan-' + String(channelId));
@@ -223,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     let top = 1;
     globalState.getSelectedChannel().subscribe(function(id){
         const target = document.getElementById('js-chan-' + String(id));
-        UIActionCreator.toggleLeftPane(false);
+        uiAction.toggleLeftPane(false);
         const active = document.querySelector('#windows .active');
         if (!!active) {
             active.classList.remove('active');
@@ -244,14 +251,14 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
 
         if (screen.width > 768 && target.classList.contains('chan')) {
-            UIActionCreator.focusInputBox();
+            uiAction.focusInputBox();
         }
     });
 
     globalState.getSelectedSetting().subscribe(function(id) {
         const target = document.querySelector('#' + id);
 
-        UIActionCreator.toggleLeftPane(false);
+        uiAction.toggleLeftPane(false);
         const active = document.querySelector('#windows .active');
         if (!!active) {
             active.classList.remove('active');
@@ -264,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         (target as HTMLElement).style.zIndex = String(top++);
     });
 
-    AppActionCreator.dispatcher().signout.subscribe(function(){
+    appAction.dispatcher().signout.subscribe(function(){
         auth.removeToken();
     });
 });

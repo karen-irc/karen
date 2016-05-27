@@ -26,7 +26,7 @@
 import {Option, Some, None} from 'option-t';
 import * as Rx from 'rxjs';
 
-import MessageActionCreator from '../intent/action/MessageActionCreator';
+import {MessageActionCreator} from '../intent/action/MessageActionCreator';
 import {Channel} from '../domain/Channel';
 import {ChannelId} from '../domain/ChannelDomain';
 import {CommandType} from '../domain/CommandType';
@@ -48,13 +48,13 @@ export class MessageGateway {
     private _socket: SocketIoDriver;
     private _disposer: Rx.Subscription;
 
-    constructor(socket: SocketIoDriver) {
+    constructor(socket: SocketIoDriver, action: MessageActionCreator) {
         this._socket = socket;
 
         const disposer = new Rx.Subscription();
         this._disposer = disposer;
 
-        const messageDispatcher = MessageActionCreator.dispatcher();
+        const messageDispatcher = action.dispatcher();
 
         disposer.add(socket.error().subscribe(function (e: any) {
             /*eslint-disable no-console*/

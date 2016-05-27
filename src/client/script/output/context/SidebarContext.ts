@@ -26,6 +26,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as Rx from 'rxjs';
 
+import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
+import {UIActionCreator} from '../../intent/action/UIActionCreator';
+
 import {Sidebar} from '../view/Sidebar';
 import {SidebarStore, SidebarViewState} from '../viewmodel/SidebarStore';
 
@@ -38,8 +41,8 @@ export class SidebarContext implements ViewContext {
     private _viewmodel: SidebarStore;
     private _viewDisposer: Rx.Subscription | void;
 
-    constructor(domain: DomainState) {
-        this._viewmodel = new SidebarStore(domain);
+    constructor(domain: DomainState, msgAction: MessageActionCreator, uiAction: UIActionCreator) {
+        this._viewmodel = new SidebarStore(domain, msgAction, uiAction);
         this._viewDisposer = undefined;
     }
 
