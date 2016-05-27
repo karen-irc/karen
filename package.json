@@ -21,7 +21,8 @@
     "build": "gulp build",
     "build_client": "gulp build:client",
     "build_server": "gulp build:server",
-    "test": "npm run lint",
+    "pretest": "gulp test",
+    "test": "mocha ./test_cache/client/script/test_manifest.js",
     "lint": "gulp jslint",
     "tsc": "gulp tsc",
     "gulp": "gulp"
@@ -91,6 +92,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-postcss": "^6.1.1",
     "gulp-uglify": "^1.5.3",
+    "mocha": "^2.5.3",
     "tslint": "3.10.0-dev.2",
     "typescript": "1.9.0-dev.20160525-1.0",
     "typings": "^1.0.4",

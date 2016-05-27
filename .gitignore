@@ -10,6 +10,7 @@ npm-debug.log
 
 dist/
 obj/
+test_cache/
 
 # Visual Studio Code
 .vscode/

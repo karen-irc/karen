@@ -49,6 +49,7 @@ const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
 const SRC_DIR = path.resolve(__dirname, './src/');
 const OBJ_DIR = path.resolve(__dirname, './obj/');
 const DIST_DIR = path.resolve(__dirname, './dist/');
+const TEST_CACHE_DIR = path.resolve(__dirname, './test_cache/');
 
 const OBJ_CLIENT = path.resolve(OBJ_DIR, './client/');
 const OBJ_SERVER = path.resolve(OBJ_DIR, './server/');
@@ -57,6 +58,9 @@ const DIST_SERVER = path.resolve(DIST_DIR, './server/');
 const DIST_CLIENT = path.resolve(DIST_DIR, './client/');
 const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
 const DIST_CLIENT_CSS = path.resolve(DIST_CLIENT, './css/');
+
+const TEST_CACHE_CLIENT = path.resolve(TEST_CACHE_DIR, './client/');
+const TEST_CACHE_SERVER = path.resolve(TEST_CACHE_DIR, './server/');
 
 const CLIENT_SRC_JS = [
     path.resolve(NPM_MOD_DIR, './moment/moment.js'),
@@ -89,6 +93,9 @@ gulp.task('__clean:client:js:obj', function () {
 gulp.task('__clean:client:js:dist', function () {
     return del(DIST_CLIENT_JS);
 });
+gulp.task('__clean:client:test', function () {
+    return del(TEST_CACHE_CLIENT);
+});
 
 gulp.task('__clean:client:css:dist', function () {
     return del(DIST_CLIENT_CSS);
@@ -99,6 +106,9 @@ gulp.task('__clean:server:obj', function () {
 });
 gulp.task('__clean:server:dist', function () {
     return del(DIST_SERVER);
+});
+gulp.task('__clean:server:test', function () {
+    return del(TEST_CACHE_SERVER);
 });
 
 // make obj/
@@ -138,6 +148,14 @@ gulp.task('__link:client:js', ['__clean:client:js:dist', '__cp:client:js:obj', '
 
 gulp.task('__babel:server', ['__clean:server:dist', '__cp:server:js:obj'], function () {
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, DIST_SERVER, isRelease);
+});
+
+gulp.task('__babel:client:test', ['__clean:client:test', '__cp:client:js:obj', '__typescript'], function () {
+    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_CLIENT, TEST_CACHE_CLIENT, false);
+});
+
+gulp.task('__babel:server:test', ['__clean:server:test', '__cp:server:js:obj'], function () {
+    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, TEST_CACHE_SERVER, false);
 });
 
 // lint
@@ -185,9 +203,16 @@ gulp.task('__build:client:css', ['__postcss']);
 // public target
 gulp.task('jslint', ['__eslint', '__tslint']);
 gulp.task('tsc', ['__typescript']);
+
 gulp.task('build:server', ['jslint', '__build:server']);
 gulp.task('build:client', ['jslint', '__build:client:js', '__build:client:css']);
 gulp.task('build', ['build:server', 'build:client']);
+
+gulp.task('test:server', ['jslint', '__babel:server:test']);
+gulp.task('test:client', ['jslint', '__babel:client:test']);
+gulp.task('test', ['test:server', 'test:client']);
+
 gulp.task('clean:server', ['__clean:server:obj', '__clean:server:dist']);
 gulp.task('clean:client', ['__clean:client:js:obj', '__clean:client:js:dist', '__clean:client:css:dist']);
-gulp.task('clean', ['clean:client', 'clean:server']);
+gulp.task('clean:test', ['__clean:client:test', '__clean:server:test']);
+gulp.task('clean', ['clean:client', 'clean:server', 'clean:test']);
