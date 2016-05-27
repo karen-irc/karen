@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rxjs';
 
-import AppActionCreator from './intent/action/AppActionCreator';
+import {AppActionCreator} from './intent/action/AppActionCreator';
 import {AppView} from './output/view/AppView';
 import {AuthRepository} from './adapter/AuthRepository';
 import {Channel} from './domain/Channel';
@@ -29,6 +29,7 @@ declare const process: {
     env: any;
 };
 
+const appAction = new AppActionCreator();
 const socket = new SocketIoDriver();
 const messageGateway = new MessageGateway(socket);
 const cookie = new CookieDriver();
@@ -43,28 +44,28 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     const globalState = new DomainState(messageGateway);
     /* tslint:disable no-unused-variable */
-    const appWindow = new WindowPresenter(globalState);
+    const appWindow = new WindowPresenter(globalState, appAction);
     const appView = new AppView(document.getElementById('viewport'));
     const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, messageGateway);
     const inputBox = new InputBoxView(globalState, document.getElementById('js-form'));
     const settings = new GeneralSettingContext(config);
     const sidebarView = new SidebarContext(globalState);
     sidebarView.onActivate(document.getElementById('sidebar'));
-    const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'));
+    const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'), appAction);
     /* tslint:enable */
     settings.onActivate(document.getElementById('settings'));
 
     const chat = document.getElementById('chat');
 
     messageGateway.disconnected().subscribe(function(){
-        AppActionCreator.reload();
+        appAction.reload();
     });
 
     socket.auth().subscribe(function(data: any) {
         const body: HTMLElement = window.document.body;
         const login = document.getElementById('sign-in');
         if (login === null) {
-            AppActionCreator.reload();
+            appAction.reload();
             return;
         }
         Array.from(login.querySelectorAll('.btn')).forEach(function(element: HTMLInputElement){
@@ -264,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         (target as HTMLElement).style.zIndex = String(top++);
     });
 
-    AppActionCreator.dispatcher().signout.subscribe(function(){
+    appAction.dispatcher().signout.subscribe(function(){
         auth.removeToken();
     });
 });

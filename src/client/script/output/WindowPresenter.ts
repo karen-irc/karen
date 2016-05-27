@@ -26,7 +26,7 @@
 import {Option} from 'option-t';
 import * as Rx from 'rxjs';
 
-import AppActionCreator from '../intent/action/AppActionCreator';
+import {AppActionCreator} from '../intent/action/AppActionCreator';
 import {Channel} from '../domain/Channel';
 import {ChannelId} from '../domain/ChannelDomain';
 import {DomainState, SelectedTab} from '../domain/DomainState';
@@ -43,11 +43,11 @@ export class WindowPresenter implements EventListenerObject {
 
     private _currenTab: SelectedTab | void;
 
-    constructor(domain: DomainState) {
+    constructor(domain: DomainState, appAction: AppActionCreator) {
         this._domain = domain;
         this._disposer = new Rx.Subscription();
 
-        this._disposer.add(AppActionCreator.dispatcher().reload.subscribe(function () {
+        this._disposer.add(appAction.dispatcher().reload.subscribe(function () {
             (window as any).onbeforeunload = null;
 
             location.reload();
