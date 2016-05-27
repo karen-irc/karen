@@ -73,7 +73,7 @@ export class KarenServer {
         app.use((req, res, next) => {
             routeIndex(this._config, req, res, next);
         });
-        app.use('/dist', express.static('dist/client'));
+        app.use('/dist', express.static('__dist/client'));
         app.use(express.static('src/client'));
     }
 

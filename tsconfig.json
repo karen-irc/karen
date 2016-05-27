@@ -10,7 +10,7 @@
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "noImplicitUseStrict": false,
-        "outDir": "./obj/client/",
+        "outDir": "./__obj/client/",
         "pretty": true,
         "preserveConstEnums": true,
         "removeComments": false,
@@ -23,10 +23,11 @@
     // Exclude a specified directry or specified TypeScript file (.ts, .tsx)
     "exclude": [
         ".git",
+        "__dist",
+        "__obj",
+        "__test_cache",
         "defaults",
-        "dist",
         "node_modules",
-        "obj",
         "src/client/audio",
         "src/client/css",
         "src/client/img",
