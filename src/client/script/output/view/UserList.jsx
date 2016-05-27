@@ -27,7 +27,7 @@
 import * as React from 'react';
 import {User} from '../../domain/User';
 
-import MessageActionCreator from '../../intent/action/MessageActionCreator';
+import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
 
 function lookupModeClassName(mode) {
     switch (mode) {
@@ -93,10 +93,11 @@ export class UserList extends React.Component {
             }
         });
 
+        const action = this.props.action;
         const channelId = this.props.channelId;
         const list = Object.keys(modeMap).map(function(key) {
             const userList = modeMap[key];
-            return <UserGroup key={key} mode={key} list={userList} channelId={channelId}/>;
+            return <UserGroup key={key} mode={key} list={userList} channelId={channelId} action={action}/>;
         });
 
         return (
@@ -121,11 +122,12 @@ export class UserList extends React.Component {
 UserList.propTypes = {
     channelId: React.PropTypes.number.isRequired,
     list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(User)).isRequired,
+    action: React.PropTypes.instanceOf(MessageActionCreator).isRequired,
 };
 
-function UserGroup({ channelId, mode, list }) {
+function UserGroup({ channelId, mode, list, action }) {
     const domlist = list.map(function(item){
-        return <UserItem key={item.name} user={item} channelId={channelId}/>;
+        return <UserItem key={item.name} user={item} channelId={channelId} action={action}/>;
     });
 
     return (
@@ -138,6 +140,7 @@ UserGroup.propTypes = {
     channelId: React.PropTypes.number.isRequired,
     mode: React.PropTypes.string.isRequired,
     list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(User)).isRequired,
+    action: React.PropTypes.instanceOf(MessageActionCreator).isRequired,
 };
 
 class UserItem extends React.Component {
@@ -180,10 +183,11 @@ class UserItem extends React.Component {
             return;
         }
 
-        MessageActionCreator.queryWhoIs(channelId, user);
+        this.action.queryWhoIs(channelId, user);
     }
 }
 UserItem.propTypes = {
     channelId: React.PropTypes.number.isRequired,
     user: React.PropTypes.instanceOf(User).isRequired,
+    action: React.PropTypes.instanceOf(MessageActionCreator).isRequired,
 };

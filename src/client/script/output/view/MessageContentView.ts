@@ -34,7 +34,7 @@ import {UserList} from './UserList';
 import {ChannelDomain, ChannelId} from '../../domain/ChannelDomain';
 import {Message} from '../../domain/Message';
 import {User} from '../../domain/User';
-import MessageActionCreator from '../../intent/action/MessageActionCreator';
+import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
 import UIActionCreator from '../../intent/action/UIActionCreator';
 
 export class MessageContentView {
@@ -51,7 +51,9 @@ export class MessageContentView {
 
     private _disposer: Rx.Subscription;
 
-    constructor(domain: ChannelDomain, element: Element) {
+    private _msgAction: MessageActionCreator;
+
+    constructor(domain: ChannelDomain, element: Element, msgAction: MessageActionCreator) {
         this._channelId = domain.getId();
 
         this._element = element;
@@ -65,6 +67,8 @@ export class MessageContentView {
 
         const disposer = new Rx.Subscription();
         this._disposer = disposer;
+
+        this._msgAction = msgAction;
 
         disposer.add(domain.updatedUserList().subscribe((list: Array<User>) => {
             this._updateUserList(list);
@@ -98,7 +102,7 @@ export class MessageContentView {
             this._scrollToBottom();
         }));
 
-        disposer.add(MessageActionCreator.dispatcher().clearMessage.subscribe((id: ChannelId) => {
+        disposer.add(msgAction.dispatcher().clearMessage.subscribe((id: ChannelId) => {
             if (this._channelId !== id) {
                 return;
             }
@@ -133,6 +137,7 @@ export class MessageContentView {
         const view = React.createElement(UserList, {
             list: list,
             channelId: this._channelId,
+            action: this._msgAction,
         });
         ReactDOM.render(view, this._userElement);
     }
@@ -159,7 +164,7 @@ export class MessageContentView {
 
     private _fetchHiddenLog(): void {
         const LENGTH = 100; // This value is same as the number of max display messages.
-        MessageActionCreator.fetchHiddenLog(this._channelId, LENGTH);
+        this._msgAction.fetchHiddenLog(this._channelId, LENGTH);
     }
 
     private _scrollToBottom(): void {

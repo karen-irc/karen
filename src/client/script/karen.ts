@@ -15,6 +15,7 @@ import {SidebarFooterView} from './output/view/SidebarFooterView';
 import {GeneralSettingContext} from './settings/context/GeneralSettingContext';
 import {InputBoxView} from './output/view/InputBoxView';
 import {MainContentAreaView} from './output/view/MainContentAreaView';
+import {MessageActionCreator} from './intent/action/MessageActionCreator';
 import {MessageGateway} from './adapter/MessageGateway';
 import {MessageList} from './output/view/MessageItem';
 import {NotificationPresenter} from './output/NotificationPresenter';
@@ -30,8 +31,9 @@ declare const process: {
 };
 
 const appAction = new AppActionCreator();
+const messageAction = new MessageActionCreator();
 const socket = new SocketIoDriver();
-const messageGateway = new MessageGateway(socket);
+const messageGateway = new MessageGateway(socket, messageAction);
 const cookie = new CookieDriver();
 const config = new ConfigRepository(cookie);
 /* tslint:disable no-unused-variable */
@@ -46,10 +48,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     /* tslint:disable no-unused-variable */
     const appWindow = new WindowPresenter(globalState, appAction);
     const appView = new AppView(document.getElementById('viewport'));
-    const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, messageGateway);
-    const inputBox = new InputBoxView(globalState, document.getElementById('js-form'));
+    const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, messageGateway, messageAction);
+    const inputBox = new InputBoxView(globalState, document.getElementById('js-form'), messageAction);
     const settings = new GeneralSettingContext(config);
-    const sidebarView = new SidebarContext(globalState);
+    const sidebarView = new SidebarContext(globalState, messageAction);
     sidebarView.onActivate(document.getElementById('sidebar'));
     const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'), appAction);
     /* tslint:enable */

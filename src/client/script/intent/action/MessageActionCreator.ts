@@ -29,7 +29,7 @@ import {CommandType} from '../../domain/CommandType';
 import {NetworkId} from '../../domain/NetworkDomain';
 import {User} from '../../domain/User';
 
-class MessageActionCreator {
+export class MessageActionCreator {
 
     private _dispatcher: ChatCommandDispatcher;
 
@@ -96,5 +96,3 @@ class MessageActionCreator {
         });
     }
 }
-
-export default new MessageActionCreator();

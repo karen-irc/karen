@@ -26,6 +26,8 @@
 import {Option} from 'option-t';
 import {StatelessComponent} from 'react';
 
+import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
+
 import {ChannelId} from '../../domain/ChannelDomain';
 import {Network} from '../../domain/Network';
 
@@ -35,6 +37,7 @@ interface SidebarNetworkItemProps {
     selectedId: Option<ChannelId>;
     notableChannelSet: Set<ChannelId>;
     unreadCountMap: Map<ChannelId, number>;
+    action: MessageActionCreator;
 }
 
 export const SidebarNetworkItem: StatelessComponent<SidebarNetworkItemProps>;

@@ -27,6 +27,8 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rxjs';
 
+import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
+
 import {ChatWindowItem, ChatWindowList} from './ChatWindowItem';
 import {ConnectSettingContext} from '../../settings/context/ConnectSettingContext';
 import {MessageContentView} from './MessageContentView';
@@ -59,7 +61,7 @@ export class MainContentAreaView {
     private _signin: SignInView;
     private _connect: ConnectSettingContext;
 
-    constructor(domain: DomainState, element: Element, cookie: CookieDriver, gateway: MessageGateway) {
+    constructor(domain: DomainState, element: Element, cookie: CookieDriver, gateway: MessageGateway, messageAction: MessageActionCreator) {
         this._element = element;
         this._channelMap = new Map();
 
@@ -71,7 +73,7 @@ export class MainContentAreaView {
         disposer.add(networkDomain.joinedChannelAtAll().subscribe((channelDomain) => {
             const fragment: Node = createChannelFragment(channelDomain) as Node;
             const subtree = element = fragment.firstChild as Element;
-            const view = new MessageContentView(channelDomain, subtree);
+            const view = new MessageContentView(channelDomain, subtree, messageAction);
             const id = channelDomain.getId();
             this._channelMap.set(id, view);
             this._chatContentArea.appendChild(subtree);
@@ -101,7 +103,7 @@ export class MainContentAreaView {
             for (const channel of channelList) {
                 const id = channel.getId();
                 const dom = document.getElementById('js-chan-' + String(id));
-                const view = new MessageContentView(channel, dom);
+                const view = new MessageContentView(channel, dom, messageAction);
                 this._channelMap.set(id, view);
             }
 

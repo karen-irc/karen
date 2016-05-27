@@ -26,6 +26,8 @@
 import {Option, None} from 'option-t';
 import * as Rx from 'rxjs';
 
+import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
+
 import {ChannelId} from '../../domain/ChannelDomain';
 import {DomainState} from '../../domain/DomainState';
 import {RecievedMessage, Message} from '../../domain/Message';
@@ -38,15 +40,18 @@ export class SidebarViewState {
     private _currentId: Option<ChannelId>;
     private _notableChannelSet: Set<ChannelId>;
     private _unreadCountMap: Map<ChannelId, number>;
+    private _action: MessageActionCreator;
 
     constructor(list: Array<Network>,
                 currentId: Option<ChannelId>,
                 notableChannelSet: Set<ChannelId>,
-                unreadCountMap: Map<ChannelId, number>) {
+                unreadCountMap: Map<ChannelId, number>,
+                action: MessageActionCreator) {
         this._list = list;
         this._currentId = currentId;
         this._notableChannelSet = notableChannelSet;
         this._unreadCountMap = unreadCountMap;
+        this._action = action;
     }
 
     list(): Array<Network> {
@@ -64,6 +69,10 @@ export class SidebarViewState {
     unreadCountMap(): Map<ChannelId, number> {
         return this._unreadCountMap;
     }
+
+    action(): MessageActionCreator {
+        return this._action;
+    }
 }
 
 export class SidebarStore {
@@ -78,7 +87,7 @@ export class SidebarStore {
 
     private _state: Rx.Observable<SidebarViewState>;
 
-    constructor(domain: DomainState) {
+    constructor(domain: DomainState, action: MessageActionCreator) {
         this._updater = new Rx.Subject<void>();
 
         const disposer = new Rx.Subscription();
@@ -129,7 +138,8 @@ export class SidebarStore {
             const state = new SidebarViewState(array,
                                                selectedId,
                                                this._notableChannelSet,
-                                               this._unreadCount);
+                                               this._unreadCount,
+                                               action);
             return state;
         });
     }

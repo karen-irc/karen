@@ -25,11 +25,14 @@
 import {ComponentClass} from 'react';
 import {Channel} from '../../domain/Channel';
 
+import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
+
 interface SidebarChannelItemProps {
     key?: any;
     channel: Channel;
     isSelected: boolean;
     isNotable: boolean;
+    action: MessageActionCreator;
 }
 
 export const SidebarChannelItem: ComponentClass<SidebarChannelItemProps>;
