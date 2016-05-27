@@ -27,7 +27,7 @@ import * as Rx from 'rxjs';
 
 import {ReactiveProperty} from '../../lib/ReactiveProperty';
 
-import UIActionCreator from '../../intent/action/UIActionCreator';
+import {UIActionCreator} from '../../intent/action/UIActionCreator';
 
 class AppViewModel {
 
@@ -50,8 +50,9 @@ export class AppView {
     private _element: Element | void;
     private _vm: AppViewModel;
     private _disposer: Rx.Subscription;
+    private _uiAction: UIActionCreator;
 
-    constructor(element: Element) {
+    constructor(element: Element, uiAction: UIActionCreator) {
         this._element = element;
         this._vm = new AppViewModel();
 
@@ -64,6 +65,8 @@ export class AppView {
 
         this._vm.isOpenedLeftPane.setValue(element.classList.contains('lt'));
         this._vm.isOpenedRightPane.setValue(element.classList.contains('rt'));
+
+        this._uiAction = uiAction;
     }
 
     destroy(): void {
@@ -74,7 +77,7 @@ export class AppView {
 
     private _toggleLeftPane(): Rx.Subscription {
         return this._vm.isOpenedLeftPane.asObservable()
-            .merge(UIActionCreator.dispatcher().toggleLeftPane)
+            .merge(this._uiAction.dispatcher().toggleLeftPane)
             .distinctUntilChanged()
             .subscribe((shouldOpen: boolean) => {
                 const className = 'lt';
@@ -108,7 +111,7 @@ export class AppView {
                 if (target.classList.contains('lt')) {
                     const shouldOpen: boolean = !this._vm.isOpenedLeftPane.value();
                     this._vm.isOpenedLeftPane.setValue(shouldOpen);
-                    UIActionCreator.toggleLeftPane(shouldOpen);
+                    this._uiAction.toggleLeftPane(shouldOpen);
                 }
                 else if (target.classList.contains('rt')) {
                     const shouldOpen: boolean = !this._vm.isOpenedRightPane.value();

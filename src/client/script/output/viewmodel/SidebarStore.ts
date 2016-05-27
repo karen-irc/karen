@@ -27,6 +27,7 @@ import {Option, None} from 'option-t';
 import * as Rx from 'rxjs';
 
 import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
+import {UIActionCreator} from '../../intent/action/UIActionCreator';
 
 import {ChannelId} from '../../domain/ChannelDomain';
 import {DomainState} from '../../domain/DomainState';
@@ -40,18 +41,21 @@ export class SidebarViewState {
     private _currentId: Option<ChannelId>;
     private _notableChannelSet: Set<ChannelId>;
     private _unreadCountMap: Map<ChannelId, number>;
-    private _action: MessageActionCreator;
+    private _msgAction: MessageActionCreator;
+    private _uiAction: UIActionCreator;
 
     constructor(list: Array<Network>,
                 currentId: Option<ChannelId>,
                 notableChannelSet: Set<ChannelId>,
                 unreadCountMap: Map<ChannelId, number>,
-                action: MessageActionCreator) {
+                msgAction: MessageActionCreator,
+                uiAction: UIActionCreator) {
         this._list = list;
         this._currentId = currentId;
         this._notableChannelSet = notableChannelSet;
         this._unreadCountMap = unreadCountMap;
-        this._action = action;
+        this._msgAction = msgAction;
+        this._uiAction = uiAction;
     }
 
     list(): Array<Network> {
@@ -70,8 +74,12 @@ export class SidebarViewState {
         return this._unreadCountMap;
     }
 
-    action(): MessageActionCreator {
-        return this._action;
+    msgAction(): MessageActionCreator {
+        return this._msgAction;
+    }
+
+    uiAction(): UIActionCreator {
+        return this._uiAction;
     }
 }
 
@@ -87,7 +95,7 @@ export class SidebarStore {
 
     private _state: Rx.Observable<SidebarViewState>;
 
-    constructor(domain: DomainState, action: MessageActionCreator) {
+    constructor(domain: DomainState, msgAction: MessageActionCreator, uiAction: UIActionCreator) {
         this._updater = new Rx.Subject<void>();
 
         const disposer = new Rx.Subscription();
@@ -139,7 +147,8 @@ export class SidebarStore {
                                                selectedId,
                                                this._notableChannelSet,
                                                this._unreadCount,
-                                               action);
+                                               msgAction,
+                                               uiAction);
             return state;
         });
     }

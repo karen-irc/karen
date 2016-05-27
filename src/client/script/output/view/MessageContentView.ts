@@ -35,7 +35,7 @@ import {ChannelDomain, ChannelId} from '../../domain/ChannelDomain';
 import {Message} from '../../domain/Message';
 import {User} from '../../domain/User';
 import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
-import UIActionCreator from '../../intent/action/UIActionCreator';
+import {UIActionCreator} from '../../intent/action/UIActionCreator';
 
 export class MessageContentView {
 
@@ -53,7 +53,7 @@ export class MessageContentView {
 
     private _msgAction: MessageActionCreator;
 
-    constructor(domain: ChannelDomain, element: Element, msgAction: MessageActionCreator) {
+    constructor(domain: ChannelDomain, element: Element, msgAction: MessageActionCreator, uiAction: UIActionCreator) {
         this._channelId = domain.getId();
 
         this._element = element;
@@ -83,7 +83,7 @@ export class MessageContentView {
         }));
 
         disposer.add(Rx.Observable.fromEvent(this._closeButton, 'click').subscribe(() => {
-            UIActionCreator.tryCloseChannel(this._channelId);
+            uiAction.tryCloseChannel(this._channelId);
         }));
 
         disposer.add(Rx.Observable.fromEvent(this._showMoreButtonElement, 'click').subscribe(() => {
@@ -94,11 +94,11 @@ export class MessageContentView {
             const target = event.target as Element;
             if (target.classList.contains('toggle-button')) {
                 this._toggleInlineContentContainer(target);
-                UIActionCreator.toggleInlineImage();
+                uiAction.toggleInlineImage();
             }
         }));
 
-        disposer.add(UIActionCreator.dispatcher().toggleInlineImage.subscribe(() => {
+        disposer.add(uiAction.dispatcher().toggleInlineImage.subscribe(() => {
             this._scrollToBottom();
         }));
 

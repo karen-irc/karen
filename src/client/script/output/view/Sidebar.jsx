@@ -53,7 +53,8 @@ function SidebarSomeContent({ model: model }) {
     const selectedId = model.currentId();
     const notableChannelSet = model.notableChannelSet();
     const unreadCountMap = model.unreadCountMap();
-    const action = model.action();
+    const uiAction = model.uiAction();
+    const msgAction = model.msgAction();
     const list = model.list().map(function(network){
         return (
             <SidebarNetworkItem key={String(network.id)}
@@ -61,7 +62,8 @@ function SidebarSomeContent({ model: model }) {
                                 selectedId={selectedId}
                                 notableChannelSet={notableChannelSet}
                                 unreadCountMap={unreadCountMap}
-                                action={action}/>
+                                uiAction={uiAction}
+                                msgAction={msgAction}/>
         );
     });
 

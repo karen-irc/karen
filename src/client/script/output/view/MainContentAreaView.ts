@@ -40,7 +40,7 @@ import {DomainState} from '../../domain/DomainState';
 import {Channel} from '../../domain/Channel';
 import {ChannelDomain, ChannelId} from '../../domain/ChannelDomain';
 import {NetworkDomain} from '../../domain/NetworkDomain';
-import UIActionCreator from '../../intent/action/UIActionCreator';
+import {UIActionCreator} from '../../intent/action/UIActionCreator';
 
 const CONNECT_INSERTION_POINT_ID = '#js-insertion-point-connect';
 
@@ -53,6 +53,7 @@ function arrayFlatMap<T, U>(target: Array<T>, fn: {(value: T): Array<U>}) : Arra
 
 export class MainContentAreaView {
 
+    private _uiAction: UIActionCreator;
     private _element: Element;
     private _channelMap: Map<ChannelId, MessageContentView>;
     private _disposer: Rx.Subscription;
@@ -61,7 +62,9 @@ export class MainContentAreaView {
     private _signin: SignInView;
     private _connect: ConnectSettingContext;
 
-    constructor(domain: DomainState, element: Element, cookie: CookieDriver, gateway: MessageGateway, messageAction: MessageActionCreator) {
+    constructor(domain: DomainState, element: Element, cookie: CookieDriver,
+                gateway: MessageGateway, messageAction: MessageActionCreator, uiAction: UIActionCreator) {
+        this._uiAction = uiAction;
         this._element = element;
         this._channelMap = new Map();
 
@@ -73,12 +76,12 @@ export class MainContentAreaView {
         disposer.add(networkDomain.joinedChannelAtAll().subscribe((channelDomain) => {
             const fragment: Node = createChannelFragment(channelDomain) as Node;
             const subtree = element = fragment.firstChild as Element;
-            const view = new MessageContentView(channelDomain, subtree, messageAction);
+            const view = new MessageContentView(channelDomain, subtree, messageAction, uiAction);
             const id = channelDomain.getId();
             this._channelMap.set(id, view);
             this._chatContentArea.appendChild(subtree);
 
-            UIActionCreator.showLatestInChannel(id);
+            uiAction.showLatestInChannel(id);
         }));
 
         disposer.add(networkDomain.partedChannelAtAll().subscribe((channelDomain) => {
@@ -103,11 +106,11 @@ export class MainContentAreaView {
             for (const channel of channelList) {
                 const id = channel.getId();
                 const dom = document.getElementById('js-chan-' + String(id));
-                const view = new MessageContentView(channel, dom, messageAction);
+                const view = new MessageContentView(channel, dom, messageAction, uiAction);
                 this._channelMap.set(id, view);
             }
 
-            UIActionCreator.setQuitConfirmDialog();
+            uiAction.setQuitConfirmDialog();
         }));
 
         disposer.add(networkDomain.initialState().subscribe((initState) => {
@@ -132,7 +135,7 @@ export class MainContentAreaView {
     private _renderChannelList(list: Array<Channel>): void {
         const fragment = createChannelWindowListFragment(list);
         this._chatContentArea.appendChild(fragment);
-        UIActionCreator.setQuitConfirmDialog();
+        this._uiAction.setQuitConfirmDialog();
     }
 }
 

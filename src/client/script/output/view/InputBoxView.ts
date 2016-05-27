@@ -32,7 +32,7 @@ import {Channel} from '../../domain/Channel';
 import {ChannelId} from '../../domain/ChannelDomain';
 import {User} from '../../domain/User';
 import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
-import UIActionCreator from '../../intent/action/UIActionCreator';
+import {UIActionCreator} from '../../intent/action/UIActionCreator';
 
 const words: Array<string> = CommandList.map(function(item){
     return item.toLowerCase();
@@ -66,7 +66,7 @@ export class InputBoxView {
     private _lastSuggestionCache: Array<string> | undefined;
     private _isSuggestion: boolean;
 
-    constructor(domain: DomainState, element: Element, msgAction: MessageActionCreator) {
+    constructor(domain: DomainState, element: Element, msgAction: MessageActionCreator, uiAction: UIActionCreator) {
         this._element = element;
         this._domain = domain;
         this._currentNetworkId = -1;
@@ -78,7 +78,7 @@ export class InputBoxView {
         this._disposer = disposer;
 
 
-        disposer.add(UIActionCreator.dispatcher().focusInputBox.subscribe(() => {
+        disposer.add(uiAction.dispatcher().focusInputBox.subscribe(() => {
             this._focusInput();
         }));
 

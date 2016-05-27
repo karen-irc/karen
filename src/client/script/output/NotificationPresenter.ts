@@ -29,7 +29,7 @@ import {AudioDriver} from '../adapter/AudioDriver';
 import {ConfigRepository} from '../settings/repository/ConfigRepository';
 import {ChannelId} from '../domain/ChannelDomain';
 import {NotificationActionCreator} from '../intent/action/NotificationActionCreator';
-import UIActionCreator from '../intent/action/UIActionCreator';
+import {UIActionCreator} from '../intent/action/UIActionCreator';
 
 declare const Notification: any;
 
@@ -38,14 +38,18 @@ const ICON_URL = '/img/logo-64.png';
 export class NotificationPresenter {
 
     _notifyAction: NotificationActionCreator;
+    _uiAction: UIActionCreator;
     _audio: AudioDriver;
     _config: ConfigRepository;
     _disposePlay: Rx.Subscription;
     _disposeRequestPermission: Rx.Subscription;
     _disposeshowNotification: Rx.Subscription;
 
-    constructor(config: ConfigRepository, notifyAction: NotificationActionCreator) {
+    constructor(config: ConfigRepository, notifyAction: NotificationActionCreator, uiAction: UIActionCreator) {
         const dispatcher = notifyAction.dispatcher();
+
+        this._notifyAction = notifyAction;
+        this._uiAction = uiAction;
 
         this._audio = new AudioDriver('/audio/pop.ogg');
 
@@ -96,9 +100,9 @@ export class NotificationPresenter {
             });
 
             const timeout: Rx.Observable<void> = Rx.Observable.empty<void>().delay(5 * 1000);
-            const click: Rx.Observable<void> = Rx.Observable.fromEvent<void>(notification, 'click').take(1).do(function(){
-                UIActionCreator.focusWindow();
-                UIActionCreator.selectChannel(channelId);
+            const click: Rx.Observable<void> = Rx.Observable.fromEvent<void>(notification, 'click').take(1).do(() => {
+                this._uiAction.focusWindow();
+                this._uiAction.selectChannel(channelId);
             });
 
             const close: Rx.Observable<void> = click.race(timeout);

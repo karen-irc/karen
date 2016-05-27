@@ -27,7 +27,7 @@ import {UIActionDispatcher} from '../dispatcher/UIActionDispatcher';
 
 import {ChannelId} from '../../domain/ChannelDomain';
 
-class UIActionCreator {
+export class UIActionCreator {
 
     private _dispatcher: UIActionDispatcher;
 
@@ -83,5 +83,3 @@ class UIActionCreator {
         this._dispatcher.toggleInlineImage.next(undefined);
     }
 }
-
-export default new UIActionCreator();

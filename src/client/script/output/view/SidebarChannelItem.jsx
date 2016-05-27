@@ -29,7 +29,7 @@ import {Channel} from '../../domain/Channel';
 import {CommandType} from '../../domain/CommandType';
 
 import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
-import UIActionCreator from '../../intent/action/UIActionCreator';
+import {UIActionCreator} from '../../intent/action/UIActionCreator';
 
 export class SidebarChannelItem extends React.Component {
 
@@ -80,7 +80,7 @@ export class SidebarChannelItem extends React.Component {
 
         const channel = this.props.channel;
         const channelId = channel.id;
-        UIActionCreator.selectChannel(channelId);
+        this.props.uiAction.selectChannel(channelId);
     }
 
     // FIXME: this part should be in a domain logic layer.
@@ -99,7 +99,7 @@ export class SidebarChannelItem extends React.Component {
             }
             /*eslint-enable*/
         }
-        this.props.action.inputCommand(channel.id, command);
+        this.props.msgAction.inputCommand(channel.id, command);
 
         this.setState({
             isClosing: true,
@@ -111,5 +111,6 @@ SidebarChannelItem.propTypes = {
     isSelected: React.PropTypes.bool.isRequired,
     isNotable: React.PropTypes.bool.isRequired,
     unreadCount: React.PropTypes.number.isRequired,
-    action: React.PropTypes.instanceOf(MessageActionCreator).isRequired,
+    msgAction: React.PropTypes.instanceOf(MessageActionCreator).isRequired,
+    uiAction: React.PropTypes.instanceOf(UIActionCreator).isRequired,
 };

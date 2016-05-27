@@ -32,7 +32,7 @@ import {ChannelId} from '../domain/ChannelDomain';
 import {DomainState, SelectedTab} from '../domain/DomainState';
 import {RecievedMessage} from '../domain/Message';
 import {NotificationActionCreator} from '../intent/action/NotificationActionCreator';
-import UIActionCreator from '../intent/action/UIActionCreator';
+import {UIActionCreator} from '../intent/action/UIActionCreator';
 
 const BASE_TITLE = 'karen';
 
@@ -42,8 +42,9 @@ export class WindowPresenter implements EventListenerObject {
     private _disposer: Rx.Subscription;
 
     private _currenTab: SelectedTab | void;
+    private _uiAction: UIActionCreator;
 
-    constructor(domain: DomainState, appAction: AppActionCreator, notifyAction: NotificationActionCreator) {
+    constructor(domain: DomainState, appAction: AppActionCreator, notifyAction: NotificationActionCreator, uiAction: UIActionCreator) {
         this._domain = domain;
         this._disposer = new Rx.Subscription();
 
@@ -53,11 +54,11 @@ export class WindowPresenter implements EventListenerObject {
             location.reload();
         }));
 
-        this._disposer.add(UIActionCreator.dispatcher().focusWindow.subscribe(function(){
+        this._disposer.add(uiAction.dispatcher().focusWindow.subscribe(function(){
             window.focus();
         }));
 
-        this._disposer.add(UIActionCreator.dispatcher().setQuitConfirmDialog.subscribe(() => {
+        this._disposer.add(uiAction.dispatcher().setQuitConfirmDialog.subscribe(() => {
             if (document.body.classList.contains('public')) {
                 window.onbeforeunload = this._onBeforeUnload;
             }
@@ -89,6 +90,8 @@ export class WindowPresenter implements EventListenerObject {
         this._disposer.add(domain.getSelectedSetting().subscribe((id: string) => {
             this.onCurrentTabChanged(id);
         }));
+
+        this._uiAction = uiAction;
 
         window.document.documentElement.addEventListener('keydown', this);
         window.addEventListener('resize', this);
@@ -129,8 +132,8 @@ export class WindowPresenter implements EventListenerObject {
             return;
         }
 
-        this._currenTab.channelId.map(function(channelId: ChannelId){
-            UIActionCreator.showLatestInChannel(channelId);
+        this._currenTab.channelId.map((channelId: ChannelId) => {
+            this._uiAction.showLatestInChannel(channelId);
         });
     }
 
@@ -187,7 +190,7 @@ export class WindowPresenter implements EventListenerObject {
                     const target = (length + (index - 1 + length)) % length;
                     const id = channelList[target].id;
                     event.preventDefault();
-                    UIActionCreator.selectChannel(id);
+                    this._uiAction.selectChannel(id);
                 }
                 break;
 
@@ -197,7 +200,7 @@ export class WindowPresenter implements EventListenerObject {
                     const target = (length + (index + 1 + length)) % length;
                     const id = channelList[target].id;
                     event.preventDefault();
-                    UIActionCreator.selectChannel(id);
+                    this._uiAction.selectChannel(id);
                 }
                 break;
         }
@@ -208,7 +211,7 @@ export class WindowPresenter implements EventListenerObject {
             return;
         }
 
-        UIActionCreator.focusInputBox();
+        this._uiAction.focusInputBox();
     }
 
     onCurrentTabChanged(currentName: string): void {

@@ -27,6 +27,7 @@ import {OptionBase} from 'option-t';
 import * as React from 'react';
 
 import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
+import {UIActionCreator} from '../../intent/action/UIActionCreator';
 
 import {SidebarChannelItem} from './SidebarChannelItem';
 import {Network} from '../../domain/Network';
@@ -36,7 +37,8 @@ export function SidebarNetworkItem(props) {
     const selectedId = props.selectedId;
     const notableChannelSet = props.notableChannelSet;
     const unreadCountMap = props.unreadCountMap;
-    const action = props.action;
+    const msgAction = props.msgAction;
+    const uiAction = props.uiAction;
 
     const channels = network.getChannelList().map(function(channel){
         const channelId = channel.id;
@@ -53,7 +55,8 @@ export function SidebarNetworkItem(props) {
                                 isSelected={isSelected}
                                 isNotable={isNotable}
                                 unreadCount={(unreadCount === undefined) ? 0 : unreadCount}
-                                action={action}/>
+                                msgAction={msgAction}
+                                uiAction={uiAction}/>
         );
     });
 
@@ -68,5 +71,6 @@ SidebarNetworkItem.propTypes = {
     selectedId: React.PropTypes.instanceOf(OptionBase).isRequired,
     notableChannelSet: React.PropTypes.instanceOf(Set).isRequired,
     unreadCountMap: React.PropTypes.instanceOf(Map).isRequired,
-    action: React.PropTypes.instanceOf(MessageActionCreator).isRequired,
+    msgAction: React.PropTypes.instanceOf(MessageActionCreator).isRequired,
+    uiAction: React.PropTypes.instanceOf(UIActionCreator).isRequired,
 };
