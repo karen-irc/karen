@@ -28,7 +28,7 @@ import * as Rx from 'rxjs';
 import {AudioDriver} from '../adapter/AudioDriver';
 import {ConfigRepository} from '../settings/repository/ConfigRepository';
 import {ChannelId} from '../domain/ChannelDomain';
-import NotificationActionCreator from '../intent/action/NotificationActionCreator';
+import {NotificationActionCreator} from '../intent/action/NotificationActionCreator';
 import UIActionCreator from '../intent/action/UIActionCreator';
 
 declare const Notification: any;
@@ -37,14 +37,15 @@ const ICON_URL = '/img/logo-64.png';
 
 export class NotificationPresenter {
 
+    _notifyAction: NotificationActionCreator;
     _audio: AudioDriver;
     _config: ConfigRepository;
     _disposePlay: Rx.Subscription;
     _disposeRequestPermission: Rx.Subscription;
     _disposeshowNotification: Rx.Subscription;
 
-    constructor(config: ConfigRepository) {
-        const dispatcher = NotificationActionCreator.dispatcher();
+    constructor(config: ConfigRepository, notifyAction: NotificationActionCreator) {
+        const dispatcher = notifyAction.dispatcher();
 
         this._audio = new AudioDriver('/audio/pop.ogg');
 
@@ -85,7 +86,7 @@ export class NotificationPresenter {
         const settings = this._config.get();
         if (settings.notification) {
             // FIXME: should call in `NotificationActionCreator.showNotification()`
-            NotificationActionCreator.playSound();
+            this._notifyAction.playSound();
         }
 
         if (settings.badge && Notification.permission === 'granted') {

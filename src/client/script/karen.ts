@@ -18,6 +18,7 @@ import {MainContentAreaView} from './output/view/MainContentAreaView';
 import {MessageActionCreator} from './intent/action/MessageActionCreator';
 import {MessageGateway} from './adapter/MessageGateway';
 import {MessageList} from './output/view/MessageItem';
+import {NotificationActionCreator} from './intent/action/NotificationActionCreator';
 import {NotificationPresenter} from './output/NotificationPresenter';
 import {SidebarContext} from './output/context/SidebarContext';
 import {SocketIoDriver} from './adapter/SocketIoDriver';
@@ -32,12 +33,14 @@ declare const process: {
 
 const appAction = new AppActionCreator();
 const messageAction = new MessageActionCreator();
+const notifyAction = new NotificationActionCreator();
+
 const socket = new SocketIoDriver();
 const messageGateway = new MessageGateway(socket, messageAction);
 const cookie = new CookieDriver();
 const config = new ConfigRepository(cookie);
 /* tslint:disable no-unused-variable */
-const notify = new NotificationPresenter(config);
+const notify = new NotificationPresenter(config, notifyAction);
 /* tslint:enable */
 const auth = new AuthRepository(cookie);
 
@@ -46,11 +49,11 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     const globalState = new DomainState(messageGateway);
     /* tslint:disable no-unused-variable */
-    const appWindow = new WindowPresenter(globalState, appAction);
+    const appWindow = new WindowPresenter(globalState, appAction, notifyAction);
     const appView = new AppView(document.getElementById('viewport'));
     const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, messageGateway, messageAction);
     const inputBox = new InputBoxView(globalState, document.getElementById('js-form'), messageAction);
-    const settings = new GeneralSettingContext(config);
+    const settings = new GeneralSettingContext(config, notifyAction);
     const sidebarView = new SidebarContext(globalState, messageAction);
     sidebarView.onActivate(document.getElementById('sidebar'));
     const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'), appAction);

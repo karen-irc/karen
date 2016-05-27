@@ -31,7 +31,7 @@ import {Channel} from '../domain/Channel';
 import {ChannelId} from '../domain/ChannelDomain';
 import {DomainState, SelectedTab} from '../domain/DomainState';
 import {RecievedMessage} from '../domain/Message';
-import NotificationActionCreator from '../intent/action/NotificationActionCreator';
+import {NotificationActionCreator} from '../intent/action/NotificationActionCreator';
 import UIActionCreator from '../intent/action/UIActionCreator';
 
 const BASE_TITLE = 'karen';
@@ -43,7 +43,7 @@ export class WindowPresenter implements EventListenerObject {
 
     private _currenTab: SelectedTab | void;
 
-    constructor(domain: DomainState, appAction: AppActionCreator) {
+    constructor(domain: DomainState, appAction: AppActionCreator, notifyAction: NotificationActionCreator) {
         this._domain = domain;
         this._disposer = new Rx.Subscription();
 
@@ -74,7 +74,7 @@ export class WindowPresenter implements EventListenerObject {
             }
 
             const message = data.message;
-            NotificationActionCreator.showNotification(data.channelId, {
+            notifyAction.showNotification(data.channelId, {
                 from: message.from,
                 text: message.text.trim(),
             });

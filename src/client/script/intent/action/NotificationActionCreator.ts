@@ -27,7 +27,7 @@ import {NotificationDispatcher} from '../dispatcher/NotificationDispatcher';
 
 import {ChannelId} from '../../domain/ChannelDomain';
 
-class NotificationActionCreator {
+export class NotificationActionCreator {
 
     private _dispatcher: NotificationDispatcher;
 
@@ -55,5 +55,3 @@ class NotificationActionCreator {
         });
     }
 }
-
-export default new NotificationActionCreator();

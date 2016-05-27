@@ -25,7 +25,7 @@
 
 import {Observable} from 'rxjs';
 
-import NotificationActionCreator from '../../intent/action/NotificationActionCreator';
+import {NotificationActionCreator} from '../../intent/action/NotificationActionCreator';
 import {ReactiveProperty} from '../../lib/ReactiveProperty';
 
 import {
@@ -184,12 +184,14 @@ export class NotificationViewModel {
 }
 
 export class GeneralSettingViewModel {
+    private _notifyAction: NotificationActionCreator;
     private _message: MessageSettingViewModel;
     private _visual: VisualSettingViewModel;
     private _link: LinkContentViewModel;
     private _notification: NotificationViewModel;
 
-    constructor(initial: Setting) {
+    constructor(initial: Setting, notifyAction: NotificationActionCreator) {
+        this._notifyAction = notifyAction;
         this._message = new MessageSettingViewModel(initial);
         this._visual = new VisualSettingViewModel(initial);
         this._link = new LinkContentViewModel(initial);
@@ -245,6 +247,6 @@ export class GeneralSettingViewModel {
     }
 
     playSound(): void {
-        NotificationActionCreator.playSound();
+        this._notifyAction.playSound();
     }
 }

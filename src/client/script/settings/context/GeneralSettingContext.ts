@@ -26,7 +26,7 @@
 
 import * as Rx from 'rxjs';
 
-import NotificationActionCreator from '../../intent/action/NotificationActionCreator';
+import {NotificationActionCreator} from '../../intent/action/NotificationActionCreator';
 
 import {ConfigRepository} from '../repository/ConfigRepository';
 import {GeneralSettingView} from '../view/GeneralSettingView';
@@ -40,9 +40,9 @@ export class GeneralSettingContext implements ViewContext {
     private _view: GeneralSettingView | void;
     private _disposer: Rx.Subscription;
 
-    constructor(config: ConfigRepository) {
+    constructor(config: ConfigRepository, notifyAction: NotificationActionCreator) {
         const initial = config.get();
-        this._vm = new GeneralSettingViewModel(initial);
+        this._vm = new GeneralSettingViewModel(initial, notifyAction);
 
         this._disposer = this._vm.asObservable().subscribe((settings) => {
             config.set(settings);
@@ -51,7 +51,7 @@ export class GeneralSettingContext implements ViewContext {
         const reqNotification: Rx.Subscription = this._vm.notification().showBadge().asObservable()
             .filter((isEnabled: boolean) => isEnabled)
             .subscribe(() => {
-                NotificationActionCreator.requestPermission();
+                notifyAction.requestPermission();
             });
         this._disposer.add(reqNotification);
 
