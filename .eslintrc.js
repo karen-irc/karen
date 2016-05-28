@@ -68,6 +68,7 @@ module.exports = {
         'no-irregular-whitespace': 2,
         'no-negated-in-lhs': 2,
         'no-obj-calls': 2,
+        'no-prototype-builtins': 2,
         'no-regex-spaces': 2,
         'no-sparse-arrays': 2,
         'no-unexpected-multiline': 1,
@@ -92,7 +93,9 @@ module.exports = {
         'array-callback-return': 1,
         'block-scoped-var': 1,
         'complexity': 0, // check a cyclomatic complexity
-        'consistent-return': 2,
+        'consistent-return': [2, {
+            'treatUndefinedAsUnspecified': true,
+        }],
         'curly': 2,
         'default-case': 0, // http://eslint.org/docs/rules/default-case
         'dot-location': 0, // http://eslint.org/docs/rules/dot-location
@@ -319,6 +322,7 @@ module.exports = {
             'nonwords': false
         }],
         'spaced-comment': 0,
+        'unicode-bom': [2, 'never'],
         'wrap-regex': 0,
 
         // ECMAScript 6
@@ -344,6 +348,7 @@ module.exports = {
         'no-this-before-super': 2,
         'no-useless-computed-key': 1,
         // 'no-useless-constructor': 2, // FIXME: this rule has the bag which deny to call `super()` in a derived class (ESLint v2b1)
+        'no-useless-rename': 2,
         'no-var': 1,
         'no-whitespace-before-property': 1,
         'object-shorthand': 0,
