@@ -29,7 +29,7 @@ import {SidebarViewState} from '../viewmodel/SidebarStore';
 
 import {SidebarNetworkItem} from './SidebarNetworkItemList';
 
-export function Sidebar({model: model}) {
+export function Sidebar({ model }) {
     const list = model.list();
     let view = null;
     if (list.length > 0) {
@@ -49,7 +49,7 @@ Sidebar.propTypes = {
     model: React.PropTypes.instanceOf(SidebarViewState).isRequired,
 };
 
-function SidebarSomeContent({ model: model }) {
+function SidebarSomeContent({ model }) {
     const selectedId = model.currentId();
     const notableChannelSet = model.notableChannelSet();
     const unreadCountMap = model.unreadCountMap();
