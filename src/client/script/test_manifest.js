@@ -21,3 +21,4 @@ global.window = global.document.defaultView;
 global.self = global.window; // `window.self`
 
 require('./lib/test/test_ExIterable');
+require('./lib/test/test_ViewContext');

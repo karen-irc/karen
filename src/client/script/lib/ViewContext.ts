@@ -48,3 +48,89 @@ export interface ViewContext {
     onResume(mountpoint: Element): void;
     onSuspend(mountpoint: Element): void;
 }
+
+export class ViewContextStack {
+    private _mountpoint: Element;
+    private _stack: Array<ViewContext>;
+
+    constructor(mountpoint: Element) {
+        this._mountpoint = mountpoint;
+        this._stack = [];
+    }
+
+    mountpoint(): Element {
+        return this._mountpoint;
+    }
+
+    current(): ViewContext | void {
+        const stack = this._stack;
+        if (stack.length === 0) {
+            return undefined;
+        }
+
+        return stack[stack.length - 1];
+    }
+
+    replace(aNew: ViewContext): void {
+        const stack = this._stack;
+        const mountpoint = this._mountpoint;
+
+        const current = stack.pop();
+        if (!!current) {
+            current.onDestroy(mountpoint);
+        }
+
+        aNew.onActivate(mountpoint);
+        stack.push(aNew);
+    }
+
+    push(aNext: ViewContext): void {
+        const mountpoint = this._mountpoint;
+
+        const stack = this._stack;
+        const last = stack[stack.length - 1];
+        if (!!last) {
+            last.onSuspend(mountpoint);
+        }
+
+        stack.push(aNext);
+        aNext.onActivate(mountpoint);
+    }
+
+    pop(): void {
+        const mountpoint = this._mountpoint;
+
+        const stack = this._stack;
+        if (stack.length === 0) {
+            return;
+        }
+
+        const last = stack.pop();
+        if (last === undefined) {
+            throw new TypeError();
+        }
+
+        last.onDestroy(mountpoint);
+
+        const next = stack[stack.length - 1];
+        if (!!next) {
+            next.onResume(mountpoint);
+        }
+    }
+
+    destroy(): void {
+        const mountpoint = this._mountpoint;
+
+        const stack = this._stack;
+        const l = stack.length;
+        for (let i = 0; i < l; ++i) {
+            const ctx = stack[i];
+            stack[i] = undefined as any; // XXX: This `any` casting is only used to destroy.
+            ctx.onDestroy(mountpoint);
+        }
+
+        this._mountpoint = undefined as any; // XXX: This `any` casting is only used to destroy.
+        this._stack = undefined as any; // XXX: This `any` casting is only used to destroy.
+        Object.freeze(this);
+    }
+}
