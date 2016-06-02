@@ -34,3 +34,4 @@ require('./lib/test/test_FetchDriver_fetch');
 require('./lib/test/test_FetchDriver_get');
 require('./lib/test/test_FetchDriver_post');
 require('./lib/test/test_FetchDriver_utils');
+require('./lib/test/test_ViewContext');
