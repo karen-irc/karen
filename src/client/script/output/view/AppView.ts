@@ -58,6 +58,7 @@ export class AppView {
 
         const disposer = new Rx.Subscription();
         this._disposer = disposer;
+        this._uiAction = uiAction;
 
         disposer.add(this._toggleLeftPane());
         disposer.add(this._toggleRightPane());
@@ -65,8 +66,6 @@ export class AppView {
 
         this._vm.isOpenedLeftPane.setValue(element.classList.contains('lt'));
         this._vm.isOpenedRightPane.setValue(element.classList.contains('rt'));
-
-        this._uiAction = uiAction;
     }
 
     destroy(): void {
