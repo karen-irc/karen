@@ -236,7 +236,7 @@ export class InputBoxView {
     }
 
     private _createSuggestion(value: string): Array<string> {
-        const candidate = [].concat(words);
+        const candidate: Array<string> = ([] as Array<string>).concat(words);
         const users: Option<Array<User>> = this._currntChannel.map(function(channel){
             return channel.userList();
         });
