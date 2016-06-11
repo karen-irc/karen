@@ -69,7 +69,7 @@
     "socket.io": "^1.4.6",
     "socket.io-client": "^1.4.6",
     "spdy": "^3.3.3",
-    "urijs": "^1.18.0"
+    "urijs": "^1.18.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",
