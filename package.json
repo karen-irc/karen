@@ -69,11 +69,11 @@
     "socket.io": "^1.4.6",
     "socket.io-client": "^1.4.6",
     "spdy": "^3.3.3",
-    "urijs": "^1.18.0"
+    "urijs": "^1.18.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",
-    "babel-cli": "^6.9.0",
+    "babel-cli": "^6.10.1",
     "babel-core": "^6.9.1",
     "babel-plugin-transform-inline-environment-variables": "^6.8.0",
     "babel-plugin-transform-node-env-inline": "^6.8.0",
@@ -84,7 +84,7 @@
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "del": "^2.2.0",
-    "eslint": "^2.11.1",
+    "eslint": "^2.12.0",
     "eslint-plugin-node": "^1.4.0",
     "eslint-plugin-react": "^5.1.1",
     "glob": "^7.0.3",
@@ -93,9 +93,9 @@
     "gulp-postcss": "^6.1.1",
     "gulp-uglify": "^1.5.3",
     "mocha": "^2.5.3",
-    "tslint": "3.10.0-dev.2",
-    "typescript": "1.9.0-dev.20160601-1.0",
-    "typings": "^1.0.4",
+    "tslint": "3.11.0-dev.0",
+    "typescript": "1.9.0-dev.20160611-1.0",
+    "typings": "^1.0.5",
     "vinyl-source-stream": "^1.1.0"
   }
 }

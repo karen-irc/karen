@@ -100,7 +100,7 @@ module.exports = {
         'default-case': 0, // http://eslint.org/docs/rules/default-case
         'dot-location': 0, // http://eslint.org/docs/rules/dot-location
         'dot-notation': 2, // http://eslint.org/docs/rules/dot-notation
-        'eqeqeq': 2,
+        'eqeqeq': [2, 'always'],
         'guard-for-in': 0, // http://eslint.org/docs/rules/guard-for-in
         'no-alert': 1,
         'no-caller': 2,
@@ -249,6 +249,11 @@ module.exports = {
         'max-len': [2, 256, 4, { // http://eslint.org/docs/rules/max-len
             'ignoreUrls': true,
         }],
+        // 'max-lines': [1, {
+        //     'max': 150, // In almost case, we would not use more than this lines.
+        //     'skipBlankLines': false,
+        //     'skipComments': true, // In some case, uris are longer than max lines.
+        // }],
         'max-nested-callback': 0, // http://eslint.org/docs/rules/max-nested-callbacks
         'max-params': 0, // http://eslint.org/docs/rules/max-params
         'max-statements': 0, // http://eslint.org/docs/rules/max-statements
@@ -270,6 +275,7 @@ module.exports = {
         'no-continue': 0, // http://eslint.org/docs/rules/no-continue
         'no-inline-comments': 0, // http://eslint.org/docs/rules/no-inline-comments
         'no-lonely-if': 1, // http://eslint.org/docs/rules/no-lonely-if
+        'no-mixed-operators': 2,
         'no-mixed-spaces-and-tabs': 2,
         'no-multiple-empty-lines': 0, // Empty lines somtimes means a section of a program.
         'no-negated-condition': 0, // http://eslint.org/docs/rules/no-negated-condition
@@ -287,6 +293,7 @@ module.exports = {
         }],
         'no-unneeded-ternary': 2,
         'object-curly-spacing': 0, // http://eslint.org/docs/rules/object-curly-spacing
+        'object-curly-newline': 0, // http://eslint.org/docs/rules/object-curly-newline
         'object-property-newline': 0, // I feel this is a trivial problem.
         'one-var': [2, 'never'], // http://eslint.org/docs/rules/one-var
         'one-var-declaration-per-line': 1, // http://eslint.org/docs/rules/one-var-declaration-per-line
@@ -364,6 +371,7 @@ module.exports = {
         'prefer-spread': 1,
         'prefer-template': 0,
         'require-yield': 2,
+        'rest-spread-spacing': [2, 'never'], // clarify 'this is rest/spread operator'.
         'template-curly-spacing': [1, 'never'], // http://eslint.org/docs/rules/template-curly-spacing
         'yield-star-spacing': [1, 'after'],
 
