@@ -72,6 +72,12 @@
     "urijs": "^1.18.1"
   },
   "devDependencies": {
+    "@types/mocha": "^2.2.21-alpha",
+    "@types/node": "^4.0.22-alpha",
+    "@types/react": "^0.14.21-alpha",
+    "@types/react-dom": "^0.14.8-alpha",
+    "@types/socket.io-client": "^1.4.20-alpha",
+    "@types/whatwg-fetch": "0.0.21-alpha",
     "autoprefixer": "^6.3.6",
     "babel-cli": "^6.10.1",
     "babel-core": "^6.9.1",
