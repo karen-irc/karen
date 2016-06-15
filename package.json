@@ -49,6 +49,11 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@types/mocha": "^2.2.21-alpha",
+    "@types/node": "^4.0.22-alpha",
+    "@types/react": "^0.14.21-alpha",
+    "@types/react-dom": "^0.14.8-alpha",
+    "@types/socket.io-client": "^1.4.20-alpha",
     "bcrypt-nodejs": "0.0.3",
     "cheerio": "^0.20.0",
     "commander": "^2.9.0",
