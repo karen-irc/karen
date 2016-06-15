@@ -30,7 +30,9 @@
 // http://eslint.org/docs/configuring/#comments-in-configuration-files
 module.exports = {
 
-    'extends': './tools/eslintrc.js',
+    'extends': [
+        './tools/eslint/eslintrc_core.js',
+    ],
 
     'env': {
         'es6': true,
