@@ -32,6 +32,7 @@ module.exports = {
 
     'extends': [
         './tools/eslint/eslintrc_core.js',
+        './tools/eslint/eslintrc_node.js',
     ],
 
     'env': {
@@ -47,16 +48,6 @@ module.exports = {
     'root': true,
 
     'rules': {
-        // eslint-plugin-node
-        // https://github.com/mysticatea/eslint-plugin-node
-        'node/no-deprecated-api': 0,
-        'node/no-missing-import': 0, // we cannot use module syntax in node yet.
-        'node/no-missing-require': 2,
-        'node/no-unpublished-import': 0, // we'd like to check in devDependencies, but this cannot check them.
-        'node/no-unpublished-require': 0, // we'd like to check in devDependencies, but this cannot check them.
-        'node/no-unsupported-features': 0, // we cover this by 'no-restricted-syntax'.
-        'node/shebang': 0,
-
         // ESLint-plugin-React
         // https://github.com/yannickcr/eslint-plugin-react
         'react/display-name': 0, // JSX transpiler creates displayName automatically.
