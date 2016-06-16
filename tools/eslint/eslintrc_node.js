@@ -1,8 +1,8 @@
 /**
- * @license MIT License
+ * MIT License
  *
- * Copyright (c) 2015 Tetsuharu OHZEKI <saneyuki.snyk@gmail.com>
- * Copyright (c) 2015 Yusuke Suzuki <utatane.tea@gmail.com>
+ * Copyright (c) 2016 Tetsuharu OHZEKI <saneyuki.snyk@gmail.com>
+ * Copyright (c) 2016 Yusuke Suzuki <utatane.tea@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,23 +26,21 @@
 
 'use strict';
 
-// ESLint Configuration Files enables to include comments.
-// http://eslint.org/docs/configuring/#comments-in-configuration-files
 module.exports = {
 
-    'extends': [
-        './tools/eslint/eslintrc_core.js',
-        './tools/eslint/eslintrc_node.js',
-        './tools/eslint/eslintrc_react.js',
+    'plugins': [
+        'node',
     ],
 
-    'env': {
-        'es6': true,
-        'node': true,
-    },
-
-    'root': true,
-
     'rules': {
+        // eslint-plugin-node
+        // https://github.com/mysticatea/eslint-plugin-node
+        'node/no-deprecated-api': 0,
+        'node/no-missing-import': 0, // we cannot use module syntax in node yet.
+        'node/no-missing-require': 2,
+        'node/no-unpublished-import': 0, // we'd like to check in devDependencies, but this cannot check them.
+        'node/no-unpublished-require': 0, // we'd like to check in devDependencies, but this cannot check them.
+        'node/no-unsupported-features': 0, // we cover this by 'no-restricted-syntax'.
+        'node/shebang': 0,
     }
 };
