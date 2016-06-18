@@ -35,7 +35,7 @@ module.exports = {
     'rules': {
         // eslint-plugin-node
         // https://github.com/mysticatea/eslint-plugin-node
-        'node/no-deprecated-api': 0,
+        'node/no-deprecated-api': 1,
         'node/no-missing-import': 0, // we cannot use module syntax in node yet.
         'node/no-missing-require': 2,
         'node/no-unpublished-import': 0, // we'd like to check in devDependencies, but this cannot check them.
