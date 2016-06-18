@@ -1,8 +1,10 @@
+/// <reference path='../../../typings/index.d.ts'/>
+
 /*eslint-disable no-sync */
 
-import path from 'path';
+import * as path from 'path';
 import program from 'commander';
-import fs from 'fs';
+import * as fs from 'fs';
 import mkdirp from 'mkdirp';
 import ConfigDriver from '../adapter/ConfigDriver';
 import Package from '../adapter/Package';
@@ -26,7 +28,10 @@ if (program.home) {
 }
 
 const config = path.join(ConfigDriver.getHome(), 'config.js');
-if (!fs.existsSync(config)) {
+try {
+    fs.accessSync(config);
+}
+catch (_e) {
     mkdirp.sync(ConfigDriver.getHome());
     fs.writeFileSync(
         config,
