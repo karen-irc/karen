@@ -41,6 +41,6 @@ export class RizeClient {
         this._notification = new NotificationService(notifyAction.dispatcher());
 
         const appCtx = new ApplicationContext();
-        appCtx.onActivate(document.getElementById('js-mountpoint-app'));
+        appCtx.onActivate(document.getElementById('js-mountpoint-app')!);
     }
 }

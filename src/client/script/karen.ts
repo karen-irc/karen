@@ -51,15 +51,15 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const globalState = new DomainState(messageGateway, uiAction);
     /* tslint:disable no-unused-variable */
     const appWindow = new WindowPresenter(globalState, appAction, notifyAction, uiAction);
-    const appView = new AppView(document.getElementById('viewport'), uiAction);
-    const windows = new MainContentAreaView(globalState, document.getElementById('windows'), cookie, messageGateway, messageAction, uiAction);
-    const inputBox = new InputBoxView(globalState, document.getElementById('js-form'), messageAction, uiAction);
+    const appView = new AppView(document.getElementById('viewport')!, uiAction);
+    const windows = new MainContentAreaView(globalState, document.getElementById('windows')!, cookie, messageGateway, messageAction, uiAction);
+    const inputBox = new InputBoxView(globalState, document.getElementById('js-form')!, messageAction, uiAction);
     const settings = new GeneralSettingContext(config, notifyAction);
     const sidebarView = new SidebarContext(globalState, messageAction, uiAction);
-    sidebarView.onActivate(document.getElementById('sidebar'));
-    const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer'), appAction, uiAction);
+    sidebarView.onActivate(document.getElementById('sidebar')!);
+    const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer')!, appAction, uiAction);
     /* tslint:enable */
-    settings.onActivate(document.getElementById('settings'));
+    settings.onActivate(document.getElementById('settings')!);
 
     const chat = document.getElementById('chat');
 
@@ -112,12 +112,12 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
         document.body.classList.remove('signed-out');
 
-        const signinButtom = document.getElementById('sign-in');
+        const signinButtom = document.getElementById('sign-in')!;
         signinButtom.parentNode.removeChild(signinButtom);
     });
 
     globalState.getCurrentTab().subscribe(function(state){
-        chat.setAttribute('data-js-id', String(state.id));
+        chat!.setAttribute('data-js-id', String(state.id));
         messageGateway.saveCurrentTab(state);
     });
 
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             list: data.messages,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
-        const chan = document.getElementById('js-chan-' + target);
+        const chan = document.getElementById('js-chan-' + target)!;
         (chan.querySelector('.messages') as HTMLElement).insertAdjacentHTML('afterbegin', html);
         if (data.messages.length !== 100) {
             chan.querySelector('.show-more').classList.remove('show');
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const options = config.get();
 
     socket.toggle().subscribe(function(data) {
-        const toggle = document.getElementById('toggle-' + data.id);
+        const toggle = document.getElementById('toggle-' + data.id)!;
         const view = React.createElement(ToggleItem, {
             item: data,
         });
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     config.asObservable().subscribe((settings) => { // FIXME
-        const classList = chat.classList;
+        const classList = chat!.classList;
         [
             ['join', settings.join],
             ['mode', settings.mode],
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             return;
         }
 
-        const nodelist: NodeListOf<Element> = chat.querySelectorAll('.chat');
+        const nodelist: NodeListOf<Element> = chat!.querySelectorAll('.chat');
         const list: Array<Element> = Array.from(nodelist);
         list.forEach(function(element: Element){
             element.addEventListener('click', function onClick(aEvent: Event) {
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 
     let top = 1;
     globalState.getSelectedChannel().subscribe(function(id){
-        const target = document.getElementById('js-chan-' + String(id));
+        const target = document.getElementById('js-chan-' + String(id))!;
         uiAction.toggleLeftPane(false);
         const active = document.querySelector('#windows .active');
         if (!!active) {
