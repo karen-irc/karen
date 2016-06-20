@@ -36,10 +36,9 @@ const {
     runLinkerForClient,
     compileScriptForServer,
 } = require('./tools/build/script');
-
 const { runESLint, runTSLint, } = require('./tools/build/lint');
-
 const {buildCSS} = require('./tools/build/style');
+const { spawnChildProcess } = require('./tools/spawn');
 
 const isRelease = process.env.NODE_ENV === 'production';
 const isEnableRize = process.env.ENABLE_RIZE === '1';
@@ -86,7 +85,9 @@ const CWD = path.relative(__dirname, '');
  *  - MUST name `__taskname`.
  */
 
-// clean up
+/**
+ *  Clean
+ */
 gulp.task('__clean:client:js:obj', function () {
     return del(OBJ_CLIENT);
 });
@@ -111,7 +112,9 @@ gulp.task('__clean:server:test', function () {
     return del(TEST_CACHE_SERVER);
 });
 
-// make obj/
+/**
+ *  Build obj/
+ */
 gulp.task('__cp:client:js:obj', ['__cp:client:js::obj:rize', '__cp:client:js:obj:classic']);
 gulp.task('__cp:client:js:obj:classic', ['__clean:client:js:obj'], function () {
     const src = ['./src/client/script/**/*.@(js|jsx)'];
@@ -137,14 +140,37 @@ gulp.task('__typescript', ['__clean:client:js:obj'], function () {
     return compileTypeScript(CWD, NPM_MOD_DIR);
 });
 
-// make dist/
-gulp.task('__link:client:js', ['__clean:client:js:dist', '__cp:client:js:obj', '__typescript'], function () {
-    const root = isEnableRize ?
-        './rize/index.js' : './script/karen.js';
-    const ENTRY_POINT = path.resolve(OBJ_CLIENT, root);
+/**
+ *  Build dist/
+ */
+{
+    const TASK_NAME = '__link:client:js';
+    const SPAWNED = '__spawned::' + TASK_NAME;
 
-    return runLinkerForClient(ENTRY_POINT, DIST_CLIENT_JS, 'karen.js', isRelease);
-});
+    gulp.task(TASK_NAME, ['__clean:client:js:dist', '__cp:client:js:obj', '__typescript'], function () {
+        const args = [
+            path.resolve(NPM_MOD_DIR, './gulp', './bin', './gulp.js'),
+            SPAWNED,
+        ];
+        const option = {
+            cwd: CWD,
+            stdio: 'inherit',
+            env: process.env,
+        };
+        return spawnChildProcess('node', args, option);
+    });
+
+    /**
+     *  This task run in another process.
+     */
+    gulp.task(SPAWNED, function () {
+        const root = isEnableRize ?
+            './rize/index.js' : './script/karen.js';
+        const ENTRY_POINT = path.resolve(OBJ_CLIENT, root);
+
+        return runLinkerForClient(ENTRY_POINT, DIST_CLIENT_JS, 'karen.js', isRelease);
+    });
+}
 
 gulp.task('__babel:server', ['__clean:server:dist', '__cp:server:js:obj'], function () {
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, DIST_SERVER, isRelease);
@@ -158,7 +184,9 @@ gulp.task('__babel:server:test', ['__clean:server:test', '__cp:server:js:obj'], 
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, TEST_CACHE_SERVER, false);
 });
 
-// lint
+/**
+ *  Lint
+ */
 gulp.task('__eslint', function () {
     const src = [
         './.eslintrc.js',
@@ -182,7 +210,9 @@ gulp.task('__tslint', function () {
     return runTSLint(CWD, NPM_MOD_DIR, SRC);
 });
 
-// others
+/**
+ *  Others
+ */
 gulp.task('__postcss', ['__clean:client:css:dist'], function () {
     return buildCSS('./src/client/css/style.css', DIST_CLIENT_CSS);
 });
@@ -196,11 +226,16 @@ gulp.task('__uglify', ['__clean:client:js:dist'], function () {
     }
 });
 
+/**
+ *  Meta targets
+ */
 gulp.task('__build:server', ['__babel:server']);
 gulp.task('__build:client:js', ['__uglify', '__link:client:js']);
 gulp.task('__build:client:css', ['__postcss']);
 
-// public target
+/**
+ *  Public targets
+ */
 gulp.task('jslint', ['__eslint', '__tslint']);
 gulp.task('tsc', ['__typescript']);
 
