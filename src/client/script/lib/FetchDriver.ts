@@ -26,15 +26,9 @@ type Origin = string;
 
 export class FetchDriver {
     private _origin: Origin;
-    private _mode: RequestMode;
 
-    constructor(origin: Origin, mode: RequestMode) {
+    constructor(origin: Origin) {
         this._origin = origin;
-        this._mode = mode;
-    }
-
-    mode(): RequestMode {
-        return this._mode;
     }
 
     get(this: FetchDriver, path: string, option: RequestInit): Promise<Response> {
@@ -49,23 +43,18 @@ export class FetchDriver {
 
     private _fetchToUrl(this: FetchDriver, path: string, option: RequestInit): Promise<Response> {
         const url = this._origin + path;
-        option.mode = this._mode;
         const req = self.fetch(url, option);
         return req;
     }
 
     fetch(this: FetchDriver, input: Request): Promise<Response> {
         assertOrigin(this._origin, input);
-
-        const req = self.fetch(input, {
-            mode: this._mode,
-        });
+        const req = self.fetch(input, {});
         return req;
     }
 
     createRequest(this: FetchDriver, path: string, init: RequestInit): Request {
         const url = this._origin + path;
-        init.mode = this._mode;
         const req = new Request(url, init);
         return req;
     }
