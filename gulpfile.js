@@ -36,10 +36,9 @@ const {
     runLinkerForClient,
     compileScriptForServer,
 } = require('./tools/build/script');
-
 const { runESLint, runTSLint, } = require('./tools/build/lint');
-
 const {buildCSS} = require('./tools/build/style');
+const { spawnChildProcess } = require('./tools/spawn');
 
 const isRelease = process.env.NODE_ENV === 'production';
 const isEnableRize = process.env.ENABLE_RIZE === '1';
@@ -144,13 +143,34 @@ gulp.task('__typescript', ['__clean:client:js:obj'], function () {
 /**
  *  Build dist/
  */
-gulp.task('__link:client:js', ['__clean:client:js:dist', '__cp:client:js:obj', '__typescript'], function () {
-    const root = isEnableRize ?
-        './rize/index.js' : './script/karen.js';
-    const ENTRY_POINT = path.resolve(OBJ_CLIENT, root);
+{
+    const TASK_NAME = '__link:client:js';
+    const SPAWNED = '__spawned::' + TASK_NAME;
 
-    return runLinkerForClient(ENTRY_POINT, DIST_CLIENT_JS, 'karen.js', isRelease);
-});
+    gulp.task(TASK_NAME, ['__clean:client:js:dist', '__cp:client:js:obj', '__typescript'], function () {
+        const args = [
+            path.resolve(NPM_MOD_DIR, './gulp', './bin', './gulp.js'),
+            SPAWNED,
+        ];
+        const option = {
+            cwd: CWD,
+            stdio: 'inherit',
+            env: process.env,
+        };
+        return spawnChildProcess('node', args, option);
+    });
+
+    /**
+     *  This task run in another process.
+     */
+    gulp.task(SPAWNED, function () {
+        const root = isEnableRize ?
+            './rize/index.js' : './script/karen.js';
+        const ENTRY_POINT = path.resolve(OBJ_CLIENT, root);
+
+        return runLinkerForClient(ENTRY_POINT, DIST_CLIENT_JS, 'karen.js', isRelease);
+    });
+}
 
 gulp.task('__babel:server', ['__clean:server:dist', '__cp:server:js:obj'], function () {
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, DIST_SERVER, isRelease);
