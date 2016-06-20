@@ -86,7 +86,9 @@ const CWD = path.relative(__dirname, '');
  *  - MUST name `__taskname`.
  */
 
-// clean up
+/**
+ *  Clean
+ */
 gulp.task('__clean:client:js:obj', function () {
     return del(OBJ_CLIENT);
 });
@@ -111,7 +113,9 @@ gulp.task('__clean:server:test', function () {
     return del(TEST_CACHE_SERVER);
 });
 
-// make obj/
+/**
+ *  Build obj/
+ */
 gulp.task('__cp:client:js:obj', ['__cp:client:js::obj:rize', '__cp:client:js:obj:classic']);
 gulp.task('__cp:client:js:obj:classic', ['__clean:client:js:obj'], function () {
     const src = ['./src/client/script/**/*.@(js|jsx)'];
@@ -137,7 +141,9 @@ gulp.task('__typescript', ['__clean:client:js:obj'], function () {
     return compileTypeScript(CWD, NPM_MOD_DIR);
 });
 
-// make dist/
+/**
+ *  Build dist/
+ */
 gulp.task('__link:client:js', ['__clean:client:js:dist', '__cp:client:js:obj', '__typescript'], function () {
     const root = isEnableRize ?
         './rize/index.js' : './script/karen.js';
@@ -158,7 +164,9 @@ gulp.task('__babel:server:test', ['__clean:server:test', '__cp:server:js:obj'], 
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, TEST_CACHE_SERVER, false);
 });
 
-// lint
+/**
+ *  Lint
+ */
 gulp.task('__eslint', function () {
     const src = [
         './.eslintrc.js',
@@ -182,7 +190,9 @@ gulp.task('__tslint', function () {
     return runTSLint(CWD, NPM_MOD_DIR, SRC);
 });
 
-// others
+/**
+ *  Others
+ */
 gulp.task('__postcss', ['__clean:client:css:dist'], function () {
     return buildCSS('./src/client/css/style.css', DIST_CLIENT_CSS);
 });
@@ -196,11 +206,16 @@ gulp.task('__uglify', ['__clean:client:js:dist'], function () {
     }
 });
 
+/**
+ *  Meta targets
+ */
 gulp.task('__build:server', ['__babel:server']);
 gulp.task('__build:client:js', ['__uglify', '__link:client:js']);
 gulp.task('__build:client:css', ['__postcss']);
 
-// public target
+/**
+ *  Public targets
+ */
 gulp.task('jslint', ['__eslint', '__tslint']);
 gulp.task('tsc', ['__typescript']);
 
