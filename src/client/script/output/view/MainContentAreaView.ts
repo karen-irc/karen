@@ -106,7 +106,7 @@ export class MainContentAreaView {
             for (const channel of channelList) {
                 const id = channel.getId();
                 const dom = document.getElementById('js-chan-' + String(id));
-                const view = new MessageContentView(channel, dom, messageAction, uiAction);
+                const view = new MessageContentView(channel, dom!, messageAction, uiAction);
                 this._channelMap.set(id, view);
             }
 
