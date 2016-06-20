@@ -24,9 +24,9 @@
  */
 import * as assert from 'assert';
 
-import {FetchDriver} from '../FetchDriver';
+import {origin} from '../../../../../config/test_config';
 
-const ORIGIN = 'https://www.example.com';
+import {FetchDriver} from '../FetchDriver';
 
 function test(factory: (this: void) => FetchDriver): void {
     let driver: FetchDriver;
@@ -44,7 +44,7 @@ function test(factory: (this: void) => FetchDriver): void {
             });
 
             it('request.url', () => {
-                assert.strictEqual(req.url, ORIGIN + '/bar');
+                assert.strictEqual(req.url, String(origin.FIRST) + '/bar');
             });
 
             it('request.mode', () => {
@@ -62,7 +62,7 @@ function test(factory: (this: void) => FetchDriver): void {
             });
 
             it('request.url', () => {
-                assert.strictEqual(req.url, ORIGIN + '/bar');
+                assert.strictEqual(req.url, String(origin.FIRST) + '/bar');
             });
 
             it('request.mode', () => {
@@ -76,19 +76,19 @@ describe('FetchDriver.createRequest', function () {
 
     describe('mode: same-origin', function () {
         test(() => {
-            return new FetchDriver(ORIGIN, 'same-origin');
+            return new FetchDriver(String(origin.FIRST), 'same-origin');
         });
     });
 
     describe('mode: cors', function () {
         test(() => {
-            return new FetchDriver(ORIGIN, 'cors');
+            return new FetchDriver(String(origin.FIRST), 'cors');
         });
     });
 
     describe('mode: no-cors', function () {
         test(() => {
-            return new FetchDriver(ORIGIN, 'no-cors');
+            return new FetchDriver(String(origin.FIRST), 'no-cors');
         });
     });
 });

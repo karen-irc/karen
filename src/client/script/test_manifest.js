@@ -1,4 +1,5 @@
 import {jsdom} from 'jsdom';
+import {origin} from '../../../config/test_config';
 
 const htmlStr = `
 <!DOCTYPE html>
@@ -15,7 +16,7 @@ const htmlStr = `
 // It might override Node.js's builtin variables.
 // So we add properties by hand.
 global.document = jsdom(htmlStr, {
-    url: 'https://localhost:8080/',
+    url: String(origin.FIRST),
 });
 global.window = global.document.defaultView;
 global.self = global.window; // `window.self`
