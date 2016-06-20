@@ -28,67 +28,23 @@ import {origin} from '../../../../../config/test_config';
 
 import {FetchDriver} from '../FetchDriver';
 
-function test(factory: (this: void) => FetchDriver): void {
+
+describe('FetchDriver.createRequest', function () {
     let driver: FetchDriver;
 
     before(() => {
-        driver = factory();
+        driver = new FetchDriver(String(origin.FIRST));
     });
 
     describe('input is url string', function () {
-        describe('without mode', function () {
-            let req: Request;
+        let req: Request;
 
-            before(() => {
-                req = driver.createRequest('/bar', {});
-            });
-
-            it('request.url', () => {
-                assert.strictEqual(req.url, String(origin.FIRST) + '/bar');
-            });
-
-            it('request.mode', () => {
-                assert.strictEqual(req.mode, driver.mode());
-            });
+        before(() => {
+            req = driver.createRequest('/bar', {});
         });
 
-        describe('with mode', function () {
-            let req: Request;
-
-            before(() => {
-                req = driver.createRequest('/bar', {
-                    mode: 'cors',
-                });
-            });
-
-            it('request.url', () => {
-                assert.strictEqual(req.url, String(origin.FIRST) + '/bar');
-            });
-
-            it('request.mode', () => {
-                assert.strictEqual(req.mode, driver.mode());
-            });
-        });
-    });
-}
-
-describe('FetchDriver.createRequest', function () {
-
-    describe('mode: same-origin', function () {
-        test(() => {
-            return new FetchDriver(String(origin.FIRST), 'same-origin');
-        });
-    });
-
-    describe('mode: cors', function () {
-        test(() => {
-            return new FetchDriver(String(origin.FIRST), 'cors');
-        });
-    });
-
-    describe('mode: no-cors', function () {
-        test(() => {
-            return new FetchDriver(String(origin.FIRST), 'no-cors');
+        it('request.url', () => {
+            assert.strictEqual(req.url, String(origin.FIRST) + '/bar');
         });
     });
 });
