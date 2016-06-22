@@ -32,17 +32,16 @@ const { spawnChildProcess } = require('../spawn');
 /**
  *  @param  {string}    cwd
  *  @param  {string}    nodeModDir
- *  @param  {Array<string>}    target
  *  @returns    {Promise<void>}
  */
-function runESLint(cwd, nodeModDir, target) {
+function runESLint(cwd, nodeModDir) {
     const bin = path.resolve(nodeModDir, './eslint', './bin', './eslint.js');
 
     const args = [
         bin,
         '--ext', '.js,.jsx',
-        '--no-ignore',
-    ].concat(target);
+        '.',
+    ];
 
     const option = {
         cwd,

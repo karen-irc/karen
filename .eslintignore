@@ -1,0 +1,11 @@
+# cache
+__dist/
+__obj/
+__test_cache/
+node_modules/
+
+# 3rd party module
+src/client/js/
+
+# include as a lint target.
+!.eslintrc.js
