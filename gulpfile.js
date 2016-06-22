@@ -188,18 +188,7 @@ gulp.task('__babel:server:test', ['__clean:server:test', '__cp:server:js:obj'], 
  *  Lint
  */
 gulp.task('__eslint', function () {
-    const src = [
-        './.eslintrc.js',
-        './gulpfile.js',
-        './defaults/',
-        './src/client/.eslintrc.js',
-        './src/client/script/',
-        './src/client/rize/',
-        './src/server/',
-        './src/server/.eslintrc.js',
-        './tools/',
-    ];
-    return runESLint(CWD, NPM_MOD_DIR, src);
+    return runESLint(CWD, NPM_MOD_DIR);
 });
 
 gulp.task('__tslint', function () {
