@@ -41,6 +41,7 @@ const childProcess = require('child_process');
  */
 function spawnChildProcess(bin, args, option) {
     const spawned = new Promise(function(resolve, reject){
+        console.log('Start: ' + bin + ' ' + args.join(' '));
         const process = childProcess.spawn(bin, args, option);
 
         process.on('exit', function(signal) {
