@@ -40,7 +40,7 @@ function runESLint(cwd, nodeModDir) {
     const args = [
         bin,
         '--ext', '.js,.jsx',
-        '.',
+        '.', './**/.eslintrc.js',
     ];
 
     const option = {
