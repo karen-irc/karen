@@ -135,6 +135,11 @@ class FilterIterable<T> extends ExIterable<T> {
         this._filter = filter;
     }
 
+    map<U>(selector: (this: undefined, value: T, index: number) => U): ExIterable<U> {
+        const lifted = new FilterMapIterable<T, U>(this._source, this._filter, selector);
+        return lifted;
+    }
+
     [Symbol.iterator](): Iterator<T> {
         const source: Iterator<T> = this._source[Symbol.iterator]();
         const iter = new FilterIterator<T>(source, this._filter);
@@ -164,6 +169,64 @@ class FilterIterator<T> implements Iterator<T> {
                 return {
                     done: false,
                     value: next.value,
+                };
+            }
+
+            next = source.next();
+        }
+
+        return {
+            done: true,
+            value: undefined as any,
+        };
+    }
+}
+
+class FilterMapIterable<S, T> extends ExIterable<T> {
+    private _source: Iterable<S>;
+    private _filter: FilterFn<S>;
+    private _selector: MapFn<S, T>;
+
+    constructor(source: Iterable<S>, filter: FilterFn<S>, selector: MapFn<S, T>) {
+        super();
+        this._source = source;
+        this._filter = filter;
+        this._selector = selector;
+    }
+
+    [Symbol.iterator](): Iterator<T> {
+        const source: Iterator<S> = this._source[Symbol.iterator]();
+        const iter = new FilterMapIterator<S, T>(source, this._filter, this._selector);
+        return iter;
+    }
+}
+
+class FilterMapIterator<S, T> implements Iterator<T> {
+
+    private _source: Iterator<S>;
+    private _filter: FilterFn<S>;
+    private _selector: MapFn<S, T>;
+    private _index: number;
+
+    constructor(source: Iterator<S>, filter: FilterFn<S>, selector: MapFn<S, T>) {
+        this._source = source;
+        this._filter = filter;
+        this._selector = selector;
+        this._index = 0;
+    }
+
+    next(): IteratorResult<T> {
+        const source = this._source;
+        let next: IteratorResult<S> = source.next();
+
+        while (!next.done) {
+            const i = this._index++;
+            const ok: boolean = this._filter(next.value, i);
+            if (ok) {
+                const value: T = this._selector(next.value, i);
+                return {
+                    done: false,
+                    value,
                 };
             }
 
