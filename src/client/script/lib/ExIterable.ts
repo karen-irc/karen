@@ -51,7 +51,13 @@ export class ExIterable<T> implements Iterable<T> {
     }
 
     map<U>(selector: (this: undefined, value: T, index: number) => U): ExIterable<U> {
-        const op = new MapOperator<T, U>(this, selector);
+        let op: Operator<T, U>;
+        if (this._operator instanceof FilterOperator) {
+            op = new FilterMapOperator<T, U>(this._source!, this._operator.filter, selector);
+        }
+        else {
+            op = new MapOperator<T, U>(this, selector);
+        }
         const lifted = this.lift<U>(op);
         return lifted;
     }
@@ -147,16 +153,16 @@ type FilterFn<T> = (value: T, index: number) => boolean;
 class FilterOperator<T> implements Operator<T, T> {
 
     private _source: Iterable<T>;
-    private _filter: FilterFn<T>;
+    readonly filter: FilterFn<T>;
 
     constructor(source: Iterable<T>, filter: FilterFn<T>) {
         this._source = source;
-        this._filter = filter;
+        this.filter = filter;
     }
 
     call(): Iterator<T> {
         const source: Iterator<T> = this._source[Symbol.iterator]();
-        const iter = new FilterIterator<T>(source, this._filter);
+        const iter = new FilterIterator<T>(source, this.filter);
         return iter;
     }
 }
@@ -183,6 +189,64 @@ class FilterIterator<T> implements Iterator<T> {
                 return {
                     done: false,
                     value: next.value,
+                };
+            }
+
+            next = source.next();
+        }
+
+        return {
+            done: true,
+            value: undefined as any,
+        };
+    }
+}
+
+class FilterMapOperator<S, T> implements Operator<S, T> {
+    private _source: Iterable<S>;
+    private _filter: FilterFn<S>;
+    private _selector: MapFn<S, T>;
+
+    constructor(src: Iterable<S>, filter: FilterFn<S>, selector: MapFn<S, T>) {
+        this._source = src;
+        this._filter = filter;
+        this._selector = selector;
+    }
+
+    call(): Iterator<T> {
+        const source: Iterator<S> = this._source[Symbol.iterator]();
+        const iter = new FilterMapIterator<S, T>(source, this._filter, this._selector);
+        return iter;
+    }
+}
+
+class FilterMapIterator<S, T> implements Iterator<T> {
+
+    private _source: Iterator<S>;
+    private _filter: FilterFn<S>;
+    private _selector: MapFn<S, T>;
+    private _index: number;
+
+    constructor(source: Iterator<S>, filter: FilterFn<S>, selector: MapFn<S, T>) {
+        this._source = source;
+        this._filter = filter;
+        this._selector = selector;
+        this._index = 0;
+    }
+
+    next(): IteratorResult<T> {
+        const source = this._source;
+        const filter = this._filter;
+        let next: IteratorResult<S> = source.next();
+
+        while (!next.done) {
+            let i = this._index++;
+            const ok: boolean = filter(next.value, i);
+            if (ok) {
+                const value = this._selector(next.value, i);
+                return {
+                    done: false,
+                    value,
                 };
             }
 

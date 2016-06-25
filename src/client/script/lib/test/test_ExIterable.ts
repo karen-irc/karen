@@ -258,26 +258,62 @@ describe('ExIterable', function () {
     });
 
     describe('filter()', function () {
-        const resultSeq: Array<number> = [];
-        const indexSeq: Array<number> = [];
+        describe('generic case', function () {
+            const resultSeq: Array<number> = [];
+            const indexSeq: Array<number> = [];
 
-        before(function () {
-            const iter = ExIterable.create([0, 1, 2, 3, 4])
-                .filter((v, i) => {
-                    indexSeq.push(i);
-                    return (v % 2 === 0);
+            before(function () {
+                const iter = ExIterable.create([0, 1, 2, 3, 4])
+                    .filter((v, i) => {
+                        indexSeq.push(i);
+                        return (v % 2 === 0);
+                    });
+                iter.forEach((v) => {
+                    resultSeq.push(v);
                 });
-            iter.forEach((v) => {
-                resultSeq.push(v);
+            });
+
+            it('expected result sequence', function () {
+                assert.deepStrictEqual(resultSeq, [0, 2, 4]);
+            });
+
+            it('expected index sequence', function () {
+                assert.deepStrictEqual(indexSeq, [0, 1, 2, 3, 4]);
             });
         });
 
-        it('expected result sequence', function () {
-            assert.deepStrictEqual(resultSeq, [0, 2, 4]);
-        });
+        describe('specialized map()', function () {
+            const resultSeq: Array<number> = [];
+            const indexSeqOfFilter: Array<number> = [];
+            const mapSeqOfFilter: Array<number> = [];
 
-        it('expected index sequence', function () {
-            assert.deepStrictEqual(indexSeq, [0, 1, 2, 3, 4]);
+            before(function () {
+                const iter = ExIterable.create([0, 1, 2, 3, 4])
+                    .filter((v, i) => {
+                        indexSeqOfFilter.push(i);
+                        return (v % 2 === 0);
+                    })
+                    .map((v, i) => {
+                        mapSeqOfFilter.push(i);
+                        return v + 1;
+                    });
+
+                iter.forEach((v) => {
+                    resultSeq.push(v);
+                });
+            });
+
+            it('expected result sequence', function () {
+                assert.deepStrictEqual(resultSeq, [1, 3, 5]);
+            });
+
+            it('expected filter()\'s index sequence', function () {
+                assert.deepStrictEqual(indexSeqOfFilter, [0, 1, 2, 3, 4]);
+            });
+
+            it('expected the following map()\'s index sequence', function () {
+                assert.deepStrictEqual(mapSeqOfFilter, [0, 2, 4]);
+            });
         });
     });
 
