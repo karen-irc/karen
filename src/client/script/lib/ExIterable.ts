@@ -21,23 +21,14 @@
  */
 export class ExIterable<T> implements Iterable<T> {
 
-    protected _source: Iterable<any> | void; // cheat to drop type param `R`.
-    protected _operator: Operator<any, T> | void; // cheat to drop type param `R`.
+    protected _source: Iterable<any> | void; // cheat to drop type param `S`.
 
     protected constructor(source?: Iterable<T>) {
         this._source = source;
-        this._operator = undefined;
     }
 
     static create<T>(source: Iterable<T>): ExIterable<T> {
         return new ExIterable<T>(source);
-    }
-
-    lift<U>(operator: Operator<T, U>): ExIterable<U> {
-        const iterable = new ExIterable<U>();
-        iterable._source = this;
-        iterable._operator = operator;
-        return iterable;
     }
 
     forEach(fn: (v: T, index: number) => void): void {
@@ -51,58 +42,48 @@ export class ExIterable<T> implements Iterable<T> {
     }
 
     map<U>(selector: (this: undefined, value: T, index: number) => U): ExIterable<U> {
-        const op = new MapOperator<T, U>(selector);
-        const lifted = this.lift<U>(op);
+        const lifted = new MapIterable<T, U>(this, selector);
         return lifted;
     }
 
     flatMap<U>(selector: (this: undefined, value: T, index: number) => Iterable<U>): ExIterable<U> {
-        const op = new FlatMapOperator<T, U>(selector);
-        const lifted = this.lift<U>(op);
+        const lifted = new FlatMapIterable<T, U>(this, selector);
         return lifted;
     }
 
     filter(filter: (this: undefined, value: T, index: number) => boolean): ExIterable<T> {
-        const op = new FilterOperator<T>(filter);
-        const lifted = this.lift<T>(op);
+        const lifted = new FilterIterable<T>(this, filter);
         return lifted;
     }
 
     do(action: (this: undefined, value: T, index: number) => void): ExIterable<T> {
-        const op = new DoOperator<T>(action);
-        const lifted = this.lift<T>(op);
+        const lifted = new DoIterable<T>(this, action);
         return lifted;
     }
 
     cache(): ExIterable<T> {
-        const op = new CacheOperator<T>();
-        return this.lift(op);
+        const lifted = new CacheIterable<T>(this);
+        return lifted;
     }
 
     [Symbol.iterator](): Iterator<T> {
-        // XXX:
-        // There are still overhead to create "source" iterator
-        // even if we call `CacheOperator`. To avoid the overhead,
-        // we would need to change `Operator` interface.
         const source = this._source[Symbol.iterator]();
-        if (this._operator === undefined) {
-            return this._source[Symbol.iterator]();
-        }
-        const iter = this._operator.call(source);
-        return iter;
+        return source;
     }
 }
 
 type MapFn<T, U> = (v: T, index: number) => U;
 
-class MapOperator<S, T> implements Operator<S, T> {
-    private _selector: MapFn<S, T>;
+class MapIterable<S, T> extends ExIterable<T> {
+    private _selector:  MapFn<S, T>;
 
-    constructor(selector: MapFn<S, T>) {
+    constructor(source: ExIterable<any>, selector: MapFn<S, T>) {
+        super(source);
         this._selector = selector;
     }
 
-    call(source: Iterator<S>): Iterator<T> {
+    [Symbol.iterator](): Iterator<T> {
+        const source: Iterator<S> = this._source[Symbol.iterator]();
         const iter = new MapIterator<S, T>(source, this._selector);
         return iter;
     }
@@ -137,21 +118,18 @@ class MapIterator<S, T> implements Iterator<T> {
     }
 }
 
-interface Operator<S, T> {
-    call(source: Iterator<S>): Iterator<T>;
-}
-
 type FilterFn<T> = (value: T, index: number) => boolean;
 
-class FilterOperator<T> implements Operator<T, T> {
-
+class FilterIterable<T> extends ExIterable<T> {
     private _filter: FilterFn<T>;
 
-    constructor(filter: FilterFn<T>) {
+    constructor(source: ExIterable<T>, filter: FilterFn<T>) {
+        super(source);
         this._filter = filter;
     }
 
-    call(source: Iterator<T>): Iterator<T> {
+    [Symbol.iterator](): Iterator<T> {
+        const source: Iterator<T> = this._source[Symbol.iterator]();
         const iter = new FilterIterator<T>(source, this._filter);
         return iter;
     }
@@ -194,14 +172,16 @@ class FilterIterator<T> implements Iterator<T> {
 
 type FlatMapFn<T, U> = (v: T, index: number) => Iterable<U>;
 
-class FlatMapOperator<S, T> implements Operator<S, T> {
+class FlatMapIterable<S, T> extends ExIterable<T> {
     private _selector: FlatMapFn<S, T>;
 
-    constructor(selector: FlatMapFn<S, T>) {
+    constructor(source: ExIterable<any>, selector: FlatMapFn<S, T>) {
+        super(source);
         this._selector = selector;
     }
 
-    call(source: Iterator<S>): Iterator<T> {
+    [Symbol.iterator](): Iterator<T> {
+        const source: Iterator<S> = this._source[Symbol.iterator]();
         const iter = new FlatMapIterator<S, T>(source, this._selector);
         return iter;
     }
@@ -256,15 +236,16 @@ class FlatMapIterator<S, T> implements Iterator<T> {
 
 type DoFn<T> = (value: T, index: number) => void;
 
-class DoOperator<T> implements Operator<T, T> {
-
+class DoIterable<T> extends ExIterable<T> {
     private _action: DoFn<T>;
 
-    constructor(action: DoFn<T>) {
+    constructor(source: ExIterable<T>, action: DoFn<T>) {
+        super(source);
         this._action = action;
     }
 
-    call(source: Iterator<T>): Iterator<T> {
+    [Symbol.iterator](): Iterator<T> {
+        const source: Iterator<T> = this._source[Symbol.iterator]();
         const iter = new DoIterator<T>(source, this._action);
         return iter;
     }
@@ -302,19 +283,23 @@ class DoIterator<T> implements Iterator<T> {
     }
 }
 
-class CacheOperator<T> implements Operator<T, T> {
+class CacheIterable<T> extends ExIterable<T> {
     private _cacheIterator: Iterator<T> | void;
     private _cacheResult: Array<T>;
 
-    constructor() {
+    constructor(source: ExIterable<T>) {
+        super(source);
+
         this._cacheIterator = undefined;
         this._cacheResult = [];
     }
 
-    call(source: Iterator<T>): Iterator<T> {
+    [Symbol.iterator](): Iterator<T> {
+        const source: Iterator<T> = this._source[Symbol.iterator]();
         if (this._cacheIterator === undefined) {
             this._cacheIterator = source;
         }
+
         const iter = new CacheIterator<T>(this._cacheIterator, this._cacheResult);
         return iter;
     }
