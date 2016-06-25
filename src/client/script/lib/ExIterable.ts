@@ -226,12 +226,14 @@ class FilterMapIterator<S, T> implements Iterator<T> {
     private _filter: FilterFn<S>;
     private _selector: MapFn<S, T>;
     private _index: number;
+    private _selectorIndex: number;
 
     constructor(source: Iterator<S>, filter: FilterFn<S>, selector: MapFn<S, T>) {
         this._source = source;
         this._filter = filter;
         this._selector = selector;
         this._index = 0;
+        this._selectorIndex = 0;
     }
 
     next(): IteratorResult<T> {
@@ -240,10 +242,9 @@ class FilterMapIterator<S, T> implements Iterator<T> {
         let next: IteratorResult<S> = source.next();
 
         while (!next.done) {
-            let i = this._index++;
-            const ok: boolean = filter(next.value, i);
+            const ok: boolean = filter(next.value, this._index++);
             if (ok) {
-                const value = this._selector(next.value, i);
+                const value = this._selector(next.value, this._selectorIndex++);
                 return {
                     done: false,
                     value,
