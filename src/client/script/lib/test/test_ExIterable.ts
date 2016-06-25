@@ -312,7 +312,7 @@ describe('ExIterable', function () {
             });
 
             it('expected the following map()\'s index sequence', function () {
-                assert.deepStrictEqual(mapSeqOfFilter, [0, 2, 4]);
+                assert.deepStrictEqual(mapSeqOfFilter, [0, 1, 2]);
             });
         });
     });
