@@ -3,7 +3,6 @@
  *
  *  This adds `map()`, `forEach()`, `filter()`, `flatMap()`, or others
  *  to `Iterable<T>`. This enables features looks like "lazy evaluation".
- *  The design refers RxJS v5's one.
  *
  *  See example:
  *  ```
@@ -19,16 +18,10 @@
  *      for (const i of mapped) { console.log(v); }
  *   ```
  */
-export class ExIterable<T> implements Iterable<T> {
-
-    protected _source: Iterable<any> | void; // cheat to drop type param `S`.
-
-    protected constructor(source?: Iterable<T>) {
-        this._source = source;
-    }
+export abstract class ExIterable<T> implements Iterable<T> {
 
     static create<T>(source: Iterable<T>): ExIterable<T> {
-        return new ExIterable<T>(source);
+        return new PlainIterable<T>(source);
     }
 
     forEach(fn: (v: T, index: number) => void): void {
@@ -66,19 +59,31 @@ export class ExIterable<T> implements Iterable<T> {
         return lifted;
     }
 
+    abstract [Symbol.iterator](): Iterator<T>;
+}
+
+class PlainIterable<T> extends ExIterable<T> {
+    private _source: Iterable<T>;
+
+    constructor(source: Iterable<T>) {
+        super();
+        this._source = source;
+    }
+
     [Symbol.iterator](): Iterator<T> {
-        const source = this._source[Symbol.iterator]();
-        return source;
+        return this._source[Symbol.iterator]();
     }
 }
 
 type MapFn<T, U> = (v: T, index: number) => U;
 
 class MapIterable<S, T> extends ExIterable<T> {
+    private _source: Iterable<S>;
     private _selector:  MapFn<S, T>;
 
-    constructor(source: ExIterable<any>, selector: MapFn<S, T>) {
-        super(source);
+    constructor(source: Iterable<S>, selector: MapFn<S, T>) {
+        super();
+        this._source = source;
         this._selector = selector;
     }
 
@@ -121,10 +126,12 @@ class MapIterator<S, T> implements Iterator<T> {
 type FilterFn<T> = (value: T, index: number) => boolean;
 
 class FilterIterable<T> extends ExIterable<T> {
+    private _source: Iterable<T>;
     private _filter: FilterFn<T>;
 
-    constructor(source: ExIterable<T>, filter: FilterFn<T>) {
-        super(source);
+    constructor(source: Iterable<T>, filter: FilterFn<T>) {
+        super();
+        this._source = source;
         this._filter = filter;
     }
 
@@ -173,10 +180,12 @@ class FilterIterator<T> implements Iterator<T> {
 type FlatMapFn<T, U> = (v: T, index: number) => Iterable<U>;
 
 class FlatMapIterable<S, T> extends ExIterable<T> {
+    private _source: Iterable<S>;
     private _selector: FlatMapFn<S, T>;
 
-    constructor(source: ExIterable<any>, selector: FlatMapFn<S, T>) {
-        super(source);
+    constructor(source: Iterable<S>, selector: FlatMapFn<S, T>) {
+        super();
+        this._source = source;
         this._selector = selector;
     }
 
@@ -237,10 +246,12 @@ class FlatMapIterator<S, T> implements Iterator<T> {
 type DoFn<T> = (value: T, index: number) => void;
 
 class DoIterable<T> extends ExIterable<T> {
+    private _source: Iterable<T>;
     private _action: DoFn<T>;
 
-    constructor(source: ExIterable<T>, action: DoFn<T>) {
-        super(source);
+    constructor(source: Iterable<T>, action: DoFn<T>) {
+        super();
+        this._source = source;
         this._action = action;
     }
 
@@ -284,12 +295,14 @@ class DoIterator<T> implements Iterator<T> {
 }
 
 class CacheIterable<T> extends ExIterable<T> {
+    private _source: Iterable<T>;
     private _cacheIterator: Iterator<T> | void;
     private _cacheResult: Array<T>;
 
-    constructor(source: ExIterable<T>) {
-        super(source);
+    constructor(source: Iterable<T>) {
+        super();
 
+        this._source = source;
         this._cacheIterator = undefined;
         this._cacheResult = [];
     }
