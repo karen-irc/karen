@@ -92,7 +92,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-postcss": "^6.1.1",
     "gulp-uglify": "^1.5.3",
-    "jsdom": "^9.2.1",
+    "jsdom": "^9.3.0",
     "mocha": "^2.5.3",
     "tslint": "3.12.0-dev.1",
     "typescript": "1.9.0-dev.20160627-1.0",
