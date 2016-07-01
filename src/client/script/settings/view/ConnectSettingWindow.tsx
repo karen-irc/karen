@@ -29,9 +29,22 @@ import {ConnectionActionCreator} from '../intent/ConnectionSettingIntent';
 import {ConnectionValue} from '../domain/value/ConnectionSettings';
 import {ConnectionSettingViewModel} from '../viewmodel/ConnectionStore';
 
-export class ConnectSettingWindow extends React.Component {
+interface Props {
+    key?: any;
+    viewmodel: ConnectionSettingViewModel;
+    action: ConnectionActionCreator;
+    data: ConnectionValue;
+}
 
-    constructor(props) {
+export class ConnectSettingWindow extends React.Component<Props, void> {
+
+    static propTypes = {
+        viewmodel: React.PropTypes.instanceOf(ConnectionSettingViewModel).isRequired,
+        action: React.PropTypes.instanceOf(ConnectionActionCreator).isRequired,
+        data: React.PropTypes.instanceOf(ConnectionValue).isRequired,
+    };
+
+    constructor(props: Props) {
         super(props);
 
         this.onChangeSetNetworkName = this.onChangeSetNetworkName.bind(this);
@@ -46,7 +59,7 @@ export class ConnectSettingWindow extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    render() {
+    render(): JSX.Element {
         const server = this.props.data.network;
         const user = this.props.data.personal;
 
@@ -188,61 +201,56 @@ export class ConnectSettingWindow extends React.Component {
         );
     }
 
-    onChangeSetNetworkName(event) {
-        const value = event.target.value;
+    onChangeSetNetworkName(event: React.FormEvent): void {
+        const value = (event.target as HTMLInputElement).value;
         this.props.viewmodel.networkName().setValue(value);
     }
 
-    onChangeSetServerURL(event) {
-        const value = event.target.value;
+    onChangeSetServerURL(event: React.FormEvent): void {
+        const value = (event.target as HTMLInputElement).value;
         this.props.viewmodel.serverUrl().setValue(value);
     }
 
-    onChangeSetServerPort(event) {
-        const value = event.target.value;
+    onChangeSetServerPort(event: React.FormEvent): void {
+        const value = (event.target as HTMLInputElement).value;
         const port = parseInt(value, 10);
         this.props.viewmodel.serverPort().setValue(port);
     }
 
-    onChangeSetServerPass(event) {
-        const value = event.target.value;
+    onChangeSetServerPass(event: React.FormEvent): void {
+        const value = (event.target as HTMLInputElement).value;
         this.props.viewmodel.serverPass().setValue(value);
     }
 
-    onChangeUseTLS(event) {
-        const isChecked = event.target.checked;
+    onChangeUseTLS(event: React.FormEvent): void {
+        const isChecked = (event.target as HTMLInputElement).checked;
         this.props.viewmodel.useTLS().setValue(isChecked);
     }
 
-    onChangeSetNickName(event) {
-        const value = event.target.value;
+    onChangeSetNickName(event: React.FormEvent): void {
+        const value = (event.target as HTMLInputElement).value;
         this.props.viewmodel.nickname().setValue(value);
     }
 
-    onChangeSetUserName(event) {
-        const value = event.target.value;
+    onChangeSetUserName(event: React.FormEvent): void {
+        const value = (event.target as HTMLInputElement).value;
         this.props.viewmodel.username().setValue(value);
     }
 
-    onChangeSetRealName(event) {
-        const value = event.target.value;
+    onChangeSetRealName(event: React.FormEvent): void {
+        const value = (event.target as HTMLInputElement).value;
         this.props.viewmodel.realname().setValue(value);
     }
 
-    onChangeSetChannel(event) {
-        const value = event.target.value;
+    onChangeSetChannel(event: React.FormEvent): void {
+        const value = (event.target as HTMLInputElement).value;
         this.props.viewmodel.channel().setValue(value);
     }
 
-    onSubmit(event) {
+    onSubmit(event: React.FormEvent): void {
         event.preventDefault();
 
         const param = this.props.data;
         this.props.action.tryConnect(param);
     }
 }
-ConnectSettingWindow.propTypes = {
-    viewmodel: React.PropTypes.instanceOf(ConnectionSettingViewModel).isRequired,
-    action: React.PropTypes.instanceOf(ConnectionActionCreator).isRequired,
-    data: React.PropTypes.instanceOf(ConnectionValue).isRequired,
-};
