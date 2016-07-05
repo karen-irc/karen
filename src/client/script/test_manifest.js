@@ -21,6 +21,7 @@ global.document = jsdom(htmlStr, {
 global.window = global.document.defaultView;
 global.self = global.window; // `window.self`
 global.FormData = global.window.FormData;
+global.XMLHttpRequest = global.window.XMLHttpRequest;
 
 // for FetchDriver
 require('whatwg-fetch');
@@ -29,4 +30,7 @@ global.Response = self.Response;
 
 require('./lib/test/test_ExIterable');
 require('./lib/test/test_FetchDriver_createRequest');
+require('./lib/test/test_FetchDriver_fetch');
+require('./lib/test/test_FetchDriver_get');
+require('./lib/test/test_FetchDriver_post');
 require('./lib/test/test_FetchDriver_utils');

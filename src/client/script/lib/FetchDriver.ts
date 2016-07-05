@@ -42,6 +42,10 @@ export class FetchDriver {
     }
 
     private _fetchToUrl(this: FetchDriver, path: string, option: RequestInit): Promise<Response> {
+        if (!path.startsWith('/')) {
+            throw new SyntaxError('`path` should starts with `/`');
+        }
+
         const url = this._origin + path;
         const req = self.fetch(url, option);
         return req;
