@@ -81,7 +81,7 @@ function spawnCancelableChild(bin, args, option) {
 
         const proc = childProcess.spawn(bin, args, option);
         innerCancel = function () {
-            proc.kill();
+            proc.kill('SIGINT');
         };
 
         proc.on('exit', function(status) {
