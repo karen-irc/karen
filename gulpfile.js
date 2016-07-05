@@ -38,7 +38,7 @@ const {
 } = require('./tools/build/script');
 const { runESLint, runTSLint, } = require('./tools/build/lint');
 const {buildCSS} = require('./tools/build/style');
-const { spawnChildProcess } = require('./tools/spawn');
+const { spawnChildProcess, assertReturnCode } = require('./tools/spawn');
 
 const isRelease = process.env.NODE_ENV === 'production';
 const isEnableRize = process.env.ENABLE_RIZE === '1';
@@ -157,7 +157,7 @@ gulp.task('__typescript', ['__clean:client:js:obj'], function () {
             stdio: 'inherit',
             env: process.env,
         };
-        return spawnChildProcess('node', args, option);
+        return spawnChildProcess('node', args, option).then(assertReturnCode);
     });
 
     /**

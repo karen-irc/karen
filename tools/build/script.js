@@ -32,7 +32,7 @@ const uglify = require('gulp-uglify');
 const path = require('path');
 const source = require('vinyl-source-stream');
 
-const { spawnChildProcess } = require('../spawn');
+const { spawnChildProcess, assertReturnCode } = require('../spawn');
 
 /**
  *  @param  {string}    srcDir
@@ -64,7 +64,7 @@ function compileTypeScript(cwd, nodeModDir) {
         cwd,
         stdio: 'inherit',
     };
-    return spawnChildProcess('node', args, option);
+    return spawnChildProcess('node', args, option).then(assertReturnCode);
 }
 
 /**
@@ -185,7 +185,7 @@ function compileScriptForServer(cwd, npmModDir, srcDir, distDir, isRelease) {
         stdio: 'inherit',
     };
 
-    return spawnChildProcess('node', args, option);
+    return spawnChildProcess('node', args, option).then(assertReturnCode);
 }
 
 module.exports = {
