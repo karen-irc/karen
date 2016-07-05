@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-// <reference path='../typings/index.d.ts'/>
+/// <reference path='../typings/index.d.ts'/>
 'use strict';
 
 const { EventEmitter } = require('events');
@@ -65,14 +65,15 @@ function runNodeModCommand(name, args) {
     });
     return proc;
 }
-function runMockServer(port) {
+function runMockServer(origin) {
     const mock = spawn('node', [path.resolve(repoRootDir, 'src', 'mock', 'server.js')], {
         stdio: 'inherit',
         env: Object.assign(process.env, {
-            MOCK_PORT: port,
+            MOCK_ORIGIN: String(origin),
+            MOCK_PORT: origin.port,
         }),
     });
-    console.log('you can access mock server with `localhost:' + String(port) + '`');
+    console.log('you can access mock server with `localhost:' + String(origin.port) + '`');
     return mock;
 }
 function runMocha(args) {
@@ -81,11 +82,12 @@ function runMocha(args) {
 
 function launchForNode() {
     const manifest = path.resolve(repoRootDir, '__test_cache', 'client', 'script', 'test_manifest.js');
-    const firstMock = runMockServer(testConfig.origin.FIRST.port);
+    const firstMock = runMockServer(testConfig.origin.FIRST);
+    const secondMock = runMockServer(testConfig.origin.SECOND);
 
     const mocha = runMocha([manifest]);
 
-    return [mocha, firstMock];
+    return [mocha, firstMock, secondMock];
 }
 
 (function main(){
