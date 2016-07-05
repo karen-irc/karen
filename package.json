@@ -58,7 +58,7 @@
     "express": "^4.14.0",
     "express-session": "^1.14.0",
     "mkdirp": "^0.5.1",
-    "moment": "^2.13.0",
+    "moment": "^2.14.1",
     "option-t": "^0.18.3",
     "react": "^15.2.0",
     "react-dom": "^15.2.0",
