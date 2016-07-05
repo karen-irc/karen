@@ -76,7 +76,7 @@ export class InputBoxView {
 
         const disposer = new Rx.Subscription();
         this._disposer = disposer;
-
+        this._msgAction = msgAction;
 
         disposer.add(uiAction.dispatcher().focusInputBox.subscribe(() => {
             this._focusInput();
@@ -195,7 +195,7 @@ export class InputBoxView {
         }
 
         let index = 0;
-        if (this._lastSuggestionCache === null && this._inputVal.suggstedIndex.isNone) {
+        if (this._lastSuggestionCache === undefined && this._inputVal.suggstedIndex.isNone) {
             const suggestion = this._createSuggestion(currentValue);
             index = 0;
 
