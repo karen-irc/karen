@@ -27,7 +27,7 @@
 const path = require('path');
 
 const glob = require('../glob');
-const { spawnChildProcess } = require('../spawn');
+const { spawnChildProcess, assertReturnCode, } = require('../spawn');
 
 /**
  *  @param  {string}    cwd
@@ -48,7 +48,7 @@ function runESLint(cwd, nodeModDir) {
         stdio: 'inherit',
     };
 
-    return spawnChildProcess('node', args, option);
+    return spawnChildProcess('node', args, option).then(assertReturnCode);
 }
 
 /**
@@ -70,7 +70,7 @@ function runTSLint(cwd, nodeModDir, target) {
             stdio: 'inherit',
         };
 
-        return spawnChildProcess('node', args, option);
+        return spawnChildProcess('node', args, option).then(assertReturnCode);
     });
 }
 
