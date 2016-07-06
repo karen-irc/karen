@@ -24,9 +24,27 @@
  */
 import * as assert from 'assert';
 
-import {assertForbiddenError} from '../FetchDriver';
+import * as testConfig from '../../../../../config/test_config';
+import {FetchDriver, assertForbiddenError} from '../FetchDriver';
 
 describe('FetchDriver::utils', function () {
+    describe('FetchDriver.origin()', function () {
+        const ORIGIN = String(testConfig.origin.FIRST);
+        let driver: FetchDriver;
+
+        before(() => {
+            driver = new FetchDriver(ORIGIN);
+        });
+
+        after(() => {
+            driver = undefined as any;
+        });
+
+        it('should be the expected', () => {
+            assert.strictEqual(driver.origin(), ORIGIN);
+        });
+    });
+
     describe('assertForbiddenError', function () {
 
         function shouldFulfilled(result: Promise<Response>): Promise<void> {
