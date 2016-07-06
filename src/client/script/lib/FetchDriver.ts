@@ -37,6 +37,10 @@ export class FetchDriver {
         this._origin = origin;
     }
 
+    origin(): Origin {
+        return this._origin;
+    }
+
     get(this: FetchDriver, path: string, option: RequestInit): Promise<Response> {
         option.method = 'GET';
         return this._fetchToUrl(path, option);
