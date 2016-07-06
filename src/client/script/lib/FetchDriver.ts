@@ -27,6 +27,12 @@ type Origin = string;
 export class FetchDriver {
     private _origin: Origin;
 
+    /**
+     *  @param  origin
+     *      This must be formed following patterns:
+     *          - https://www.example.com
+     *          - http://www.example.com:8000
+     */
     constructor(origin: Origin) {
         this._origin = origin;
     }
