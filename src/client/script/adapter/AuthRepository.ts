@@ -25,6 +25,7 @@
  */
 
 import {Option} from 'option-t';
+import {Subject, Subscription} from 'rxjs';
 
 import {CookieDriver} from './CookieDriver';
 
@@ -35,11 +36,18 @@ const KEY_USER = 'user';
 
 export class AuthRepository {
 
-    _cookie: CookieDriver;
+    private _cookie: CookieDriver;
+    private _disposer: Subscription;
 
-    constructor(cookie: CookieDriver) {
-        /** @type {CookieDriver}  */
+    constructor(cookie: CookieDriver, signoutAction: Subject<void>) {
         this._cookie = cookie;
+
+        const disposer = new Subscription();
+        this._disposer = disposer;
+
+        disposer.add(signoutAction.subscribe(() => {
+            this.removeToken();
+        }));
     }
 
     getUser(): Option<string> {
