@@ -1,15 +1,22 @@
 {
     "compilerOptions": {
+        "allowJs": false,
+        "allowSyntheticDefaultImports": false,
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
         "diagnostics": false,
         "forceConsistentCasingInFileNames": true,
         "jsx": "preserve",
         "module": "es2015",
         "moduleResolution": "node",
+        "newLine": "LF",
         "noFallthroughCasesInSwitch": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "noImplicitUseStrict": false,
+        "noUnusedLocals": false, // covered by tslint.
+        "noUnusedParameters": true,
         "outDir": "./__obj/client/",
         "pretty": true,
         "preserveConstEnums": true,

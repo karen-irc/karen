@@ -120,14 +120,14 @@ export class WindowPresenter implements EventListenerObject {
         this._disposer.unsubscribe();
     }
 
-    private _onBeforeUnload(aEvent: Event): string {
+    private _onBeforeUnload(_: Event): string {
         // This function is called on `beforeunload` event,
         // we cannnot call window.confirm, alert, prompt during the event.
         // Thus we need to use classical way to show a modal prompt.
         return 'Are you sure you want to navigate away from this page?';
     }
 
-    onResize(event: UIEvent): void {
+    onResize(_: UIEvent): void {
         if (this._currenTab === null) {
             return;
         }
@@ -206,7 +206,7 @@ export class WindowPresenter implements EventListenerObject {
         }
     }
 
-    onFocus(event: FocusEvent): void {
+    onFocus(_: FocusEvent): void {
         if (this._currenTab.channelId.isNone && window.screen.width < 767) {
             return;
         }

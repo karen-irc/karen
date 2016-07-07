@@ -26,7 +26,6 @@
 import * as Rx from 'rxjs';
 
 import {AppActionCreator} from '../../intent/action/AppActionCreator';
-import {MessageGateway} from '../../adapter/MessageGateway';
 import {UIActionCreator} from '../../intent/action/UIActionCreator';
 
 import {DomainState} from '../../domain/DomainState';
@@ -50,7 +49,7 @@ export class SidebarFooterView implements EventListenerObject {
     _disposableShowSetting: Rx.Subscription;
     _disposableSelectChannel: Rx.Subscription;
 
-    constructor(domain: DomainState, message: MessageGateway, element: Element, appAction: AppActionCreator, uiAction: UIActionCreator) {
+    constructor(domain: DomainState, element: Element, appAction: AppActionCreator, uiAction: UIActionCreator) {
         this._appAction = appAction;
         this._uiAction = uiAction;
         this._element = element;
