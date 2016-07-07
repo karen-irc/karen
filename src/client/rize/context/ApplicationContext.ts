@@ -16,6 +16,6 @@ export class ApplicationContext implements ViewContext {
         ReactDOM.unmountComponentAtNode(mountpoint);
     }
 
-    onResume(mountpoint: Element): void {}
-    onSuspend(mountpoint: Element): void {}
+    onResume(_mountpoint: Element): void {}
+    onSuspend(_mountpoint: Element): void {}
 }

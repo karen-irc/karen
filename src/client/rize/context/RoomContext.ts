@@ -1,8 +1,8 @@
 import {ViewContext} from '../../script/lib/ViewContext';
 
 export class RoomContext implements ViewContext {
-    onActivate(mountpoint: Element): void {}
-    onDestroy(mountpoint: Element): void {}
-    onResume(mountpoint: Element): void {}
-    onSuspend(mountpoint: Element): void {}
+    onActivate(_mountpoint: Element): void {}
+    onDestroy(_mountpoint: Element): void {}
+    onResume(_mountpoint: Element): void {}
+    onSuspend(_mountpoint: Element): void {}
 }

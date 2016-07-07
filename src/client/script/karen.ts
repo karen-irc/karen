@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     const settings = new GeneralSettingContext(config, notifyAction);
     const sidebarView = new SidebarContext(globalState, messageAction, uiAction);
     sidebarView.onActivate(document.getElementById('sidebar')!);
-    const footer = new SidebarFooterView(globalState, messageGateway, document.getElementById('footer')!, appAction, uiAction);
+    const footer = new SidebarFooterView(globalState, document.getElementById('footer')!, appAction, uiAction);
     /* tslint:enable */
     settings.onActivate(document.getElementById('settings')!);
 
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         appAction.reload();
     });
 
-    socket.auth().subscribe(function(data: any) {
+    socket.auth().subscribe(function(_: any) {
         const body: HTMLElement = window.document.body;
         const login = document.getElementById('sign-in');
         if (login === null) {

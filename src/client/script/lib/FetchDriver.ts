@@ -41,17 +41,17 @@ export class FetchDriver {
         return this._origin;
     }
 
-    get(this: FetchDriver, path: string, option: RequestInit): Promise<Response> {
+    get(path: string, option: RequestInit): Promise<Response> {
         option.method = 'GET';
         return this._fetchToUrl(path, option);
     }
 
-    post(this: FetchDriver, path: string, option: RequestInit): Promise<Response> {
+    post(path: string, option: RequestInit): Promise<Response> {
         option.method = 'POST';
         return this._fetchToUrl(path, option);
     }
 
-    private _fetchToUrl(this: FetchDriver, path: string, option: RequestInit): Promise<Response> {
+    private _fetchToUrl(path: string, option: RequestInit): Promise<Response> {
         if (!path.startsWith('/')) {
             throw new SyntaxError('`path` should starts with `/`');
         }
@@ -61,13 +61,13 @@ export class FetchDriver {
         return req;
     }
 
-    fetch(this: FetchDriver, input: Request): Promise<Response> {
+    fetch(input: Request): Promise<Response> {
         assertOrigin(this._origin, input);
         const req = self.fetch(input, {});
         return req;
     }
 
-    createRequest(this: FetchDriver, path: string, init: RequestInit): Request {
+    createRequest(path: string, init: RequestInit): Request {
         const url = this._origin + path;
         const req = new Request(url, init);
         return req;

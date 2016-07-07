@@ -67,10 +67,10 @@ export class GeneralSettingContext implements ViewContext {
         this._view = new GeneralSettingView(mountpoint, this._vm);
     }
 
-    onDestroy(mountpoint: Element): void {
+    onDestroy(_mountpoint: Element): void {
         this._destroy();
     }
 
-    onResume(mountpoint: Element): void {}
-    onSuspend(mountpoint: Element): void {}
+    onResume(_mountpoint: Element): void {}
+    onSuspend(_mountpoint: Element): void {}
 }

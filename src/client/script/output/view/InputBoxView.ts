@@ -225,7 +225,7 @@ export class InputBoxView {
         this._msgAction.clear(channel.id);
     }
 
-    onInput(aEvent: Event): void {
+    onInput(_: Event): void {
         if (this._isSuggestion) {
             return;
         }
