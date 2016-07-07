@@ -50,7 +50,7 @@ export class SidebarFooterView implements EventListenerObject {
     _disposableShowSetting: Rx.Subscription;
     _disposableSelectChannel: Rx.Subscription;
 
-    constructor(domain: DomainState, message: MessageGateway, element: Element, appAction: AppActionCreator, uiAction: UIActionCreator) {
+    constructor(domain: DomainState, element: Element, appAction: AppActionCreator, uiAction: UIActionCreator) {
         this._appAction = appAction;
         this._uiAction = uiAction;
         this._element = element;

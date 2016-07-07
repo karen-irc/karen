@@ -55,13 +55,13 @@ export class SidebarContext implements ViewContext {
         this._viewDisposer = this._mount(mountpoint);
     }
 
-    onDestroy(mountpoint: Element): void {
+    onDestroy(_mountpoint: Element): void {
         this._destroy();
     }
 
-    onResume(mountpoint: Element): void {}
+    onResume(_mountpoint: Element): void {}
 
-    onSuspend(mountpoint: Element): void {}
+    onSuspend(_mountpoint: Element): void {}
 
     private _mount(mountpoint: Element): Rx.Subscription {
         const observer: Rx.Subscriber<SidebarViewState> = Rx.Subscriber.create((model: SidebarViewState) => {
