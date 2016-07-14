@@ -1,4 +1,3 @@
-/*global parseForIRCMessage:true */
 /**
  * @license MIT License
  *
@@ -27,6 +26,7 @@
 import * as React from 'react';
 
 import {Channel} from '../../domain/Channel';
+import {parseToMessageNode} from '../../domain/parseToMessageNode';
 import {MessageList} from './MessageItem';
 
 export function ChatWindowList(props) {
@@ -54,9 +54,20 @@ export function ChatWindowItem({ channel }){
         close = 'Leave';
     }
 
-    const topic = {
-        __html: parseForIRCMessage(channel.topic),
-    };
+
+    const msg = parseToMessageNode(channel.topic);
+    const topic = msg.children.map((node, i) => {
+        let jsx = null;
+        switch (node.type) {
+            case 'text':
+                jsx = <span key={i}>{node.value}</span>;
+                break;
+            case 'url':
+                jsx = <a key={i} href={node.value} target={'_blank'}>{node.value}</a>;
+                break;
+        }
+        return jsx;
+    });
 
     return (
         <div id={'js-chan-' + String(channel.id)}
@@ -73,10 +84,9 @@ export function ChatWindowItem({ channel }){
                     </button>
                 </div>
                 <span className='title'>{channel.name}</span>
-                {/*eslint-disable react/no-danger */}
-                {/* XXX: We should create a some abstract sytax tree to construct a html safely...*/}
-                <span className='topic js-topic' dangerouslySetInnerHTML={topic}/>
-                {/*eslint-enable */}
+                <span className='topic js-topic'>
+                    {topic}
+                </span>
             </div>
 
             <div className='chat'>
