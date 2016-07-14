@@ -59,7 +59,7 @@
     "express-session": "^1.14.0",
     "mkdirp": "^0.5.1",
     "moment": "^2.14.1",
-    "option-t": "^0.18.3",
+    "option-t": "^2.0.2",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "read": "^1.0.7",
