@@ -45,6 +45,10 @@ const isEnableRize = process.env.ENABLE_RIZE === '1';
 
 const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
 
+const TS_CONFIG = Object.freeze({
+    ROOT: path.resolve(__dirname, './tsconfig.json'),
+});
+
 const SRC_DIR = path.resolve(__dirname, './src/');
 const OBJ_DIR = path.resolve(__dirname, './__obj/');
 const DIST_DIR = path.resolve(__dirname, './__dist/');
@@ -192,11 +196,7 @@ gulp.task('__eslint', function () {
 });
 
 gulp.task('__tslint', function () {
-    const SRC = [
-        './src/client/**/*.@(ts|tsx)',
-        './src/server/**/*.@(ts|tsx)',
-    ];
-    return runTSLint(CWD, NPM_MOD_DIR, SRC);
+    return runTSLint(CWD, NPM_MOD_DIR, TS_CONFIG.ROOT);
 });
 
 /**

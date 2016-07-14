@@ -26,7 +26,6 @@
 
 const path = require('path');
 
-const glob = require('../glob');
 const { spawnChildProcess, assertReturnCode, } = require('../spawn');
 
 /**
@@ -54,24 +53,25 @@ function runESLint(cwd, nodeModDir) {
 /**
  *  @param  {string}    cwd
  *  @param  {string}    nodeModDir
- *  @param  {Array<string>}    target
+ *  @param  {string}    tsconfig
  *  @returns    {Promise<void>}
  */
-function runTSLint(cwd, nodeModDir, target) {
-    return glob.resolveGlobList(target).then(function(list){
-        const bin = path.resolve(nodeModDir, './tslint', './lib', './tslint-cli.js');
+function runTSLint(cwd, nodeModDir, tsconfig) {
+    const bin = path.resolve(nodeModDir, './tslint', './lib', './tslint-cli.js');
 
-        const args = [
-            bin,
-        ].concat(list);
+    const args = [
+        bin,
+        '--project',
+        tsconfig,
+        // '--type-check', // FIXME: #710
+    ];
 
-        const option = {
-            cwd,
-            stdio: 'inherit',
-        };
+    const option = {
+        cwd,
+        stdio: 'inherit',
+    };
 
-        return spawnChildProcess('node', args, option).then(assertReturnCode);
-    });
+    return spawnChildProcess('node', args, option).then(assertReturnCode);
 }
 
 module.exports = {

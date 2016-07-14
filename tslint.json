@@ -32,6 +32,7 @@
         "only-arrow-functions": false,
         "quotemark": [true, "single", "jsx-single", "avoid-escape"],
         "radix": true,
+        "restrict-plus-operands": false,
         "semicolon": [true, "always"],
         "triple-equals": [true, "allow-null-check", "allow-undefined-check"],
         "use-isnan": 2,

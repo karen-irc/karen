@@ -27,7 +27,12 @@
         "target": "ES2015"
     },
 
-    // Exclude a specified directry or specified TypeScript file (.ts, .tsx)
+    "include": [
+        "config/**/*",
+        "src/**/*",
+        "typings/**/*"
+    ],
+
     "exclude": [
         ".git",
         "__dist",
@@ -41,7 +46,6 @@
         "src/client/js",
         "src/client/themes",
         "src/server",
-        "tools",
-        "typings/globals"
+        "tools"
     ]
 }
