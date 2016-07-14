@@ -3,75 +3,66 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rxjs';
 
-import {AppActionCreator} from './intent/action/AppActionCreator';
+
 import {AppView} from './output/view/AppView';
-import {AuthRepository} from './adapter/AuthRepository';
+
 import {Channel} from './domain/Channel';
 import {ChannelId} from './domain/ChannelDomain';
-import {ConfigRepository} from './settings/repository/ConfigRepository';
-import {CookieDriver} from './adapter/CookieDriver';
 import {DomainState} from './domain/DomainState';
 import {SidebarFooterView} from './output/view/SidebarFooterView';
 import {GeneralSettingContext} from './settings/context/GeneralSettingContext';
 import {InputBoxView} from './output/view/InputBoxView';
 import {MainContentAreaView} from './output/view/MainContentAreaView';
-import {MessageActionCreator} from './intent/action/MessageActionCreator';
 import {MessageGateway} from './adapter/MessageGateway';
 import {MessageList} from './output/view/MessageItem';
-import {NotificationActionCreator} from './intent/action/NotificationActionCreator';
-import {NotificationPresenter} from './output/NotificationPresenter';
 import {SidebarContext} from './output/context/SidebarContext';
 import {SocketIoDriver} from './adapter/SocketIoDriver';
 import {ToggleItem} from './output/view/ToggleItem';
-import {UIActionCreator} from './intent/action/UIActionCreator';
+
 import {WindowPresenter} from './output/WindowPresenter';
 
-declare const momoent: any;
-declare const process: {
-    env: any;
-};
+import {RizeClient} from './rize';
 
-const appAction = new AppActionCreator();
-const messageAction = new MessageActionCreator();
-const notifyAction = new NotificationActionCreator();
-const uiAction = new UIActionCreator();
+declare global {
+    interface Window {
+        gKarenClientApp: RizeClient;
+    }
+}
+window.gKarenClientApp = new RizeClient();
 
 const socket = new SocketIoDriver();
-const messageGateway = new MessageGateway(socket, messageAction);
-const cookie = new CookieDriver();
-const config = new ConfigRepository(cookie);
-/* tslint:disable no-unused-variable */
-const notify = new NotificationPresenter(config, notifyAction, uiAction);
-/* tslint:enable */
-const auth = new AuthRepository(cookie);
+const messageGateway = new MessageGateway(socket, window.gKarenClientApp.intent.message);
 
 document.addEventListener('DOMContentLoaded', function onLoad() {
     document.removeEventListener('DOMContentLoaded', onLoad);
 
+    const intent = window.gKarenClientApp.intent;
+    const notifyAction = intent.notify;
+    const uiAction = intent.ui;
     const globalState = new DomainState(messageGateway, uiAction);
-    /* tslint:disable no-unused-variable */
-    const appWindow = new WindowPresenter(globalState, appAction, notifyAction, uiAction);
-    const appView = new AppView(document.getElementById('viewport')!, uiAction);
-    const windows = new MainContentAreaView(globalState, document.getElementById('windows')!, cookie, messageGateway, messageAction, uiAction);
-    const inputBox = new InputBoxView(globalState, document.getElementById('js-form')!, messageAction, uiAction);
-    const settings = new GeneralSettingContext(config, notifyAction);
-    const sidebarView = new SidebarContext(globalState, messageAction, uiAction);
-    sidebarView.onActivate(document.getElementById('sidebar')!);
-    const footer = new SidebarFooterView(globalState, document.getElementById('footer')!, appAction, uiAction);
-    /* tslint:enable */
-    settings.onActivate(document.getElementById('settings')!);
+    const auth = window.gKarenClientApp.auth;
+
+    window.gKarenClientApp.appWindow = new WindowPresenter(globalState, intent.app, notifyAction, uiAction);
+    window.gKarenClientApp.appView = new AppView(document.getElementById('viewport')!, uiAction);
+    window.gKarenClientApp.windows = new MainContentAreaView(globalState, document.getElementById('windows')!, window.gKarenClientApp.cookie, messageGateway, intent.message, uiAction);
+    window.gKarenClientApp.inputBox = new InputBoxView(globalState, document.getElementById('js-form')!, intent.message, uiAction);
+    window.gKarenClientApp.settings = new GeneralSettingContext(window.gKarenClientApp.config, notifyAction);
+    window.gKarenClientApp.sidebarView = new SidebarContext(globalState, intent.message, uiAction);
+    window.gKarenClientApp.sidebarView.onActivate(document.getElementById('sidebar')!);
+    window.gKarenClientApp.footer = new SidebarFooterView(globalState, document.getElementById('footer')!, intent.app, uiAction);
+    window.gKarenClientApp.settings.onActivate(document.getElementById('settings')!);
 
     const chat = document.getElementById('chat');
 
     messageGateway.disconnected().subscribe(function(){
-        appAction.reload();
+        intent.app.reload();
     });
 
     socket.auth().subscribe(function(_: any) {
         const body: HTMLElement = window.document.body;
         const login = document.getElementById('sign-in');
         if (login === null) {
-            appAction.reload();
+            intent.app.reload();
             return;
         }
         Array.from(login.querySelectorAll('.btn')).forEach(function(element: HTMLInputElement){
@@ -134,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    const options = config.get();
+    const options = window.gKarenClientApp.config.get();
 
     socket.toggle().subscribe(function(data) {
         const toggle = document.getElementById('toggle-' + data.id)!;
@@ -158,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         }
     });
 
-    config.asObservable().subscribe((settings) => { // FIXME
+    window.gKarenClientApp.config.asObservable().subscribe((settings) => { // FIXME
         const classList = chat!.classList;
         [
             ['join', settings.join],
@@ -247,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         });
         if (network.isSome) {
             const nickname = network.unwrap().nickname;
-            inputBox.setNickname(nickname);
+            window.gKarenClientApp.inputBox.setNickname(nickname);
         }
 
         if (screen.width > 768 && target.classList.contains('chan')) {
@@ -269,9 +260,5 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         evt.initCustomEvent('show', true, true, null);
         target.dispatchEvent(evt);
         (target as HTMLElement).style.zIndex = String(top++);
-    });
-
-    appAction.dispatcher().signout.subscribe(function(){
-        auth.removeToken();
     });
 });
