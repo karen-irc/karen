@@ -59,7 +59,7 @@ export class RizeClient {
     private _notify: NotificationPresenter;
 
     constructor() {
-        const intent = new IntentBundler()
+        const intent = new IntentBundler();
         this.intent = intent;
 
         const cookie = new CookieDriver();
@@ -78,6 +78,7 @@ export class IntentBundler {
     message: MessageActionCreator;
 
     constructor() {
+        this.app = new AppActionCreator();
         this.notify = new NotificationActionCreator();
         this.ui = new UIActionCreator();
         this.message = new MessageActionCreator();
