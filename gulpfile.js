@@ -49,7 +49,6 @@ const TS_CONFIG = Object.freeze({
     ROOT: path.resolve(__dirname, './tsconfig.json'),
 });
 
-const SRC_DIR = path.resolve(__dirname, './src/');
 const OBJ_DIR = path.resolve(__dirname, './__obj/');
 const DIST_DIR = path.resolve(__dirname, './__dist/');
 const TEST_CACHE_DIR = path.resolve(__dirname, './__test_cache/');
@@ -67,7 +66,6 @@ const TEST_CACHE_SERVER = path.resolve(TEST_CACHE_DIR, './server/');
 
 const CLIENT_SRC_JS = [
     path.resolve(NPM_MOD_DIR, './moment/moment.js'),
-    path.resolve(SRC_DIR, './client/js/libs/parse.js'),
     path.resolve(NPM_MOD_DIR, './urijs/src/URI.js'),
 ];
 

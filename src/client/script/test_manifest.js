@@ -28,6 +28,7 @@ require('whatwg-fetch');
 global.Request = self.Request;
 global.Response = self.Response;
 
+require('./domain/test/test_MessageNode');
 require('./lib/test/test_ExIterable');
 require('./lib/test/test_FetchDriver_createRequest');
 require('./lib/test/test_FetchDriver_fetch');
