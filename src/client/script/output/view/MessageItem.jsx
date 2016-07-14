@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-/*global moment:true, stringcolor:true, parseForIRCMessage:true */
+/*global moment:true, parseForIRCMessage:true */
 
 import * as React from 'react';
 import {ToggleItem} from './ToggleItem';
@@ -58,7 +58,7 @@ export function MessageItem({ message }) {
         const userImage = (message.userImage === null) ? null :
             <img src={message.userImage} className='user-image'/>;
         const style = {
-            color: '#' + stringcolor(message.from)
+            color: '#' + message.from
         };
 
         from = (

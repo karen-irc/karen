@@ -167,13 +167,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
                 classList.add(className);
             }
         });
-
-        if (!settings.colors) {
-            classList.remove('no-colors');
-        }
-        else {
-            classList.add('no-colors');
-        }
     });
 
     uiAction.dispatcher().toggleLeftPane.subscribe(function (shouldOpen) {

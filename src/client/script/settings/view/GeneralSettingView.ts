@@ -56,7 +56,6 @@ export class GeneralSettingView implements EventListenerObject {
             ['nick', viewmodel.message().showNickChange()],
             ['mode', viewmodel.message().showMode()],
             ['quit', viewmodel.message().showQuit()],
-            ['colors', viewmodel.visual().enableNickColorful()],
             ['badge', viewmodel.notification().showBadge()],
             ['notification', viewmodel.notification().showNotification()],
         ]);

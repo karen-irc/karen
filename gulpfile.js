@@ -67,7 +67,6 @@ const TEST_CACHE_SERVER = path.resolve(TEST_CACHE_DIR, './server/');
 
 const CLIENT_SRC_JS = [
     path.resolve(NPM_MOD_DIR, './moment/moment.js'),
-    path.resolve(SRC_DIR, './client/js/libs/stringcolor.js'),
     path.resolve(SRC_DIR, './client/js/libs/parse.js'),
     path.resolve(NPM_MOD_DIR, './urijs/src/URI.js'),
 ];

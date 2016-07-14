@@ -1,4 +1,3 @@
-/*global stringcolor:true */
 /**
  * @license MIT License
  *
@@ -154,7 +153,7 @@ class UserItem extends React.Component {
     render() {
         const user = this.props.user;
         const style = {
-            color: '#' + stringcolor(user.name),
+            color: '#' + user.name,
         };
 
         return (
