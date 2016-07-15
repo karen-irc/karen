@@ -14,3 +14,4 @@ __test_cache/
 
 # Visual Studio Code
 .vscode/
+.vscode/!settings.json
