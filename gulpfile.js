@@ -137,7 +137,7 @@ gulp.task('__cp:server:js:obj', ['__clean:server:obj'], function () {
 });
 
 gulp.task('__typescript', ['__clean:client:js:obj'], function () {
-    return compileTypeScript(CWD, NPM_MOD_DIR);
+    return compileTypeScript(CWD, NPM_MOD_DIR, __dirname);
 });
 
 /**
