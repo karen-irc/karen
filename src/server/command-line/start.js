@@ -1,6 +1,6 @@
 import {ClientManager} from '../ClientManager';
 import program from 'commander';
-import karen from '../server';
+import {main} from '../server';
 import ConfigDriver from '../adapter/ConfigDriver';
 
 program
@@ -26,7 +26,7 @@ program
             console.log('Create a new user with \'karen add <name>\'.');
             console.log('');
         } else {
-            karen({
+            main({
                 host: program.host || process.env.IP || config.host,
                 port: program.port || process.env.PORT || config.port,
                 bind: program.bind || config.bind,
