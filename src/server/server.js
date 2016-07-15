@@ -2,7 +2,7 @@ import {KarenServer} from './app/application';
 
 let application = null;
 
-export default function(options) {
+export function main(options) {
     application = new KarenServer(options);
     const config = application.config();
 
