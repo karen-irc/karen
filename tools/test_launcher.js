@@ -29,6 +29,7 @@ const { EventEmitter } = require('events');
 const os = require('os');
 const path = require('path');
 
+const { getSuffixedCommandName } = require('./platform');
 const { spawnCancelableChild, assertReturnCode } = require('./spawn');
 const testConfig = require('../config/test_config');
 
@@ -58,8 +59,8 @@ function spawn(name, args, option) {
 }
 
 function runNodeModCommand(name, args) {
-    const suffix = (os.platform() === 'win32') ? '.cmd' : '';
-    const bin = path.resolve(repoRootDir, 'node_modules', '.bin', name + suffix);
+    const cmd = getSuffixedCommandName(name);
+    const bin = path.resolve(repoRootDir, 'node_modules', '.bin', cmd);
     const proc = spawn(bin, args, {
         stdio: 'inherit',
     });
