@@ -7,6 +7,10 @@
         "diagnostics": false,
         "forceConsistentCasingInFileNames": true,
         "jsx": "preserve",
+        "lib": [
+            "es2016",
+            "dom"
+        ],
         "module": "es2015",
         "moduleResolution": "node",
         "newLine": "LF",
