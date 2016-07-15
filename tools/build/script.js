@@ -32,6 +32,7 @@ const uglify = require('gulp-uglify');
 const path = require('path');
 const source = require('vinyl-source-stream');
 
+const { getSuffixedCommandName } = require('../platform');
 const { spawnChildProcess, assertReturnCode } = require('../spawn');
 
 /**
@@ -58,8 +59,9 @@ function buildLegacyLib(srcDir, distDir, binName) {
  *  @returns    {Promise<void>}
  */
 function compileTypeScript(cwd, nodeModDir, projectDir) {
+    const command = getSuffixedCommandName('tsc');
+    const bin = path.resolve(nodeModDir, '.bin', command);
     const args = [
-        path.resolve(nodeModDir, './typescript', './bin', './tsc'),
         '--project',
         projectDir,
     ];
@@ -67,7 +69,7 @@ function compileTypeScript(cwd, nodeModDir, projectDir) {
         cwd,
         stdio: 'inherit',
     };
-    return spawnChildProcess('node', args, option).then(assertReturnCode);
+    return spawnChildProcess(bin, args, option).then(assertReturnCode);
 }
 
 /**
@@ -171,10 +173,7 @@ function compileScriptForServer(cwd, npmModDir, srcDir, distDir, isRelease) {
         ]);
     }
 
-    const bin = path.resolve(npmModDir, './babel-cli', './bin', './babel.js');
-
     const args = [
-        bin,
         srcDir,
         '--presets', babelPresets.join(','),
         '--plugins', babelPlugins.join(','),
@@ -188,7 +187,9 @@ function compileScriptForServer(cwd, npmModDir, srcDir, distDir, isRelease) {
         stdio: 'inherit',
     };
 
-    return spawnChildProcess('node', args, option).then(assertReturnCode);
+    const command = getSuffixedCommandName('babel');
+    const bin = path.resolve(npmModDir, '.bin', command);
+    return spawnChildProcess(bin, args, option).then(assertReturnCode);
 }
 
 module.exports = {

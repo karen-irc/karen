@@ -26,6 +26,7 @@
 
 const path = require('path');
 
+const { getSuffixedCommandName } = require('../platform');
 const { spawnChildProcess, assertReturnCode, } = require('../spawn');
 
 /**
@@ -34,10 +35,7 @@ const { spawnChildProcess, assertReturnCode, } = require('../spawn');
  *  @returns    {Promise<void>}
  */
 function runESLint(cwd, nodeModDir) {
-    const bin = path.resolve(nodeModDir, './eslint', './bin', './eslint.js');
-
     const args = [
-        bin,
         '--ext', '.js,.jsx',
         '.', './**/.eslintrc.js',
     ];
@@ -47,7 +45,9 @@ function runESLint(cwd, nodeModDir) {
         stdio: 'inherit',
     };
 
-    return spawnChildProcess('node', args, option).then(assertReturnCode);
+    const command = getSuffixedCommandName('eslint');
+    const bin = path.resolve(nodeModDir, '.bin', command);
+    return spawnChildProcess(bin, args, option).then(assertReturnCode);
 }
 
 /**
@@ -57,10 +57,7 @@ function runESLint(cwd, nodeModDir) {
  *  @returns    {Promise<void>}
  */
 function runTSLint(cwd, nodeModDir, tsconfig) {
-    const bin = path.resolve(nodeModDir, './tslint', './lib', './tslint-cli.js');
-
     const args = [
-        bin,
         '--project',
         tsconfig,
         // '--type-check', // FIXME: #710
@@ -71,7 +68,9 @@ function runTSLint(cwd, nodeModDir, tsconfig) {
         stdio: 'inherit',
     };
 
-    return spawnChildProcess('node', args, option).then(assertReturnCode);
+    const command = getSuffixedCommandName('tslint');
+    const bin = path.resolve(nodeModDir, '.bin', command);
+    return spawnChildProcess(bin, args, option).then(assertReturnCode);
 }
 
 module.exports = {
