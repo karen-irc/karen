@@ -23,9 +23,10 @@
  * THE SOFTWARE.
  */
 
-/*global moment:true, stringcolor:true, parseForIRCMessage:true */
+/*global moment:true */
 
 import * as React from 'react';
+import {parseToMessageNode} from '../../domain/parseToMessageNode';
 import {ToggleItem} from './ToggleItem';
 
 export function MessageList(props) {
@@ -58,7 +59,7 @@ export function MessageItem({ message }) {
         const userImage = (message.userImage === null) ? null :
             <img src={message.userImage} className='user-image'/>;
         const style = {
-            color: '#' + stringcolor(message.from)
+            color: '#' + message.from
         };
 
         from = (
@@ -82,13 +83,20 @@ export function MessageItem({ message }) {
         );
     }
     else {
-        const html = {
-            __html: parseForIRCMessage(message.text),
-        };
-        /*eslint-disable react/no-danger */
-        // XXX: We should create a some abstract sytax tree to construct a html safely...
-        content = <span dangerouslySetInnerHTML={html} />;
-        /*eslint-enable */
+        const result = parseToMessageNode(message.text);
+        const html = result.children.map((node, i) => {
+            let jsx = null;
+            switch (node.type) {
+                case 'text':
+                    jsx = <span key={i}>{node.value}</span>;
+                    break;
+                case 'url':
+                    jsx = <a key={i} href={node.value} target={'_blank'}>{node.value}</a>;
+                    break;
+            }
+            return jsx;
+        });
+        content = <span>{html}</span>;
     }
 
     return (

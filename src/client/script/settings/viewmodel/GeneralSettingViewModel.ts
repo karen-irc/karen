@@ -31,7 +31,6 @@ import {ReactiveProperty} from '../../lib/ReactiveProperty';
 import {
     Setting,
     MessageSetting,
-    VisualSetting,
     LinkContentSetting,
     NotificationSetting
 } from '../domain/value/Setting';
@@ -100,27 +99,6 @@ export class MessageSettingViewModel {
     }
 }
 
-export class VisualSettingViewModel {
-
-    private _enableNickColorful: ReactiveProperty<boolean>;
-
-    constructor(initial: Setting) {
-        this._enableNickColorful = new ReactiveProperty(initial.colors);
-    }
-
-    enableNickColorful(): ReactiveProperty<boolean> {
-        return this._enableNickColorful;
-    }
-
-    asObservable(): Observable<VisualSetting> {
-        return this._enableNickColorful.asObservable().map((enableNickColorful) => {
-            return {
-                enableNickColorful,
-            };
-        });
-    }
-}
-
 export class LinkContentViewModel {
     private _autoExpandThumbnail: ReactiveProperty<boolean>;
     private _autoExpandLinks: ReactiveProperty<boolean>;
@@ -186,24 +164,18 @@ export class NotificationViewModel {
 export class GeneralSettingViewModel {
     private _notifyAction: NotificationActionCreator;
     private _message: MessageSettingViewModel;
-    private _visual: VisualSettingViewModel;
     private _link: LinkContentViewModel;
     private _notification: NotificationViewModel;
 
     constructor(initial: Setting, notifyAction: NotificationActionCreator) {
         this._notifyAction = notifyAction;
         this._message = new MessageSettingViewModel(initial);
-        this._visual = new VisualSettingViewModel(initial);
         this._link = new LinkContentViewModel(initial);
         this._notification = new NotificationViewModel(initial);
     }
 
     message(): MessageSettingViewModel {
         return this._message;
-    }
-
-    visual(): VisualSettingViewModel {
-        return this._visual;
     }
 
     link(): LinkContentViewModel {
@@ -216,16 +188,14 @@ export class GeneralSettingViewModel {
 
     asObservable(): Observable<Setting> {
         const message = this._message.asObservable();
-        const visual = this._visual.asObservable();
         const link = this._link.asObservable();
         const notification = this._notification.asObservable();
 
         const result: Observable<Setting> = Observable.combineLatest(
             message,
-            visual,
             link,
             notification,
-            (message, visual, link, notification) => {
+            (message, link, notification) => {
                 return {
                     join: message.showJoin,
                     mode: message.showMode,
@@ -233,8 +203,6 @@ export class GeneralSettingViewModel {
                     nick: message.showNickChange,
                     part: message.showPart,
                     quit: message.showQuit,
-
-                    colors: visual.enableNickColorful,
 
                     links: link.autoExpandLinks,
                     thumbnails: link.autoExpandThumbnail,

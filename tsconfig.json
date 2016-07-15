@@ -43,7 +43,6 @@
         "src/client/audio",
         "src/client/css",
         "src/client/img",
-        "src/client/js",
         "src/client/themes",
         "src/server",
         "tools"

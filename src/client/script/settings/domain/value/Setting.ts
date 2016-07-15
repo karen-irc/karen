@@ -26,7 +26,6 @@
 export class Setting {
 
     badge: boolean;
-    colors: boolean;
     join: boolean;
     links: boolean;
     mode: boolean;
@@ -40,7 +39,6 @@ export class Setting {
     constructor(raw: any) {
         const data = Object.assign({
             badge: false,
-            colors: false,
             join: true,
             links: true,
             mode: true,
@@ -53,8 +51,6 @@ export class Setting {
         }, raw);
 
         this.badge = data.badge;
-
-        this.colors = data.colors;
 
         this.join = data.join;
 
