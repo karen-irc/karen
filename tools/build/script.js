@@ -54,11 +54,14 @@ function buildLegacyLib(srcDir, distDir, binName) {
 /**
  *  @param  {string}    cwd
  *  @param  {string}    nodeModDir
+ *  @param  {string}    projectDir
  *  @returns    {Promise<void>}
  */
-function compileTypeScript(cwd, nodeModDir) {
+function compileTypeScript(cwd, nodeModDir, projectDir) {
     const args = [
         path.resolve(nodeModDir, './typescript', './bin', './tsc'),
+        '--project',
+        projectDir,
     ];
     const option = {
         cwd,
