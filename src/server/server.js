@@ -2,6 +2,13 @@ import {KarenServer} from './app/application';
 
 let application = null;
 
+process.on('unhandledRejection', function (reason) {
+    console.error('!Caught an unhandled rejection. reason:');
+    console.error(reason);
+
+    process.exit(1);
+});
+
 export function main(options) {
     application = new KarenServer(options);
     const config = application.config();
