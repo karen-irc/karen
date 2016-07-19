@@ -68,7 +68,7 @@
     "slate-irc": "karen-irc/slate-irc.git#b12d540fa231b64e4e012c9e29412a2dc448acbe",
     "socket.io": "^1.4.8",
     "socket.io-client": "^1.4.8",
-    "spdy": "^3.3.3",
+    "spdy": "^3.3.4",
     "urijs": "^1.18.1"
   },
   "devDependencies": {
@@ -84,9 +84,10 @@
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "del": "^2.2.1",
-    "eslint": "^3.0.1",
+    "eslint": "^3.1.1",
     "eslint-plugin-node": "^2.0.0",
     "eslint-plugin-react": "^5.2.2",
+    "event-stream": "^3.3.4",
     "glob": "^7.0.5",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",

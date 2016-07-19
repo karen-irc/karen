@@ -26,7 +26,6 @@
 'use strict';
 
 const { EventEmitter } = require('events');
-const os = require('os');
 const path = require('path');
 
 const { getSuffixedCommandName } = require('./platform');
