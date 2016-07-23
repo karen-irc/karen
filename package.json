@@ -73,8 +73,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.3.7",
-    "babel-cli": "^6.10.1",
-    "babel-core": "^6.10.4",
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.11.4",
     "babel-plugin-transform-inline-environment-variables": "^6.8.0",
     "babel-plugin-transform-node-env-inline": "^6.8.0",
     "babel-plugin-transform-react-constant-elements": "^6.9.1",
