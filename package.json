@@ -63,7 +63,7 @@
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "read": "^1.0.7",
-    "request": "^2.73.0",
+    "request": "^2.74.0",
     "rxjs": "5.0.0-beta.10",
     "slate-irc": "karen-irc/slate-irc.git#b12d540fa231b64e4e012c9e29412a2dc448acbe",
     "socket.io": "^1.4.8",
@@ -73,8 +73,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.3.7",
-    "babel-cli": "^6.10.1",
-    "babel-core": "^6.10.4",
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.11.4",
     "babel-plugin-transform-inline-environment-variables": "^6.8.0",
     "babel-plugin-transform-node-env-inline": "^6.8.0",
     "babel-plugin-transform-react-constant-elements": "^6.9.1",
@@ -96,8 +96,8 @@
     "jsdom": "^9.4.1",
     "mocha": "^2.5.3",
     "tslint": "3.14.0-dev.0",
-    "typescript": "2.1.0-dev.20160714",
-    "typings": "^1.3.1",
+    "typescript": "2.1.0-dev.20160723",
+    "typings": "^1.3.2",
     "vinyl-source-stream": "^1.1.0",
     "whatwg-fetch": "^1.0.0"
   }
