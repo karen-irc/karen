@@ -97,7 +97,7 @@
     "mocha": "^2.5.3",
     "tslint": "3.14.0-dev.0",
     "typescript": "2.1.0-dev.20160714",
-    "typings": "^1.3.1",
+    "typings": "^1.3.2",
     "vinyl-source-stream": "^1.1.0",
     "whatwg-fetch": "^1.0.0"
   }
