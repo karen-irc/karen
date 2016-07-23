@@ -63,7 +63,7 @@
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "read": "^1.0.7",
-    "request": "^2.73.0",
+    "request": "^2.74.0",
     "rxjs": "5.0.0-beta.10",
     "slate-irc": "karen-irc/slate-irc.git#b12d540fa231b64e4e012c9e29412a2dc448acbe",
     "socket.io": "^1.4.8",
