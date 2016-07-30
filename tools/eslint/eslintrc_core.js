@@ -226,7 +226,8 @@ module.exports = {
         'id-match': 0, // http://eslint.org/docs/rules/id-match
         'id-blacklist': 0, // http://eslint.org/docs/rules/id-blacklist
         'indent': [2, 4, {
-            'SwitchCase': 1
+            'SwitchCase': 1,
+            'MemberExpression': 1,
         }],
         'jsx-quotes': [1, 'prefer-single'],
         'keyword-spacing': [1, {
@@ -278,10 +279,12 @@ module.exports = {
             'ForInStatement', // We should ban a string reflection style in the environment which ES6 Map is available.
         ],
         'no-spaced-func': 2,
+        'no-tabs': 2, // http://eslint.org/docs/rules/no-tabs
         'no-ternary': 0, // http://eslint.org/docs/rules/no-ternary
         'no-trailing-spaces': 2,
         'no-underscore-dangle': [2, {
             'allowAfterThis': true, // Enable a `private` property convention.
+            'allowAfterSuper': true, // Enable a `protected` property convention.
         }],
         'no-unneeded-ternary': 2,
         'object-curly-spacing': 0, // http://eslint.org/docs/rules/object-curly-spacing
