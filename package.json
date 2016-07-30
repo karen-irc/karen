@@ -84,7 +84,7 @@
     "babelify": "^7.3.0",
     "browserify": "^13.1.0",
     "del": "^2.2.1",
-    "eslint": "^3.1.1",
+    "eslint": "^3.2.0",
     "eslint-plugin-node": "^2.0.0",
     "eslint-plugin-react": "^5.2.2",
     "event-stream": "^3.3.4",
