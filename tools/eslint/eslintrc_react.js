@@ -32,19 +32,23 @@ module.exports = {
         'react',
     ],
 
+    'settings': {
+        'react': {
+            'version': '15.0', // used for 'no-deprecated' rule.
+        }
+    },
+
     'rules': {
         // ESLint-plugin-React
         // https://github.com/yannickcr/eslint-plugin-react
         'react/display-name': 0, // JSX transpiler creates displayName automatically.
         'react/forbid-prop-types': 0,
-        'react/no-comment-textnodes': 1,
         'react/no-danger': 1,
-        'react/no-deprecated': [1, { // Detect deprected styles
-            'react': '15.0.0',
-        }],
-        'react/no-did-mount-set-state': [1, 'allow-in-func'],
-        'react/no-did-update-set-state': [1, 'allow-in-func'],
+        'react/no-deprecated': 1, // Detect deprected styles
+        'react/no-did-mount-set-state': [1, 'disallow-in-func'],
+        'react/no-did-update-set-state': [1, 'disallow-in-func'],
         'react/no-direct-mutation-state': 1,
+        'react/no-find-dom-node': 2, // Disallow to use `ReactDOM.findDOMNode()`.
         'react/no-is-mounted': 2, // Disallow the deprected style
         'react/no-multi-comp': 0,
         'react/no-render-return-value': 2,
@@ -55,10 +59,14 @@ module.exports = {
         'react/prefer-stateless-function': 1,
         'react/prop-types': 1,
         'react/react-in-jsx-scope': 1,
-        'react/require-extension': 0,
-        'react/require-optimization': 0,
+        'react/require-optimization': [0, {
+            'allowDecorators': []
+        }],
         'react/require-render-return': 2,
-        'react/self-closing-comp': 2,
+        'react/self-closing-comp': [2, {
+            'component': true,
+            'html': false,
+        }],
         'react/sort-comp': [1, {
             'order': [
                 'constructor',
@@ -88,7 +96,6 @@ module.exports = {
             'callbacksLast': true,
             'requiredFirst': true,
         }],
-        'react/wrap-multilines': 2,
 
         // JSX-specific rules
         'react/jsx-boolean-value': [2, 'always'], // Force boolean attribute explicitly.
@@ -112,6 +119,7 @@ module.exports = {
             'allowArrowFunctions': false,
             'allowBind': false,
         }],
+        'react/jsx-no-comment-textnodes': 1,
         'react/jsx-no-duplicate-props': 2,
         'react/jsx-no-literals': 0,
         'react/jsx-no-target-blank': 1, // In our usecase, we would not need `window.opener` or the referrer.
@@ -124,5 +132,6 @@ module.exports = {
         'react/jsx-space-before-closing': 0, // I don't this is a serious problem.
         'react/jsx-uses-react': 1,
         'react/jsx-uses-vars': 1,
+        'react/jsx-wrap-multilines': 2,
     }
 };
