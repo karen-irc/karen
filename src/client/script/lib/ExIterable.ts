@@ -21,8 +21,10 @@
  */
 export class ExIterable<T> implements Iterable<T> {
 
+    // tslint:disable:no-any
     protected _source: Iterable<any> | void; // cheat to drop type param `S`.
     protected _operator: Operator<any, T> | void; // cheat to drop type param `S`.
+    // tslint:enable
 
     protected constructor(source?: Iterable<T>) {
         this._source = source;
@@ -136,7 +138,7 @@ class MapIterator<S, T> implements Iterator<T> {
         if (original.done) {
             return {
                 done: true,
-                value: undefined as any,
+                value: undefined as any, // tslint:disable-line:no-any
             };
         }
 
@@ -197,7 +199,7 @@ class FilterIterator<T> implements Iterator<T> {
 
         return {
             done: true,
-            value: undefined as any,
+            value: undefined as any, // tslint:disable-line:no-any
         };
     }
 }
@@ -256,7 +258,7 @@ class FilterMapIterator<S, T> implements Iterator<T> {
 
         return {
             done: true,
-            value: undefined as any,
+            value: undefined as any, // tslint:disable-line:no-any
         };
     }
 }
@@ -300,7 +302,7 @@ class FlatMapIterator<S, T> implements Iterator<T> {
                 if (outer.done) {
                     return {
                         done: true,
-                        value: undefined as any,
+                        value: undefined as any, // tslint:disable-line:no-any
                     };
                 }
                 const result: Iterable<T> = this._selector(outer.value, this._index++);
@@ -362,7 +364,7 @@ class DoIterator<T> implements Iterator<T> {
         if (next.done) {
             return {
                 done: true,
-                value: undefined as any,
+                value: undefined as any, // tslint:disable-line:no-any
             };
         }
 
@@ -430,7 +432,7 @@ class CacheIterator<T> implements Iterator<T> {
             if (this._isDone) {
                 return {
                     done: true,
-                    value: undefined as any,
+                    value: undefined as any, // tslint:disable-line:no-any
                 };
             }
 
@@ -441,7 +443,7 @@ class CacheIterator<T> implements Iterator<T> {
                 this._isDone = true;
                 return {
                     done,
-                    value: undefined as any,
+                    value: undefined as any, // tslint:disable-line:no-any
                 };
             }
             this._cache[current] = value;

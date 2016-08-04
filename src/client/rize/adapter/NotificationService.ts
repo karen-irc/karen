@@ -66,12 +66,12 @@ export class NotificationService {
 }
 
 function isNotificationGranted(): boolean {
-    return (window as any).Notification.permission === 'granted';
+    return (window as any).Notification.permission === 'granted'; // tslint:disable-line:no-any
 }
 
 function requestPermittion(): Rx.Observable<boolean> {
     return Rx.Observable.create(function (o: Rx.Observer<boolean>) {
-        (window as any).Notification.requestPermission(function (permission: string) {
+        (window as any).Notification.requestPermission(function (permission: string) { // tslint:disable-line:no-any
             const isGranted = permission === 'granted';
             o.next(isGranted);
             o.complete();
@@ -80,7 +80,7 @@ function requestPermittion(): Rx.Observable<boolean> {
 }
 
 function showNotification(topic: NotifedTopic): Rx.Observable<void> {
-    let notification: Notification | void = new (window as any).Notification(topic.title, {
+    let notification: Notification | void = new (window as any).Notification(topic.title, { // tslint:disable-line:no-any
         body: topic.body,
         icon: topic.icon,
     });

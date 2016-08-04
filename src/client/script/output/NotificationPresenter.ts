@@ -31,7 +31,7 @@ import {ChannelId} from '../domain/ChannelDomain';
 import {NotificationActionCreator} from '../intent/action/NotificationActionCreator';
 import {UIActionCreator} from '../intent/action/UIActionCreator';
 
-declare const Notification: any;
+declare const Notification: any; // tslint:disable-line:no-any
 
 const ICON_URL = '/img/logo-64.png';
 

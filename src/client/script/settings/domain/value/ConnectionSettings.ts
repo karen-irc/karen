@@ -75,7 +75,7 @@ export class ConnectionValue {
         Object.seal(this);
     }
 
-    toJSON(): any {
+    toJSON(): any { // tslint:disable-line:no-any
         return {
             name: this.network.name,
             host: this.network.url,

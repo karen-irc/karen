@@ -36,7 +36,7 @@ export class ConnectionActionCreator {
     }
 
     dispose(): void {
-        (this as any)._dispatcher = undefined;
+        this._dispatcher = undefined as any; // tslint:disable-line:no-any
     }
 
     dispatcher(): ConnectionActionDispatcher {

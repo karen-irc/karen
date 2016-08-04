@@ -36,7 +36,7 @@ export class Setting {
     thumbnails: boolean;
     quit: boolean;
 
-    constructor(raw: any) {
+    constructor(raw: any) { //tslint:disable-line:no-any
         const data = Object.assign({
             badge: false,
             join: true,

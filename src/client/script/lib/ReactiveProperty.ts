@@ -45,7 +45,8 @@ export class ReactiveProperty<T> implements Observer<T> {
         this._subject.next(value);
     }
 
-    error(err: any): void {
+    // XXX: `Rx.Subject.error()` requires `any` as its arguments
+    error(err: any): void { // tslint:disable-line:no-any
         this._subject.error(err);
     }
 

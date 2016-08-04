@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         intent.app.reload();
     });
 
-    socket.auth().subscribe(function(_: any) {
+    socket.auth().subscribe(function(_: any) { // tslint:disable-line:no-any
         const body: HTMLElement = window.document.body;
         const login = document.getElementById('sign-in');
         if (login === null) {

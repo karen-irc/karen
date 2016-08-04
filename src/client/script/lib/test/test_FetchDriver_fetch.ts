@@ -44,7 +44,7 @@ describe('FetchDriver.fetch()', function () {
     });
 
     after(() => {
-        driver = undefined as any;
+        driver = undefined as any; // tslint:disable-line:no-any
     });
 
     describe('valid case', function () {

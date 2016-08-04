@@ -29,7 +29,7 @@ import {Subject, Subscription} from 'rxjs';
 
 import {CookieDriver} from './CookieDriver';
 
-declare const moment: any;
+declare const moment: any; // tslint:disable-line:no-any
 
 const KEY_TOKEN = 'token';
 const KEY_USER = 'user';

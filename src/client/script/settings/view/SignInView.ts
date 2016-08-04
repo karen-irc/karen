@@ -27,7 +27,7 @@
 import {CookieDriver} from '../../adapter/CookieDriver';
 import {SocketIoDriver} from '../../adapter/SocketIoDriver';
 
-declare const moment: any;
+declare const moment: any; // tslint:disable-line:no-any
 
 const EVENT_NAME = 'auth';
 
@@ -89,7 +89,7 @@ export class SignInView implements EventListenerObject {
             (element as Element).setAttribute('disabled', 'true');
         }
 
-        const values: { user: string, [key: string]: any, } = {
+        const values: { user: string, [key: string]: any, } = { // tslint:disable-line:no-any
             user: '',
         };
         Array.from(target.querySelectorAll('input')).forEach(function(element: HTMLInputElement){

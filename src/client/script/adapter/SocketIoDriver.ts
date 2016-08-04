@@ -34,7 +34,7 @@ export class SocketIoDriver {
         this._socket = io.connect();
     }
 
-    error(): Rx.Observable<any> {
+    error(): Rx.Observable<any> { //tslint:disable-line:no-any
         return Rx.Observable.fromEvent(this._socket, 'error');
     }
 
@@ -46,55 +46,55 @@ export class SocketIoDriver {
         return Rx.Observable.fromEvent<void>(this._socket, 'disconnect');
     }
 
-    auth(): Rx.Observable<any> {
+    auth(): Rx.Observable<any> { // tslint:disable-line:no-any
         return Rx.Observable.fromEvent(this._socket, 'auth');
     }
 
-    init(): Rx.Observable<any> {
+    init(): Rx.Observable<any> { // tslint:disable-line:no-any
         return Rx.Observable.fromEvent(this._socket, 'init');
     }
 
-    join(): Rx.Observable<any> {
+    join(): Rx.Observable<any> { // tslint:disable-line:no-any
         return Rx.Observable.fromEvent(this._socket, 'join');
     }
 
-    message(): Rx.Observable<any> {
+    message(): Rx.Observable<any> { // tslint:disable-line:no-any
         return Rx.Observable.fromEvent(this._socket, 'msg');
     }
 
-    more(): Rx.Observable<any> {
+    more(): Rx.Observable<any> { // tslint:disable-line:no-any
         return Rx.Observable.fromEvent(this._socket, 'more');
     }
 
-    network(): Rx.Observable<any> {
+    network(): Rx.Observable<any> { // tslint:disable-line:no-any
         return Rx.Observable.fromEvent(this._socket, 'network');
     }
 
-    nickname(): Rx.Observable<any> {
+    nickname(): Rx.Observable<any> { // tslint:disable-line:no-any
         return Rx.Observable.fromEvent(this._socket, 'nick');
     }
 
-    part(): Rx.Observable<any> {
+    part(): Rx.Observable<any> { // tslint:disable-line:no-any
         return Rx.Observable.fromEvent(this._socket, 'part');
     }
 
-    quit(): Rx.Observable<any> {
+    quit(): Rx.Observable<any> { // tslint:disable-line:no-any
         return Rx.Observable.fromEvent(this._socket, 'quit');
     }
 
-    toggle(): Rx.Observable<any> {
+    toggle(): Rx.Observable<any> { // tslint:disable-line:no-any
         return Rx.Observable.fromEvent(this._socket, 'toggle');
     }
 
-    topic(): Rx.Observable<any> {
+    topic(): Rx.Observable<any> { // tslint:disable-line:no-any
         return Rx.Observable.fromEvent(this._socket, 'topic');
     }
 
-    users(): Rx.Observable<any> {
+    users(): Rx.Observable<any> { // tslint:disable-line:no-any
         return Rx.Observable.fromEvent(this._socket, 'users');
     }
 
-    emit(name: string, obj: any): void {
+    emit(name: string, obj: any): void { // tslint:disable-line:no-any
         this._socket.emit(name, obj);
     }
 }

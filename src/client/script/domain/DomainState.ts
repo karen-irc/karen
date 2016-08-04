@@ -56,7 +56,7 @@ export class SelectedTab {
             return new None<ChannelId>();
         }
 
-        const id = parseInt(this.id as any, 10);
+        const id = parseInt(this.id as any, 10); // tslint:disable-line:no-any
         return new Some<ChannelId>(id);
     }
 }

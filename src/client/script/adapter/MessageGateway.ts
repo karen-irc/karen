@@ -56,7 +56,7 @@ export class MessageGateway {
 
         const messageDispatcher = action.dispatcher();
 
-        disposer.add(socket.error().subscribe(function (e: any) {
+        disposer.add(socket.error().subscribe(function (e: any) { // tslint:disable-line:no-any
             /*eslint-disable no-console*/
             console.log(e);
             /*eslint-enable*/
@@ -86,9 +86,9 @@ export class MessageGateway {
     }
 
     invokeInit(): Rx.Observable<{ networks: Array<Network>; token: string; active: Option<ChannelId|string>; }> {
-        return this._socket.init().map(function(data: any){
+        return this._socket.init().map(function(data: any){ // tslint:disable-line:no-any
             const list = (data.networks.length !== 0) ?
-                (data.networks as Array<any>).map(function(item){
+                (data.networks as Array<any>).map(function(item){ // tslint:disable-line:no-any
                     return new Network(item);
                 }) : [];
             return {
@@ -100,10 +100,10 @@ export class MessageGateway {
     }
 
     initialConnectionPreset(): Rx.Observable<[NetworkConnectionValue, PersonalConnectionValue]> {
-        return this._socket.init().map(function(data: any) {
-            const preset: Array<any> = data.connections;
+        return this._socket.init().map(function(data: any) { // tslint:disable-line:no-any
+            const preset: Array<any> = data.connections; // tslint:disable-line:no-any
 
-            const first: any = preset[0];
+            const first: any = preset[0]; // tslint:disable-line:no-any
             const network = new NetworkConnectionValue(first.name, first.host, first.port,
                                                        first.password, first.tls);
             const personal = new PersonalConnectionValue(first.nick, first.username, first.realname, first.join);
@@ -138,7 +138,7 @@ export class MessageGateway {
     updateUserList(): Rx.Observable<{ channelId: ChannelId, list: Array<User>}> {
         return this._socket.users().map(function(data){
             const channelId = data.chan;
-            const users = data.users.map(function(item: any){
+            const users = data.users.map(function(item: any){ // tslint:disable-line:no-any
                 return new User(item);
             });
 

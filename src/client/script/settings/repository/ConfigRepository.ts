@@ -29,7 +29,7 @@ import * as Rx from 'rxjs';
 import {CookieDriver} from '../../adapter/CookieDriver';
 import {Setting} from '../domain/value/Setting';
 
-declare const moment: any;
+declare const moment: any; // tslint:disable-line:no-any
 
 const KEY_SETTING = 'settings';
 

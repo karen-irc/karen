@@ -37,7 +37,7 @@ describe('FetchDriver::utils', function () {
         });
 
         after(() => {
-            driver = undefined as any;
+            driver = undefined as any; // tslint:disable-line:no-any
         });
 
         it('should be the expected', () => {
