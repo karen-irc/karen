@@ -4,7 +4,7 @@ import {ViewContextStack} from '../ViewContext';
 class ResultData {
 
     isCalled: boolean;
-    arg: any;
+    arg: any; // tslint:disable-line:no-any
 
     constructor() {
         this.isCalled = false;
@@ -33,25 +33,25 @@ class TestContext {
         this.resumeData = new ResultData();
     }
 
-    onActivate(arg: any) {
+    onActivate(arg: any) { // tslint:disable-line:no-any
         const data = this.activateData;
         data.isCalled = true;
         data.arg = arg;
     }
 
-    onDestroy(arg: any) {
+    onDestroy(arg: any) { // tslint:disable-line:no-any
         const data = this.destroyData;
         data.isCalled = true;
         data.arg = arg;
     }
 
-    onSuspend(arg: any) {
+    onSuspend(arg: any) { // tslint:disable-line:no-any
         const data = this.suspendData;
         data.isCalled = true;
         data.arg = arg;
     }
 
-    onResume(arg: any) {
+    onResume(arg: any) { // tslint:disable-line:no-any
         const data = this.resumeData;
         data.isCalled = true;
         data.arg = arg;

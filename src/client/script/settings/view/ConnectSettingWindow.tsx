@@ -30,7 +30,7 @@ import {ConnectionValue} from '../domain/value/ConnectionSettings';
 import {ConnectionSettingViewModel} from '../viewmodel/ConnectionStore';
 
 interface Props {
-    key?: any;
+    key?: React.Key;
     viewmodel: ConnectionSettingViewModel;
     action: ConnectionActionCreator;
     data: ConnectionValue;

@@ -34,7 +34,7 @@ export class Network {
     nickname: string;
     _channelList: Array<Channel>;
 
-    constructor(raw: any) {
+    constructor(raw: any) { // tslint:disable-line:no-any
         this.id = raw.id;
 
         this.nickname = raw.nick;

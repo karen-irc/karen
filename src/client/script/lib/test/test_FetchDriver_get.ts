@@ -43,7 +43,7 @@ describe('FetchDriver.get()', function () {
         });
 
         after(() => {
-            driver = undefined as any;
+            driver = undefined as any; // tslint:disable-line:no-any
         });
 
         describe('valid case', () => {
@@ -143,7 +143,7 @@ describe('FetchDriver.get()', function () {
         });
 
         after(() => {
-            driver = undefined as any;
+            driver = undefined as any; // tslint:disable-line:no-any
         });
 
         describe('valid case', () => {

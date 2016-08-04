@@ -38,7 +38,7 @@ export class Channel {
     private _messageBuffer: Array<Message>;
     private _network: Network | void;
 
-    constructor(raw: any, network: Network | void = undefined) {
+    constructor(raw: any, network: Network | void = undefined) { // tslint:disable-line:no-any
         this.id = raw.id;
 
         this.name = raw.name;
@@ -47,7 +47,7 @@ export class Channel {
 
         this.type = raw.type;
 
-        const userList: Array<User> = raw.users.map(function(item: any) {
+        const userList: Array<User> = raw.users.map(function(item: any) { // tslint:disable-line:no-any
             const user = new User(item);
             return user;
         });

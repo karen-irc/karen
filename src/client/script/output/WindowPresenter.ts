@@ -49,7 +49,7 @@ export class WindowPresenter implements EventListenerObject {
         this._disposer = new Rx.Subscription();
 
         this._disposer.add(appAction.dispatcher().reload.subscribe(function () {
-            (window as any).onbeforeunload = null;
+            (window as any).onbeforeunload = null; // tslint:disable-line:no-any
 
             location.reload();
         }));

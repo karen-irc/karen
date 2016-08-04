@@ -37,26 +37,26 @@ export class CookieDriver {
         this._cookie = cookies;
     }
 
-    get(key: string): Option<any> {
+    get(key: string): Option<any> { // tslint:disable-line:no-any
         const value: string = this._cookie.get(key);
 
         // By https://github.com/ScottHamper/Cookies/blob/a2b58c5a6f8/src/cookies.js#L41
         if (value === undefined) {
-            return new None<any>();
+            return new None<any>(); // tslint:disable-line:no-any
         }
 
-        let result: any = null;
+        let result: any; // tslint:disable-line:no-any
         try {
             result = JSON.parse(value);
         }
         catch (e) {
-            return new None<any>();
+            return new None<any>(); // tslint:disable-line:no-any
         }
 
-        return new Some<any>(result);
+        return new Some<any>(result); // tslint:disable-line:no-any
     }
 
-    set(key: string, value: any, option: CookieOptions = {}): void {
+    set(key: string, value: any, option: CookieOptions = {}): void { // tslint:disable-line:no-any
         const encoded = JSON.stringify(value);
         this._cookie.set(key, encoded, option);
     }

@@ -125,12 +125,15 @@ export class ViewContextStack {
         const l = stack.length;
         for (let i = 0; i < l; ++i) {
             const ctx = stack[i];
+            // tslint:disable-next-line:no-any
             stack[i] = undefined as any; // XXX: This `any` casting is only used to destroy.
             ctx.onDestroy(mountpoint);
         }
 
+        // tslint:disable:no-any
         this._mountpoint = undefined as any; // XXX: This `any` casting is only used to destroy.
         this._stack = undefined as any; // XXX: This `any` casting is only used to destroy.
+        // tslint:enable
         Object.freeze(this);
     }
 }

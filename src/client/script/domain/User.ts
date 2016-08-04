@@ -28,7 +28,7 @@ export class User {
     nickname: string;
     permission: string;
 
-    constructor(raw: any) {
+    constructor(raw: any) { // tslint:disable-line:no-any
         this.nickname = raw.name;
         this.permission = raw.mode;
     }

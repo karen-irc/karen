@@ -54,6 +54,6 @@ export const CommandType = Object.freeze({
 });
 
 export const CommandList: Array<string> = Object.keys(CommandType).map(function(name: string): string {
-    return (CommandType as any)[name];
+    return (CommandType as any)[name]; // tslint:disable-line:no-any
 });
 Object.freeze(CommandList);
