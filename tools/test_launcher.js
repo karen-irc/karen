@@ -27,6 +27,7 @@
 
 const { EventEmitter } = require('events');
 const path = require('path');
+const { argv } = require('yargs');
 
 const { getSuffixedCommandName } = require('./platform');
 const { spawnCancelableChild, assertReturnCode } = require('./spawn');
@@ -81,7 +82,8 @@ function runMocha(args) {
 }
 
 function launchForNode() {
-    const manifest = path.resolve(repoRootDir, '__test_cache', 'client', 'script', 'test_manifest.js');
+    const file = argv.manifest;
+    const manifest = path.resolve(repoRootDir, '__test_cache', file);
     const firstMock = runMockServer(testConfig.origin.FIRST);
     const secondMock = runMockServer(testConfig.origin.SECOND);
 
