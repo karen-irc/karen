@@ -24,7 +24,6 @@
  */
 'use strict';
 
-const del = require('del');
 const gulp = require('gulp');
 const path = require('path');
 
@@ -84,27 +83,62 @@ const CWD = path.relative(__dirname, '');
  *  Clean
  */
 gulp.task('__clean:client:js:obj', function () {
-    return del(OBJ_CLIENT);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'clean:client:obj'], option).then(assertReturnCode);
 });
 gulp.task('__clean:client:js:dist', function () {
-    return del(DIST_CLIENT_JS);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'clean:client:dist:js'], option).then(assertReturnCode);
 });
 gulp.task('__clean:client:test', function () {
-    return del(TEST_CACHE_CLIENT);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'clean:client:test'], option).then(assertReturnCode);
 });
 
 gulp.task('__clean:client:css:dist', function () {
-    return del(DIST_CLIENT_CSS);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'clean:client:dist:css'], option).then(assertReturnCode);
 });
 
 gulp.task('__clean:server:obj', function () {
-    return del(OBJ_SERVER);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'clean:server:obj'], option).then(assertReturnCode);
 });
 gulp.task('__clean:server:dist', function () {
-    return del(DIST_SERVER);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'clean:server:dist'], option).then(assertReturnCode);
 });
 gulp.task('__clean:server:test', function () {
-    return del(TEST_CACHE_SERVER);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'clean:server:test'], option).then(assertReturnCode);
 });
 
 /**
@@ -243,8 +277,3 @@ gulp.task('build', ['build:server', 'build:client']);
 gulp.task('test:server', ['jslint', '__babel:server:test']);
 gulp.task('test:client', ['jslint', '__babel:client:test']);
 gulp.task('test', ['test:server', 'test:client']);
-
-gulp.task('clean:server', ['__clean:server:obj', '__clean:server:dist']);
-gulp.task('clean:client', ['__clean:client:js:obj', '__clean:client:js:dist', '__clean:client:css:dist']);
-gulp.task('clean:test', ['__clean:client:test', '__clean:server:test']);
-gulp.task('clean', ['clean:client', 'clean:server', 'clean:test']);
