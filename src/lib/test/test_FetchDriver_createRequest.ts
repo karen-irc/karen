@@ -24,7 +24,7 @@
  */
 import * as assert from 'assert';
 
-import {origin} from '../../../../../config/test_config';
+import {origin} from '../../../config/test_config';
 
 import {FetchDriver} from '../FetchDriver';
 

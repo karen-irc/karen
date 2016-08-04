@@ -1,5 +1,7 @@
+/* eslint-env browser */
+
 import {jsdom} from 'jsdom';
-import {origin} from '../../../config/test_config';
+import {origin} from '../../config/test_config';
 
 const htmlStr = `
 <!DOCTYPE html>
@@ -28,4 +30,10 @@ require('whatwg-fetch');
 global.Request = self.Request;
 global.Response = self.Response;
 
-require('./domain/test/test_MessageNode');
+require('./test/test_ExIterable');
+require('./test/test_FetchDriver_createRequest');
+require('./test/test_FetchDriver_fetch');
+require('./test/test_FetchDriver_get');
+require('./test/test_FetchDriver_post');
+require('./test/test_FetchDriver_utils');
+require('./test/test_ViewContext');

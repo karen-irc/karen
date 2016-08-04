@@ -32,7 +32,7 @@ import {ConfigRepository} from '../repository/ConfigRepository';
 import {GeneralSettingView} from '../view/GeneralSettingView';
 import {GeneralSettingViewModel} from '../viewmodel/GeneralSettingViewModel';
 
-import {ViewContext} from '../../lib/ViewContext';
+import {ViewContext} from '../../../../lib/ViewContext';
 
 export class GeneralSettingContext implements ViewContext {
 

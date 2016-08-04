@@ -25,7 +25,7 @@
 import * as assert from 'assert';
 
 import {FetchDriver} from '../FetchDriver';
-import * as testConfig from '../../../../../config/test_config';
+import * as testConfig from '../../../config/test_config';
 
 interface ResBody {
     origin: string;

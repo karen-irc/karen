@@ -21,7 +21,7 @@
         "noImplicitUseStrict": false,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "outDir": "./__obj/client/",
+        "outDir": "./__obj/",
         "pretty": true,
         "preserveConstEnums": true,
         "removeComments": false,

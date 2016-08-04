@@ -26,7 +26,7 @@
 import {Observable} from 'rxjs';
 
 import {NotificationActionCreator} from '../../intent/action/NotificationActionCreator';
-import {ReactiveProperty} from '../../lib/ReactiveProperty';
+import {ReactiveProperty} from '../../../../lib/ReactiveProperty';
 
 import {
     Setting,
