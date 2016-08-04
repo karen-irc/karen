@@ -24,7 +24,6 @@
  */
 'use strict';
 
-const del = require('del');
 const gulp = require('gulp');
 const path = require('path');
 
@@ -36,7 +35,6 @@ const {
     runLinkerForClient,
     compileScriptForServer,
 } = require('./tools/build/script');
-const { runESLint, runTSLint, } = require('./tools/build/lint');
 const {buildCSS} = require('./tools/build/style');
 const { spawnChildProcess, assertReturnCode } = require('./tools/spawn');
 
@@ -44,10 +42,6 @@ const isRelease = process.env.NODE_ENV === 'production';
 const isEnableRize = process.env.ENABLE_RIZE === '1';
 
 const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
-
-const TS_CONFIG = Object.freeze({
-    ROOT: path.resolve(__dirname, './tsconfig.json'),
-});
 
 const OBJ_DIR = path.resolve(__dirname, './__obj/');
 const DIST_DIR = path.resolve(__dirname, './__dist/');
@@ -89,27 +83,62 @@ const CWD = path.relative(__dirname, '');
  *  Clean
  */
 gulp.task('__clean:client:js:obj', function () {
-    return del(OBJ_CLIENT);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'clean:client:obj'], option).then(assertReturnCode);
 });
 gulp.task('__clean:client:js:dist', function () {
-    return del(DIST_CLIENT_JS);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'clean:client:dist:js'], option).then(assertReturnCode);
 });
 gulp.task('__clean:client:test', function () {
-    return del(TEST_CACHE_CLIENT);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'clean:client:test'], option).then(assertReturnCode);
 });
 
 gulp.task('__clean:client:css:dist', function () {
-    return del(DIST_CLIENT_CSS);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'clean:client:dist:css'], option).then(assertReturnCode);
 });
 
 gulp.task('__clean:server:obj', function () {
-    return del(OBJ_SERVER);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'clean:server:obj'], option).then(assertReturnCode);
 });
 gulp.task('__clean:server:dist', function () {
-    return del(DIST_SERVER);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'clean:server:dist'], option).then(assertReturnCode);
 });
 gulp.task('__clean:server:test', function () {
-    return del(TEST_CACHE_SERVER);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'clean:server:test'], option).then(assertReturnCode);
 });
 
 /**
@@ -188,11 +217,21 @@ gulp.task('__babel:server:test', ['__clean:server:test', '__cp:server:js:obj'], 
  *  Lint
  */
 gulp.task('__eslint', function () {
-    return runESLint(CWD, NPM_MOD_DIR);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'lint:eslint'], option).then(assertReturnCode);
 });
 
 gulp.task('__tslint', function () {
-    return runTSLint(CWD, NPM_MOD_DIR, TS_CONFIG.ROOT);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'lint:tslint'], option).then(assertReturnCode);
 });
 
 /**
@@ -221,7 +260,14 @@ gulp.task('__build:client:css', ['__postcss']);
 /**
  *  Public targets
  */
-gulp.task('jslint', ['__eslint', '__tslint']);
+gulp.task('jslint', function () {
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'lint'], option).then(assertReturnCode);
+});
 gulp.task('tsc', ['__typescript']);
 
 gulp.task('build:server', ['jslint', '__build:server']);
@@ -231,8 +277,3 @@ gulp.task('build', ['build:server', 'build:client']);
 gulp.task('test:server', ['jslint', '__babel:server:test']);
 gulp.task('test:client', ['jslint', '__babel:client:test']);
 gulp.task('test', ['test:server', 'test:client']);
-
-gulp.task('clean:server', ['__clean:server:obj', '__clean:server:dist']);
-gulp.task('clean:client', ['__clean:client:js:obj', '__clean:client:js:dist', '__clean:client:css:dist']);
-gulp.task('clean:test', ['__clean:client:test', '__clean:server:test']);
-gulp.task('clean', ['clean:client', 'clean:server', 'clean:test']);
