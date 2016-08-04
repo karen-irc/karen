@@ -41,7 +41,6 @@ const {buildCSS} = require('./tools/build/style');
 const { spawnChildProcess, assertReturnCode } = require('./tools/spawn');
 
 const isRelease = process.env.NODE_ENV === 'production';
-const isEnableRize = process.env.ENABLE_RIZE === '1';
 
 const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
 
@@ -115,21 +114,11 @@ gulp.task('__clean:server:test', function () {
 /**
  *  Build obj/
  */
-gulp.task('__cp:client:js:obj', ['__cp:client:js::obj:rize', '__cp:client:js:obj:classic']);
+gulp.task('__cp:client:js:obj', ['__cp:client:js:obj:classic']);
 gulp.task('__cp:client:js:obj:classic', ['__clean:client:js:obj'], function () {
     const src = ['./src/client/script/**/*.@(js|jsx)'];
     const objDir = path.resolve(OBJ_CLIENT, './script');
     return doCopy(src, objDir);
-});
-gulp.task('__cp:client:js::obj:rize', ['__clean:client:js:obj'], function () {
-    if (!isEnableRize) {
-        return Promise.resolve();
-    }
-    else {
-        const src = ['./src/client/rize/**/*.@(js|jsx)'];
-        const objDir = path.resolve(OBJ_CLIENT, './rize');
-        return doCopy(src, objDir);
-    }
 });
 gulp.task('__cp:server:js:obj', ['__clean:server:obj'], function () {
     const src = ['./src/server/**/*.@(js|jsx)'];
@@ -164,8 +153,7 @@ gulp.task('__typescript', ['__clean:client:js:obj'], function () {
      *  This task run in another process.
      */
     gulp.task(SPAWNED, function () {
-        const root = isEnableRize ?
-            './rize/index.js' : './script/karen.js';
+        const root = './script/karen.js';
         const ENTRY_POINT = path.resolve(OBJ_CLIENT, root);
 
         return runLinkerForClient(ENTRY_POINT, DIST_CLIENT_JS, 'karen.js', isRelease);
@@ -203,12 +191,7 @@ gulp.task('__postcss', ['__clean:client:css:dist'], function () {
 });
 
 gulp.task('__uglify', ['__clean:client:js:dist'], function () {
-    if (isEnableRize) {
-        return Promise.resolve();
-    }
-    else {
-        return buildLegacyLib(CLIENT_SRC_JS, DIST_CLIENT_JS, 'libs.min.js');
-    }
+    return buildLegacyLib(CLIENT_SRC_JS, DIST_CLIENT_JS, 'libs.min.js');
 });
 
 /**
