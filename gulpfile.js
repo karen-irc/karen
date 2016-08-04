@@ -36,7 +36,6 @@ const {
     runLinkerForClient,
     compileScriptForServer,
 } = require('./tools/build/script');
-const { runESLint, runTSLint, } = require('./tools/build/lint');
 const {buildCSS} = require('./tools/build/style');
 const { spawnChildProcess, assertReturnCode } = require('./tools/spawn');
 
@@ -44,10 +43,6 @@ const isRelease = process.env.NODE_ENV === 'production';
 const isEnableRize = process.env.ENABLE_RIZE === '1';
 
 const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
-
-const TS_CONFIG = Object.freeze({
-    ROOT: path.resolve(__dirname, './tsconfig.json'),
-});
 
 const OBJ_DIR = path.resolve(__dirname, './__obj/');
 const DIST_DIR = path.resolve(__dirname, './__dist/');
@@ -188,11 +183,21 @@ gulp.task('__babel:server:test', ['__clean:server:test', '__cp:server:js:obj'], 
  *  Lint
  */
 gulp.task('__eslint', function () {
-    return runESLint(CWD, NPM_MOD_DIR);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'lint:eslint'], option).then(assertReturnCode);
 });
 
 gulp.task('__tslint', function () {
-    return runTSLint(CWD, NPM_MOD_DIR, TS_CONFIG.ROOT);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'lint:tslint'], option).then(assertReturnCode);
 });
 
 /**
@@ -221,7 +226,14 @@ gulp.task('__build:client:css', ['__postcss']);
 /**
  *  Public targets
  */
-gulp.task('jslint', ['__eslint', '__tslint']);
+gulp.task('jslint', function () {
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+
+    return spawnChildProcess('npm', ['run', 'lint'], option).then(assertReturnCode);
+});
 gulp.task('tsc', ['__typescript']);
 
 gulp.task('build:server', ['jslint', '__build:server']);

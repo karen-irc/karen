@@ -23,7 +23,9 @@
     "build_server": "gulp build:server",
     "pretest": "gulp test",
     "test": "node ./tools/test_launcher.js",
-    "lint": "gulp jslint",
+    "lint": "npm-run-all --parallel lint:**",
+    "lint:eslint": "eslint --ext .js,.jsx . ./**/.eslintrc.js",
+    "lint:tslint": "tslint --project ./tsconfig.json",
     "tsc": "gulp tsc",
     "gulp": "gulp"
   },
