@@ -24,7 +24,7 @@
  */
 import * as assert from 'assert';
 
-import * as testConfig from '../../../../../config/test_config';
+import * as testConfig from '../../../config/test_config';
 import {FetchDriver, assertForbiddenError} from '../FetchDriver';
 
 describe('FetchDriver::utils', function () {

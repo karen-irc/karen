@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import {ViewContext} from '../../script/lib/ViewContext';
+import {ViewContext} from '../../../lib/ViewContext';
 import {RizeAppView} from '../output/view/RizeAppView';
 
 

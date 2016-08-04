@@ -1,4 +1,4 @@
-import {ViewContext} from '../../script/lib/ViewContext';
+import {ViewContext} from '../../../lib/ViewContext';
 
 export class RoomContext implements ViewContext {
     onActivate(_mountpoint: Element): void {}
