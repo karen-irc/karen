@@ -1,5 +1,5 @@
 import {jsdom} from 'jsdom';
-import {origin} from '../../../config/test_config';
+import {origin} from '../../config/test_config';
 
 const htmlStr = `
 <!DOCTYPE html>

@@ -41,7 +41,6 @@ const {buildCSS} = require('./tools/build/style');
 const { spawnChildProcess, assertReturnCode } = require('./tools/spawn');
 
 const isRelease = process.env.NODE_ENV === 'production';
-const isEnableRize = process.env.ENABLE_RIZE === '1';
 
 const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
 
@@ -58,6 +57,7 @@ const OBJ_CLIENT = path.resolve(OBJ_DIR, './client/');
 const OBJ_SERVER = path.resolve(OBJ_DIR, './server/');
 
 const DIST_SERVER = path.resolve(DIST_DIR, './server/');
+const DIST_LIB = path.resolve(DIST_DIR, './lib/');
 const DIST_CLIENT = path.resolve(DIST_DIR, './client/');
 const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
 const DIST_CLIENT_CSS = path.resolve(DIST_CLIENT, './css/');
@@ -93,6 +93,9 @@ const CWD = path.relative(__dirname, '');
 gulp.task('__clean:lib:obj', function () {
     return del(OBJ_LIB);
 });
+gulp.task('__clean:lib:dist', function () {
+    return del(DIST_LIB);
+});
 gulp.task('__clean:lib:test', function () {
     return del(TEST_CACHE_LIB);
 });
@@ -124,26 +127,17 @@ gulp.task('__clean:server:test', function () {
 /**
  *  Build obj/
  */
+gulp.task('__cp:client:js:obj', ['__clean:client:js:obj'], function () {
+    const src = ['./src/client/**/*.@(js|jsx)'];
+    const objDir = path.resolve(OBJ_CLIENT);
+    return doCopy(src, objDir);
+});
+
 gulp.task('__cp:lib:obj', ['__clean:lib:obj'], function () {
     const src = ['./src/lib/**/*.@(js|jsx)'];
     return doCopy(src, OBJ_LIB);
 });
-gulp.task('__cp:client:js:obj', ['__cp:client:js::obj:rize', '__cp:client:js:obj:classic']);
-gulp.task('__cp:client:js:obj:classic', ['__clean:client:js:obj'], function () {
-    const src = ['./src/client/script/**/*.@(js|jsx)'];
-    const objDir = path.resolve(OBJ_CLIENT, './script');
-    return doCopy(src, objDir);
-});
-gulp.task('__cp:client:js::obj:rize', ['__clean:client:js:obj'], function () {
-    if (!isEnableRize) {
-        return Promise.resolve();
-    }
-    else {
-        const src = ['./src/client/rize/**/*.@(js|jsx)'];
-        const objDir = path.resolve(OBJ_CLIENT, './rize');
-        return doCopy(src, objDir);
-    }
-});
+
 gulp.task('__cp:server:js:obj', ['__clean:server:obj'], function () {
     const src = ['./src/server/**/*.@(js|jsx)'];
     return doCopy(src, OBJ_SERVER);
@@ -160,7 +154,7 @@ gulp.task('__typescript', ['__clean:client:js:obj', '__clean:lib:obj'], function
     const TASK_NAME = '__link:client:js';
     const SPAWNED = '__spawned::' + TASK_NAME;
 
-    gulp.task(TASK_NAME, ['__clean:client:js:dist', '__cp:client:js:obj', '__typescript'], function () {
+    gulp.task(TASK_NAME, ['__clean:client:js:dist', '__clean:lib:dist', '__cp:client:js:obj', '__typescript'], function () {
         const args = [
             path.resolve(NPM_MOD_DIR, './gulp', './bin', './gulp.js'),
             SPAWNED,
@@ -177,8 +171,7 @@ gulp.task('__typescript', ['__clean:client:js:obj', '__clean:lib:obj'], function
      *  This task run in another process.
      */
     gulp.task(SPAWNED, function () {
-        const root = isEnableRize ?
-            './rize/index.js' : './script/karen.js';
+        const root = './karen.js';
         const ENTRY_POINT = path.resolve(OBJ_CLIENT, root);
 
         return runLinkerForClient(ENTRY_POINT, DIST_CLIENT_JS, 'karen.js', isRelease);
@@ -220,12 +213,7 @@ gulp.task('__postcss', ['__clean:client:css:dist'], function () {
 });
 
 gulp.task('__uglify', ['__clean:client:js:dist'], function () {
-    if (isEnableRize) {
-        return Promise.resolve();
-    }
-    else {
-        return buildLegacyLib(CLIENT_SRC_JS, DIST_CLIENT_JS, 'libs.min.js');
-    }
+    return buildLegacyLib(CLIENT_SRC_JS, DIST_CLIENT_JS, 'libs.min.js');
 });
 
 /**

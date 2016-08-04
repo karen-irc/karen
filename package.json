@@ -23,7 +23,7 @@
     "build_server": "gulp build:server",
     "pretest": "gulp test",
     "test": "npm-run-all --sequential test:**",
-    "test:client": "node ./tools/test_launcher.js --manifest client/script/test_manifest.js",
+    "test:client": "node ./tools/test_launcher.js --manifest client/test_manifest.js",
     "test:lib": "node ./tools/test_launcher.js --manifest lib/test_manifest.js",
     "lint": "gulp jslint",
     "tsc": "gulp tsc",

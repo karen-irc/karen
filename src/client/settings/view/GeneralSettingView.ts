@@ -25,7 +25,7 @@
 
 import * as Rx from 'rxjs';
 
-import {ReactiveProperty} from '../../../../lib/ReactiveProperty';
+import {ReactiveProperty} from '../../../lib/ReactiveProperty';
 import {GeneralSettingViewModel} from '../viewmodel/GeneralSettingViewModel';
 
 export class GeneralSettingView implements EventListenerObject {
