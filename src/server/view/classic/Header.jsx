@@ -34,7 +34,7 @@ export function Header({ theme }) {
 
             <title>karen</title>
 
-            <link rel='stylesheet' href='css/bootstrap.css'/>
+            <link rel='stylesheet' href='/css/bootstrap.css'/>
             <link rel='stylesheet' href='/dist/css/style.css'/>
             <link id='theme' rel='stylesheet' href={theme}/>
 
