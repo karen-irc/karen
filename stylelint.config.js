@@ -11,7 +11,6 @@ module.exports = {
     // http://stylelint.io/user-guide/rules/
     'rules': {
         'at-rule-empty-line-before': null, // FIXME
-        'block-no-single-line': null, // FIXME
         'declaration-no-important': null, // FIXME
         'no-descending-specificity': null, // FIXME
         'selector-no-universal': null, // FIXME
