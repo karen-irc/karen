@@ -37,14 +37,6 @@ module.exports = {
     bind: undefined,
 
     //
-    // Set the default theme.
-    //
-    // @type     string
-    // @default  'themes/example.css'
-    //
-    theme: 'themes/example.css',
-
-    //
     // Autoload users
     //
     // When this setting is enabled, your 'users/' folder will be monitored. This is useful
