@@ -27,4 +27,11 @@ For example, we modified an IRC twitter gateway (atig) to add twitter profile ic
 
 ## License
 
-the MIT license.
+[MIT license.](./LICENSE.txt)
+
+### Exceptions
+
+- These takes priority over the above license for each files.
+    - The license header comment.
+    - The license file.
+    - And other license specification.
