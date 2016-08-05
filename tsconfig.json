@@ -45,8 +45,8 @@
         "defaults",
         "node_modules",
         "resource",
-        "src/client/css",
         "src/server",
+        "src/style",
         "tools"
     ]
 }

@@ -216,7 +216,7 @@ gulp.task('__tslint', function () {
  *  Others
  */
 gulp.task('__postcss', ['__clean:client:css:dist'], function () {
-    return buildCSS('./src/client/css/style.css', DIST_CLIENT_CSS);
+    return buildCSS('./src/style/style.css', DIST_CLIENT_CSS);
 });
 
 gulp.task('__uglify', ['__clean:client:js:dist'], function () {
