@@ -36,4 +36,5 @@ require('./test/test_FetchDriver_fetch');
 require('./test/test_FetchDriver_get');
 require('./test/test_FetchDriver_post');
 require('./test/test_FetchDriver_utils');
+require('./test/test_Nullable');
 require('./test/test_ViewContext');
