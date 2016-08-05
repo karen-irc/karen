@@ -37,16 +37,11 @@ const {
     runLinkerForClient,
     compileScriptForServer,
 } = require('./tools/build/script');
-const { runESLint, runTSLint, } = require('./tools/build/lint');
 const {buildCSS} = require('./tools/build/style');
 
 const isRelease = process.env.NODE_ENV === 'production';
 
 const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
-
-const TS_CONFIG = Object.freeze({
-    ROOT: path.resolve(__dirname, './tsconfig.json'),
-});
 
 const OBJ_DIR = path.resolve(__dirname, './__obj/');
 const DIST_DIR = path.resolve(__dirname, './__dist/');
@@ -174,21 +169,6 @@ gulp.task('__babel:server:test', ['__clean:server:test', '__cp:server:js:obj'], 
 });
 
 /**
- *  Lint
- */
-gulp.task('__eslint', function () {
-    return runESLint(CWD, NPM_MOD_DIR);
-});
-
-gulp.task('__tslint', function () {
-    return runTSLint(CWD, NPM_MOD_DIR, TS_CONFIG.ROOT);
-});
-
-gulp.task('__stylelint', function () {
-    return npmRunAll(['lint_css']);
-});
-
-/**
  *  Others
  */
 gulp.task('__postcss', ['__clean:client:css:dist'], function () {
@@ -209,16 +189,21 @@ gulp.task('__build:client:css', ['__postcss']);
 /**
  *  Public targets
  */
-gulp.task('jslint', ['__eslint', '__tslint']);
+gulp.task('__jslint', function () {
+    return npmRunAll(['lint_js']);
+});
+gulp.task('__stylelint', function () {
+    return npmRunAll(['lint_css']);
+});
 gulp.task('tsc', ['__typescript']);
 
-gulp.task('build:server', ['jslint', '__build:server']);
-gulp.task('build:client', ['jslint', '__build:client:js', '__build:client:css']);
+gulp.task('build:server', ['__jslint', '__build:server']);
+gulp.task('build:client', ['__jslint', '__build:client:js', '__build:client:css']);
 gulp.task('build', ['build:server', 'build:client']);
 
-gulp.task('test:lib', ['jslint', '__babel:lib:test']);
-gulp.task('test:server', ['jslint', '__babel:server:test']);
-gulp.task('test:client', ['jslint', '__babel:client:test']);
+gulp.task('test:lib', ['__jslint', '__babel:lib:test']);
+gulp.task('test:server', ['__jslint', '__babel:server:test']);
+gulp.task('test:client', ['__jslint', '__babel:client:test']);
 gulp.task('test', ['__stylelint', 'test:lib', 'test:server', 'test:client']);
 
 gulp.task('clean:server', ['__clean:server:obj', '__clean:server:dist']);
