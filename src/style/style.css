@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
 @font-face {
-    font-family: FontAwesome;
+    font-family: 'FontAwesome';
     src: url('../../fonts/fontawesome.svg') format('svg'), url('../../fonts/fontawesome.woff') format('woff');
 }
 html,
@@ -12,7 +12,7 @@ body {
     margin: 0;
     background: #455164;
     color: #222222;
-    font: 16px Lato, sans-serif;
+    font: 16px 'Lato', sans-serif;
 }
 a {
     transition: opacity .2s;
@@ -53,7 +53,7 @@ button {
     border: 2px solid #84ce88;
     border-radius: 3px;
     color: #84ce88;
-    font: bold 12px Lato, sans-serif;
+    font: bold 12px 'Lato', sans-serif;
     letter-spacing: 1px;
     text-transform: uppercase;
     word-spacing: 3px;
@@ -110,7 +110,7 @@ button {
 }
 #viewport .lt:before,
 #viewport .rt:before {
-    font: 14px FontAwesome;
+    font: 14px 'FontAwesome';
     content: '\f0c9';
 }
 #viewport .rt {
@@ -192,7 +192,7 @@ button {
     margin-top: 3px;
     margin-right: 12px;
     float: left;
-    font: 14px FontAwesome;
+    font: 14px 'FontAwesome';
     text-align: center;
 }
 #chat .title:before {
@@ -281,7 +281,7 @@ button {
     display: inline-block;
     padding: 0px 12px;
     color: #9ca5b4;
-    font: 14px FontAwesome;
+    font: 14px 'FontAwesome';
     line-height: 34px;
 }
 .signed-out #footer .sign-in {
@@ -380,7 +380,7 @@ button {
     -webkit-overflow-scrolling: touch;
 }
 #windows .window h1 {
-    font: 36px Lato;
+    font: 36px 'Lato';
 }
 #windows .window h2 {
     margin: 30px 0 10px;
@@ -399,7 +399,7 @@ button {
     line-height: 50px !important;
 }
 #windows .header .title {
-    font: 14px Lato;
+    font: 14px 'Lato';
 }
 #windows .header .topic {
     display: none;
@@ -421,7 +421,7 @@ button {
     background: #f4f4f4;
     background-image: linear-gradient(#f4f4f4, #ececec);
     color: #555555;
-    font: 12px Lato, sans-serif;
+    font: 12px 'Lato', sans-serif;
     line-height: 0;
 }
 #windows .header .button:hover {
@@ -439,7 +439,7 @@ button {
 }
 #chat,
 #windows .header {
-    font: 12px Consolas, Menlo, Monaco, 'Lucida Console', 'DejaVu Sans Mono', 'Courier New', monospace;
+    font: 12px 'Consolas', 'Menlo', 'Monaco', 'Lucida Console', 'DejaVu Sans Mono', 'Courier New', monospace;
     line-height: 1.4;
 }
 #chat button:hover {
@@ -501,7 +501,7 @@ button {
     background: #f4f4f4;
     background-image: linear-gradient(#f4f4f4, #ececec);
     color: #555555;
-    font: 12px Lato, sans-serif;
+    font: 12px 'Lato', sans-serif;
     line-height: 0;
 }
 #chat .show-more-button:hover {
@@ -631,7 +631,7 @@ button {
     border-radius: 2px;
     background: #f5f5f5;
     color: #222222;
-    font: 12px Lato;
+    font: 12px 'Lato';
 }
 #chat .toggle-content a {
     color: inherit;
@@ -671,7 +671,7 @@ button {
     right: 18px;
     transition: color .2s;
     color: #cfcfcf;
-    font: 14px FontAwesome;
+    font: 14px 'FontAwesome';
     line-height: 50px;
     content: '\f002';
     z-index: 0;
@@ -804,7 +804,7 @@ button {
 }
 #settings #play:before {
     margin-right: 9px;
-    font: 14px FontAwesome;
+    font: 14px 'FontAwesome';
     content: '\f028';
 }
 #settings .about {
@@ -826,7 +826,7 @@ button {
     flex-direction: row;
     height: 34px;
     margin: 6px 0 7px;
-    font: 12px Consolas, Menlo, Monaco, 'Lucida Console', 'DejaVu Sans Mono', 'Courier New', monospace;
+    font: 12px 'Consolas', 'Menlo', 'Monaco', 'Lucida Console', 'DejaVu Sans Mono', 'Courier New', monospace;
 }
 .input-form .input-form__input-container {
     display: flex;
@@ -872,7 +872,7 @@ button {
     background: #f4f4f4;
     background-image: linear-gradient(#f4f4f4, #ececec);
     color: #555555;
-    font: 12px Lato, sans-serif;
+    font: 12px 'Lato', sans-serif;
 }
 
 

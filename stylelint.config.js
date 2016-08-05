@@ -13,7 +13,6 @@ module.exports = {
         'at-rule-empty-line-before': null, // FIXME
         'block-no-single-line': null, // FIXME
         'declaration-no-important': null, // FIXME
-        'font-family-name-quotes': null, // FIXME
         'no-descending-specificity': null, // FIXME
         'selector-no-universal': null, // FIXME
         'property-no-vendor-prefix': null, // FIXME
