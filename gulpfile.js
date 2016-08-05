@@ -195,7 +195,6 @@ gulp.task('__jslint', function () {
 gulp.task('__stylelint', function () {
     return npmRunAll(['lint_css']);
 });
-gulp.task('tsc', ['__typescript']);
 
 gulp.task('build:server', ['__jslint', '__build:server']);
 gulp.task('build:client', ['__jslint', '__build:client:js', '__build:client:css']);
@@ -206,7 +205,7 @@ gulp.task('test:server', ['__jslint', '__babel:server:test']);
 gulp.task('test:client', ['__jslint', '__babel:client:test']);
 gulp.task('test', ['__stylelint', 'test:lib', 'test:server', 'test:client']);
 
+gulp.task('clean:lib', ['__clean:lib:obj', '__clean:lib:dist']);
 gulp.task('clean:server', ['__clean:server:obj', '__clean:server:dist']);
 gulp.task('clean:client', ['__clean:client:js:obj', '__clean:client:js:dist', '__clean:client:css:dist']);
 gulp.task('clean:test', ['__clean:client:test', '__clean:server:test', '__clean:lib:test']);
-gulp.task('clean', ['clean:client', 'clean:server', 'clean:test']);
