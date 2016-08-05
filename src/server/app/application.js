@@ -75,6 +75,7 @@ export class KarenServer {
         });
         app.use('/dist', express.static('__dist/client'));
         app.use(express.static('src/client'));
+        app.use(express.static('resource'));
     }
 
     _initConnection(clientGateway) {

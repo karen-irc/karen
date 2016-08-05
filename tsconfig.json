@@ -44,11 +44,9 @@
         "__test_cache",
         "defaults",
         "node_modules",
-        "src/client/audio",
-        "src/client/css",
-        "src/client/img",
-        "src/client/themes",
+        "resource",
         "src/server",
+        "src/style",
         "tools"
     ]
 }
