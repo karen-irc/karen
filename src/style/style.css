@@ -584,7 +584,6 @@ button {
 #chat .nick .type,
 #chat .kick .type,
 #chat .quit .type,
-#chat .quit .type,
 #chat .topic .type {
     display: inline;
 }
@@ -924,7 +923,7 @@ button {
 }
 
 .irc-italic {
-    font-style:italic
+    font-style: italic;
 }
 
 @media (max-width: 768px) {
@@ -1020,10 +1019,13 @@ button {
 }
 
 @media print {
+    /* for pring media, we should disable some rules */
+    /* stylelint-disable selector-no-universal */
     * {
         position: relative !important;
         overflow: visible !important;
     }
+    /* stylelint-enable */
     body {
         background: #fff;
     }
