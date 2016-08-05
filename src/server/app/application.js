@@ -76,6 +76,7 @@ export class KarenServer {
         app.use('/dist', express.static('__dist/client'));
         app.use(express.static('src/client'));
         app.use(express.static('resource'));
+        app.use('/resource/fonts/font-awesome', express.static('node_modules/font-awesome/fonts'));
     }
 
     _initConnection(clientGateway) {
