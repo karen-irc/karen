@@ -25,7 +25,7 @@
 
 import * as Rx from 'rxjs';
 
-import {ReactiveProperty} from '../../../../lib/ReactiveProperty';
+import {ReactiveProperty} from '../../../lib/ReactiveProperty';
 
 import {UIActionCreator} from '../../intent/action/UIActionCreator';
 

@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/// <reference path='../../../../node_modules/cookies-js/dist/cookies.d.ts'/>
+/// <reference path='../../../node_modules/cookies-js/dist/cookies.d.ts'/>
 import * as cookies from 'cookies-js';
 import {Option, Some, None} from 'option-t';
 

@@ -25,7 +25,7 @@
 
 import * as Rx from 'rxjs';
 
-import {ReactiveProperty} from '../../../../lib/ReactiveProperty';
+import {ReactiveProperty} from '../../../lib/ReactiveProperty';
 
 import {MessageGateway} from '../../adapter/MessageGateway';
 import {ConnectionActionDispatcher} from '../intent/ConnectionSettingIntent';
