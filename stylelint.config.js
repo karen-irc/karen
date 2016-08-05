@@ -20,6 +20,5 @@ module.exports = {
         'property-no-vendor-prefix': null, // FIXME
         'selector-no-vendor-prefix': null, // FIXME
         'selector-pseudo-element-colon-notation': null, // FIXME
-        'string-quotes': null, // FIXME
     },
 };

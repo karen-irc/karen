@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css?family=Lato:400,700");
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,700");
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
 @font-face {
     font-family: FontAwesome;
-    src: url("../../fonts/fontawesome.svg") format("svg"), url("../../fonts/fontawesome.woff") format("woff");
+    src: url('../../fonts/fontawesome.svg') format('svg'), url('../../fonts/fontawesome.woff') format('woff');
 }
 html,
 body {
@@ -111,7 +111,7 @@ button {
 #viewport .lt:before,
 #viewport .rt:before {
     font: 14px FontAwesome;
-    content: "\f0c9";
+    content: '\f0c9';
 }
 #viewport .rt {
     display: block;
@@ -200,15 +200,15 @@ button {
 }
 #sidebar .chan.lobby:before,
 #chat .lobby .title:before {
-    content: "\f0a0";
+    content: '\f0a0';
 }
 #sidebar .chan.query:before,
 #chat .query .title:before {
-    content: "\f0e6";
+    content: '\f0e6';
 }
 #sidebar .chan.channel:before,
 #chat .channel .title:before {
-    content: "\f0f6";
+    content: '\f0f6';
 }
 #sidebar .chan:hover .badge {
     opacity: 0;
@@ -299,16 +299,16 @@ button {
     display: none;
 }
 #footer .sign-in:before {
-    content: "\f023";
+    content: '\f023';
 }
 #footer .connect:before {
-    content: "\f067";
+    content: '\f067';
 }
 #footer .settings:before {
-    content: "\f013";
+    content: '\f013';
 }
 #footer .sign-out:before {
-    content: "\f13e";
+    content: '\f13e';
 }
 #main {
     position: absolute;
@@ -361,7 +361,7 @@ button {
     border-bottom: 1px solid #d7d7d7;
     background: #f4f4f4;
     background-image: linear-gradient(#f4f4f4, #ececec);
-    content: " ";
+    content: ' ';
     z-index: 10;
 }
 #windows .chan,
@@ -439,7 +439,7 @@ button {
 }
 #chat,
 #windows .header {
-    font: 12px Consolas, Menlo, Monaco, "Lucida Console", "DejaVu Sans Mono", "Courier New", monospace;
+    font: 12px Consolas, Menlo, Monaco, 'Lucida Console', 'DejaVu Sans Mono', 'Courier New', monospace;
     line-height: 1.4;
 }
 #chat button:hover {
@@ -609,10 +609,10 @@ button {
     color: #f39c12 !important;
 }
 #chat .action .user:before {
-    content: "* ";
+    content: '* ';
 }
 #chat .action .user:after {
-    content: "";
+    content: '';
 }
 #chat .toggle-button {
     display: inline-block;
@@ -673,7 +673,7 @@ button {
     color: #cfcfcf;
     font: 14px FontAwesome;
     line-height: 50px;
-    content: "\f002";
+    content: '\f002';
     z-index: 0;
 }
 #chat .search {
@@ -710,25 +710,25 @@ button {
     padding: 12px 16px 10px;
     border-bottom: 1px solid #eee;
     line-height: 1.6;
-    content: "";
+    content: '';
 }
 #chat .user-mode.owner:before {
-    content: "Owners";
+    content: 'Owners';
 }
 #chat .user-mode.admin:before {
-    content: "Administrators";
+    content: 'Administrators';
 }
 #chat .user-mode.op:before {
-    content: "Operators";
+    content: 'Operators';
 }
 #chat .user-mode.half-op:before {
-    content: "Half-Operators";
+    content: 'Half-Operators';
 }
 #chat .user-mode.voice:before {
-    content: "Voiced";
+    content: 'Voiced';
 }
 #chat .user-mode.normal:before {
-    content: "Users";
+    content: 'Users';
 }
 #sign-in label {
     display: block;
@@ -766,7 +766,7 @@ button {
 #connect .port:before {
     position: absolute;
     margin: 9px 0 0 -17px;
-    content: ":";
+    content: ':';
 }
 #connect .tls {
     margin-top: 6px;
@@ -805,7 +805,7 @@ button {
 #settings #play:before {
     margin-right: 9px;
     font: 14px FontAwesome;
-    content: "\f028";
+    content: '\f028';
 }
 #settings .about {
     padding-top: 2px;
@@ -826,7 +826,7 @@ button {
     flex-direction: row;
     height: 34px;
     margin: 6px 0 7px;
-    font: 12px Consolas, Menlo, Monaco, "Lucida Console", "DejaVu Sans Mono", "Courier New", monospace;
+    font: 12px Consolas, Menlo, Monaco, 'Lucida Console', 'DejaVu Sans Mono', 'Courier New', monospace;
 }
 .input-form .input-form__input-container {
     display: flex;
