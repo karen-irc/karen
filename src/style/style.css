@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css?family=Lato:400,700");
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,700");
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
 @font-face {
-    font-family: FontAwesome;
-    src: url("../../fonts/fontawesome.svg") format("svg"), url("../../fonts/fontawesome.woff") format("woff");
+    font-family: 'FontAwesome';
+    src: url('../../fonts/fontawesome.svg') format('svg'), url('../../fonts/fontawesome.woff') format('woff');
 }
 html,
 body {
@@ -11,8 +11,8 @@ body {
 body {
     margin: 0;
     background: #455164;
-    color: #222;
-    font: 16px Lato, sans-serif;
+    color: #222222;
+    font: 16px 'Lato', sans-serif;
 }
 a {
     transition: opacity .2s;
@@ -39,11 +39,11 @@ button {
 }
 .tooltip-inner {
     border-radius: 2px;
-    background: #fff;
+    background: #ffffff;
     color: #262c36;
 }
 .tooltip.top .tooltip-arrow {
-    border-top-color: #fff;
+    border-top-color: #ffffff;
 }
 .btn {
     display: inline-block;
@@ -53,7 +53,7 @@ button {
     border: 2px solid #84ce88;
     border-radius: 3px;
     color: #84ce88;
-    font: bold 12px Lato, sans-serif;
+    font: bold 12px 'Lato', sans-serif;
     letter-spacing: 1px;
     text-transform: uppercase;
     word-spacing: 3px;
@@ -61,7 +61,7 @@ button {
 .btn:disabled,
 .btn:hover {
     background: #84ce88;
-    color: #fff;
+    color: #ffffff;
 }
 .btn:active {
     box-shadow: none;
@@ -105,13 +105,13 @@ button {
     height: 36px;
     margin: 6px 12px 0 -12px;
     float: left;
-    color: #ccc;
+    color: #cccccc;
     line-height: 40px;
 }
 #viewport .lt:before,
 #viewport .rt:before {
-    font: 14px FontAwesome;
-    content: "\f0c9";
+    font: 14px 'FontAwesome';
+    content: '\f0c9';
 }
 #viewport .rt {
     display: block;
@@ -143,7 +143,7 @@ button {
 #sidebar button:hover,
 #sidebar .chan:hover,
 #sidebar .active {
-    color: #fff;
+    color: #ffffff;
 }
 #sidebar .networks {
     min-height: 100%;
@@ -192,7 +192,7 @@ button {
     margin-top: 3px;
     margin-right: 12px;
     float: left;
-    font: 14px FontAwesome;
+    font: 14px 'FontAwesome';
     text-align: center;
 }
 #chat .title:before {
@@ -200,15 +200,15 @@ button {
 }
 #sidebar .chan.lobby:before,
 #chat .lobby .title:before {
-    content: "\f0a0";
+    content: '\f0a0';
 }
 #sidebar .chan.query:before,
 #chat .query .title:before {
-    content: "\f0e6";
+    content: '\f0e6';
 }
 #sidebar .chan.channel:before,
 #chat .channel .title:before {
-    content: "\f0f6";
+    content: '\f0f6';
 }
 #sidebar .chan:hover .badge {
     opacity: 0;
@@ -228,7 +228,7 @@ button {
     font-size: 10px;
 }
 #sidebar .badge.highlight {
-    background: #fff;
+    background: #ffffff;
     color: #49505a;
 }
 #sidebar .badge:empty {
@@ -275,13 +275,13 @@ button {
     border: 0;
 }
 #footer button.active {
-    color: #fff;
+    color: #ffffff;
 }
 #footer .icon {
     display: inline-block;
     padding: 0px 12px;
     color: #9ca5b4;
-    font: 14px FontAwesome;
+    font: 14px 'FontAwesome';
     line-height: 34px;
 }
 .signed-out #footer .sign-in {
@@ -299,16 +299,16 @@ button {
     display: none;
 }
 #footer .sign-in:before {
-    content: "\f023";
+    content: '\f023';
 }
 #footer .connect:before {
-    content: "\f067";
+    content: '\f067';
 }
 #footer .settings:before {
-    content: "\f013";
+    content: '\f013';
 }
 #footer .sign-out:before {
-    content: "\f13e";
+    content: '\f13e';
 }
 #main {
     position: absolute;
@@ -317,7 +317,7 @@ button {
     bottom: 4px;
     left: 220px;
     border-radius: 2px;
-    background: #fff;
+    background: #ffffff;
     overflow: hidden;
 }
 #header {
@@ -346,7 +346,7 @@ button {
     border: 1px solid #cdd3da;
     border-radius: 2px;
     outline: 0;
-    color: #222;
+    color: #222222;
     font-size: 14px;
 }
 #windows .input:hover,
@@ -361,7 +361,7 @@ button {
     border-bottom: 1px solid #d7d7d7;
     background: #f4f4f4;
     background-image: linear-gradient(#f4f4f4, #ececec);
-    content: " ";
+    content: ' ';
     z-index: 10;
 }
 #windows .chan,
@@ -372,7 +372,7 @@ button {
     right: 0;
     bottom: 0;
     left: 0;
-    background: #fff;
+    background: #ffffff;
 }
 #windows .window {
     bottom: -44px !important;
@@ -380,12 +380,12 @@ button {
     -webkit-overflow-scrolling: touch;
 }
 #windows .window h1 {
-    font: 36px Lato;
+    font: 36px 'Lato';
 }
 #windows .window h2 {
     margin: 30px 0 10px;
     padding-bottom: 7px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #eeeeee;
     color: #7f8c8d;
     font-size: 22px;
 }
@@ -399,12 +399,12 @@ button {
     line-height: 50px !important;
 }
 #windows .header .title {
-    font: 14px Lato;
+    font: 14px 'Lato';
 }
 #windows .header .topic {
     display: none;
     margin-left: 8px;
-    color: #777;
+    color: #777777;
     text-transform: capitalize;
 }
 #windows .header .right {
@@ -420,8 +420,8 @@ button {
     border-bottom-color: #b7b7b7;
     background: #f4f4f4;
     background-image: linear-gradient(#f4f4f4, #ececec);
-    color: #555;
-    font: 12px Lato, sans-serif;
+    color: #555555;
+    font: 12px 'Lato', sans-serif;
     line-height: 0;
 }
 #windows .header .button:hover {
@@ -439,7 +439,7 @@ button {
 }
 #chat,
 #windows .header {
-    font: 12px Consolas, Menlo, Monaco, "Lucida Console", "DejaVu Sans Mono", "Courier New", monospace;
+    font: 12px 'Consolas', 'Menlo', 'Monaco', 'Lucida Console', 'DejaVu Sans Mono', 'Courier New', monospace;
     line-height: 1.4;
 }
 #chat button:hover {
@@ -469,7 +469,7 @@ button {
 
     transition: all .4s;
     border-left: 1px solid #e7e7e7;
-    background: #fff;
+    background: #ffffff;
     will-change: transform;
 }
 #chat .lobby .chat,
@@ -500,8 +500,8 @@ button {
     border-bottom-color: #b7b7b7;
     background: #f4f4f4;
     background-image: linear-gradient(#f4f4f4, #ececec);
-    color: #555;
-    font: 12px Lato, sans-serif;
+    color: #555555;
+    font: 12px 'Lato', sans-serif;
     line-height: 0;
 }
 #chat .show-more-button:hover {
@@ -526,7 +526,7 @@ button {
 }
 #chat .msg .type {
     display: none;
-    color: #ccc;
+    color: #cccccc;
     font-style: normal;
 }
 #chat .time,
@@ -539,7 +539,7 @@ button {
 #chat .time {
     width: 46px;
     min-width: 46px;
-    color: #ddd;
+    color: #dddddd;
     text-align: right;
 }
 #chat .from {
@@ -576,14 +576,13 @@ button {
     font-style: normal;
 }
 #chat .self .text {
-    color: #999;
+    color: #999999;
 }
 #chat .join .type,
 #chat .part .type,
 #chat .mode .type,
 #chat .nick .type,
 #chat .kick .type,
-#chat .quit .type,
 #chat .quit .type,
 #chat .topic .type {
     display: inline;
@@ -592,7 +591,7 @@ button {
 #chat .error .from,
 #chat .highlight,
 #chat .highlight .from {
-    color: #f00;
+    color: #ff0000;
 }
 #chat.hide-join .join span,
 #chat.hide-mode .mode span,
@@ -610,10 +609,10 @@ button {
     color: #f39c12 !important;
 }
 #chat .action .user:before {
-    content: "* ";
+    content: '* ';
 }
 #chat .action .user:after {
-    content: "";
+    content: '';
 }
 #chat .toggle-button {
     display: inline-block;
@@ -621,7 +620,7 @@ button {
     padding: 0px 6px;
     border-radius: 2px;
     background: #f5f5f5;
-    color: #666;
+    color: #666666;
     line-height: 0px;
 }
 #chat .toggle-content {
@@ -631,8 +630,8 @@ button {
     padding: 6px 8px;
     border-radius: 2px;
     background: #f5f5f5;
-    color: #222;
-    font: 12px Lato;
+    color: #222222;
+    font: 12px 'Lato';
 }
 #chat .toggle-content a {
     color: inherit;
@@ -654,7 +653,7 @@ button {
     word-break: normal;
     word-wrap: break-word;
     max-width: 460px;
-    color: #999;
+    color: #999999;
 }
 #chat .toggle-content.show {
     display: inline-block !important;
@@ -672,9 +671,9 @@ button {
     right: 18px;
     transition: color .2s;
     color: #cfcfcf;
-    font: 14px FontAwesome;
+    font: 14px 'FontAwesome';
     line-height: 50px;
-    content: "\f002";
+    content: '\f002';
     z-index: 0;
 }
 #chat .search {
@@ -684,7 +683,7 @@ button {
     border: 0;
     outline: 0;
     background: none;
-    color: #222;
+    color: #222222;
     font: inherit;
 }
 #chat .names {
@@ -709,27 +708,27 @@ button {
     display: block;
     margin-bottom: 10px;
     padding: 12px 16px 10px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #eeeeee;
     line-height: 1.6;
-    content: "";
+    content: '';
 }
 #chat .user-mode.owner:before {
-    content: "Owners";
+    content: 'Owners';
 }
 #chat .user-mode.admin:before {
-    content: "Administrators";
+    content: 'Administrators';
 }
 #chat .user-mode.op:before {
-    content: "Operators";
+    content: 'Operators';
 }
 #chat .user-mode.half-op:before {
-    content: "Half-Operators";
+    content: 'Half-Operators';
 }
 #chat .user-mode.voice:before {
-    content: "Voiced";
+    content: 'Voiced';
 }
 #chat .user-mode.normal:before {
-    content: "Users";
+    content: 'Users';
 }
 #sign-in label {
     display: block;
@@ -767,7 +766,7 @@ button {
 #connect .port:before {
     position: absolute;
     margin: 9px 0 0 -17px;
-    content: ":";
+    content: ':';
 }
 #connect .tls {
     margin-top: 6px;
@@ -805,8 +804,8 @@ button {
 }
 #settings #play:before {
     margin-right: 9px;
-    font: 14px FontAwesome;
-    content: "\f028";
+    font: 14px 'FontAwesome';
+    content: '\f028';
 }
 #settings .about {
     padding-top: 2px;
@@ -819,15 +818,15 @@ button {
     bottom: 0;
     left: 0;
     height: 48px;
-    border-top: 1px solid #ddd;
-    background: #eee;
+    border-top: 1px solid #dddddd;
+    background: #eeeeee;
 }
 .input-form .input-form__inner {
     display: flex;
     flex-direction: row;
     height: 34px;
     margin: 6px 0 7px;
-    font: 12px Consolas, Menlo, Monaco, "Lucida Console", "DejaVu Sans Mono", "Courier New", monospace;
+    font: 12px 'Consolas', 'Menlo', 'Monaco', 'Lucida Console', 'DejaVu Sans Mono', 'Courier New', monospace;
 }
 .input-form .input-form__input-container {
     display: flex;
@@ -844,7 +843,7 @@ button {
     border: 1px solid #cfdae1;
     border-radius: 1px;
     background: #f6f6f6;
-    color: #666;
+    color: #666666;
     font: inherit;
     font-size: 11px;
     user-select: none;
@@ -857,7 +856,7 @@ button {
     flex-basis: 100%;
     height: 100%;
     padding: 0 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #dddddd;
     border-radius: 2px;
     outline: none;
     font: inherit;
@@ -872,8 +871,8 @@ button {
     border-bottom-color: #b7b7b7;
     background: #f4f4f4;
     background-image: linear-gradient(#f4f4f4, #ececec);
-    color: #555;
-    font: 12px Lato, sans-serif;
+    color: #555555;
+    font: 12px 'Lato', sans-serif;
 }
 
 
@@ -882,8 +881,8 @@ button {
   * https://github.com/megawac/irc-style-parser
   * Colours are credit to http://clrs.cc/
   */
-.irc-fg0 { color: #fff; }
-.irc-fg1 { color: #000; }
+.irc-fg0 { color: #ffffff; }
+.irc-fg1 { color: #000000; }
 .irc-fg2 { color: #001f3f; }
 .irc-fg3 { color: #2ecc40; }
 .irc-fg4 { color: #ff4136; }
@@ -896,10 +895,10 @@ button {
 .irc-fg11 { color: #7fdbff; }
 .irc-fg12 { color: #0074d9; }
 .irc-fg13 { color: #f012be; }
-.irc-fg14 { color: #aaa; }
-.irc-fg15 { color: #ddd; }
-.irc-bg0 { background: #fff; }
-.irc-bg1 { background: #000; }
+.irc-fg14 { color: #aaaaaa; }
+.irc-fg15 { color: #dddddd; }
+.irc-bg0 { background: #ffffff; }
+.irc-bg1 { background: #000000; }
 .irc-bg2 { background: #001f3f; }
 .irc-bg3 { background: #2ecc40; }
 .irc-bg4 { background: #ff4136; }
@@ -912,8 +911,8 @@ button {
 .irc-bg11 { background: #7fdbff; }
 .irc-bg12 { background: #0074d9; }
 .irc-bg13 { background: #f012be; }
-.irc-bg14 { background: #aaa; }
-.irc-bg15 { background: #ddd; }
+.irc-bg14 { background: #aaaaaa; }
+.irc-bg15 { background: #dddddd; }
 
 .irc-bold {
     font-weight: bold;
@@ -924,7 +923,7 @@ button {
 }
 
 .irc-italic {
-    font-style:italic
+    font-style: italic;
 }
 
 @media (max-width: 768px) {
@@ -1020,12 +1019,15 @@ button {
 }
 
 @media print {
+    /* for pring media, we should disable some rules */
+    /* stylelint-disable selector-no-universal */
     * {
         position: relative !important;
         overflow: visible !important;
     }
+    /* stylelint-enable */
     body {
-        background: #fff;
+        background: #ffffff;
     }
     .lt,
     .rt,
