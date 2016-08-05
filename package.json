@@ -93,6 +93,7 @@
     "eslint-plugin-node": "^2.0.0",
     "eslint-plugin-react": "^6.0.0",
     "event-stream": "^3.3.4",
+    "font-awesome": "^4.6.3",
     "glob": "^7.0.5",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
