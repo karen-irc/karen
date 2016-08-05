@@ -26,6 +26,7 @@
 
 const del = require('del');
 const gulp = require('gulp');
+const npmRunAll = require('npm-run-all');
 const path = require('path');
 
 const { doCopy } = require('./tools/build/cp');
@@ -183,6 +184,10 @@ gulp.task('__tslint', function () {
     return runTSLint(CWD, NPM_MOD_DIR, TS_CONFIG.ROOT);
 });
 
+gulp.task('__stylelint', function () {
+    return npmRunAll(['lint_css']);
+});
+
 /**
  *  Others
  */
@@ -214,7 +219,7 @@ gulp.task('build', ['build:server', 'build:client']);
 gulp.task('test:lib', ['jslint', '__babel:lib:test']);
 gulp.task('test:server', ['jslint', '__babel:server:test']);
 gulp.task('test:client', ['jslint', '__babel:client:test']);
-gulp.task('test', ['test:lib', 'test:server', 'test:client']);
+gulp.task('test', ['__stylelint', 'test:lib', 'test:server', 'test:client']);
 
 gulp.task('clean:server', ['__clean:server:obj', '__clean:server:dist']);
 gulp.task('clean:client', ['__clean:client:js:obj', '__clean:client:js:dist', '__clean:client:css:dist']);
