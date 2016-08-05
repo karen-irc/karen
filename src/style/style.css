@@ -11,7 +11,7 @@ body {
 body {
     margin: 0;
     background: #455164;
-    color: #222;
+    color: #222222;
     font: 16px Lato, sans-serif;
 }
 a {
@@ -39,11 +39,11 @@ button {
 }
 .tooltip-inner {
     border-radius: 2px;
-    background: #fff;
+    background: #ffffff;
     color: #262c36;
 }
 .tooltip.top .tooltip-arrow {
-    border-top-color: #fff;
+    border-top-color: #ffffff;
 }
 .btn {
     display: inline-block;
@@ -61,7 +61,7 @@ button {
 .btn:disabled,
 .btn:hover {
     background: #84ce88;
-    color: #fff;
+    color: #ffffff;
 }
 .btn:active {
     box-shadow: none;
@@ -105,7 +105,7 @@ button {
     height: 36px;
     margin: 6px 12px 0 -12px;
     float: left;
-    color: #ccc;
+    color: #cccccc;
     line-height: 40px;
 }
 #viewport .lt:before,
@@ -143,7 +143,7 @@ button {
 #sidebar button:hover,
 #sidebar .chan:hover,
 #sidebar .active {
-    color: #fff;
+    color: #ffffff;
 }
 #sidebar .networks {
     min-height: 100%;
@@ -228,7 +228,7 @@ button {
     font-size: 10px;
 }
 #sidebar .badge.highlight {
-    background: #fff;
+    background: #ffffff;
     color: #49505a;
 }
 #sidebar .badge:empty {
@@ -275,7 +275,7 @@ button {
     border: 0;
 }
 #footer button.active {
-    color: #fff;
+    color: #ffffff;
 }
 #footer .icon {
     display: inline-block;
@@ -317,7 +317,7 @@ button {
     bottom: 4px;
     left: 220px;
     border-radius: 2px;
-    background: #fff;
+    background: #ffffff;
     overflow: hidden;
 }
 #header {
@@ -346,7 +346,7 @@ button {
     border: 1px solid #cdd3da;
     border-radius: 2px;
     outline: 0;
-    color: #222;
+    color: #222222;
     font-size: 14px;
 }
 #windows .input:hover,
@@ -372,7 +372,7 @@ button {
     right: 0;
     bottom: 0;
     left: 0;
-    background: #fff;
+    background: #ffffff;
 }
 #windows .window {
     bottom: -44px !important;
@@ -385,7 +385,7 @@ button {
 #windows .window h2 {
     margin: 30px 0 10px;
     padding-bottom: 7px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #eeeeee;
     color: #7f8c8d;
     font-size: 22px;
 }
@@ -404,7 +404,7 @@ button {
 #windows .header .topic {
     display: none;
     margin-left: 8px;
-    color: #777;
+    color: #777777;
     text-transform: capitalize;
 }
 #windows .header .right {
@@ -420,7 +420,7 @@ button {
     border-bottom-color: #b7b7b7;
     background: #f4f4f4;
     background-image: linear-gradient(#f4f4f4, #ececec);
-    color: #555;
+    color: #555555;
     font: 12px Lato, sans-serif;
     line-height: 0;
 }
@@ -469,7 +469,7 @@ button {
 
     transition: all .4s;
     border-left: 1px solid #e7e7e7;
-    background: #fff;
+    background: #ffffff;
     will-change: transform;
 }
 #chat .lobby .chat,
@@ -500,7 +500,7 @@ button {
     border-bottom-color: #b7b7b7;
     background: #f4f4f4;
     background-image: linear-gradient(#f4f4f4, #ececec);
-    color: #555;
+    color: #555555;
     font: 12px Lato, sans-serif;
     line-height: 0;
 }
@@ -526,7 +526,7 @@ button {
 }
 #chat .msg .type {
     display: none;
-    color: #ccc;
+    color: #cccccc;
     font-style: normal;
 }
 #chat .time,
@@ -539,7 +539,7 @@ button {
 #chat .time {
     width: 46px;
     min-width: 46px;
-    color: #ddd;
+    color: #dddddd;
     text-align: right;
 }
 #chat .from {
@@ -576,7 +576,7 @@ button {
     font-style: normal;
 }
 #chat .self .text {
-    color: #999;
+    color: #999999;
 }
 #chat .join .type,
 #chat .part .type,
@@ -591,7 +591,7 @@ button {
 #chat .error .from,
 #chat .highlight,
 #chat .highlight .from {
-    color: #f00;
+    color: #ff0000;
 }
 #chat.hide-join .join span,
 #chat.hide-mode .mode span,
@@ -620,7 +620,7 @@ button {
     padding: 0px 6px;
     border-radius: 2px;
     background: #f5f5f5;
-    color: #666;
+    color: #666666;
     line-height: 0px;
 }
 #chat .toggle-content {
@@ -630,7 +630,7 @@ button {
     padding: 6px 8px;
     border-radius: 2px;
     background: #f5f5f5;
-    color: #222;
+    color: #222222;
     font: 12px Lato;
 }
 #chat .toggle-content a {
@@ -653,7 +653,7 @@ button {
     word-break: normal;
     word-wrap: break-word;
     max-width: 460px;
-    color: #999;
+    color: #999999;
 }
 #chat .toggle-content.show {
     display: inline-block !important;
@@ -683,7 +683,7 @@ button {
     border: 0;
     outline: 0;
     background: none;
-    color: #222;
+    color: #222222;
     font: inherit;
 }
 #chat .names {
@@ -708,7 +708,7 @@ button {
     display: block;
     margin-bottom: 10px;
     padding: 12px 16px 10px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #eeeeee;
     line-height: 1.6;
     content: '';
 }
@@ -818,8 +818,8 @@ button {
     bottom: 0;
     left: 0;
     height: 48px;
-    border-top: 1px solid #ddd;
-    background: #eee;
+    border-top: 1px solid #dddddd;
+    background: #eeeeee;
 }
 .input-form .input-form__inner {
     display: flex;
@@ -843,7 +843,7 @@ button {
     border: 1px solid #cfdae1;
     border-radius: 1px;
     background: #f6f6f6;
-    color: #666;
+    color: #666666;
     font: inherit;
     font-size: 11px;
     user-select: none;
@@ -856,7 +856,7 @@ button {
     flex-basis: 100%;
     height: 100%;
     padding: 0 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #dddddd;
     border-radius: 2px;
     outline: none;
     font: inherit;
@@ -871,7 +871,7 @@ button {
     border-bottom-color: #b7b7b7;
     background: #f4f4f4;
     background-image: linear-gradient(#f4f4f4, #ececec);
-    color: #555;
+    color: #555555;
     font: 12px Lato, sans-serif;
 }
 
@@ -881,8 +881,8 @@ button {
   * https://github.com/megawac/irc-style-parser
   * Colours are credit to http://clrs.cc/
   */
-.irc-fg0 { color: #fff; }
-.irc-fg1 { color: #000; }
+.irc-fg0 { color: #ffffff; }
+.irc-fg1 { color: #000000; }
 .irc-fg2 { color: #001f3f; }
 .irc-fg3 { color: #2ecc40; }
 .irc-fg4 { color: #ff4136; }
@@ -895,10 +895,10 @@ button {
 .irc-fg11 { color: #7fdbff; }
 .irc-fg12 { color: #0074d9; }
 .irc-fg13 { color: #f012be; }
-.irc-fg14 { color: #aaa; }
-.irc-fg15 { color: #ddd; }
-.irc-bg0 { background: #fff; }
-.irc-bg1 { background: #000; }
+.irc-fg14 { color: #aaaaaa; }
+.irc-fg15 { color: #dddddd; }
+.irc-bg0 { background: #ffffff; }
+.irc-bg1 { background: #000000; }
 .irc-bg2 { background: #001f3f; }
 .irc-bg3 { background: #2ecc40; }
 .irc-bg4 { background: #ff4136; }
@@ -911,8 +911,8 @@ button {
 .irc-bg11 { background: #7fdbff; }
 .irc-bg12 { background: #0074d9; }
 .irc-bg13 { background: #f012be; }
-.irc-bg14 { background: #aaa; }
-.irc-bg15 { background: #ddd; }
+.irc-bg14 { background: #aaaaaa; }
+.irc-bg15 { background: #dddddd; }
 
 .irc-bold {
     font-weight: bold;
@@ -1027,7 +1027,7 @@ button {
     }
     /* stylelint-enable */
     body {
-        background: #fff;
+        background: #ffffff;
     }
     .lt,
     .rt,

@@ -12,7 +12,6 @@ module.exports = {
     'rules': {
         'at-rule-empty-line-before': null, // FIXME
         'block-no-single-line': null, // FIXME
-        'color-hex-length': null, // FIXME
         'declaration-no-important': null, // FIXME
         'font-family-name-quotes': null, // FIXME
         'no-descending-specificity': null, // FIXME
