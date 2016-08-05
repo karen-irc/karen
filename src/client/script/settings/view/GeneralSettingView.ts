@@ -115,5 +115,5 @@ export class GeneralSettingView implements EventListenerObject {
 
 
 function toObservable<T>(src: ReactiveProperty<T>): Rx.Observable<T> {
-    return src.asObservable().distinctUntilChanged();
+    return src.distinctUntilChanged();
 }

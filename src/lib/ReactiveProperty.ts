@@ -58,6 +58,10 @@ export class ReactiveProperty<T> implements Observer<T> {
         return this._subject;
     }
 
+    distinctUntilChanged(): Observable<T> {
+        return this._subject.distinctUntilChanged();
+    }
+
     value(): T {
         return this._subject.getValue();
     }
