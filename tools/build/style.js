@@ -27,6 +27,7 @@
 const autoprefixer = require('autoprefixer');
 const gulp = require('gulp');
 const postcss = require('gulp-postcss');
+const atImport = require('postcss-import');
 
 /**
  *  @param  {string}    entryPoint
@@ -35,6 +36,7 @@ const postcss = require('gulp-postcss');
  */
 function buildCSS(entryPoint, distDir) {
     const processors = [
+        atImport(),
         autoprefixer({
             browsers: ['last 1 versions'],
             remove: false,
