@@ -380,74 +380,78 @@ class DoIterator<T> implements Iterator<T> {
 
 class CacheOperator<T> implements Operator<T, T> {
     private _source: Iterable<T>;
-    private _cacheIterator: Iterator<T> | void;
-    private _cacheResult: Array<T>;
+    private _sourceIterator: Iterator<T> | void;
+    private _buffer: Array<T>;
 
     constructor(source: Iterable<T>) {
         this._source = source;
-        this._cacheIterator = undefined;
-        this._cacheResult = [];
+        this._sourceIterator = undefined;
+        this._buffer = [];
     }
 
     call(): Iterator<T> {
-        if (this._cacheIterator === undefined) {
+        if (this._sourceIterator === undefined) {
             const source: Iterator<T> = this._source[Symbol.iterator]();
-            this._cacheIterator = source;
+            this._sourceIterator = source;
         }
 
-        const iter = new CacheIterator<T>(this._cacheIterator, this._cacheResult);
+        const iter = new CacheIterator<T>(this._sourceIterator, this._buffer);
         return iter;
     }
 }
 
-// XXX:
-// This cache logic is just a concept. There may be a some potential leak
 class CacheIterator<T> implements Iterator<T> {
 
-    private _source: Iterator<T>;
-    private _cache: Array<T> | void;
+    // XXX: This will be a null value only if this iterator is completed.
+    private _source: Iterator<T> | undefined;
+    // XXX: This will be a null value only if this iterator is completed.
+    private _buffer: Array<T> | undefined;
     private _index: number;
-    private _isDone: boolean;
 
-    constructor(source: Iterator<T>, cache: Array<T>) {
+    constructor(source: Iterator<T>, buffer: Array<T>) {
         this._source = source;
-        this._cache = cache;
+        this._buffer = buffer;
         this._index = 0;
-        this._isDone = false;
+    }
+
+    private _destroy(): void {
+        this._source = undefined;
+        this._buffer = undefined;
     }
 
     next(): IteratorResult<T> {
+        const source = this._source;
+        const buffer = this._buffer;
+        if (source === undefined || buffer === undefined) {
+            return {
+                done: true,
+                value: undefined as any, // tslint:disable-line:no-any
+            };
+        }
+
         const current = this._index;
         ++this._index;
+
         // Even if the slot is filled with `undefined`,
         // it includes as the array's length after assignment a value.
-        if (!this._isDone && current <= (this._cache.length - 1)) {
-            const value = this._cache[current];
+        if (current <= (buffer.length - 1)) {
+            const value = buffer[current];
             return {
                 done: false,
                 value,
             };
         }
+
+        const { done, value }: IteratorResult<T> = source.next();
+        if (done) {
+            this._destroy();
+            return {
+                done,
+                value: undefined as any, // tslint:disable-line:no-any
+            };
+        }
         else {
-            if (this._isDone) {
-                return {
-                    done: true,
-                    value: undefined as any, // tslint:disable-line:no-any
-                };
-            }
-
-            const source = this._source;
-            const { done, value }: IteratorResult<T> = source.next();
-            if (done) {
-                this._cache = undefined; // release cache
-                this._isDone = true;
-                return {
-                    done,
-                    value: undefined as any, // tslint:disable-line:no-any
-                };
-            }
-            this._cache[current] = value;
-
+            buffer[current] = value;
             return {
                 done: false,
                 value,
