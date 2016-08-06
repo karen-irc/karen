@@ -407,45 +407,42 @@ class CacheIterator<T> implements Iterator<T> {
     // XXX: This will be a null value only if this iterator is completed.
     private _buffer: Array<T> | undefined;
     private _index: number;
-    private _isDone: boolean;
 
     constructor(source: Iterator<T>, buffer: Array<T>) {
         this._source = source;
         this._buffer = buffer;
         this._index = 0;
-        this._isDone = false;
     }
 
     private _destroy(): void {
         this._source = undefined;
         this._buffer = undefined;
-        this._isDone = true;
     }
 
     next(): IteratorResult<T> {
-        if (this._isDone) {
+        const source = this._source;
+        const buffer = this._buffer;
+        if (source === undefined || buffer === undefined) {
             return {
                 done: true,
                 value: undefined as any, // tslint:disable-line:no-any
             };
         }
 
-        const buffer: Array<T> | undefined = this._buffer;
         const current = this._index;
         ++this._index;
 
         // Even if the slot is filled with `undefined`,
         // it includes as the array's length after assignment a value.
-        if (current <= (buffer!.length - 1)) {
-            const value = buffer![current];
+        if (current <= (buffer.length - 1)) {
+            const value = buffer[current];
             return {
                 done: false,
                 value,
             };
         }
 
-        const source = this._source;
-        const { done, value }: IteratorResult<T> = source!.next();
+        const { done, value }: IteratorResult<T> = source.next();
         if (done) {
             this._destroy();
             return {
@@ -453,11 +450,12 @@ class CacheIterator<T> implements Iterator<T> {
                 value: undefined as any, // tslint:disable-line:no-any
             };
         }
-        buffer![current] = value;
-
-        return {
-            done: false,
-            value,
-        };
+        else {
+            buffer[current] = value;
+            return {
+                done: false,
+                value,
+            };
+        }
     }
 }
