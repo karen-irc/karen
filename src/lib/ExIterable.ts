@@ -380,22 +380,22 @@ class DoIterator<T> implements Iterator<T> {
 
 class CacheOperator<T> implements Operator<T, T> {
     private _source: Iterable<T>;
-    private _cacheIterator: Iterator<T> | void;
-    private _cacheResult: Array<T>;
+    private _sourceIterator: Iterator<T> | void;
+    private _buffer: Array<T>;
 
     constructor(source: Iterable<T>) {
         this._source = source;
-        this._cacheIterator = undefined;
-        this._cacheResult = [];
+        this._sourceIterator = undefined;
+        this._buffer = [];
     }
 
     call(): Iterator<T> {
-        if (this._cacheIterator === undefined) {
+        if (this._sourceIterator === undefined) {
             const source: Iterator<T> = this._source[Symbol.iterator]();
-            this._cacheIterator = source;
+            this._sourceIterator = source;
         }
 
-        const iter = new CacheIterator<T>(this._cacheIterator, this._cacheResult);
+        const iter = new CacheIterator<T>(this._sourceIterator, this._buffer);
         return iter;
     }
 }
@@ -405,13 +405,13 @@ class CacheOperator<T> implements Operator<T, T> {
 class CacheIterator<T> implements Iterator<T> {
 
     private _source: Iterator<T>;
-    private _cache: Array<T> | void;
+    private _buffer: Array<T> | void;
     private _index: number;
     private _isDone: boolean;
 
-    constructor(source: Iterator<T>, cache: Array<T>) {
+    constructor(source: Iterator<T>, buffer: Array<T>) {
         this._source = source;
-        this._cache = cache;
+        this._buffer = buffer;
         this._index = 0;
         this._isDone = false;
     }
@@ -421,8 +421,8 @@ class CacheIterator<T> implements Iterator<T> {
         ++this._index;
         // Even if the slot is filled with `undefined`,
         // it includes as the array's length after assignment a value.
-        if (!this._isDone && current <= (this._cache.length - 1)) {
-            const value = this._cache[current];
+        if (!this._isDone && current <= (this._buffer.length - 1)) {
+            const value = this._buffer[current];
             return {
                 done: false,
                 value,
@@ -439,14 +439,14 @@ class CacheIterator<T> implements Iterator<T> {
             const source = this._source;
             const { done, value }: IteratorResult<T> = source.next();
             if (done) {
-                this._cache = undefined; // release cache
+                this._buffer = undefined; // release cache
                 this._isDone = true;
                 return {
                     done,
                     value: undefined as any, // tslint:disable-line:no-any
                 };
             }
-            this._cache[current] = value;
+            this._buffer[current] = value;
 
             return {
                 done: false,
