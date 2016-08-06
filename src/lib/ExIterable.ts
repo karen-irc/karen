@@ -123,8 +123,10 @@ class MapOperator<S, T> implements Operator<S, T> {
 
 class MapIterator<S, T> implements Iterator<T> {
 
-    private _source: Iterator<S>;
-    private _selector: MapFn<S, T>;
+    // XXX: This will be a null value only if this iterator is completed.
+    private _source: Iterator<S> | undefined;
+    // XXX: This will be a null value only if this iterator is completed.
+    private _selector: MapFn<S, T> | undefined;;
     private _index: number;
 
     constructor(source: Iterator<S>, selector: MapFn<S, T>) {
@@ -133,16 +135,31 @@ class MapIterator<S, T> implements Iterator<T> {
         this._index = 0;
     }
 
+    private _destroy(): void {
+        this._source = undefined;
+        this._selector = undefined;
+    }
+
     next(): IteratorResult<T> {
-        const original: IteratorResult<S> = this._source.next();
-        if (original.done) {
+        const source = this._source;
+        const selector = this._selector;
+        if (source === undefined || selector === undefined) {
             return {
                 done: true,
                 value: undefined as any, // tslint:disable-line:no-any
             };
         }
 
-        const result: T = this._selector(original.value, this._index++);
+        const original: IteratorResult<S> = source.next();
+        if (original.done) {
+            this._destroy();
+            return {
+                done: true,
+                value: undefined as any, // tslint:disable-line:no-any
+            };
+        }
+
+        const result: T = selector(original.value, this._index++);
         return {
             done: false,
             value: result,
@@ -171,8 +188,10 @@ class FilterOperator<T> implements Operator<T, T> {
 
 class FilterIterator<T> implements Iterator<T> {
 
-    private _source: Iterator<T>;
-    private _filter: FilterFn<T>;
+    // XXX: This will be a null value only if this iterator is completed.
+    private _source: Iterator<T> | undefined;;
+    // XXX: This will be a null value only if this iterator is completed.
+    private _filter: FilterFn<T> | undefined;;
     private _index: number;
 
     constructor(source: Iterator<T>, filter: FilterFn<T>) {
@@ -181,9 +200,21 @@ class FilterIterator<T> implements Iterator<T> {
         this._index = 0;
     }
 
+    private _destroy(): void {
+        this._source = undefined;
+        this._filter = undefined;
+    }
+
     next(): IteratorResult<T> {
         const source = this._source;
         const filter = this._filter;
+        if (source === undefined || filter === undefined) {
+            return {
+                done: true,
+                value: undefined as any, // tslint:disable-line:no-any
+            };
+        }
+
         let next: IteratorResult<T> = source.next();
         while (!next.done) {
             const ok: boolean = filter(next.value, this._index++);
@@ -197,6 +228,7 @@ class FilterIterator<T> implements Iterator<T> {
             next = source.next();
         }
 
+        this._destroy();
         return {
             done: true,
             value: undefined as any, // tslint:disable-line:no-any
@@ -224,9 +256,12 @@ class FilterMapOperator<S, T> implements Operator<S, T> {
 
 class FilterMapIterator<S, T> implements Iterator<T> {
 
-    private _source: Iterator<S>;
-    private _filter: FilterFn<S>;
-    private _selector: MapFn<S, T>;
+    // XXX: This will be a null value only if this iterator is completed.
+    private _source: Iterator<S> | undefined;
+    // XXX: This will be a null value only if this iterator is completed.
+    private _filter: FilterFn<S> | undefined;
+    // XXX: This will be a null value only if this iterator is completed.
+    private _selector: MapFn<S, T> | undefined;
     private _index: number;
     private _selectorIndex: number;
 
@@ -238,15 +273,29 @@ class FilterMapIterator<S, T> implements Iterator<T> {
         this._selectorIndex = 0;
     }
 
+    private _destroy(): void {
+        this._source = undefined;
+        this._filter = undefined;
+        this._selector = undefined;
+    }
+
     next(): IteratorResult<T> {
         const source = this._source;
         const filter = this._filter;
+        const selector = this._selector;
+        if (source === undefined || filter === undefined || selector === undefined) {
+            return {
+                done: true,
+                value: undefined as any, // tslint:disable-line:no-any
+            };
+        }
+
         let next: IteratorResult<S> = source.next();
 
         while (!next.done) {
             const ok: boolean = filter(next.value, this._index++);
             if (ok) {
-                const value = this._selector(next.value, this._selectorIndex++);
+                const value = selector(next.value, this._selectorIndex++);
                 return {
                     done: false,
                     value,
@@ -256,6 +305,7 @@ class FilterMapIterator<S, T> implements Iterator<T> {
             next = source.next();
         }
 
+        this._destroy();
         return {
             done: true,
             value: undefined as any, // tslint:disable-line:no-any
@@ -283,29 +333,47 @@ class FlatMapOperator<S, T> implements Operator<S, T> {
 
 class FlatMapIterator<S, T> implements Iterator<T> {
 
-    private _source: Iterator<S>;
-    private _inner: Iterator<T> | void;
-    private _selector: FlatMapFn<S, T>;
+    // XXX: This will be a null value only if this iterator is completed.
+    private _source: Iterator<S> | undefined;
+    // XXX: This will be a null value only if this iterator is completed.
+    private _selector: FlatMapFn<S, T> | undefined;
+    private _inner: Iterator<T> | undefined;
     private _index: number;
 
     constructor(source: Iterator<S>, selector: FlatMapFn<S, T>) {
         this._source = source;
-        this._inner = undefined;
         this._selector = selector;
+        this._inner = undefined;
         this._index = 0;
     }
 
+    private _destroy(): void {
+        this._source = undefined;
+        this._selector = undefined;
+        this._inner = undefined;
+    }
+
     next(): IteratorResult<T> {
+        const source = this._source;
+        const selector = this._selector;
+        if (source === undefined || selector === undefined) {
+            return {
+                done: true,
+                value: undefined as any, // tslint:disable-line:no-any
+            };
+        }
+
         while (true) {
             if (this._inner === undefined) {
-                const outer: IteratorResult<S> = this._source.next();
+                const outer: IteratorResult<S> = source.next();
                 if (outer.done) {
+                    this._destroy();
                     return {
                         done: true,
                         value: undefined as any, // tslint:disable-line:no-any
                     };
                 }
-                const result: Iterable<T> = this._selector(outer.value, this._index++);
+                const result: Iterable<T> = selector(outer.value, this._index++);
                 const inner = result[Symbol.iterator]();
                 if (!inner) {
                     throw new Error('selector cannot return a valid iterable.');
@@ -348,8 +416,10 @@ class DoOperator<T> implements Operator<T, T> {
 
 class DoIterator<T> implements Iterator<T> {
 
-    private _source: Iterator<T>;
-    private _action: DoFn<T>;
+    // XXX: This will be a null value only if this iterator is completed.
+    private _source: Iterator<T> | undefined;
+    // XXX: This will be a null value only if this iterator is completed.
+    private _action: DoFn<T> | undefined;
     private _index: number;
 
     constructor(source: Iterator<T>, action: DoFn<T>) {
@@ -358,10 +428,24 @@ class DoIterator<T> implements Iterator<T> {
         this._index = 0;
     }
 
+    private _destroy(): void {
+        this._source = undefined;
+        this._action = undefined;
+    }
+
     next(): IteratorResult<T> {
         const source = this._source;
+        const action = this._action;
+        if (source === undefined || action === undefined) {
+            return {
+                done: true,
+                value: undefined as any, // tslint:disable-line:no-any
+            };
+        }
+
         const next: IteratorResult<T> = source.next();
         if (next.done) {
+            this._destroy();
             return {
                 done: true,
                 value: undefined as any, // tslint:disable-line:no-any
@@ -369,7 +453,6 @@ class DoIterator<T> implements Iterator<T> {
         }
 
         const result: T = next.value;
-        const action: DoFn<T> = this._action;
         action(result, this._index++);
         return {
             done: false,

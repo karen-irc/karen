@@ -69,6 +69,10 @@ class HelperIterator<T> implements Iterator<T> {
     }
 }
 
+function getIterator<T>(s: Iterable<T>): Iterator<T> {
+    return s[Symbol.iterator]();
+}
+
 describe('ExIterable', function () {
     describe('create()', function () {
         let isCalledNext = false;
@@ -203,169 +207,301 @@ describe('ExIterable', function () {
     });
 
     describe('map()', function () {
-        const resultSeq: Array<number> = [];
-        const indexSeq: Array<number> = [];
+        describe('don\'t re-iterate again after completed', () => {
+            let result1: boolean;
+            let result2: boolean;
 
-        before(function () {
-            const iter = ExIterable.create([0, 1, 2])
-                .map((v, i) => {
-                    indexSeq.push(i);
-                    return v + 1;
-                });
-            iter.forEach((v) => {
-                resultSeq.push(v);
+            before(() => {
+                const src = ExIterable.create([]).filter(() => true);
+                const iter = getIterator(src);
+                result1 = iter.next().done;
+                result2 = iter.next().done;
+            });
+
+            it('the 1st time should be expected', () => {
+                assert.deepStrictEqual(result1, true);
+            });
+
+            it('the 2nd time should be expected', () => {
+                assert.deepStrictEqual(result2, true);
             });
         });
 
-        it('expected result sequence', function () {
-            assert.deepStrictEqual(resultSeq, [1, 2, 3]);
-        });
+        describe('iteration', () => {
+            const resultSeq: Array<number> = [];
+            const indexSeq: Array<number> = [];
 
-        it('expected index sequence', function () {
-            assert.deepStrictEqual(indexSeq, [0, 1, 2]);
+            before(function () {
+                const iter = ExIterable.create([0, 1, 2])
+                    .map((v, i) => {
+                        indexSeq.push(i);
+                        return v + 1;
+                    });
+                iter.forEach((v) => {
+                    resultSeq.push(v);
+                });
+            });
+
+            it('expected result sequence', function () {
+                assert.deepStrictEqual(resultSeq, [1, 2, 3]);
+            });
+
+            it('expected index sequence', function () {
+                assert.deepStrictEqual(indexSeq, [0, 1, 2]);
+            });
         });
     });
 
     describe('flatMap()', function () {
-        const resultSeq: Array<number> = [];
-        const indexSeq: Array<number> = [];
+        describe('don\'t re-iterate again after completed', () => {
+            let result1: boolean;
+            let result2: boolean;
 
-        class ThreeCount implements IterableIterator<number> {
-            private readonly _begin: number;
-            private _index: number;
+            before(() => {
+                const src = ExIterable.create([]).flatMap(() => []);
+                const iter = getIterator(src);
+                result1 = iter.next().done;
+                result2 = iter.next().done;
+            });
 
-            constructor(begin: number) {
-                this._begin = begin;
-                this._index = 0;
-            }
+            it('the 1st time should be expected', () => {
+                assert.deepStrictEqual(result1, true);
+            });
 
-            next(): IteratorResult<number> {
-                if (this._index > 2) {
-                    return {
-                        done: true,
-                        value: -1,
-                    };
-                }
-                else {
-                    const count = this._index++;
-                    const next = this._begin + count;
-                    return {
-                        done: false,
-                        value: next,
-                    };
-                }
-            }
-
-            [Symbol.iterator](): IterableIterator<number> {
-                return this;
-            }
-        }
-
-        before(function () {
-            const iter = ExIterable.create([1, 4, 7])
-                .flatMap((v, i) => {
-                    indexSeq.push(i);
-                    return new ThreeCount(v);
-                });
-            iter.forEach((v) => {
-                resultSeq.push(v);
+            it('the 2nd time should be expected', () => {
+                assert.deepStrictEqual(result2, true);
             });
         });
 
-        it('expected result sequence', function () {
-            assert.deepStrictEqual(resultSeq, [1, 2, 3, 4, 5, 6, 7, 8, 9]);
-        });
+        describe('basic iteration', function () {
+            const resultSeq: Array<number> = [];
+            const indexSeq: Array<number> = [];
 
-        it('expected index sequence', function () {
-            assert.deepStrictEqual(indexSeq, [0, 1, 2]);
+            class ThreeCount implements IterableIterator<number> {
+                private readonly _begin: number;
+                private _index: number;
+
+                constructor(begin: number) {
+                    this._begin = begin;
+                    this._index = 0;
+                }
+
+                next(): IteratorResult<number> {
+                    if (this._index > 2) {
+                        return {
+                            done: true,
+                            value: -1,
+                        };
+                    }
+                    else {
+                        const count = this._index++;
+                        const next = this._begin + count;
+                        return {
+                            done: false,
+                            value: next,
+                        };
+                    }
+                }
+
+                [Symbol.iterator](): IterableIterator<number> {
+                    return this;
+                }
+            }
+
+            before(function () {
+                const iter = ExIterable.create([1, 4, 7])
+                    .flatMap((v, i) => {
+                        indexSeq.push(i);
+                        return new ThreeCount(v);
+                    });
+                iter.forEach((v) => {
+                    resultSeq.push(v);
+                });
+            });
+
+            it('expected result sequence', function () {
+                assert.deepStrictEqual(resultSeq, [1, 2, 3, 4, 5, 6, 7, 8, 9]);
+            });
+
+            it('expected index sequence', function () {
+                assert.deepStrictEqual(indexSeq, [0, 1, 2]);
+            });
         });
     });
 
     describe('filter()', function () {
         describe('generic case', function () {
-            const resultSeq: Array<number> = [];
-            const indexSeq: Array<number> = [];
+            describe('don\'t re-iterate again after completed', () => {
+                let result1: boolean;
+                let result2: boolean;
 
-            before(function () {
-                const iter = ExIterable.create([0, 1, 2, 3, 4])
-                    .filter((v, i) => {
-                        indexSeq.push(i);
-                        return (v % 2 === 0);
-                    });
-                iter.forEach((v) => {
-                    resultSeq.push(v);
+                before(() => {
+                    const src = ExIterable.create([]).filter(() => true);
+                    const iter = getIterator(src);
+                    result1 = iter.next().done;
+                    result2 = iter.next().done;
+                });
+
+                it('the 1st time should be expected', () => {
+                    assert.deepStrictEqual(result1, true);
+                });
+
+                it('the 2nd time should be expected', () => {
+                    assert.deepStrictEqual(result2, true);
                 });
             });
 
-            it('expected result sequence', function () {
-                assert.deepStrictEqual(resultSeq, [0, 2, 4]);
-            });
+            describe('iteration', () => {
+                const resultSeq: Array<number> = [];
+                const indexSeq: Array<number> = [];
 
-            it('expected index sequence', function () {
-                assert.deepStrictEqual(indexSeq, [0, 1, 2, 3, 4]);
+                before(function () {
+                    const iter = ExIterable.create([0, 1, 2, 3, 4])
+                        .filter((v, i) => {
+                            indexSeq.push(i);
+                            return (v % 2 === 0);
+                        });
+                    iter.forEach((v) => {
+                        resultSeq.push(v);
+                    });
+                });
+
+                it('expected result sequence', function () {
+                    assert.deepStrictEqual(resultSeq, [0, 2, 4]);
+                });
+
+                it('expected index sequence', function () {
+                    assert.deepStrictEqual(indexSeq, [0, 1, 2, 3, 4]);
+                });
             });
         });
 
         describe('specialized map()', function () {
-            const resultSeq: Array<number> = [];
-            const indexSeqOfFilter: Array<number> = [];
-            const mapSeqOfFilter: Array<number> = [];
+            describe('don\'t re-iterate again after completed', () => {
+                let result1: boolean;
+                let result2: boolean;
 
-            before(function () {
-                const iter = ExIterable.create([0, 1, 2, 3, 4])
-                    .filter((v, i) => {
-                        indexSeqOfFilter.push(i);
-                        return (v % 2 === 0);
-                    })
-                    .map((v, i) => {
-                        mapSeqOfFilter.push(i);
-                        return v + 1;
-                    });
+                before(() => {
+                    const src = ExIterable.create([])
+                        .filter((_) => true)
+                        .map((_) => {});
+                    const iter = getIterator(src);
+                    result1 = iter.next().done;
+                    result2 = iter.next().done;
+                });
 
-                iter.forEach((v) => {
-                    resultSeq.push(v);
+                it('the 1st time should be expected', () => {
+                    assert.deepStrictEqual(result1, true);
+                });
+
+                it('the 2nd time should be expected', () => {
+                    assert.deepStrictEqual(result2, true);
                 });
             });
 
-            it('expected result sequence', function () {
-                assert.deepStrictEqual(resultSeq, [1, 3, 5]);
-            });
+            describe('iteration', () => {
+                const resultSeq: Array<number> = [];
+                const indexSeqOfFilter: Array<number> = [];
+                const mapSeqOfFilter: Array<number> = [];
 
-            it('expected filter()\'s index sequence', function () {
-                assert.deepStrictEqual(indexSeqOfFilter, [0, 1, 2, 3, 4]);
-            });
+                before(function () {
+                    const iter = ExIterable.create([0, 1, 2, 3, 4])
+                        .filter((v, i) => {
+                            indexSeqOfFilter.push(i);
+                            return (v % 2 === 0);
+                        })
+                        .map((v, i) => {
+                            mapSeqOfFilter.push(i);
+                            return v + 1;
+                        });
 
-            it('expected the following map()\'s index sequence', function () {
-                assert.deepStrictEqual(mapSeqOfFilter, [0, 1, 2]);
+                    iter.forEach((v) => {
+                        resultSeq.push(v);
+                    });
+                });
+
+                it('expected result sequence', function () {
+                    assert.deepStrictEqual(resultSeq, [1, 3, 5]);
+                });
+
+                it('expected filter()\'s index sequence', function () {
+                    assert.deepStrictEqual(indexSeqOfFilter, [0, 1, 2, 3, 4]);
+                });
+
+                it('expected the following map()\'s index sequence', function () {
+                    assert.deepStrictEqual(mapSeqOfFilter, [0, 1, 2]);
+                });
             });
         });
     });
 
     describe('do()', function () {
-        const resultSeq: Array<number> = [];
-        const indexSeq: Array<number> = [];
+        describe('don\'t re-iterate again after completed', () => {
+            let result1: boolean;
+            let result2: boolean;
 
-        before(function () {
-            const iter = ExIterable.create([0, 1, 2])
-                .do((v, i) => {
-                    indexSeq.push(i);
-                    return String(v);
-                });
-            iter.forEach((v) => {
-                resultSeq.push(v);
+            before(() => {
+                const src = ExIterable.create([]).do(() => {});
+                const iter = getIterator(src);
+                result1 = iter.next().done;
+                result2 = iter.next().done;
+            });
+
+            it('the 1st time should be expected', () => {
+                assert.deepStrictEqual(result1, true);
+            });
+
+            it('the 2nd time should be expected', () => {
+                assert.deepStrictEqual(result2, true);
             });
         });
 
-        it('expected result sequence', function () {
-            assert.deepStrictEqual(resultSeq, [0, 1, 2]);
-        });
+        describe('simple case', () => {
+            const resultSeq: Array<number> = [];
+            const indexSeq: Array<number> = [];
 
-        it('expected index sequence', function () {
-            assert.deepStrictEqual(indexSeq, [0, 1, 2]);
+            before(function () {
+                const iter = ExIterable.create([0, 1, 2])
+                    .do((v, i) => {
+                        indexSeq.push(i);
+                        return String(v);
+                    });
+                iter.forEach((v) => {
+                    resultSeq.push(v);
+                });
+            });
+
+            it('expected result sequence', function () {
+                assert.deepStrictEqual(resultSeq, [0, 1, 2]);
+            });
+
+            it('expected index sequence', function () {
+                assert.deepStrictEqual(indexSeq, [0, 1, 2]);
+            });
         });
     });
 
     describe('memoize()', function () {
+        describe('don\'t re-iterate again after completed', () => {
+            let result1: boolean;
+            let result2: boolean;
+
+            before(() => {
+                const src = ExIterable.create([]).memoize();
+                const iter = getIterator(src);
+                result1 = iter.next().done;
+                result2 = iter.next().done;
+            });
+
+            it('the 1st time should be expected', () => {
+                assert.deepStrictEqual(result1, true);
+            });
+
+            it('the 2nd time should be expected', () => {
+                assert.deepStrictEqual(result2, true);
+            });
+        });
+
         describe('simple case', function () {
             const resultSeq1: Array<number> = [];
             const resultSeq2: Array<number> = [];
@@ -390,9 +526,6 @@ describe('ExIterable', function () {
         });
 
         describe('call `next()` from some iterator by turns', function () {
-            function getIterator<T>(s: Iterable<T>): Iterator<T> {
-                return s[Symbol.iterator]();
-            }
             function pushToArray<T>(i: Iterator<T>, target: Array<IteratorResult<T>>): () => void  {
                 return function () {
                     const result = i.next();
