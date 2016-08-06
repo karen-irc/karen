@@ -393,9 +393,11 @@ describe('ExIterable', function () {
             function getIterator<T>(s: Iterable<T>): Iterator<T> {
                 return s[Symbol.iterator]();
             }
-            function pushToArray<T>(i: Iterator<T>, target: Array<IteratorResult<T>>): void {
-                const result = i.next();
-                target.push(result);
+            function pushToArray<T>(i: Iterator<T>, target: Array<IteratorResult<T>>): () => void  {
+                return function () {
+                    const result = i.next();
+                    target.push(result);
+                };
             }
 
             let iter1: Iterator<number>;
@@ -414,33 +416,37 @@ describe('ExIterable', function () {
                 iter2 = getIterator(iterable);
                 iter3 = getIterator(iterable);
 
+                const pushTo1 = pushToArray(iter1, seq1);
+                const pushTo2 = pushToArray(iter2, seq2);
+                const pushTo3 = pushToArray(iter3, seq3);
+
                 iter1.next();
                 iter3.next();
                 iter2.next();
 
-                pushToArray(iter1, seq1);
-                pushToArray(iter2, seq2);
-                pushToArray(iter3, seq3);
+                pushTo1();
+                pushTo2();
+                pushTo3();
 
-                pushToArray(iter3, seq3);
-                pushToArray(iter2, seq2);
-                pushToArray(iter1, seq1);
+                pushTo3();
+                pushTo2();
+                pushTo1();
 
-                pushToArray(iter1, seq1);
-                pushToArray(iter3, seq3);
-                pushToArray(iter2, seq2);
+                pushTo1();
+                pushTo3();
+                pushTo2();
 
-                pushToArray(iter2, seq2);
-                pushToArray(iter1, seq1);
-                pushToArray(iter3, seq3);
+                pushTo2();
+                pushTo1();
+                pushTo3();
 
-                pushToArray(iter2, seq2);
-                pushToArray(iter3, seq3);
-                pushToArray(iter1, seq1);
+                pushTo2();
+                pushTo3();
+                pushTo1();
 
-                pushToArray(iter3, seq3);
-                pushToArray(iter1, seq1);
-                pushToArray(iter2, seq2);
+                pushTo3();
+                pushTo1();
+                pushTo2();
             });
 
             it('iter1 & iter2 are different', function () {
