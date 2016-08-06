@@ -27,7 +27,9 @@
 const autoprefixer = require('autoprefixer');
 const gulp = require('gulp');
 const postcss = require('gulp-postcss');
+
 const atImport = require('postcss-import');
+const customProperties = require('postcss-custom-properties');
 
 /**
  *  @param  {string}    entryPoint
@@ -35,8 +37,14 @@ const atImport = require('postcss-import');
  *  @returns    {NodeJS.ReadWriteStream}
  */
 function buildCSS(entryPoint, distDir) {
-    const processors = [
+    // These paths output a style sheets which latest browosers can load correctly.
+    const preprocess = [
         atImport(),
+        customProperties,
+    ];
+
+    // These paths compile with adding polyfill, inlining images or minifying a file.
+    const postprocess = [
         autoprefixer({
             browsers: ['last 1 versions'],
             remove: false,
@@ -44,7 +52,10 @@ function buildCSS(entryPoint, distDir) {
     ];
 
     return gulp.src(entryPoint)
-        .pipe(postcss(processors))
+        .pipe(postcss([
+            ...preprocess,
+            ...postprocess,
+        ]))
         .pipe(gulp.dest(distDir));
 }
 
