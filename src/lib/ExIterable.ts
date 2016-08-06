@@ -400,12 +400,12 @@ class CacheOperator<T> implements Operator<T, T> {
     }
 }
 
-// XXX:
-// This cache logic is just a concept. There may be a some potential leak
 class CacheIterator<T> implements Iterator<T> {
 
-    private _source: Iterator<T>;
-    private _buffer: Array<T> | void;
+    // XXX: This will be a null value only if this iterator is completed.
+    private _source: Iterator<T> | undefined;
+    // XXX: This will be a null value only if this iterator is completed.
+    private _buffer: Array<T> | undefined;
     private _index: number;
     private _isDone: boolean;
 
@@ -416,13 +416,21 @@ class CacheIterator<T> implements Iterator<T> {
         this._isDone = false;
     }
 
+    private _destroy(): void {
+        this._source = undefined;
+        this._buffer = undefined;
+        this._isDone = true;
+    }
+
     next(): IteratorResult<T> {
+        const buffer: Array<T> | undefined = this._buffer;
         const current = this._index;
         ++this._index;
+
         // Even if the slot is filled with `undefined`,
         // it includes as the array's length after assignment a value.
-        if (!this._isDone && current <= (this._buffer.length - 1)) {
-            const value = this._buffer[current];
+        if (!this._isDone && current <= (buffer!.length - 1)) {
+            const value = buffer![current];
             return {
                 done: false,
                 value,
@@ -437,16 +445,15 @@ class CacheIterator<T> implements Iterator<T> {
             }
 
             const source = this._source;
-            const { done, value }: IteratorResult<T> = source.next();
+            const { done, value }: IteratorResult<T> = source!.next();
             if (done) {
-                this._buffer = undefined; // release cache
-                this._isDone = true;
+                this._destroy();
                 return {
                     done,
                     value: undefined as any, // tslint:disable-line:no-any
                 };
             }
-            this._buffer[current] = value;
+            buffer![current] = value;
 
             return {
                 done: false,
