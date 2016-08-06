@@ -365,7 +365,7 @@ describe('ExIterable', function () {
         });
     });
 
-    describe('cache()', function () {
+    describe('memoize()', function () {
         describe('simple case', function () {
             const resultSeq1: Array<number> = [];
             const resultSeq2: Array<number> = [];
@@ -373,7 +373,7 @@ describe('ExIterable', function () {
             before(function () {
                 const src = ExIterable.create([0, 1, 2])
                     .map(() => Math.random());
-                const iter = ExIterable.create(src).cache();
+                const iter = ExIterable.create(src).memoize();
 
                 iter.forEach((v) => {
                     resultSeq1.push(v);
@@ -411,7 +411,7 @@ describe('ExIterable', function () {
             before(function () {
                 const src = ExIterable.create([0, 1, 2, 3, 4])
                     .map((v) => v + Math.random());
-                const iterable = ExIterable.create(src).cache();
+                const iterable = ExIterable.create(src).memoize();
                 iter1 = getIterator(iterable);
                 iter2 = getIterator(iterable);
                 iter3 = getIterator(iterable);

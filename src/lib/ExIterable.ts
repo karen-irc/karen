@@ -82,8 +82,8 @@ export class ExIterable<T> implements Iterable<T> {
         return lifted;
     }
 
-    cache(): ExIterable<T> {
-        const op = new CacheOperator<T>(this);
+    memoize(): ExIterable<T> {
+        const op = new MemoizeOperator<T>(this);
         return this.lift(op);
     }
 
@@ -378,7 +378,7 @@ class DoIterator<T> implements Iterator<T> {
     }
 }
 
-class CacheOperator<T> implements Operator<T, T> {
+class MemoizeOperator<T> implements Operator<T, T> {
     private _source: Iterable<T>;
     private _sourceIterator: Iterator<T> | void;
     private _buffer: Array<T>;
@@ -395,12 +395,12 @@ class CacheOperator<T> implements Operator<T, T> {
             this._sourceIterator = source;
         }
 
-        const iter = new CacheIterator<T>(this._sourceIterator, this._buffer);
+        const iter = new MemoizeIterator<T>(this._sourceIterator, this._buffer);
         return iter;
     }
 }
 
-class CacheIterator<T> implements Iterator<T> {
+class MemoizeIterator<T> implements Iterator<T> {
 
     // XXX: This will be a null value only if this iterator is completed.
     private _source: Iterator<T> | undefined;
