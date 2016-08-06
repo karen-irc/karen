@@ -423,42 +423,41 @@ class CacheIterator<T> implements Iterator<T> {
     }
 
     next(): IteratorResult<T> {
+        if (this._isDone) {
+            return {
+                done: true,
+                value: undefined as any, // tslint:disable-line:no-any
+            };
+        }
+
         const buffer: Array<T> | undefined = this._buffer;
         const current = this._index;
         ++this._index;
 
         // Even if the slot is filled with `undefined`,
         // it includes as the array's length after assignment a value.
-        if (!this._isDone && current <= (buffer!.length - 1)) {
+        if (current <= (buffer!.length - 1)) {
             const value = buffer![current];
             return {
                 done: false,
                 value,
             };
         }
-        else {
-            if (this._isDone) {
-                return {
-                    done: true,
-                    value: undefined as any, // tslint:disable-line:no-any
-                };
-            }
 
-            const source = this._source;
-            const { done, value }: IteratorResult<T> = source!.next();
-            if (done) {
-                this._destroy();
-                return {
-                    done,
-                    value: undefined as any, // tslint:disable-line:no-any
-                };
-            }
-            buffer![current] = value;
-
+        const source = this._source;
+        const { done, value }: IteratorResult<T> = source!.next();
+        if (done) {
+            this._destroy();
             return {
-                done: false,
-                value,
+                done,
+                value: undefined as any, // tslint:disable-line:no-any
             };
         }
+        buffer![current] = value;
+
+        return {
+            done: false,
+            value,
+        };
     }
 }
