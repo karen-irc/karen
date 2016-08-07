@@ -24,7 +24,8 @@
  */
 import * as assert from 'assert';
 
-import {ExIterable} from '../../ExIterable';
+import {ExIterable} from '../index';
+import {getIterator} from '../util';
 
 class HelperIterable<T> implements Iterable<T> {
 
@@ -39,7 +40,7 @@ class HelperIterable<T> implements Iterable<T> {
     }
 
     [Symbol.iterator](): Iterator<T> {
-        const src = this._source[Symbol.iterator]();
+        const src = getIterator(this._source);
         const iter = new HelperIterator(src, this._onNext, this._onAfterFinish);
         return iter;
     }
