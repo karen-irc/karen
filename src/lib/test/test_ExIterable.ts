@@ -482,7 +482,7 @@ describe('ExIterable', function () {
     });
 
     describe('memoize()', function () {
-        describe.skip('without consumer limitation', () => {
+        describe('without consumer limitation', () => {
             describe('don\'t re-iterate again after completed', () => {
                 let result1: boolean;
                 let result2: boolean;
@@ -608,7 +608,7 @@ describe('ExIterable', function () {
                 });
             });
         });
-        describe.skip('with consumer limitation is larger than actual consumer', () => {
+        describe('with consumer limitation is larger than actual consumer', () => {
             describe('don\'t re-iterate again after completed', () => {
                 const CONSUMER_LIMIT = 3;
                 let result1: boolean;
@@ -737,7 +737,7 @@ describe('ExIterable', function () {
                 });
             });
         });
-        describe.skip('with consumer limitation is same with actual consumer', () => {
+        describe('with consumer limitation is same with actual consumer', () => {
             describe('don\'t re-iterate again after completed', () => {
                 const CONSUMER_LIMIT = 2;
                 let result1: boolean;
@@ -866,7 +866,7 @@ describe('ExIterable', function () {
                 });
             });
         });
-        describe.skip('with consumer limitation is smaller than actual consumer', () => {
+        describe('with consumer limitation is smaller than actual consumer', () => {
             describe('don\'t re-iterate again after completed', () => {
                 const CONSUMER_LIMIT = 1;
                 let result1: boolean;
@@ -1043,7 +1043,7 @@ describe('ExIterable', function () {
                 });
             });
         });
-        describe.skip('with consumer limitation is 0', () => {
+        describe('with consumer limitation is 0', () => {
             describe('to call memoize()', () => {
                 let error: RangeError;
                 before(() => {
