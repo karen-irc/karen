@@ -1,11 +1,4 @@
 import {Operator} from './Operator';
-import {BufferOperator} from './operator/buffer';
-import {DoFn, DoOperator} from './operator/do';
-import {FilterFn, FilterOperator} from './operator/filter';
-import {FlatMapFn, FlatMapOperator} from './operator/flatMap';
-import {MapFn, MapOperator, FilterMapOperator} from './operator/map';
-import {MemoizeOperator} from './operator/memoize';
-import {ScanAccumulatorFn, ScanOperator} from './operator/scan';
 import {getIterator} from './util';
 
 /**
@@ -60,60 +53,6 @@ export class ExIterable<T> implements Iterable<T> {
             fn(next.value, index++);
             next = iter.next();
         }
-    }
-
-    buffer<T>(this: ExIterable<T>, size: number): ExIterable<Array<T>> {
-        if (size <= 0) {
-            throw new RangeError('buffer size must be larger than 0');
-        }
-
-        const op = new BufferOperator<T, Array<T>>(this, size);
-        return this.lift(op);
-    }
-
-    do<T>(this: ExIterable<T>, action: DoFn<T>): ExIterable<T> {
-        const op = new DoOperator<T>(this, action);
-        const lifted = this.lift<T>(op);
-        return lifted;
-    }
-
-    filter<T>(this: ExIterable<T>, filter: FilterFn<T>): ExIterable<T> {
-        const op = new FilterOperator<T>(this, filter);
-        const lifted = this.lift<T>(op);
-        return lifted;
-    }
-
-    flatMap<T, U>(this: ExIterable<T>, selector: FlatMapFn<T, U>): ExIterable<U> {
-        const op = new FlatMapOperator<T, U>(this, selector);
-        const lifted = this.lift<U>(op);
-        return lifted;
-    }
-
-    map<T, U>(this: ExIterable<T>, selector: MapFn<T, U>): ExIterable<U> {
-        let op: Operator<T, U>;
-        const operator: FilterOperator<T> = this._operator as any; // tslint:disable-line:no-any
-        if (operator instanceof FilterOperator) {
-            op = new FilterMapOperator<T, U>(this._source!, operator.filter, selector);
-        }
-        else {
-            op = new MapOperator<T, U>(this, selector);
-        }
-        const lifted = this.lift<U>(op);
-        return lifted;
-    }
-
-    memoize<T>(this: ExIterable<T>, consumerLimit: number = Number.POSITIVE_INFINITY): ExIterable<T> {
-        if (consumerLimit <= 0) {
-            throw new RangeError('consumer limit must be larger than 0');
-        }
-
-        const op = new MemoizeOperator<T>(this, consumerLimit);
-        return this.lift(op);
-    }
-
-    scan<T, R>(this: ExIterable<T>, accumulator: ScanAccumulatorFn<T, R>, seed: R): ExIterable<R> {
-        const op = new ScanOperator<T, R>(this, seed, accumulator);
-        return this.lift(op);
     }
 
     [Symbol.iterator](): Iterator<T> {
