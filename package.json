@@ -101,7 +101,7 @@
     "gulp-postcss": "^6.1.1",
     "gulp-uglify": "^2.0.0",
     "jsdom": "^9.4.1",
-    "mocha": "^3.0.0",
+    "mocha": "^3.0.1",
     "npm-run-all": "^2.3.0",
     "postcss-custom-properties": "^5.0.1",
     "postcss-import": "^8.1.2",
