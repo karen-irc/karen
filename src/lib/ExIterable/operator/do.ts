@@ -1,9 +1,22 @@
+import {ExIterable} from '../ExIterable';
 import {Operator} from '../Operator';
 import {getIterator} from '../util';
 
-export type DoFn<T> = (this: void, value: T, index: number) => void;
+type DoFn<T> = (this: void, value: T, index: number) => void;
 
-export class DoOperator<T> implements Operator<T, T> {
+export interface DoSignature<T> {
+    (selector: DoFn<T>): ExIterable<T>;
+}
+
+// tslint:disable:no-invalid-this
+export function doExIterable<T>(this: ExIterable<T>, action: DoFn<T>): ExIterable<T> {
+    const op = new DoOperator<T>(this, action);
+    const lifted = this.lift<T>(op);
+    return lifted;
+}
+// tslint:enable
+
+class DoOperator<T> implements Operator<T, T> {
     private _source: Iterable<T>;
     private _action: DoFn<T>;
 

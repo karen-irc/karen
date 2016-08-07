@@ -1,9 +1,21 @@
+import {ExIterable} from '../ExIterable';
 import {Operator} from '../Operator';
 import {getIterator} from '../util';
 
-export type ScanAccumulatorFn<T, R> = (this: void, acc: R, value: T, index: number) => R;
+type ScanAccumulatorFn<T, R> = (this: void, acc: R, value: T, index: number) => R;
 
-export class ScanOperator<S, T> implements Operator<S, T> {
+export interface ScanSignature<T> {
+    <R>(accumulator: ScanAccumulatorFn<T, R>, seed: R): ExIterable<R>;
+}
+
+// tslint:disable:no-invalid-this
+export function scan<T, R>(this: ExIterable<T>, accumulator: ScanAccumulatorFn<T, R>, seed: R): ExIterable<R> {
+    const op = new ScanOperator<T, R>(this, seed, accumulator);
+    return this.lift(op);
+}
+// tslint:enable
+
+class ScanOperator<S, T> implements Operator<S, T> {
     private _source: Iterable<S>;
     private _accumulator: ScanAccumulatorFn<S, T>;;
     private _seed: T;
