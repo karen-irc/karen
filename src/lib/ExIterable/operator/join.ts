@@ -1,10 +1,23 @@
+import {ExIterable} from '../ExIterable';
 import {Operator} from '../Operator';
 import {getIterator} from '../util';
 
-export type JoinKeySelector<T, R> = (this: void, v: T) => R;
-export type JoinResultSelector<T1, T2, R> = (this: void, outer: T1, inner: T2) => R;
+type JoinKeySelector<T, R> = (this: void, v: T) => R;
+type JoinResultSelector<T1, T2, R> = (this: void, outer: T1, inner: T2) => R;
 
-export class JoinOperator<TOuter, TInner, TKey, TResult> implements Operator<TOuter, TResult> {
+// tslint:disable:no-invalid-this
+export function join<TOuter, TInner, TKey, TResult>(this: ExIterable<TOuter>,
+                                                    inner: Iterable<TInner>,
+                                                    outerkey: JoinKeySelector<TOuter, TKey>,
+                                                    innerKey: JoinKeySelector<TInner, TKey>,
+                                                    result: JoinResultSelector<TOuter, TInner, TResult>): ExIterable<TResult> {
+    const op = new JoinOperator<TOuter, TInner, TKey, TResult>(this, inner, outerkey, innerKey, result);
+    const lifted = this.lift<TResult>(op);
+    return lifted;
+}
+// tslint:enable
+
+class JoinOperator<TOuter, TInner, TKey, TResult> implements Operator<TOuter, TResult> {
 
     private _outer: Iterable<TOuter>;
     private _inner: Iterable<TInner>;

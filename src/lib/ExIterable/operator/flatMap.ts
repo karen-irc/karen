@@ -1,9 +1,18 @@
+import {ExIterable} from '../ExIterable';
 import {Operator} from '../Operator';
 import {getIterator} from '../util';
 
-export type FlatMapFn<T, U> = (this: void, v: T, index: number) => Iterable<U>;
+type FlatMapFn<T, U> = (this: void, v: T, index: number) => Iterable<U>;
 
-export class FlatMapOperator<S, T> implements Operator<S, T> {
+// tslint:disable:no-invalid-this
+export function flatMap<T, U>(this: ExIterable<T>, selector: FlatMapFn<T, U>): ExIterable<U> {
+    const op = new FlatMapOperator<T, U>(this, selector);
+    const lifted = this.lift<U>(op);
+    return lifted;
+}
+// tslint:enable
+
+class FlatMapOperator<S, T> implements Operator<S, T> {
     private _source: Iterable<S>;
     private _selector: FlatMapFn<S, T>;
 

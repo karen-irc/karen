@@ -1,9 +1,17 @@
+import {ExIterable} from '../ExIterable';
 import {Operator} from '../Operator';
 import {getIterator} from '../util';
 
-export type ExpandSelectorFn<T> = (this: void, value: T) => Iterable<T>;
+type ExpandSelectorFn<T> = (this: void, value: T) => Iterable<T>;
 
-export class ExpandOperator<T> implements Operator<T, T> {
+// tslint:disable:no-invalid-this
+export function expand<T>(this: ExIterable<T>, selector: ExpandSelectorFn<T>): ExIterable<T> {
+    const op = new ExpandOperator<T>(this, selector);
+    return this.lift(op);
+}
+// tslint:enable
+
+class ExpandOperator<T> implements Operator<T, T> {
     private _source: Iterable<T>;
     private _selector: ExpandSelectorFn<T>;;
 

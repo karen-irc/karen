@@ -164,7 +164,7 @@ describe('ExIterable.join()', function () {
         before(() => {
             const outer = ExIterable.create([]);
             const inner = ExIterable.create([]);
-            const src = outer.join<never, undefined, undefined>(inner, (_) => undefined, () => undefined, (_1, _2) => undefined);
+            const src = outer.join<never, never, undefined, undefined>(inner, (_) => undefined, () => undefined, (_1, _2) => undefined);
             const iter = getIterator(src);
             result1 = iter.next().done;
             result2 = iter.next().done;
