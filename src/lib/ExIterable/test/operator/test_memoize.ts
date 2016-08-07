@@ -1,6 +1,6 @@
 import * as assert from 'assert';
-import {ExIterable} from '../../../ExIterable';
-import {FiniteConsumerMemoizeBuffer} from '../../../ExIterable';
+import {ExIterable} from '../../index';
+import {FiniteConsumerMemoizeBuffer} from '../../operator/memoize';
 
 import {getIterator} from '../util';
 

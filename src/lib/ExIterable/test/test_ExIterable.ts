@@ -24,7 +24,7 @@
  */
 import * as assert from 'assert';
 
-import {ExIterable} from '../../ExIterable';
+import {ExIterable} from '../index';
 
 class HelperIterable<T> implements Iterable<T> {
 
