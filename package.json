@@ -17,7 +17,11 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "node index.js",
-    "clean": "gulp clean",
+    "clean": "npm-run-all --parallel clean_**",
+    "clean_client": "gulp clean:client",
+    "clean_server": "gulp clean:server",
+    "clean_lib": "gulp clean:lib",
+    "clean_test": "gulp clean:test",
     "build": "gulp build",
     "build_client": "gulp build:client",
     "build_server": "gulp build:server",
@@ -31,7 +35,7 @@
     "eslint": "eslint --ext .js,.jsx . ./**/.eslintrc.js",
     "tslint": "tslint --project ./tsconfig.json",
     "lint_css": "stylelint src/style/**/* --config ./stylelint.config.js -f verbose --color",
-    "tsc": "gulp tsc",
+    "tsc": "gulp __typescript",
     "gulp": "gulp"
   },
   "keywords": [
