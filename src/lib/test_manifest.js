@@ -30,7 +30,7 @@ require('whatwg-fetch');
 global.Request = self.Request;
 global.Response = self.Response;
 
-require('./test/ExIterable/test_manifest');
+require('./ExIterable/test_manifest');
 require('./test/test_FetchDriver_createRequest');
 require('./test/test_FetchDriver_fetch');
 require('./test/test_FetchDriver_get');

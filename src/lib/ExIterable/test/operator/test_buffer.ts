@@ -1,7 +1,7 @@
 import * as assert from 'assert';
-import {ExIterable} from '../../../ExIterable';
+import {ExIterable} from '../../index';
 
-import {getIterator} from '../util';
+import {getIterator} from '../../util';
 
 describe('ExIterable.buffer()', () => {
     describe('buffer size is 0', () => {

@@ -1,8 +1,8 @@
 import * as assert from 'assert';
-import {ExIterable} from '../../../ExIterable';
-import {FiniteConsumerMemoizeBuffer} from '../../../ExIterable';
+import {ExIterable} from '../../index';
+import {FiniteConsumerMemoizeBuffer} from '../../operator/memoize';
 
-import {getIterator} from '../util';
+import {getIterator} from '../../util';
 
 describe('ExIterable.memoize()', function () {
     describe('without consumer limitation', () => {
