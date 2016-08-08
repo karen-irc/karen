@@ -1,7 +1,20 @@
+import {ExIterable} from '../ExIterable';
 import {Operator} from '../Operator';
 import {getIterator} from '../util';
 
 export type FilterFn<T> = (this: void, value: T, index: number) => boolean;
+
+export interface FilterSignature<T> {
+    (selector: FilterFn<T>): ExIterable<T>;
+}
+
+// tslint:disable:no-invalid-this
+export function filter<T>(this: ExIterable<T>, filter: FilterFn<T>): ExIterable<T> {
+    const op = new FilterOperator<T>(this, filter);
+    const lifted = this.lift<T>(op);
+    return lifted;
+}
+// tslint:enable
 
 export class FilterOperator<T> implements Operator<T, T> {
 
