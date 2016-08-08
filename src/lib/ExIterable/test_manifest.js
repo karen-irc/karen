@@ -1,6 +1,7 @@
 require('./test/test_ExIterable');
 require('./test/operator/test_buffer');
 require('./test/operator/test_do');
+require('./test/operator/test_excavate');
 require('./test/operator/test_expand');
 require('./test/operator/test_filter');
 require('./test/operator/test_flatMap');

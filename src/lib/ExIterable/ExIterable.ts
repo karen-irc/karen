@@ -1,6 +1,7 @@
 import {Operator} from './Operator';
 import {BufferOperator} from './operator/buffer';
 import {DoFn, DoOperator} from './operator/do';
+import {ExcavateSelectorFn, ExcavateOperator} from './operator/excavate';
 import {ExpandSelectorFn, ExpandOperator} from './operator/expand';
 import {FilterFn, FilterOperator} from './operator/filter';
 import {FlatMapFn, FlatMapOperator} from './operator/flatMap';
@@ -76,6 +77,11 @@ export class ExIterable<T> implements Iterable<T> {
         const op = new DoOperator<T>(this, action);
         const lifted = this.lift<T>(op);
         return lifted;
+    }
+
+    excavate(selector: ExcavateSelectorFn<T>): ExIterable<T> {
+        const op = new ExcavateOperator<T>(this, selector);
+        return this.lift(op);
     }
 
     expand(selector: ExpandSelectorFn<T>): ExIterable<T> {
