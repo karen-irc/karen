@@ -6,7 +6,7 @@ process.on('unhandledRejection', function (reason) {
     console.error('!Caught an unhandled rejection. reason:');
     console.error(reason);
 
-    process.exit(1);
+    process.abort();
 });
 
 export function main(options) {
