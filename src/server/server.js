@@ -1,13 +1,20 @@
 import {KarenServer} from './app/application';
 
-let application = null;
+process.on('uncaughtException', function (err) {
+    console.error('!Caught on uncaughtException:');
+    console.error(err);
+
+    process.abort();
+});
 
 process.on('unhandledRejection', function (reason) {
-    console.error('!Caught an unhandled rejection. reason:');
+    console.error('!Caught on unhandledRejection:');
     console.error(reason);
 
-    process.exit(1);
+    process.abort();
 });
+
+let application = null;
 
 export function main(options) {
     application = new KarenServer(options);
