@@ -5,6 +5,7 @@ require('./test/operator/test_excavate');
 require('./test/operator/test_expand');
 require('./test/operator/test_filter');
 require('./test/operator/test_flatMap');
+require('./test/operator/test_join');
 require('./test/operator/test_map');
 require('./test/operator/test_memoize');
 require('./test/operator/test_scan');
