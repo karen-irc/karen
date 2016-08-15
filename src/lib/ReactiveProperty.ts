@@ -38,7 +38,7 @@ export class ReactiveProperty<T> implements Observer<T> {
     }
 
     get isUnsubscribed(): boolean {
-        return this._subject.isUnsubscribed;
+        return this._subject.closed;
     }
 
     next(value: T): void {

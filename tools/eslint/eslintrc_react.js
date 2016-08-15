@@ -42,8 +42,10 @@ module.exports = {
         // ESLint-plugin-React
         // https://github.com/yannickcr/eslint-plugin-react
         'react/display-name': 0, // JSX transpiler creates displayName automatically.
+        'react/forbid-component-props': 1,
         'react/forbid-prop-types': 0,
         'react/no-danger': 1,
+        // 'react/no-danger-with-children': 2, // FIXME: this crash with v6.1.0
         'react/no-deprecated': 1, // Detect deprected styles
         'react/no-did-mount-set-state': [1, 'disallow-in-func'],
         'react/no-did-update-set-state': [1, 'disallow-in-func'],
