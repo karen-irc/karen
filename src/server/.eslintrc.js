@@ -45,8 +45,5 @@ module.exports = {
     },
 
     'rules': {
-        // eslint-plugin-node
-        // https://github.com/mysticatea/eslint-plugin-node
-        'node/no-missing-import': 2,
     },
 };
