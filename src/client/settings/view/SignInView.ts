@@ -1,4 +1,3 @@
-/*global moment:true */
 /**
  * @license MIT License
  *
@@ -26,8 +25,7 @@
 
 import {CookieDriver} from '../../adapter/CookieDriver';
 import {SocketIoDriver} from '../../adapter/SocketIoDriver';
-
-declare const moment: any; // tslint:disable-line:no-any
+import {moment} from '../../../lib/interop';
 
 const EVENT_NAME = 'auth';
 

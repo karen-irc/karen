@@ -68,6 +68,12 @@ module.exports = {
         filename: '[name].js',
     },
 
+    externals: [
+        {
+            'moment': true,
+        }
+    ],
+
     resolve: {
         alias: {},
         root: [],

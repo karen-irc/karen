@@ -23,9 +23,9 @@
  * THE SOFTWARE.
  */
 
-/*global moment:true */
-
 import * as React from 'react';
+import moment from 'moment';
+
 import {parseToMessageNode} from '../../domain/parseToMessageNode';
 import {ToggleItem} from './ToggleItem';
 

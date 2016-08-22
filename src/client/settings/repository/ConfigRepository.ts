@@ -1,4 +1,3 @@
-/*global moment: true */
 /**
  * @license MIT License
  *
@@ -25,11 +24,9 @@
  */
 import * as Rx from 'rxjs';
 
-
 import {CookieDriver} from '../../adapter/CookieDriver';
 import {Setting} from '../domain/value/Setting';
-
-declare const moment: any; // tslint:disable-line:no-any
+import {moment} from '../../../lib/interop';
 
 const KEY_SETTING = 'settings';
 
