@@ -18,6 +18,8 @@
     "prestart": "npm run build",
     "start": "node index.js",
     "clean": "make clean -j 16",
+    "build_production": "cross-env NODE_ENV=production npm run build",
+    "build_development": "cross-env NODE_ENV=development npm run build",
     "build": "make build -j 16",
     "test": "make test -j 16",
     "gulp": "gulp"
@@ -78,6 +80,7 @@
     "babel-preset-es2015": "^6.13.2",
     "babel-preset-react": "^6.11.0",
     "copyfiles": "^1.0.0",
+    "cross-env": "^2.0.0",
     "del": "^2.2.2",
     "eslint": "^3.3.1",
     "eslint-plugin-node": "^2.0.0",
