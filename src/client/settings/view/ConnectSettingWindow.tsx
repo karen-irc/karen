@@ -110,7 +110,7 @@ export class ConnectSettingWindow extends React.Component<Props, void> {
                                        type='number'
                                        name='port'
                                        disabled={isConnecting}
-                                       value={server.port}
+                                       value={String(server.port)}
                                        onChange={this.onChangeSetServerPort} />
                             </div>
                         </div>
