@@ -4,8 +4,8 @@
   "dependencies": {},
   "globalDependencies": {
     "mocha": "registry:dt/mocha#2.2.5+20160720003353",
-    "node": "registry:dt/node#6.0.0+20160801161248",
-    "react": "registry:dt/react#0.14.0+20160801203155",
+    "node": "registry:dt/node#6.0.0+20160818175514",
+    "react": "registry:dt/react#0.14.0+20160817201227",
     "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
     "socket.io-client": "registry:dt/socket.io-client#1.4.4+20160317120654",
     "whatwg-fetch": "registry:dt/whatwg-fetch#0.0.0+20160728142841"
