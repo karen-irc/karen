@@ -52,26 +52,6 @@ function buildLegacyLib(srcDir, distDir, binName) {
 /**
  *  @param  {string}    cwd
  *  @param  {string}    nodeModDir
- *  @param  {string}    projectDir
- *  @returns    {Promise<void>}
- */
-function compileTypeScript(cwd, nodeModDir, projectDir) {
-    const command = getSuffixedCommandName('tsc');
-    const bin = path.resolve(nodeModDir, '.bin', command);
-    const args = [
-        '--project',
-        projectDir,
-    ];
-    const option = {
-        cwd,
-        stdio: 'inherit',
-    };
-    return spawnChildProcess(bin, args, option).then(assertReturnCode);
-}
-
-/**
- *  @param  {string}    cwd
- *  @param  {string}    nodeModDir
  *  @param  {string}    entryPoint
  *  @param  {string}    distDir
  *
@@ -145,7 +125,6 @@ function compileScriptForServer(cwd, npmModDir, srcDir, distDir, isRelease) {
 
 module.exports = {
     buildLegacyLib,
-    compileTypeScript,
     runLinkerForClient,
     compileScriptForServer,
 };
