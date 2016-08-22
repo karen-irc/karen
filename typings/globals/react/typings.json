@@ -1,8 +1,8 @@
 {
   "resolution": "main",
   "tree": {
-    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/1fcd5cc4bd2ce83de53c7a12c1d62ba2fac30285/react/react.d.ts",
-    "raw": "registry:dt/react#0.14.0+20160801203155",
-    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/1fcd5cc4bd2ce83de53c7a12c1d62ba2fac30285/react/react.d.ts"
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/f9117cf5dd3420b4fcb4342bf287945695a953a4/react/react.d.ts",
+    "raw": "registry:dt/react#0.14.0+20160817201227",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/f9117cf5dd3420b4fcb4342bf287945695a953a4/react/react.d.ts"
   }
 }
