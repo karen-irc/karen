@@ -5,6 +5,7 @@ import {ExcavateSelectorFn, ExcavateOperator} from './operator/excavate';
 import {ExpandSelectorFn, ExpandOperator} from './operator/expand';
 import {FilterFn, FilterOperator} from './operator/filter';
 import {FlatMapFn, FlatMapOperator} from './operator/flatMap';
+import {JoinOperator, JoinKeySelector, JoinResultSelector} from './operator/join';
 import {MapFn, MapOperator, FilterMapOperator} from './operator/map';
 import {MemoizeOperator} from './operator/memoize';
 import {ScanAccumulatorFn, ScanOperator} from './operator/scan';
@@ -98,6 +99,15 @@ export class ExIterable<T> implements Iterable<T> {
     flatMap<T, U>(this: ExIterable<T>, selector: FlatMapFn<T, U>): ExIterable<U> {
         const op = new FlatMapOperator<T, U>(this, selector);
         const lifted = this.lift<U>(op);
+        return lifted;
+    }
+
+    join<TInner, TKey, TResult>(inner: Iterable<TInner>,
+                                outerkey: JoinKeySelector<T, TKey>,
+                                innerKey: JoinKeySelector<TInner, TKey>,
+                                result: JoinResultSelector<T, TInner, TResult>): ExIterable<TResult> {
+        const op = new JoinOperator<T, TInner, TKey, TResult>(this, inner, outerkey, innerKey, result);
+        const lifted = this.lift<TResult>(op);
         return lifted;
     }
 
