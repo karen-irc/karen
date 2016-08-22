@@ -1,4 +1,3 @@
-/*global moment: true */
 /**
  * @license MIT License
  *
@@ -28,8 +27,7 @@ import {Option} from 'option-t';
 import {Subject, Subscription} from 'rxjs';
 
 import {CookieDriver} from './CookieDriver';
-
-declare const moment: any; // tslint:disable-line:no-any
+import {moment} from '../../lib/interop';
 
 const KEY_TOKEN = 'token';
 const KEY_USER = 'user';
