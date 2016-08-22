@@ -27,8 +27,6 @@
 const gulp = require('gulp');
 const path = require('path');
 
-const { doCopy } = require('./tools/build/cp');
-
 const {
     buildLegacyLib,
     runLinkerForClient,
@@ -84,22 +82,6 @@ const CWD = path.relative(__dirname, '');
 /**
  *  Build obj/
  */
-gulp.task('__cp:client:js:obj', [], function () {
-    const src = ['./src/client/**/*.@(js|jsx)'];
-    const objDir = path.resolve(OBJ_CLIENT);
-    return doCopy(src, objDir);
-});
-
-gulp.task('__cp:lib:obj', [], function () {
-    const src = ['./src/lib/**/*.@(js|jsx)'];
-    return doCopy(src, OBJ_LIB);
-});
-
-gulp.task('__cp:server:js:obj', [], function () {
-    const src = ['./src/server/**/*.@(js|jsx)'];
-    return doCopy(src, OBJ_SERVER);
-});
-
 /*
 gulp.task('__typescript', ['__clean:client:js:obj', '__clean:lib:obj'], function () {
     return compileTypeScript(CWD, NPM_MOD_DIR, __dirname);

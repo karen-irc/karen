@@ -78,14 +78,14 @@ build_obj_lib: tsc cp_obj_lib
 tsc: clean_obj_client clean_obj_lib clean_obj_server
 	$(NPM_BIN)/tsc --project ./tsconfig.json
 
-cp_obj_client: eslint clean_obj_client
-	$(NPM_BIN)/gulp __cp:client:js:obj
+cp_obj_client: clean_obj_client
+	$(NPM_BIN)/copyfiles ./src/client/**/*.@\(js\|jsx\) __obj/ -u 1
 
 cp_obj_server: eslint clean_obj_server
-	$(NPM_BIN)/gulp __cp:server:js:obj
+	$(NPM_BIN)/copyfiles ./src/server/**/*.@\(js\|jsx\) __obj/ -u 1
 
 cp_obj_lib: eslint clean_obj_lib
-	$(NPM_BIN)/gulp __cp:lib:obj
+	$(NPM_BIN)/copyfiles ./src/lib/**/*.@\(js\|jsx\) __obj/ -u 1
 
 ####################################
 # Lint
