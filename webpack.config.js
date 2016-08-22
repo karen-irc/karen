@@ -57,7 +57,7 @@ else {
 module.exports = {
     bail: true,
 
-    devtool: isRelease ? '' : 'inline-source-map',
+    devtool: isRelease ? '' : 'source-map',
 
     entry: {
         karen: KAREN_ENTRY_POINT,
