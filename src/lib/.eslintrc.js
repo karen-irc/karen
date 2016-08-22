@@ -50,13 +50,9 @@ module.exports = {
     },
 
     'env': {
-        'commonjs': true,
         'node': false,
     },
 
     'rules': {
-        // eslint-plugin-node
-        // https://github.com/mysticatea/eslint-plugin-node
-        'node/no-missing-import': 2,
     },
 };
