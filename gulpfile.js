@@ -24,15 +24,12 @@
  */
 'use strict';
 
-const del = require('del');
 const gulp = require('gulp');
-const npmRunAll = require('npm-run-all');
 const path = require('path');
 
 const { doCopy } = require('./tools/build/cp');
 
 const {
-    compileTypeScript,
     buildLegacyLib,
     runLinkerForClient,
     compileScriptForServer,
@@ -85,127 +82,73 @@ const CWD = path.relative(__dirname, '');
 /**
  *  Clean
  */
-gulp.task('__clean:lib:obj', function () {
-    return del(OBJ_LIB);
-});
-gulp.task('__clean:lib:dist', function () {
-    return del(DIST_LIB);
-});
-gulp.task('__clean:lib:test', function () {
-    return del(TEST_CACHE_LIB);
-});
-
-gulp.task('__clean:client:js:obj', function () {
-    return del(OBJ_CLIENT);
-});
-gulp.task('__clean:client:js:dist', function () {
-    return del(DIST_CLIENT_JS);
-});
-gulp.task('__clean:client:test', function () {
-    return del(TEST_CACHE_CLIENT);
-});
-
-gulp.task('__clean:client:css:dist', function () {
-    return del(DIST_CLIENT_CSS);
-});
-
-gulp.task('__clean:server:obj', function () {
-    return del(OBJ_SERVER);
-});
-gulp.task('__clean:server:dist', function () {
-    return del(DIST_SERVER);
-});
-gulp.task('__clean:server:test', function () {
-    return del(TEST_CACHE_SERVER);
-});
 
 /**
  *  Build obj/
  */
-gulp.task('__cp:client:js:obj', ['__clean:client:js:obj'], function () {
+gulp.task('__cp:client:js:obj', [], function () {
     const src = ['./src/client/**/*.@(js|jsx)'];
     const objDir = path.resolve(OBJ_CLIENT);
     return doCopy(src, objDir);
 });
 
-gulp.task('__cp:lib:obj', ['__clean:lib:obj'], function () {
+gulp.task('__cp:lib:obj', [], function () {
     const src = ['./src/lib/**/*.@(js|jsx)'];
     return doCopy(src, OBJ_LIB);
 });
 
-gulp.task('__cp:server:js:obj', ['__clean:server:obj'], function () {
+gulp.task('__cp:server:js:obj', [], function () {
     const src = ['./src/server/**/*.@(js|jsx)'];
     return doCopy(src, OBJ_SERVER);
 });
 
+/*
 gulp.task('__typescript', ['__clean:client:js:obj', '__clean:lib:obj'], function () {
     return compileTypeScript(CWD, NPM_MOD_DIR, __dirname);
 });
+*/
 
 /**
  *  Build dist/
  */
-gulp.task('__link:client:js', ['__clean:client:js:dist', '__clean:lib:dist', '__cp:client:js:obj', '__typescript'], function () {
+gulp.task('__link:client:js', [], function () {
     const root = './karen.js';
     const ENTRY_POINT = path.resolve(OBJ_CLIENT, root);
 
     return runLinkerForClient(CWD, NPM_MOD_DIR, ENTRY_POINT, DIST_CLIENT_JS);
 });
 
-gulp.task('__babel:server', ['__clean:server:dist', '__cp:server:js:obj'], function () {
+gulp.task('__babel:server', [], function () {
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, DIST_SERVER, isRelease);
 });
 
-gulp.task('__babel:lib:test', ['__clean:lib:test', '__cp:lib:obj', '__typescript'], function () {
+gulp.task('__babel:lib:test', [], function () {
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_LIB, TEST_CACHE_LIB, false);
 });
 
-gulp.task('__babel:client:test', ['__clean:client:test', '__cp:client:js:obj', '__typescript'], function () {
+gulp.task('__babel:client:test', [], function () {
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_CLIENT, TEST_CACHE_CLIENT, false);
 });
 
-gulp.task('__babel:server:test', ['__clean:server:test', '__cp:server:js:obj'], function () {
+gulp.task('__babel:server:test', [], function () {
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, TEST_CACHE_SERVER, false);
 });
 
 /**
  *  Others
  */
-gulp.task('__postcss', ['__clean:client:css:dist'], function () {
+gulp.task('__postcss', [], function () {
     return buildCSS('./src/style/style.css', DIST_CLIENT_CSS);
 });
 
-gulp.task('__uglify', ['__clean:client:js:dist'], function () {
+gulp.task('__uglify', [], function () {
     return buildLegacyLib(CLIENT_SRC_JS, DIST_CLIENT_JS, 'libs.min.js');
 });
 
 /**
  *  Meta targets
  */
-gulp.task('__build:server', ['__babel:server']);
-gulp.task('__build:client:js', ['__uglify', '__link:client:js']);
-gulp.task('__build:client:css', ['__postcss']);
 
 /**
  *  Public targets
  */
-gulp.task('__jslint', function () {
-    return npmRunAll(['lint_js']);
-});
-gulp.task('__stylelint', function () {
-    return npmRunAll(['lint_css']);
-});
-
-gulp.task('build:server', ['__jslint', '__build:server']);
-gulp.task('build:client', ['__jslint', '__build:client:js', '__build:client:css']);
-gulp.task('build', ['build:server', 'build:client']);
-
-gulp.task('test:lib', ['__jslint', '__babel:lib:test']);
-gulp.task('test:server', ['__jslint', '__babel:server:test']);
-gulp.task('test:client', ['__jslint', '__babel:client:test']);
-gulp.task('test', ['__stylelint', 'test:lib', 'test:server', 'test:client']);
-
-gulp.task('clean:lib', ['__clean:lib:obj', '__clean:lib:dist']);
-gulp.task('clean:server', ['__clean:server:obj', '__clean:server:dist']);
-gulp.task('clean:client', ['__clean:client:js:obj', '__clean:client:js:dist', '__clean:client:css:dist']);
-gulp.task('clean:test', ['__clean:client:test', '__clean:server:test', '__clean:lib:test']);
