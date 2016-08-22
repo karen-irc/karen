@@ -1,4 +1,5 @@
 import {Operator} from '../Operator';
+import {getIterator} from '../util';
 
 export type JoinKeySelector<T, R> = (this: void, v: T) => R;
 export type JoinResultSelector<T1, T2, R> = (this: void, outer: T1, inner: T2) => R;
@@ -24,44 +25,150 @@ export class JoinOperator<TOuter, TInner, TKey, TResult> implements Operator<TOu
     }
 
     call(): Iterator<TResult> {
-        const iter = JoinIterator<TOuter, TInner, TKey, TResult>(this._outer,
-                                                                 this._inner,
-                                                                 this._outerKeySelector,
-                                                                 this._innerKeySelector,
-                                                                 this._resultSelector);
+        const iter = new JoinIterator<TOuter, TInner, TKey, TResult>(getIterator(this._outer),
+                                                                     this._inner,
+                                                                     this._outerKeySelector,
+                                                                     this._innerKeySelector,
+                                                                     this._resultSelector);
         return iter;
     }
 }
 
-function* JoinIterator<TOuter, TInner, TKey, TResult>(outer: Iterable<TOuter>,
-                                                      inner: Iterable<TInner>,
-                                                      outerSelector: JoinKeySelector<TOuter, TKey>,
-                                                      innerSelector: JoinKeySelector<TInner, TKey>,
-                                                      resultSelector: JoinResultSelector<TOuter, TInner, TResult>): IterableIterator<TResult> {
-    let innerSet: Map<TKey, Array<TInner>> | undefined = undefined;
+export class JoinIterator<TOuter, TInner, TKey, TResult> implements Iterator<TResult> {
+    private _outer: Iterator<TOuter> | undefined;
+    private _inner: Iterable<TInner> | undefined;
+    private _outerKeySelector: JoinKeySelector<TOuter, TKey> | undefined;
+    private _innerKeySelector: JoinKeySelector<TInner, TKey> | undefined;
+    private _resultSelector: JoinResultSelector<TOuter, TInner, TResult> | undefined;
 
-    for (const outerItem of outer) {
-        if (innerSet === undefined) {
-            innerSet = toLookUp<TKey, TInner>(inner, innerSelector);
+    private _innerSet: Map<TKey, Array<TInner>> | undefined;
+    private _isInnerIteration: boolean;
+    private _innerIterator: Iterator<TInner> | undefined;
+    private _outerResult: TOuter | undefined;
+
+    constructor(outer: Iterator<TOuter>,
+                inner: Iterable<TInner>,
+                outerkeySelector: JoinKeySelector<TOuter, TKey>,
+                innerKeySelector: JoinKeySelector<TInner, TKey>,
+                resultSelector: JoinResultSelector<TOuter, TInner, TResult>) {
+        this._outer = outer;
+        this._inner = inner;
+        this._outerKeySelector = outerkeySelector;
+        this._innerKeySelector = innerKeySelector;
+        this._resultSelector = resultSelector;
+        this._innerSet = undefined;
+        this._teadownInner();
+    }
+
+    private _destroy() {
+        this._outer = undefined;
+        this._inner = undefined;
+        this._outerKeySelector = undefined;
+        this._innerKeySelector = undefined;
+        this._resultSelector = undefined;
+        if (this._innerSet !== undefined) {
+            this._innerSet.clear();
         }
+        this._innerSet = undefined;
+        this._teadownInner();
+    }
 
-        const key: TKey = outerSelector(outerItem);
-        const innerItem: Array<TInner> | undefined = innerSet.get(key)!;
-        if (innerItem === undefined) {
-            continue;
+    next(): IteratorResult<TResult> {
+        if (this._isInnerIteration) {
+            return this._innerNext();
         }
-
-        for (const inner of innerItem) {
-            const finalResult: TResult = resultSelector(outerItem, inner);
-            yield finalResult;
+        else {
+            return this._outerNext();
         }
     }
 
-    if (innerSet !== undefined) {
-        innerSet.clear();
-        innerSet = undefined;
+    return(): IteratorResult<TResult> {
+        this._destroy();
+        return {
+            done: true,
+            value: undefined as any, // tslint:disable-line:no-any
+        };
     }
-    return;
+
+    private _setupInner(inner: Iterable<TInner>, outer: TOuter): void {
+        this._isInnerIteration = true;
+        this._innerIterator = getIterator(inner);
+        this._outerResult = outer;
+    }
+
+    private _teadownInner(): void {
+        this._isInnerIteration = false;
+        this._innerIterator = undefined;
+        this._outerResult = undefined;
+    }
+
+    private _innerNext(): IteratorResult<TResult> {
+        const innerIterator = this._innerIterator;
+        const resultSelector = this._resultSelector;
+        if (!innerIterator) {
+            throw new TypeError('no innerIterator');
+        }
+
+        if (!resultSelector) {
+            throw new TypeError('no resultSelector');
+        }
+
+        const innerResult = innerIterator.next();
+        if (innerResult.done) {
+            this._teadownInner();
+            return this._outerNext();
+        }
+
+        // XXX: we cannot check `outerResult` because it might be `undefined`.
+        const outerResult = this._outerResult!;
+        const innerItem = innerResult.value;
+        const finalResult: TResult = resultSelector(outerResult, innerItem);
+        return {
+            done: false,
+            value: finalResult,
+        };
+    }
+
+    private _outerNext(): IteratorResult<TResult> {
+        const outer = this._outer;
+        const inner = this._inner;
+        const outerSelector = this._outerKeySelector;
+        const innerSelector = this._innerKeySelector;
+        const resultSelector = this._resultSelector;
+        if (!outer ||
+            !outerSelector || !resultSelector ||
+            !inner || !innerSelector) {
+            return {
+                done: true,
+                value: undefined as any, // tslint:disable-line:no-any
+            };
+        }
+
+        while (true) {
+            const outerResult: IteratorResult<TOuter> = outer.next();
+            if (outerResult.done) {
+                this._destroy();
+                return {
+                    done: true,
+                    value: undefined as any, // tslint:disable-line:no-any
+                };
+            }
+
+            if (this._innerSet === undefined) {
+                this._innerSet = toLookUp<TKey, TInner>(inner, innerSelector);
+            }
+
+            const outerItem = outerResult.value;
+            const key: TKey = outerSelector(outerItem);
+            const innerItem: Array<TInner> | undefined = this._innerSet.get(key);
+            if (innerItem === undefined) {
+                continue;
+            }
+
+            this._setupInner(innerItem, outerItem);
+            return this._innerNext();
+        }
+    }
 }
 
 function toLookUp<K, V>(src: Iterable<V>, idSelector: (this: void, v: V) => K): Map<K, Array<V>> {
