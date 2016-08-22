@@ -29,7 +29,6 @@ const gulp = require('gulp');
 const path = require('path');
 
 const {
-    buildLegacyLib,
     runLinkerForClient,
     compileScriptForServer,
 } = require('./tools/build/script');
@@ -56,10 +55,6 @@ const DIST_STYLE = path.resolve(DIST_DIR, './style/');
 const TEST_CACHE_CLIENT = path.resolve(TEST_CACHE_DIR, './client/');
 const TEST_CACHE_LIB = path.resolve(TEST_CACHE_DIR, './lib/');
 const TEST_CACHE_SERVER = path.resolve(TEST_CACHE_DIR, './server/');
-
-const CLIENT_SRC_JS = [
-    path.resolve(NPM_MOD_DIR, './moment/moment.js'),
-];
 
 const CWD = path.relative(__dirname, '');
 
@@ -142,7 +137,11 @@ gulp.task('build_dist_client', ['clean_dist_client', 'build_obj_client', 'build_
 });
 
 gulp.task('build_dist_legacy_lib', ['clean_dist_client'], function () {
-    return buildLegacyLib(CLIENT_SRC_JS, DIST_CLIENT, 'libs.min.js');
+    return execNpmCmd('copyfiles', [
+        path.resolve(NPM_MOD_DIR, './moment/min/moment.min.js'),
+        DIST_CLIENT,
+        '--flat',
+    ]);
 });
 
 gulp.task('build_dist_server', ['clean_dist_server', 'build_obj_server', 'build_obj_lib'], function () {

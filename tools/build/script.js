@@ -24,30 +24,10 @@
  */
 'use strict';
 
-const gulp = require('gulp');
-const concat = require('gulp-concat');
-const uglify = require('gulp-uglify');
 const path = require('path');
 
 const { getSuffixedCommandName } = require('../platform');
 const { spawnChildProcess, assertReturnCode } = require('../spawn');
-
-/**
- *  @param  {string}    srcDir
- *  @param  {string}    distDir
- *  @param  {string}    binName
- *
- *  @returns    {NodeJS.ReadWriteStream}
- */
-function buildLegacyLib(srcDir, distDir, binName) {
-    return gulp.src(srcDir)
-        .pipe(concat(binName))
-        .pipe(uglify({
-            compress: true,
-            preserveComments: 'license',
-        }))
-        .pipe(gulp.dest(distDir));
-}
 
 /**
  *  @param  {string}    cwd
@@ -124,7 +104,6 @@ function compileScriptForServer(cwd, npmModDir, srcDir, distDir, isRelease) {
 }
 
 module.exports = {
-    buildLegacyLib,
     runLinkerForClient,
     compileScriptForServer,
 };

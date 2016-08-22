@@ -41,7 +41,7 @@ export function Header() {
             <link rel='icon' sizes='192x192' href='/img/touch-icon-192x192.png'/>
             <link rel='apple-touch-icon' sizes='120x120' href='/img/apple-touch-icon-120x120.png'/>
 
-            <script defer='true' src='/dist/js/libs.min.js'></script>
+            <script defer='true' src='/dist/js/moment.min.js'></script>
             <script defer='true' src='/dist/js/karen.js'></script>
         </head>
     );
