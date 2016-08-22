@@ -25,11 +25,8 @@ clean_test_cache:
 clean_dist_client:
 	rm -rf ./__dist/client
 
-clean_dist_client_js:
-	rm -rf ./__dist/client/js
-
-clean_dist_client_css:
-	rm -rf ./__dist/client/css
+clean_dist_style:
+	rm -rf ./__dist/style
 
 clean_dist_server:
 	rm -rf ./__dist/server
@@ -60,16 +57,16 @@ clean_test_lib:
 ####################################
 build: lint build_dist_server build_dist_client build_dist_style build_dist_legacy_lib
 
-build_dist_client: clean_dist_client_js build_obj_client build_obj_lib build_dist_legacy_lib
+build_dist_client: clean_dist_client build_obj_client build_obj_lib build_dist_legacy_lib
 	$(NPM_BIN)/gulp __link:client:js
 
-build_dist_legacy_lib: clean_dist_client_js
+build_dist_legacy_lib: clean_dist_client
 	$(NPM_BIN)/gulp __uglify
 
 build_dist_server: clean_dist_server build_obj_server build_obj_lib
 	$(NPM_BIN)/gulp __babel:server
 
-build_dist_style: stylelint clean_dist_client_css
+build_dist_style: stylelint clean_dist_style
 	$(NPM_BIN)/gulp __postcss
 
 build_obj_client: tsc cp_obj_client
@@ -81,14 +78,14 @@ build_obj_lib: tsc cp_obj_lib
 tsc: clean_obj_client clean_obj_lib clean_obj_server
 	$(NPM_BIN)/tsc --project ./tsconfig.json
 
-cp_obj_client: eslint clean_obj_client
-	$(NPM_BIN)/gulp __cp:client:js:obj
+cp_obj_client: clean_obj_client
+	$(NPM_BIN)/copyfiles ./src/client/**/*.@\(js\|jsx\) __obj/ -u 1
 
 cp_obj_server: eslint clean_obj_server
-	$(NPM_BIN)/gulp __cp:server:js:obj
+	$(NPM_BIN)/copyfiles ./src/server/**/*.@\(js\|jsx\) __obj/ -u 1
 
 cp_obj_lib: eslint clean_obj_lib
-	$(NPM_BIN)/gulp __cp:lib:obj
+	$(NPM_BIN)/copyfiles ./src/lib/**/*.@\(js\|jsx\) __obj/ -u 1
 
 ####################################
 # Lint

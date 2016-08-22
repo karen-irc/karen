@@ -25,7 +25,7 @@
 
 import * as React from 'react';
 
-export function Header({ theme }) {
+export function Header() {
     return (
         <head>
             <meta charSet='utf-8'/>
@@ -36,7 +36,6 @@ export function Header({ theme }) {
 
             <link rel='stylesheet' href='/css/bootstrap.css'/>
             <link rel='stylesheet' href='/dist/css/style.css'/>
-            <link id='theme' rel='stylesheet' href={theme}/>
 
             <link rel='shortcut icon' href='/img/favicon.png'/>
             <link rel='icon' sizes='192x192' href='/img/touch-icon-192x192.png'/>
@@ -48,5 +47,4 @@ export function Header({ theme }) {
     );
 }
 Header.propTypes = {
-    theme: React.PropTypes.string.isRequired,
 };

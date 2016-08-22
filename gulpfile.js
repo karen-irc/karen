@@ -27,8 +27,6 @@
 const gulp = require('gulp');
 const path = require('path');
 
-const { doCopy } = require('./tools/build/cp');
-
 const {
     buildLegacyLib,
     runLinkerForClient,
@@ -49,10 +47,8 @@ const OBJ_CLIENT = path.resolve(OBJ_DIR, './client/');
 const OBJ_SERVER = path.resolve(OBJ_DIR, './server/');
 
 const DIST_SERVER = path.resolve(DIST_DIR, './server/');
-const DIST_LIB = path.resolve(DIST_DIR, './lib/');
 const DIST_CLIENT = path.resolve(DIST_DIR, './client/');
-const DIST_CLIENT_JS = path.resolve(DIST_CLIENT, './js/');
-const DIST_CLIENT_CSS = path.resolve(DIST_CLIENT, './css/');
+const DIST_STYLE = path.resolve(DIST_DIR, './style/');
 
 const TEST_CACHE_LIB = path.resolve(TEST_CACHE_DIR, './lib/');
 const TEST_CACHE_CLIENT = path.resolve(TEST_CACHE_DIR, './client/');
@@ -86,22 +82,6 @@ const CWD = path.relative(__dirname, '');
 /**
  *  Build obj/
  */
-gulp.task('__cp:client:js:obj', [], function () {
-    const src = ['./src/client/**/*.@(js|jsx)'];
-    const objDir = path.resolve(OBJ_CLIENT);
-    return doCopy(src, objDir);
-});
-
-gulp.task('__cp:lib:obj', [], function () {
-    const src = ['./src/lib/**/*.@(js|jsx)'];
-    return doCopy(src, OBJ_LIB);
-});
-
-gulp.task('__cp:server:js:obj', [], function () {
-    const src = ['./src/server/**/*.@(js|jsx)'];
-    return doCopy(src, OBJ_SERVER);
-});
-
 /*
 gulp.task('__typescript', ['__clean:client:js:obj', '__clean:lib:obj'], function () {
     return compileTypeScript(CWD, NPM_MOD_DIR, __dirname);
@@ -115,7 +95,7 @@ gulp.task('__link:client:js', [], function () {
     const root = './karen.js';
     const ENTRY_POINT = path.resolve(OBJ_CLIENT, root);
 
-    return runLinkerForClient(CWD, NPM_MOD_DIR, ENTRY_POINT, DIST_CLIENT_JS);
+    return runLinkerForClient(CWD, NPM_MOD_DIR, ENTRY_POINT, DIST_CLIENT);
 });
 
 gulp.task('__babel:server', [], function () {
@@ -138,11 +118,11 @@ gulp.task('__babel:server:test', [], function () {
  *  Others
  */
 gulp.task('__postcss', [], function () {
-    return buildCSS('./src/style/style.css', DIST_CLIENT_CSS);
+    return buildCSS('./src/style/style.css', DIST_STYLE);
 });
 
 gulp.task('__uglify', [], function () {
-    return buildLegacyLib(CLIENT_SRC_JS, DIST_CLIENT_JS, 'libs.min.js');
+    return buildLegacyLib(CLIENT_SRC_JS, DIST_CLIENT, 'libs.min.js');
 });
 
 /**

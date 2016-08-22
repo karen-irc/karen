@@ -36,7 +36,7 @@ import {SignInWindow} from './SignInWindow';
 export function KarenAppIndex({ data }) {
     return (
         <html>
-            <Header theme={data.theme} />
+            <Header/>
             <body className={data.public ? 'public' : ''}>
                 <Layout>
                     <Sidebar/>
