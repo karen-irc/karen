@@ -33,7 +33,6 @@ const {
     runLinkerForClient,
     compileScriptForServer,
 } = require('./tools/build/script');
-const {buildCSS} = require('./tools/build/style');
 const { getSuffixedCommandName } = require('./tools/platform');
 const { spawnChildProcess, assertReturnCode } = require('./tools/spawn');
 
@@ -151,7 +150,11 @@ gulp.task('build_dist_server', ['clean_dist_server', 'build_obj_server', 'build_
 });
 
 gulp.task('build_dist_style', ['stylelint', 'clean_dist_style'], function () {
-    return buildCSS('./src/style/style.css', DIST_STYLE);
+    return execNpmCmd('postcss', [
+        '-c', './postcss.config.js',
+        '-d', DIST_STYLE,
+        './src/style/style.css',
+    ]);
 });
 
 gulp.task('build_obj_client', ['tsc', 'cp_obj_client']);
