@@ -24,6 +24,7 @@
  */
 'use strict';
 
+const del = require('del');
 const gulp = require('gulp');
 const path = require('path');
 
@@ -33,6 +34,8 @@ const {
     compileScriptForServer,
 } = require('./tools/build/script');
 const {buildCSS} = require('./tools/build/style');
+const { getSuffixedCommandName } = require('./tools/platform');
+const { spawnChildProcess, assertReturnCode } = require('./tools/spawn');
 
 const isRelease = process.env.NODE_ENV === 'production';
 
@@ -42,16 +45,17 @@ const OBJ_DIR = path.resolve(__dirname, './__obj/');
 const DIST_DIR = path.resolve(__dirname, './__dist/');
 const TEST_CACHE_DIR = path.resolve(__dirname, './__test_cache/');
 
-const OBJ_LIB = path.resolve(OBJ_DIR, './lib/');
 const OBJ_CLIENT = path.resolve(OBJ_DIR, './client/');
+const OBJ_LIB = path.resolve(OBJ_DIR, './lib/');
 const OBJ_SERVER = path.resolve(OBJ_DIR, './server/');
 
-const DIST_SERVER = path.resolve(DIST_DIR, './server/');
 const DIST_CLIENT = path.resolve(DIST_DIR, './client/');
+const DIST_LIB = path.resolve(DIST_DIR, './lib');
+const DIST_SERVER = path.resolve(DIST_DIR, './server/');
 const DIST_STYLE = path.resolve(DIST_DIR, './style/');
 
-const TEST_CACHE_LIB = path.resolve(TEST_CACHE_DIR, './lib/');
 const TEST_CACHE_CLIENT = path.resolve(TEST_CACHE_DIR, './client/');
+const TEST_CACHE_LIB = path.resolve(TEST_CACHE_DIR, './lib/');
 const TEST_CACHE_SERVER = path.resolve(TEST_CACHE_DIR, './server/');
 
 const CLIENT_SRC_JS = [
@@ -59,6 +63,29 @@ const CLIENT_SRC_JS = [
 ];
 
 const CWD = path.relative(__dirname, '');
+
+/**
+ *  @param  {string}    cmd
+ *  @param  {Array<string>} args
+ *  @return     {PromiseLike<number>}
+ */
+function execNpmCmd(cmd, args) {
+    const command = getSuffixedCommandName(cmd);
+    const bin = path.resolve(NPM_MOD_DIR, '.bin', command);
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+    return spawnChildProcess(bin, args, option).then(assertReturnCode);
+}
+
+function execCommand(cmd, args) {
+    const option = {
+        cwd: CWD,
+        stdio: 'inherit',
+    };
+    return spawnChildProcess(cmd, args, option).then(assertReturnCode);
+}
 
 /**
  *  # The rules of task name
@@ -75,60 +102,152 @@ const CWD = path.relative(__dirname, '');
  *  - MUST name `__taskname`.
  */
 
+
 /**
  *  Clean
  */
+gulp.task('clean', ['clean_dist', 'clean_obj', 'clean_test_cache']);
+gulp.task('clean_client', ['clean_dist_client', 'clean_obj_client']);
+gulp.task('clean_lib', ['clean_dist_lib', 'clean_obj_lib']);
+gulp.task('clean_server', ['clean_dist_server', 'clean_obj_server']);
+gulp.task('clean_style', ['clean_dist_style']);
+
+gulp.task('clean_dist', () => del(DIST_DIR));
+gulp.task('clean_obj', () => del(OBJ_DIR));
+gulp.task('clean_test_cache', () => del(TEST_CACHE_DIR));
+
+gulp.task('clean_dist_client', () => del(DIST_CLIENT));
+gulp.task('clean_dist_lib', () => del(DIST_LIB));
+gulp.task('clean_dist_server', () => del(DIST_SERVER));
+gulp.task('clean_dist_style', () => del(DIST_STYLE));
+
+gulp.task('clean_obj_client', () => del(OBJ_CLIENT));
+gulp.task('clean_obj_lib', () => del(OBJ_LIB));
+gulp.task('clean_obj_server', () => del(OBJ_SERVER));
+
+gulp.task('clean_test_cache_client', () => del(TEST_CACHE_CLIENT));
+gulp.task('clean_test_cache_lib', () => del(TEST_CACHE_LIB));
+gulp.task('clean_test_cache_server', () => del(TEST_CACHE_SERVER));
+
 
 /**
- *  Build obj/
+ *  Build
  */
-/*
-gulp.task('__typescript', ['__clean:client:js:obj', '__clean:lib:obj'], function () {
-    return compileTypeScript(CWD, NPM_MOD_DIR, __dirname);
-});
-*/
+gulp.task('build', ['lint', 'build_dist_client', 'build_dist_server', 'build_dist_style', 'build_dist_legacy_lib']);
 
-/**
- *  Build dist/
- */
-gulp.task('__link:client:js', [], function () {
+gulp.task('build_dist_client', ['clean_dist_client', 'build_obj_client', 'build_obj_lib'], function () {
     const root = './karen.js';
     const ENTRY_POINT = path.resolve(OBJ_CLIENT, root);
 
     return runLinkerForClient(CWD, NPM_MOD_DIR, ENTRY_POINT, DIST_CLIENT);
 });
 
-gulp.task('__babel:server', [], function () {
-    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, DIST_SERVER, isRelease);
-});
-
-gulp.task('__babel:lib:test', [], function () {
-    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_LIB, TEST_CACHE_LIB, false);
-});
-
-gulp.task('__babel:client:test', [], function () {
-    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_CLIENT, TEST_CACHE_CLIENT, false);
-});
-
-gulp.task('__babel:server:test', [], function () {
-    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, TEST_CACHE_SERVER, false);
-});
-
-/**
- *  Others
- */
-gulp.task('__postcss', [], function () {
-    return buildCSS('./src/style/style.css', DIST_STYLE);
-});
-
-gulp.task('__uglify', [], function () {
+gulp.task('build_dist_legacy_lib', ['clean_dist_client'], function () {
     return buildLegacyLib(CLIENT_SRC_JS, DIST_CLIENT, 'libs.min.js');
 });
 
-/**
- *  Meta targets
- */
+gulp.task('build_dist_server', ['clean_dist_server', 'build_obj_server', 'build_obj_lib'], function () {
+    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, DIST_SERVER, isRelease);
+});
+
+gulp.task('build_dist_style', ['stylelint', 'clean_dist_style'], function () {
+    return buildCSS('./src/style/style.css', DIST_STYLE);
+});
+
+gulp.task('build_obj_client', ['tsc', 'cp_obj_client']);
+gulp.task('build_obj_server', ['cp_obj_server']);
+gulp.task('build_obj_lib', ['tsc', 'cp_obj_lib']);
+
+gulp.task('tsc', ['clean_obj_client', 'clean_obj_lib', 'clean_obj_server'], function () {
+    return execNpmCmd('tsc', [
+        '--project',
+        './tsconfig.json',
+    ]);
+});
+
+function cpToObj(dir) {
+    return execNpmCmd('copyfiles', [
+        `./src/${dir}/**/*.@(js|jsx)`,
+        OBJ_DIR,
+        '-u', '1',
+    ]);
+}
+
+gulp.task('cp_obj_client', ['eslint', 'clean_obj_client'], function () {
+    return cpToObj('client');
+});
+
+gulp.task('cp_obj_lib', ['eslint', 'clean_obj_lib'], function () {
+    return cpToObj('lib');
+});
+
+gulp.task('cp_obj_server', ['eslint', 'clean_obj_server'], function () {
+    return cpToObj('server');
+});
+
 
 /**
- *  Public targets
+ *  Lint
  */
+gulp.task('lint', ['eslint', 'tslint', 'stylelint']);
+
+gulp.task('eslint', function () {
+    return execNpmCmd('eslint', [
+        '--ext', '.js,.jsx',
+        '.', './**/.eslintrc.js', './.eslintrc.js',
+    ]);
+});
+
+gulp.task('tslint', function () {
+    return execNpmCmd('tslint', [
+        '--project', './tsconfig.json',
+        '--config', './tsconfig.json',
+    ]);
+});
+
+gulp.task('stylelint', function () {
+    return execNpmCmd('stylelint', [
+        'src/style/**/*',
+        '--config', './stylelint.config.js',
+        '-f', 'verbose',
+        '--color',
+    ]);
+});
+
+
+/**
+ *  Test
+ */
+
+function runTest(dir) {
+    return execCommand('node', [
+        './tools/test_launcher.js',
+        '--manifest', dir + '/test_manifest.js',
+    ]);
+}
+
+gulp.task('test', ['lint', 'build_test_client', 'build_test_lib'], function () {
+    return runTest('client').then(() => runTest('lib'));
+});
+
+gulp.task('test_client', ['build_test_client'], function () {
+    return runTest('client');
+});
+
+gulp.task('test_lib', ['build_test_lib'], function () {
+    return runTest('lib');
+});
+
+gulp.task('build_test_client', ['clean_test_cache_client', 'build_obj_client'], function () {
+    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_CLIENT, TEST_CACHE_CLIENT, false);
+});
+
+gulp.task('build_test_lib', ['clean_test_cache_lib', 'build_obj_lib'], function () {
+    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_LIB, TEST_CACHE_LIB, false);
+});
+
+
+/**
+ *  CI
+ */
+gulp.task('ci', ['build', 'test']);
