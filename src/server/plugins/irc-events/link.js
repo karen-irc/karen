@@ -1,6 +1,7 @@
 /*eslint-disable consistent-this,no-param-reassign */
 
-import cheerio from 'cheerio';
+import {jsdom} from 'jsdom';
+
 import {Message} from '../../models/Message';
 import {MessageType} from '../../models/MessageType';
 import request from 'request';
@@ -23,17 +24,26 @@ function parse(msg, url, res, client) {
         /* eslint-disable indent */
         case 'text/html': {
         /* eslint-enable */
-            const $ = cheerio.load(res.text);
+            const win = jsdom(res.text, {
+                url: 'http://localhost:8000',
+            }).defaultView;
+            const doc = win.document;
+
+            const getMetadata = function getMetadata(d, selector, def) {
+                const meta = d.querySelector(selector);
+                const content = !!meta ? meta.getAttribute('content') : null;
+                if (!!content) {
+                    return content;
+                }
+                else {
+                    return def;
+                }
+            };
+
             toggle.type = 'link';
-            toggle.head = $('title').text();
-            toggle.body =
-                $('meta[name=description]').attr('content') ||
-                $('meta[property=\'og:description\']').attr('content') ||
-                'No description found.';
-            toggle.thumb =
-                $('meta[property=\'og:image\']').attr('content') ||
-                $('meta[name=\'twitter:image:src\']').attr('content') ||
-                '';
+            toggle.head = doc.title;
+            toggle.body = getMetadata(doc, 'meta[name=description], meta[property=\'og:description\']', 'No description found.');
+            toggle.thumb = getMetadata(doc, 'meta[property=\'og:image\'], meta[name=\'twitter:image:src\']', '');
             break;
         }
 

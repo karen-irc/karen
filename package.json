@@ -47,7 +47,6 @@
   "license": "MIT",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
-    "cheerio": "^0.20.0",
     "commander": "^2.9.0",
     "compression": "^1.6.2",
     "cookies-js": "^1.2.2",
