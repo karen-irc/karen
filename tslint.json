@@ -1,8 +1,10 @@
 {
     "rules": {
+        "adjacent-overload-signatures": true,
         "arrow-parens": true,
         "class-name": true,
         "curly": true,
+        "file-header": false,
         "indent": [true, "spaces"],
         "linebreak-style": [true, "LF"],
         "max-file-line-count": false,
@@ -33,8 +35,9 @@
         "no-var-keyword": true,
         "no-var-requires": true,
         "object-literal-key-quotes": [true, "as-needed"],
+        "object-literal-shorthand": true,
         "one-variable-per-declaration": [true, "ignore-for-loop"],
-        "only-arrow-functions": false,
+        "only-arrow-functions": [false, "allow-declarations"],
         "quotemark": [true, "single", "jsx-single", "avoid-escape"],
         "radix": true,
         "restrict-plus-operands": false,
