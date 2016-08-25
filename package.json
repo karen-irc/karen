@@ -86,6 +86,7 @@
     "eslint-plugin-node": "^2.0.0",
     "eslint-plugin-react": "^6.1.2",
     "event-stream": "^3.3.4",
+    "express-session": "^1.14.1",
     "font-awesome": "^4.6.3",
     "glob": "^7.0.5",
     "gulp": "^3.9.1",
