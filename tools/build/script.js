@@ -68,6 +68,12 @@ function compileScriptForServer(cwd, npmModDir, srcDir, distDir, isRelease) {
         // For Node.js v6~, we need not some transforms.
         'transform-es2015-modules-commonjs',
 
+        // es2016 level
+        'babel-plugin-transform-exponentiation-operator',
+        // es2017 level
+        'babel-plugin-syntax-trailing-function-commas',
+        'babel-plugin-transform-async-to-generator',
+
         // for React
         'syntax-jsx',
         'transform-react-jsx',
