@@ -78,12 +78,15 @@ module.exports = {
                 'object': 'Object',
             },
         }],
-        'valid-typeof': 2,
+        'valid-typeof': [2, {
+            'requireStringLiterals': false,
+        }],
 
         // Best Practices
         'accessor-pairs': 0, // Allow only getter or setter to define a "read-only" or "write-only" object
         'array-callback-return': 1,
         'block-scoped-var': 1,
+        'class-methods-use-this': 0, // Disable for the case of that an overrideed methods which not use `this`.
         'complexity': 0, // check a cyclomatic complexity
         'consistent-return': [2, {
             'treatUndefinedAsUnspecified': true,
@@ -375,6 +378,7 @@ module.exports = {
         'prefer-template': 0,
         'require-yield': 2,
         'rest-spread-spacing': [2, 'never'], // clarify 'this is rest/spread operator'.
+        'symbol-description': 1, // http://eslint.org/docs/rules/symbol-description
         'template-curly-spacing': [1, 'never'], // http://eslint.org/docs/rules/template-curly-spacing
         'yield-star-spacing': [1, 'after'],
     }

@@ -57,8 +57,14 @@ module.exports = {
         'react/no-set-state': 0, // FIXME: Enable this rule as a waring
         'react/no-string-refs': 2, // Disallow the legacy style
         'react/no-unknown-property': 2,
+        'react/no-unused-prop-types': [0, { // XXX: Disable to avoid mis-detection
+            'customValidators': [],
+            'skipShapeProps': false,
+        }],
         'react/prefer-es6-class': [2, 'always'],
-        'react/prefer-stateless-function': 1,
+        'react/prefer-stateless-function': [1, {
+            'ignorePureComponents': false, // we'll reconsider this option when we begin to use `PureComponent`.
+        }],
         'react/prop-types': 1,
         'react/react-in-jsx-scope': 1,
         'react/require-optimization': [0, {
@@ -89,6 +95,7 @@ module.exports = {
                     'getChildContext'
                 ],
                 'rendering': [
+                    'type-annotations',
                     'render',
                     '/^render.+$/'
                 ]
@@ -98,6 +105,8 @@ module.exports = {
             'callbacksLast': true,
             'requiredFirst': true,
         }],
+        'react/style-prop-object': 2,
+
 
         // JSX-specific rules
         'react/jsx-boolean-value': [2, 'always'], // Force boolean attribute explicitly.

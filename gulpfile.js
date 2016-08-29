@@ -213,6 +213,7 @@ gulp.task('stylelint', function () {
         '--config', './stylelint.config.js',
         '-f', 'verbose',
         '--color',
+        '--report-needless-disables',
     ]);
 });
 

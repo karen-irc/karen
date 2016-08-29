@@ -51,6 +51,7 @@ module.exports = {
         'declaration-block-no-ignored-properties': [true, {
             'severity': 'warning',
         }],
+        'declaration-block-no-redundant-longhand-properties': true,
         'declaration-block-no-shorthand-property-overrides': true,
         // 'declaration-block-properties-order': 'alphabetical'|[],
         // 'declaration-block-semicolon-newline-after': 'always'|'always-multi-line'|'never-multi-line',
@@ -83,6 +84,7 @@ module.exports = {
         'function-parentheses-space-inside': 'never-single-line',
         // 'function-url-data-uris': 'always'|'never',
         // 'function-url-no-scheme-relative': true,
+        'function-url-scheme-whitelist': ['https'],
         'function-url-quotes': 'always',
         //'function-whitelist': [],
         'function-whitespace-after': 'always',
@@ -95,6 +97,9 @@ module.exports = {
         'media-feature-colon-space-after': 'always',
         'media-feature-colon-space-before': 'never',
         'media-feature-name-case': 'lower',
+        'media-feature-name-no-unknown': [true, {
+            'ignoreMediaFeatureNames': [],
+        }],
         'media-feature-name-no-vendor-prefix': true,
         'media-feature-no-missing-punctuation': true,
         'media-feature-parentheses-space-inside': 'never',
@@ -135,6 +140,7 @@ module.exports = {
         // 'selector-class-pattern': string,
         'selector-combinator-space-after': 'always',
         'selector-combinator-space-before': 'always',
+        'selector-descendant-combinator-no-non-space': true,
         // 'selector-id-pattern': string,
         // 'selector-list-comma-newline-after': 'always'|'always-multi-line'|'never-multi-line',
         // 'selector-list-comma-newline-before': 'always'|'always-multi-line'|'never-multi-line',
@@ -180,6 +186,7 @@ module.exports = {
         // 'value-list-comma-newline-before': 'always'|'always-multi-line'|'never-multi-line',
         'value-list-comma-space-after': 'always-single-line',
         'value-list-comma-space-before': 'never-single-line',
+        'value-list-max-empty-lines': 0,
         'value-no-vendor-prefix': true,
     },
 };
