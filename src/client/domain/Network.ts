@@ -62,7 +62,7 @@ export class Network {
     }
 
     getChannelById(channelId: ChannelId): Option<Channel> {
-        let result = new None<Channel>();
+        let result: Option<Channel> = new None<Channel>();
         for (const channel of this._channelList) {
             // XXX: babel transforms this for-of to try-catch-finally.
             // So we returns here, it start to do 'finally' block
