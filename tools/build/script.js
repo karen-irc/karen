@@ -38,8 +38,19 @@ const { spawnChildProcess, assertReturnCode } = require('../spawn');
  *  @returns    {NodeJS.ReadableStream}
  */
 function runLinkerForClient(cwd, nodeModDir, entryPoint, distDir) {
-    const bin = path.resolve(nodeModDir, './.bin', getSuffixedCommandName('./webpack'));
-    const args = [];
+    let bin = '';
+    let args = [];
+    if (!!process.env.ENABLE_ROLLUP) {
+        bin = path.resolve(nodeModDir, './.bin', getSuffixedCommandName('./rollup'));
+        args = [
+            '-c',
+            path.resolve(cwd, 'rollup.config.js'),
+        ];
+    }
+    else {
+        bin = path.resolve(nodeModDir, './.bin', getSuffixedCommandName('./webpack'));
+    }
+
     const option = {
         cwd,
         stdio: 'inherit',
