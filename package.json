@@ -21,6 +21,7 @@
     "build_production": "cross-env NODE_ENV=production npm run build",
     "build_development": "cross-env NODE_ENV=development npm run build",
     "build": "gulp build",
+    "rollup": "cross-env ENABLE_ROLLUP=1 npm run build",
     "test": "gulp test",
     "gulp": "gulp"
   },
@@ -101,6 +102,7 @@
     "postcss-cli": "^2.6.0",
     "postcss-custom-properties": "^5.0.1",
     "postcss-import": "^8.1.2",
+    "rollup": "^0.35.14",
     "stylelint": "^7.2.0",
     "tslint": "3.15.0-dev.0",
     "typescript": "2.1.0-dev.20160918",
