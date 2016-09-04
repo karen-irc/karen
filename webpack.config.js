@@ -81,10 +81,9 @@ module.exports = {
     ],
 
     resolve: {
-        alias: {},
-        root: [],
+        modules: ['node_modules'],
         extensions: ['', '.js', '.jsx'],
-        modulesDirectories: ['node_modules'],
+        alias: {},
     },
 
     module: {
