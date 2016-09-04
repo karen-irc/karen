@@ -25,7 +25,6 @@ let babelPlugins = [
     'check-es2015-constants',
     'transform-es2015-destructuring',
     'transform-es2015-function-name',
-    'transform-es2015-modules-commonjs',
     'transform-es2015-object-super',
     'transform-es2015-parameters',
     'transform-es2015-spread',
@@ -81,10 +80,9 @@ module.exports = {
     ],
 
     resolve: {
-        alias: {},
-        root: [],
+        modules: ['node_modules'],
         extensions: ['', '.js', '.jsx'],
-        modulesDirectories: ['node_modules'],
+        alias: {},
     },
 
     module: {
