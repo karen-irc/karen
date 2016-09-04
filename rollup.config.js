@@ -4,6 +4,9 @@
 const assert = require('assert');
 const path = require('path');
 
+const nodeResolve = require('rollup-plugin-node-resolve');
+const commonjs = require('rollup-plugin-commonjs');
+
 const isRelease = process.env.NODE_ENV === 'production';
 
 const KAREN_ENTRY_POINT = process.env.KAREN_ENTRY_POINT;
@@ -23,5 +26,18 @@ module.exports = {
     sourceMap: true,
     treeshake: true,
 
-    plugins: []
+    plugins: [
+        // https://github.com/rollup/rollup-plugin-node-resolve
+        nodeResolve({
+            module: true,
+            main: true,
+            browser: true, // for browser
+            preferBuiltins: false, // linking for browser
+        }),
+
+        // https://github.com/rollup/rollup-plugin-commonjs
+        commonjs({
+            ignoreGlobal: true,
+        }),
+    ]
 };
