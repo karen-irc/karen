@@ -8,6 +8,7 @@ const path = require('path');
 const nodeResolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
 const babel = require('rollup-plugin-babel');
+const nodeGlobals = require('rollup-plugin-node-globals');
 
 const isRelease = process.env.NODE_ENV === 'production';
 
@@ -89,5 +90,8 @@ module.exports = {
             presets: babelPresets,
             plugins: babelPlugins,
         }),
+
+        // https://github.com/calvinmetcalf/rollup-plugin-node-builtins
+        nodeGlobals(),
     ]
 };
