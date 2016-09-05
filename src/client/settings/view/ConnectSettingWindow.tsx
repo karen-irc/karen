@@ -201,53 +201,53 @@ export class ConnectSettingWindow extends React.Component<Props, void> {
         );
     }
 
-    onChangeSetNetworkName(event: React.FormEvent): void {
+    onChangeSetNetworkName(event: React.FormEvent<void>): void {
         const value = (event.target as HTMLInputElement).value;
         this.props.viewmodel.networkName().setValue(value);
     }
 
-    onChangeSetServerURL(event: React.FormEvent): void {
+    onChangeSetServerURL(event: React.FormEvent<void>): void {
         const value = (event.target as HTMLInputElement).value;
         this.props.viewmodel.serverUrl().setValue(value);
     }
 
-    onChangeSetServerPort(event: React.FormEvent): void {
+    onChangeSetServerPort(event: React.FormEvent<void>): void {
         const value = (event.target as HTMLInputElement).value;
         const port = parseInt(value, 10);
         this.props.viewmodel.serverPort().setValue(port);
     }
 
-    onChangeSetServerPass(event: React.FormEvent): void {
+    onChangeSetServerPass(event: React.FormEvent<void>): void {
         const value = (event.target as HTMLInputElement).value;
         this.props.viewmodel.serverPass().setValue(value);
     }
 
-    onChangeUseTLS(event: React.FormEvent): void {
+    onChangeUseTLS(event: React.FormEvent<void>): void {
         const isChecked = (event.target as HTMLInputElement).checked;
         this.props.viewmodel.useTLS().setValue(isChecked);
     }
 
-    onChangeSetNickName(event: React.FormEvent): void {
+    onChangeSetNickName(event: React.FormEvent<void>): void {
         const value = (event.target as HTMLInputElement).value;
         this.props.viewmodel.nickname().setValue(value);
     }
 
-    onChangeSetUserName(event: React.FormEvent): void {
+    onChangeSetUserName(event: React.FormEvent<void>): void {
         const value = (event.target as HTMLInputElement).value;
         this.props.viewmodel.username().setValue(value);
     }
 
-    onChangeSetRealName(event: React.FormEvent): void {
+    onChangeSetRealName(event: React.FormEvent<void>): void {
         const value = (event.target as HTMLInputElement).value;
         this.props.viewmodel.realname().setValue(value);
     }
 
-    onChangeSetChannel(event: React.FormEvent): void {
+    onChangeSetChannel(event: React.FormEvent<void>): void {
         const value = (event.target as HTMLInputElement).value;
         this.props.viewmodel.channel().setValue(value);
     }
 
-    onSubmit(event: React.FormEvent): void {
+    onSubmit(event: React.FormEvent<void>): void {
         event.preventDefault();
 
         const param = this.props.data;
