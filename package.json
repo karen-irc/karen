@@ -97,7 +97,7 @@
     "gulp": "^3.9.1",
     "jsdom": "^9.5.0",
     "mocha": "^3.0.2",
-    "postcss": "^5.1.2",
+    "postcss": "^5.2.0",
     "postcss-cli": "^2.6.0",
     "postcss-custom-properties": "^5.0.1",
     "postcss-import": "^8.1.2",
