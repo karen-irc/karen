@@ -10,7 +10,10 @@ module.exports = {
     // http://stylelint.io/user-guide/rules/
     'rules': {
         // 'at-rule-blacklist': [],
-        'at-rule-empty-line-before': 'always',
+        'at-rule-empty-line-before': ['always', {
+            'except': ['blockless-after-same-name-blockless'], // Reverse the primary option for at-rules that are nested.
+            'ignore': ['after-comment'], // Ignore at-rules that come after a comment.
+        }],
         'at-rule-name-case': 'lower',
         'at-rule-name-newline-after': 'always-multi-line',
         'at-rule-name-space-after': 'always-single-line',
