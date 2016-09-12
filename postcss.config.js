@@ -1,4 +1,5 @@
 /*eslint quote-props: [2, "always"], no-magic-numbers: 0 */
+
 'use strict';
 
 const preprocess = [

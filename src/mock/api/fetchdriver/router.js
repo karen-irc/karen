@@ -1,4 +1,5 @@
 /// <reference path='../../,,/../../../typings/index.d.ts'/>
+
 'use strict';
 
 const { HttpStatus, CORS, responseCorsPreflight, } = require('../../http');
