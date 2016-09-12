@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 /// <reference path='../typings/index.d.ts'/>
+
 'use strict';
 
 const { EventEmitter } = require('events');

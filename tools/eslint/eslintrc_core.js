@@ -207,6 +207,8 @@ module.exports = {
         'no-process-exit': 0,
         'no-restricted-imports': 0, // http://eslint.org/docs/rules/no-restricted-imports
         'no-restricted-modules': 0, // http://eslint.org/docs/rules/no-restricted-modules
+        'no-restricted-properties': [2, // http://eslint.org/docs/rules/no-restricted-properties
+        ],
         'no-sync': 1, // Bann to use sync method. FIXME: enable this rules as an error.
 
         // Stylistic Issues
@@ -244,11 +246,15 @@ module.exports = {
             'after': true,
         }],
         'key-spacing': 0,
+        'line-comment-position': 0, // We don't think this is a really important enforcement.
         'linebreak-style': [2, 'unix'],
         'lines-around-comment': 0, // http://eslint.org/docs/rules/lines-around-comment
+        'lines-around-directive': 1,
         'max-depth': [2, 10], // http://eslint.org/docs/rules/max-depth
         'max-len': [2, 256, 4, { // http://eslint.org/docs/rules/max-len
             'ignoreUrls': true,
+            'ignoreStrings': true,
+            'ignoreTemplateLiterals': true,
         }],
         // 'max-lines': [1, {
         //     'max': 150, // In almost case, we would not use more than this lines.
@@ -372,6 +378,7 @@ module.exports = {
             'destructuring': 'any',
             'ignoreReadBeforeAssign': false,
         }],
+        'prefer-numeric-literals': 1,
         'prefer-reflect': 1,
         'prefer-rest-params': 1,
         'prefer-spread': 1,

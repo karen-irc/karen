@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 'use strict';
 
 const del = require('del');
@@ -196,7 +197,7 @@ gulp.task('lint', ['eslint', 'tslint', 'stylelint']);
 gulp.task('eslint', function () {
     return execNpmCmd('eslint', [
         '--ext', '.js,.jsx',
-        '.', './**/.eslintrc.js', './.eslintrc.js',
+        '.',
     ]);
 });
 
