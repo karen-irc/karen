@@ -197,7 +197,7 @@ gulp.task('lint', ['eslint', 'tslint', 'stylelint']);
 gulp.task('eslint', function () {
     return execNpmCmd('eslint', [
         '--ext', '.js,.jsx',
-        '.', './**/.eslintrc.js', './.eslintrc.js',
+        '.',
     ]);
 });
 
