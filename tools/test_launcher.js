@@ -88,8 +88,15 @@ function launchForNode(target) {
     const secondMock = runMockServer(testConfig.origin.SECOND);
 
     const file = path.resolve(repoRootDir, '__test_cache', target);
+
+    const isCIEnv = (!!process.env.TRAVIS) || (!!process.env.CI);
+    // In ci env, report all test cases' results.
+    // In non-ci env, report only failure cases.
+    const reporter = isCIEnv ? 'spec' : 'dot';
+
     const mocha = runMocha([
         file,
+        '--reporter', reporter,
     ]);
 
     return [mocha, firstMock, secondMock];
