@@ -226,7 +226,7 @@ gulp.task('stylelint', function () {
 function runTest(dir) {
     return execCommand('node', [
         './tools/test_launcher.js',
-        '--manifest', dir + '/test_manifest.js',
+        '--manifest', path.join('__test_cache', dir, 'test_manifest.js'),
     ]);
 }
 
