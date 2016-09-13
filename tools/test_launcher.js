@@ -87,6 +87,7 @@ function launchForNode(target) {
     const firstMock = runMockServer(testConfig.origin.FIRST);
     const secondMock = runMockServer(testConfig.origin.SECOND);
 
+    const prepare = path.resolve(repoRootDir, 'config', 'test_prepare_for_node.js');
     const file = path.resolve(repoRootDir, '__test_cache', target);
 
     const isCIEnv = (!!process.env.TRAVIS) || (!!process.env.CI);
@@ -96,6 +97,7 @@ function launchForNode(target) {
 
     const mocha = runMocha([
         file,
+        '--require', prepare,
         '--reporter', reporter,
     ]);
 
