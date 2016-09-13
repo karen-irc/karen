@@ -88,7 +88,7 @@ function launchForNode(target) {
     const secondMock = runMockServer(testConfig.origin.SECOND);
 
     const prepare = path.resolve(repoRootDir, 'config', 'test_prepare_for_node.js');
-    const file = path.resolve(repoRootDir, '__test_cache', target);
+    const file = path.resolve(repoRootDir, target);
 
     const isCIEnv = (!!process.env.TRAVIS) || (!!process.env.CI);
     // In ci env, report all test cases' results.
