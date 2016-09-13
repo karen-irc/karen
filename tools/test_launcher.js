@@ -22,10 +22,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/// <reference path='../typings/index.d.ts'/>
+/// <reference path='../node_modules/@types/node/index.d.ts'/>
 
 'use strict';
 
+const assert = require('assert');
 const { EventEmitter } = require('events');
 const path = require('path');
 const { argv } = require('yargs');
@@ -82,24 +83,28 @@ function runMocha(args) {
     return runNodeModCommand('mocha', args);
 }
 
-function launchForNode() {
-    const file = argv.manifest;
-    const manifest = path.resolve(repoRootDir, '__test_cache', file);
+function launchForNode(target) {
     const firstMock = runMockServer(testConfig.origin.FIRST);
     const secondMock = runMockServer(testConfig.origin.SECOND);
 
-    const mocha = runMocha([manifest]);
+    const file = path.resolve(repoRootDir, '__test_cache', target);
+    const mocha = runMocha([
+        file,
+    ]);
 
     return [mocha, firstMock, secondMock];
 }
 
 (function main(){
+    const testManifest = argv.manifest;
+    assert.strictEqual(typeof testManifest, 'string', 'You must specify a test file by `--manifest` option.');
+
     process.stdin.resume();
     process.on('SIGINT', function() {
         master.emit(EVENT_GRACEFUL_KILL);
     });
 
-    const children = launchForNode();
+    const children = launchForNode(testManifest);
     Promise.all(children).then(function(){
         process.exit();
     }, (e) => {
