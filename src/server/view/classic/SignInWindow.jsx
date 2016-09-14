@@ -34,32 +34,32 @@ export function SignInWindow() {
             <form className='container' action=''>
                 <div className='row'>
                     <div className='col-xs-12'>
-                        <h1 className='title'>Sign in</h1>
+                        <h1 className='title'>{'Sign in'}</h1>
                     </div>
                     <div className='col-xs-12'>
                         <label>
-                            Username
+                            {'Username'}
                             <input className='input' name='user'/>
                         </label>
                     </div>
                     <div className='col-xs-12'>
                         <label className='port'>
-                            Password
+                            {'Password'}
                             <input className='input' type='password' name='password'/>
                         </label>
                     </div>
                     <div className='col-xs-12'>
                         <label className='remember'>
                             <input type='checkbox' name='remember' defaultChecked={true}/>
-                            Stay signed in
+                            {'Stay signed in'}
                         </label>
                     </div>
                     <div className='col-xs-12 error' style={{ display: 'none', }}>
-                        Authentication failed.
+                        {'Authentication failed.'}
                     </div>
                     <div className='col-xs-12'>
                         <button type='submit' className='btn'>
-                            Sign in
+                            {'Sign in'}
                         </button>
                     </div>
                 </div>

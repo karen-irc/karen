@@ -76,7 +76,7 @@ export function MessageItem({ message }) {
         content = (
             <div>
                 <div className='force-newline'>
-                    <button id={'toggle-' + String(message.id)} className='toggle-button'>···</button>
+                    <button id={'toggle-' + String(message.id)} className='toggle-button'>{'···'}</button>
                 </div>
                 {!!message.toggle ? <ToggleItem item={message.toggle}/> : null}
             </div>

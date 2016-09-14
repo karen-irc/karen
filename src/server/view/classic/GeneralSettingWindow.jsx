@@ -31,21 +31,21 @@ export function GeneralSettingWindow({ prefetch, version, }) {
         prefetchArea = [
             <div key='links-and-urls'
                  className='col-sm-12'>
-                <h2>Links and URLs</h2>
+                <h2>{'Links and URLs'}</h2>
             </div>,
 
             <div key='auto-expand-thumbnails'
                  className='col-sm-6'>
                 <label className='opt'>
                     <input type='checkbox' name='thumbnails'/>
-                    Auto-expand thumbnails
+                    {'Auto-expand thumbnails'}
                 </label>
             </div>,
             <div key='auto-expand-lins'
                  className='col-sm-6'>
                 <label className='opt'>
                     <input type='checkbox' name='links'/>
-                    Auto-expand links
+                    {'Auto-expand links'}
                 </label>
             </div>,
         ];
@@ -59,81 +59,81 @@ export function GeneralSettingWindow({ prefetch, version, }) {
             <div className='container'>
                 <div className='row'>
                     <div className='col-sm-12'>
-                        <h1 className='title'>Settings</h1>
+                        <h1 className='title'>{'Settings'}</h1>
                     </div>
                     <div className='col-sm-12'>
-                        <h2>Messages</h2>
+                        <h2>{'Messages'}</h2>
                     </div>
                     <div className='col-sm-6'>
                         <label className='opt'>
                             <input type='checkbox' name='join'/>
-                            Show joins
+                            {'Show joins'}
                         </label>
                     </div>
                     <div className='col-sm-6'>
                         <label className='opt'>
                             <input type='checkbox' name='motd'/>
-                            Show motd
+                            {'Show motd'}
                         </label>
                     </div>
                     <div className='col-sm-6'>
                         <label className='opt'>
                             <input type='checkbox' name='part'/>
-                            Show parts
+                            {'Show parts'}
                         </label>
                     </div>
                     <div className='col-sm-6'>
                         <label className='opt'>
                             <input type='checkbox' name='nick'/>
-                            Show nick changes
+                            {'Show nick changes'}
                         </label>
                     </div>
                     <div className='col-sm-6'>
                         <label className='opt'>
                             <input type='checkbox' name='mode'/>
-                            Show mode
+                            {'Show mode'}
                         </label>
                     </div>
                     <div className='col-sm-6'>
                         <label className='opt'>
                             <input type='checkbox' name='quit'/>
-                            Show quits
+                            {'Show quits'}
                         </label>
                     </div>
                     <div className='col-sm-12'>
-                        <h2>Visual Aids</h2>
+                        <h2>{'Visual Aids'}</h2>
                     </div>
                     <div className='col-sm-12'>
                         <label className='opt'>
                             <input type='checkbox' name='colors'/>
-                            Enable colored nicknames
+                            {'Enable colored nicknames'}
                         </label>
                     </div>
 
                     {prefetchArea}
 
                     <div className='col-sm-12'>
-                        <h2>Notifications</h2>
+                        <h2>{'Notifications'}</h2>
                     </div>
                     <div className='col-sm-12'>
                         <label className='opt'>
                             <input id='badge' type='checkbox' name='badge'/>
-                            Enable badge
+                            {'Enable badge'}
                         </label>
                     </div>
                     <div className='col-sm-12'>
                         <label className='opt'>
                             <input type='checkbox' name='notification'/>
-                            Enable notification sound
+                            {'Enable notification sound'}
                         </label>
                     </div>
                     <div className='col-sm-12'>
                         <div className='opt'>
-                            <button id='play'>Play sound</button>
+                            <button id='play'>{'Play sound'}</button>
                         </div>
                     </div>
                     <div className='col-sm-12'>
-                        <h2>About karen</h2>
+                        <h2>{'About karen'}</h2>
                     </div>
                     <div className='col-sm-12'>
                         <p className='about'>
