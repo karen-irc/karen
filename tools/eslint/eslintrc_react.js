@@ -45,7 +45,7 @@ module.exports = {
         'react/forbid-component-props': 1,
         'react/forbid-prop-types': 0,
         'react/no-danger': 1,
-        // 'react/no-danger-with-children': 2, // FIXME: this crash with v6.1.1
+        'react/no-danger-with-children': 2,
         'react/no-deprecated': 1, // Detect deprected styles
         'react/no-did-mount-set-state': [1, 'disallow-in-func'],
         'react/no-did-update-set-state': [1, 'disallow-in-func'],
