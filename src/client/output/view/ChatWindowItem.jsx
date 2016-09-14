@@ -92,7 +92,7 @@ export function ChatWindowItem({ channel }){
             <div className='chat'>
                 <div className={'show-more ' + ((channel.messages().length > 100) ? 'show' : '')}>
                     <button className='show-more-button' data-id={channel.id}>
-                        Show more
+                        {'Show more'}
                     </button>
                 </div>
                 <div className='messages'>

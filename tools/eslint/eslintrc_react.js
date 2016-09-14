@@ -132,7 +132,7 @@ module.exports = {
         }],
         'react/jsx-no-comment-textnodes': 1,
         'react/jsx-no-duplicate-props': 2,
-        'react/jsx-no-literals': 0,
+        'react/jsx-no-literals': 1,
         'react/jsx-no-target-blank': 1, // In our usecase, we would not need `window.opener` or the referrer.
         'react/jsx-no-undef': 2,
         'react/jsx-pascal-case': [2, {
