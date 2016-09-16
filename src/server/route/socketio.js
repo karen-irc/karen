@@ -47,8 +47,8 @@ export function initializeConnection(config, clientManager, clientGateway, serve
     subscribeFromClient(config, clientGateway, client);
 }
 
-function tryLogin(config, clientManager, clientGateway, data) {
-    const tryAll = Array.from(clientManager.clients).map(function(client){
+async function tryLogin(config, clientManager, clientGateway, data) {
+    const tryAll = Array.from(clientManager.clients).map(async function(client){
         const trying = new Promise(function(resolve, reject){
             if (!!data.token && data.token === client.token) {
                 resolve(true);
@@ -65,29 +65,27 @@ function tryLogin(config, clientManager, clientGateway, data) {
                 resolve(false);
             }
         });
-        const auth = trying.then(function(isSuccess){
-            if (!isSuccess) {
-                return false;
-            }
-            else {
-                let token = '';
-                if (data.remember || data.token) {
-                    token = client.token;
-                }
-                subscribeFromClient(config, clientGateway, client, token);
-                return true;
-            }
-        });
-        return auth;
-    });
 
-    Promise.all(tryAll).then(function(result) {
-        const isSuccess = result.some((ok) => ok);
+        const isSuccess = await trying;
         if (!isSuccess) {
-            // There are no succeeded clients, use authentication.
-            clientGateway.emitAuth();
+            return false;
+        }
+        else {
+            let token = '';
+            if (data.remember || data.token) {
+                token = client.token;
+            }
+            subscribeFromClient(config, clientGateway, client, token);
+            return true;
         }
     });
+
+    const result = await Promise.all(tryAll);
+    const isSuccess = result.some((ok) => ok);
+    if (!isSuccess) {
+        // There are no succeeded clients, use authentication.
+        clientGateway.emitAuth();
+    }
 }
 
 function subscribeFromClient(config, clientGateway, client, token) {
