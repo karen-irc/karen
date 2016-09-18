@@ -16,22 +16,6 @@ const babelPresets = [
 ];
 
 let babelPlugins = [
-    // For our target browsers, we need not some transforms.
-    'transform-es2015-arrow-functions',
-    'transform-es2015-block-scoped-functions',
-    'transform-es2015-block-scoping',
-    'transform-es2015-classes',
-    'transform-es2015-computed-properties',
-    'check-es2015-constants',
-    'transform-es2015-destructuring',
-    'transform-es2015-function-name',
-    'transform-es2015-object-super',
-    'transform-es2015-parameters',
-    'transform-es2015-spread',
-    'transform-es2015-sticky-regex',
-    'transform-es2015-unicode-regex',
-    'transform-regenerator',
-
     // es2016 level
     'babel-plugin-transform-exponentiation-operator',
     // es2017 level
