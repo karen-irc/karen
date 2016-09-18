@@ -82,6 +82,9 @@ module.exports = {
         commonjs({
             include: 'node_modules/**',
             ignoreGlobal: true,
+            namedExports: {
+                'node_modules/option-t/src/index.js': ['Some', 'None', 'OptionBase'], // FIXME
+            },
         }),
 
         // https://github.com/rollup/rollup-plugin-babel
