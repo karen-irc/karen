@@ -130,7 +130,7 @@ gulp.task('clean_test_cache_server', () => del(TEST_CACHE_SERVER));
  */
 gulp.task('build', ['lint', 'build_dist_client', 'build_dist_server', 'build_dist_style', 'build_dist_legacy_lib']);
 
-gulp.task('build_dist_client', ['clean_dist_client', 'build_obj_client', 'build_obj_lib'], function () {
+gulp.task('build_dist_client', ['clean_dist_client', 'build_obj_client', 'build_obj_lib', 'build_dist_legacy_lib'], function () {
     const root = './karen.js';
     const ENTRY_POINT = path.resolve(OBJ_CLIENT, root);
 
