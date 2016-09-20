@@ -7,8 +7,8 @@ process.on('uncaughtException', function (err) {
     process.abort();
 });
 
-process.on('unhandledRejection', function (reason) {
-    console.error('!Caught on unhandledRejection:');
+process.on('warning', function (reason) {
+    console.error('!Caught on `process.on(\'warning\')`');
     console.error(reason);
 
     process.abort();
