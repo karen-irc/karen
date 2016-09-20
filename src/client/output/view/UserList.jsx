@@ -104,7 +104,7 @@ export class UserList extends React.Component {
                 {count}
                 <div className='names'>
                     <div className='inner'>
-                      {list}
+                        {list}
                     </div>
                 </div>
             </div>
@@ -160,8 +160,8 @@ class UserItem extends React.Component {
             <button className='user'
                     style={style}
                     onClick={this.onClick}>
-                    {user.mode}
-                    {user.name}
+                {user.mode}
+                {user.name}
             </button>
         );
     }
