@@ -94,6 +94,7 @@
     "eslint-plugin-react": "^6.3.0",
     "font-awesome": "^4.6.3",
     "glob": "^7.0.6",
+    "google-closure-compiler-js": "^20160828.0.1",
     "gulp": "^3.9.1",
     "jsdom": "^9.5.0",
     "mocha": "^3.0.2",

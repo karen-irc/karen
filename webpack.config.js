@@ -4,6 +4,8 @@
 
 const assert = require('assert');
 
+const ClosureCompiler = require('google-closure-compiler-js').webpack;
+
 const isRelease = process.env.NODE_ENV === 'production';
 
 const KAREN_ENTRY_POINT = process.env.KAREN_ENTRY_POINT;
@@ -41,6 +43,24 @@ else {
     babelPlugins = babelPlugins.concat([
         'transform-react-jsx-source',
     ]);
+}
+
+const webpackPlugins = [];
+if (isRelease) {
+    // https://github.com/google/closure-compiler-js
+    const closure = new ClosureCompiler({
+        options: {
+            languageIn: 'ECMASCRIPT6',
+            languageOut: 'ECMASCRIPT5_STRICT',
+            compilationLevel: 'SIMPLE',
+            warningLevel: 'VERBOSE',
+
+            createSourceMap: true,
+            rewritePolyfills: false,
+            useTypesForOptimization: false,
+        },
+    });
+    webpackPlugins.push(closure);
 }
 
 module.exports = {
@@ -82,4 +102,6 @@ module.exports = {
             }
         ]
     },
+
+    plugins: webpackPlugins,
 };
