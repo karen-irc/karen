@@ -94,5 +94,5 @@ export function assertForbiddenError(res: Response): Promise<Response> {
 }
 
 export function unwrapResponseJson<T>(res: Response): Promise<T> {
-    return res.json<T>();
+    return res.json();
 }

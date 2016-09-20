@@ -255,3 +255,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         (target as HTMLElement).style.zIndex = String(top++);
     });
 });
+
+export async function a() {
+    return 1;
+}

@@ -44,6 +44,7 @@ module.exports = {
         'react/display-name': 0, // JSX transpiler creates displayName automatically.
         'react/forbid-component-props': 1,
         'react/forbid-prop-types': 0,
+        'react/no-children-prop': 2, // children should be nested between the opening and closing tags.
         'react/no-danger': 1,
         'react/no-danger-with-children': 2,
         'react/no-deprecated': 1, // Detect deprected styles
@@ -56,6 +57,7 @@ module.exports = {
         'react/no-render-return-value': 2,
         'react/no-set-state': 0, // FIXME: Enable this rule as a waring
         'react/no-string-refs': 2, // Disallow the legacy style
+        'react/no-unescaped-entities': 2,
         'react/no-unknown-property': 2,
         'react/no-unused-prop-types': [0, { // XXX: Disable to avoid mis-detection
             'customValidators': [],
