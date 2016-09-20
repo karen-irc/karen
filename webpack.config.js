@@ -65,12 +65,12 @@ module.exports = {
 
     resolve: {
         modules: ['node_modules'],
-        extensions: ['', '.js', '.jsx'],
+        extensions: ['.js', '.jsx'],
         alias: {},
     },
 
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.jsx?$/, // loader is applied to files which matches this extensions.
                 exclude: /node_modules/, // don't transform under this path.
