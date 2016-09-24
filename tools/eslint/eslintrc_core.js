@@ -227,7 +227,7 @@ module.exports = {
         'comma-style': [2, 'last'],
         'computed-property-spacing': [2, 'never'],
         'consistent-this': [2, 'that'],
-        'eol-last': 0, // we don't have to restrict this.
+        'eol-last': [0, 'always'], // we don't have to restrict this.
         'func-call-spacing': [2, 'never'], // enforce `fn();` style and ban `fn ();`.
         'func-names': 0, // we don't have to restrict this in most case.
         'func-style': [0, 'declaration', {
