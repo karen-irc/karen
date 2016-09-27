@@ -65,7 +65,7 @@
     "socket.io": "^1.4.8",
     "socket.io-client": "^1.4.8",
     "spdy": "^3.4.2",
-    "urijs": "^1.18.1"
+    "urijs": "^1.18.2"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.32",
@@ -89,8 +89,8 @@
     "copyfiles": "^1.0.0",
     "cross-env": "^3.0.0",
     "del": "^2.2.2",
-    "eslint": "^3.6.0",
-    "eslint-plugin-node": "^2.0.0",
+    "eslint": "^3.6.1",
+    "eslint-plugin-node": "^2.1.1",
     "eslint-plugin-react": "^6.3.0",
     "font-awesome": "^4.6.3",
     "glob": "^7.1.0",
