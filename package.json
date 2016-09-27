@@ -65,7 +65,7 @@
     "socket.io": "^1.4.8",
     "socket.io-client": "^1.4.8",
     "spdy": "^3.4.2",
-    "urijs": "^1.18.1"
+    "urijs": "^1.18.2"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.32",
