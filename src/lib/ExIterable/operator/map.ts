@@ -5,10 +5,6 @@ import {getIterator} from '../util';
 
 type MapFn<T, U> = (this: void, v: T, index: number) => U;
 
-export interface MapSignature<T> {
-    <U>(selector: MapFn<T, U>): ExIterable<U>;
-}
-
 // tslint:disable:no-any no-invalid-this
 export function map<T, U>(this: ExIterable<T>, selector: MapFn<T, U>): ExIterable<U> {
     let op: Operator<T, U>;

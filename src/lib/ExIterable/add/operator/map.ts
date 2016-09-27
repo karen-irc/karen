@@ -1,10 +1,10 @@
 import {ExIterable} from '../../ExIterable';
-import {map, MapSignature} from '../../operator/map';
+import {map} from '../../operator/map';
 
 ExIterable.prototype.map = map;
 
 declare module '../../ExIterable' {
     interface ExIterable<T> {
-        map: MapSignature<T>;
+        map: typeof map;
     }
 }

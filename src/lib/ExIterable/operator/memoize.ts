@@ -2,10 +2,6 @@ import {ExIterable} from '../ExIterable';
 import {Operator} from '../Operator';
 import {getIterator} from '../util';
 
-export interface MemoizeSignature<T> {
-    (consumerLimit?: number): ExIterable<T>;
-}
-
 // tslint:disable:no-invalid-this
 export function memoize<T>(this: ExIterable<T>, consumerLimit: number = Number.POSITIVE_INFINITY): ExIterable<T> {
     if (consumerLimit <= 0) {

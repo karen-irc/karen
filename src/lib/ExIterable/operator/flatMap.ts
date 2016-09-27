@@ -4,10 +4,6 @@ import {getIterator} from '../util';
 
 type FlatMapFn<T, U> = (this: void, v: T, index: number) => Iterable<U>;
 
-export interface FlatMapSignature<T> {
-    <U>(selector: FlatMapFn<T, U>): ExIterable<U>;
-}
-
 // tslint:disable:no-invalid-this
 export function flatMap<T, U>(this: ExIterable<T>, selector: FlatMapFn<T, U>): ExIterable<U> {
     const op = new FlatMapOperator<T, U>(this, selector);

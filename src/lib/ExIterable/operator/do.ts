@@ -4,10 +4,6 @@ import {getIterator} from '../util';
 
 type DoFn<T> = (this: void, value: T, index: number) => void;
 
-export interface DoSignature<T> {
-    (selector: DoFn<T>): ExIterable<T>;
-}
-
 // tslint:disable:no-invalid-this
 export function doExIterable<T>(this: ExIterable<T>, action: DoFn<T>): ExIterable<T> {
     const op = new DoOperator<T>(this, action);

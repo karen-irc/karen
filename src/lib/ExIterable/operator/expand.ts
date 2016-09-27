@@ -4,10 +4,6 @@ import {getIterator} from '../util';
 
 type ExpandSelectorFn<T> = (this: void, value: T) => Iterable<T>;
 
-export interface ExpandSignature<T> {
-    (selector: ExpandSelectorFn<T>): ExIterable<T>;
-}
-
 // tslint:disable:no-invalid-this
 export function expand<T>(this: ExIterable<T>, selector: ExpandSelectorFn<T>): ExIterable<T> {
     const op = new ExpandOperator<T>(this, selector);

@@ -4,10 +4,6 @@ import {getIterator} from '../util';
 
 type ExcavateSelectorFn<T> = (this: void, value: T) => Iterable<T>;
 
-export interface ExcavateSignature<T> {
-    (selector: ExcavateSelectorFn<T>): ExIterable<T>;
-}
-
 // tslint:disable:no-invalid-this
 export function excavate<T>(this: ExIterable<T>, selector: ExcavateSelectorFn<T>): ExIterable<T> {
     const op = new ExcavateOperator<T>(this, selector);

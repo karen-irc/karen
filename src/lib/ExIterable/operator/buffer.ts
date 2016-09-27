@@ -2,10 +2,6 @@ import {ExIterable} from '../ExIterable';
 import {Operator} from '../Operator';
 import {getIterator} from '../util';
 
-export interface BufferSignature<T> {
-    (size: number): ExIterable<Array<T>>;
-}
-
 // tslint:disable:no-invalid-this
 export function buffer<T>(this: ExIterable<T>, size: number): ExIterable<Array<T>> {
     if (size <= 0) {

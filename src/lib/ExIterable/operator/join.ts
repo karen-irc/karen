@@ -5,13 +5,6 @@ import {getIterator} from '../util';
 type JoinKeySelector<T, R> = (this: void, v: T) => R;
 type JoinResultSelector<T1, T2, R> = (this: void, outer: T1, inner: T2) => R;
 
-export interface JoinSignature<TOuter> {
-    <TInner, TKey, TResult>(inner: Iterable<TInner>,
-                            outerkey: JoinKeySelector<TOuter, TKey>,
-                            innerKey: JoinKeySelector<TInner, TKey>,
-                            result: JoinResultSelector<TOuter, TInner, TResult>): ExIterable<TResult>;
-}
-
 // tslint:disable:no-invalid-this
 export function join<TOuter, TInner, TKey, TResult>(this: ExIterable<TOuter>,
                                                     inner: Iterable<TInner>,

@@ -4,10 +4,6 @@ import {getIterator} from '../util';
 
 type ScanAccumulatorFn<T, R> = (this: void, acc: R, value: T, index: number) => R;
 
-export interface ScanSignature<T> {
-    <R>(accumulator: ScanAccumulatorFn<T, R>, seed: R): ExIterable<R>;
-}
-
 // tslint:disable:no-invalid-this
 export function scan<T, R>(this: ExIterable<T>, accumulator: ScanAccumulatorFn<T, R>, seed: R): ExIterable<R> {
     const op = new ScanOperator<T, R>(this, seed, accumulator);
