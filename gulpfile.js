@@ -204,7 +204,7 @@ gulp.task('eslint', function () {
 gulp.task('tslint', function () {
     return execNpmCmd('tslint', [
         '--project', './tsconfig.json',
-        '--config', './tsconfig.json',
+        '--config', './tslint.json',
     ]);
 });
 

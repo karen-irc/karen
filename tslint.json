@@ -35,7 +35,7 @@
         "no-var-keyword": true,
         "no-var-requires": true,
         "object-literal-key-quotes": [true, "as-needed"],
-        "object-literal-shorthand": true,
+        "object-literal-shorthand": false,
         "one-variable-per-declaration": [true, "ignore-for-loop"],
         "only-arrow-functions": [false, "allow-declarations"],
         "quotemark": [true, "single", "jsx-single", "avoid-escape"],

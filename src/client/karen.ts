@@ -23,7 +23,7 @@ import {WindowPresenter} from './output/WindowPresenter';
 
 import {RizeClient} from './rize';
 
-declare global {
+declare global { // tslint:disable-line:no-namespace
     interface Window {
         gKarenClientApp: RizeClient;
     }
