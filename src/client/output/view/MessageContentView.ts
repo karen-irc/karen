@@ -57,13 +57,13 @@ export class MessageContentView {
         this._channelId = domain.getId();
 
         this._element = element;
-        this._userElement = this._element.querySelector('.js-users');
-        this._topicElement = this._element.querySelector('.js-topic');
-        this._messageArea = this._element.querySelector('.chat');
-        this._messageContainer = this._element.querySelector('.messages');
-        this._showMore = this._element.querySelector('.show-more');
-        this._showMoreButtonElement = this._element.querySelector('.show-more-button');
-        this._closeButton = this._element.querySelector('.js-chatwindow-close');
+        this._userElement = this._element.querySelector('.js-users')!;
+        this._topicElement = this._element.querySelector('.js-topic')!;
+        this._messageArea = this._element.querySelector('.chat')!;
+        this._messageContainer = this._element.querySelector('.messages')!;
+        this._showMore = this._element.querySelector('.show-more')!;
+        this._showMoreButtonElement = this._element.querySelector('.show-more-button')!;
+        this._closeButton = this._element.querySelector('.js-chatwindow-close')!;
 
         const disposer = new Rx.Subscription();
         this._disposer = disposer;

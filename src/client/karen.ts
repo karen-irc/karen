@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         if (body.classList.contains('signed-out')) {
             const error = login.querySelector('.error') as HTMLElement;
             error.style.display = '';
-            const form = login.querySelector('.container');
+            const form = login.querySelector('.container')!;
             form.addEventListener('submit', function onSubmit() {
                 form.removeEventListener('submit', onSubmit);
                 error.style.display = 'none';
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         const chan = document.getElementById('js-chan-' + target)!;
         (chan.querySelector('.messages') as HTMLElement).insertAdjacentHTML('afterbegin', html);
         if (data.messages.length !== 100) {
-            chan.querySelector('.show-more').classList.remove('show');
+            chan.querySelector('.show-more')!.classList.remove('show');
         }
     });
 
@@ -248,10 +248,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             active.classList.remove('active');
         }
 
-        target.classList.add('active');
+        target!.classList.add('active');
         const evt = document.createEvent('CustomEvent');
         evt.initCustomEvent('show', true, true, null);
-        target.dispatchEvent(evt);
+        target!.dispatchEvent(evt);
         (target as HTMLElement).style.zIndex = String(top++);
     });
 });
