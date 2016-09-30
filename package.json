@@ -105,7 +105,7 @@
     "tslint": "3.15.0-dev.0",
     "typescript": "2.1.0-dev.20160930",
     "typings": "^1.4.0",
-    "webpack": "2.1.0-beta.23",
+    "webpack": "2.1.0-beta.25",
     "whatwg-fetch": "^1.0.0",
     "yargs": "^5.0.0"
   }
