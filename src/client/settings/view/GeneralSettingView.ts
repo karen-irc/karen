@@ -43,6 +43,10 @@ export class GeneralSettingView implements EventListenerObject {
         this._disposer = disposer;
 
         const playElement = element.querySelector('#play');
+        if (playElement === null) {
+            throw new TypeError();
+        }
+
         disposer.add(Rx.Observable.fromEvent<Event>(playElement, 'click').subscribe(() => {
             viewmodel.playSound();
         }));

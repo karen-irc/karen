@@ -70,7 +70,7 @@ export class MainContentAreaView {
 
         const disposer = new Rx.Subscription();
         this._disposer = disposer;
-        this._chatContentArea = element.querySelector('#chat');
+        this._chatContentArea = element.querySelector('#chat')!;
 
         const networkDomain = domain.getNetworkDomain();
         disposer.add(networkDomain.joinedChannelAtAll().subscribe((channelDomain) => {
@@ -126,10 +126,10 @@ export class MainContentAreaView {
             this._renderChannelList(channels);
         }));
 
-        this._signin = new SignInView(element.querySelector('#sign-in'), cookie, gateway.socket());
+        this._signin = new SignInView(element.querySelector('#sign-in')!, cookie, gateway.socket());
 
         this._connect = new ConnectSettingContext(gateway);
-        this._connect.onActivate(element.querySelector(CONNECT_INSERTION_POINT_ID));
+        this._connect.onActivate(element.querySelector(CONNECT_INSERTION_POINT_ID)!);
     }
 
     private _renderChannelList(list: Array<Channel>): void {
