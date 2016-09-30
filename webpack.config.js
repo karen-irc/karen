@@ -6,11 +6,17 @@ const assert = require('assert');
 
 const isRelease = process.env.NODE_ENV === 'production';
 
-const KAREN_ENTRY_POINT = process.env.KAREN_ENTRY_POINT;
-assert.ok(!!KAREN_ENTRY_POINT, 'not found process.env.KAREN_ENTRY_POINT');
+function getParamFromEnv(env, name) {
+    const value = env[name];
 
-const KAREN_CLIENT_DIST_DIR = process.env.KAREN_CLIENT_DIST_DIR;
-assert.ok(!!KAREN_CLIENT_DIST_DIR, 'not found process.env.KAREN_CLIENT_DIST_DIR');
+    assert.ok(!!value, `not found process.env.${name}`);
+    console.log(`${name}: ${value}`);
+
+    return value;
+}
+
+const KAREN_ENTRY_POINT = getParamFromEnv(process.env, 'KAREN_ENTRY_POINT');
+const KAREN_CLIENT_DIST_DIR = getParamFromEnv(process.env, 'KAREN_CLIENT_DIST_DIR');
 
 const babelPresets = [
 ];
