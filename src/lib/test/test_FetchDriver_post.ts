@@ -48,15 +48,11 @@ describe('FetchDriver.post()', function () {
 
         describe('valid case', () => {
             let res: Response | void;
-            let body: Promise<ResBody> | void;
+            let body: ResBody | void;
 
-            before(() => {
-                return driver.post('/' + PATH, {
-                    mode: 'cors',
-                }).then((result: Response) => {
-                    res = result;
-                    body = result.json();
-                });
+            before(async () => {
+                res = await driver.post('/' + PATH, {});
+                body = await res.json();
             });
 
             after(() => {
@@ -69,16 +65,12 @@ describe('FetchDriver.post()', function () {
             });
 
             it('use the expected method', () => {
-                return body.then((body) => {
-                    assert.strictEqual(body.method.toLowerCase(), 'post');
-                });
+                assert.strictEqual(body.method.toLowerCase(), 'post');
             });
 
             it('request to the expected origin', () => {
-                return body.then((body) => {
-                    const expected = String(testConfig.origin.FIRST);
-                    assert.strictEqual(body.origin, expected);
-                });
+                const expected = String(testConfig.origin.FIRST);
+                assert.strictEqual(body.origin, expected);
             });
         });
 
@@ -150,15 +142,13 @@ describe('FetchDriver.post()', function () {
 
         describe('valid case', () => {
             let res: Response | void;
-            let body: Promise<ResBody> | void;
+            let body: ResBody | void;
 
-            before(() => {
-                return driver.post('/' + PATH, {
+            before(async () => {
+                res = await driver.post('/' + PATH, {
                     mode: 'cors'
-                }).then((result: Response) => {
-                    res = result;
-                    body = result.json();
                 });
+                body = await res.json();
             });
 
             after(() => {
@@ -171,16 +161,12 @@ describe('FetchDriver.post()', function () {
             });
 
             it('use the expected method', () => {
-                return body.then((body) => {
-                    assert.strictEqual(body.method.toLowerCase(), 'post');
-                });
+                assert.strictEqual(body.method.toLowerCase(), 'post');
             });
 
             it('request to the expected origin', () => {
-                return body.then((body) => {
-                    const expected = String(testConfig.origin.SECOND);
-                    assert.strictEqual(body.origin, expected);
-                });
+                const expected = String(testConfig.origin.SECOND);
+                assert.strictEqual(body.origin, expected);
             });
         });
 
