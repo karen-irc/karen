@@ -49,17 +49,15 @@ describe('FetchDriver.fetch()', function () {
 
     describe('valid case', function () {
         let res: Response | void;
-        let body: Promise<ResBody> | void;
+        let body: ResBody | void;
 
-        before(() => {
+        before(async () => {
             const req = driver.createRequest(PATH, {
                 method: 'GET',
             });
 
-            return driver.fetch(req).then((result: Response) => {
-                res = result;
-                body = result.json();
-            });
+            res = await driver.fetch(req);
+            body = await res.json();
         });
 
         after(() => {
@@ -72,16 +70,12 @@ describe('FetchDriver.fetch()', function () {
         });
 
         it('use the expected method', () => {
-            return body.then((body) => {
-                assert.strictEqual(body.method.toLowerCase(), 'get');
-            });
+            assert.strictEqual(body.method.toLowerCase(), 'get');
         });
 
         it('request to the expected origin', () => {
-            return body.then((body) => {
-                const expected = String(testConfig.origin.FIRST);
-                assert.strictEqual(body.origin, expected);
-            });
+            const expected = String(testConfig.origin.FIRST);
+            assert.strictEqual(body.origin, expected);
         });
     });
 
