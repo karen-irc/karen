@@ -52,7 +52,6 @@ describe('FetchDriver.post()', function () {
 
             before(() => {
                 return driver.post('/' + PATH, {
-                    mode: 'cors',
                 }).then((result: Response) => {
                     res = result;
                     body = result.json();
