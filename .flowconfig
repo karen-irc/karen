@@ -1,0 +1,23 @@
+# https://flowtype.org/docs/advanced-configuration
+[include]
+
+[ignore]
+# Generate dirs.
+<PROJECT_ROOT>/__dist/.*
+<PROJECT_ROOT>/__obj/.*
+<PROJECT_ROOT>/__test_cache/.*
+
+#
+
+[libs]
+
+[options]
+module.system=node
+module.system.node.resolve_dirname=node_modules
+
+munge_underscores=true
+
+suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+
+[version]
+^0.33.0
