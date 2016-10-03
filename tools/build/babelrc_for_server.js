@@ -25,14 +25,14 @@ module.exports = {
     'env': {
         'development': {
             'plugins': [
-                'transform-react-constant-elements',
-                'transform-react-inline-elements',
+                'transform-react-jsx-source',
             ],
         },
 
         'production': {
             'plugins': [
-                'transform-react-jsx-source',
+                'transform-react-constant-elements',
+                'transform-react-inline-elements',
             ],
         },
     },
