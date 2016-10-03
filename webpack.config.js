@@ -49,6 +49,13 @@ else {
     ]);
 }
 
+const parserOpts = {};
+const generatorOpts = {
+    // retain the parentheses around an IIFE
+    // see: https://github.com/nolanlawson/optimize-js
+    retainFunctionParens: false,
+};
+
 module.exports = {
     bail: true,
 
@@ -84,6 +91,8 @@ module.exports = {
                 query: {
                     presets: babelPresets,
                     plugins: babelPlugins,
+                    parserOpts,
+                    generatorOpts,
                 }
             }
         ]
