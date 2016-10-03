@@ -23,12 +23,17 @@
  * THE SOFTWARE.
  */
 
+/// <reference path="../../node_modules/@types/node/index.d.ts" />
+
 'use strict';
 
+const fs = require('fs');
 const path = require('path');
 
 const { getSuffixedCommandName } = require('../platform');
 const { spawnChildProcess, assertReturnCode } = require('../spawn');
+
+const BABEL_OPTION_FOR_SERVER = require('./babelrc_for_server');
 
 /**
  *  @param  {string}    cwd
@@ -58,56 +63,55 @@ function runLinkerForClient(cwd, nodeModDir, entryPoint, distDir) {
  *  @param  {string}    npmModDir
  *  @param  {string}    srcDir
  *  @param  {string}    distDir
- *  @param  {boolean}   isRelease
  *  @returns    {Promise<void>}
  */
-function compileScriptForServer(cwd, npmModDir, srcDir, distDir, isRelease) {
-    const babelPresets = [
-    ];
+function compileScriptForServer(cwd, npmModDir, srcDir, distDir) {
+    const generateConfig = generateBabelRc(BABEL_OPTION_FOR_SERVER, srcDir);
+    const compile = generateConfig.then(() => {
+        const args = [
+            srcDir,
+            '--source-maps', 'inline',
+            '--extensions', '.js,.jsx',
+            '--out-dir', distDir,
+        ];
 
-    let babelPlugins = [
-        // For Node.js v6~, we need not some transforms.
-        'transform-es2015-modules-commonjs',
+        const option = {
+            cwd,
+            stdio: 'inherit',
+        };
 
-        // es2016 level
-        'babel-plugin-transform-exponentiation-operator',
-        // es2017 level
-        'babel-plugin-syntax-trailing-function-commas',
-        'babel-plugin-transform-async-to-generator',
+        const command = getSuffixedCommandName('babel');
+        const bin = path.resolve(npmModDir, '.bin', command);
+        return spawnChildProcess(bin, args, option).then(assertReturnCode);
+    });
+    return compile;
+}
 
-        // for React
-        'syntax-jsx',
-        'transform-react-jsx',
-    ];
-    if (isRelease) {
-        babelPlugins = babelPlugins.concat([
-            'transform-react-constant-elements',
-            'transform-react-inline-elements',
-        ]);
-    }
-    else {
-        babelPlugins = babelPlugins.concat([
-            'transform-react-jsx-source',
-        ]);
-    }
-
-    const args = [
-        srcDir,
-        '--presets', babelPresets.join(','),
-        '--plugins', babelPlugins.join(','),
-        '--source-maps', 'inline',
-        '--extensions', '.js,.jsx',
-        '--out-dir', distDir,
-    ];
-
-    const option = {
-        cwd,
-        stdio: 'inherit',
-    };
-
-    const command = getSuffixedCommandName('babel');
-    const bin = path.resolve(npmModDir, '.bin', command);
-    return spawnChildProcess(bin, args, option).then(assertReturnCode);
+/**
+ *  @param  {Object}    options
+ *      The options for babel.
+ *      This will be transformed to JSON with using `JSON.stringify()`.
+ *  @param  {string}    targetDir
+ *      The target dir path to emit `.babelrc`.
+ *  @returns    {Promise<void>}
+ */
+function generateBabelRc(options, targetDir) {
+    const NAME = '.babelrc';
+    const fullpath = path.resolve(targetDir, NAME);
+    const io = new Promise((resolve, reject) => {
+        const json = JSON.stringify(options);
+        fs.writeFile(fullpath, json, {
+            encoding: 'utf8',
+        }, (err) => {
+            if (!!err) {
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+    });
+    return io;
 }
 
 module.exports = {

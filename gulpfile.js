@@ -36,8 +36,6 @@ const {
 const { getSuffixedCommandName } = require('./tools/platform');
 const { spawnChildProcess, assertReturnCode } = require('./tools/spawn');
 
-const isRelease = process.env.NODE_ENV === 'production';
-
 const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
 
 const OBJ_DIR = path.resolve(__dirname, './__obj/');
@@ -146,7 +144,7 @@ gulp.task('build_dist_legacy_lib', ['clean_dist_client'], function () {
 });
 
 gulp.task('build_dist_server', ['clean_dist_server', 'build_obj_server', 'build_obj_lib'], function () {
-    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, DIST_SERVER, isRelease);
+    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, DIST_SERVER);
 });
 
 gulp.task('build_dist_style', ['stylelint', 'clean_dist_style'], function () {
@@ -243,11 +241,11 @@ gulp.task('test_lib', ['build_test_lib'], function () {
 });
 
 gulp.task('build_test_client', ['clean_test_cache_client', 'build_obj_client'], function () {
-    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_CLIENT, TEST_CACHE_CLIENT, false);
+    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_CLIENT, TEST_CACHE_CLIENT);
 });
 
 gulp.task('build_test_lib', ['clean_test_cache_lib', 'build_obj_lib'], function () {
-    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_LIB, TEST_CACHE_LIB, false);
+    return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_LIB, TEST_CACHE_LIB);
 });
 
 
