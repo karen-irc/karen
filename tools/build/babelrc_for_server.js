@@ -20,6 +20,10 @@ module.exports = {
         // for React
         'syntax-jsx',
         'transform-react-jsx',
+
+        // for flowtype
+        'plugin-syntax-flow',
+        'plugin-transform-flow-strip-types',
     ],
 
     'env': {
