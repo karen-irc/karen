@@ -24,6 +24,7 @@
  */
 /// <reference path='../../../typings/index.d.ts'/>
 
+import bodyParser from 'body-parser';
 import compression from 'compression';
 import * as fs from 'fs';
 import express from 'express';
@@ -38,7 +39,13 @@ import {confirmAuth, initializeConnection} from '../route/socketio';
 
 import {ClientManager} from '../ClientManager';
 
-import {applyGenericSecurityHeader, setSessionMiddleware} from './security';
+import {
+    applyGenericSecurityHeader,
+    setSessionMiddleware,
+    checkSessionMiddleware,
+    trySignIn,
+    doSignout
+} from './security';
 
 export class KarenServer {
 
@@ -77,6 +84,11 @@ export class KarenServer {
         app.use('/dist/css', express.static('__dist/style'));
         app.use(express.static('resource'));
         app.use('/resource/fonts/font-awesome', express.static('node_modules/font-awesome/fonts'));
+
+        app.use('/api/', bodyParser.json());
+        app.post('/api/auth/signin', trySignIn);
+        app.get('/api/auth/signout', doSignout);
+        app.use('/api/', checkSessionMiddleware); // apply to `/api/*` routes from here.
     }
 
     _initConnection(clientGateway) {

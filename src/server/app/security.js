@@ -25,6 +25,7 @@
 import expressSession from 'express-session';
 
 const STRICT_TRANSPORT_SECURITY_EXPIRE_TIME = String(60 * 24 * 365 * 1000);
+const SESSION_COOKIE_KEY = 'karen.sessionid';
 
 export function applyGenericSecurityHeader(req, res, next) {
     res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -70,8 +71,60 @@ export function setSessionMiddleware(express, config) {
         },
         secret: String(Date.now() * Math.random),
         resave: false,
-        name: 'karen.sessionid',
+        name: SESSION_COOKIE_KEY,
         saveUninitialized: config.public,
     };
     express.use(expressSession(sessionOption));
+}
+
+export function checkSessionMiddleware(req, res, next) {
+    const userInfo = req.session.userInfo;
+    if (!!userInfo) {
+        next();
+    } else {
+        res.status(403).send();
+    }
+}
+
+export function trySignIn(req, res) {
+    const { id, password } = req.body;
+
+    const isValidId = typeof id === 'string';
+    const isValidPass = typeof password === 'string';
+    if (!isValidId || !isValidPass) {
+        res.status(400).json({
+            ok: false,
+        });
+        return;
+    }
+
+    // TODO: verify password actually
+
+    req.session.userInfo = { // eslint-disable-line no-param-reassign
+        userid: id,
+    };
+
+    res.status(200).json({
+        ok: true,
+        userid: id,
+    });
+}
+
+export function doSignout(req, res) {
+    const userInfo = req.session.userInfo;
+    if (!userInfo) {
+        res.clearCookie(SESSION_COOKIE_KEY);
+        res.status(412).send(`You have already signouted.`);
+        return;
+    }
+
+    req.session.destroy((err) => {
+        if (!!err) {
+            res.status(500).send(`fail to signout`);
+            return;
+        }
+
+        res.clearCookie(SESSION_COOKIE_KEY);
+        res.status(200).send();
+    });
 }
