@@ -4,6 +4,12 @@
 
 const HttpStatus = Object.freeze({
     Ok: 200,
+
+    BadRequest: 400,
+});
+
+const MimeType = Object.freeze({
+    JSON: 'application/json',
 });
 
 const CORS = Object.freeze({
@@ -27,6 +33,7 @@ function responseCorsPreflight(req, res) {
 
 module.exports = Object.freeze({
     HttpStatus,
+    MimeType,
     CORS,
     responseCorsPreflight,
 });
