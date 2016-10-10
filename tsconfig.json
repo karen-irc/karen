@@ -6,6 +6,7 @@
         "allowUnusedLabels": false,
         "diagnostics": false,
         "forceConsistentCasingInFileNames": true,
+        "importHelpers": false,
         "jsx": "preserve",
         "lib": [
             "es2016",
@@ -14,6 +15,7 @@
         "module": "es2015",
         "moduleResolution": "node",
         "newLine": "LF",
+        "noEmitHelpers": false, // see: https://github.com/Microsoft/TypeScript/issues/3364
         "noFallthroughCasesInSwitch": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
