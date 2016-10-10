@@ -67,7 +67,9 @@ module.exports = {
         'react/prefer-stateless-function': [1, {
             'ignorePureComponents': false, // we'll reconsider this option when we begin to use `PureComponent`.
         }],
-        'react/prop-types': 1,
+        'react/prop-types': [1, {
+            'skipUndeclared': false,
+        }],
         'react/react-in-jsx-scope': 1,
         'react/require-optimization': [0, {
             'allowDecorators': []

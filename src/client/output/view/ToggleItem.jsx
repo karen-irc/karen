@@ -35,9 +35,7 @@ export function ToggleItem({ item }) {
         );
     }
     else {
-        const thumb = (item.thumb === '') ?
-            null :
-            <img src={item.thumb} className='thumb'/>;
+        const thumb = (item.thumb === '') ? null : <img src={item.thumb} className='thumb'/>;
 
         content = (
             <a href={item.link} target='_blank' rel='noopener noreferrer'>
