@@ -85,7 +85,7 @@ export class NetworkSetDomain {
             };
         }).share();
 
-        this._addedNetwork = gateway.addNetwork().map<NetworkDomain>((network) => {
+        const networkDomain: Rx.Observable<NetworkDomain>  = gateway.addNetwork().map((network) => {
             const domain = new NetworkDomain(gateway,
                                              network,
                                              this._updateNick,
@@ -94,16 +94,18 @@ export class NetworkSetDomain {
                                              this._notableMsgDispatcher,
                                              this._notifiableMsgDispatcher);
             return domain;
-        }).combineLatest<Array<NetworkDomain>, [NetworkDomain, Array<NetworkDomain>]>(this._list, (network: NetworkDomain, list: Array<NetworkDomain>) => {
+        });
+
+        this._addedNetwork = networkDomain.combineLatest(this._list, (network: NetworkDomain, list: Array<NetworkDomain>) => {
             this.legacy.add(network.getValue()); // for legacy model.
             list.push(network);
-            return [network, list];
-        }).map(function([network,]){
+            return network;
+        }).map(function(network: NetworkDomain){
             return network;
         }).share();
 
-        this._removedNetwork = gateway.quitNetwork()
-        .combineLatest<Array<NetworkDomain>, Option<NetworkDomain>>(this._list, (networkId: NetworkId, list: Array<NetworkDomain>) => {
+        const quitNetwork = gateway.quitNetwork();
+        this._removedNetwork = quitNetwork.combineLatest(this._list, (networkId: NetworkId, list: Array<NetworkDomain>) => {
             const target = list.find(function(domain){
                 return domain.getId() === networkId;
             });

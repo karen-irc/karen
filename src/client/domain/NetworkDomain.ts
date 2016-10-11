@@ -79,7 +79,7 @@ export class NetworkDomain {
             return data.networkId === this._data.id;
         }).map(function(data){
             return data.nickname;
-        }).do((nick) => {
+        }).do((nick: string) => {
             this._data.changeNickName(nick);
         }).share();
 
@@ -92,7 +92,7 @@ export class NetworkDomain {
                                              this._notableMsgDispatcher,
                                              this._notifiableMsgDispatcher);
             return domain;
-        }).do((channel) => {
+        }).do((channel: ChannelDomain) => {
             this._channels.set(channel.getId(), channel);
             this._data.addChannel(channel.getValue());
         }).share();
@@ -102,9 +102,9 @@ export class NetworkDomain {
             return (channel !== undefined) ? new Some(channel) : new None<ChannelDomain>();
         }).filter(function(channel){
             return channel.isSome;
-        }).map(function (channel) {
+        }).map(function (channel: Some<ChannelDomain>) {
             return channel.expect('this should be unwrapped safely');
-        }).do((channel) => {
+        }).do((channel: ChannelDomain) => {
             this._channels.delete(channel.getId());
             this._data.removeChannel(channel.getValue());
             channel.dispose();

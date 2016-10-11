@@ -100,7 +100,7 @@ export class NotificationPresenter {
             });
 
             const timeout: Rx.Observable<void> = Rx.Observable.empty<void>().delay(5 * 1000);
-            const click: Rx.Observable<void> = Rx.Observable.fromEvent<void>(notification, 'click').take(1).do(() => {
+            const click: Rx.Observable<void> = Rx.Observable.fromEvent<void>(notification, 'click').take(1).do<void>(() => {
                 this._uiAction.focusWindow();
                 this._uiAction.selectChannel(channelId);
             });
