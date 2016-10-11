@@ -23,13 +23,23 @@
  * THE SOFTWARE.
  */
 
+// @flow
+
+type Args = {
+    nick: string,
+    username: string,
+    hostname: string,
+    string: string,
+}
+
 export class Hostmask {
 
-    /**
-     *  @constructor
-     *  @param  {?} attr
-     */
-    constructor(attr) {
+    nick: string;
+    username: string;
+    hostname: string;
+    string: string;
+
+    constructor(attr: Args) {
         const data = Object.assign({
             nick: '',
             username: '',

@@ -29,13 +29,10 @@
 // ESLint Configuration Files enables to include comments.
 // http://eslint.org/docs/configuring/#comments-in-configuration-files
 module.exports = {
+    'parser': 'babel-eslint',
 
     'parserOptions': {
-        'ecmaVersion': 8,
         'sourceType': 'module',
-        'ecmaFeatures': {
-            'jsx': true
-        },
     },
 
     'settings': {
