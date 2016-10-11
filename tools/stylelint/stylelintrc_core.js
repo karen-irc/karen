@@ -89,7 +89,9 @@ module.exports = {
         // 'function-url-data-uris': 'always'|'never',
         // 'function-url-no-scheme-relative': true,
         'function-url-scheme-whitelist': ['https'],
-        'function-url-quotes': 'always',
+        'function-url-quotes': ['always', {
+            // except: ['empty'],
+        }],
         //'function-whitelist': [],
         'function-whitespace-after': 'always',
         'indentation': 4,
@@ -105,6 +107,8 @@ module.exports = {
             'ignoreMediaFeatureNames': [],
         }],
         'media-feature-name-no-vendor-prefix': true,
+        // 'media-feature-name-blacklist'
+        // 'media-feature-name-whitelist'
         'media-feature-no-missing-punctuation': true,
         'media-feature-parentheses-space-inside': 'never',
         'media-feature-range-operator-space-after': 'always',
