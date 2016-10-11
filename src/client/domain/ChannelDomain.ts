@@ -59,20 +59,20 @@ export class ChannelDomain {
             return data.channelId === this._data.id;
         };
 
-        this._topic = gateway.setTopic().filter(filterFn).map(function(data){
+        this._topic = gateway.setTopic().filter<{ channelId: ChannelId, topic: string }>(filterFn).map(function(data){
             return data.topic;
-        }).do((topic) => {
+        }).do((topic: string) => {
             this._data.updateTopic(topic);
         }).share();
 
-        this._userList = gateway.updateUserList().filter(filterFn).map(function(data){
+        this._userList = gateway.updateUserList().filter<{ channelId: ChannelId, list: Array<User> }>(filterFn).map(function(data){
             return data.list;
-        }).do((list) => {
+        }).do((list: Array<User>) => {
             this._data.updateUserList(list);
         }).share();
 
         // TODO: pipe message buffer in `data`
-        this._message = gateway.recieveMessage().filter(filterFn).map(function(data){
+        this._message = gateway.recieveMessage().filter<RecievedMessage>(filterFn).map(function(data){
             return data.message;
         }).share();
 
