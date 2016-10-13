@@ -167,10 +167,11 @@ gulp.task('tsc', ['clean_obj_client', 'clean_obj_lib', 'clean_obj_server'], func
 });
 
 function cpToObj(dir) {
-    return execNpmCmd('copyfiles', [
+    const dest = path.resolve(OBJ_DIR, dir);
+    return execNpmCmd('cpx', [
         `./src/${dir}/**/*.@(js|jsx)`,
-        OBJ_DIR,
-        '-u', '1',
+        dest,
+        '--preserve',
     ]);
 }
 
