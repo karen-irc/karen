@@ -62,7 +62,7 @@
     "read": "^1.0.7",
     "request": "^2.75.0",
     "rxjs": "^5.0.0-rc.1",
-    "slate-irc": "karen-irc/slate-irc.git#b12d540fa231b64e4e012c9e29412a2dc448acbe",
+    "slate-irc": "karen-irc/slate-irc.git#13106367690cd23f3c7c701e67d4d01a4f3d9560",
     "socket.io": "^1.5.0",
     "socket.io-client": "^1.5.0",
     "spdy": "^3.4.3",
