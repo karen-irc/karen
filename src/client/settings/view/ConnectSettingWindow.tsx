@@ -25,6 +25,8 @@
 
 import * as React from 'react';
 
+import { Button } from 'office-ui-fabric-react/lib/Button';
+
 import {ConnectionActionCreator} from '../intent/ConnectionSettingIntent';
 import {ConnectionValue} from '../domain/value/ConnectionSettings';
 import {ConnectionSettingViewModel} from '../viewmodel/ConnectionStore';
@@ -194,6 +196,7 @@ export class ConnectSettingWindow extends React.Component<Props, void> {
                                     disabled={isConnecting || !canConnect}>
                                 Connect
                             </button>
+                            <Button>I am a button.</Button>
                         </div>
                     </div>
                 </form>
