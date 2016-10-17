@@ -136,10 +136,9 @@ gulp.task('build_dist_client', ['clean_dist_client', 'build_obj_client', 'build_
 });
 
 gulp.task('build_dist_legacy_lib', ['clean_dist_client'], function () {
-    return execNpmCmd('copyfiles', [
+    return execNpmCmd('cpx', [
         path.resolve(NPM_MOD_DIR, './moment/min/moment.min.js'),
         DIST_CLIENT,
-        '--flat',
     ]);
 });
 
