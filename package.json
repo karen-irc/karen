@@ -108,6 +108,6 @@
     "typings": "^1.4.0",
     "webpack": "2.1.0-beta.25",
     "whatwg-fetch": "^1.0.0",
-    "yargs": "^6.0.0"
+    "yargs": "^6.2.0"
   }
 }
