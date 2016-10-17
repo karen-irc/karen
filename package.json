@@ -65,7 +65,7 @@
     "slate-irc": "karen-irc/slate-irc.git#13106367690cd23f3c7c701e67d4d01a4f3d9560",
     "socket.io": "^1.5.0",
     "socket.io-client": "^1.5.0",
-    "spdy": "^3.4.3",
+    "spdy": "^3.4.4",
     "urijs": "^1.18.2"
   },
   "devDependencies": {
