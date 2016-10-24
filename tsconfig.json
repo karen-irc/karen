@@ -4,6 +4,7 @@
         "allowSyntheticDefaultImports": false,
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
+        // "alwaysStrict": true,
         "diagnostics": false,
         "forceConsistentCasingInFileNames": true,
         "importHelpers": false,
