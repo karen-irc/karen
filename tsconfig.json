@@ -28,6 +28,7 @@
         "pretty": true,
         "preserveConstEnums": true,
         "removeComments": false,
+        "skipLibCheck": true, // Avoid the compile error with office-ui-fabric-react (#818)
         "sourceMap": true,
         "strictNullChecks": true,
         "suppressImplicitAnyIndexErrors": false,
