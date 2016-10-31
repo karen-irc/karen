@@ -18,6 +18,9 @@ For example, we modified an IRC twitter gateway (atig) to add twitter profile ic
 ## Supported Environments
 
 - Node.js
+- [yarn](https://yarnpkg.com/)
+  - We can use it as our 1st tier package manager. You can use `npm` instead.
+  - [We uses the latest](./.travis.yml).
 
 ## Development
 

@@ -3,7 +3,9 @@ sudo: false
 language: node_js
 
 install:
-  - npm install
+  - npm install -g yarn
+  - yarn self-update
+  - yarn install
 
 before_script:
   - npm run build
@@ -24,3 +26,4 @@ branches:
 cache:
   directories:
     - node_modules
+    - $HOME/.yarn-cache
