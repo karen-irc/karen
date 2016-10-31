@@ -15,8 +15,8 @@
     "@types/react" "*"
 
 "@types/react@*", "@types/react@^0.14.43":
-  version "0.14.43"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-0.14.43.tgz#480090c8cc3d3ebd18f6c1f3a5b039c593bdd39a"
+  version "0.14.44"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-0.14.44.tgz#033f0b63691b489adfce2397c93d8bcafe7f7356"
 
 "@types/socket.io-client@^1.4.27":
   version "1.4.27"
@@ -1722,9 +1722,9 @@ escope@^3.6.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-plugin-node@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-node/-/eslint-plugin-node-2.1.3.tgz#3816fda8b6441732e4ecb351f9930a2a9b5fabd3"
+eslint-plugin-node@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-node/-/eslint-plugin-node-3.0.0.tgz#21950d4a22e04c5dbdfb563be90785492fd3e400"
   dependencies:
     ignore "^3.0.11"
     minimatch "^3.0.2"
