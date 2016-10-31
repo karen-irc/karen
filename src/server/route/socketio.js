@@ -113,7 +113,7 @@ function subscribeFromClient(config, clientGateway, client, token) {
 
     const key = (token !== undefined) ? token : '';
     clientGateway.emitInitialize(client.activeChannel,
-                            client.networks,
-                            key,
-                            [config.defaults]);
+                                 client.networks,
+                                 key,
+                                 [config.defaults]);
 }

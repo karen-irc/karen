@@ -161,6 +161,7 @@ module.exports = {
         'no-useless-call': 1,
         'no-useless-concat': 1,
         'no-useless-escape': 1, // http://eslint.org/docs/rules/no-useless-escape
+        'no-useless-return': 1, // see http://eslint.org/docs/rules/no-useless-return
         'no-void': 2, // We live in after ES5 : http://eslint.org/docs/rules/no-void
         'no-warning-comments': 0, // We need not always enable this : http://eslint.org/docs/rules/no-warning-comments
         'no-with': 2,
@@ -240,6 +241,9 @@ module.exports = {
         'indent': [2, 4, {
             'SwitchCase': 1,
             'MemberExpression': 1,
+            'CallExpression': {
+                'arguments': 'first',
+            },
         }],
         'jsx-quotes': [1, 'prefer-single'],
         'keyword-spacing': [1, {
@@ -256,6 +260,7 @@ module.exports = {
             'ignoreUrls': true,
             'ignoreStrings': true,
             'ignoreTemplateLiterals': true,
+            'ignoreRegExpLiterals': true,
         }],
         // 'max-lines': [1, {
         //     'max': 150, // In almost case, we would not use more than this lines.
@@ -381,7 +386,6 @@ module.exports = {
             'ignoreReadBeforeAssign': false,
         }],
         'prefer-numeric-literals': 1,
-        'prefer-reflect': 1,
         'prefer-rest-params': 1,
         'prefer-spread': 1,
         'prefer-template': 0,
