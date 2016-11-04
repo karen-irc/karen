@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
         document.body.classList.remove('signed-out');
 
         const signinButtom = document.getElementById('sign-in')!;
-        signinButtom.parentNode.removeChild(signinButtom);
+        signinButtom.parentNode!.removeChild(signinButtom);
     });
 
     globalState.getCurrentTab().subscribe(function(state){
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             item: data,
         });
         const html = ReactDOMServer.renderToStaticMarkup(view);
-        toggle.parentElement.insertAdjacentHTML('afterend', html);
+        toggle.parentElement!.insertAdjacentHTML('afterend', html);
         switch (data.type) {
         case 'link':
             if (options.links) {

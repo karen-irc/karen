@@ -94,7 +94,7 @@ export class MainContentAreaView {
             this._channelMap.delete(id);
 
             const element = view.getElement();
-            element.parentNode.removeChild(element);
+            element.parentNode!.removeChild(element);
 
             view.dispose();
         }));

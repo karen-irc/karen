@@ -160,10 +160,10 @@ export class WindowPresenter implements EventListenerObject {
             }
         }
 
-        this.handleShortcut(key);
+        this.handleShortcut(event, key);
     }
 
-    handleShortcut(key: string): void {
+    handleShortcut(event: KeyboardEvent, key: string): void {
         const channelList: Array<Channel> = this._domain.networkSet.getChannelList();
         const currentIndex: Option<ChannelId> = this._domain.currentTab.channelId.map(function(currentId: ChannelId): number {
             const result = channelList.findIndex(function(channel: Channel){
