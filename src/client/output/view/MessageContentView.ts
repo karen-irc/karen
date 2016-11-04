@@ -116,7 +116,7 @@ export class MessageContentView {
            const target = this._element;
            const children = Array.from(target.childNodes).slice(0, -100);
            for (const element of children) {
-               element.parentNode.removeChild(element);
+               element.parentNode!.removeChild(element);
            }
 
            if (children.length) {
@@ -175,7 +175,7 @@ export class MessageContentView {
     }
 
     private _toggleInlineContentContainer(element: Element): void {
-        const container = element.parentNode.nextSibling;
+        const container = element.parentNode!.nextSibling;
         (container as Element).classList.toggle('show');
     }
 }
