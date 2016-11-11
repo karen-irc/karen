@@ -5339,9 +5339,9 @@ typescript@^2.0.3:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.0.7.tgz#efc39e8822e240d0b741d06ff86708137bcdb5e4"
 
-typescript@^2.1.0-dev.20161103:
-  version "2.1.0-dev.20161103"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.1.0-dev.20161103.tgz#747a2e148526cd10d8e7723e731bdbbf57f3b65e"
+typescript@next:
+  version "2.2.0-dev.20161111"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.2.0-dev.20161111.tgz#166fbbef16a4ed2751bb094c818c6d481f93c413"
 
 typings-core@^1.6.1:
   version "1.6.1"
