@@ -56,7 +56,8 @@ function formatTimeZone(time) {
 export function MessageItem({ message }) {
     let from = null;
     if (message.from !== '') {
-        const userImage = (message.userImage === null) ? null :
+        const userImage = (message.userImage === null) ?
+            null :
             <img src={message.userImage} className='user-image'/>;
         const style = {
             color: '#' + message.from
