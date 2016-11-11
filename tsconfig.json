@@ -41,8 +41,7 @@
 
     "include": [
         "config/**/*",
-        "src/**/*",
-        "typings/**/*"
+        "src/**/*"
     ],
 
     "exclude": [

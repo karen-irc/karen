@@ -1,5 +1,3 @@
-/// <reference path='../../../typings/index.d.ts'/>
-
 /*eslint-disable no-sync */
 
 import * as path from 'path';

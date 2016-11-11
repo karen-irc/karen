@@ -22,8 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/// <reference path='../../../typings/index.d.ts'/>
-
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import * as fs from 'fs';
