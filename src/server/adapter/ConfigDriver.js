@@ -1,5 +1,3 @@
-/// <reference path='../../../typings/index.d.ts'/>
-
 import * as os from 'os';
 import * as path from 'path';
 
