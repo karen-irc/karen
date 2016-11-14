@@ -70,7 +70,7 @@ module.exports = {
 
     externals: [
         {
-            'moment': true,
+            'moment': 'moment',
         }
     ],
 

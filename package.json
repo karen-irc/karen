@@ -105,7 +105,7 @@
     "stylelint": "^7.5.0",
     "tslint": "next",
     "typescript": "next",
-    "webpack": "2.1.0-beta.25",
+    "webpack": "2.1.0-beta.26",
     "whatwg-fetch": "^1.0.0",
     "yargs": "^6.3.0"
   }
