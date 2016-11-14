@@ -103,7 +103,7 @@
     "postcss-custom-properties": "^5.0.1",
     "postcss-import": "^8.2.0",
     "stylelint": "^7.5.0",
-    "tslint": "3.15.0-dev.0",
+    "tslint": "next",
     "typescript": "next",
     "webpack": "2.1.0-beta.25",
     "whatwg-fetch": "^1.0.0",

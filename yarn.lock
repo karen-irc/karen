@@ -1392,9 +1392,9 @@ detect-indent@^4.0.0:
   dependencies:
     repeating "^2.0.0"
 
-diff@^2.2.1:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/diff/-/diff-2.2.3.tgz#60eafd0d28ee906e4e8ff0a52c1229521033bf99"
+diff@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-3.0.1.tgz#a52d90cc08956994be00877bff97110062582c35"
 
 diff@1.4.0:
   version "1.4.0"
@@ -4952,14 +4952,14 @@ tryit@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tryit/-/tryit-1.0.3.tgz#393be730a9446fd1ead6da59a014308f36c289cb"
 
-tslint@3.15.0-dev.0:
-  version "3.15.0-dev.0"
-  resolved "https://registry.yarnpkg.com/tslint/-/tslint-3.15.0-dev.0.tgz#e885857fdb7146f35d3f6df0244f5856407a74f7"
+tslint@next:
+  version "4.0.0-dev.1"
+  resolved "https://registry.yarnpkg.com/tslint/-/tslint-4.0.0-dev.1.tgz#10146c7ff47e18ce41315c146ff03dbdb5eb8abc"
   dependencies:
     colors "^1.1.2"
-    diff "^2.2.1"
+    diff "^3.0.1"
     findup-sync "~0.3.0"
-    glob "^7.0.3"
+    glob "^7.1.1"
     optimist "~0.6.0"
     resolve "^1.1.7"
     underscore.string "^3.3.4"
