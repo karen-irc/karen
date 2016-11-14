@@ -148,6 +148,7 @@ module.exports = {
         'no-proto': 2,
         'no-redeclare': 2,
         'no-return-assign': 2,
+        'no-return-await': 1,
         'no-script-url': 2,
         'no-self-assign': [2, {
             'props': true,
@@ -225,13 +226,23 @@ module.exports = {
             'before': false,
             'after': true
         }],
-        'comma-style': [2, 'last'],
+        'comma-style': [2, 'last', {
+            'exceptions': {
+                'ArrayPattern': false,
+                'ArrowFunctionExpression': false,
+                'CallExpression': false,
+                'FunctionDeclaration': false,
+                'FunctionExpression': false,
+                'ImportDeclaration': false,
+                'ObjectPattern': false,
+            },
+        }],
         'computed-property-spacing': [2, 'never'],
         'consistent-this': [2, 'that'],
         'eol-last': [0, 'always'], // we don't have to restrict this.
         'func-call-spacing': [2, 'never'], // enforce `fn();` style and ban `fn ();`.
         'func-name-matching': 1,
-        'func-names': 0, // we don't have to restrict this in most case.
+        'func-names': [0, 'as-needed'], // we don't have to restrict this in most case.
         'func-style': [0, 'declaration', {
             'allowArrowFunctions': true,
         }], // XXX: a top level functions should be a declaration, but it would be good to allow both forms of declaration/expression.
@@ -324,7 +335,8 @@ module.exports = {
             'require': {
                 'FunctionDeclaration': true,
                 'MethodDefinition': true,
-                'ClassDeclaration': true
+                'ClassDeclaration': true,
+                'ArrowFunctionExpression': true,
             }
         }],
         'semi': [2, 'always'],
