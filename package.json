@@ -69,8 +69,8 @@
     "urijs": "^1.18.2"
   },
   "devDependencies": {
-    "@types/mocha": "^2.2.32",
-    "@types/node": "^6.0.46",
+    "@types/mocha": "^2.2.33",
+    "@types/node": "^6.0.48",
     "@types/react": "0.14.47",
     "@types/react-dom": "^0.14.18",
     "@types/socket.io-client": "^1.4.28",
