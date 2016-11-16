@@ -385,7 +385,7 @@ module.exports = {
         'no-new-symbol': 2,
         'no-this-before-super': 2,
         'no-useless-computed-key': 1,
-        // 'no-useless-constructor': 2, // FIXME: this rule has the bag which deny to call `super()` in a derived class (ESLint v2b1)
+        'no-useless-constructor': 0,
         'no-useless-rename': 2,
         'no-var': 1,
         'no-whitespace-before-property': 1,
