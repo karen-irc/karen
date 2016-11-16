@@ -107,6 +107,6 @@
     "typescript": "next",
     "webpack": "2.1.0-beta.26",
     "whatwg-fetch": "^2.0.0",
-    "yargs": "^6.3.0"
+    "yargs": "^6.4.0"
   }
 }
