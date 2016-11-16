@@ -92,7 +92,7 @@
     "del": "^2.2.2",
     "eslint": "^3.10.2",
     "eslint-plugin-node": "^3.0.3",
-    "eslint-plugin-react": "^6.6.0",
+    "eslint-plugin-react": "^6.7.1",
     "font-awesome": "^4.7.0",
     "glob": "^7.1.1",
     "gulp": "^3.9.1",
