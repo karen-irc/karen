@@ -1,7 +1,19 @@
+import {ExIterable} from '../ExIterable';
 import {Operator} from '../Operator';
 import {getIterator} from '../util';
 
-export class MemoizeOperator<T> implements Operator<T, T> {
+// tslint:disable:no-invalid-this
+export function memoize<T>(this: ExIterable<T>, consumerLimit: number = Number.POSITIVE_INFINITY): ExIterable<T> {
+    if (consumerLimit <= 0) {
+        throw new RangeError('consumer limit must be larger than 0');
+    }
+
+    const op = new MemoizeOperator<T>(this, consumerLimit);
+    return this.lift(op);
+}
+// tslint:enable
+
+class MemoizeOperator<T> implements Operator<T, T> {
     private _source: Iterable<T>;
     private _sourceIterator: Iterator<T> | void;
     private _buffer: MemoizeBuffer<T>;

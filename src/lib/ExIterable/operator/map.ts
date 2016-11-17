@@ -1,10 +1,26 @@
+import {ExIterable} from '../ExIterable';
 import {Operator} from '../Operator';
-import {FilterFn} from './filter';
+import {FilterFn, FilterOperator} from './filter';
 import {getIterator} from '../util';
 
-export type MapFn<T, U> = (this: void, v: T, index: number) => U;
+type MapFn<T, U> = (this: void, v: T, index: number) => U;
 
-export class MapOperator<S, T> implements Operator<S, T> {
+// tslint:disable:no-any no-invalid-this
+export function map<T, U>(this: ExIterable<T>, selector: MapFn<T, U>): ExIterable<U> {
+    let op: Operator<T, U>;
+    const operator: FilterOperator<T> = (this as any)._operator;
+    if (operator instanceof FilterOperator) {
+        op = new FilterMapOperator<T, U>((this as any)._source!, operator.filter, selector);
+    }
+    else {
+        op = new MapOperator<T, U>(this, selector);
+    }
+    const lifted = this.lift<U>(op);
+    return lifted;
+}
+// tslint:enable
+
+class MapOperator<S, T> implements Operator<S, T> {
     private _source: Iterable<S>;
     private _selector: MapFn<S, T>;
 
@@ -66,7 +82,7 @@ class MapIterator<S, T> implements Iterator<T> {
     }
 }
 
-export class FilterMapOperator<S, T> implements Operator<S, T> {
+class FilterMapOperator<S, T> implements Operator<S, T> {
     private _source: Iterable<S>;
     private _filter: FilterFn<S>;
     private _selector: MapFn<S, T>;

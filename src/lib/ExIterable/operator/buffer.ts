@@ -1,7 +1,19 @@
+import {ExIterable} from '../ExIterable';
 import {Operator} from '../Operator';
 import {getIterator} from '../util';
 
-export class BufferOperator<S, T extends Array<S>> implements Operator<S, T> {
+// tslint:disable:no-invalid-this
+export function buffer<T>(this: ExIterable<T>, size: number): ExIterable<Array<T>> {
+    if (size <= 0) {
+        throw new RangeError('buffer size must be larger than 0');
+    }
+
+    const op = new BufferOperator<T, Array<T>>(this, size);
+    return this.lift(op);
+}
+// tslint:enable
+
+class BufferOperator<S, T extends Array<S>> implements Operator<S, T> {
     private _source: Iterable<S>;
     private _size: number;
 
