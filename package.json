@@ -47,9 +47,9 @@
   "license": "MIT",
   "dependencies": {
     "@types/mocha": "^2.2.33",
-    "@types/node": "^6.0.48",
-    "@types/react": "0.14.47",
-    "@types/react-dom": "^0.14.18",
+    "@types/node": "^6.0.51",
+    "@types/react": "^0.14.50",
+    "@types/react-dom": "^0.14.19",
     "@types/socket.io-client": "^1.4.29",
     "@types/whatwg-fetch": "0.0.32",
     "autoprefixer": "^6.5.3",

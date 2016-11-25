@@ -6,19 +6,19 @@
   version "2.2.33"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.33.tgz#d79a0061ec270379f4d9e225f4096fb436669def"
 
-"@types/node@^6.0.48":
-  version "6.0.48"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.48.tgz#86ccc15f66b73cbbc5eb3483398936c585122b3c"
+"@types/node@^6.0.51":
+  version "6.0.51"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.51.tgz#84cbf25111516ec9304d0b61469dc0fa9d12ba32"
 
-"@types/react-dom@^0.14.18":
-  version "0.14.18"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-0.14.18.tgz#af4fb4092f433667f5f094e762b32c294e0010dc"
+"@types/react-dom@^0.14.19":
+  version "0.14.19"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-0.14.19.tgz#698a14335e32fb1bc61db65f5647c9668a7fc2eb"
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@0.14.47":
-  version "0.14.47"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-0.14.47.tgz#a4c7555b0ffa8da837f3c4f7f14b9f1a58b2ca95"
+"@types/react@*", "@types/react@^0.14.50":
+  version "0.14.50"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-0.14.50.tgz#3f3f69db5661c8be3df99bde688e11300ef8131e"
 
 "@types/socket.io-client@^1.4.29":
   version "1.4.29"
