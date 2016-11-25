@@ -2,12 +2,8 @@ sudo: false
 
 language: node_js
 
-install:
-  - npm install -g yarn
-  - yarn self-update
-  - yarn install
-
 before_script:
+  # - yarn install # TravisCI runs `yarn` in install phase.
   - npm run build
   - ./index.js init
 
