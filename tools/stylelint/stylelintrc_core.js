@@ -74,6 +74,7 @@ module.exports = {
         // 'declaration-property-value-blacklist': {},
         // 'declaration-property-value-whitelist': {},
         'font-family-name-quotes': 'always-unless-keyword',
+        // 'font-family-no-duplicate-names': boolean,
         'font-weight-notation': 'named-where-possible',
         //'function-blacklist': [],
         'function-calc-no-unspaced-operator': true,
