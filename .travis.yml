@@ -24,6 +24,6 @@ branches:
     - tmp
 
 cache:
+  yarn: true
   directories:
     - node_modules
-    - $HOME/.yarn-cache
