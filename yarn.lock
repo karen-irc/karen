@@ -1645,9 +1645,9 @@ escope@^3.6.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-plugin-node@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-node/-/eslint-plugin-node-3.0.3.tgz#a0f98c145a4ff1ad81f6b4b11f82a4c973dc9c37"
+eslint-plugin-node@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-node/-/eslint-plugin-node-3.0.4.tgz#e1a91f580ec081e4eda92772322103230f9f7a28"
   dependencies:
     ignore "^3.0.11"
     minimatch "^3.0.2"
