@@ -104,7 +104,7 @@
     "typescript": "next",
     "urijs": "^1.18.2",
     "webpack": "2.1.0-beta.26",
-    "whatwg-fetch": "^2.0.0",
+    "whatwg-fetch": "^2.0.1",
     "yargs": "^6.4.0"
   }
 }
