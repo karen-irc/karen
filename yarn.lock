@@ -5023,9 +5023,9 @@ unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
 
-urijs@^1.18.2:
-  version "1.18.2"
-  resolved "https://registry.yarnpkg.com/urijs/-/urijs-1.18.2.tgz#c2791fa9fb52f4603caf36032d9666432a1dda33"
+urijs@^1.18.3:
+  version "1.18.3"
+  resolved "https://registry.yarnpkg.com/urijs/-/urijs-1.18.3.tgz#48cf665c631fca92690fc76a081cc96ff9673566"
 
 url@~0.11.0:
   version "0.11.0"
