@@ -13,7 +13,7 @@ export function scan<T, R>(this: ExIterable<T>, accumulator: ScanAccumulatorFn<T
 
 class ScanOperator<S, T> implements Operator<S, T> {
     private _source: Iterable<S>;
-    private _accumulator: ScanAccumulatorFn<S, T>;;
+    private _accumulator: ScanAccumulatorFn<S, T>;
     private _seed: T;
 
     constructor(source: Iterable<S>, seed: T, accumulator: ScanAccumulatorFn<S, T>) {
@@ -33,7 +33,7 @@ class ScanIterator<S, T> implements Iterator<T> {
     // XXX: This will be a null value only if this iterator is completed.
     private _source: Iterator<S> | undefined;
     // XXX: This will be a null value only if this iterator is completed.
-    private _accumulator: ScanAccumulatorFn<S, T> | undefined;;
+    private _accumulator: ScanAccumulatorFn<S, T> | undefined;
     private _seed: T;
     private _index: number;
 

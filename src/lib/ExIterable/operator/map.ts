@@ -41,7 +41,7 @@ class MapIterator<S, T> implements Iterator<T> {
     // XXX: This will be a null value only if this iterator is completed.
     private _source: Iterator<S> | undefined;
     // XXX: This will be a null value only if this iterator is completed.
-    private _selector: MapFn<S, T> | undefined;;
+    private _selector: MapFn<S, T> | undefined;
     private _index: number;
 
     constructor(source: Iterator<S>, selector: MapFn<S, T>) {

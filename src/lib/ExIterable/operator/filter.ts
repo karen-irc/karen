@@ -32,9 +32,9 @@ export class FilterOperator<T> implements Operator<T, T> {
 class FilterIterator<T> implements Iterator<T> {
 
     // XXX: This will be a null value only if this iterator is completed.
-    private _source: Iterator<T> | undefined;;
+    private _source: Iterator<T> | undefined;
     // XXX: This will be a null value only if this iterator is completed.
-    private _filter: FilterFn<T> | undefined;;
+    private _filter: FilterFn<T> | undefined;
     private _index: number;
 
     constructor(source: Iterator<T>, filter: FilterFn<T>) {
