@@ -167,6 +167,7 @@ module.exports = {
         'no-warning-comments': 0, // We need not always enable this : http://eslint.org/docs/rules/no-warning-comments
         'no-with': 2,
         'radix': 2,
+        'require-await': 1, // we can call an async function which does not have `await` in its body.
         'vars-on-top': 0, // This is a ridiculous customs: http://eslint.org/docs/rules/vars-on-top
         'wrap-iife': 0, // http://eslint.org/docs/rules/wrap-iife
         'yoda': 0, // http://eslint.org/docs/rules/wrap-iife
@@ -222,6 +223,7 @@ module.exports = {
         'camelcase': [2, {
             'properties': 'always'
         }],
+        'capitalized-comments': 0, // we don't think this causes some serious problem.
         'comma-spacing': [2, {
             'before': false,
             'after': true
