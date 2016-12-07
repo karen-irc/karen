@@ -44,6 +44,10 @@ module.exports = {
         'react/display-name': 0, // JSX transpiler creates displayName automatically.
         'react/forbid-component-props': 1,
         'react/forbid-prop-types': 0,
+        // The index of `Array<T>` is not suitable for `key` props.
+        // But this restriction does not prevent that the id for each items is just a sequence number of some list
+        // even if a item has an "unique" id. This rule cannot prevent it. meaningless.
+        'react/no-array-index-key': 0,
         'react/no-children-prop': 2, // children should be nested between the opening and closing tags.
         'react/no-danger': 1,
         'react/no-danger-with-children': 2,
@@ -71,6 +75,7 @@ module.exports = {
             'skipUndeclared': false,
         }],
         'react/react-in-jsx-scope': 1,
+        'react/require-default-props': 0, // This does not resolve the essence of problem.
         'react/require-optimization': [0, {
             'allowDecorators': []
         }],

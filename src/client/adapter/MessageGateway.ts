@@ -80,7 +80,7 @@ export class MessageGateway {
     }
 
     showConnectSetting(): Rx.Observable<void> {
-        return this._socket.init().filter<any, void>(function(data){ // tslint:disable-line:no-any
+        return this._socket.init().filter<any>(function(data){ // tslint:disable-line:no-any
             return (data.networks.length === 0);
         });
     }
