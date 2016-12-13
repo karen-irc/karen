@@ -46,6 +46,6 @@ module.exports = {
         'node/no-unpublished-require': 0, // we'd like to check in devDependencies, but this cannot check them.
         'node/no-unsupported-features': 0, // we cover this by 'no-restricted-syntax'.
         'node/process-exit-as-throw': 2,
-        'node/shebang': 0,
+        'node/shebang': 2,
     }
 };
