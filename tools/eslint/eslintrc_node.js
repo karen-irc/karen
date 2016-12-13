@@ -32,6 +32,8 @@ module.exports = {
         'node',
     ],
 
+
+    /* eslint sort-keys: 'error' */
     'rules': {
         // eslint-plugin-node
         // https://github.com/mysticatea/eslint-plugin-node
@@ -47,5 +49,6 @@ module.exports = {
         'node/no-unsupported-features': 0, // we cover this by 'no-restricted-syntax'.
         'node/process-exit-as-throw': 2,
         'node/shebang': 2,
-    }
+    },
+    /* eslint-disable sort-keys */
 };
