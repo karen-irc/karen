@@ -340,6 +340,11 @@ module.exports = {
             'avoidEscape': true,
             'allowTemplateLiterals': true,
         }],
+        'quote-props': [1, 'as-needed', {
+            'keywords': true,
+            'unnecessary': false,
+            'numbers': true,
+        }],
         'require-jsdoc': [0, {
             'require': {
                 'FunctionDeclaration': true,
