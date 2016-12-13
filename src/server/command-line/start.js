@@ -30,7 +30,7 @@ program
                 host: program.host || process.env.IP || config.host,
                 port: program.port || process.env.PORT || config.port,
                 bind: program.bind || config.bind,
-                public: mode
+                'public': mode
             });
         }
     });
