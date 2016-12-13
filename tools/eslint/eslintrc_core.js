@@ -333,6 +333,7 @@ module.exports = {
         'object-property-newline': 0, // I feel this is a trivial problem.
         'one-var': [2, 'never'], // http://eslint.org/docs/rules/one-var
         'one-var-declaration-per-line': 1, // http://eslint.org/docs/rules/one-var-declaration-per-line
+        'operator-assignment': 0, // This is not a problem.
         'operator-linebreak': [2, 'after'],
         'padded-blocks': 0,
         'quotes': [2, 'single', {
