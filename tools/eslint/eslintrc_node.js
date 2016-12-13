@@ -32,6 +32,8 @@ module.exports = {
         'node',
     ],
 
+
+    /* eslint sort-keys: 'error' */
     'rules': {
         // eslint-plugin-node
         // https://github.com/mysticatea/eslint-plugin-node
@@ -42,10 +44,11 @@ module.exports = {
         'node/no-missing-import': 2,
         'node/no-missing-require': 2,
         'node/no-unpublished-bin': 2,
-        'node/no-unpublished-import': 0, // we'd like to check in devDependencies, but this cannot check them.
-        'node/no-unpublished-require': 0, // we'd like to check in devDependencies, but this cannot check them.
+        'node/no-unpublished-import': 2, // we'd like to check in devDependencies, but this cannot check them.
+        'node/no-unpublished-require': 2, // we'd like to check in devDependencies, but this cannot check them.
         'node/no-unsupported-features': 0, // we cover this by 'no-restricted-syntax'.
         'node/process-exit-as-throw': 2,
-        'node/shebang': 0,
-    }
+        'node/shebang': 2,
+    },
+    /* eslint-disable sort-keys */
 };

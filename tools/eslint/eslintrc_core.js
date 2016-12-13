@@ -58,7 +58,7 @@ module.exports = {
         }],
         'no-extra-semi': 1,
         'no-func-assign': 2,
-        'no-inner-declarations': 2,
+        'no-inner-declarations': [2, 'functions'],
         'no-invalid-regexp': 2,
         'no-irregular-whitespace': 2,
         'no-obj-calls': 2,
@@ -186,6 +186,7 @@ module.exports = {
         'no-label-var': 2,
         'no-restricted-globals': [2,
             // We don't have any global variables which we'd like to ban yet. http://eslint.org/docs/rules/no-restricted-globals
+            'name', 'top', 'event'
         ],
         'no-shadow': 0,
         'no-shadow-restricted-names': 2,
@@ -403,7 +404,7 @@ module.exports = {
             'destructuring': 'any',
             'ignoreReadBeforeAssign': false,
         }],
-        'prefer-numeric-literals': 1,
+        'prefer-numeric-literals': 2,
         'prefer-rest-params': 1,
         'prefer-spread': 1,
         'prefer-template': 0,

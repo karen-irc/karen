@@ -59,7 +59,7 @@ module.exports = {
         'react/no-is-mounted': 2, // Disallow the deprected style
         'react/no-multi-comp': 0,
         'react/no-render-return-value': 2,
-        'react/no-set-state': 0, // FIXME: Enable this rule as a waring
+        'react/no-set-state': 1,
         'react/no-string-refs': 2, // Disallow the legacy style
         'react/no-unescaped-entities': 2,
         'react/no-unknown-property': 2,
