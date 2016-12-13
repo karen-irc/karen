@@ -182,6 +182,7 @@ module.exports = {
         'no-label-var': 2,
         'no-restricted-globals': [2,
             // We don't have any global variables which we'd like to ban yet. http://eslint.org/docs/rules/no-restricted-globals
+            'name', 'top', 'event'
         ],
         'no-shadow': 0,
         'no-shadow-restricted-names': 2,
