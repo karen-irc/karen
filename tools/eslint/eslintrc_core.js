@@ -400,7 +400,7 @@ module.exports = {
             'destructuring': 'any',
             'ignoreReadBeforeAssign': false,
         }],
-        'prefer-numeric-literals': 1,
+        'prefer-numeric-literals': 2,
         'prefer-rest-params': 1,
         'prefer-spread': 1,
         'prefer-template': 0,
