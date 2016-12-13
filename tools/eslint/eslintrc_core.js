@@ -54,7 +54,7 @@ module.exports = {
         }],
         'no-extra-semi': 1,
         'no-func-assign': 2,
-        'no-inner-declarations': 2,
+        'no-inner-declarations': [2, 'functions'],
         'no-invalid-regexp': 2,
         'no-irregular-whitespace': 2,
         'no-obj-calls': 2,
