@@ -45,5 +45,6 @@ module.exports = {
     'root': true,
 
     'rules': {
+        'react/no-set-state': 0, // FIXME: Enable this rule as a waring
     }
 };
