@@ -64,9 +64,11 @@ describe('FetchDriver::utils', function () {
         }
 
         const statusCodeList: Array<number> = [];
+        // XXX: to avoid the mis-detection of this rule.
+        // tslint:disable-next-line:prefer-const
         for (let start = 200, max = (600 - start), i = start; statusCodeList.push(i++) < max;) {}
 
-        for (let status of statusCodeList) {
+        for (const status of statusCodeList) {
             it('http status: '+ String(status), (): Promise<void> => {
                 const res = new Response(undefined, {
                     status: status,

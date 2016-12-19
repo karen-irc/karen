@@ -108,8 +108,8 @@ describe('ContextStack', function(){
     describe('push()', function(){
         describe('with old context', function(){
             let stack: ViewContextStack;
-            let old = new TestContext();
-            let next = new TestContext();
+            const old = new TestContext();
+            const next = new TestContext();
 
             before(function(){
                 stack = new ViewContextStack(document.body);
@@ -142,7 +142,7 @@ describe('ContextStack', function(){
 
         describe('with only the new context', function(){
             let stack: ViewContextStack;
-            let next = new TestContext();
+            const next = new TestContext();
 
             before(function(){
                 stack = new ViewContextStack(document.body);
@@ -167,8 +167,8 @@ describe('ContextStack', function(){
     describe('pop()', function(){
         describe('some context are stacked', function(){
             let stack: ViewContextStack;
-            let old = new TestContext();
-            let next = new TestContext();
+            const old = new TestContext();
+            const next = new TestContext();
 
             before(function(){
                 stack = new ViewContextStack(document.body);
@@ -203,7 +203,7 @@ describe('ContextStack', function(){
 
         describe('the curren context is only stacked', function(){
             let stack: ViewContextStack;
-            let next = new TestContext();
+            const next = new TestContext();
 
             before(function(){
                 stack = new ViewContextStack(document.body);
@@ -247,8 +247,8 @@ describe('ContextStack', function(){
     describe('replace()', function(){
         describe('with old context', function(){
             let stack: ViewContextStack;
-            let old = new TestContext();
-            let next = new TestContext();
+            const old = new TestContext();
+            const next = new TestContext();
 
             before(function(){
                 stack = new ViewContextStack(document.body);
@@ -281,7 +281,7 @@ describe('ContextStack', function(){
 
         describe('no old context', function(){
             let stack: ViewContextStack;
-            let next = new TestContext();
+            const next = new TestContext();
 
             before(function(){
                 stack = new ViewContextStack(document.body);
@@ -306,8 +306,8 @@ describe('ContextStack', function(){
 
     describe('destroy', function(){
         let stack: ViewContextStack;
-        let c1 = new TestContext();
-        let c2 = new TestContext();
+        const c1 = new TestContext();
+        const c2 = new TestContext();
 
         before(function(){
             stack = new ViewContextStack(document.body);

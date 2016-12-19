@@ -61,7 +61,7 @@ export class SignInView implements EventListenerObject {
         // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
         // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
         const list = target.querySelectorAll('input');
-        for (let element of Array.from(list)) {
+        for (const element of Array.from(list)) {
             const input = element as HTMLInputElement;
             // If we find the element which has no value,
             // we stop iteration & focus it.
@@ -83,7 +83,7 @@ export class SignInView implements EventListenerObject {
         // NodeList should be iterable<Node> and this means it has `Symbol.iterator`
         // by Web IDL spec (http://heycam.github.io/webidl/#idl-iterable).
         const list = target.querySelectorAll('.btn');
-        for (let element of Array.from(list)) {
+        for (const element of Array.from(list)) {
             (element as Element).setAttribute('disabled', 'true');
         }
 
