@@ -65,7 +65,7 @@ class ExpandIterator<T> implements Iterator<T> {
                 this._current = src;
             }
 
-            let result: IteratorResult<T> = this._current.next();
+            const result: IteratorResult<T> = this._current.next();
             if (!result.done) {
                 const leaf = selector(result.value);
                 const iter = getIterator(leaf);

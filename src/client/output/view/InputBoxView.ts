@@ -242,7 +242,7 @@ export class InputBoxView {
         });
 
         if (users.isSome) {
-            for (let user of users.unwrap()) {
+            for (const user of users.unwrap()) {
                 const n = user.nickname;
                 candidate.push(n.toLowerCase());
             }

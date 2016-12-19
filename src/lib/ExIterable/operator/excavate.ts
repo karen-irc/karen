@@ -60,7 +60,7 @@ class ExcavateIterator<T> implements Iterator<T> {
         }
 
         do {
-            let { done, value } = current.next();
+            const { done, value } = current.next();
             if (!done) {
                 stack.push(current); // push only the iterator which may have more item.
                 const child: Iterable<T> = selector(value);
