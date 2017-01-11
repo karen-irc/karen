@@ -407,6 +407,7 @@ module.exports = {
             'destructuring': 'any',
             'ignoreReadBeforeAssign': false,
         }],
+        'prefer-destructuring': 0, // It's not always true that to prefer destructuring.
         'prefer-numeric-literals': 2,
         'prefer-rest-params': 1,
         'prefer-spread': 1,

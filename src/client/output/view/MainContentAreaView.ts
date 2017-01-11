@@ -44,7 +44,7 @@ import {UIActionCreator} from '../../intent/action/UIActionCreator';
 
 const CONNECT_INSERTION_POINT_ID = '#js-insertion-point-connect';
 
-function arrayFlatMap<T, U>(target: Array<T>, fn: {(value: T): Array<U>}) : Array<U> {
+function arrayFlatMap<T, U>(target: Array<T>, fn: (value: T) => Array<U>) : Array<U> {
     return target.reduce(function (result : Array<U>, element : T) {
         const mapped : Array<U> = fn(element);
         return result.concat(mapped);
