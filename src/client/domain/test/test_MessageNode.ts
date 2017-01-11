@@ -24,7 +24,7 @@
  */
 /*eslint-env mocha */
 import * as assert from 'assert';
-import{MessageTextNode, MessageUriNode} from '../MessageNode';
+import {MessageTextNode, MessageUriNode} from '../MessageNode';
 import {parseToMessageNode} from '../parseToMessageNode';
 
 describe('MessageNode', function () {
