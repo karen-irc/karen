@@ -86,7 +86,7 @@
     "mocha": "^3.2.0",
     "moment": "^2.17.1",
     "option-t": "^3.0.0",
-    "postcss": "^5.2.9",
+    "postcss": "^5.2.10",
     "postcss-cli": "^2.6.0",
     "postcss-custom-properties": "^5.0.1",
     "postcss-import": "^9.1.0",
@@ -103,7 +103,7 @@
     "tslint": "^4.3.1",
     "typescript": "next",
     "urijs": "^1.18.4",
-    "webpack": "^v2.2.0-rc.0",
+    "webpack": "^2.2.0-rc.7",
     "whatwg-fetch": "^2.0.1",
     "yargs": "^6.6.0"
   }
