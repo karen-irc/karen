@@ -39,6 +39,6 @@ export class AudioDriver {
     }
 
     play(): void {
-        this._audio.play();
+        this._audio!.play();
     }
 }

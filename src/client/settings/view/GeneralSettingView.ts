@@ -76,7 +76,7 @@ export class GeneralSettingView implements EventListenerObject {
 
     destroy(): void {
         this._disposer.unsubscribe();
-        this._element.removeEventListener('change', this);
+        this._element!.removeEventListener('change', this);
         this._element = undefined;
     }
 
@@ -108,7 +108,7 @@ export class GeneralSettingView implements EventListenerObject {
     }
 
     private _updateState(name: string, value: boolean): void {
-        const input = this._element.querySelector('input[name=' + name + ']') as HTMLInputElement;
+        const input = this._element!.querySelector('input[name=' + name + ']') as HTMLInputElement;
         if (!input) {
             return;
         }

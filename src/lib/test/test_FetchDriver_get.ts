@@ -47,8 +47,8 @@ describe('FetchDriver.get()', function () {
         });
 
         describe('valid case', () => {
-            let res: Response | void;
-            let body: ResBody | void;
+            let res: Response;
+            let body: ResBody;
 
             before(async () => {
                 res = await driver.get('/' + PATH, {});
@@ -56,8 +56,8 @@ describe('FetchDriver.get()', function () {
             });
 
             after(() => {
-                res = undefined;
-                body = undefined;
+                res = undefined as any; // tslint:disable-line: no-any
+                body = undefined as any; // tslint:disable-line: no-any
             });
 
             it('the expected status code', () => {
@@ -75,7 +75,7 @@ describe('FetchDriver.get()', function () {
         });
 
         describe('`path` does not starts with `/`', () => {
-            let err: SyntaxError | void = undefined;
+            let err: SyntaxError;
 
             before(() => {
                 try {
@@ -87,7 +87,7 @@ describe('FetchDriver.get()', function () {
             });
 
             after(() => {
-                err = undefined;
+                err = undefined as any; // tslint:disable-line: no-any
             });
 
             it('should throw the expected error', () => {
@@ -141,8 +141,8 @@ describe('FetchDriver.get()', function () {
         });
 
         describe('valid case', () => {
-            let res: Response | void;
-            let body: ResBody | void;
+            let res: Response;
+            let body: ResBody;
 
             before(async () => {
                 res = await driver.get('/' + PATH, {
@@ -153,8 +153,8 @@ describe('FetchDriver.get()', function () {
             });
 
             after(() => {
-                res = undefined;
-                body = undefined;
+                res = undefined as any; // tslint:disable-line: no-any
+                body = undefined as any; // tslint:disable-line: no-any
             });
 
             it('the expected status code', () => {
@@ -172,7 +172,7 @@ describe('FetchDriver.get()', function () {
         });
 
         describe('`path` does not starts with `/`', () => {
-            let err: SyntaxError | void = undefined;
+            let err: SyntaxError;
 
             before(() => {
                 try {
@@ -186,7 +186,7 @@ describe('FetchDriver.get()', function () {
             });
 
             after(() => {
-                err = undefined;
+                err = undefined as any; // tslint:disable-line: no-any
             });
 
             it('should throw the expected error', () => {

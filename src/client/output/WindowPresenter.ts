@@ -41,7 +41,7 @@ export class WindowPresenter implements EventListenerObject {
     private _domain: DomainState;
     private _disposer: Rx.Subscription;
 
-    private _currenTab: SelectedTab | void;
+    private _currenTab: SelectedTab | null;
     private _uiAction: UIActionCreator;
 
     constructor(domain: DomainState, appAction: AppActionCreator, notifyAction: NotificationActionCreator, uiAction: UIActionCreator) {
@@ -64,7 +64,7 @@ export class WindowPresenter implements EventListenerObject {
             }
         }));
 
-        this._currenTab = undefined;
+        this._currenTab = null;
         this._disposer.add(domain.getCurrentTab().subscribe((tab) => {
             this._currenTab = tab;
         }));
@@ -165,7 +165,7 @@ export class WindowPresenter implements EventListenerObject {
 
     handleShortcut(event: KeyboardEvent, key: string): void {
         const channelList: Array<Channel> = this._domain.networkSet.getChannelList();
-        const currentIndex: Option<ChannelId> = this._domain.currentTab.channelId.map(function(currentId: ChannelId): number {
+        const currentIndex: Option<ChannelId> = this._domain.currentTab!.channelId.map(function(currentId: ChannelId): number {
             const result = channelList.findIndex(function(channel: Channel){
                 return channel.id === currentId;
             });
@@ -207,7 +207,7 @@ export class WindowPresenter implements EventListenerObject {
     }
 
     onFocus(_: FocusEvent): void {
-        if (this._currenTab.channelId.isNone && window.screen.width < 767) {
+        if (this._currenTab!.channelId.isNone && window.screen.width < 767) {
             return;
         }
 

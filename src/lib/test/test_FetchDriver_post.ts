@@ -47,8 +47,8 @@ describe('FetchDriver.post()', function () {
         });
 
         describe('valid case', () => {
-            let res: Response | void;
-            let body: ResBody | void;
+            let res: Response;
+            let body: ResBody;
 
             before(async () => {
                 res = await driver.post('/' + PATH, {});
@@ -56,8 +56,8 @@ describe('FetchDriver.post()', function () {
             });
 
             after(() => {
-                res = undefined;
-                body = undefined;
+                res = undefined as any; // tslint:disable-line: no-any
+                body = undefined as any; // tslint:disable-line: no-any
             });
 
             it('the expected status code', () => {
@@ -75,7 +75,7 @@ describe('FetchDriver.post()', function () {
         });
 
         describe('`path` does not starts with `/`', () => {
-            let err: SyntaxError | void = undefined;
+            let err: SyntaxError;
 
             before(() => {
                 try {
@@ -87,7 +87,7 @@ describe('FetchDriver.post()', function () {
             });
 
             after(() => {
-                err = undefined;
+                err = undefined as any; // tslint:disable-line: no-any
             });
 
             it('should throw the expected error', () => {
@@ -141,8 +141,8 @@ describe('FetchDriver.post()', function () {
         });
 
         describe('valid case', () => {
-            let res: Response | void;
-            let body: ResBody | void;
+            let res: Response;
+            let body: ResBody;
 
             before(async () => {
                 res = await driver.post('/' + PATH, {
@@ -152,8 +152,8 @@ describe('FetchDriver.post()', function () {
             });
 
             after(() => {
-                res = undefined;
-                body = undefined;
+                res = undefined as any; // tslint:disable-line: no-any
+                body = undefined as any; // tslint:disable-line: no-any
             });
 
             it('the expected status code', () => {
@@ -171,7 +171,7 @@ describe('FetchDriver.post()', function () {
         });
 
         describe('`path` does not starts with `/`', () => {
-            let err: SyntaxError | void = undefined;
+            let err: SyntaxError;
 
             before(() => {
                 try {
@@ -185,7 +185,7 @@ describe('FetchDriver.post()', function () {
             });
 
             after(() => {
-                err = undefined;
+                err = undefined as any; // tslint:disable-line: no-any
             });
 
             it('should throw the expected error', () => {

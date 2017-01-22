@@ -85,7 +85,7 @@ export class InputBoxView {
         disposer.add(domain.getSelectedChannel().subscribe((id: ChannelId) => {
             const channel = this._domain.networkSet.getChannelById(id);
             const networkId = channel.map(function(channel: Channel){
-                return channel.getNetwork().id;
+                return channel.getNetwork()!.id;
             }).unwrap();
 
             this._currentNetworkId = networkId;
@@ -132,7 +132,7 @@ export class InputBoxView {
 
         const input = this._textInput;
         const text = input.value;
-        const channelId = this._domain.currentTab.channelId;
+        const channelId = this._domain.currentTab!.channelId;
         const id = channelId.expect('the input box cannot submitted if any channel is not selected');
 
         // lock input field until dispatching to input command.

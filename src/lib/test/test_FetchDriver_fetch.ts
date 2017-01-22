@@ -48,8 +48,8 @@ describe('FetchDriver.fetch()', function () {
     });
 
     describe('valid case', function () {
-        let res: Response | void;
-        let body: ResBody | void;
+        let res: Response;
+        let body: ResBody;
 
         before(async () => {
             const req = driver.createRequest(PATH, {
@@ -61,8 +61,8 @@ describe('FetchDriver.fetch()', function () {
         });
 
         after(() => {
-            res = undefined;
-            body = undefined;
+            res = undefined as any; // tslint:disable-line: no-any
+            body = undefined as any; // tslint:disable-line: no-any
         });
 
         it('the expected status code', () => {
@@ -81,7 +81,7 @@ describe('FetchDriver.fetch()', function () {
 
     describe('invalid case', function () {
         describe('Don\'t pass the request to another origin', () => {
-            let err: URIError | void = undefined;
+            let err: URIError;
 
             before(() => {
                 const another = String(testConfig.origin.SECOND);
@@ -99,7 +99,7 @@ describe('FetchDriver.fetch()', function () {
             });
 
             after(() => {
-                err = undefined;
+                err = undefined as any; // tslint:disable-line: no-any
             });
 
             it('should throw the expected error', () => {
