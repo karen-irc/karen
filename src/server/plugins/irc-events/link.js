@@ -11,7 +11,7 @@ import es from 'event-stream';
 process.setMaxListeners(0);
 
 function parse(msg, url, res, client) {
-    const toggle = msg.toggle = {
+    const toggle = {
         id: msg.id,
         type: '',
         head: '',
@@ -19,6 +19,7 @@ function parse(msg, url, res, client) {
         thumb: '',
         link: url
     };
+    msg.toggle = toggle;
 
     switch (res.type) {
         /* eslint-disable indent */

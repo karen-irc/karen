@@ -39,15 +39,15 @@ import {ViewContext} from '../../../lib/ViewContext';
 export class SidebarContext implements ViewContext {
 
     private _viewmodel: SidebarStore;
-    private _viewDisposer: Rx.Subscription | void;
+    private _viewDisposer: Rx.Subscription | null;
 
     constructor(domain: DomainState, msgAction: MessageActionCreator, uiAction: UIActionCreator) {
         this._viewmodel = new SidebarStore(domain, msgAction, uiAction);
-        this._viewDisposer = undefined;
+        this._viewDisposer = null;
     }
 
     private _destroy(): void {
-        this._viewDisposer.unsubscribe();
+        this._viewDisposer!.unsubscribe();
         this._viewmodel.dispose();
     }
 

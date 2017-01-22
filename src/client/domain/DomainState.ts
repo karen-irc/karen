@@ -141,7 +141,7 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
 
     const removedChannel = set.partedChannelAtAll().map(function(channel: ChannelDomain){
         const parentNetwork = channel.getValue().getNetwork();
-        const nextId = parentNetwork.getLobbyId();
+        const nextId = parentNetwork!.getLobbyId();
 
         // FIXME: This should be passed Option<T>
         const tab = new SelectedTab(CurrentTabType.CHANNEL, nextId);

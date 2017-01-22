@@ -204,9 +204,10 @@ export class SidebarStore {
             return false;
         }
 
-        const current: number | void = this._unreadCount.get(channelId);
+        let current: number | undefined = this._unreadCount.get(channelId);
         if (current === undefined) {
             this._unreadCount.set(channelId, 0);
+            current = 0;
         }
 
         const latest = current + 1;

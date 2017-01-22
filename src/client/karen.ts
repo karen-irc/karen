@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             return globalState.networkSet.getById(id);
         });
         if (network.isSome) {
-            const nickname = network.unwrap().nickname;
+            const nickname = network.unwrap()!.nickname;
             window.gKarenClientApp.inputBox.setNickname(nickname);
         }
 

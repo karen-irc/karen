@@ -47,7 +47,7 @@ class AppViewModel {
 
 export class AppView {
 
-    private _element: Element | void;
+    private _element: Element | null;
     private _vm: AppViewModel;
     private _disposer: Rx.Subscription;
     private _uiAction: UIActionCreator;
@@ -69,7 +69,7 @@ export class AppView {
     }
 
     destroy(): void {
-        this._element = undefined;
+        this._element = null;
         this._vm.destroy();
         this._disposer.unsubscribe();
     }
@@ -80,7 +80,7 @@ export class AppView {
             .distinctUntilChanged()
             .subscribe((shouldOpen: boolean) => {
                 const className = 'lt';
-                const classList = this._element.classList;
+                const classList = this._element!.classList;
                 if (shouldOpen) {
                     classList.add(className);
                 }
@@ -93,7 +93,7 @@ export class AppView {
     private _toggleRightPane(): Rx.Subscription {
         return this._vm.isOpenedRightPane.asObservable().subscribe((shouldOpen: boolean) => {
             const className = 'rt';
-            const classList = this._element.classList;
+            const classList = this._element!.classList;
             if (shouldOpen) {
                 classList.add(className);
             }
