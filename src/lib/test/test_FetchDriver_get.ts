@@ -104,7 +104,7 @@ describe('FetchDriver.get()', function () {
         });
 
         describe('Don\'t request to another origin', () => {
-            let err: SyntaxError | void = undefined;
+            let err: SyntaxError;
 
             before(() => {
                 try {
@@ -116,7 +116,7 @@ describe('FetchDriver.get()', function () {
             });
 
             after(() => {
-                err = undefined;
+                err = undefined as any;  // tslint:disable-line: no-any
             });
 
             it('should throw the expected error', () => {
@@ -203,7 +203,7 @@ describe('FetchDriver.get()', function () {
         });
 
         describe('Don\'t request to another origin', () => {
-            let err: SyntaxError | void = undefined;
+            let err: SyntaxError;
 
             before(() => {
                 try {
@@ -215,7 +215,7 @@ describe('FetchDriver.get()', function () {
             });
 
             after(() => {
-                err = undefined;
+                err = undefined as any; // tslint:disable-line: no-any
             });
 
             it('should throw the expected error', () => {
