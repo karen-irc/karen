@@ -31,9 +31,9 @@ class HelperIterable<T> implements Iterable<T> {
 
     private _source: Iterable<T>;
     private _onNext: (v: IteratorResult<T>) => void;
-    private _onAfterFinish: (() => void) | void;
+    private _onAfterFinish: (() => void) | undefined;
 
-    constructor(src: Iterable<T>, onNext: (v: IteratorResult<T>) => void, onAfterFinish: (() => void) | void = undefined) {
+    constructor(src: Iterable<T>, onNext: (v: IteratorResult<T>) => void, onAfterFinish?: () => void) {
         this._source = src;
         this._onNext = onNext;
         this._onAfterFinish = onAfterFinish;
@@ -52,7 +52,7 @@ class HelperIterator<T> implements Iterator<T> {
     private _onNext: (v: IteratorResult<T>) => void;
     private _onAfterFinish: (() => void) | void;
 
-    constructor(src: Iterator<T>, onNext: (v: IteratorResult<T>) => void, onAfterFinish: (() => void) | void = undefined)  {
+    constructor(src: Iterator<T>, onNext: (v: IteratorResult<T>) => void, onAfterFinish?: () => void)  {
         this._source = src;
         this._onNext = onNext;
         this._onAfterFinish = onAfterFinish;
@@ -79,7 +79,7 @@ describe('ExIterable', function () {
                 isCalledNext = true;
             });
             const iter = ExIterable.create(src);
-            iter;
+            iter; // tslint:disable-line:no-unused-expression
         });
 
         it('don\'t evaluate immidiately on creating an instance', () => {

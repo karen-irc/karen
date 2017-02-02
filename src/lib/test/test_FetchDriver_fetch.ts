@@ -116,7 +116,7 @@ describe('FetchDriver.fetch()', function () {
         });
 
         describe('Don\'t pass the request which is not formatted as origin + path', () => {
-            let err: URIError | void = undefined;
+            let err: URIError;
 
             before(() => {
                 const req = new Request(PATH, {
@@ -132,7 +132,7 @@ describe('FetchDriver.fetch()', function () {
             });
 
             after(() => {
-                err = undefined;
+                err = undefined as any; // tslint:disable-line: no-any
             });
 
             it('should throw the expected error', () => {

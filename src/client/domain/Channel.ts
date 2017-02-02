@@ -36,9 +36,9 @@ export class Channel {
     private _userList: Array<User>;
     private _unread: number;
     private _messageBuffer: Array<Message>;
-    private _network: Network | void;
+    private _network: Network | undefined;
 
-    constructor(raw: any, network: Network | void = undefined) { // tslint:disable-line:no-any
+    constructor(raw: any, network?: Network) { // tslint:disable-line:no-any
         this.id = raw.id;
 
         this.name = raw.name;
