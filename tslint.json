@@ -3,7 +3,7 @@
         "adjacent-overload-signatures": true,
         "array-type": false,
         "arrow-parens": true,
-        "arrow-return-shorthand": true,
+        "arrow-return-shorthand": false,
         "callable-types": true,
         "class-name": true,
         "completed-docs": false,
