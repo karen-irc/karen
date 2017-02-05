@@ -1,0 +1,44 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "0.1.0",
+    "command": "yarn",
+    "isShellCommand": true,
+    "showOutput": "always",
+    "suppressTaskName": true,
+    "cwd": "${cwd}",
+    "tasks": [
+        {
+            "taskName": "tsc",
+            "args": ["run", "gulp", "--", "tsc"],
+            "problemMatcher": "$tsc"
+        },
+        {
+            "taskName": "eslint",
+            "args": ["run", "gulp", "--", "eslint"],
+            "problemMatcher": [
+                "$eslint-compact",
+                "$eslint-stylish"
+            ]
+        },
+        {
+            "taskName": "tslint",
+            "args": ["run", "gulp", "--", "tslint"],
+            "problemMatcher": { // https://github.com/Microsoft/vscode-tslint/tree/master/tslint
+                "owner": "tslint",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceRoot}"
+                ],
+                "severity": "warning",
+                "pattern": {
+                    "regexp": "^(\\S.*)\\[(\\d+), (\\d+)\\]:\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "message": 4
+                }
+            }
+        }
+    ]
+}
