@@ -374,6 +374,7 @@ module.exports = {
             'nonwords': false
         }],
         'spaced-comment': 0,
+        'template-tag-spacing': [1, 'never'],
         'unicode-bom': [2, 'never'],
         'wrap-regex': 0,
 
