@@ -51,7 +51,6 @@
     "@types/react": "^15.0.6",
     "@types/react-dom": "^0.14.22",
     "@types/socket.io-client": "^1.4.29",
-    "@types/whatwg-fetch": "^0.0.33",
     "autoprefixer": "^6.7.2",
     "babel-cli": "^6.22.2",
     "babel-core": "^6.22.1",

@@ -34,8 +34,7 @@
         "target": "esnext",
         "types": [ // for d.ts which affects global environment.
             "mocha",
-            "node",
-            "whatwg-fetch"
+            "node"
         ]
     },
 
