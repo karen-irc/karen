@@ -58,13 +58,13 @@ export class FetchDriver {
 
         const url = this._origin + path;
         const req = self.fetch(url, option);
-        return req as Promise<Response>;
+        return req;
     }
 
     fetch(input: Request): Promise<Response> {
         assertOrigin(this._origin, input);
         const req = self.fetch(input, {});
-        return req as Promise<Response>;
+        return req;
     }
 
     createRequest(path: string, init: RequestInit): Request {
@@ -98,5 +98,5 @@ export function assertForbiddenError(res: Response): Promise<Response> {
 }
 
 export function unwrapResponseJson<T>(res: Response): Promise<T> {
-    return res.json() as Promise<T>;
+    return res.json();
 }
