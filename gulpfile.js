@@ -128,23 +128,30 @@ gulp.task('clean_test_cache_server', () => del(TEST_CACHE_SERVER));
  */
 gulp.task('build', ['lint', 'build_dist_client', 'build_dist_server', 'build_dist_style', 'build_dist_legacy_lib']);
 
-gulp.task('build_dist_client', ['clean_dist_client', 'build_obj_client', 'build_obj_lib'], function () {
+function buildDistClient() {
     const root = './karen.js';
     const ENTRY_POINT = path.resolve(OBJ_CLIENT, root);
 
     return runLinkerForClient(CWD, NPM_MOD_DIR, ENTRY_POINT, DIST_CLIENT);
-});
+}
+gulp.task('build_dist_client', ['clean_dist_client', 'build_obj_client', 'build_obj_lib'], buildDistClient);
+gulp.task('makefile:build_dist_client', [], buildDistClient);
 
-gulp.task('build_dist_legacy_lib', ['clean_dist_client'], function () {
+
+function buildLegacyLib() {
     return execNpmCmd('cpx', [
         path.resolve(NPM_MOD_DIR, './moment/min/moment.min.js'),
         DIST_CLIENT,
     ]);
-});
+}
+gulp.task('build_dist_legacy_lib', ['clean_dist_client'], buildLegacyLib);
+gulp.task('makefile:build_dist_legacy_lib', [], buildLegacyLib);
 
-gulp.task('build_dist_server', ['clean_dist_server', 'build_obj_server', 'build_obj_lib'], function () {
+function buildDistServer() {
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, DIST_SERVER);
-});
+}
+gulp.task('build_dist_server', ['clean_dist_server', 'build_obj_server', 'build_obj_lib'], buildDistServer);
+gulp.task('mekefile:build_dist_server', [], buildDistServer);
 
 gulp.task('build_dist_style', ['stylelint', 'clean_dist_style'], function () {
     return execNpmCmd('postcss', [
@@ -240,14 +247,18 @@ gulp.task('test_lib', ['build_test_lib'], function () {
     return runTest('lib');
 });
 
-gulp.task('build_test_client', ['clean_test_cache_client', 'build_obj_client'], function () {
+
+function buildTestClient() {
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_CLIENT, TEST_CACHE_CLIENT);
-});
+}
+gulp.task('build_test_client', ['clean_test_cache_client', 'build_obj_client'], buildTestClient);
+gulp.task('makefile:build_test_client', [], buildTestClient);
 
-gulp.task('build_test_lib', ['clean_test_cache_lib', 'build_obj_lib'], function () {
+function buildTestLib() {
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_LIB, TEST_CACHE_LIB);
-});
-
+}
+gulp.task('build_test_lib', ['clean_test_cache_lib', 'build_obj_lib'], buildTestLib);
+gulp.task('makefile:build_test_lib', [], buildTestLib);
 
 /**
  *  CI
