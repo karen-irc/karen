@@ -12,6 +12,7 @@
         "jsx": "preserve",
         "lib": [
             "es2017",
+            "esnext.asynciterable",
             "dom"
         ],
         "module": "es2015",
