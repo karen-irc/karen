@@ -44,6 +44,7 @@ if (isRelease) {
 else {
     babelPlugins = babelPlugins.concat([
         'transform-react-jsx-source',
+        'transform-react-jsx-self',
     ]);
 }
 

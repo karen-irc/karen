@@ -24,6 +24,7 @@ module.exports = {
         'development': {
             'plugins': [
                 'transform-react-jsx-source',
+                'transform-react-jsx-self',
             ],
         },
 
