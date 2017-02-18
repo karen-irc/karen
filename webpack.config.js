@@ -26,6 +26,9 @@ let babelPlugins = [
     'babel-plugin-syntax-trailing-function-commas',
     'babel-plugin-transform-async-to-generator',
 
+    // esnext
+    'transform-async-generator-functions',
+
     // for React
     'syntax-jsx',
     'transform-react-jsx',
