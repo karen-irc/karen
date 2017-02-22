@@ -36,6 +36,10 @@ module.exports = {
         './tools/eslint/eslintrc_react.js',
     ],
 
+    'parserOptions': {
+        'ecmaVersion': 8,
+    },
+
     'env': {
         'es6': true,
         'commonjs': true,
