@@ -175,7 +175,7 @@ module.exports = {
             'allowEmptyReject': true, // for creating empty rejected one to composite promise.
         }],
         'radix': 2,
-        'require-await': 1, // we can call an async function which does not have `await` in its body.
+        'require-await': 0, // we can define an async function which does not have `await` in its body.
         'vars-on-top': 0, // This is a ridiculous customs: http://eslint.org/docs/rules/vars-on-top
         'wrap-iife': 0, // http://eslint.org/docs/rules/wrap-iife
         'yoda': 0, // http://eslint.org/docs/rules/wrap-iife
