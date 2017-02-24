@@ -28,5 +28,3 @@ branches:
 
 cache:
   yarn: true
-  directories:
-    - node_modules
