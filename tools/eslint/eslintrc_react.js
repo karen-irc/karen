@@ -43,6 +43,10 @@ module.exports = {
         // https://github.com/yannickcr/eslint-plugin-react
         'react/display-name': 0, // JSX transpiler creates displayName automatically.
         'react/forbid-component-props': 1,
+        'react/forbid-elements': [1, {
+            'forbid': [],
+        }],
+        'react/forbid-foreign-prop-types': 2,
         'react/forbid-prop-types': 0,
         // The index of `Array<T>` is not suitable for `key` props.
         // But this restriction does not prevent that the id for each items is just a sequence number of some list
@@ -115,6 +119,7 @@ module.exports = {
             'requiredFirst': true,
         }],
         'react/style-prop-object': 2,
+        'react/void-dom-elements-no-children': 1,
 
 
         // JSX-specific rules
