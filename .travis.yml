@@ -2,6 +2,9 @@ sudo: false
 
 language: node_js
 
+node_js:
+  - "7"
+
 before_install:
   # Use the latest yarnpkg because Travis' builtin yarn is not the latest.
   - curl -o- -L https://yarnpkg.com/install.sh | bash
@@ -13,9 +16,6 @@ before_script:
   # - yarn install # TravisCI runs `yarn` in install phase.
   - npm run build
   - ./index.js init
-
-node_js:
-  - "7"
 
 notifications:
   email: false
