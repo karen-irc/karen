@@ -87,7 +87,7 @@
     "moment": "^2.17.1",
     "option-t": "^3.0.0",
     "postcss": "^5.2.15",
-    "postcss-cli": "^2.6.0",
+    "postcss-cli": "^3.0.0-beta",
     "postcss-custom-properties": "^5.0.2",
     "postcss-import": "^9.1.0",
     "react": "^15.4.2",
