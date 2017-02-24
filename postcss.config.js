@@ -2,28 +2,21 @@
 
 'use strict';
 
-const preprocess = [
-    'postcss-import',
-    'postcss-custom-properties',
-];
+// https://github.com/michael-ciniawsky/postcss-load-config
+module.exports = function (ctx) {
+    return {
+        'map': ctx.env === 'development' ? { 'inline': false } : false,
 
-const postprocess = [
-    'autoprefixer'
-];
+        'plugins': {
+            // preprocess
+            'postcss-import': null,
 
-module.exports = {
-    // 'input': './src/style/style.css',
-    // 'output': './__dist/style/style.css',
-
-    'local-plugins': true,
-    'use': [
-        ...preprocess,
-        ...postprocess,
-    ],
-
-    'autoprefixer': {
-        'browsers': [
-            'Last 1 versions',
-        ]
-    },
+            // postprocess
+            'autoprefixer': {
+                'browsers': [
+                    'Last 2 versions',
+                ]
+            },
+        },
+    };
 };
