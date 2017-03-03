@@ -39,6 +39,7 @@ export class AudioDriver {
     }
 
     play(): void {
+        // tslint:disable-next-line:no-non-null-assertion
         this._audio!.play();
     }
 }

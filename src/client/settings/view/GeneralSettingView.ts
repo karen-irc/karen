@@ -25,8 +25,8 @@
 
 import * as Rx from 'rxjs';
 
-import {ReactiveProperty} from '../../../lib/ReactiveProperty';
-import {GeneralSettingViewModel} from '../viewmodel/GeneralSettingViewModel';
+import { ReactiveProperty } from '../../../lib/ReactiveProperty';
+import { GeneralSettingViewModel } from '../viewmodel/GeneralSettingViewModel';
 
 export class GeneralSettingView implements EventListenerObject {
 
@@ -76,6 +76,7 @@ export class GeneralSettingView implements EventListenerObject {
 
     destroy(): void {
         this._disposer.unsubscribe();
+        // tslint:disable-next-line:no-non-null-assertion
         this._element!.removeEventListener('change', this);
         this._element = undefined;
     }
@@ -108,6 +109,7 @@ export class GeneralSettingView implements EventListenerObject {
     }
 
     private _updateState(name: string, value: boolean): void {
+        // tslint:disable-next-line:no-non-null-assertion
         const input = this._element!.querySelector('input[name=' + name + ']') as HTMLInputElement;
         if (!input) {
             return;

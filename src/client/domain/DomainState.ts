@@ -23,18 +23,18 @@
  * THE SOFTWARE.
  */
 
-import {Some, None, Option} from 'option-t';
+import { Some, None, Option } from 'option-t';
 import * as Rx from 'rxjs';
 
-import {ChannelDomain, ChannelId} from './ChannelDomain';
-import {RecievedMessage} from './Message';
-import {NetworkSet} from './NetworkSet';
-import {NetworkSetDomain} from './NetworkSetDomain';
-import {NetworkDomain} from './NetworkDomain';
+import { ChannelDomain, ChannelId } from './ChannelDomain';
+import { RecievedMessage } from './Message';
+import { NetworkSet } from './NetworkSet';
+import { NetworkSetDomain } from './NetworkSetDomain';
+import { NetworkDomain } from './NetworkDomain';
 
-import {MessageGateway} from '../adapter/MessageGateway';
-import {UIActionCreator} from '../intent/action/UIActionCreator';
-import {UIActionDispatcher} from '../intent/dispatcher/UIActionDispatcher';
+import { MessageGateway } from '../adapter/MessageGateway';
+import { UIActionCreator } from '../intent/action/UIActionCreator';
+import { UIActionDispatcher } from '../intent/dispatcher/UIActionDispatcher';
 
 export const enum CurrentTabType {
     SETTING = 0,
@@ -44,9 +44,9 @@ export const enum CurrentTabType {
 export class SelectedTab {
 
     type: CurrentTabType;
-    id: string|ChannelId;
+    id: string | ChannelId;
 
-    constructor(type: CurrentTabType, id: string|ChannelId) {
+    constructor(type: CurrentTabType, id: string | ChannelId) {
         this.type = type;
         this.id = id;
     }
@@ -90,6 +90,7 @@ export class DomainState {
                 return data;
             }).filter(function (data) {
                 return data !== undefined;
+                // tslint:disable-next-line:no-non-null-assertion
             }).map((data) => data!).share();
     }
 
@@ -109,17 +110,17 @@ export class DomainState {
     }
 
     getSelectedChannel(): Rx.Observable<ChannelId> {
-        return this.getCurrentTab().filter(function(state){
+        return this.getCurrentTab().filter(function (state) {
             return state.channelId.isSome;
-        }).map(function(state){
+        }).map(function (state) {
             return state.channelId.expect('this should be unwrapped safely');
         });
     }
 
     getSelectedSetting(): Rx.Observable<string> {
-        return this.getCurrentTab().filter(function(state){
+        return this.getCurrentTab().filter(function (state) {
             return state.type === CurrentTabType.SETTING;
-        }).map(function(state){
+        }).map(function (state) {
             return state.id as string;
         });
     }
@@ -134,13 +135,14 @@ export class DomainState {
 }
 
 function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: NetworkSetDomain): Rx.Observable<SelectedTab> {
-    const addedChannel = set.joinedChannelAtAll().map(function(channel){
+    const addedChannel = set.joinedChannelAtAll().map(function (channel) {
         const tab = new SelectedTab(CurrentTabType.CHANNEL, channel.getId());
         return tab;
     });
 
-    const removedChannel = set.partedChannelAtAll().map(function(channel: ChannelDomain){
+    const removedChannel = set.partedChannelAtAll().map(function (channel: ChannelDomain) {
         const parentNetwork = channel.getValue().getNetwork();
+        // tslint:disable-next-line:no-non-null-assertion
         const nextId = parentNetwork!.getLobbyId();
 
         // FIXME: This should be passed Option<T>
@@ -148,13 +150,13 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
         return tab;
     });
 
-    const addedNetwork = set.addedNetwork().map(function(domain: NetworkDomain){
+    const addedNetwork = set.addedNetwork().map(function (domain: NetworkDomain) {
         const id = domain.getValue().getLobbyId();
         const tab = new SelectedTab(CurrentTabType.CHANNEL, id);
         return tab;
     });
 
-    const removedNetwork = set.removedNetwork().withLatestFrom(set.getNetworkList(), function(_, list) {
+    const removedNetwork = set.removedNetwork().withLatestFrom(set.getNetworkList(), function (_, list) {
         let tab: SelectedTab;
         if (list.length === 0) {
             tab = new SelectedTab(CurrentTabType.SETTING, 'connect');
@@ -167,25 +169,25 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
         return tab;
     });
 
-    const shouldShowConnectSetting = gateway.showConnectSetting().map(function(){
+    const shouldShowConnectSetting = gateway.showConnectSetting().map(function () {
         const tab = new SelectedTab(CurrentTabType.SETTING, 'connect');
         return tab;
     });
 
-    const selectedChannel = intent.selectChannel.map(function(channelId){
+    const selectedChannel = intent.selectChannel.map(function (channelId) {
         const tab = new SelectedTab(CurrentTabType.CHANNEL, channelId);
         return tab;
     });
 
-    const selectedSettings = intent.showSomeSettings.map(function(id){
+    const selectedSettings = intent.showSomeSettings.map(function (id) {
         const tab = new SelectedTab(CurrentTabType.SETTING, id);
         return tab;
     });
 
-    const initial = set.initialState().map(function(data){
+    const initial = set.initialState().map(function (data) {
         let tab: SelectedTab;
 
-        const idIsSetting = data.active.mapOr(true, function(id){
+        const idIsSetting = data.active.mapOr(true, function (id) {
             return (typeof id !== 'number');
         });
         if (idIsSetting) {

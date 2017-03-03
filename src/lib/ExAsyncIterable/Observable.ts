@@ -83,6 +83,7 @@ class FromObservableAsyncIterator<T> implements AsyncIterator<T> {
 
         if (this._resolverBuffer.length > 0) {
             const next = this._resolverBuffer.shift();
+            // tslint:disable-next-line:no-non-null-assertion
             const [resolver,] = next!;
             resolver({
                 done: false,
@@ -96,7 +97,7 @@ class FromObservableAsyncIterator<T> implements AsyncIterator<T> {
 
     private _onError(e: Error): void {
         if (this._resolverBuffer.length > 0) {
-            for (const [,reject] of this._resolverBuffer) {
+            for (const [, reject] of this._resolverBuffer) {
                 reject(e);
             }
         }
@@ -115,6 +116,7 @@ class FromObservableAsyncIterator<T> implements AsyncIterator<T> {
             fn = (resolve, _) => {
                 resolve({
                     done: false,
+                    // tslint:disable-next-line:no-non-null-assertion
                     value: next!,
                 });
             };

@@ -1,8 +1,8 @@
 import * as assert from 'assert';
-import {ExIterable} from '../../index';
-import {FiniteConsumerMemoizeBuffer} from '../../operator/memoize';
+import { ExIterable } from '../../index';
+import { FiniteConsumerMemoizeBuffer } from '../../operator/memoize';
 
-import {getIterator} from '../../util';
+import { getIterator } from '../../util';
 
 describe('ExIterable.memoize()', function () {
     describe('without consumer limitation', () => {
@@ -50,7 +50,7 @@ describe('ExIterable.memoize()', function () {
         });
 
         describe('call `next()` from some iterator by turns', function () {
-            function pushToArray<T>(i: Iterator<T>, target: Array<IteratorResult<T>>): () => void  {
+            function pushToArray<T>(i: Iterator<T>, target: Array<IteratorResult<T>>): () => void {
                 return function () {
                     const result = i.next();
                     target.push(result);
@@ -118,15 +118,15 @@ describe('ExIterable.memoize()', function () {
                 assert.notStrictEqual(iter2, iter3);
             });
 
-            it('seq1 & seq2 are same', function() {
+            it('seq1 & seq2 are same', function () {
                 assert.deepStrictEqual(seq1, seq2);
             });
 
-            it('seq1 & seq3 are same', function() {
+            it('seq1 & seq3 are same', function () {
                 assert.deepStrictEqual(seq1, seq3);
             });
 
-            it('seq2 & seq3 are same', function() {
+            it('seq2 & seq3 are same', function () {
                 assert.deepStrictEqual(seq2, seq3);
             });
         });
@@ -178,7 +178,7 @@ describe('ExIterable.memoize()', function () {
         });
 
         describe('call `next()` from some iterator by turns', function () {
-            function pushToArray<T>(i: Iterator<T>, target: Array<IteratorResult<T>>): () => void  {
+            function pushToArray<T>(i: Iterator<T>, target: Array<IteratorResult<T>>): () => void {
                 return function () {
                     const result = i.next();
                     target.push(result);
@@ -247,15 +247,15 @@ describe('ExIterable.memoize()', function () {
                 assert.notStrictEqual(iter2, iter3);
             });
 
-            it('seq1 & seq2 are same', function() {
+            it('seq1 & seq2 are same', function () {
                 assert.deepStrictEqual(seq1, seq2);
             });
 
-            it('seq1 & seq3 are same', function() {
+            it('seq1 & seq3 are same', function () {
                 assert.deepStrictEqual(seq1, seq3);
             });
 
-            it('seq2 & seq3 are same', function() {
+            it('seq2 & seq3 are same', function () {
                 assert.deepStrictEqual(seq2, seq3);
             });
         });
@@ -307,7 +307,7 @@ describe('ExIterable.memoize()', function () {
         });
 
         describe('call `next()` from some iterator by turns', function () {
-            function pushToArray<T>(i: Iterator<T>, target: Array<IteratorResult<T>>): () => void  {
+            function pushToArray<T>(i: Iterator<T>, target: Array<IteratorResult<T>>): () => void {
                 return function () {
                     const result = i.next();
                     target.push(result);
@@ -376,15 +376,15 @@ describe('ExIterable.memoize()', function () {
                 assert.notStrictEqual(iter2, iter3);
             });
 
-            it('seq1 & seq2 are same', function() {
+            it('seq1 & seq2 are same', function () {
                 assert.deepStrictEqual(seq1, seq2);
             });
 
-            it('seq1 & seq3 are same', function() {
+            it('seq1 & seq3 are same', function () {
                 assert.deepStrictEqual(seq1, seq3);
             });
 
-            it('seq2 & seq3 are same', function() {
+            it('seq2 & seq3 are same', function () {
                 assert.deepStrictEqual(seq2, seq3);
             });
         });
@@ -447,7 +447,7 @@ describe('ExIterable.memoize()', function () {
                 });
 
                 try {
-                    iter.forEach((_) => {});
+                    iter.forEach((_) => { });
                 }
                 catch (e) {
                     error3 = e;
@@ -468,7 +468,7 @@ describe('ExIterable.memoize()', function () {
         });
 
         describe('call `next()` from some iterator by turns', function () {
-            function pushToArray<T>(i: Iterator<T>, target: Array<IteratorResult<T>>): () => void  {
+            function pushToArray<T>(i: Iterator<T>, target: Array<IteratorResult<T>>): () => void {
                 return function () {
                     const result = i.next();
                     target.push(result);
@@ -545,15 +545,15 @@ describe('ExIterable.memoize()', function () {
                 assert.notStrictEqual(iter2, iter3);
             });
 
-            it('seq1 & seq2 are same', function() {
+            it('seq1 & seq2 are same', function () {
                 assert.deepStrictEqual(seq1, seq2);
             });
 
-            it('seq1 & seq3 are same', function() {
+            it('seq1 & seq3 are same', function () {
                 assert.deepStrictEqual(seq1, seq3);
             });
 
-            it('seq2 & seq3 are same', function() {
+            it('seq2 & seq3 are same', function () {
                 assert.deepStrictEqual(seq2, seq3);
             });
 
@@ -598,9 +598,10 @@ describe('ExIterable.memoize()', function () {
         before(() => {
             const src = ExIterable.create([0, 1, 2])
                 .memoize(CONSUMER_LIMIT);
-            src.forEach(() => {}); // consume once.
+            src.forEach(() => { }); // consume once.
 
             const iter2 = getIterator(src);
+            // tslint:disable-next-line:no-non-null-assertion
             result = iter2.return!(EXPECTED_VAL);
 
             iter3 = getIterator(src);

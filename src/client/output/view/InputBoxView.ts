@@ -23,18 +23,18 @@
  * THE SOFTWARE.
  */
 
-import {Option, Some, None} from 'option-t';
+import { Option, Some, None } from 'option-t';
 import * as Rx from 'rxjs';
 
-import {CommandList} from '../../domain/CommandType';
-import {DomainState} from '../../domain/DomainState';
-import {Channel} from '../../domain/Channel';
-import {ChannelId} from '../../domain/ChannelDomain';
-import {User} from '../../domain/User';
-import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
-import {UIActionCreator} from '../../intent/action/UIActionCreator';
+import { CommandList } from '../../domain/CommandType';
+import { DomainState } from '../../domain/DomainState';
+import { Channel } from '../../domain/Channel';
+import { ChannelId } from '../../domain/ChannelDomain';
+import { User } from '../../domain/User';
+import { MessageActionCreator } from '../../intent/action/MessageActionCreator';
+import { UIActionCreator } from '../../intent/action/UIActionCreator';
 
-const words: Array<string> = CommandList.map(function(item){
+const words: Array<string> = CommandList.map(function (item) {
     return item.toLowerCase();
 });
 
@@ -84,7 +84,8 @@ export class InputBoxView {
 
         disposer.add(domain.getSelectedChannel().subscribe((id: ChannelId) => {
             const channel = this._domain.networkSet.getChannelById(id);
-            const networkId = channel.map(function(channel: Channel){
+            const networkId = channel.map(function (channel: Channel) {
+                // tslint:disable-next-line:no-non-null-assertion
                 return channel.getNetwork()!.id;
             }).unwrap();
 
@@ -132,6 +133,7 @@ export class InputBoxView {
 
         const input = this._textInput;
         const text = input.value;
+        // tslint:disable-next-line:no-non-null-assertion
         const channelId = this._domain.currentTab!.channelId;
         const id = channelId.expect('the input box cannot submitted if any channel is not selected');
 
@@ -172,8 +174,8 @@ export class InputBoxView {
             const isKeyL = (key === 'l' || keyCode === 76); // DOM_VK_L
 
             const shouldClear = (isKeyL && pressCtrlKey) ||
-                                (isKeyL && pressCtrlKey && pressShiftKey) ||
-                                (isKeyK && pressMetaKey);
+                (isKeyL && pressCtrlKey && pressShiftKey) ||
+                (isKeyK && pressMetaKey);
             if (!shouldClear) {
                 return;
             }
@@ -203,15 +205,18 @@ export class InputBoxView {
         }
         else {
             const newly = this._inputVal.suggstedIndex.unwrap() + 1;
+            // tslint:disable-next-line:no-non-null-assertion
             index = (newly > (this._lastSuggestionCache!.length - 1)) ? 0 : newly;
         }
 
+        // tslint:disable-next-line:no-non-null-assertion
         if (this._lastSuggestionCache!.length === 0) {
             return;
         }
 
         this._inputVal = new InputValue(this._inputVal.actual, new Some(index));
         this._isSuggestion = true;
+        // tslint:disable-next-line:no-non-null-assertion
         this._textInput.value = this._lastSuggestionCache![index];
         this._isSuggestion = false;
     }
@@ -237,7 +242,7 @@ export class InputBoxView {
 
     private _createSuggestion(value: string): Array<string> {
         const candidate: Array<string> = ([] as Array<string>).concat(words);
-        const users: Option<Array<User>> = this._currntChannel.map(function(channel){
+        const users: Option<Array<User>> = this._currntChannel.map(function (channel) {
             return channel.userList();
         });
 
@@ -248,7 +253,7 @@ export class InputBoxView {
             }
         }
 
-        return candidate.filter(function(word: string, item: string){
+        return candidate.filter(function (word: string, item: string) {
             return item.indexOf(word) === 0;
         }.bind(null, value.toLowerCase()));
     }

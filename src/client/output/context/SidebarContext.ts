@@ -26,15 +26,15 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as Rx from 'rxjs';
 
-import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
-import {UIActionCreator} from '../../intent/action/UIActionCreator';
+import { MessageActionCreator } from '../../intent/action/MessageActionCreator';
+import { UIActionCreator } from '../../intent/action/UIActionCreator';
 
-import {Sidebar} from '../view/Sidebar';
-import {SidebarStore, SidebarViewState} from '../viewmodel/SidebarStore';
+import { Sidebar } from '../view/Sidebar';
+import { SidebarStore, SidebarViewState } from '../viewmodel/SidebarStore';
 
-import {DomainState} from '../../domain/DomainState';
+import { DomainState } from '../../domain/DomainState';
 
-import {ViewContext} from '../../../lib/ViewContext';
+import { ViewContext } from '../../../lib/ViewContext';
 
 export class SidebarContext implements ViewContext {
 
@@ -47,6 +47,7 @@ export class SidebarContext implements ViewContext {
     }
 
     private _destroy(): void {
+        // tslint:disable-next-line:no-non-null-assertion
         this._viewDisposer!.unsubscribe();
         this._viewmodel.dispose();
     }
@@ -59,9 +60,9 @@ export class SidebarContext implements ViewContext {
         this._destroy();
     }
 
-    onResume(_mountpoint: Element): void {}
+    onResume(_mountpoint: Element): void { }
 
-    onSuspend(_mountpoint: Element): void {}
+    onSuspend(_mountpoint: Element): void { }
 
     private _mount(mountpoint: Element): Rx.Subscription {
         const observer: Rx.Subscriber<SidebarViewState> = Rx.Subscriber.create((model: SidebarViewState) => {
@@ -69,7 +70,7 @@ export class SidebarContext implements ViewContext {
                 model,
             });
             ReactDOM.render(view, mountpoint);
-        }, ()=> {}, () => {
+        }, () => { }, () => {
             ReactDOM.unmountComponentAtNode(mountpoint);
         });
         return this._viewmodel.subscribe(observer);

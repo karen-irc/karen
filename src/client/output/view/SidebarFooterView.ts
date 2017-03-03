@@ -25,10 +25,10 @@
 
 import * as Rx from 'rxjs';
 
-import {AppActionCreator} from '../../intent/action/AppActionCreator';
-import {UIActionCreator} from '../../intent/action/UIActionCreator';
+import { AppActionCreator } from '../../intent/action/AppActionCreator';
+import { UIActionCreator } from '../../intent/action/UIActionCreator';
 
-import {DomainState} from '../../domain/DomainState';
+import { DomainState } from '../../domain/DomainState';
 
 export class SidebarFooterView implements EventListenerObject {
 
@@ -61,26 +61,31 @@ export class SidebarFooterView implements EventListenerObject {
         this._lastSelectedElement = undefined;
 
         this._disposableSignIn = uiAction.dispatcher().showSignIn.subscribe(() => {
+            // tslint:disable-next-line:no-non-null-assertion
             this.selectElement(this._lastSelectedElement!, this._signinElement);
         });
 
         this._disposableSignout = this._appAction.dispatcher().signout.subscribe(() => {
+            // tslint:disable-next-line:no-non-null-assertion
             this.selectElement(this._lastSelectedElement!, this._signoutElement);
         });
 
-        this._disposableShowConnect = domain.getSelectedSetting().filter(function(id){
+        this._disposableShowConnect = domain.getSelectedSetting().filter(function (id) {
             return (id === 'connect');
         }).subscribe(() => {
+            // tslint:disable-next-line:no-non-null-assertion
             this.selectElement(this._lastSelectedElement!, this._connectElement);
         });
 
-        this._disposableShowSetting = domain.getSelectedSetting().filter(function(id){
+        this._disposableShowSetting = domain.getSelectedSetting().filter(function (id) {
             return (id === 'settings');
         }).subscribe(() => {
+            // tslint:disable-next-line:no-non-null-assertion
             this.selectElement(this._lastSelectedElement!, this._settingElement);
         });
 
         this._disposableSelectChannel = domain.getSelectedChannel().subscribe(() => {
+            // tslint:disable-next-line:no-non-null-assertion
             this.selectElement(this._lastSelectedElement!, undefined);
         });
 
