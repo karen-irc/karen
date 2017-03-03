@@ -36,6 +36,7 @@ export class ExAsyncIterable<T> implements AsyncIterable<T> {
 
     [Symbol.asyncIterator](): AsyncIterator<T> {
         if (this._operator === undefined) {
+            // tslint:disable-next-line:no-non-null-assertion
             return getAsyncIterator(this._source!);
         }
         else {

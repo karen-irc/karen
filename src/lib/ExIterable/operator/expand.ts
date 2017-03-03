@@ -1,6 +1,6 @@
-import {ExIterable} from '../ExIterable';
-import {Operator} from '../Operator';
-import {getIterator} from '../util';
+import { ExIterable } from '../ExIterable';
+import { Operator } from '../Operator';
+import { getIterator } from '../util';
 
 type ExpandSelectorFn<T> = (this: void, value: T) => Iterable<T>;
 
@@ -61,6 +61,7 @@ class ExpandIterator<T> implements Iterator<T> {
         while (queue.length > 0) {
             if (this._current === undefined) {
                 // XXX: queue is always have some element in this path.
+                // tslint:disable-next-line:no-non-null-assertion
                 const src: Iterator<T> = queue.shift()!;
                 this._current = src;
             }

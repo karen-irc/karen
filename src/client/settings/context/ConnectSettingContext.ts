@@ -27,14 +27,14 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as Rx from 'rxjs';
 
-import {ConnectSettingWindow} from '../view/ConnectSettingWindow';
+import { ConnectSettingWindow } from '../view/ConnectSettingWindow';
 
-import {MessageGateway} from '../../adapter/MessageGateway';
-import {ConnectionActionCreator} from '../intent/ConnectionSettingIntent';
-import {ConnectionStore} from '../viewmodel/ConnectionStore';
-import {ConnectionValue} from '../domain/value/ConnectionSettings';
+import { MessageGateway } from '../../adapter/MessageGateway';
+import { ConnectionActionCreator } from '../intent/ConnectionSettingIntent';
+import { ConnectionStore } from '../viewmodel/ConnectionStore';
+import { ConnectionValue } from '../domain/value/ConnectionSettings';
 
-import {ViewContext} from '../../../lib/ViewContext';
+import { ViewContext } from '../../../lib/ViewContext';
 
 export class ConnectSettingContext implements ViewContext {
 
@@ -53,6 +53,7 @@ export class ConnectSettingContext implements ViewContext {
     }
 
     private _destroy(): void {
+        // tslint:disable-next-line:no-non-null-assertion
         this._viewDisposer!.unsubscribe();
         this._store.dispose();
         this._action.dispose();
@@ -66,8 +67,8 @@ export class ConnectSettingContext implements ViewContext {
         this._destroy();
     }
 
-    onResume(_mountpoint: Element): void {}
-    onSuspend(_mountpoint: Element): void {}
+    onResume(_mountpoint: Element): void { }
+    onSuspend(_mountpoint: Element): void { }
 
     private _mount(mountpoint: Element): Rx.Subscription {
         const observer: Rx.Subscriber<ConnectionValue> = Rx.Subscriber.create((data: ConnectionValue) => {
@@ -77,7 +78,7 @@ export class ConnectSettingContext implements ViewContext {
                 data: data,
             });
             ReactDOM.render(view, mountpoint);
-        }, ()=> {}, () => {
+        }, () => { }, () => {
             ReactDOM.unmountComponentAtNode(mountpoint);
         });
         return this._store.subscribe(observer);

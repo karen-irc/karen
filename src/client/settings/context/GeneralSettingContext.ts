@@ -26,13 +26,13 @@
 
 import * as Rx from 'rxjs';
 
-import {NotificationActionCreator} from '../../intent/action/NotificationActionCreator';
+import { NotificationActionCreator } from '../../intent/action/NotificationActionCreator';
 
-import {ConfigRepository} from '../repository/ConfigRepository';
-import {GeneralSettingView} from '../view/GeneralSettingView';
-import {GeneralSettingViewModel} from '../viewmodel/GeneralSettingViewModel';
+import { ConfigRepository } from '../repository/ConfigRepository';
+import { GeneralSettingView } from '../view/GeneralSettingView';
+import { GeneralSettingViewModel } from '../viewmodel/GeneralSettingViewModel';
 
-import {ViewContext} from '../../../lib/ViewContext';
+import { ViewContext } from '../../../lib/ViewContext';
 
 export class GeneralSettingContext implements ViewContext {
 
@@ -60,6 +60,7 @@ export class GeneralSettingContext implements ViewContext {
 
     private _destroy(): void {
         this._disposer.unsubscribe();
+        // tslint:disable-next-line:no-non-null-assertion
         this._view!.destroy();
     }
 
@@ -71,6 +72,6 @@ export class GeneralSettingContext implements ViewContext {
         this._destroy();
     }
 
-    onResume(_mountpoint: Element): void {}
-    onSuspend(_mountpoint: Element): void {}
+    onResume(_mountpoint: Element): void { }
+    onSuspend(_mountpoint: Element): void { }
 }

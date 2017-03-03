@@ -10,6 +10,7 @@ export function map<T, U>(this: ExAsyncIterable<T>, selector: MapFn<T, U>): ExAs
     let op: Operator<T, U>;
     const operator: FilterOperator<T> = (this as any)._operator;
     if (operator instanceof FilterOperator) {
+        // tslint:disable-next-line:no-non-null-assertion
         op = new FilterMapOperator<T, U>((this as any)._source!, operator.filter, selector);
     }
     else {

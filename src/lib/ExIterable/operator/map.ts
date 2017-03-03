@@ -1,7 +1,7 @@
-import {ExIterable} from '../ExIterable';
-import {Operator} from '../Operator';
-import {FilterFn, FilterOperator} from './filter';
-import {getIterator} from '../util';
+import { ExIterable } from '../ExIterable';
+import { Operator } from '../Operator';
+import { FilterFn, FilterOperator } from './filter';
+import { getIterator } from '../util';
 
 type MapFn<T, U> = (this: void, v: T, index: number) => U;
 
@@ -10,6 +10,7 @@ export function map<T, U>(this: ExIterable<T>, selector: MapFn<T, U>): ExIterabl
     let op: Operator<T, U>;
     const operator: FilterOperator<T> = (this as any)._operator;
     if (operator instanceof FilterOperator) {
+        // tslint:disable-next-line:no-non-null-assertion
         op = new FilterMapOperator<T, U>((this as any)._source!, operator.filter, selector);
     }
     else {

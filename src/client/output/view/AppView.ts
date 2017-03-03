@@ -25,9 +25,9 @@
 
 import * as Rx from 'rxjs';
 
-import {ReactiveProperty} from '../../../lib/ReactiveProperty';
+import { ReactiveProperty } from '../../../lib/ReactiveProperty';
 
-import {UIActionCreator} from '../../intent/action/UIActionCreator';
+import { UIActionCreator } from '../../intent/action/UIActionCreator';
 
 class AppViewModel {
 
@@ -80,6 +80,7 @@ export class AppView {
             .distinctUntilChanged()
             .subscribe((shouldOpen: boolean) => {
                 const className = 'lt';
+                // tslint:disable-next-line:no-non-null-assertion
                 const classList = this._element!.classList;
                 if (shouldOpen) {
                     classList.add(className);
@@ -93,6 +94,7 @@ export class AppView {
     private _toggleRightPane(): Rx.Subscription {
         return this._vm.isOpenedRightPane.asObservable().subscribe((shouldOpen: boolean) => {
             const className = 'rt';
+            // tslint:disable-next-line:no-non-null-assertion
             const classList = this._element!.classList;
             if (shouldOpen) {
                 classList.add(className);
@@ -104,6 +106,7 @@ export class AppView {
     }
 
     private _handleClickEvent(): Rx.Subscription {
+        // tslint:disable-next-line:no-non-null-assertion
         return Rx.Observable.fromEvent<Element>(this._element!, 'click', (event: UIEvent) => event.target as Element)
             .filter((target: Element): boolean => (target.localName === 'button'))
             .subscribe((target: Element) => {

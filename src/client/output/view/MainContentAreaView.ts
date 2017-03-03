@@ -27,26 +27,26 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rxjs';
 
-import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
+import { MessageActionCreator } from '../../intent/action/MessageActionCreator';
 
-import {ChatWindowItem, ChatWindowList} from './ChatWindowItem';
-import {ConnectSettingContext} from '../../settings/context/ConnectSettingContext';
-import {MessageContentView} from './MessageContentView';
-import {SignInView} from '../../settings/view/SignInView';
+import { ChatWindowItem, ChatWindowList } from './ChatWindowItem';
+import { ConnectSettingContext } from '../../settings/context/ConnectSettingContext';
+import { MessageContentView } from './MessageContentView';
+import { SignInView } from '../../settings/view/SignInView';
 
-import {CookieDriver} from '../../adapter/CookieDriver';
-import {MessageGateway} from '../../adapter/MessageGateway';
-import {DomainState} from '../../domain/DomainState';
-import {Channel} from '../../domain/Channel';
-import {ChannelDomain, ChannelId} from '../../domain/ChannelDomain';
-import {NetworkDomain} from '../../domain/NetworkDomain';
-import {UIActionCreator} from '../../intent/action/UIActionCreator';
+import { CookieDriver } from '../../adapter/CookieDriver';
+import { MessageGateway } from '../../adapter/MessageGateway';
+import { DomainState } from '../../domain/DomainState';
+import { Channel } from '../../domain/Channel';
+import { ChannelDomain, ChannelId } from '../../domain/ChannelDomain';
+import { NetworkDomain } from '../../domain/NetworkDomain';
+import { UIActionCreator } from '../../intent/action/UIActionCreator';
 
 const CONNECT_INSERTION_POINT_ID = '#js-insertion-point-connect';
 
-function arrayFlatMap<T, U>(target: Array<T>, fn: (value: T) => Array<U>) : Array<U> {
-    return target.reduce(function (result : Array<U>, element : T) {
-        const mapped : Array<U> = fn(element);
+function arrayFlatMap<T, U>(target: Array<T>, fn: (value: T) => Array<U>): Array<U> {
+    return target.reduce(function (result: Array<U>, element: T) {
+        const mapped: Array<U> = fn(element);
         return result.concat(mapped);
     }, []);
 }
@@ -63,13 +63,14 @@ export class MainContentAreaView {
     private _connect: ConnectSettingContext;
 
     constructor(domain: DomainState, element: Element, cookie: CookieDriver,
-                gateway: MessageGateway, messageAction: MessageActionCreator, uiAction: UIActionCreator) {
+        gateway: MessageGateway, messageAction: MessageActionCreator, uiAction: UIActionCreator) {
         this._uiAction = uiAction;
         this._element = element;
         this._channelMap = new Map();
 
         const disposer = new Rx.Subscription();
         this._disposer = disposer;
+        // tslint:disable-next-line:no-non-null-assertion
         this._chatContentArea = element.querySelector('#chat')!;
 
         const networkDomain = domain.getNetworkDomain();
@@ -94,6 +95,7 @@ export class MainContentAreaView {
             this._channelMap.delete(id);
 
             const element = view.getElement();
+            // tslint:disable-next-line:no-non-null-assertion
             element.parentNode!.removeChild(element);
 
             view.dispose();
@@ -106,6 +108,7 @@ export class MainContentAreaView {
             for (const channel of channelList) {
                 const id = channel.getId();
                 const dom = document.getElementById('js-chan-' + String(id));
+                // tslint:disable-next-line:no-non-null-assertion
                 const view = new MessageContentView(channel, dom!, messageAction, uiAction);
                 this._channelMap.set(id, view);
             }
@@ -118,7 +121,7 @@ export class MainContentAreaView {
                 return;
             }
 
-            const channels: Array<Channel> = arrayFlatMap(initState.domain, function(domain: NetworkDomain){
+            const channels: Array<Channel> = arrayFlatMap(initState.domain, function (domain: NetworkDomain) {
                 const network = domain.getValue();
                 return network.getChannelList();
             });
@@ -126,9 +129,11 @@ export class MainContentAreaView {
             this._renderChannelList(channels);
         }));
 
+        // tslint:disable-next-line:no-non-null-assertion
         this._signin = new SignInView(element.querySelector('#sign-in')!, cookie, gateway.socket());
 
         this._connect = new ConnectSettingContext(gateway);
+        // tslint:disable-next-line:no-non-null-assertion
         this._connect.onActivate(element.querySelector(CONNECT_INSERTION_POINT_ID)!);
     }
 

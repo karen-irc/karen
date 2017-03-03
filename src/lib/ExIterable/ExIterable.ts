@@ -1,5 +1,5 @@
-import {Operator} from './Operator';
-import {getIterator} from './util';
+import { Operator } from './Operator';
+import { getIterator } from './util';
 
 /**
  *  This provides extensions for ECMA262 2015's iterator.
@@ -57,6 +57,7 @@ export class ExIterable<T> implements Iterable<T> {
 
     [Symbol.iterator](): Iterator<T> {
         if (this._operator === undefined) {
+            // tslint:disable-next-line:no-non-null-assertion
             return getIterator(this._source!);
         }
         else {

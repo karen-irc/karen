@@ -23,16 +23,16 @@
  * THE SOFTWARE.
  */
 
-import {Option} from 'option-t';
+import { Option } from 'option-t';
 import * as Rx from 'rxjs';
 
-import {AppActionCreator} from '../intent/action/AppActionCreator';
-import {Channel} from '../domain/Channel';
-import {ChannelId} from '../domain/ChannelDomain';
-import {DomainState, SelectedTab} from '../domain/DomainState';
-import {RecievedMessage} from '../domain/Message';
-import {NotificationActionCreator} from '../intent/action/NotificationActionCreator';
-import {UIActionCreator} from '../intent/action/UIActionCreator';
+import { AppActionCreator } from '../intent/action/AppActionCreator';
+import { Channel } from '../domain/Channel';
+import { ChannelId } from '../domain/ChannelDomain';
+import { DomainState, SelectedTab } from '../domain/DomainState';
+import { RecievedMessage } from '../domain/Message';
+import { NotificationActionCreator } from '../intent/action/NotificationActionCreator';
+import { UIActionCreator } from '../intent/action/UIActionCreator';
 
 const BASE_TITLE = 'karen';
 
@@ -54,7 +54,7 @@ export class WindowPresenter implements EventListenerObject {
             location.reload();
         }));
 
-        this._disposer.add(uiAction.dispatcher().focusWindow.subscribe(function(){
+        this._disposer.add(uiAction.dispatcher().focusWindow.subscribe(function () {
             window.focus();
         }));
 
@@ -69,7 +69,7 @@ export class WindowPresenter implements EventListenerObject {
             this._currenTab = tab;
         }));
 
-        this._disposer.add(domain.recievedNotifiableMessage().subscribe(function(data: RecievedMessage): void {
+        this._disposer.add(domain.recievedNotifiableMessage().subscribe(function (data: RecievedMessage): void {
             if (document.hasFocus()) {
                 return;
             }
@@ -140,7 +140,7 @@ export class WindowPresenter implements EventListenerObject {
     onKeydown(event: KeyboardEvent): void {
         const isPressedMeta = event.metaKey;
         const isPressedCtrl = event.ctrlKey;
-        if ( !(isPressedMeta || isPressedCtrl) ) {
+        if (!(isPressedMeta || isPressedCtrl)) {
             return;
         }
 
@@ -165,8 +165,9 @@ export class WindowPresenter implements EventListenerObject {
 
     handleShortcut(event: KeyboardEvent, key: string): void {
         const channelList: Array<Channel> = this._domain.networkSet.getChannelList();
-        const currentIndex: Option<ChannelId> = this._domain.currentTab!.channelId.map(function(currentId: ChannelId): number {
-            const result = channelList.findIndex(function(channel: Channel){
+        // tslint:disable-next-line:no-non-null-assertion
+        const currentIndex: Option<ChannelId> = this._domain.currentTab!.channelId.map(function (currentId: ChannelId): number {
+            const result = channelList.findIndex(function (channel: Channel) {
                 return channel.id === currentId;
             });
             if (result === undefined) {
@@ -207,6 +208,7 @@ export class WindowPresenter implements EventListenerObject {
     }
 
     onFocus(_: FocusEvent): void {
+        // tslint:disable-next-line:no-non-null-assertion
         if (this._currenTab!.channelId.isNone && window.screen.width < 767) {
             return;
         }

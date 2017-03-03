@@ -1,16 +1,16 @@
-import {ExIterable} from '../ExIterable';
-import {Operator} from '../Operator';
-import {getIterator} from '../util';
+import { ExIterable } from '../ExIterable';
+import { Operator } from '../Operator';
+import { getIterator } from '../util';
 
 type JoinKeySelector<T, R> = (this: void, v: T) => R;
 type JoinResultSelector<T1, T2, R> = (this: void, outer: T1, inner: T2) => R;
 
 // tslint:disable:no-invalid-this
 export function join<TOuter, TInner, TKey, TResult>(this: ExIterable<TOuter>,
-                                                    inner: Iterable<TInner>,
-                                                    outerkey: JoinKeySelector<TOuter, TKey>,
-                                                    innerKey: JoinKeySelector<TInner, TKey>,
-                                                    result: JoinResultSelector<TOuter, TInner, TResult>): ExIterable<TResult> {
+    inner: Iterable<TInner>,
+    outerkey: JoinKeySelector<TOuter, TKey>,
+    innerKey: JoinKeySelector<TInner, TKey>,
+    result: JoinResultSelector<TOuter, TInner, TResult>): ExIterable<TResult> {
     const op = new JoinOperator<TOuter, TInner, TKey, TResult>(this, inner, outerkey, innerKey, result);
     const lifted = this.lift<TResult>(op);
     return lifted;
@@ -26,10 +26,10 @@ class JoinOperator<TOuter, TInner, TKey, TResult> implements Operator<TOuter, TR
     private _resultSelector: JoinResultSelector<TOuter, TInner, TResult>;
 
     constructor(outer: Iterable<TOuter>,
-                inner: Iterable<TInner>,
-                outerkeySelector: JoinKeySelector<TOuter, TKey>,
-                innerKeySelector: JoinKeySelector<TInner, TKey>,
-                resultSelector: JoinResultSelector<TOuter, TInner, TResult>) {
+        inner: Iterable<TInner>,
+        outerkeySelector: JoinKeySelector<TOuter, TKey>,
+        innerKeySelector: JoinKeySelector<TInner, TKey>,
+        resultSelector: JoinResultSelector<TOuter, TInner, TResult>) {
         this._outer = outer;
         this._inner = inner;
         this._outerKeySelector = outerkeySelector;
@@ -39,10 +39,10 @@ class JoinOperator<TOuter, TInner, TKey, TResult> implements Operator<TOuter, TR
 
     call(): Iterator<TResult> {
         const iter = new JoinIterator<TOuter, TInner, TKey, TResult>(getIterator(this._outer),
-                                                                     this._inner,
-                                                                     this._outerKeySelector,
-                                                                     this._innerKeySelector,
-                                                                     this._resultSelector);
+            this._inner,
+            this._outerKeySelector,
+            this._innerKeySelector,
+            this._resultSelector);
         return iter;
     }
 }
@@ -60,10 +60,10 @@ export class JoinIterator<TOuter, TInner, TKey, TResult> implements Iterator<TRe
     private _outerResult: TOuter | undefined;
 
     constructor(outer: Iterator<TOuter>,
-                inner: Iterable<TInner>,
-                outerkeySelector: JoinKeySelector<TOuter, TKey>,
-                innerKeySelector: JoinKeySelector<TInner, TKey>,
-                resultSelector: JoinResultSelector<TOuter, TInner, TResult>) {
+        inner: Iterable<TInner>,
+        outerkeySelector: JoinKeySelector<TOuter, TKey>,
+        innerKeySelector: JoinKeySelector<TInner, TKey>,
+        resultSelector: JoinResultSelector<TOuter, TInner, TResult>) {
         this._outer = outer;
         this._inner = inner;
         this._outerKeySelector = outerkeySelector;
@@ -133,6 +133,7 @@ export class JoinIterator<TOuter, TInner, TKey, TResult> implements Iterator<TRe
         }
 
         // XXX: we cannot check `outerResult` because it might be `undefined`.
+        // tslint:disable-next-line:no-non-null-assertion
         const outerResult = this._outerResult!;
         const innerItem = innerResult.value;
         const finalResult: TResult = resultSelector(outerResult, innerItem);

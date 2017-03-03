@@ -28,14 +28,14 @@ import * as ReactDOM from 'react-dom';
 import * as ReactDOMServer from 'react-dom/server';
 import * as Rx from 'rxjs';
 
-import {MessageItem} from './MessageItem';
-import {UserList} from './UserList';
+import { MessageItem } from './MessageItem';
+import { UserList } from './UserList';
 
-import {ChannelDomain, ChannelId} from '../../domain/ChannelDomain';
-import {Message} from '../../domain/Message';
-import {User} from '../../domain/User';
-import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
-import {UIActionCreator} from '../../intent/action/UIActionCreator';
+import { ChannelDomain, ChannelId } from '../../domain/ChannelDomain';
+import { Message } from '../../domain/Message';
+import { User } from '../../domain/User';
+import { MessageActionCreator } from '../../intent/action/MessageActionCreator';
+import { UIActionCreator } from '../../intent/action/UIActionCreator';
 
 export class MessageContentView {
 
@@ -57,12 +57,19 @@ export class MessageContentView {
         this._channelId = domain.getId();
 
         this._element = element;
+        // tslint:disable-next-line:no-non-null-assertion
         this._userElement = this._element.querySelector('.js-users')!;
+        // tslint:disable-next-line:no-non-null-assertion
         this._topicElement = this._element.querySelector('.js-topic')!;
+        // tslint:disable-next-line:no-non-null-assertion
         this._messageArea = this._element.querySelector('.chat')!;
+        // tslint:disable-next-line:no-non-null-assertion
         this._messageContainer = this._element.querySelector('.messages')!;
+        // tslint:disable-next-line:no-non-null-assertion
         this._showMore = this._element.querySelector('.show-more')!;
+        // tslint:disable-next-line:no-non-null-assertion
         this._showMoreButtonElement = this._element.querySelector('.show-more-button')!;
+        // tslint:disable-next-line:no-non-null-assertion
         this._closeButton = this._element.querySelector('.js-chatwindow-close')!;
 
         const disposer = new Rx.Subscription();
@@ -112,17 +119,18 @@ export class MessageContentView {
             this._showMoreButton();
         }));
 
-       disposer.add(Rx.Observable.interval(10 * 1000).subscribe(() => {
-           const target = this._element;
-           const children = Array.from(target.childNodes).slice(0, -100);
-           for (const element of children) {
-               element.parentNode!.removeChild(element);
-           }
+        disposer.add(Rx.Observable.interval(10 * 1000).subscribe(() => {
+            const target = this._element;
+            const children = Array.from(target.childNodes).slice(0, -100);
+            for (const element of children) {
+                // tslint:disable-next-line:no-non-null-assertion
+                element.parentNode!.removeChild(element);
+            }
 
-           if (children.length) {
-               this._showMoreButton();
-           }
-       }));
+            if (children.length) {
+                this._showMoreButton();
+            }
+        }));
     }
 
     dispose(): void {
@@ -175,6 +183,7 @@ export class MessageContentView {
     }
 
     private _toggleInlineContentContainer(element: Element): void {
+        // tslint:disable-next-line:no-non-null-assertion
         const container = element.parentNode!.nextSibling;
         (container as Element).classList.toggle('show');
     }
