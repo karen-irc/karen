@@ -310,6 +310,7 @@ module.exports = {
             'allow': [],
             'int32Hint': true,
         }],
+        'no-compare-neg-zero': 1,
         'no-continue': 0, // http://eslint.org/docs/rules/no-continue
         'no-inline-comments': 0, // http://eslint.org/docs/rules/no-inline-comments
         'no-lonely-if': 1, // http://eslint.org/docs/rules/no-lonely-if
@@ -333,6 +334,7 @@ module.exports = {
         }],
         'no-unneeded-ternary': 2,
         'no-whitespace-before-property': 1,
+        'nonblock-statement-body-position': 0,
         'object-curly-newline': 0, // http://eslint.org/docs/rules/object-curly-newline
         'object-curly-spacing': 0, // http://eslint.org/docs/rules/object-curly-spacing
         'object-property-newline': 0, // I feel this is a trivial problem.
