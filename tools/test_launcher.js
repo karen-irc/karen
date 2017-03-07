@@ -40,7 +40,7 @@ const repoRootDir = path.resolve(__dirname, '..');
 const EVENT_GRACEFUL_KILL = 'kill-all';
 const master = new EventEmitter();
 
-function spawn(name, args, option) {
+async function spawn(name, args, option) {
     const { process: proc, canceller, } = spawnCancelableChild(name, args, option);
 
     const killSelf = function() {
@@ -53,22 +53,20 @@ function spawn(name, args, option) {
         master.emit(EVENT_GRACEFUL_KILL);
     };
 
-    return proc
-        .then((signal) => {
-            onExit();
-            return signal;
-        }).then(assertReturnCode);
+    const status = await proc;
+    onExit();
+    return assertReturnCode(status);
 }
 
-function runNodeModCommand(name, args) {
+async function runNodeModCommand(name, args) {
     const cmd = getSuffixedCommandName(name);
     const bin = path.resolve(repoRootDir, 'node_modules', '.bin', cmd);
-    const proc = spawn(bin, args, {
+    const status = await spawn(bin, args, {
         stdio: 'inherit',
     });
-    return proc;
+    return status;
 }
-function runMockServer(origin) {
+async function runMockServer(origin) {
     const mock = spawn('node', [path.resolve(repoRootDir, 'src', 'mock', 'server.js')], {
         stdio: 'inherit',
         env: Object.assign(process.env, {
@@ -77,7 +75,8 @@ function runMockServer(origin) {
         }),
     });
     console.log('you can access mock server with `localhost:' + String(origin.port) + '`');
-    return mock;
+    const status = await mock;
+    return status;
 }
 function runMocha(args) {
     return runNodeModCommand('mocha', args);
@@ -104,7 +103,7 @@ function launchForNode(target) {
     return [mocha, firstMock, secondMock];
 }
 
-(function main(){
+(async function main(){
     const testManifest = argv.manifest;
     assert.strictEqual(typeof testManifest, 'string', 'You must specify a test file by `--manifest` option.');
 
@@ -114,9 +113,11 @@ function launchForNode(target) {
     });
 
     const children = launchForNode(testManifest);
-    Promise.all(children).then(function(){
+    try {
+        await Promise.all(children);
         process.exit();
-    }, (e) => {
+    }
+    catch (e) {
         process.exit(e);
-    });
+    }
 })();
