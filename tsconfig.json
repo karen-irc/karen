@@ -4,7 +4,7 @@
         "allowSyntheticDefaultImports": false,
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
-        // "alwaysStrict": true,
+        // "alwaysStrict": true, // Covered by `strict` option.
         "diagnostics": false,
         "downlevelIteration": false,
         "forceConsistentCasingInFileNames": true,
@@ -20,9 +20,9 @@
         "newLine": "LF",
         "noEmitHelpers": false, // see: https://github.com/Microsoft/TypeScript/issues/3364
         "noFallthroughCasesInSwitch": true,
-        "noImplicitAny": true,
+        // "noImplicitAny": true, // Covered by `strict` option.
         "noImplicitReturns": true,
-        "noImplicitThis": true,
+        // "noImplicitThis": true, // Covered by `strict` option.
         "noImplicitUseStrict": false,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
@@ -32,7 +32,8 @@
         "preserveConstEnums": true,
         "removeComments": false,
         "sourceMap": true,
-        "strictNullChecks": true,
+        "strict": true,
+        // "strictNullChecks": true, // Covered by `strict` option.
         "suppressImplicitAnyIndexErrors": false,
         "target": "esnext",
         "types": [ // for d.ts which affects global environment.
