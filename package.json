@@ -70,7 +70,7 @@
     "compression": "^1.6.2",
     "cookies-js": "^1.2.3",
     "cpx": "^1.5.0",
-    "cross-env": "^3.2.3",
+    "cross-env": "^3.2.4",
     "del": "^2.2.2",
     "eslint": "^3.18.0",
     "eslint-plugin-node": "^4.2.1",
