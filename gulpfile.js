@@ -135,7 +135,6 @@ function buildDistClient() {
     return runLinkerForClient(CWD, NPM_MOD_DIR, ENTRY_POINT, DIST_CLIENT);
 }
 gulp.task('build_dist_client', ['clean_dist_client', 'build_obj_client', 'build_obj_lib'], buildDistClient);
-gulp.task('makefile:build_dist_client', [], buildDistClient);
 
 
 function buildLegacyLib() {
