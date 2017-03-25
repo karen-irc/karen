@@ -36,13 +36,13 @@ DIST_DIR := $(CURDIR)/__dist
 TEST_CACHE_DIR := $(CURDIR)/__test_cache
 
 OBJ_CLIENT := $(OBJ_DIR)/client
-OBJ_LIB := $(OBJ_LIB)/lib
-OBJ_SERVER := $(OBJ_SERVER)/server
+OBJ_LIB := $(OBJ_DIR)/lib
+OBJ_SERVER := $(OBJ_DIR)/server
 
 DIST_CLIENT := $(DIST_DIR)/client
-DIST_LIB := $(OBJ_DIR)/lib
-DIST_SERVER := $(OBJ_DIR)/server
-DIST_STYLE := $(OBJ_DIR)/style
+DIST_LIB := $(DIST_DIR)/lib
+DIST_SERVER := $(DIST_DIR)/server
+DIST_STYLE := $(DIST_DIR)/style
 
 TEST_CACHE_CLIENT := $(TEST_CACHE_DIR)/client
 TEST_CACHE_LIB := $(TEST_CACHE_DIR)/lib
