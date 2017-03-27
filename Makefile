@@ -36,13 +36,13 @@ DIST_DIR := $(CURDIR)/__dist
 TEST_CACHE_DIR := $(CURDIR)/__test_cache
 
 OBJ_CLIENT := $(OBJ_DIR)/client
-OBJ_LIB := $(OBJ_LIB)/lib
-OBJ_SERVER := $(OBJ_SERVER)/server
+OBJ_LIB := $(OBJ_DIR)/lib
+OBJ_SERVER := $(OBJ_DIR)/server
 
 DIST_CLIENT := $(DIST_DIR)/client
-DIST_LIB := $(OBJ_DIR)/lib
-DIST_SERVER := $(OBJ_DIR)/server
-DIST_STYLE := $(OBJ_DIR)/style
+DIST_LIB := $(DIST_DIR)/lib
+DIST_SERVER := $(DIST_DIR)/server
+DIST_STYLE := $(DIST_DIR)/style
 
 TEST_CACHE_CLIENT := $(TEST_CACHE_DIR)/client
 TEST_CACHE_LIB := $(TEST_CACHE_DIR)/lib
@@ -148,7 +148,10 @@ build_env_%:
 build: lint build_dist_client build_dist_server build_dist_legacy_lib
 
 build_dist_client: clean_dist_client build_obj_client build_obj_lib
-	$(NPM_BIN)/gulp makefile:$@
+	$(NPM_BIN)/cross-env \
+		KAREN_ENTRY_POINT=$(OBJ_CLIENT)/karen.js \
+		KAREN_CLIENT_DIST_DIR=$(DIST_CLIENT) \
+		$(NPM_BIN)/webpack --config $(CURDIR)/webpack.config.js
 
 build_dist_legacy_lib: clean_dist_client
 	$(NPM_BIN)/gulp makefile:$@
@@ -168,8 +171,8 @@ build_obj_lib: tsc cp_obj_lib
 tsc: clean_obj_client clean_obj_lib clean_obj_server
 	$(NPM_BIN)/tsc --project $(CURDIR)/tsconfig.json
 
-cp_obj_%: eslint clean_obj_client
-	$(NPM_BIN)/cpx '$(CURDIR)/src/$*/**/*.@(js|jsx)' $(OBJ_DIR) --preserve
+cp_obj_%: eslint clean_obj_%
+	$(NPM_BIN)/cpx '$(CURDIR)/src/$*/**/*.@(js|jsx)' $(OBJ_DIR)/$* --preserve
 
 
 ####################################
