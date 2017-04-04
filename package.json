@@ -101,7 +101,7 @@
     "socket.io-client": "^1.7.3",
     "spdy": "^3.4.4",
     "stylelint": "^7.10.1",
-    "tslint": "^4.5.1",
+    "tslint": "^5.0.0",
     "typescript": "next",
     "urijs": "^1.18.10",
     "webpack": "^2.3.3",

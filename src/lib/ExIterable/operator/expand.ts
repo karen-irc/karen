@@ -13,7 +13,7 @@ export function expand<T>(this: ExIterable<T>, selector: ExpandSelectorFn<T>): E
 
 class ExpandOperator<T> implements Operator<T, T> {
     private _source: Iterable<T>;
-    private _selector: ExpandSelectorFn<T>;;
+    private _selector: ExpandSelectorFn<T>;
 
     constructor(source: Iterable<T>, selector: ExpandSelectorFn<T>) {
         this._source = source;
