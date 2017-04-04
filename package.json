@@ -100,7 +100,7 @@
     "socket.io": "^1.7.3",
     "socket.io-client": "^1.7.3",
     "spdy": "^3.4.4",
-    "stylelint": "^7.9.0",
+    "stylelint": "^7.10.1",
     "tslint": "^4.5.1",
     "typescript": "next",
     "urijs": "^1.18.10",

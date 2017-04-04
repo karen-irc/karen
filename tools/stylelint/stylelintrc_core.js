@@ -22,6 +22,7 @@ module.exports = {
         }],
         'at-rule-no-vendor-prefix': true,
         'at-rule-semicolon-newline-after': 'always',
+        'at-rule-semicolon-space-before': 'never',
         // 'at-rule-whitelist': [],
         // 'block-closing-brace-empty-line-before': 'always-multi-line'|'never',
         'block-closing-brace-newline-after': 'always',
@@ -92,7 +93,9 @@ module.exports = {
         'indentation': 4,
         'keyframe-declaration-no-important': true,
         // 'length-zero-no-unit': true,
-        'max-empty-lines': 2,
+        'max-empty-lines': [2, {
+            'ignore': ['comments']
+        }],
         // 'max-line-length': int,
         'media-feature-colon-space-after': 'always',
         'media-feature-colon-space-before': 'never',
@@ -162,6 +165,8 @@ module.exports = {
         'selector-pseudo-element-no-unknown': true,
         'selector-type-case': 'lower',
         'selector-type-no-unknown': [true, {
+            'ignore': ['default-namespace'],
+            'ignoreNamespaces': [],
             'ignoreTypes': [],
         }],
         'shorthand-property-no-redundant-values': [true, {
