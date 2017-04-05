@@ -13,7 +13,7 @@ export function excavate<T>(this: ExIterable<T>, selector: ExcavateSelectorFn<T>
 
 class ExcavateOperator<T> implements Operator<T, T> {
     private _source: Iterable<T>;
-    private _selector: ExcavateSelectorFn<T>;;
+    private _selector: ExcavateSelectorFn<T>;
 
     constructor(source: Iterable<T>, selector: ExcavateSelectorFn<T>) {
         this._source = source;
