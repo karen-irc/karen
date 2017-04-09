@@ -5,6 +5,13 @@ language: node_js
 node_js:
   - "7"
 
+cache:
+  yarn: true
+
+notifications:
+  email: false
+  webhooks: http://cq-dokidokivisual.rhcloud.com/travis
+
 before_install:
   # Use the latest yarnpkg because Travis' builtin yarn is not the latest.
   - curl -o- -L https://yarnpkg.com/install.sh | bash
@@ -16,15 +23,3 @@ before_script:
   # - yarn install # TravisCI runs `yarn` in install phase.
   - npm run build
   - ./index.js init
-
-notifications:
-  email: false
-  webhooks: http://cq-dokidokivisual.rhcloud.com/travis
-
-# blacklist
-branches:
-  except:
-    - tmp
-
-cache:
-  yarn: true
