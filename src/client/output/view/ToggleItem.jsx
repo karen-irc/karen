@@ -24,6 +24,7 @@
  */
 
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 export function ToggleItem({ item }) {
     let content = null;
@@ -57,5 +58,5 @@ export function ToggleItem({ item }) {
     );
 }
 ToggleItem.propTypes = {
-    item: React.PropTypes.object.isRequired,
+    item: PropTypes.object.isRequired,
 };

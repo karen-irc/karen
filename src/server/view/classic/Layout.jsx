@@ -24,6 +24,7 @@
  */
 
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 export function Layout(props) {
     return (
@@ -37,5 +38,5 @@ export function Layout(props) {
 Layout.propTypes = {
     // This is an opaque data structure.
     // see https://facebook.github.io/react/docs/multiple-components.html
-    children: React.PropTypes.any.isRequired,
+    children: PropTypes.any.isRequired,
 };

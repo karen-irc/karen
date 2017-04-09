@@ -24,6 +24,7 @@
  */
 
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import {User} from '../../domain/User';
 
 import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
@@ -119,9 +120,9 @@ export class UserList extends React.Component {
     }
 }
 UserList.propTypes = {
-    channelId: React.PropTypes.number.isRequired,
-    list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(User)).isRequired,
-    action: React.PropTypes.instanceOf(MessageActionCreator).isRequired,
+    channelId: PropTypes.number.isRequired,
+    list: PropTypes.arrayOf(PropTypes.instanceOf(User)).isRequired,
+    action: PropTypes.instanceOf(MessageActionCreator).isRequired,
 };
 
 function UserGroup({ channelId, mode, list, action }) {
@@ -136,10 +137,10 @@ function UserGroup({ channelId, mode, list, action }) {
     );
 }
 UserGroup.propTypes = {
-    channelId: React.PropTypes.number.isRequired,
-    mode: React.PropTypes.string.isRequired,
-    list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(User)).isRequired,
-    action: React.PropTypes.instanceOf(MessageActionCreator).isRequired,
+    channelId: PropTypes.number.isRequired,
+    mode: PropTypes.string.isRequired,
+    list: PropTypes.arrayOf(PropTypes.instanceOf(User)).isRequired,
+    action: PropTypes.instanceOf(MessageActionCreator).isRequired,
 };
 
 class UserItem extends React.Component {
@@ -186,7 +187,7 @@ class UserItem extends React.Component {
     }
 }
 UserItem.propTypes = {
-    channelId: React.PropTypes.number.isRequired,
-    user: React.PropTypes.instanceOf(User).isRequired,
-    action: React.PropTypes.instanceOf(MessageActionCreator).isRequired,
+    channelId: PropTypes.number.isRequired,
+    user: PropTypes.instanceOf(User).isRequired,
+    action: PropTypes.instanceOf(MessageActionCreator).isRequired,
 };

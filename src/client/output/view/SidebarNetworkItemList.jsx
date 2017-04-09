@@ -25,6 +25,7 @@
 
 import {OptionBase} from 'option-t';
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
 import {UIActionCreator} from '../../intent/action/UIActionCreator';
@@ -67,10 +68,10 @@ export function SidebarNetworkItem(props) {
     );
 }
 SidebarNetworkItem.propTypes = {
-    network: React.PropTypes.instanceOf(Network).isRequired,
-    selectedId: React.PropTypes.instanceOf(OptionBase).isRequired,
-    notableChannelSet: React.PropTypes.instanceOf(Set).isRequired,
-    unreadCountMap: React.PropTypes.instanceOf(Map).isRequired,
-    msgAction: React.PropTypes.instanceOf(MessageActionCreator).isRequired,
-    uiAction: React.PropTypes.instanceOf(UIActionCreator).isRequired,
+    network: PropTypes.instanceOf(Network).isRequired,
+    selectedId: PropTypes.instanceOf(OptionBase).isRequired,
+    notableChannelSet: PropTypes.instanceOf(Set).isRequired,
+    unreadCountMap: PropTypes.instanceOf(Map).isRequired,
+    msgAction: PropTypes.instanceOf(MessageActionCreator).isRequired,
+    uiAction: PropTypes.instanceOf(UIActionCreator).isRequired,
 };
