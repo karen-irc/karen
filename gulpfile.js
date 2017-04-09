@@ -31,8 +31,6 @@ const path = require('path');
 const {
     compileScriptForServer,
 } = require('./tools/build/script');
-const { getSuffixedCommandName } = require('./tools/platform');
-const { spawnChildProcess, assertReturnCode } = require('./tools/spawn');
 
 const NPM_MOD_DIR = path.resolve(__dirname, './node_modules/');
 
@@ -44,36 +42,12 @@ const OBJ_CLIENT = path.resolve(OBJ_DIR, './client/');
 const OBJ_LIB = path.resolve(OBJ_DIR, './lib/');
 const OBJ_SERVER = path.resolve(OBJ_DIR, './server/');
 
-const DIST_CLIENT = path.resolve(DIST_DIR, './client/');
 const DIST_SERVER = path.resolve(DIST_DIR, './server/');
 
 const TEST_CACHE_CLIENT = path.resolve(TEST_CACHE_DIR, './client/');
 const TEST_CACHE_LIB = path.resolve(TEST_CACHE_DIR, './lib/');
 
 const CWD = path.relative(__dirname, '');
-
-/**
- *  @param  {string}    cmd
- *  @param  {Array<string>} args
- *  @return     {PromiseLike<number>}
- */
-function execNpmCmd(cmd, args) {
-    const command = getSuffixedCommandName(cmd);
-    const bin = path.resolve(NPM_MOD_DIR, '.bin', command);
-    const option = {
-        cwd: CWD,
-        stdio: 'inherit',
-    };
-    return spawnChildProcess(bin, args, option).then(assertReturnCode);
-}
-
-function buildLegacyLib() {
-    return execNpmCmd('cpx', [
-        path.resolve(NPM_MOD_DIR, './moment/min/moment.min.js'),
-        DIST_CLIENT,
-    ]);
-}
-gulp.task('makefile:build_dist_legacy_lib', [], buildLegacyLib);
 
 function buildDistServer() {
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, DIST_SERVER);

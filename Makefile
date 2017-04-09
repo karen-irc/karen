@@ -154,7 +154,7 @@ build_dist_client: clean_dist_client build_obj_client build_obj_lib
 		$(NPM_BIN)/webpack --config $(CURDIR)/webpack.config.js
 
 build_dist_legacy_lib: clean_dist_client
-	$(NPM_BIN)/gulp makefile:$@
+	$(NPM_BIN)/cpx $(NPM_MOD)/moment/min/moment.min.js $(DIST_CLIENT)
 
 build_dist_server: clean_dist_server build_obj_server build_obj_lib
 	$(NPM_BIN)/gulp makefile:$@
