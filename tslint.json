@@ -1,4 +1,5 @@
 {
+    "defaultSeverity": "warn",
     "rules": {
         "adjacent-overload-signatures": true,
         "array-type": false,
