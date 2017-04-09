@@ -3673,9 +3673,9 @@ optimist@~0.6.0:
     minimist "~0.0.1"
     wordwrap "~0.0.2"
 
-option-t@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/option-t/-/option-t-3.0.0.tgz#97261098df3d65b5f7ce24c10b2dff598f0d146f"
+option-t@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/option-t/-/option-t-5.0.0.tgz#cceb75aeadc0e0660a9acb0b322e9ee86b3e1ac2"
 
 optionator@^0.8.1, optionator@^0.8.2:
   version "0.8.2"
