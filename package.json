@@ -17,11 +17,11 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "node index.js",
-    "clean": "make clean",
-    "build_production": "make production -j 8",
-    "build_development": "make development -j 8",
-    "build": "make build -j 8",
-    "test": "make test -j 8"
+    "clean": "make clean -j",
+    "build_production": "make production -j",
+    "build_development": "make development -j",
+    "build": "make build -j",
+    "test": "make test -j"
   },
   "keywords": [
     "browser",
