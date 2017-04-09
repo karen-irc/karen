@@ -52,7 +52,7 @@ const CWD = path.relative(__dirname, '');
 function buildDistServer() {
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_SERVER, DIST_SERVER);
 }
-gulp.task('mekefile:build_dist_server', [], buildDistServer);
+gulp.task('makefile:build_dist_server', [], buildDistServer);
 
 function buildTestClient() {
     return compileScriptForServer(CWD, NPM_MOD_DIR, OBJ_CLIENT, TEST_CACHE_CLIENT);
