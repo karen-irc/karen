@@ -17,12 +17,11 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "node index.js",
-    "clean": "gulp clean",
-    "build_production": "cross-env NODE_ENV=production npm run build",
-    "build_development": "cross-env NODE_ENV=development npm run build",
-    "build": "gulp build",
-    "test": "gulp test",
-    "gulp": "gulp"
+    "clean": "make clean",
+    "build_production": "make production -j 8",
+    "build_development": "make development -j 8",
+    "build": "make build -j 8",
+    "test": "make test -j 8"
   },
   "keywords": [
     "browser",
