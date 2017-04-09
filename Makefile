@@ -172,7 +172,7 @@ tsc: clean_obj_client clean_obj_lib clean_obj_server
 	$(NPM_BIN)/tsc --project $(CURDIR)/tsconfig.json
 
 cp_obj_%: eslint clean_obj_%
-	$(NPM_BIN)/cpx '$(CURDIR)/src/$*/**/*.@(js|jsx)' $(OBJ_DIR)/$* --preserve
+	$(NPM_BIN)/cpx '$(CURDIR)/src/$*/**/*.{js,jsx}' $(OBJ_DIR)/$* --preserve
 
 
 ####################################
