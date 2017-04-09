@@ -24,6 +24,7 @@
  */
 
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 import {SidebarViewState} from '../viewmodel/SidebarStore';
 
@@ -46,7 +47,7 @@ export function Sidebar({ model }) {
     );
 }
 Sidebar.propTypes = {
-    model: React.PropTypes.instanceOf(SidebarViewState).isRequired,
+    model: PropTypes.instanceOf(SidebarViewState).isRequired,
 };
 
 function SidebarSomeContent({ model }) {
@@ -74,7 +75,7 @@ function SidebarSomeContent({ model }) {
     );
 }
 SidebarSomeContent.propTypes = {
-    model: React.PropTypes.instanceOf(SidebarViewState).isRequired,
+    model: PropTypes.instanceOf(SidebarViewState).isRequired,
 };
 
 function SidebarEmptyContent() {

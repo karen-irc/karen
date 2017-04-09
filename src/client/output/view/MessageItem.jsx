@@ -24,6 +24,7 @@
  */
 
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import moment from 'moment';
 
 import {parseToMessageNode} from '../../domain/parseToMessageNode';
@@ -41,7 +42,7 @@ export function MessageList(props) {
     );
 }
 MessageList.propTypes = {
-    list: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    list: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 function formatTimeZone(time) {
@@ -116,5 +117,5 @@ export function MessageItem({ message }) {
     );
 }
 MessageItem.propTypes = {
-    message: React.PropTypes.object.isRequired,
+    message: PropTypes.object.isRequired,
 };

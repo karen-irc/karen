@@ -24,6 +24,7 @@
  */
 
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 import {Channel} from '../../domain/Channel';
 import {parseToMessageNode} from '../../domain/parseToMessageNode';
@@ -39,7 +40,7 @@ export function ChatWindowList(props) {
     );
 }
 ChatWindowList.propTypes = {
-    list: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Channel)).isRequired,
+    list: PropTypes.arrayOf(PropTypes.instanceOf(Channel)).isRequired,
 };
 
 export function ChatWindowItem({ channel }){
@@ -107,5 +108,5 @@ export function ChatWindowItem({ channel }){
     );
 }
 ChatWindowItem.propTypes = {
-    channel: React.PropTypes.instanceOf(Channel).isRequired,
+    channel: PropTypes.instanceOf(Channel).isRequired,
 };

@@ -24,6 +24,7 @@
  */
 
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 import {Channel} from '../../domain/Channel';
 import {CommandType} from '../../domain/CommandType';
@@ -107,10 +108,10 @@ export class SidebarChannelItem extends React.Component {
     }
 }
 SidebarChannelItem.propTypes = {
-    channel: React.PropTypes.instanceOf(Channel).isRequired,
-    isSelected: React.PropTypes.bool.isRequired,
-    isNotable: React.PropTypes.bool.isRequired,
-    unreadCount: React.PropTypes.number.isRequired,
-    msgAction: React.PropTypes.instanceOf(MessageActionCreator).isRequired,
-    uiAction: React.PropTypes.instanceOf(UIActionCreator).isRequired,
+    channel: PropTypes.instanceOf(Channel).isRequired,
+    isSelected: PropTypes.bool.isRequired,
+    isNotable: PropTypes.bool.isRequired,
+    unreadCount: PropTypes.number.isRequired,
+    msgAction: PropTypes.instanceOf(MessageActionCreator).isRequired,
+    uiAction: PropTypes.instanceOf(UIActionCreator).isRequired,
 };

@@ -24,6 +24,8 @@
  */
 
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
+
 import {ChatWindow} from './ChatWindow';
 import {Footer} from './Footer';
 import {InputForm} from './InputForm';
@@ -57,5 +59,5 @@ export function KarenAppIndex({ data }) {
     );
 }
 KarenAppIndex.propTypes = {
-    data: React.PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired,
 };

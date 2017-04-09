@@ -24,6 +24,7 @@
  */
 
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 export function GeneralSettingWindow({ prefetch, version, }) {
     let prefetchArea = null;
@@ -153,6 +154,6 @@ export function GeneralSettingWindow({ prefetch, version, }) {
     );
 }
 GeneralSettingWindow.propTypes = {
-    prefetch: React.PropTypes.bool.isRequired,
-    version: React.PropTypes.string.isRequired,
+    prefetch: PropTypes.bool.isRequired,
+    version: PropTypes.string.isRequired,
 };
