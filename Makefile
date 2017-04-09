@@ -57,7 +57,7 @@ TEST_TARGET ?= "$(TEST_CACHE_DIR)/**/test/**/*.js"
 # public task
 # --------------
 #	- This is completed in itself.
-# 	- This is callable as `gulp <taskname>`.
+# 	- This is callable as `make <taskname>`.
 #
 # private task
 # --------------
@@ -65,7 +65,7 @@ TEST_TARGET ?= "$(TEST_CACHE_DIR)/**/test/**/*.js"
 #	- This has some sideeffect in dependent task trees
 #     and it cannot recovery by self.
 #  	- This is __callable only from public task__.
-#     DONT CALL as `gulp <taskname>`.
+#     DONT CALL as `make <taskname>`.
 #  	- MUST name `__taskname`.
 #
 ####################################
