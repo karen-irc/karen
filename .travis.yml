@@ -22,9 +22,5 @@ notifications:
   webhooks: http://cq-dokidokivisual.rhcloud.com/travis
 
 # blacklist
-branches:
-  except:
-    - tmp
-
 cache:
   yarn: true
