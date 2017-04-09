@@ -12,6 +12,10 @@ notifications:
   email: false
   webhooks: http://cq-dokidokivisual.rhcloud.com/travis
 
+env:
+  global:
+    - PATH=$HOME/.yarn/bin:$HOME/.local/bin:$PATH
+
 before_install:
   # Use the latest yarnpkg because Travis' builtin yarn is not the latest.
   - curl -o- -L https://yarnpkg.com/install.sh | bash
