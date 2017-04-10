@@ -72,7 +72,7 @@
             "named": "never"
         }],
         "strict-boolean-expressions": false,
-        "triple-equals": [true, "allow-null-check", "allow-undefined-check"],
+        "triple-equals": true,
         "typeof-compare": true,
         "unified-signatures": false,
         "use-isnan": 2,
