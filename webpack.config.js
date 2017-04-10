@@ -1,20 +1,18 @@
 'use strict';
 
-const assert = require('assert');
+const path = require('path');
 
 const isRelease = process.env.NODE_ENV === 'production';
 
-function getParamFromEnv(env, name) {
-    const value = env[name];
+// XXX: we'd like to pass these values through `process.env`.
+// But it would not work on Windows because cross-env v4 escapes `:` in the passed value.
+// Then `C://Bar/Foo/` is replaced to `C;//Bar/Foo`. This causes the error which the path is incorrect.
+// https://github.com/kentcdodds/cross-env/releases/tag/v4.0.0
+const KAREN_ENTRY_POINT = path.resolve(__dirname, './__obj/client/karen.js');
+const KAREN_CLIENT_DIST_DIR = path.resolve(__dirname, './__dist/client/');
 
-    assert.ok(!!value, `not found process.env.${name}`);
-    console.log(`${name}: ${value}`);
-
-    return value;
-}
-
-const KAREN_ENTRY_POINT = getParamFromEnv(process.env, 'KAREN_ENTRY_POINT');
-const KAREN_CLIENT_DIST_DIR = getParamFromEnv(process.env, 'KAREN_CLIENT_DIST_DIR');
+console.log(`KAREN_ENTRY_POINT: ${KAREN_CLIENT_DIST_DIR}`);
+console.log(`KAREN_CLIENT_DIST_DIR: ${KAREN_CLIENT_DIST_DIR}`);
 
 const babelPresets = [
 ];
