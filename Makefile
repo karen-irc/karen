@@ -149,8 +149,7 @@ build: lint build_dist_client build_dist_server build_dist_legacy_lib
 
 build_dist_client: clean_dist_client build_obj_client build_obj_lib
 	$(NPM_BIN)/cross-env \
-		KAREN_ENTRY_POINT=$(OBJ_CLIENT)/karen.js \
-		KAREN_CLIENT_DIST_DIR=$(DIST_CLIENT) \
+		NODE_ENV=$(NODE_ENV) \
 		$(NPM_BIN)/webpack --config $(CURDIR)/webpack.config.js
 
 build_dist_legacy_lib: clean_dist_client
@@ -172,7 +171,7 @@ tsc: clean_obj_client clean_obj_lib clean_obj_server
 	$(NPM_BIN)/tsc --project $(CURDIR)/tsconfig.json
 
 cp_obj_%: eslint clean_obj_%
-	$(NPM_BIN)/cpx '$(CURDIR)/src/$*/**/*.@(js|jsx)' $(OBJ_DIR)/$* --preserve
+	$(NPM_BIN)/cpx '$(CURDIR)/src/$*/**/*.{js,jsx}' $(OBJ_DIR)/$* --preserve
 
 
 ####################################
