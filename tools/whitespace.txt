@@ -1,2 +1,3 @@
 This is the file for kicking services driven by GitHub PR, commit, CI etc..
 Test r=me in the karen-irc's dokidokivisual commit bot.
+Test to invoke dokidokivisual commit bot.
