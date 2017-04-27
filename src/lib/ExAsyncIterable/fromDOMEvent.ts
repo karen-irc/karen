@@ -9,7 +9,7 @@ import * as assert from 'assert';
  */
 export function fromDOMEventToAsyncIterable<TEvent extends Event = Event>(src: EventTarget, type: string, option: any): AsyncIterable<TEvent> {
     const iter = new DOMEventAsyncIterable(src, type, option);
-    return iter;
+    return iter as any; // tslint:disable-line:no-any
 }
 //tslint:enable
 
@@ -119,12 +119,13 @@ class DOMEventAsyncIterator implements AsyncIterator<Event> {
     }
 
     next(): Promise<IteratorResult<Event>> {
-        const p = new Promise((resolve, reject) => {
+        const p = new Promise<IteratorResult<Event>>((resolve, reject) => {
             const q = this._queuedResolver;
             const b = this._buffer;
             if (q === undefined || b === undefined) {
                 resolve({
                     done: true,
+                    value: undefined as any, // tslint:disable-line:no-any
                 });
                 return;
             }
@@ -148,8 +149,9 @@ class DOMEventAsyncIterator implements AsyncIterator<Event> {
 
     return(): Promise<IteratorResult<Event>> {
         const q = this._queuedResolver;
-        const r = Promise.resolve({
+        const r = Promise.resolve<IteratorResult<Event>>({
             done: true,
+            value: undefined as any, // tslint:disable-line:no-any
         });
         if (q === undefined) {
             return r;
