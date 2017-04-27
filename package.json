@@ -104,7 +104,7 @@
     "tslint": "^5.0.0",
     "typescript": "next",
     "urijs": "^1.18.10",
-    "webpack": "^2.3.3",
+    "webpack": "^2.4.1",
     "whatwg-fetch": "^2.0.3",
     "yargs": "^7.1.0"
   }
