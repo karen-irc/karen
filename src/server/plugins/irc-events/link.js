@@ -1,6 +1,6 @@
 /*eslint-disable consistent-this,no-param-reassign */
 
-import {jsdom} from 'jsdom';
+import {JSDOM} from 'jsdom';
 
 import {Message} from '../../models/Message';
 import {MessageType} from '../../models/MessageType';
@@ -25,7 +25,7 @@ function parse(msg, url, res, client) {
         /* eslint-disable indent */
         case 'text/html': {
         /* eslint-enable */
-            const win = jsdom(res.text, {
+            const win = new JSDOM(res.text, {
                 url: 'http://localhost:8000',
             }).defaultView;
             const doc = win.document;

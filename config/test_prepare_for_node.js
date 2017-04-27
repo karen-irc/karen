@@ -7,7 +7,7 @@
 
 'use strict';
 
-const {jsdom} = require('jsdom');
+const {JSDOM} = require('jsdom');
 const {origin} = require('./test_config');
 
 const htmlStr = `
@@ -24,10 +24,11 @@ const htmlStr = `
 // However, we also think it would be danger to use auto binding by `Object.assign()` or other similar ways.
 // It might override Node.js's builtin variables.
 // So we add properties by hand.
-global.document = jsdom(htmlStr, {
+const { window } = new JSDOM(htmlStr, {
     url: String(origin.FIRST),
 });
-global.window = global.document.defaultView;
+global.window = window;
+global.document = window.document;
 global.self = global.window; // `window.self`
 global.FormData = global.window.FormData;
 global.XMLHttpRequest = global.window.XMLHttpRequest;
