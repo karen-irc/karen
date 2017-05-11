@@ -74,7 +74,7 @@
     "del-cli": "^0.2.1",
     "eslint": "^3.19.0",
     "eslint-plugin-node": "^4.2.2",
-    "eslint-plugin-react": "^6.10.3",
+    "eslint-plugin-react": "^7.0.0",
     "event-stream": "^3.3.4",
     "express": "^4.15.2",
     "express-session": "^1.15.2",
