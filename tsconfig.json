@@ -27,7 +27,11 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "outDir": "./__obj/",
-        "plugins": [], // for language service plugin.
+        "plugins": [ // for language service plugin.
+            {
+                "name": "tslint-language-service"
+            }
+        ],
         "pretty": true,
         "preserveConstEnums": true,
         "removeComments": false,
