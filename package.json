@@ -85,7 +85,7 @@
     "mkdirp": "^0.5.1",
     "mocha": "^3.3.0",
     "moment": "^2.18.1",
-    "option-t": "^5.0.0",
+    "option-t": "^6.1.0",
     "postcss": "^5.2.17",
     "postcss-cli": "^3.2.0",
     "postcss-custom-properties": "^5.0.2",
