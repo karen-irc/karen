@@ -223,4 +223,4 @@ build_test_lib: clean_test_cache_lib build_obj_lib
 # Automation
 ####################################
 
-ci: build test
+ci: development test

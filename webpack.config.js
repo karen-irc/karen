@@ -8,6 +8,7 @@ const isRelease = process.env.NODE_ENV === 'production';
 // But it would not work on Windows because cross-env v4 escapes `:` in the passed value.
 // Then `C://Bar/Foo/` is replaced to `C;//Bar/Foo`. This causes the error which the path is incorrect.
 // https://github.com/kentcdodds/cross-env/releases/tag/v4.0.0
+// TODO: we may be able to restore the previous code by https://github.com/kentcdodds/cross-env/releases/tag/v5.0.0
 const KAREN_ENTRY_POINT = path.resolve(__dirname, './__obj/client/karen.js');
 const KAREN_CLIENT_DIST_DIR = path.resolve(__dirname, './__dist/client/');
 
