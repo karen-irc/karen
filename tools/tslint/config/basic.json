@@ -1,5 +1,4 @@
 {
-    "defaultSeverity": "warn",
     "rules": {
         "adjacent-overload-signatures": true,
         "array-type": false,
@@ -16,7 +15,6 @@
         "indent": [true, "spaces"],
         "interface-over-type-literal": false,
         "linebreak-style": [true, "LF"],
-        "match-default-export-name": false,
         "max-file-line-count": false,
         "member-ordering": [true, "variables-before-functions"],
         "new-parens": true,
@@ -32,7 +30,6 @@
         "no-empty-interface": false,
         "no-eval": true,
         "no-import-side-effect": false,
-        "no-inferred-empty-object-type": false,
         "no-internal-module": true,
         "no-invalid-template-strings": true,
         "no-invalid-this": true,
@@ -57,7 +54,6 @@
         "no-unused-expression": [true, "allow-fast-null-checks"],
         "no-var-keyword": true,
         "no-var-requires": true,
-        "no-void-expression": false,
         "number-literal-format": true,
         "object-literal-key-quotes": [true, "as-needed"],
         "object-literal-shorthand": false,
@@ -69,16 +65,12 @@
         "prefer-method-signature": false,
         "prefer-switch": false,
         "prefer-template": false,
-        "promise-function-async": false,
         "quotemark": [true, "single", "jsx-single", "avoid-escape"],
         "radix": true,
-        "return-undefined": false,
-        "restrict-plus-operands": false,
         "semicolon": [true, "always"],
         "space-before-function-paren": [true, {
             "named": "never"
         }],
-        "strict-boolean-expressions": false,
         "triple-equals": true,
         "typeof-compare": true,
         "unified-signatures": false,
