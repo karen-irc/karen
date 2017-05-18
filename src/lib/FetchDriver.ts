@@ -84,9 +84,9 @@ const enum HttpStatus {
     Forbidden = 403,
 }
 
-export const MimeType = {
-    JSON: 'application/json',
-};
+export const enum MimeType {
+    JSON = 'application/json',
+}
 
 export function assertForbiddenError(res: Response): Promise<Response> {
     if (res.status === HttpStatus.Forbidden) {
