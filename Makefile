@@ -145,7 +145,7 @@ build_env_%:
 # Build
 ####################################
 
-build: lint build_dist_client build_dist_server build_dist_legacy_lib
+build: lint build_dist_client build_dist_server build_dist_legacy_lib build_dist_style
 
 build_dist_client: clean_dist_client build_obj_client build_obj_lib
 	$(NPM_BIN)/cross-env \
