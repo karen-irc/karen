@@ -9,6 +9,7 @@
         "class-name": true,
         "completed-docs": false,
         "curly": true,
+        "cyclomatic-complexity": false, // This is meaningless for daily working.
         "encoding": true, // Enforce all files should be utf-8.
         "file-header": false,
         "import-blacklist": [true],
@@ -16,12 +17,13 @@
         "indent": [true, "spaces", 4],
         "interface-over-type-literal": false,
         "linebreak-style": [true, "LF"],
-        "max-file-line-count": false,
+        "max-classes-per-file": false,
+        "max-file-line-count": false, // This is meaningless today.
         "member-ordering": [true, "variables-before-functions"],
         "new-parens": true,
         "newline-before-return": false,
         "no-angle-bracket-type-assertion": true,
-        "no-any": true,
+        "no-any": true, // Please opt-out this rule if you'd like to use this rule.
         "no-arg": true,
         "no-conditional-assignment": true,
         "no-construct": true,
@@ -39,13 +41,20 @@
         "no-mergeable-namespace": true,
         "no-misused-new": true,
         "no-namespace": [true, "allow-declarations"],
-        "no-non-null-assertion": true,
+        "no-non-null-assertion": true, // Please opt-out this rule if you'd like to use this rule.
         "no-object-literal-type-assertion": true,
-        "no-parameter-properties": false,
+
+        // This TypeScript syntax is useful to reduce declarations of class properties.
+        // However, we feel this syntax has these negative points:
+        //  * This is not a part of ECMA262 standards.
+        //  * This makes the ordering of initializing members unclear.
+        // By these things, we enables this rule as defensive choice.
+        "no-parameter-properties": true,
+
         "no-require-imports": true,
         "no-reference-import": true,
         "no-sparse-arrays": true,
-        "no-string-literal": true,
+        "no-string-literal": true, // You should not disable this at global easily.
         "no-string-throw": true,
         "no-switch-case-fall-through": true,
         "no-trailing-whitespace": true,
@@ -60,16 +69,16 @@
         "object-literal-shorthand": false,
         "object-literal-sort-keys": false, // We don't think it is important.
         "one-variable-per-declaration": [true, "ignore-for-loop"],
-        "only-arrow-functions": [false, "allow-declarations"],
+        "only-arrow-functions": false,
         "prefer-conditional-expression": false,
-        "prefer-const": true,
+        "prefer-const": true, // Sort with ESLint
         "prefer-for-of": true,
         "prefer-function-over-method": false,
         "prefer-method-signature": false,
         "prefer-object-spread": false, // We don't have any opinion to it...
         "prefer-switch": false,
-        "prefer-template": false,
-        "quotemark": [true, "single", "jsx-single", "avoid-escape"],
+        "prefer-template": false, // Sort with ESLint
+        "quotemark": [true, "single", "jsx-single", "avoid-escape"], // Sort with ESLint
         "radix": true,
         "semicolon": [true, "always"],
         "space-before-function-paren": [true, {
@@ -78,7 +87,7 @@
         "triple-equals": true,
         "typeof-compare": true,
         "unified-signatures": false,
-        "use-isnan": 2,
+        "use-isnan": true,
         "variable-name": [true,
             "check-format",
                 "allow-leading-underscore",
