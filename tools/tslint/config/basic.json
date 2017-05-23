@@ -9,10 +9,11 @@
         "class-name": true,
         "completed-docs": false,
         "curly": true,
+        "encoding": true, // Enforce all files should be utf-8.
         "file-header": false,
         "import-blacklist": [true],
         "import-spacing": true,
-        "indent": [true, "spaces"],
+        "indent": [true, "spaces", 4],
         "interface-over-type-literal": false,
         "linebreak-style": [true, "LF"],
         "max-file-line-count": false,
@@ -57,12 +58,15 @@
         "number-literal-format": true,
         "object-literal-key-quotes": [true, "as-needed"],
         "object-literal-shorthand": false,
+        "object-literal-sort-keys": false, // We don't think it is important.
         "one-variable-per-declaration": [true, "ignore-for-loop"],
         "only-arrow-functions": [false, "allow-declarations"],
+        "prefer-conditional-expression": false,
         "prefer-const": true,
         "prefer-for-of": true,
         "prefer-function-over-method": false,
         "prefer-method-signature": false,
+        "prefer-object-spread": false, // We don't have any opinion to it...
         "prefer-switch": false,
         "prefer-template": false,
         "quotemark": [true, "single", "jsx-single", "avoid-escape"],
