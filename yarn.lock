@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"@types/crossroads@^0.0.29":
+  version "0.0.29"
+  resolved "https://registry.yarnpkg.com/@types/crossroads/-/crossroads-0.0.29.tgz#f2308c106c68c4a84a0b23affa20989abbd38cb1"
+  dependencies:
+    "@types/signals" "*"
+
 "@types/js-cookie@^2.0.28":
   version "2.0.28"
   resolved "https://registry.yarnpkg.com/@types/js-cookie/-/js-cookie-2.0.28.tgz#d6a9136d699257970fc74d899cd7b12a608d14da"
@@ -27,6 +33,10 @@
 "@types/react@*", "@types/react@^15.0.24":
   version "15.0.24"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.24.tgz#8a75299dc37906df327c18ca918bf97a55e7123b"
+
+"@types/signals@*":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@types/signals/-/signals-0.0.17.tgz#93911b0f09518f314a21805420143aab0c2f7ee4"
 
 "@types/socket.io-client@^1.4.29":
   version "1.4.29"
@@ -1257,6 +1267,12 @@ cross-spawn@^5.1.0:
     lru-cache "^4.0.1"
     shebang-command "^1.2.0"
     which "^1.2.9"
+
+crossroads@^0.12.2:
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/crossroads/-/crossroads-0.12.2.tgz#b1d5f9c1d98af3bdd61f1bda6a86dd1aee4ff8f2"
+  dependencies:
+    signals "<2.0"
 
 cryptiles@2.x.x:
   version "2.0.5"
@@ -4664,6 +4680,10 @@ sigmund@~1.0.0:
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
+
+signals@<2.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/signals/-/signals-1.0.0.tgz#65f0c1599352b35372ecaae5a250e6107376ed69"
 
 slash@^1.0.0:
   version "1.0.0"
