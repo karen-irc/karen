@@ -41,7 +41,7 @@ const cspDirective = new Map([
     ['font-src', '\'self\' https://fonts.gstatic.com'],
 
     // XXX: karen tries to expand all image which is embedded in a message.
-    ['img-src', '*'],
+    ['img-src', '* data:'],
 
     ['media-src', '\'self\''],
     ['script-src', '\'self\''],
