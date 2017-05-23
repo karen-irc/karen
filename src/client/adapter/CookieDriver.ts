@@ -22,13 +22,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/// <reference path='../../../node_modules/cookies-js/dist/cookies.d.ts'/>
-import * as cookies from 'cookies-js';
-import {Option, Some, None} from 'option-t';
+
+import * as cookies from 'js-cookie';
+import { Option, Some, None } from 'option-t';
 
 export class CookieDriver {
 
-    _cookie: CookiesStatic;
+    private _cookie: cookies.CookiesStatic;
 
     /**
      *  @constructor
@@ -56,12 +56,12 @@ export class CookieDriver {
         return new Some<any>(result); // tslint:disable-line:no-any
     }
 
-    set(key: string, value: any, option: CookieOptions = {}): void { // tslint:disable-line:no-any
+    set(key: string, value: any, option: cookies.CookieAttributes = {}): void { // tslint:disable-line:no-any
         const encoded = JSON.stringify(value);
         this._cookie.set(key, encoded, option);
     }
 
-    remove(key: string, option: CookieOptions = {}): void {
-        this._cookie.expire(key, option);
+    remove(key: string, option: cookies.CookieAttributes = {}): void {
+        this._cookie.remove(key, option);
     }
 }
