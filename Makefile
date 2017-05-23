@@ -48,6 +48,7 @@ TEST_CACHE_CLIENT := $(TEST_CACHE_DIR)/client
 TEST_CACHE_LIB := $(TEST_CACHE_DIR)/lib
 TEST_CACHE_SERVER := $(TEST_CACHE_DIR)/server
 
+NODE_ENV ?= development
 TEST_TARGET ?= "$(TEST_CACHE_DIR)/**/test/**/*.js"
 
 ####################################
