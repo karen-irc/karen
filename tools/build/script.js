@@ -29,6 +29,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { promisify } = require('util');
 
 const { getSuffixedCommandName } = require('../platform');
 const { spawnChildProcess, assertReturnCode } = require('../spawn');
@@ -98,20 +99,14 @@ function compileScriptForServer(cwd, npmModDir, srcDir, distDir) {
 function generateBabelRc(options, targetDir) {
     const NAME = '.babelrc';
     const fullpath = path.resolve(targetDir, NAME);
-    const io = new Promise((resolve, reject) => {
-        const json = JSON.stringify(options);
-        fs.writeFile(fullpath, json, {
-            encoding: 'utf8',
-        }, (err) => {
-            if (!!err) {
-                reject(err);
-            }
-            else {
-                resolve();
-            }
-        });
+
+    const writer = promisify(fs.writeFile);
+
+    const json = JSON.stringify(options);
+    const result = writer(fullpath, json, {
+        encoding: 'utf8',
     });
-    return io;
+    return result;
 }
 
 module.exports = {
