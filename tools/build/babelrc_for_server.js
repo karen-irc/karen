@@ -11,9 +11,6 @@ module.exports = {
         // For Node.js v6~, we need not some transforms.
         'transform-es2015-modules-commonjs',
 
-        // es2017 level
-        'babel-plugin-syntax-trailing-function-commas',
-
         // esnext
         'transform-async-generator-functions',
 
