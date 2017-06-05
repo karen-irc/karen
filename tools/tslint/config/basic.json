@@ -5,6 +5,7 @@
         "arrow-parens": true,
         "arrow-return-shorthand": false,
         "ban-types": [true],
+        "binary-expression-operand-order": false, // We don't think it is important.
         "callable-types": true,
         "class-name": true,
         "completed-docs": false,
@@ -84,6 +85,7 @@
         "space-before-function-paren": [true, {
             "named": "never"
         }],
+        "switch-final-break": [true, "always"],
         "triple-equals": true,
         "typeof-compare": true,
         "unified-signatures": false,

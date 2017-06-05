@@ -23,18 +23,18 @@
  * THE SOFTWARE.
  */
 
-import {ComponentClass} from 'react';
+import { ComponentClass } from 'react';
 
-import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
+import { MessageActionCreator } from '../../intent/action/MessageActionCreator';
 
-import {ChannelId} from '../../domain/ChannelDomain';
-import {User} from '../../domain/User';
+import { ChannelId } from '../../domain/ChannelDomain';
+import { User } from '../../domain/User';
 
 interface UserListProps {
-    key?: any;
+    key?: any; // tslint:disable-line: no-any
     channelId: ChannelId;
     list: Array<User>;
     action: MessageActionCreator;
 }
 
-export var UserList: ComponentClass<UserListProps>;
+export const UserList: ComponentClass<UserListProps>;

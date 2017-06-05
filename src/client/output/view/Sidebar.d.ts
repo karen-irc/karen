@@ -22,12 +22,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import {StatelessComponent} from 'react';
+import { StatelessComponent } from 'react';
 
-import {SidebarViewState} from '../viewmodel/SidebarStore';
+import { SidebarViewState } from '../viewmodel/SidebarStore';
 
 interface SidebarProps {
-    key?: any;
+    key?: any; // tslint:disable-line: no-any
     model: SidebarViewState;
 }
 

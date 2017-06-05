@@ -41,6 +41,8 @@ module.exports = {
             'allowBatchAssign': false,
         }],
         'node/no-deprecated-api': 1,
+        'node/no-extraneous-import': 2,
+        'node/no-extraneous-require': 2,
         'node/no-missing-import': 2,
         'node/no-missing-require': 2,
         'node/no-unpublished-bin': 2,

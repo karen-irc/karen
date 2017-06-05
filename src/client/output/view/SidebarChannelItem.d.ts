@@ -22,14 +22,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import {ComponentClass} from 'react';
-import {Channel} from '../../domain/Channel';
+import { ComponentClass } from 'react';
+import { Channel } from '../../domain/Channel';
 
-import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
-import {UIActionCreator} from '../../intent/action/UIActionCreator';
+import { MessageActionCreator } from '../../intent/action/MessageActionCreator';
+import { UIActionCreator } from '../../intent/action/UIActionCreator';
 
 interface SidebarChannelItemProps {
-    key?: any;
+    key?: any; // tslint:disable-line: no-any
     channel: Channel;
     isSelected: boolean;
     isNotable: boolean;

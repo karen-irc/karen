@@ -23,18 +23,18 @@
  * THE SOFTWARE.
  */
 
-import {ComponentClass} from 'react';
-import {Message} from '../../domain/Message';
+import { ComponentClass } from 'react';
+import { Message } from '../../domain/Message';
 
 interface MessageListProps {
-    key?: any;
+    key?: any; // tslint:disable-line: no-any
     list: Array<Message>;
 }
 
 interface MessageItemProps {
-    key?: any;
+    key?: any; // tslint:disable-line: no-any
     message: Message;
 }
 
-export var MessageList: ComponentClass<MessageListProps>;
-export var MessageItem: ComponentClass<MessageItemProps>;
+export const MessageList: ComponentClass<MessageListProps>;
+export const MessageItem: ComponentClass<MessageItemProps>;

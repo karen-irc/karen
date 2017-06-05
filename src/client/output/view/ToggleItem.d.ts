@@ -23,11 +23,11 @@
  * THE SOFTWARE.
  */
 
-import {ComponentClass} from 'react';
+import { ComponentClass } from 'react';
 
 interface ToggleItemProps {
-    key?: any;
-    item: any;
+    key?: any; // tslint:disable-line: no-any
+    item: any; // tslint:disable-line: no-any
 }
 
-export var ToggleItem: ComponentClass<ToggleItemProps>;
+export const ToggleItem: ComponentClass<ToggleItemProps>;
