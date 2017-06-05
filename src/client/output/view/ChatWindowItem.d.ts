@@ -22,18 +22,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import {ComponentClass} from 'react';
-import {Channel} from '../../domain/Channel';
+import { ComponentClass } from 'react';
+import { Channel } from '../../domain/Channel';
 
 interface ChatWindowListProps {
-    key?: any;
+    key?: any; // tslint:disable-line: no-any
     list: Array<Channel>;
 }
 
 interface ChatWindowItemProps {
-    key?: any;
+    key?: any; // tslint:disable-line: no-any
     channel: Channel;
 }
 
-export var ChatWindowList: ComponentClass<ChatWindowListProps>;
-export var ChatWindowItem: ComponentClass<ChatWindowItemProps>;
+export const ChatWindowList: ComponentClass<ChatWindowListProps>;
+export const ChatWindowItem: ComponentClass<ChatWindowItemProps>;

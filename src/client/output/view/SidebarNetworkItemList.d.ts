@@ -23,17 +23,17 @@
  * THE SOFTWARE.
  */
 
-import {Option} from 'option-t';
-import {StatelessComponent} from 'react';
+import { Option } from 'option-t';
+import { StatelessComponent } from 'react';
 
-import {MessageActionCreator} from '../../intent/action/MessageActionCreator';
-import {UIActionCreator} from '../../intent/action/UIActionCreator';
+import { MessageActionCreator } from '../../intent/action/MessageActionCreator';
+import { UIActionCreator } from '../../intent/action/UIActionCreator';
 
-import {ChannelId} from '../../domain/ChannelDomain';
-import {Network} from '../../domain/Network';
+import { ChannelId } from '../../domain/ChannelDomain';
+import { Network } from '../../domain/Network';
 
 interface SidebarNetworkItemProps {
-    key?: any;
+    key?: any; // tslint:disable-line: no-any
     network: Network;
     selectedId: Option<ChannelId>;
     notableChannelSet: Set<ChannelId>;
