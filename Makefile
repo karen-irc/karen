@@ -185,7 +185,7 @@ eslint:
 	$(NPM_BIN)/eslint --ext=.js,.jsx $(CURDIR)
 
 tslint:
-	$(NPM_BIN)/tslint --project $(CURDIR)/tsconfig.json --config $(CURDIR)/tslint.json
+	$(NPM_BIN)/tslint --config $(CURDIR)/tslint.json '$(CURDIR)/src/**/*.ts{,x}' '$(CURDIR)/config/**/*.ts{,x}'
 
 stylelint:
 	$(NPM_BIN)/stylelint 'src/style/**/*' \
