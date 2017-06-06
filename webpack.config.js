@@ -19,8 +19,6 @@ const babelPresets = [
 ];
 
 let babelPlugins = [
-    // es2016 level
-    'babel-plugin-transform-exponentiation-operator',
     // es2017 level
     'babel-plugin-syntax-trailing-function-commas',
     'babel-plugin-transform-async-to-generator',
