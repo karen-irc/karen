@@ -13,6 +13,7 @@ module.exports = {
 
         // esnext
         'transform-async-generator-functions',
+        'babel-plugin-syntax-dynamic-import',
 
         // for React
         'syntax-jsx',
