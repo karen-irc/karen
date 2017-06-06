@@ -16,33 +16,17 @@ console.log(`KAREN_ENTRY_POINT: ${KAREN_CLIENT_DIST_DIR}`);
 console.log(`KAREN_CLIENT_DIST_DIR: ${KAREN_CLIENT_DIST_DIR}`);
 
 const babelPresets = [
+    'react',
 ];
 
-let babelPlugins = [
+const babelPlugins = [
     // esnext
     'transform-async-generator-functions',
-
-    // for React
-    'syntax-jsx',
-    'transform-react-jsx',
 
     // some utilitis
     'transform-inline-environment-variables',
     'transform-node-env-inline',
 ];
-
-if (isRelease) {
-    babelPlugins = babelPlugins.concat([
-        'transform-react-constant-elements',
-        'transform-react-inline-elements',
-    ]);
-}
-else {
-    babelPlugins = babelPlugins.concat([
-        'transform-react-jsx-source',
-        'transform-react-jsx-self',
-    ]);
-}
 
 const parserOpts = {};
 const generatorOpts = {
