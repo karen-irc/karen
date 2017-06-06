@@ -5,6 +5,7 @@
 // This object is encoded to `.babelrc` with using `JSON.stringify()`.
 module.exports = {
     'presets': [
+        'react'
     ],
 
     'plugins': [
@@ -13,24 +14,17 @@ module.exports = {
 
         // esnext
         'transform-async-generator-functions',
-
-        // for React
-        'syntax-jsx',
-        'transform-react-jsx',
+        'babel-plugin-syntax-dynamic-import',
     ],
 
     'env': {
         'development': {
             'plugins': [
-                'transform-react-jsx-source',
-                'transform-react-jsx-self',
             ],
         },
 
         'production': {
             'plugins': [
-                'transform-react-constant-elements',
-                'transform-react-inline-elements',
             ],
         },
     },

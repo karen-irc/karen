@@ -15,7 +15,7 @@
             "esnext.asynciterable",
             "dom"
         ],
-        "module": "es2015",
+        "module": "ESNext",
         "moduleResolution": "node",
         "newLine": "LF",
         "noEmitHelpers": false, // see: https://github.com/Microsoft/TypeScript/issues/3364
