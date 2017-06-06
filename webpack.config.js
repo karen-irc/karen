@@ -19,10 +19,6 @@ const babelPresets = [
 ];
 
 let babelPlugins = [
-    // es2017 level
-    'babel-plugin-syntax-trailing-function-commas',
-    'babel-plugin-transform-async-to-generator',
-
     // esnext
     'transform-async-generator-functions',
 
