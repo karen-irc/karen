@@ -52,12 +52,12 @@ export function SidebarNetworkItem(props) {
         //XXX: `unreadCount === undefined` handling should be fixed in view model layer.
         return (
             <SidebarChannelItem key={String(channelId)}
-                                channel={channel}
-                                isSelected={isSelected}
-                                isNotable={isNotable}
-                                unreadCount={(unreadCount === undefined) ? 0 : unreadCount}
-                                msgAction={msgAction}
-                                uiAction={uiAction}/>
+                channel={channel}
+                isSelected={isSelected}
+                isNotable={isNotable}
+                unreadCount={(unreadCount === undefined) ? 0 : unreadCount}
+                msgAction={msgAction}
+                uiAction={uiAction}/>
         );
     });
 

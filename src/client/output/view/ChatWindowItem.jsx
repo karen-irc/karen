@@ -72,10 +72,10 @@ export function ChatWindowItem({ channel }){
 
     return (
         <div id={'js-chan-' + String(channel.id)}
-             data-title={channel.title}
-             data-id={String(channel.id)}
-             data-type={channel.type}
-             className={'chan ' + channel.type}>
+            data-title={channel.title}
+            data-id={String(channel.id)}
+            data-type={channel.type}
+            className={'chan ' + channel.type}>
             <div className='header'>
                 <button className='lt'></button>
                 <button className='rt'></button>

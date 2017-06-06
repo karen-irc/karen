@@ -49,7 +49,7 @@ export function KarenAppIndex({ data }) {
                             <SignInWindow/>
                             <div id='js-insertion-point-connect'/>
                             <GeneralSettingWindow prefetch={data.prefetch}
-                                                  version={data.version} />
+                                version={data.version} />
                         </div>
                         <InputForm />
                     </div>
