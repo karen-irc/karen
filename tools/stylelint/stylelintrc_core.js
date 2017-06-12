@@ -144,6 +144,7 @@ module.exports = {
         // 'selector-list-comma-newline-before': 'always'|'always-multi-line'|'never-multi-line',
         'selector-list-comma-space-after': 'always-single-line',
         'selector-list-comma-space-before': 'never-single-line',
+        //'selector-max-class': 0,
         'selector-max-empty-lines': 0,
         // 'selector-max-compound-selectors': int,
         // 'selector-max-specificity': string,
@@ -165,7 +166,7 @@ module.exports = {
         'selector-pseudo-element-no-unknown': true,
         'selector-type-case': 'lower',
         'selector-type-no-unknown': [true, {
-            'ignore': ['default-namespace'],
+            'ignore': ['default-namespace', 'custom-elements'],
             'ignoreNamespaces': [],
             'ignoreTypes': [],
         }],
