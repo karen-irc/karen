@@ -78,7 +78,6 @@
     "express-session": "^1.15.3",
     "font-awesome": "^4.7.0",
     "glob": "^7.1.2",
-    "gulp": "^3.9.1",
     "js-cookie": "^2.1.4",
     "jsdom": "^11.0.0",
     "mkdirp": "^0.5.1",

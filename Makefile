@@ -28,6 +28,7 @@
 
 # GIT_REVISION := $(shell git rev-parse --verify HEAD)
 # BUILD_DATE := $(shell date '+%Y/%m/%d %H:%M:%S %z')
+NODE_BIN := node
 NPM_MOD := $(CURDIR)/node_modules
 NPM_BIN := $(NPM_MOD)/.bin
 
@@ -50,6 +51,8 @@ TEST_CACHE_SERVER := $(TEST_CACHE_DIR)/server
 
 NODE_ENV ?= development
 TEST_TARGET ?= "$(TEST_CACHE_DIR)/**/test/**/*.js"
+
+BABEL_OPTION_FOR_SERVER := $(CURDIR)/tools/build/babelrc_for_server.js;
 
 ####################################
 # Generic Target
@@ -156,8 +159,8 @@ build_dist_client: clean_dist_client build_obj_client build_obj_lib
 build_dist_legacy_lib: clean_dist_client
 	$(NPM_BIN)/cpx $(NPM_MOD)/moment/min/moment.min.js $(DIST_CLIENT)
 
-build_dist_server: clean_dist_server build_obj_server build_obj_lib
-	$(NPM_BIN)/gulp makefile:$@
+build_dist_server: clean_dist_server build_obj_server build_obj_lib $(OBJ_SERVER)/.babelrc
+	$(NPM_BIN)/babel $(OBJ_SERVER) --source-maps=inline --extensions=.js,.jsx --out-dir=$(DIST_SERVER)
 
 build_dist_style: stylelint clean_dist_style
 	$(NPM_BIN)/postcss -c $(CURDIR)/postcss.config.js \
@@ -173,6 +176,9 @@ tsc: clean_obj_client clean_obj_lib clean_obj_server
 
 cp_obj_%: eslint clean_obj_%
 	$(NPM_BIN)/cpx '$(CURDIR)/src/$*/**/*.{js,jsx}' $(OBJ_DIR)/$* --preserve
+
+$(OBJ_SERVER)/.babelrc: build_obj_server
+	$(NODE_BIN) $(CURDIR)/tools/build/generate_babelrc.js --target-dir=$(OBJ_SERVER) --config-path=$(BABEL_OPTION_FOR_SERVER)
 
 
 ####################################
@@ -213,11 +219,17 @@ test_client: build_test_client
 test_lib: build_test_lib
 	$(NPM_BIN)/cross-env TEST_CATEGORY=lib make __run_test -C $(CURDIR)
 
-build_test_client: clean_test_cache_client build_obj_client
-	$(NPM_BIN)/gulp makefile:$@
+build_test_client: clean_test_cache_client build_obj_client $(OBJ_CLIENT)/.babelrc
+	$(NPM_BIN)/babel $(OBJ_CLIENT) --source-maps=inline --extensions=.js,.jsx --out-dir=$(TEST_CACHE_CLIENT)
 
-build_test_lib: clean_test_cache_lib build_obj_lib
-	$(NPM_BIN)/gulp makefile:$@
+build_test_lib: clean_test_cache_lib build_obj_lib $(OBJ_LIB)/.babelrc
+	$(NPM_BIN)/babel $(OBJ_LIB) --source-maps=inline --extensions=.js,.jsx --out-dir=$(TEST_CACHE_LIB)
+
+$(OBJ_CLIENT)/.babelrc: build_obj_client
+	$(NODE_BIN) $(CURDIR)/tools/build/generate_babelrc.js --target-dir=$(OBJ_CLIENT) --config-path=$(BABEL_OPTION_FOR_SERVER)
+
+$(OBJ_LIB)/.babelrc: build_obj_lib
+	$(NODE_BIN) $(CURDIR)/tools/build/generate_babelrc.js --target-dir=$(OBJ_LIB) --config-path=$(BABEL_OPTION_FOR_SERVER)
 
 
 ####################################
