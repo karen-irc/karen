@@ -72,9 +72,9 @@ export class UserList extends React.Component {
             count = (
                 <div className='count'>
                     <input className='search'
-                           onChange={this.onChangeSearch}
-                           value={this.state.searchText}
-                           placeholder={placeholder}/>
+                        onChange={this.onChangeSearch}
+                        value={this.state.searchText}
+                        placeholder={placeholder}/>
                 </div>
             );
         }
@@ -159,8 +159,8 @@ class UserItem extends React.Component {
 
         return (
             <button className='user'
-                    style={style}
-                    onClick={this.onClick}>
+                style={style}
+                onClick={this.onClick}>
                 {user.mode}
                 {user.name}
             </button>

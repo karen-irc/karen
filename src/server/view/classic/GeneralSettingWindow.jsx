@@ -31,19 +31,19 @@ export function GeneralSettingWindow({ prefetch, version, }) {
     if (prefetch) {
         prefetchArea = [
             <div key='links-and-urls'
-                 className='col-sm-12'>
+                className='col-sm-12'>
                 <h2>{'Links and URLs'}</h2>
             </div>,
 
             <div key='auto-expand-thumbnails'
-                 className='col-sm-6'>
+                className='col-sm-6'>
                 <label className='opt'>
                     <input type='checkbox' name='thumbnails'/>
                     {'Auto-expand thumbnails'}
                 </label>
             </div>,
             <div key='auto-expand-lins'
-                 className='col-sm-6'>
+                className='col-sm-6'>
                 <label className='opt'>
                     <input type='checkbox' name='links'/>
                     {'Auto-expand links'}
@@ -142,8 +142,8 @@ export function GeneralSettingWindow({ prefetch, version, }) {
                             <small>{version}</small>
                             <br/>
                             <a href='https://github.com/karen-irc/karen/'
-                               target='_blank'
-                               rel='noopener noreferrer'>
+                                target='_blank'
+                                rel='noopener noreferrer'>
                                 {'Check for updates'}
                             </a>
                         </p>

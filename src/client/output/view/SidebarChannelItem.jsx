@@ -62,12 +62,12 @@ export class SidebarChannelItem extends React.Component {
 
         return (
             <div data-id={id}
-                 data-target={'#js-chan-' + id}
-                 data-title={channel.name}
-                 className={'js-sidebar-channel chan ' + channel.type + (isSelected ? ' active' : '') + (isClosing ? ' js-closing' : '')}
-                 onClick={this.onClickSelect}>
+                data-target={'#js-chan-' + id}
+                data-title={channel.name}
+                className={'js-sidebar-channel chan ' + channel.type + (isSelected ? ' active' : '') + (isClosing ? ' js-closing' : '')}
+                onClick={this.onClickSelect}>
                 <span className={'badge' + (isNotable ? ' highlight' : '')}
-                      data-count={String(unreadCount)}>
+                    data-count={String(unreadCount)}>
                     {unreadLabel}
                 </span>
                 <span className='close' onClick={this.onClickClose}></span>

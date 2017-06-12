@@ -59,12 +59,12 @@ function SidebarSomeContent({ model }) {
     const list = model.list().map(function(network){
         return (
             <SidebarNetworkItem key={String(network.id)}
-                                network={network}
-                                selectedId={selectedId}
-                                notableChannelSet={notableChannelSet}
-                                unreadCountMap={unreadCountMap}
-                                uiAction={uiAction}
-                                msgAction={msgAction}/>
+                network={network}
+                selectedId={selectedId}
+                notableChannelSet={notableChannelSet}
+                unreadCountMap={unreadCountMap}
+                uiAction={uiAction}
+                msgAction={msgAction}/>
         );
     });
 

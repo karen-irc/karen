@@ -34,8 +34,8 @@ export function InputForm() {
                         <span id='js-nick' className='input-form__nick-holder'></span>
                     </span>
                     <input id='js-input'
-                           className='input-form__input'
-                           autoComplete='off'/>
+                        className='input-form__input'
+                        autoComplete='off'/>
                 </label>
                 <button type='submit' className='input-form__submit'>
                     {'Send'}
