@@ -44,6 +44,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@types/crossroads": "^0.0.29",
     "@types/js-cookie": "^2.0.28",
     "@types/mocha": "^2.2.41",
     "@types/node": "^7.0.27",
@@ -68,6 +69,7 @@
     "compression": "^1.6.2",
     "cpx": "^1.5.0",
     "cross-env": "^5.0.0",
+    "crossroads": "^0.12.2",
     "del": "^2.2.2",
     "del-cli": "^1.0.0",
     "eslint": "^4.0.0",
