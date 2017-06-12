@@ -38,29 +38,6 @@ const BABEL_OPTION_FOR_SERVER = require('./babelrc_for_server');
 
 /**
  *  @param  {string}    cwd
- *  @param  {string}    nodeModDir
- *  @param  {string}    entryPoint
- *  @param  {string}    distDir
- *
- *  @returns    {NodeJS.ReadableStream}
- */
-function runLinkerForClient(cwd, nodeModDir, entryPoint, distDir) {
-    const bin = path.resolve(nodeModDir, './.bin', getSuffixedCommandName('./webpack'));
-    const args = [];
-    const option = {
-        cwd,
-        stdio: 'inherit',
-        env: Object.assign(process.env, {
-            KAREN_ENTRY_POINT: entryPoint,
-            KAREN_CLIENT_DIST_DIR: distDir,
-        }),
-    };
-    return spawnChildProcess(bin, args, option).then(assertReturnCode);
-}
-
-
-/**
- *  @param  {string}    cwd
  *  @param  {string}    npmModDir
  *  @param  {string}    srcDir
  *  @param  {string}    distDir
@@ -110,6 +87,5 @@ function generateBabelRc(options, targetDir) {
 }
 
 module.exports = {
-    runLinkerForClient,
     compileScriptForServer,
 };
