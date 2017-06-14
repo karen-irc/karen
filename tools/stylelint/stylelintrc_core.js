@@ -175,7 +175,7 @@ module.exports = {
         }],
         'string-no-newline': true,
         'string-quotes': 'single',
-        'time-min-milliseconds': true,
+        'time-min-milliseconds': 100,
         // 'unit-blacklist': string|[],
         'unit-case': 'lower',
         'unit-no-unknown': true,
