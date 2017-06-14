@@ -194,11 +194,10 @@ tslint:
 	$(NPM_BIN)/tslint --config $(CURDIR)/tslint.json '$(CURDIR)/src/**/*.ts{,x}' '$(CURDIR)/config/**/*.ts{,x}'
 
 stylelint:
-	$(NPM_BIN)/stylelint 'src/style/**/*' \
+	$(NPM_BIN)/stylelint '$(CURDIR)/src/style/**/*.css' \
 		--config=$(CURDIR)/stylelint.config.js \
 		-f verbose \
-		--color \
-		--report-needless-disables
+		--color
 
 
 ####################################
