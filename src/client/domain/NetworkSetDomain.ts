@@ -23,20 +23,20 @@
  * THE SOFTWARE.
  */
 
-import {Some, None, Option} from 'option-t';
+import { Some, None, Option } from 'option-t';
 import * as Rx from 'rxjs';
 
-import {RecievedMessage} from './Message';
-import {NetworkSet} from './NetworkSet';
-import {ChannelDomain, ChannelId} from './ChannelDomain';
-import {NetworkDomain, NetworkId} from './NetworkDomain';
+import { RecievedMessage } from './Message';
+import { NetworkSet } from './NetworkSet';
+import { ChannelDomain, ChannelId } from './ChannelDomain';
+import { NetworkDomain, NetworkId } from './NetworkDomain';
 
-import {MessageGateway} from '../adapter/MessageGateway';
+import { MessageGateway } from '../adapter/MessageGateway';
 
 interface InitState {
     domain: Array<NetworkDomain>;
     token: string;
-    active: Option<ChannelId|string>;
+    active: Option<ChannelId | string>;
 }
 
 export class NetworkSetDomain {
@@ -68,16 +68,16 @@ export class NetworkSetDomain {
         this._list = gateway.invokeInit().map((data) => {
             return data.networks.map((item) => {
                 return new NetworkDomain(gateway,
-                                         item,
-                                         this._updateNick,
-                                         this._joinedChannel,
-                                         this._partedChannel,
-                                         this._notableMsgDispatcher,
-                                         this._notifiableMsgDispatcher);
+                    item,
+                    this._updateNick,
+                    this._joinedChannel,
+                    this._partedChannel,
+                    this._notableMsgDispatcher,
+                    this._notifiableMsgDispatcher);
             });
         }).share();
 
-        this._initialState = gateway.invokeInit().zip(this._list, function (data, domain){
+        this._initialState = gateway.invokeInit().zip(this._list, function (data, domain) {
             return {
                 domain,
                 token: data.token,
@@ -85,14 +85,14 @@ export class NetworkSetDomain {
             };
         }).share();
 
-        const networkDomain: Rx.Observable<NetworkDomain>  = gateway.addNetwork().map((network) => {
+        const networkDomain: Rx.Observable<NetworkDomain> = gateway.addNetwork().map((network) => {
             const domain = new NetworkDomain(gateway,
-                                             network,
-                                             this._updateNick,
-                                             this._joinedChannel,
-                                             this._partedChannel,
-                                             this._notableMsgDispatcher,
-                                             this._notifiableMsgDispatcher);
+                network,
+                this._updateNick,
+                this._joinedChannel,
+                this._partedChannel,
+                this._notableMsgDispatcher,
+                this._notifiableMsgDispatcher);
             return domain;
         });
 
@@ -100,13 +100,13 @@ export class NetworkSetDomain {
             this.legacy.add(network.getValue()); // for legacy model.
             list.push(network);
             return network;
-        }).map(function(network: NetworkDomain){
+        }).map(function (network: NetworkDomain) {
             return network;
         }).share();
 
         const quitNetwork = gateway.quitNetwork();
         this._removedNetwork = quitNetwork.combineLatest(this._list, (networkId: NetworkId, list: Array<NetworkDomain>) => {
-            const target = list.find(function(domain){
+            const target = list.find(function (domain) {
                 return domain.getId() === networkId;
             });
             if (target === undefined) {
@@ -151,32 +151,32 @@ export class NetworkSetDomain {
     }
 
     removedNetwork(): Rx.Observable<NetworkDomain> {
-        return this._removedNetwork.flatMap(function(v){
-            return v.mapOrElse(function(){
+        return this._removedNetwork.flatMap(function (v) {
+            return v.mapOrElse(function () {
                 return Rx.Observable.never<NetworkDomain>();
-            }, function(v){
+            }, function (v) {
                 return Rx.Observable.of(v);
             });
         });
     }
 
     joinedChannelAtAll(): Rx.Observable<ChannelDomain> {
-        return this._joinedChannel;
+        return this._joinedChannel.asObservable();
     }
 
     partedChannelAtAll(): Rx.Observable<ChannelDomain> {
-        return this._partedChannel;
+        return this._partedChannel.asObservable();
     }
 
     recievedNotableMessage(): Rx.Observable<RecievedMessage> {
-        return this._notableMsgDispatcher;
+        return this._notableMsgDispatcher.asObservable();
     }
 
     recievedNotifiableMessage(): Rx.Observable<RecievedMessage> {
-        return this._notifiableMsgDispatcher;
+        return this._notifiableMsgDispatcher.asObservable();
     }
 
     updatedNickname(): Rx.Observable<{ networkId: NetworkId; nick: string; }> {
-        return this._updateNick;
+        return this._updateNick.asObservable();
     }
 }

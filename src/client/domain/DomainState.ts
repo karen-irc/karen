@@ -174,7 +174,7 @@ function selectTab(gateway: MessageGateway, intent: UIActionDispatcher, set: Net
         return tab;
     });
 
-    const selectedChannel = intent.selectChannel.map(function (channelId) {
+    const selectedChannel = intent.selectChannel.asObservable().map(function (channelId) {
         const tab = new SelectedTab(CurrentTabType.CHANNEL, channelId);
         return tab;
     });

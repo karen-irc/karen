@@ -15,9 +15,9 @@
             "esnext.asynciterable",
             "dom"
         ],
-        "module": "ESNext",
+        "module": "esnext",
         "moduleResolution": "node",
-        "newLine": "LF",
+        "newLine": "lf",
         "noEmitHelpers": false, // see: https://github.com/Microsoft/TypeScript/issues/3364
         "noFallthroughCasesInSwitch": true,
         // "noImplicitAny": true, // Covered by `strict` option.
@@ -35,6 +35,7 @@
         "pretty": true,
         "preserveConstEnums": true,
         "removeComments": false,
+        "skipLibCheck": true, // To avid the compile error with rxjs.
         "sourceMap": true,
         "strict": true,
         // "strictNullChecks": true, // Covered by `strict` option.

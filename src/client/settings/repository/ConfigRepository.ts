@@ -24,9 +24,9 @@
  */
 import * as Rx from 'rxjs';
 
-import {CookieDriver} from '../../adapter/CookieDriver';
-import {Setting} from '../domain/value/Setting';
-import {moment} from '../../../lib/interop';
+import { CookieDriver } from '../../adapter/CookieDriver';
+import { Setting } from '../domain/value/Setting';
+import { moment } from '../../../lib/interop';
 
 const KEY_SETTING = 'settings';
 
@@ -54,6 +54,6 @@ export class ConfigRepository {
     }
 
     asObservable(): Rx.Observable<Setting> {
-        return this._subject;
+        return this._subject.asObservable();
     }
 }

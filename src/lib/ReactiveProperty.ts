@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-import {BehaviorSubject, Observable, Observer} from 'rxjs';
+import { BehaviorSubject, Observable, Observer } from 'rxjs';
 
 export class ReactiveProperty<T> implements Observer<T> {
 
@@ -55,11 +55,11 @@ export class ReactiveProperty<T> implements Observer<T> {
     }
 
     asObservable(): Observable<T> {
-        return this._subject;
+        return this._subject.asObservable();
     }
 
     distinctUntilChanged(): Observable<T> {
-        return this._subject.distinctUntilChanged();
+        return this._subject.asObservable().distinctUntilChanged();
     }
 
     value(): T {
