@@ -41,6 +41,7 @@ module.exports = {
     'rules': {
         // ESLint-plugin-React
         // https://github.com/yannickcr/eslint-plugin-react
+        'react/default-props-match-prop-types': 1,
         'react/display-name': 0, // JSX transpiler creates displayName automatically.
         'react/forbid-component-props': 1,
         'react/forbid-elements': [1, {
@@ -62,6 +63,7 @@ module.exports = {
         'react/no-find-dom-node': 2, // Disallow to use `ReactDOM.findDOMNode()`.
         'react/no-is-mounted': 2, // Disallow the deprected style
         'react/no-multi-comp': 0,
+        'react/no-redundant-should-component-update': 1,
         'react/no-render-return-value': 2,
         'react/no-set-state': 1,
         'react/no-string-refs': 2, // Disallow the legacy style
@@ -127,7 +129,16 @@ module.exports = {
         // JSX-specific rules
         'react/jsx-boolean-value': [2, 'always'], // Force boolean attribute explicitly.
         'react/jsx-closing-bracket-location': 0,
-        'react/jsx-curly-spacing': 1,
+        'react/jsx-closing-tag-location': 0,
+        'react/jsx-curly-spacing': [1, {
+            'when': 'never',
+            'attributes': true,
+            'children': true,
+            'allowMultiline': true,
+            'spacing': {
+                'objectLiterals': 'never',
+            },
+        }],
         'react/jsx-equals-spacing': [1, 'never'],
         'react/jsx-first-prop-new-line': [1, 'never'],
         'react/jsx-filename-extension': [2, {

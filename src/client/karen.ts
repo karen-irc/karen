@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     });
 
     const shouldShowLatestInChannel: Rx.Observable<ChannelId> =
-        uiAction.dispatcher().showLatestInChannel.debounceTime(100)
+        uiAction.dispatcher().showLatestInChannel.asObservable().debounceTime(100)
             .merge(globalState.getSelectedChannel());
     shouldShowLatestInChannel.subscribe(function (channelId) {
         const targetChanel = document.getElementById('js-chan-' + String(channelId));
