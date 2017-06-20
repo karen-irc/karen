@@ -154,7 +154,7 @@ build: lint build_dist_client build_dist_server build_dist_legacy_lib build_dist
 build_dist_client: clean_dist_client build_obj_client build_obj_lib
 	$(NPM_BIN)/cross-env \
 		NODE_ENV=$(NODE_ENV) \
-		$(NPM_BIN)/webpack --config $(CURDIR)/webpack.config.js
+		$(NPM_BIN)/webpack --config $(CURDIR)/webpack.config.js --display-optimization-bailout
 
 build_dist_legacy_lib: clean_dist_client
 	$(NPM_BIN)/cpx $(NPM_MOD)/moment/min/moment.min.js $(DIST_CLIENT)
