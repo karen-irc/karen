@@ -37,6 +37,7 @@ module.exports = {
         // Possible Errors
 
         'for-direction': 0,
+        'getter-return': 2,
         // We should reconsider about this after ECMA262 introduces
         // [async iteration](https://github.com/tc39/proposal-async-iteration),
         // But now, we enable this.
@@ -222,7 +223,9 @@ module.exports = {
         'no-process-env': 0, // http://eslint.org/docs/rules/no-process-env
         'no-process-exit': 0,
         'no-restricted-modules': 0, // http://eslint.org/docs/rules/no-restricted-modules
-        'no-sync': 1, // Bann to use sync method. FIXME: enable this rules as an error.
+        'no-sync': [1, {
+            'allowAtRootLevel': true, // for some batches.
+        }], // Bann to use sync method. FIXME: enable this rules as an error.
 
         // Stylistic Issues
         'array-bracket-newline ': 0,

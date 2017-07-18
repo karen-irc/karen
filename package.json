@@ -70,7 +70,7 @@
     "cross-env": "^5.0.1",
     "del": "^3.0.0",
     "del-cli": "^1.1.0",
-    "eslint": "^4.0.0",
+    "eslint": "^4.2.0",
     "eslint-plugin-node": "^5.0.0",
     "eslint-plugin-react": "^7.1.0",
     "event-stream": "^3.3.4",
