@@ -36,7 +36,7 @@ interface Props {
     data: ConnectionValue;
 }
 
-export class ConnectSettingWindow extends React.Component<Props, void> {
+export class ConnectSettingWindow extends React.Component<Props> {
 
     static propTypes = {
         //viewmodel: PropTypes.instanceOf(ConnectionSettingViewModel).isRequired,
