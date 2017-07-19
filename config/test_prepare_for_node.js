@@ -32,6 +32,7 @@ global.document = window.document;
 global.self = global.window; // `window.self`
 global.FormData = global.window.FormData;
 global.XMLHttpRequest = global.window.XMLHttpRequest;
+global.URLSearchParams = global.window.URLSearchParams;
 
 // for FetchDriver
 require('whatwg-fetch');
