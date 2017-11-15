@@ -103,7 +103,7 @@
     "stylelint-config-standard": "^17.0.0",
     "tslint": "^5.5.0",
     "tslint-language-service": "^0.9.6",
-    "typescript": "next",
+    "typescript": "^2.6.1",
     "urijs": "^1.18.10",
     "webpack": "^3.3.0",
     "whatwg-fetch": "^2.0.3",
