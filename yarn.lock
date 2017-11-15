@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"@reactivex/ix-esnext-esm@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@reactivex/ix-esnext-esm/-/ix-esnext-esm-2.3.1.tgz#5fad04cd54a8cbda8d5ae49ffec819aef063de38"
+  dependencies:
+    tslib "^1.8.0"
+
 "@types/js-cookie@^2.0.28":
   version "2.0.28"
   resolved "https://registry.yarnpkg.com/@types/js-cookie/-/js-cookie-2.0.28.tgz#d6a9136d699257970fc74d899cd7b12a608d14da"
@@ -4446,6 +4452,10 @@ tryit@^1.0.1:
 tslib@^1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.7.1.tgz#bc8004164691923a79fe8378bbeb3da2017538ec"
+
+tslib@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.8.0.tgz#dc604ebad64bcbf696d613da6c954aa0e7ea1eb6"
 
 tslint-language-service@^0.9.6:
   version "0.9.6"
