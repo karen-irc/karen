@@ -54,18 +54,15 @@ function arrayFlatMap<T, U>(target: Array<T>, fn: (value: T) => Array<U>): Array
 export class MainContentAreaView {
 
     private _uiAction: UIActionCreator;
-    private _element: Element;
     private _channelMap: Map<ChannelId, MessageContentView>;
-    private _disposer: Rx.Subscription;
 
+    private _disposer: Rx.Subscription;
     private _chatContentArea: Element;
-    private _signin: SignInView;
     private _connect: ConnectSettingContext;
 
     constructor(domain: DomainState, element: Element, cookie: CookieDriver,
         gateway: MessageGateway, messageAction: MessageActionCreator, uiAction: UIActionCreator) {
         this._uiAction = uiAction;
-        this._element = element;
         this._channelMap = new Map();
 
         const disposer = new Rx.Subscription();
@@ -129,12 +126,16 @@ export class MainContentAreaView {
             this._renderChannelList(channels);
         }));
 
-        // tslint:disable-next-line:no-non-null-assertion
-        this._signin = new SignInView(element.querySelector('#sign-in')!, cookie, gateway.socket());
+        // tslint:disable-next-line:no-unused-expression no-non-null-assertion
+        new SignInView(element.querySelector('#sign-in')!, cookie, gateway.socket());
 
         this._connect = new ConnectSettingContext(gateway);
         // tslint:disable-next-line:no-non-null-assertion
         this._connect.onActivate(element.querySelector(CONNECT_INSERTION_POINT_ID)!);
+    }
+
+    destroy(): void {
+        this._disposer.unsubscribe();
     }
 
     private _renderChannelList(list: Array<Channel>): void {

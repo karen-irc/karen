@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             intent.app.reload();
             return;
         }
+        // @ts-ignore
         Array.from(login.querySelectorAll('.btn')).forEach(function (element: HTMLInputElement) {
             element.disabled = false;
         });
@@ -173,6 +174,7 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
             ['nick', settings.nick],
             ['part', settings.part],
             ['quit', settings.quit],
+            // @ts-ignore
         ].forEach(([name, value]: [string, boolean]) => {
             const className = 'hide-' + name;
             if (!value) {

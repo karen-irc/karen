@@ -114,6 +114,10 @@ export class InputBoxView {
         this._textInput.addEventListener('input', this);
     }
 
+    destroy(): void {
+        this._disposer.unsubscribe();
+    }
+
     handleEvent(aEvent: Event): void {
         switch (aEvent.type) {
             case 'submit':

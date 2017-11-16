@@ -23,11 +23,11 @@
  * THE SOFTWARE.
  */
 
-import {Option} from 'option-t';
-import {Subject, Subscription} from 'rxjs';
+import { Option } from 'option-t';
+import { Subject, Subscription } from 'rxjs';
 
-import {CookieDriver} from './CookieDriver';
-import {moment} from '../../lib/interop';
+import { CookieDriver } from './CookieDriver';
+import { moment } from '../../lib/interop';
 
 const KEY_TOKEN = 'token';
 const KEY_USER = 'user';
@@ -46,6 +46,10 @@ export class AuthRepository {
         disposer.add(signoutAction.subscribe(() => {
             this.removeToken();
         }));
+    }
+
+    destroy(): void {
+        this._disposer.unsubscribe();
     }
 
     getUser(): Option<string> {

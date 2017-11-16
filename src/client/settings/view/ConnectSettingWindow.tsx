@@ -29,14 +29,14 @@ import {ConnectionActionCreator} from '../intent/ConnectionSettingIntent';
 import {ConnectionValue} from '../domain/value/ConnectionSettings';
 import {ConnectionSettingViewModel} from '../viewmodel/ConnectionStore';
 
-interface Props {
+export interface ConnectSettingWindowProps {
     key?: React.Key;
     viewmodel: ConnectionSettingViewModel;
     action: ConnectionActionCreator;
     data: ConnectionValue;
 }
 
-export class ConnectSettingWindow extends React.Component<Props> {
+export class ConnectSettingWindow extends React.Component<ConnectSettingWindowProps, void> {
 
     static propTypes = {
         //viewmodel: PropTypes.instanceOf(ConnectionSettingViewModel).isRequired,
@@ -44,7 +44,7 @@ export class ConnectSettingWindow extends React.Component<Props> {
         //data: PropTypes.instanceOf(ConnectionValue).isRequired,
     };
 
-    constructor(props: Props) {
+    constructor(props: ConnectSettingWindowProps) {
         super(props);
 
         this.onChangeSetNetworkName = this.onChangeSetNetworkName.bind(this);

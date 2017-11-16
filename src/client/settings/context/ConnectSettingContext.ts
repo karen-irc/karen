@@ -71,7 +71,12 @@ export class ConnectSettingContext implements ViewContext {
     onSuspend(_mountpoint: Element): void { }
 
     private _mount(mountpoint: Element): Rx.Subscription {
-        const observer: Rx.Subscriber<ConnectionValue> = Rx.Subscriber.create((data: ConnectionValue) => {
+        const observer: Rx.Subscriber<ConnectionValue> = Rx.Subscriber.create((data: ConnectionValue | undefined) => {
+            if (data === undefined) {
+                return;
+            }
+
+            // @ts-ignore
             const view = React.createElement(ConnectSettingWindow, {
                 viewmodel: this._store.viewmodel(),
                 action: this._action,

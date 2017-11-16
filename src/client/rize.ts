@@ -22,24 +22,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import {AuthRepository} from './adapter/AuthRepository';
-import {CookieDriver} from './adapter/CookieDriver';
+import { AuthRepository } from './adapter/AuthRepository';
+import { CookieDriver } from './adapter/CookieDriver';
 
-import {AppActionCreator} from './intent/action/AppActionCreator';
-import {MessageActionCreator} from './intent/action/MessageActionCreator';
-import {NotificationActionCreator} from './intent/action/NotificationActionCreator';
-import {UIActionCreator} from './intent/action/UIActionCreator';
+import { AppActionCreator } from './intent/action/AppActionCreator';
+import { MessageActionCreator } from './intent/action/MessageActionCreator';
+import { NotificationActionCreator } from './intent/action/NotificationActionCreator';
+import { UIActionCreator } from './intent/action/UIActionCreator';
 
-import {NotificationPresenter} from './output/NotificationPresenter';
-import {WindowPresenter} from './output/WindowPresenter';
-import {SidebarContext} from './output/context/SidebarContext';
-import {AppView} from './output/view/AppView';
-import {InputBoxView} from './output/view/InputBoxView';
-import {MainContentAreaView} from './output/view/MainContentAreaView';
-import {SidebarFooterView} from './output/view/SidebarFooterView';
+import { NotificationPresenter } from './output/NotificationPresenter';
+import { WindowPresenter } from './output/WindowPresenter';
+import { SidebarContext } from './output/context/SidebarContext';
+import { AppView } from './output/view/AppView';
+import { InputBoxView } from './output/view/InputBoxView';
+import { MainContentAreaView } from './output/view/MainContentAreaView';
+import { SidebarFooterView } from './output/view/SidebarFooterView';
 
-import {ConfigRepository} from './settings/repository/ConfigRepository';
-import {GeneralSettingContext} from './settings/context/GeneralSettingContext';
+import { ConfigRepository } from './settings/repository/ConfigRepository';
+import { GeneralSettingContext } from './settings/context/GeneralSettingContext';
 
 export class RizeClient {
     intent: IntentBundler;
@@ -56,8 +56,6 @@ export class RizeClient {
     auth: AuthRepository;
     cookie: CookieDriver;
 
-    private _notify: NotificationPresenter;
-
     constructor() {
         const intent = new IntentBundler();
         this.intent = intent;
@@ -67,7 +65,8 @@ export class RizeClient {
         this.config = new ConfigRepository(cookie);
         this.auth = new AuthRepository(cookie, intent.app.dispatcher().signout);
 
-        this._notify = new NotificationPresenter(this.config, intent.notify, intent.ui);
+        // tslint:disable-next-line:no-unused-expression
+        new NotificationPresenter(this.config, intent.notify, intent.ui);
     }
 }
 

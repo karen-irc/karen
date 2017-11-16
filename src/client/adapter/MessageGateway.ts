@@ -23,25 +23,25 @@
  * THE SOFTWARE.
  */
 
-import {Option, Some, None} from 'option-t';
+import { Option, Some, None } from 'option-t';
 import * as Rx from 'rxjs';
 
-import {MessageActionCreator} from '../intent/action/MessageActionCreator';
-import {Channel} from '../domain/Channel';
-import {ChannelId} from '../domain/ChannelDomain';
-import {CommandType} from '../domain/CommandType';
+import { MessageActionCreator } from '../intent/action/MessageActionCreator';
+import { Channel } from '../domain/Channel';
+import { ChannelId } from '../domain/ChannelDomain';
+import { CommandType } from '../domain/CommandType';
 import {
     ConnectionValue,
     NetworkValue as NetworkConnectionValue,
     PersonalValue as PersonalConnectionValue
 } from '../settings/domain/value/ConnectionSettings';
-import {SelectedTab} from '../domain/DomainState';
-import {RecievedMessage} from '../domain/Message';
-import {Network} from '../domain/Network';
-import {NetworkId} from '../domain/NetworkDomain';
-import {User} from '../domain/User';
+import { SelectedTab } from '../domain/DomainState';
+import { RecievedMessage } from '../domain/Message';
+import { Network } from '../domain/Network';
+import { NetworkId } from '../domain/NetworkDomain';
+import { User } from '../domain/User';
 
-import {SocketIoDriver} from './SocketIoDriver';
+import { SocketIoDriver } from './SocketIoDriver';
 
 export class MessageGateway {
 
@@ -75,20 +75,24 @@ export class MessageGateway {
         }));
     }
 
+    destroy(): void {
+        this._disposer.unsubscribe();
+    }
+
     socket(): SocketIoDriver {
         return this._socket;
     }
 
     showConnectSetting(): Rx.Observable<void> {
-        return this._socket.init().filter<any>(function(data){ // tslint:disable-line:no-any
+        return this._socket.init().filter<any>(function (data) { // tslint:disable-line:no-any
             return (data.networks.length === 0);
         });
     }
 
-    invokeInit(): Rx.Observable<{ networks: Array<Network>; token: string; active: Option<ChannelId|string>; }> {
-        return this._socket.init().map(function(data: any){ // tslint:disable-line:no-any
+    invokeInit(): Rx.Observable<{ networks: Array<Network>; token: string; active: Option<ChannelId | string>; }> {
+        return this._socket.init().map(function (data: any) { // tslint:disable-line:no-any
             const list = (data.networks.length !== 0) ?
-                (data.networks as Array<any>).map(function(item){ // tslint:disable-line:no-any
+                (data.networks as Array<any>).map(function (item) { // tslint:disable-line:no-any
                     return new Network(item);
                 }) : [];
             return {
@@ -100,12 +104,12 @@ export class MessageGateway {
     }
 
     initialConnectionPreset(): Rx.Observable<[NetworkConnectionValue, PersonalConnectionValue]> {
-        return this._socket.init().map(function(data: any) { // tslint:disable-line:no-any
+        return this._socket.init().map(function (data: any) { // tslint:disable-line:no-any
             const preset: Array<any> = data.connections; // tslint:disable-line:no-any
 
             const first: any = preset[0]; // tslint:disable-line:no-any
             const network = new NetworkConnectionValue(first.name, first.host, first.port,
-                                                       first.password, first.tls);
+                first.password, first.tls);
             const personal = new PersonalConnectionValue(first.nick, first.username, first.realname, first.join);
             return [network, personal] as [NetworkConnectionValue, PersonalConnectionValue];
         });
@@ -120,14 +124,14 @@ export class MessageGateway {
     }
 
     addNetwork(): Rx.Observable<Network> {
-        return this._socket.network().map(function(data): Network {
+        return this._socket.network().map(function (data): Network {
             const network = new Network(data.network);
             return network;
         });
     }
 
     setNickname(): Rx.Observable<{ networkId: NetworkId, nickname: string }> {
-        return this._socket.nickname().map(function(data) {
+        return this._socket.nickname().map(function (data) {
             return {
                 networkId: data.network,
                 nickname: data.nick,
@@ -135,10 +139,10 @@ export class MessageGateway {
         });
     }
 
-    updateUserList(): Rx.Observable<{ channelId: ChannelId, list: Array<User>}> {
-        return this._socket.users().map(function(data){
+    updateUserList(): Rx.Observable<{ channelId: ChannelId, list: Array<User> }> {
+        return this._socket.users().map(function (data) {
             const channelId = data.chan;
-            const users = data.users.map(function(item: any){ // tslint:disable-line:no-any
+            const users = data.users.map(function (item: any) { // tslint:disable-line:no-any
                 return new User(item);
             });
 
@@ -150,7 +154,7 @@ export class MessageGateway {
     }
 
     setTopic(): Rx.Observable<{ channelId: ChannelId, topic: string }> {
-        return this._socket.topic().map(function(data) {
+        return this._socket.topic().map(function (data) {
             return {
                 channelId: data.chan,
                 topic: data.topic,
@@ -159,7 +163,7 @@ export class MessageGateway {
     }
 
     recieveMessage(): Rx.Observable<RecievedMessage> {
-        return this._socket.message().map(function(data){
+        return this._socket.message().map(function (data) {
             return {
                 channelId: data.chan,
                 message: data.msg,
@@ -167,8 +171,8 @@ export class MessageGateway {
         });
     }
 
-    joinChannel(): Rx.Observable<{networkId: NetworkId; channel: Channel}> {
-        return this._socket.join().map(function(data){
+    joinChannel(): Rx.Observable<{ networkId: NetworkId; channel: Channel }> {
+        return this._socket.join().map(function (data) {
             const networkId = data.network;
             const channel = new Channel(data.chan);
             return {
@@ -179,13 +183,13 @@ export class MessageGateway {
     }
 
     partFromChannel(): Rx.Observable<ChannelId> { // channelId
-        return this._socket.part().map(function(data){
+        return this._socket.part().map(function (data) {
             return data.chan as ChannelId;
         });
     }
 
     quitNetwork(): Rx.Observable<NetworkId> {
-        return this._socket.quit().map(function(data) {
+        return this._socket.quit().map(function (data) {
             const id = data.network as NetworkId;
             return id;
         });
