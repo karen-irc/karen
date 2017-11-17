@@ -30,13 +30,11 @@ import { GeneralSettingViewModel } from '../viewmodel/GeneralSettingViewModel';
 
 export class GeneralSettingView implements EventListenerObject {
 
-    private _viewmodel: GeneralSettingViewModel;
     private _element: Element | void;
     private _disposer: Rx.Subscription;
     private _propMap: Map<string, ReactiveProperty<boolean>>;
 
     constructor(element: Element, viewmodel: GeneralSettingViewModel) {
-        this._viewmodel = viewmodel;
         this._element = element;
 
         const disposer = new Rx.Subscription();

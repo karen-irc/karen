@@ -3,11 +3,10 @@ import {
     MimeType,
 } from '../../lib/FetchDriver';
 
-const defaultHeaders: HeadersInit = {
-    'Content-Type': MimeType.JSON,
-    Accept: MimeType.JSON,
-};
-
+const defaultHeaders: HeadersInit = [
+    ['Content-Type', MimeType.JSON],
+    ['Accept', MimeType.JSON],
+];
 const BASE_PATH = '/api/auth';
 
 export class AuthApiGateway {

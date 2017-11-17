@@ -97,6 +97,7 @@ export class MessageContentView {
             this._fetchHiddenLog();
         }));
 
+        // @ts-ignore
         disposer.add(Rx.Observable.fromEvent(this._messageArea, 'click').subscribe((event: Event) => {
             const target = event.target as Element;
             if (target.classList.contains('toggle-button')) {

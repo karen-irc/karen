@@ -199,6 +199,9 @@ stylelint:
 		-f verbose \
 		--color
 
+.PHONY: tscheck
+tscheck:
+	$(NPM_BIN)/tsc --project $(CURDIR)/tsconfig.json --noEmit
 
 ####################################
 # Test

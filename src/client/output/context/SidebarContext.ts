@@ -65,6 +65,7 @@ export class SidebarContext implements ViewContext {
     onSuspend(_mountpoint: Element): void { }
 
     private _mount(mountpoint: Element): Rx.Subscription {
+        // @ts-ignore
         const observer: Rx.Subscriber<SidebarViewState> = Rx.Subscriber.create((model: SidebarViewState) => {
             const view = React.createElement(Sidebar, {
                 model,

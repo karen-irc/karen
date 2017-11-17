@@ -23,14 +23,14 @@
  * THE SOFTWARE.
  */
 
-import {Some, None} from 'option-t';
+import { Some, None } from 'option-t';
 import * as Rx from 'rxjs';
 
-import {ChannelDomain, ChannelId} from './ChannelDomain';
-import {RecievedMessage} from './Message';
-import {Network} from './Network';
+import { ChannelDomain, ChannelId } from './ChannelDomain';
+import { RecievedMessage } from './Message';
+import { Network } from './Network';
 
-import {MessageGateway} from '../adapter/MessageGateway';
+import { MessageGateway } from '../adapter/MessageGateway';
 
 export type NetworkId = number;
 
@@ -52,19 +52,19 @@ export class NetworkDomain {
     private _subscribed: Rx.Subscription;
 
     constructor(gateway: MessageGateway,
-                data: Network,
-                nicknameUpdater: Rx.Subject<{ networkId: NetworkId; nick: string; }>,
-                joinedUpdater: Rx.Subject<ChannelDomain>,
-                partedUpdater: Rx.Subject<ChannelDomain>,
-                notableMsgDispatcher: Rx.Subject<RecievedMessage>,
-                notifiableMsgDispatcher: Rx.Subject<RecievedMessage>) {
+        data: Network,
+        nicknameUpdater: Rx.Subject<{ networkId: NetworkId; nick: string; }>,
+        joinedUpdater: Rx.Subject<ChannelDomain>,
+        partedUpdater: Rx.Subject<ChannelDomain>,
+        notableMsgDispatcher: Rx.Subject<RecievedMessage>,
+        notifiableMsgDispatcher: Rx.Subject<RecievedMessage>) {
 
         this._channels = new Map();
         for (const channel of data.getChannelList()) {
             const domain = new ChannelDomain(gateway,
-                                             channel,
-                                             notableMsgDispatcher,
-                                             notifiableMsgDispatcher);
+                channel,
+                notableMsgDispatcher,
+                notifiableMsgDispatcher);
             this._channels.set(domain.getId(), domain);
         }
 
@@ -77,7 +77,7 @@ export class NetworkDomain {
 
         this._nickname = gateway.setNickname().filter((data) => {
             return data.networkId === this._data.id;
-        }).map(function(data){
+        }).map(function (data) {
             return data.nickname;
         }).do((nick: string) => {
             this._data.changeNickName(nick);
@@ -88,9 +88,9 @@ export class NetworkDomain {
         }).map((data) => {
             const channel = data.channel;
             const domain = new ChannelDomain(gateway,
-                                             channel,
-                                             this._notableMsgDispatcher,
-                                             this._notifiableMsgDispatcher);
+                channel,
+                this._notableMsgDispatcher,
+                this._notifiableMsgDispatcher);
             return domain;
         }).do((channel: ChannelDomain) => {
             this._channels.set(channel.getId(), channel);
@@ -100,8 +100,9 @@ export class NetworkDomain {
         this._partedChannel = gateway.partFromChannel().map((id) => {
             const channel = this._channels.get(id);
             return (channel !== undefined) ? new Some(channel) : new None<ChannelDomain>();
-        }).filter(function(channel){
+        }).filter(function (channel) {
             return channel.isSome;
+            // @ts-ignore
         }).map(function (channel: Some<ChannelDomain>) {
             return channel.expect('this should be unwrapped safely');
         }).do((channel: ChannelDomain) => {
