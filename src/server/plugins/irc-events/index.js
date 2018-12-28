@@ -26,7 +26,7 @@ import ctcp from './ctcp';
 import error from './error';
 import join from './join';
 import kick from './kick';
-import link from './link';
+// import link from './link';
 import mode from './mode';
 import motd from './motd';
 import message from './message';
@@ -44,7 +44,7 @@ export const eventPluginList = [
     error,
     join,
     kick,
-    link,
+    // link,
     mode,
     motd,
     message,

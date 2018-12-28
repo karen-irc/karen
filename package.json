@@ -74,7 +74,6 @@
     "eslint": "^4.2.0",
     "eslint-plugin-node": "^5.1.0",
     "eslint-plugin-react": "^7.1.0",
-    "event-stream": "^3.3.4",
     "express": "^4.15.3",
     "express-session": "^1.15.3",
     "font-awesome": "^4.7.0",

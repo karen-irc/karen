@@ -6,7 +6,9 @@ import {Message} from '../../models/Message';
 import {MessageType} from '../../models/MessageType';
 import request from 'request';
 import ConfigDriver from '../../adapter/ConfigDriver';
-import es from 'event-stream';
+
+// XXX: We shoulld replace malicious module for satefy.
+// import es from 'event-stream';
 
 process.setMaxListeners(0);
 
